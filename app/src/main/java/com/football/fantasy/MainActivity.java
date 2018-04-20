@@ -6,6 +6,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,14 +14,22 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.activities.BaseAppCompatActivity;
 import com.football.fantasy.fragments.account.signin.SignInFragment;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+import rx.subjects.PublishSubject;
 
 public class MainActivity extends BaseAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    // butter knife
+    private Unbinder unbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+        unbinder = ButterKnife.bind(this);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -30,9 +39,15 @@ public class MainActivity extends BaseAppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        PublishSubject<String> publishSubject = PublishSubject.create();
+        mSubscriptions.add(publishSubject.subscribe(s -> Log.d("Publish Subject", s),
+                throwable -> Log.d("Throwable", throwable.getMessage()),
+                () -> Log.d("onCompleted", "onCompleted")));
+
+        publishSubject.onNext("texttt");
     }
 
     @Override
@@ -81,5 +96,15 @@ public class MainActivity extends BaseAppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // unbind view
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
     }
 }

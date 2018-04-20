@@ -19,6 +19,8 @@ import com.hannesdorfmann.mosby3.mvp.MvpPresenter;
 import com.hannesdorfmann.mosby3.mvp.MvpView;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by dangpp on 2/21/2018.
@@ -28,7 +30,14 @@ public abstract class BaseMvpFragment<V extends MvpView, P extends MvpPresenter<
         extends MvpFragment<V, P> implements IBaseFragment, IResourceFragment {
     private static final String TAG = BaseMvpFragment.class.getSimpleName();
 
+    // base activity
     protected BaseAppCompatActivity mActivity;
+
+    // rx java
+    protected CompositeSubscription mSubscriptions = new CompositeSubscription();
+
+    // butter knife
+    private Unbinder unbinder;
 
     @Override
     public void onAttach(Activity activity) {
@@ -57,7 +66,7 @@ public abstract class BaseMvpFragment<V extends MvpView, P extends MvpPresenter<
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(view);
+        unbinder = ButterKnife.bind(view);
 
         // update title
         mActivity.setToolbarTitle(getTitleId());
@@ -70,9 +79,20 @@ public abstract class BaseMvpFragment<V extends MvpView, P extends MvpPresenter<
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
         // hide loading, keyboard
         showProgress(false);
         KeyboardUtils.hideSoftKeyboard(mActivity);
+
+        // un-subscribe rx java
+        if (!mSubscriptions.isUnsubscribed()) {
+            mSubscriptions.unsubscribe();
+        }
+
+        // unbind view
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
     }
 
     @Override

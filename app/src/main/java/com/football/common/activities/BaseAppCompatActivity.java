@@ -1,6 +1,7 @@
 package com.football.common.activities;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -12,10 +13,13 @@ import com.bon.eventbus.RxBus;
 import com.bon.util.KeyboardUtils;
 import com.football.application.AppContext;
 import com.football.common.actions.IToolbarAction;
+import com.football.fantasy.BuildConfig;
 import com.football.interactors.IDataModule;
 import com.football.interactors.database.IDbModule;
 
 import javax.inject.Inject;
+
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by dangpp on 2/21/2018.
@@ -33,10 +37,26 @@ public abstract class BaseAppCompatActivity extends ExtBaseActivity implements I
     @Inject
     protected IDbModule dbModule;
 
+    // rx java
+    protected CompositeSubscription mSubscriptions = new CompositeSubscription();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // inject
         getAppContext().getComponent().inject(this);
+
+        // strict mode
+        // StrictMode helps us detect  sensitive activities, such  as disk  accesses or
+        // network  calls that  we are accidentally  performing  on  the main  thread.
+        // This configuration  will  report  every  violation  about  them ain  thread usage and every
+        // violation  concerning  possible memory  leaks:  Activities, BroadcastReceivers, Sqlite objects, and more.
+        // Choosing  penaltyLog(), StrictMode will  print  a message on  log cat  when  a        violation  occurs
+        if (BuildConfig.DEBUG) {
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build());
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build());
+        }
     }
 
     @Override
@@ -60,7 +80,14 @@ public abstract class BaseAppCompatActivity extends ExtBaseActivity implements I
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        // hide keyboard
         KeyboardUtils.hideSoftKeyboard(this);
+
+        // un-subscribe rx java
+        if (!mSubscriptions.isUnsubscribed()) {
+            mSubscriptions.unsubscribe();
+        }
     }
 
     @Override

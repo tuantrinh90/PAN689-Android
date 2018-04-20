@@ -19,6 +19,7 @@ import com.football.fantasy.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import java8.util.function.Consumer;
 
 /**
@@ -35,6 +36,9 @@ public class AloneFragmentActivity extends BaseAppCompatActivity {
     // fragment
     private Fragment fragment;
 
+    // butter knife
+    private Unbinder unbinder;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,12 +47,22 @@ public class AloneFragmentActivity extends BaseAppCompatActivity {
         }
 
         setContentView(R.layout.alone_fragment_activity);
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
         if (savedInstanceState == null) {
             Bundle bundle = getIntent().getExtras();
             getFragmentForOpen(bundle, fr -> replaceFragment(fr, false));
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // unbind view
+        if (unbinder != null) {
+            unbinder.unbind();
         }
     }
 
