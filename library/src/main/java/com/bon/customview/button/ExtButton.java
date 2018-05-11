@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Paint;
+import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 import android.widget.Button;
 
@@ -16,7 +17,7 @@ import com.bon.util.TypefacesUtils;
  * Created by user on 4/22/2015.
  */
 @SuppressLint("AppCompatCustomView")
-public class ExtButton extends Button {
+public class ExtButton extends AppCompatButton {
     private static final String TAG = ExtButton.class.getSimpleName();
 
     public ExtButton(Context context) {

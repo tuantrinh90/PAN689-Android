@@ -17,4 +17,80 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!--font size-->
+    <style name="StyleTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/font_size_title</item>
+        <item name="android:textColor">@color/color_black</item>
+        <item name="android:padding">@dimen/padding_content</item>
+    </style>
+
+    <style name="StyleTitleWhite" parent="StyleTitle">
+        <item name="android:textColor">@color/color_white</item>
+    </style>
+
+    <style name="StyleTitleBlue" parent="StyleTitle">
+        <item name="android:textColor">@color/color_blue</item>
+    </style>
+
+    <style name="StyleContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/font_size_content</item>
+        <item name="android:textColor">@color/color_black</item>
+        <item name="android:padding">@dimen/padding_content</item>
+    </style>
+
+    <style name="StyleEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/font_size_content</item>
+        <item name="android:textColor">@color/color_black</item>
+        <item name="android:paddingLeft">@dimen/edit_text_radius</item>
+        <item name="android:paddingRight">@dimen/edit_text_radius</item>
+        <item name="android:paddingTop">@dimen/padding_content</item>
+        <item name="android:paddingBottom">@dimen/padding_content</item>
+    </style>
+
+    <style name="StyleMenu" parent="StyleContent">
+        <item name="android:textSize">@dimen/font_size_menu</item>
+    </style>
+
+    <style name="StyleDescription" parent="StyleContent">
+        <item name="android:textSize">@dimen/font_size_description</item>
+    </style>
+
+    <style name="StyleDescriptionRed" parent="StyleDescription">
+        <item name="android:textColor">@color/color_red</item>
+    </style>
+
+    <style name="StyleDescriptionGray" parent="StyleDescription">
+        <item name="android:textColor">@color/color_gray</item>
+    </style>
+
+    <style name="iconTiny">
+        <item name="android:layout_width">@dimen/icon_tiny</item>
+        <item name="android:layout_height">@dimen/icon_tiny</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <style name="iconSmall">
+        <item name="android:layout_width">@dimen/icon_small</item>
+        <item name="android:layout_height">@dimen/icon_small</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <style name="iconMedium">
+        <item name="android:layout_width">@dimen/icon_medium</item>
+        <item name="android:layout_height">@dimen/icon_medium</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <style name="iconLarge">
+        <item name="android:layout_width">@dimen/icon_large</item>
+        <item name="android:layout_height">@dimen/icon_large</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
 </resources>

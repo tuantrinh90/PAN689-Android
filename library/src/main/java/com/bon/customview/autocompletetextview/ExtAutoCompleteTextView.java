@@ -4,8 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Paint;
+import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.util.AttributeSet;
-import android.widget.AutoCompleteTextView;
 
 import com.bon.library.R;
 import com.bon.logger.Logger;
@@ -16,7 +16,7 @@ import com.bon.util.TypefacesUtils;
  * Created by user on 5/18/2015.
  */
 @SuppressLint("AppCompatCustomView")
-public class ExtAutoCompleteTextView extends AutoCompleteTextView {
+public class ExtAutoCompleteTextView extends AppCompatAutoCompleteTextView {
     private static final String TAG = ExtAutoCompleteTextView.class.getSimpleName();
 
     public ExtAutoCompleteTextView(Context context) {

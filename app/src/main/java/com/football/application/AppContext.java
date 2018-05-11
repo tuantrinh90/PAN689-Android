@@ -9,6 +9,8 @@ import com.football.di.AppComponent;
 import com.football.di.AppModule;
 import com.football.di.DaggerAppComponent;
 import com.football.fantasy.BuildConfig;
+import com.football.fantasy.R;
+import com.football.utilities.FragmentUtils;
 
 import java8.util.function.Consumer;
 
@@ -24,7 +26,6 @@ public class AppContext extends ExtApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-
         // dagger
         component = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
@@ -33,6 +34,9 @@ public class AppContext extends ExtApplication {
 
         //  logger
         Logger.setEnableLog(BuildConfig.DEBUG);
+
+        // update fragment utils
+        FragmentUtils.setContainerViewId(R.id.fl_content);
     }
 
     /**

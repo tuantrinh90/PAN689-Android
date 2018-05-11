@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Paint;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -16,7 +17,7 @@ import com.bon.util.TypefacesUtils;
  * Created by user on 4/22/2015.
  */
 @SuppressLint("AppCompatCustomView")
-public class ExtTextView extends TextView {
+public class ExtTextView extends AppCompatTextView {
     private static final String TAG = ExtTextView.class.getSimpleName();
 
     public ExtTextView(Context context) {

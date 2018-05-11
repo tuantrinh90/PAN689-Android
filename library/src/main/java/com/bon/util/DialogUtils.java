@@ -2,8 +2,12 @@ package com.bon.util;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface.OnClickListener;
+import android.support.v4.app.FragmentActivity;
+import android.view.View;
 
+import com.bon.library.R;
 import com.bon.logger.Logger;
 
 @SuppressWarnings("ALL")
@@ -118,6 +122,21 @@ public class DialogUtils {
 
             // set icon notification
             if (iconId > 0) builder.setIcon(iconId);
+
+            return builder.show();
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
+
+        return null;
+    }
+
+    public static AlertDialog customBox(FragmentActivity fragmentActivity, View view) {
+        try {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(fragmentActivity)
+                    .setView(view)
+                    .setCancelable(true);
 
             return builder.show();
         } catch (Exception e) {

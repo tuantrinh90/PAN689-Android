@@ -55,8 +55,8 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    // noinspection GradleCompatible
     implementation project(':library')
+
     // noinspection GradleCompatible
     implementation "com.android.support:appcompat-v7:${rootProject.ext.androidVer}"
     implementation "com.android.support:design:${rootProject.ext.androidVer}"
@@ -64,20 +64,26 @@ dependencies {
     implementation "com.android.support:cardview-v7:${rootProject.ext.androidVer}"
     implementation "com.android.support:recyclerview-v7:${rootProject.ext.androidVer}"
     implementation "com.android.support.constraint:constraint-layout:${rootProject.ext.constrainLayoutVer}"
+
     // play service
     implementation "com.google.android.gms:play-services-base:${rootProject.ext.playServiceVer}"
+
     // butter knife
     implementation "com.jakewharton:butterknife:${rootProject.ext.butterknifeVer}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${rootProject.ext.butterknifeVer}"
+
     // java8
     implementation "net.sourceforge.streamsupport:streamsupport:${rootProject.ext.streamsupportVer}"
+
     // jackson
     implementation "com.fasterxml.jackson.core:jackson-core:${rootProject.ext.jacksonVer}"
     implementation "com.fasterxml.jackson.core:jackson-annotations:${rootProject.ext.jacksonVer}"
     implementation "com.fasterxml.jackson.core:jackson-databind:${rootProject.ext.jacksonVer}"
+
     // dependency injection
     implementation "com.google.dagger:dagger:${rootProject.ext.daggerVer}"
     annotationProcessor "com.google.dagger:dagger-compiler:${rootProject.ext.daggerVer}"
+
     // network
     implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVer}"
     implementation "com.squareup.retrofit2:adapter-rxjava:${rootProject.ext.retrofitVer}"
@@ -85,21 +91,28 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-jackson:${rootProject.ext.retrofitVer}"
     implementation "com.squareup.okhttp3:logging-interceptor:${rootProject.ext.okhttpVer}"
     implementation "com.squareup.okhttp3:okhttp:${rootProject.ext.okhttpVer}"
+
     // rx java, android
     implementation "io.reactivex:rxandroid:${rootProject.ext.rxVer}"
     implementation "io.reactivex:rxjava:${rootProject.ext.rxVer}"
+
     // animation
     implementation "com.nineoldandroids:library:${rootProject.ext.nineoldandroidsVer}"
+
     // java
     implementation "com.android.support:multidex:${rootProject.ext.multidexVer}"
     implementation "com.google.guava:guava:${rootProject.ext.guavaVer}"
+
     // image
     implementation "com.nostra13.universalimageloader:universal-image-loader:${rootProject.ext.imageLoaderVer}"
+
     // event bus
     implementation "org.greenrobot:eventbus:${rootProject.ext.eventbusVer}"
+
     // mvp
     implementation "com.hannesdorfmann.mosby3:mvp:${rootProject.ext.mosbyVer}"
     implementation "com.hannesdorfmann.mosby3:viewstate:${rootProject.ext.mosbyVer}"
+
     // leak canary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:${rootProject.ext.leakCanary}"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootProject.ext.leakCanary}"

@@ -1,69 +1,34 @@
 package com.football.fantasy;
 
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 
-import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.activities.BaseAppCompatActivity;
-import com.football.fantasy.fragments.account.signin.SignInFragment;
+import com.football.customizes.carousels.Carousel;
+import com.football.customizes.carousels.CarouselView;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-import rx.subjects.PublishSubject;
+import java.util.ArrayList;
 
-public class MainActivity extends BaseAppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import butterknife.BindView;
 
-    // butter knife
-    private Unbinder unbinder;
+public class MainActivity extends BaseAppCompatActivity {
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @Override
+    protected int getContentViewId() {
+        return R.layout.main_activity;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
-        unbinder = ButterKnife.bind(this);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        PublishSubject<String> publishSubject = PublishSubject.create();
-        mSubscriptions.add(publishSubject.subscribe(s -> Log.d("Publish Subject", s),
-                throwable -> Log.d("Throwable", throwable.getMessage()),
-                () -> Log.d("onCompleted", "onCompleted")));
-
-        publishSubject.onNext("texttt");
     }
 
-    @Override
-    public void initFragmentDefault() {
-
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -73,38 +38,12 @@ public class MainActivity extends BaseAppCompatActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            AloneFragmentActivity.with(this).start(SignInFragment.class);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+    public ActionBar getAppSupportActionBar() {
+        return getSupportActionBar();
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        // unbind view
-        if (unbinder != null) {
-            unbinder.unbind();
-        }
+    public Toolbar getToolBar() {
+        return toolbar;
     }
 }

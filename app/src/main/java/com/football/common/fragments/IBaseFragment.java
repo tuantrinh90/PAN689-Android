@@ -2,6 +2,7 @@ package com.football.common.fragments;
 
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
+import android.view.View;
 
 import com.football.application.AppContext;
 import com.football.di.AppComponent;
@@ -14,7 +15,11 @@ public interface IBaseFragment {
 
     AppComponent getAppComponent();
 
+    void bindButterKnife(View view);
+
     int getTitleId();
+
+    String getTitleString();
 
     void initToolbar(@NonNull ActionBar supportActionBar);
 

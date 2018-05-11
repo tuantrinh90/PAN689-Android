@@ -48,4 +48,10 @@ public class AppModule {
     public IDbModule provideDbModule() {
         return new DbModule(appContext.getComponent());
     }
+
+    @Singleton
+    @Provides
+    public ApiModule provideApiModule() {
+        return new ApiModule();
+    }
 }

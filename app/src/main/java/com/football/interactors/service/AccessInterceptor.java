@@ -13,7 +13,6 @@ import okhttp3.Response;
 /**
  * Created by dangpp on 2/9/2018.
  */
-
 public class AccessInterceptor implements Interceptor {
     private final AppPreferences appPreferences;
 

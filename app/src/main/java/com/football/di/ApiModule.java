@@ -47,6 +47,12 @@ public class ApiModule {
                 .build();
     }
 
+    @Singleton
+    @Provides
+    public AccessInterceptor provideAccessInterceptor(Context context) {
+        return new AccessInterceptor(context);
+    }
+
     @Provides
     public Retrofit provideRetrofit(JacksonConverterFactory converterFactory, OkHttpClient client) {
         return provideBaseRetrofit(Config.BASE_URL, converterFactory, client);
@@ -95,12 +101,6 @@ public class ApiModule {
     @Provides
     public HttpLoggingInterceptor provideLoggingInterceptor() {
         return new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
-    }
-
-    @Singleton
-    @Provides
-    public AccessInterceptor provideAccessInterceptor(Context context) {
-        return new AccessInterceptor(context);
     }
 
     @Singleton

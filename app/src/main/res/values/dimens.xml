@@ -1,0 +1,41 @@
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<resources>
+    <!--layout-->
+    <dimen name="padding_content">8dp</dimen>
+    <dimen name="padding_layout">12dp</dimen>
+
+    <!--avatar-->
+    <dimen name="avatar_large">120dp</dimen>
+    <dimen name="avatar_normal">80dp</dimen>
+    <dimen name="avatar_small">60dp</dimen>
+    <dimen name="avatar_border">2dp</dimen>
+
+    <!--icon-->
+    <dimen name="icon_tiny">15dp</dimen>
+    <dimen name="icon_small">25dp</dimen>
+    <dimen name="icon_medium">30dp</dimen>
+    <dimen name="icon_large">40dp</dimen>
+
+    <!--line-->
+    <dimen name="line">1dp</dimen>
+
+    <!--float action button-->
+    <dimen name="float_action_button_size">55dp</dimen>
+
+    <!--carousel-->
+    <dimen name="carousel_item_dot_width">30dp</dimen>
+    <dimen name="carousel_item_dot_height">10dp</dimen>
+    <dimen name="carousel_item_dot_radius">5dp</dimen>
+
+    <!--radius-->
+    <dimen name="radius_view">5dp</dimen>
+
+    <!--border-->
+    <dimen name="border_component">0.7dp</dimen>
+
+    <!--edit text-->
+    <dimen name="edit_text_radius">25dp</dimen>
+
+    <!--checkbox-->
+    <dimen name="check_box_size">24dp</dimen>
+</resources>

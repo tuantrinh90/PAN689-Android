@@ -40,6 +40,7 @@ import com.bon.viewanimation.bouncing_entrances.BounceInDownAnimator;
 import com.bon.viewanimation.bouncing_entrances.BounceInLeftAnimator;
 import com.bon.viewanimation.bouncing_entrances.BounceInRightAnimator;
 import com.bon.viewanimation.bouncing_entrances.BounceInUpAnimator;
+import com.bon.viewanimation.bouncing_entrances.ReBounceAnimator;
 import com.bon.viewanimation.fading_entrances.FadeInAnimator;
 import com.bon.viewanimation.fading_entrances.FadeInDownAnimator;
 import com.bon.viewanimation.fading_entrances.FadeInLeftAnimator;
@@ -114,6 +115,7 @@ public enum Techniques {
     BounceInLeft(BounceInLeftAnimator.class),
     BounceInRight(BounceInRightAnimator.class),
     BounceInUp(BounceInUpAnimator.class),
+    ReBounceAnimator(ReBounceAnimator.class),
 
     FadeIn(FadeInAnimator.class),
     FadeInUp(FadeInUpAnimator.class),

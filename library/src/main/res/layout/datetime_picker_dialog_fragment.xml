@@ -25,7 +25,7 @@
             style="@style/StyleTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1.5" />
 
         <com.bon.customview.textview.ExtTextView
             android:id="@+id/tvSave"

@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 
 import com.bon.library.R;
@@ -26,16 +27,31 @@ public class PermissionUtils {
     /**
      * request permission for android >= 6
      *
-     * @param context
+     * @param activity
      * @param requestCodePermission
      * @param permissions
      * @return
      */
-    public static boolean requestPermission(Activity context, int requestCodePermission, String... permissions) {
+    public static boolean requestPermission(Activity activity, int requestCodePermission, String... permissions) {
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
-                if (!hasPermissions(context, permissions)) {
-                    ActivityCompat.requestPermissions(context, permissions, requestCodePermission);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && activity != null && permissions != null) {
+                if (!hasPermissions(activity, permissions)) {
+                    ActivityCompat.requestPermissions(activity, permissions, requestCodePermission);
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
+
+        return false;
+    }
+
+    public static boolean requestPermission(Fragment fragment, int requestCodePermission, String... permissions) {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && fragment != null && permissions != null) {
+                if (!hasPermissions(fragment.getContext(), permissions)) {
+                    fragment.requestPermissions(permissions, requestCodePermission);
                     return true;
                 }
             }
@@ -54,7 +70,7 @@ public class PermissionUtils {
      * @param permissions
      * @return
      */
-    public static boolean hasPermissions(Activity context, String... permissions) {
+    public static boolean hasPermissions(Context context, String... permissions) {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
                 for (String permission : permissions) {

@@ -18,6 +18,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.util.Base64;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -71,6 +72,28 @@ public class ImageUtils {
     }
 
     /**
+     * @param context
+     * @param file
+     * @return
+     */
+    public static Uri getUriFromFile(Context context, File file) {
+        return FileProvider.getUriForFile(context, context.getPackageName() + ".provider", file);
+    }
+
+    /**
+     * @param filePath
+     * @return
+     */
+    public static String getUriImage(String filePath) {
+        if (StringUtils.isEmpty(filePath)) return null;
+
+        File file = new File(filePath);
+        if (!file.exists()) return null;
+
+        return Uri.fromFile(file).toString();
+    }
+
+    /**
      * capture image
      *
      * @param activity
@@ -81,6 +104,7 @@ public class ImageUtils {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             activity.startActivityForResult(intent, CAMERA_REQUEST);
         } catch (Exception e) {
             Logger.e(TAG, e);
@@ -98,6 +122,7 @@ public class ImageUtils {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             fragment.startActivityForResult(intent, CAMERA_REQUEST);
         } catch (Exception e) {
             Logger.e(TAG, e);
@@ -116,9 +141,11 @@ public class ImageUtils {
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             activity.startActivityForResult(Intent.createChooser(intent, titleChooseImage), REQUEST_PICK_CONTENT);
         } else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             activity.startActivityForResult(Intent.createChooser(intent, titleChooseImage), REQUEST_PICK_CONTENT);
         }
     }
@@ -136,9 +163,11 @@ public class ImageUtils {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 fragment.startActivityForResult(Intent.createChooser(intent, titleChooseImage), REQUEST_PICK_CONTENT);
             } else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
                 Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 fragment.startActivityForResult(Intent.createChooser(intent, titleChooseImage), REQUEST_PICK_CONTENT);
             }
         } catch (Exception e) {

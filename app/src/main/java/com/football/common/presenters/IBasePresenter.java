@@ -5,7 +5,6 @@ import android.os.Bundle;
 /**
  * Created by dangpp on 2/21/2018.
  */
-
 public interface IBasePresenter {
     void processArguments(Bundle arguments);
 
@@ -17,3 +16,4 @@ public interface IBasePresenter {
 
     void onStop();
 }
+

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Paint;
+import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
@@ -28,7 +29,7 @@ import com.bon.util.TypefacesUtils;
 import java.util.ArrayList;
 
 @SuppressLint("AppCompatCustomView")
-public class ExtEditText extends EditText {
+public class ExtEditText extends AppCompatEditText {
     private static final String TAG = ExtEditText.class.getSimpleName();
 
     public static final int TEST_REGEXP = 0x0001;
@@ -47,7 +48,7 @@ public class ExtEditText extends EditText {
     /**
      * @var Validators heap
      */
-    protected boolean isEmpty = true;
+    protected boolean isEmpty = false;
     protected String errorString = null;
     protected String emptyErrorString = null;
     protected ArrayList<Validator> validators = new ArrayList<>();
@@ -88,7 +89,7 @@ public class ExtEditText extends EditText {
             // valid
             this.errorString = typedArray.getString(R.styleable.ExtEditText_errorString);
             this.emptyErrorString = typedArray.getString(R.styleable.ExtEditText_emptyErrorString);
-            this.isEmpty = typedArray.getBoolean(R.styleable.ExtEditText_isEmpty, true);
+            this.isEmpty = typedArray.getBoolean(R.styleable.ExtEditText_isEmpty, false);
 
             // empty string
             if (StringUtils.isEmpty(this.emptyErrorString)) {

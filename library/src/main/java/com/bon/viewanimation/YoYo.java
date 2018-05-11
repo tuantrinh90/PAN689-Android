@@ -28,8 +28,8 @@ package com.bon.viewanimation;
 import android.view.View;
 import android.view.animation.Interpolator;
 
-import com.nineoldandroids.animation.Animator;
 import com.bon.logger.Logger;
+import com.nineoldandroids.animation.Animator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +70,7 @@ public class YoYo {
     }
 
     public interface AnimatorCallback {
-        public void call(Animator animator);
+        void call(Animator animator);
     }
 
     private static class EmptyAnimatorListener implements Animator.AnimatorListener {

@@ -16,9 +16,9 @@
         <com.bon.customview.textview.ExtTextView
             android:id="@+id/tvCancel"
             style="@style/StyleTitle"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:background="@drawable/bg_null_gray_selector"
             android:padding="@dimen/padding_layout"
             android:text="@string/cancel" />
 
@@ -26,14 +26,14 @@
             style="@style/StyleTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1.5" />
 
         <com.bon.customview.textview.ExtTextView
             android:id="@+id/tvSave"
             style="@style/StyleTitle"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:background="@drawable/bg_null_gray_selector"
             android:padding="@dimen/padding_layout"
             android:text="@string/done"
             android:textColor="@color/color_white" />

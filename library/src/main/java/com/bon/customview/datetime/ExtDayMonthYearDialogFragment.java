@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.bon.customview.numberpicker.ExtNumberPicker;
 import com.bon.customview.textview.ExtTextView;
+import com.bon.fragment.ExtBaseBottomDialogFragment;
 import com.bon.library.R;
 import com.bon.logger.Logger;
 import com.bon.util.DateTimeUtils;
@@ -22,7 +23,7 @@ import java8.util.function.Function;
  * Created by dangpp on 8/14/2017.
  */
 
-public class ExtDayMonthYearDialogFragment extends DialogFragment {
+public class ExtDayMonthYearDialogFragment extends ExtBaseBottomDialogFragment {
     private static final String TAG = ExtDayMonthYearDialogFragment.class.getSimpleName();
 
     // instance

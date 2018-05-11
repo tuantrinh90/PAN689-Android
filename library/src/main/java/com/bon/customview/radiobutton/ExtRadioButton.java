@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Paint;
+import android.support.v7.widget.AppCompatRadioButton;
 import android.util.AttributeSet;
 import android.widget.RadioButton;
 
@@ -17,7 +18,7 @@ import com.bon.util.TypefacesUtils;
  * Created by user on 4/22/2015.
  */
 @SuppressLint("AppCompatCustomView")
-public class ExtRadioButton extends RadioButton {
+public class ExtRadioButton extends AppCompatRadioButton {
     private static final String TAG = ExtRadioButton.class.getSimpleName();
 
     public ExtRadioButton(Context context) {

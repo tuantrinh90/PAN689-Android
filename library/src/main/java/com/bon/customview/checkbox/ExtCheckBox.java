@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Paint;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.util.AttributeSet;
 import android.widget.CheckBox;
 
@@ -17,7 +18,7 @@ import com.bon.util.TypefacesUtils;
  * Created by user on 4/22/2015.
  */
 @SuppressLint("AppCompatCustomView")
-public class ExtCheckBox extends CheckBox {
+public class ExtCheckBox extends AppCompatCheckBox {
     private static final String TAG = ExtCheckBox.class.getSimpleName();
 
     public ExtCheckBox(Context context) {

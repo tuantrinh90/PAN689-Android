@@ -1,25 +1,29 @@
 package com.football.common.activities;
 
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.bon.activity.ExtBaseActivity;
+import com.bon.customview.textview.ExtTextView;
 import com.bon.eventbus.IEvent;
 import com.bon.eventbus.RxBus;
+import com.bon.interfaces.Optional;
 import com.bon.util.KeyboardUtils;
 import com.football.application.AppContext;
 import com.football.common.actions.IToolbarAction;
-import com.football.fantasy.BuildConfig;
+import com.football.fantasy.R;
 import com.football.interactors.IDataModule;
 import com.football.interactors.database.IDbModule;
+import com.football.interactors.service.IApiService;
 
 import javax.inject.Inject;
 
-import rx.subscriptions.CompositeSubscription;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by dangpp on 2/21/2018.
@@ -37,57 +41,42 @@ public abstract class BaseAppCompatActivity extends ExtBaseActivity implements I
     @Inject
     protected IDbModule dbModule;
 
-    // rx java
-    protected CompositeSubscription mSubscriptions = new CompositeSubscription();
+    @Inject
+    protected IApiService apiService;
+
+    // get view id
+    protected abstract int getContentViewId();
+
+    // butter knife
+    Unbinder unbinder;
+
+    // title app
+    ExtTextView tvTitleToolBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // inject
+        // inject component
         getAppContext().getComponent().inject(this);
 
-        // strict mode
-        // StrictMode helps us detect  sensitive activities, such  as disk  accesses or
-        // network  calls that  we are accidentally  performing  on  the main  thread.
-        // This configuration  will  report  every  violation  about  them ain  thread usage and every
-        // violation  concerning  possible memory  leaks:  Activities, BroadcastReceivers, Sqlite objects, and more.
-        // Choosing  penaltyLog(), StrictMode will  print  a message on  log cat  when  a        violation  occurs
-        if (BuildConfig.DEBUG) {
-            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build());
-            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build());
-        }
-    }
+        // set content view
+        if (getContentViewId() > 0) {
+            setContentView(getContentViewId());
+            unbinder = ButterKnife.bind(this);
 
-    @Override
-    public void setToolbarTitle(@StringRes int titleId) {
-        if (getSupportActionBar() != null) {
-            if (titleId == 0) {
-                setToolbarTitle("");
-            } else {
-                setToolbarTitle(getResources().getString(titleId));
-            }
-        }
-    }
-
-    @Override
-    public void setToolbarTitle(@NonNull String titleId) {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(titleId);
+            // get title toolbar
+            Optional.from(getToolBar()).doIfPresent(toolbar -> tvTitleToolBar = toolbar.findViewById(R.id.toolbar_title));
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        // hide keyboard
+        // hide key board
         KeyboardUtils.hideSoftKeyboard(this);
 
-        // un-subscribe rx java
-        if (!mSubscriptions.isUnsubscribed()) {
-            mSubscriptions.unsubscribe();
-        }
+        // unbind butter knife
+        Optional.from(unbinder).doIfPresent(u -> u.unbind());
     }
 
     @Override
@@ -100,6 +89,32 @@ public abstract class BaseAppCompatActivity extends ExtBaseActivity implements I
         }
 
         return result || super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * get support action bar
+     *
+     * @return
+     */
+    public abstract ActionBar getAppSupportActionBar();
+
+    public abstract Toolbar getToolBar();
+
+    @Override
+    public void setToolbarTitle(@StringRes int titleId) {
+        Optional.from(getAppSupportActionBar()).doIfPresent(app -> {
+            if (titleId == 0) {
+                setToolbarTitle("");
+            } else {
+                setToolbarTitle(getResources().getString(titleId));
+            }
+        });
+    }
+
+    @Override
+    public void setToolbarTitle(@NonNull String titleId) {
+        // Optional.from(getAppSupportActionBar()).doIfPresent(app -> app.setTitle(titleId));
+        Optional.from(tvTitleToolBar).doIfPresent(tv -> tv.setText(titleId));
     }
 
     @Override

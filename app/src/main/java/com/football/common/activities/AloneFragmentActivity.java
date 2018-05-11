@@ -10,22 +10,22 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
+import com.bon.interfaces.Optional;
+import com.bon.sharepreferences.AppPreferences;
 import com.football.common.Keys;
 import com.football.fantasy.R;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import java8.util.function.Consumer;
 
 /**
  * Created by dangpp on 2/21/2018.
  */
-
 public class AloneFragmentActivity extends BaseAppCompatActivity {
     private static final String FRAGMENT_NAME = "fragment_name";
     private static final String TRANSLUCENT = "translucent";
@@ -36,34 +36,24 @@ public class AloneFragmentActivity extends BaseAppCompatActivity {
     // fragment
     private Fragment fragment;
 
-    // butter knife
-    private Unbinder unbinder;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && getIntent().getExtras().getBoolean(TRANSLUCENT)) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
-
-        setContentView(R.layout.alone_fragment_activity);
-        unbinder = ButterKnife.bind(this);
+        super.onCreate(savedInstanceState);
 
         setSupportActionBar(toolbar);
-        if (savedInstanceState == null) {
-            Bundle bundle = getIntent().getExtras();
-            getFragmentForOpen(bundle, fr -> replaceFragment(fr, false));
-        }
+        Optional.from(savedInstanceState)
+                .doIfEmpty(b -> {
+                    Bundle bundle = getIntent().getExtras();
+                    getFragmentForOpen(bundle, fr -> replaceFragment(fr, false));
+                });
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        // unbind view
-        if (unbinder != null) {
-            unbinder.unbind();
-        }
+    protected int getContentViewId() {
+        return R.layout.alone_fragment_activity;
     }
 
     /**
@@ -71,6 +61,7 @@ public class AloneFragmentActivity extends BaseAppCompatActivity {
      * @return
      */
     protected Bundle getArgsForFragment(Bundle bundle) {
+        if (bundle == null) return null;
         return bundle.getBundle(Keys.ARGS);
     }
 
@@ -79,7 +70,15 @@ public class AloneFragmentActivity extends BaseAppCompatActivity {
      * @param fragmentForOpen
      */
     protected void getFragmentForOpen(Bundle bundle, Consumer<Fragment> fragmentForOpen) {
-        fragmentForOpen.accept(Fragment.instantiate(getBaseContext(), bundle.getString(FRAGMENT_NAME), getArgsForFragment(bundle)));
+        String fragment;
+
+        if (bundle.getString(FRAGMENT_NAME) == null) {
+            fragment = AppPreferences.getInstance(getAppContext()).getString("FRAGMENT_INTENT");
+        } else {
+            fragment = bundle.getString(FRAGMENT_NAME);
+        }
+
+        fragmentForOpen.accept(Fragment.instantiate(getBaseContext(), fragment, getArgsForFragment(bundle)));
     }
 
     /**
@@ -113,6 +112,16 @@ public class AloneFragmentActivity extends BaseAppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public ActionBar getAppSupportActionBar() {
+        return getSupportActionBar();
+    }
+
+    @Override
+    public Toolbar getToolBar() {
+        return toolbar;
+    }
+
     /**
      * @param context
      * @return
@@ -131,6 +140,7 @@ public class AloneFragmentActivity extends BaseAppCompatActivity {
 
     public static class Builder {
         private final Context contextForOpen;
+
         private final Fragment fragmentForOpen;
         private boolean translucent;
         private boolean overrideAnim;
@@ -170,6 +180,7 @@ public class AloneFragmentActivity extends BaseAppCompatActivity {
 
         public Intent createIntentForStart(Class<? extends Fragment> fragmentClass) {
             Intent intent = getIntent(contextForOpen, fragmentForOpen, params, AloneFragmentActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(FRAGMENT_NAME, fragmentClass.getName());
             intent.putExtra(TRANSLUCENT, translucent);
             return intent;

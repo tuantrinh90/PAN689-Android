@@ -74,7 +74,6 @@ public class DateTimeUtils {
     public static String convertCalendarToString(Calendar calendar, String pattern) {
         try {
             if (calendar == null) return "";
-
             return convertDateToString(calendar.getTime(), pattern);
         } catch (Exception e) {
             Logger.e(TAG, e);

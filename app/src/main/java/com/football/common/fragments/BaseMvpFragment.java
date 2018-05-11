@@ -9,34 +9,48 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bon.eventbus.IEvent;
+import com.bon.eventbus.RxBus;
 import com.bon.interfaces.Optional;
 import com.bon.util.KeyboardUtils;
+import com.bon.util.StringUtils;
 import com.football.application.AppContext;
 import com.football.common.activities.BaseAppCompatActivity;
 import com.football.di.AppComponent;
+import com.football.interactors.IDataModule;
+import com.football.interactors.database.IDbModule;
+import com.football.interactors.service.IApiService;
 import com.hannesdorfmann.mosby3.mvp.MvpFragment;
 import com.hannesdorfmann.mosby3.mvp.MvpPresenter;
 import com.hannesdorfmann.mosby3.mvp.MvpView;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by dangpp on 2/21/2018.
  */
-
 public abstract class BaseMvpFragment<V extends MvpView, P extends MvpPresenter<V>>
         extends MvpFragment<V, P> implements IBaseFragment, IResourceFragment {
     private static final String TAG = BaseMvpFragment.class.getSimpleName();
 
-    // base activity
     protected BaseAppCompatActivity mActivity;
 
-    // rx java
-    protected CompositeSubscription mSubscriptions = new CompositeSubscription();
+    @Inject
+    protected RxBus<IEvent> bus;
 
-    // butter knife
+    @Inject
+    protected IDataModule dataModule;
+
+    @Inject
+    protected IDbModule dbModule;
+
+    @Inject
+    protected IApiService apiService;
+
+    // unbind butter knife
     private Unbinder unbinder;
 
     @Override
@@ -66,33 +80,33 @@ public abstract class BaseMvpFragment<V extends MvpView, P extends MvpPresenter<
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        unbinder = ButterKnife.bind(view);
-
-        // update title
-        mActivity.setToolbarTitle(getTitleId());
 
         // update toolbar
-        Optional.from(mActivity.getSupportActionBar())
+        Optional.from(mActivity.getAppSupportActionBar())
                 .doIfPresent(actionBar -> initToolbar(actionBar));
+
+        // update title
+        if (StringUtils.isEmpty(getTitleString())) {
+            mActivity.setToolbarTitle(getTitleId());
+        } else {
+            mActivity.setToolbarTitle(getTitleString());
+        }
+    }
+
+    @Override
+    public void bindButterKnife(View view) {
+        Optional.from(view).doIfPresent(v -> unbinder = ButterKnife.bind(this, v));
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
         // hide loading, keyboard
         showProgress(false);
         KeyboardUtils.hideSoftKeyboard(mActivity);
 
-        // un-subscribe rx java
-        if (!mSubscriptions.isUnsubscribed()) {
-            mSubscriptions.unsubscribe();
-        }
-
-        // unbind view
-        if (unbinder != null) {
-            unbinder.unbind();
-        }
+        // unbind butter knife
+        Optional.from(unbinder).doIfPresent(u -> u.unbind());
     }
 
     @Override
@@ -110,6 +124,11 @@ public abstract class BaseMvpFragment<V extends MvpView, P extends MvpPresenter<
     }
 
     @Override
+    public String getTitleString() {
+        return "";
+    }
+
+    @Override
     public AppContext getAppContext() {
         return mActivity.getAppContext();
     }
@@ -121,8 +140,10 @@ public abstract class BaseMvpFragment<V extends MvpView, P extends MvpPresenter<
 
     @Override
     public void initToolbar(@NonNull ActionBar supportActionBar) {
+        supportActionBar.setDisplayShowTitleEnabled(false);
         supportActionBar.setDisplayHomeAsUpEnabled(false);
         supportActionBar.setHomeAsUpIndicator(0);
         supportActionBar.setIcon(0);
+        supportActionBar.show();
     }
 }

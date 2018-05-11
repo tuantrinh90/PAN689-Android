@@ -1,11 +1,10 @@
 package com.bon.customview.wsitch;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Paint;
+import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
-import android.widget.Switch;
 
 import com.bon.library.R;
 import com.bon.logger.Logger;
@@ -15,7 +14,7 @@ import com.bon.util.TypefacesUtils;
 /**
  * Created by Dang on 7/18/2016.
  */
-public class ExtSwitch extends Switch {
+public class ExtSwitch extends SwitchCompat {
     private static final String TAG = ExtSwitch.class.getSimpleName();
 
     public ExtSwitch(Context context) {
@@ -29,12 +28,6 @@ public class ExtSwitch extends Switch {
 
     public ExtSwitch(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        applyAttributes(context, attrs);
-    }
-
-    @SuppressLint("NewApi")
-    public ExtSwitch(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         applyAttributes(context, attrs);
     }
 

@@ -52,7 +52,7 @@ public class ExtReadMoreTextView extends ExtTextView {
                 this.trimLength = typedArray.getInt(R.styleable.ExtReadMoreTextView_trimLength, DEFAULT_TRIM_LENGTH);
                 this.trimCollapsedText = getResources().getString(typedArray.getResourceId(R.styleable.ExtReadMoreTextView_trimCollapsedText, R.string.read_more));
                 this.trimExpandedText = getResources().getString(typedArray.getResourceId(R.styleable.ExtReadMoreTextView_trimExpandedText, R.string.read_less));
-                this.colorClickableText = typedArray.getColor(R.styleable.ExtReadMoreTextView_colorClickableText, ContextCompat.getColor(context, R.color.accent));
+                this.colorClickableText = typedArray.getColor(R.styleable.ExtReadMoreTextView_colorClickableText, ContextCompat.getColor(context, R.color.colorAccent));
                 this.showTrimExpandedText = typedArray.getBoolean(R.styleable.ExtReadMoreTextView_showTrimExpandedText, DEFAULT_SHOW_TRIM_EXPANDED_TEXT);
                 typedArray.recycle();
             }

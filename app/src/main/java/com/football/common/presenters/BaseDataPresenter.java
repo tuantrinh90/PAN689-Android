@@ -14,12 +14,9 @@ import com.hannesdorfmann.mosby3.mvp.MvpView;
 
 import javax.inject.Inject;
 
-import rx.subscriptions.CompositeSubscription;
-
 /**
  * Created by dangpp on 2/21/2018.
  */
-
 public abstract class BaseDataPresenter<V extends MvpView> extends MvpBasePresenter<V>
         implements IBasePresenter {
 
@@ -29,9 +26,6 @@ public abstract class BaseDataPresenter<V extends MvpView> extends MvpBasePresen
     public IDbModule dbModule;
     @Inject
     public RxBus<IEvent> bus;
-
-    // rx java
-    protected CompositeSubscription mSubscriptions = new CompositeSubscription();
 
     /**
      * @param appComponent
@@ -73,12 +67,6 @@ public abstract class BaseDataPresenter<V extends MvpView> extends MvpBasePresen
 
     @Override
     public void onStop() {
-        // un-subscribe event bus
         bus.unSubscribe(this);
-
-        // un-subscribe rx java
-        if (!mSubscriptions.isUnsubscribed()) {
-            mSubscriptions.unsubscribe();
-        }
     }
 }
