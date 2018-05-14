@@ -1,10 +1,9 @@
 package com.bon.textstyle;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.text.Layout;
 import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.method.MovementMethod;
 import android.text.style.URLSpan;
@@ -12,13 +11,18 @@ import android.view.MotionEvent;
 import android.widget.TextView;
 
 import com.bon.logger.Logger;
+import com.bon.util.StringUtils;
+
+import java8.util.function.Consumer;
 
 public class TextViewLinkMovementMethod extends LinkMovementMethod {
-    private static final String TAG = TextViewLinkMovementMethod.class.getSimpleName();
-    private Activity activity = null;
+    static final String TAG = TextViewLinkMovementMethod.class.getSimpleName();
+    Activity activity = null;
+    Consumer<String> linkConsumer;
 
-    public TextViewLinkMovementMethod(Activity activity) {
+    public TextViewLinkMovementMethod(Activity activity, Consumer<String> linkConsumer) {
         this.activity = activity;
+        this.linkConsumer = linkConsumer;
     }
 
     public boolean onTouchEvent(TextView widget, Spannable buffer, MotionEvent event) {
@@ -41,8 +45,8 @@ public class TextViewLinkMovementMethod extends LinkMovementMethod {
 
                 if (link != null && link.length != 0) {
                     String url = link[0].getURL();
-                    if (url != null) {
-                        activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                    if (!StringUtils.isEmpty(url) && linkConsumer != null) {
+                        linkConsumer.accept(url);
                     }
 
                     return true;
@@ -55,7 +59,31 @@ public class TextViewLinkMovementMethod extends LinkMovementMethod {
         return super.onTouchEvent(widget, buffer, event);
     }
 
-    public static MovementMethod getInstance(Activity activity) {
-        return new TextViewLinkMovementMethod(activity);
+    /**
+     * @param textView
+     */
+    public static void stripUnderlines(TextView textView, int linkColor) {
+        Spannable spannable = new SpannableString(textView.getText());
+        URLSpan[] spans = spannable.getSpans(0, spannable.length(), URLSpan.class);
+        for (URLSpan span : spans) {
+            int start = spannable.getSpanStart(span);
+            int end = spannable.getSpanEnd(span);
+            spannable.removeSpan(span);
+            span = new URLSpanNoUnderline(span.getURL(), linkColor);
+            spannable.setSpan(span, start, end, 0);
+        }
+        textView.setText(spannable);
+    }
+
+    /**
+     * @param textView
+     * @param color
+     */
+    public static void changeColorTextSelector(TextView textView, int color) {
+        textView.setHighlightColor(color);
+    }
+
+    public static MovementMethod newInstance(Activity activity, Consumer<String> linkConsumer) {
+        return new TextViewLinkMovementMethod(activity, linkConsumer);
     }
 }

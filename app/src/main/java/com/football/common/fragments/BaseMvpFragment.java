@@ -81,6 +81,9 @@ public abstract class BaseMvpFragment<V extends MvpView, P extends MvpPresenter<
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // hide keyboard
+        KeyboardUtils.hideKeyboard(mActivity, view);
+
         // update toolbar
         Optional.from(mActivity.getAppSupportActionBar())
                 .doIfPresent(actionBar -> initToolbar(actionBar));

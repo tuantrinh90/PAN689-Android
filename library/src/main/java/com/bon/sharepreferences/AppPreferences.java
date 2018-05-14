@@ -26,7 +26,7 @@ public class AppPreferences {
     private Editor prefsEditor = null;
 
     /**
-     * getInstance
+     * newInstance
      *
      * @param context
      */

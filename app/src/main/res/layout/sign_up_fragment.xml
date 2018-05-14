@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.bon.customview.scrollview.ExtScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:scrollbars="none"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_layout">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.bon.customview.edittext.ExtEditText
+                android:id="@+id/etFirstName"
+                style="@style/StyleEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_edit_text"
+                android:hint="@string/first_name_hint"
+                android:imeOptions="actionNext"
+                android:inputType="textCapWords"
+                android:textColorHint="@color/color_hint_edit_text" />
+
+            <com.bon.customview.edittext.ExtEditText
+                android:id="@+id/etLastName"
+                style="@style/StyleEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_layout"
+                android:layout_weight="1"
+                android:background="@drawable/bg_edit_text"
+                android:hint="@string/last_name_hint"
+                android:imeOptions="actionNext"
+                android:inputType="textCapWords"
+                android:textColorHint="@color/color_hint_edit_text" />
+        </LinearLayout>
+
+        <com.bon.customview.edittext.ExtEditText
+            android:id="@+id/etEmail"
+            style="@style/StyleEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:background="@drawable/bg_edit_text"
+            android:hint="@string/email_hint"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"
+            android:textColorHint="@color/color_hint_edit_text" />
+
+        <com.bon.customview.edittext.ExtEditText
+            android:id="@+id/etPassword"
+            style="@style/StyleEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:background="@drawable/bg_edit_text"
+            android:hint="@string/password_hint"
+            android:imeOptions="actionNext"
+            android:inputType="textPassword"
+            android:textColorHint="@color/color_hint_edit_text" />
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleDescriptionGray"
+            android:text="@string/password_description" />
+
+        <com.bon.customview.edittext.ExtEditText
+            android:id="@+id/etConfirmPassword"
+            style="@style/StyleEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:background="@drawable/bg_edit_text"
+            android:hint="@string/retype_password_hint"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword"
+            android:textColorHint="@color/color_hint_edit_text" />
+
+        <com.bon.customview.checkbox.ExtCheckBox
+            android:id="@+id/cbAgreed"
+            style="@style/StyleDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_layout"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:button="@drawable/bg_check_box"
+            android:text="@string/register_condition" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvRegister"
+            style="@style/StyleButton"
+            android:layout_marginBottom="@dimen/padding_layout"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:text="@string/register"
+            app:textViewFontAssetName="@string/font_bold" />
+    </LinearLayout>
+</com.bon.customview.scrollview.ExtScrollView>

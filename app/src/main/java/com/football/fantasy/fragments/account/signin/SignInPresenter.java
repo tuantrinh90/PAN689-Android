@@ -18,8 +18,6 @@ public class SignInPresenter<V extends ISignInView> extends BaseDataPresenter<V>
         bus.subscribe(this, SignInEvent.class, signInEvent -> {
 
         });
-
-        getOptView().doIfPresent(v -> v.showLoading(true));
     }
 
     @Override
@@ -29,6 +27,6 @@ public class SignInPresenter<V extends ISignInView> extends BaseDataPresenter<V>
 
     @Override
     public void onSignIn() {
-        getOptView().doIfPresent(v -> v.showLoading(true));
+
     }
 }

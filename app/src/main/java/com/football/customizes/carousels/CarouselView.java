@@ -31,7 +31,6 @@ public class CarouselView extends LinearLayout {
     @BindView(R.id.rvRecyclerViewDot)
     RecyclerView rvRecyclerViewDot;
 
-
     Unbinder unbinder;
     CarouselAdapter carouselAdapter;
     CarouselDotAdapter carouselDotAdapter;

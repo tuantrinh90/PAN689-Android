@@ -86,7 +86,7 @@ public class KeyPinStore {
         tmf.init(keyStore);
 
         // Create an SSLContext that uses our TrustManager
-        // SSLContext context = SSLContext.getInstance("TLS");
+        // SSLContext context = SSLContext.newInstance("TLS");
         sslContext.init(null, tmf.getTrustManagers(), null);
     }
 

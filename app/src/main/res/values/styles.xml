@@ -18,6 +18,19 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <!--font size-->
+    <style name="StyleHeader">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/font_size_header</item>
+        <item name="android:textColor">@color/color_black</item>
+        <item name="android:padding">@dimen/padding_content</item>
+    </style>
+
+    <style name="StyleHeaderWhite" parent="StyleHeader">
+        <item name="android:textColor">@color/color_white</item>
+    </style>
+
     <style name="StyleTitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -48,8 +61,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/font_size_content</item>
         <item name="android:textColor">@color/color_black</item>
-        <item name="android:paddingLeft">@dimen/edit_text_radius</item>
-        <item name="android:paddingRight">@dimen/edit_text_radius</item>
+        <item name="android:paddingLeft">@dimen/component_radius</item>
+        <item name="android:paddingRight">@dimen/component_radius</item>
         <item name="android:paddingTop">@dimen/padding_content</item>
         <item name="android:paddingBottom">@dimen/padding_content</item>
     </style>
@@ -68,6 +81,17 @@
 
     <style name="StyleDescriptionGray" parent="StyleDescription">
         <item name="android:textColor">@color/color_gray</item>
+    </style>
+
+    <style name="StyleButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/font_size_content</item>
+        <item name="android:textColor">@color/color_white</item>
+        <item name="android:padding">@dimen/padding_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/bg_button_yellow</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
     <style name="iconTiny">

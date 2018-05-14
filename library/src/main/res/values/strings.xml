@@ -1,11 +1,11 @@
 <resources>
+    <string name="app_name">Library</string>
+
     <!--FONT-->
-    <string name="font_italic">fonts/lato_italic.ttf</string>
-    <string name="font_bold">fonts/lato_bold.ttf</string>
-    <string name="font_bold_italic">fonts/lato_bold_italic.ttf</string>
-    <string name="font_regular">lato_regular.ttf</string>
-
-
+    <string name="font_bold">fonts/sf_pro_display_bold.otf</string>
+    <string name="font_bold_italic">fonts/sf_pro_display_bold_italic.otf</string>
+    <string name="font_regular">fonts/sf_pro_display_regular.otf</string>
+    <string name="font_regular_italic">fonts/sf_pro_display_regular_italic.otf</string>
     <string name="percent_label">%</string>
 
     <!--APP-->
@@ -39,6 +39,7 @@
     <!--<string name="month_ten">Oct</string>-->
     <!--<string name="month_eleven">Nov</string>-->
     <!--<string name="month_twelfth">Dec</string>-->
+
     <string name="month_one">T1</string>
     <string name="month_two">T2</string>
     <string name="month_three">T3</string>
@@ -51,6 +52,4 @@
     <string name="month_ten">T10</string>
     <string name="month_eleven">T11</string>
     <string name="month_twelfth">T12</string>
-
-    <string name="app_name">Library</string>
 </resources>

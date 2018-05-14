@@ -34,8 +34,11 @@
     <dimen name="border_component">0.7dp</dimen>
 
     <!--edit text-->
-    <dimen name="edit_text_radius">25dp</dimen>
+    <dimen name="component_radius">25dp</dimen>
 
     <!--checkbox-->
     <dimen name="check_box_size">24dp</dimen>
+
+    <!--account screen-->
+    <dimen name="account_padding_header">25dp</dimen>
 </resources>
