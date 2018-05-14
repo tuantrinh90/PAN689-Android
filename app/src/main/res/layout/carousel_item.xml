@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_null_gray_selector"
         android:textAllCaps="true"
-        app:textViewFontAssetName="@string/font_bold_italic"
+        app:textViewFontAssetName="@string/font_regular_display_black_italic"
         tools:text="@string/app_name" />
 
 </LinearLayout>

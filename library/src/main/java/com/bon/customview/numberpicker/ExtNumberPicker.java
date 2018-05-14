@@ -60,7 +60,7 @@ public class ExtNumberPicker extends NumberPicker {
         try {
             if (view instanceof TextView) {
                 TextView tvTextView = (TextView) view;
-                FontUtils.setCustomTypeface(getContext(), tvTextView, getResources().getString(R.string.font_regular));
+                FontUtils.setCustomTypeface(getContext(), tvTextView, getResources().getString(R.string.font_display_regular));
                 TextUtils.setTextAppearance(getContext(), tvTextView, R.style.StyleContent);
             }
         } catch (Resources.NotFoundException e) {

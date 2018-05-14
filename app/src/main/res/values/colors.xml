@@ -12,4 +12,8 @@
     <color name="color_yellow_start">#f76b1c</color>
     <color name="color_yellow_end">#fad961</color>
     <color name="color_yellow_pressed">#64f76b1c</color>
+    <color name="color_green">#57a700</color>
+    <color name="color_blue_start">#2324bf</color>
+    <color name="color_blue_end">#935bbd</color>
+    <color name="color_shadow">#3c412800</color>
 </resources>

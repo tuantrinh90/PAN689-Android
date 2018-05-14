@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="windowContentOverlay">@null</item>-->
+        <!--<item name="android:windowContentOverlay">@null</item>-->
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -83,6 +85,11 @@
         <item name="android:textColor">@color/color_gray</item>
     </style>
 
+    <style name="StyleFooter" parent="StyleDescription">
+        <item name="android:textSize">@dimen/font_footer</item>
+        <item name="android:textColor">@color/color_white</item>
+    </style>
+
     <style name="StyleButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -92,6 +99,13 @@
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/bg_button_yellow</item>
         <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="StyleFooterItem">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <style name="iconTiny">

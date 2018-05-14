@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_white"
-    android:scrollbars="none"
     android:orientation="vertical"
-    android:padding="@dimen/padding_layout">
+    android:padding="@dimen/padding_layout"
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,7 +70,8 @@
 
         <com.bon.customview.textview.ExtTextView
             style="@style/StyleDescriptionGray"
-            android:text="@string/password_description" />
+            android:text="@string/password_description"
+            app:textViewFontAssetName="@string/font_display_regular_italic" />
 
         <com.bon.customview.edittext.ExtEditText
             android:id="@+id/etConfirmPassword"
@@ -100,6 +101,6 @@
             android:layout_marginBottom="@dimen/padding_layout"
             android:layout_marginTop="@dimen/padding_layout"
             android:text="@string/register"
-            app:textViewFontAssetName="@string/font_bold" />
+            app:textViewFontAssetName="@string/font_regular_display_black" />
     </LinearLayout>
 </com.bon.customview.scrollview.ExtScrollView>

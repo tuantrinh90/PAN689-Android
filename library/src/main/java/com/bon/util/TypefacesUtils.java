@@ -15,7 +15,7 @@ public class TypefacesUtils {
     private static final Hashtable<String, Typeface> caches = new Hashtable<>();
 
     // default font
-    public static final String FONT_DEFAULT = "fonts/sf_pro_display_regular.otf";
+    public static final String FONT_DEFAULT = "fonts/sf_pro_display_regular.ttf";
 
     /**
      * get typeface

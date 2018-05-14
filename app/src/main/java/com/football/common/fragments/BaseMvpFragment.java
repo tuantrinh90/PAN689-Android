@@ -143,6 +143,7 @@ public abstract class BaseMvpFragment<V extends MvpView, P extends MvpPresenter<
 
     @Override
     public void initToolbar(@NonNull ActionBar supportActionBar) {
+        supportActionBar.setElevation(0);
         supportActionBar.setDisplayShowTitleEnabled(false);
         supportActionBar.setDisplayHomeAsUpEnabled(false);
         supportActionBar.setHomeAsUpIndicator(0);

@@ -4,10 +4,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_white"
+    android:background="@drawable/bg_background"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/main_app_bar">
+    tools:showIn="@layout/main_activity">
 
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"></FrameLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/border_component"
+        android:background="@color/color_shadow" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_footer"
+        android:orientation="horizontal">
+
+        <com.football.customizes.footers.FooterItem
+            android:id="@+id/footerHome"
+            style="@style/StyleFooterItem"
+            app:footerItemContent="@string/home"
+            app:footerItemIcon="@drawable/ic_home" />
+
+        <com.football.customizes.footers.FooterItem
+            android:id="@+id/footerLeagues"
+            style="@style/StyleFooterItem"
+            app:footerItemContent="@string/leagues"
+            app:footerItemIcon="@drawable/ic_trophy" />
+
+        <com.football.customizes.footers.FooterItem
+            android:id="@+id/footerMatchUp"
+            style="@style/StyleFooterItem"
+            app:footerItemContent="@string/match_up"
+            app:footerItemIcon="@drawable/ic_ball" />
+
+        <com.football.customizes.footers.FooterItem
+            android:id="@+id/footerNotification"
+            style="@style/StyleFooterItem"
+            app:footerItemContent="@string/notification"
+            app:footerItemIcon="@drawable/ic_notifications" />
+
+        <com.football.customizes.footers.FooterItem
+            android:id="@+id/footerMore"
+            style="@style/StyleFooterItem"
+            app:footerItemContent="@string/more"
+            app:footerItemIcon="@drawable/ic_more" />
+    </LinearLayout>
 </LinearLayout>

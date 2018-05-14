@@ -41,4 +41,7 @@
 
     <!--account screen-->
     <dimen name="account_padding_header">25dp</dimen>
+
+    <!--footer-->
+    <dimen name="footer_padding">6dp</dimen>
 </resources>

@@ -3,14 +3,15 @@ package com.football.fantasy.fragments.account.signin;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.bon.customview.edittext.ExtEditText;
+import com.bon.util.ActivityUtils;
+import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
+import com.football.fantasy.MainActivity;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.account.forgot.ForgotPasswordFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -54,10 +55,12 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInPresente
     @OnClick(R.id.tvSignIn)
     void onClickSignIn() {
         Log.e("Sign", "onClickSignIn");
+        ActivityUtils.startActivity(MainActivity.class);
     }
 
     @OnClick(R.id.tvForgotPassword)
     void onClickForgotPassword() {
+        AloneFragmentActivity.with(this).start(ForgotPasswordFragment.class);
     }
 
     @OnClick(R.id.ivFacebook)
