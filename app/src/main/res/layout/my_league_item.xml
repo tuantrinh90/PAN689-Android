@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/padding_layout">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="@dimen/avatar_normal"
+        android:layout_height="@dimen/avatar_normal" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleContentBlue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            app:textViewFontAssetName="@string/font_display_bold"
+            tools:text="@string/app_name" />
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleDescriptionAvatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            tools:text="@string/app_name" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.bon.customview.textview.ExtTextView
+                style="@style/StyleDescriptionGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:text="@string/rank"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                style="@style/StyleDescriptionGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_small"
+                android:padding="0dp"
+                android:text="2"
+                android:textColor="@color/color_content"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                style="@style/StyleDescriptionGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:text="/" />
+
+            <com.bon.customview.textview.ExtTextView
+                style="@style/StyleDescriptionGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/padding_small"
+                android:padding="0dp"
+                android:text="8" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="@dimen/icon_tiny"
+                android:layout_height="@dimen/icon_tiny"
+                android:layout_marginLeft="@dimen/padding_layout"
+                app:srcCompat="@drawable/ic_arrow_upward_green" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="@dimen/icon_tiny"
+                android:layout_height="@dimen/icon_tiny"
+                app:srcCompat="@drawable/ic_arrow_forward_gray" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -17,7 +17,7 @@
             style="@style/StyleHeaderWhite"
             android:layout_marginTop="@dimen/padding_layout"
             android:text="@string/football_fantasy"
-            app:textViewFontAssetName="@string/font_display_heavy_italic" />
+            app:textViewFontAssetName="@string/font_regular_display_heavy_italic" />
 
         <com.football.customizes.carousels.CarouselView
             android:id="@+id/cvCarousel"

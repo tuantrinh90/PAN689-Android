@@ -58,6 +58,14 @@
         <item name="android:padding">@dimen/padding_content</item>
     </style>
 
+    <style name="StyleContentWhite" parent="StyleContent">
+        <item name="android:textColor">@color/color_white</item>
+    </style>
+
+    <style name="StyleContentBlue" parent="StyleContent">
+        <item name="android:textColor">@color/color_blue</item>
+    </style>
+
     <style name="StyleEditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -73,6 +81,14 @@
         <item name="android:textSize">@dimen/font_size_menu</item>
     </style>
 
+    <style name="StyleMenuBlue" parent="StyleMenu">
+        <item name="android:textColor">@color/color_blue</item>
+    </style>
+
+    <style name="StyleMenuWhite" parent="StyleMenu">
+        <item name="android:textColor">@color/color_white</item>
+    </style>
+
     <style name="StyleDescription" parent="StyleContent">
         <item name="android:textSize">@dimen/font_size_description</item>
     </style>
@@ -83,6 +99,10 @@
 
     <style name="StyleDescriptionGray" parent="StyleDescription">
         <item name="android:textColor">@color/color_gray</item>
+    </style>
+
+    <style name="StyleDescriptionAvatar" parent="StyleDescription">
+        <item name="android:textColor">@color/color_border_avatar</item>
     </style>
 
     <style name="StyleFooter" parent="StyleDescription">

@@ -4,7 +4,7 @@
     <!--FONT-->
     <string name="font_display_bold">fonts/sf_pro_display_bold.ttf</string>
     <string name="font_display_heavy">fonts/sf_pro_display_heavy.ttf</string>
-    <string name="font_display_heavy_italic">fonts/sf_pro_display_heavy_italic.ttf</string>
+    <string name="font_regular_display_heavy_italic">fonts/sf_pro_display_heavy_italic.ttf</string>
     <string name="font_display_regular">fonts/sf_pro_display_regular.ttf</string>
     <string name="font_display_regular_italic">fonts/sf_pro_display_regular_italic.ttf</string>
     <string name="font_regular_display_black">fonts/sf_pro_display_black.ttf</string>
