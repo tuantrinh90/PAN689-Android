@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:ellipsize="end"
-        android:lines="2"
+        android:maxLines="2"
         android:padding="@dimen/padding_layout"
         android:textColor="@color/color_content"
         app:textViewFontAssetName="@string/font_display_heavy"

@@ -97,6 +97,14 @@
         <item name="android:textSize">@dimen/font_size_description</item>
     </style>
 
+    <style name="StyleDescriptionContent" parent="StyleContent">
+        <item name="android:textColor">@color/color_content</item>
+    </style>
+
+    <style name="StyleDescriptionWhite" parent="StyleContent">
+        <item name="android:textColor">@color/color_white</item>
+    </style>
+
     <style name="StyleDescriptionRed" parent="StyleDescription">
         <item name="android:textColor">@color/color_red</item>
     </style>
@@ -154,6 +162,12 @@
         <item name="android:layout_width">@dimen/icon_large</item>
         <item name="android:layout_height">@dimen/icon_large</item>
         <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <style name="FloatingActionButton">
+        <item name="android:layout_width">@dimen/float_action_button_size</item>
+        <item name="android:layout_height">@dimen/float_action_button_size</item>
+        <item name="android:scaleType">center</item>
     </style>
 
     <style name="Avatar">

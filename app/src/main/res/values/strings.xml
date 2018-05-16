@@ -37,4 +37,10 @@
     <string name="football_leagues_break">Football\nLeagues</string>
     <string name="player_list">Player\nList</string>
     <string name="rank">Rank</string>
+    <string name="open_leagues">Open Leagues</string>
+    <string name="pending_invitation">Pending Invitation</string>
+    <string name="search_public_leagues">Search public leagues</string>
+    <string name="owner">Owner</string>
+    <string name="invitor">Invitor</string>
+    <string name="entrants">Entrants</string>
 </resources>

@@ -30,7 +30,7 @@ public abstract class BaseDataPresenter<V extends MvpView> extends MvpBasePresen
     /**
      * @param appComponent
      */
-    protected BaseDataPresenter(AppComponent appComponent) {
+    public BaseDataPresenter(AppComponent appComponent) {
         // leave casting to match generic type for Dagger2
         appComponent.inject((BaseDataPresenter<MvpView>) this);
     }

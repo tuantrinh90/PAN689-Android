@@ -6,12 +6,12 @@
     android:orientation="vertical"
     android:padding="@dimen/padding_layout">
 
-    <android.support.v7.widget.RecyclerView
+    <com.bon.customview.recycleview.centering_recyclerview.CenteringRecyclerView
         android:id="@+id/rvRecyclerView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <android.support.v7.widget.RecyclerView
+    <com.bon.customview.recycleview.centering_recyclerview.CenteringRecyclerView
         android:id="@+id/rvRecyclerViewDot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

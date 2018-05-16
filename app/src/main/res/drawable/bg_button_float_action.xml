@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <layer-list>
+            <item>
+                <shape android:shape="oval">
+                    <size android:width="@dimen/float_action_button_size" android:height="@dimen/float_action_button_size" />
+                    <gradient android:angle="270" android:endColor="@color/color_blue_end_selector" android:startColor="@color/color_blue_start" />
+                </shape>
+            </item>
+            <item android:drawable="@drawable/ic_add_white" android:gravity="center" />
+        </layer-list>
+    </item>
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="oval">
+                    <size android:width="@dimen/float_action_button_size" android:height="@dimen/float_action_button_size" />
+                    <gradient android:angle="270" android:endColor="@color/color_blue_end" android:startColor="@color/color_blue_start" />
+                </shape>
+            </item>
+            <item android:drawable="@drawable/ic_add_white" android:gravity="center" />
+        </layer-list>
+    </item>
+</selector>
+

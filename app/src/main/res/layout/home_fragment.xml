@@ -53,7 +53,7 @@
                         android:layout_marginRight="@dimen/padding_layout"
                         android:layout_marginTop="@dimen/padding_content"
                         android:gravity="left"
-                        android:lines="2"
+                        android:maxLines="2"
                         android:paddingRight="@dimen/padding_layout"
                         android:text="@string/football_leagues_break"
                         android:textAllCaps="true"

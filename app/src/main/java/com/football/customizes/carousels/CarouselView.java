@@ -5,12 +5,14 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.LinearSnapHelper;
+import android.support.v7.widget.SnapHelper;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.bon.customview.recycleview.centering_recyclerview.CenteringRecyclerView;
 import com.bon.interfaces.Optional;
 import com.football.adapters.CarouselAdapter;
 import com.football.adapters.CarouselDotAdapter;
@@ -27,14 +29,13 @@ public class CarouselView extends LinearLayout {
     private static final String TAG = CarouselView.class.getSimpleName();
 
     @BindView(R.id.rvRecyclerView)
-    RecyclerView rvRecyclerView;
+    CenteringRecyclerView rvRecyclerView;
     @BindView(R.id.rvRecyclerViewDot)
-    RecyclerView rvRecyclerViewDot;
+    CenteringRecyclerView rvRecyclerViewDot;
 
     Unbinder unbinder;
     CarouselAdapter carouselAdapter;
     CarouselDotAdapter carouselDotAdapter;
-    int currentIndex = 0;
 
     public CarouselView(Context context) {
         super(context);
@@ -72,6 +73,9 @@ public class CarouselView extends LinearLayout {
         rvRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         rvRecyclerView.setAdapter(carouselAdapter);
 
+        SnapHelper snapHelper = new LinearSnapHelper();
+        snapHelper.attachToRecyclerView(rvRecyclerView);
+
         carouselDotAdapter = new CarouselDotAdapter(context, items, colorActive, colorNormal);
         rvRecyclerViewDot.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         rvRecyclerViewDot.setAdapter(carouselDotAdapter);
@@ -94,14 +98,7 @@ public class CarouselView extends LinearLayout {
         carouselDotAdapter.notifyDataSetChanged(items);
 
         // move recycle to item selected
-        if (position <= 0 || position >= items.size() - 1) {
-            rvRecyclerView.smoothScrollToPosition(position);
-        } else {
-            rvRecyclerView.smoothScrollToPosition(currentIndex > position ? position - 1 : position + 1);
-        }
-
-        // update current index
-        currentIndex = position;
+        rvRecyclerView.center(position);
     }
 
     @Override

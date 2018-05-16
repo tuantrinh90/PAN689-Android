@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <size
+                android:width="@dimen/icon_large"
+                android:height="@dimen/icon_large" />
+            <solid android:color="@color/color_green" />
+        </shape>
+    </item>
+    <item
+        android:drawable="@drawable/ic_arrow_upward_white"
+        android:gravity="center" />
+</layer-list>

@@ -46,7 +46,7 @@ public class MyLeagueAdapter extends RecyclerView.Adapter<MyLeagueAdapter.ViewHo
         League league = leagues.get(position);
         ImageLoaderUtils.displayImage(league.getAvatar(), holder.ivAvatar, ImageLoaderUtils.getDisplayImageOption(R.drawable.bg_avatar_default));
         holder.tvTitle.setText(league.getTitle());
-        holder.tvDescription.setText(league.getDescription());
+        holder.tvDescription.setText(league.getOwner());
         holder.tvRankNumber.setText(String.valueOf(league.getRankNumber()));
         holder.tvRankTotal.setText(String.valueOf(league.getRankTotal()));
         holder.ivArrowDown.setOnClickListener(v -> Optional.from(leagueConsumer).doIfPresent(c -> c.accept(league)));
