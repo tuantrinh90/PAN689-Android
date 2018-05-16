@@ -2,7 +2,7 @@ package com.football.interactors.service;
 
 import android.content.Context;
 
-import com.bon.sharepreferences.AppPreferences;
+import com.bon.share_preferences.AppPreferences;
 
 import java.io.IOException;
 

@@ -70,7 +70,7 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/ivFacebook"
-            style="@style/iconLarge"
+            style="@style/IconLarge"
             android:layout_margin="@dimen/padding_content"
             android:background="@drawable/bg_circle_social"
             android:scaleType="center"
@@ -78,7 +78,7 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/ivGoogle"
-            style="@style/iconLarge"
+            style="@style/IconLarge"
             android:layout_margin="@dimen/padding_content"
             android:background="@drawable/bg_circle_social"
             android:scaleType="center"
@@ -86,7 +86,7 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/ivTwitter"
-            style="@style/iconLarge"
+            style="@style/IconLarge"
             android:layout_margin="@dimen/padding_content"
             android:background="@drawable/bg_circle_social"
             android:scaleType="center"

@@ -2,10 +2,10 @@ package com.bon.application;
 
 import android.support.multidex.MultiDexApplication;
 
-import com.bon.cloudmessage.GcmNotification;
+import com.bon.cloud_message.GcmNotification;
 import com.bon.image.ImageLoaderUtils;
 import com.bon.logger.Logger;
-import com.bon.sharepreferences.AppPreferences;
+import com.bon.share_preferences.AppPreferences;
 import com.bon.util.ExtUtils;
 import com.bon.util.FileUtils;
 import com.bon.util.LeakCanaryUtils;

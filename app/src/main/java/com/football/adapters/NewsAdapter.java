@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
+import com.bon.util.GeneralUtils;
 import com.football.fantasy.R;
 import com.football.models.News;
 
@@ -42,6 +43,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         holder.tvMonth.setText(item.getMonth());
         holder.tvContent.setText(item.getContent());
         holder.itemView.setOnClickListener(v -> Optional.from(newsConsumer).doIfPresent(c -> c.accept(item)));
+
+        // update layout
+        int marginLayout = GeneralUtils.convertDpMeasureToPixel(context, R.dimen.padding_layout);
+        RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(marginLayout, 0, marginLayout, marginLayout / 2);
+        holder.itemView.setLayoutParams(layoutParams);
     }
 
     @Override

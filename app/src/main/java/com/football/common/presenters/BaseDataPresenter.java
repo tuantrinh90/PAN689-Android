@@ -3,8 +3,8 @@ package com.football.common.presenters;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
-import com.bon.eventbus.IEvent;
-import com.bon.eventbus.RxBus;
+import com.bon.event_bus.IEvent;
+import com.bon.event_bus.RxBus;
 import com.bon.interfaces.Optional;
 import com.football.di.AppComponent;
 import com.football.interactors.IDataModule;

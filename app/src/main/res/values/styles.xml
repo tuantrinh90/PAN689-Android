@@ -50,6 +50,10 @@
         <item name="android:textColor">@color/color_blue</item>
     </style>
 
+    <style name="StyleTitleGray" parent="StyleTitle">
+        <item name="android:textColor">@color/color_gray</item>
+    </style>
+
     <style name="StyleContent">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -101,8 +105,8 @@
         <item name="android:textColor">@color/color_gray</item>
     </style>
 
-    <style name="StyleDescriptionAvatar" parent="StyleDescription">
-        <item name="android:textColor">@color/color_border_avatar</item>
+    <style name="StyleDescriptionGreenButton" parent="StyleDescription">
+        <item name="android:textColor">@color/color_green_button</item>
     </style>
 
     <style name="StyleFooter" parent="StyleDescription">
@@ -128,27 +132,31 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="iconTiny">
+    <style name="IconTiny">
         <item name="android:layout_width">@dimen/icon_tiny</item>
         <item name="android:layout_height">@dimen/icon_tiny</item>
         <item name="android:scaleType">fitCenter</item>
     </style>
 
-    <style name="iconSmall">
+    <style name="IconSmall">
         <item name="android:layout_width">@dimen/icon_small</item>
         <item name="android:layout_height">@dimen/icon_small</item>
         <item name="android:scaleType">fitCenter</item>
     </style>
 
-    <style name="iconMedium">
+    <style name="IconMedium">
         <item name="android:layout_width">@dimen/icon_medium</item>
         <item name="android:layout_height">@dimen/icon_medium</item>
         <item name="android:scaleType">fitCenter</item>
     </style>
 
-    <style name="iconLarge">
+    <style name="IconLarge">
         <item name="android:layout_width">@dimen/icon_large</item>
         <item name="android:layout_height">@dimen/icon_large</item>
         <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <style name="Avatar">
+        <item name="android:padding">@dimen/avatar_padding</item>
     </style>
 </resources>

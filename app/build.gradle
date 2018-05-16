@@ -116,4 +116,7 @@ dependencies {
     // leak canary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:${rootProject.ext.leakCanary}"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootProject.ext.leakCanary}"
+
+    // circle image
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
 }

@@ -151,6 +151,19 @@ public class ImageLoaderUtils {
     /**
      * @param imageUri
      * @param imageView
+     * @param imageOptions
+     */
+    public static void displayImage(String imageUri, ImageView imageView, DisplayImageOptions imageOptions) {
+        try {
+            ImageLoader.getInstance().displayImage(imageUri, imageView, imageOptions);
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
+    }
+
+    /**
+     * @param imageUri
+     * @param imageView
      * @param imageLoadingListener
      */
     public static void displayImage(String imageUri, ImageView imageView, ImageLoadingListener imageLoadingListener) {

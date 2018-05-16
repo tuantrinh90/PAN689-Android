@@ -21,8 +21,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.util.Base64;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.LinearLayout;
 
 import com.bon.application.ExtApplication;
 import com.bon.logger.Logger;
@@ -405,41 +403,6 @@ public class ImageUtils {
         }
 
         return false;
-    }
-
-    /**
-     * @param view
-     * @param globalLayoutListener
-     */
-    public static void autoLayoutImageScaleFourThree(View view, ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener) {
-        try {
-            view.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
-                try {
-                    // Ensure you call it only once
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                        view.getViewTreeObserver().removeOnGlobalLayoutListener(globalLayoutListener);
-                    } else {
-                        view.getViewTreeObserver().removeGlobalOnLayoutListener(globalLayoutListener);
-                    }
-
-                    // height, width
-                    int width = view.getWidth();
-
-                    // image 4/3
-                    int height = width * 70 / 100;
-
-                    // set layout param
-                    LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) view.getLayoutParams();
-                    layoutParams.width = width;
-                    layoutParams.height = height;
-                    view.setLayoutParams(layoutParams);
-                } catch (Exception e) {
-                    Logger.e(TAG, e);
-                }
-            });
-        } catch (Exception e) {
-            Logger.e(TAG, e);
-        }
     }
 
     /**

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <size
+                android:width="@dimen/avatar_normal"
+                android:height="@dimen/avatar_normal" />
+            <solid android:color="@color/color_white" />
+            <stroke
+                android:width="@dimen/avatar_border"
+                android:color="@color/color_border_avatar_two" />
+        </shape>
+    </item>
+    <item
+        android:bottom="@dimen/avatar_border"
+        android:left="@dimen/avatar_border"
+        android:right="@dimen/avatar_border"
+        android:top="@dimen/avatar_border">
+        <shape android:shape="oval">
+            <size
+                android:width="@dimen/avatar_normal"
+                android:height="@dimen/avatar_normal" />
+            <solid android:color="@color/color_white" />
+            <stroke
+                android:width="@dimen/avatar_border"
+                android:color="@color/color_border_avatar" />
+        </shape>
+    </item>
+</layer-list>

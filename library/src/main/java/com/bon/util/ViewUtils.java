@@ -2,7 +2,9 @@ package com.bon.util;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.AlphaAnimation;
+import android.widget.LinearLayout;
 
 import com.bon.logger.Logger;
 
@@ -62,6 +64,54 @@ public class ViewUtils {
                 // animation
                 view.startAnimation(alpha);
             }
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
+    }
+
+    /**
+     * add view tree observer
+     *
+     * @param view
+     * @param onGlobalLayoutListener
+     */
+    public static void attachViewTreeObserver(View view, ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener) {
+        view.getViewTreeObserver().addOnGlobalLayoutListener(onGlobalLayoutListener);
+    }
+
+    /**
+     * remove view tree observer
+     *
+     * @param view
+     * @param onGlobalLayoutListener
+     */
+    public static void detachViewTreeObserver(View view, ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            view.getViewTreeObserver().removeOnGlobalLayoutListener(onGlobalLayoutListener);
+        } else {
+            view.getViewTreeObserver().removeGlobalOnLayoutListener(onGlobalLayoutListener);
+        }
+    }
+
+    /**
+     * scale layout for rate
+     *
+     * @param view
+     * @param scale
+     */
+    public static void autoLayoutScale(View view, float scale) {
+        try {
+            // height, width
+            int width = view.getWidth();
+
+            // image height for scale view
+            int height = (int) (width / scale);
+
+            // set layout param
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) view.getLayoutParams();
+            layoutParams.width = width;
+            layoutParams.height = height;
+            view.setLayoutParams(layoutParams);
         } catch (Exception e) {
             Logger.e(TAG, e);
         }

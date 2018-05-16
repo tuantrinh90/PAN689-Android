@@ -16,7 +16,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.bon.interfaces.Optional;
-import com.bon.sharepreferences.AppPreferences;
+import com.bon.share_preferences.AppPreferences;
 import com.football.common.Keys;
 import com.football.fantasy.R;
 

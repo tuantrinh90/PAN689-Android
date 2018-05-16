@@ -9,8 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.bon.customview.textview.ExtTextView;
-import com.bon.eventbus.IEvent;
-import com.bon.eventbus.RxBus;
+import com.bon.event_bus.IEvent;
+import com.bon.event_bus.RxBus;
 import com.bon.interfaces.Optional;
 import com.bon.util.KeyboardUtils;
 import com.football.application.AppContext;

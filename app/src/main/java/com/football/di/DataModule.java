@@ -2,8 +2,8 @@ package com.football.di;
 
 import android.os.Handler;
 
-import com.bon.eventbus.IEvent;
-import com.bon.eventbus.RxBus;
+import com.bon.event_bus.IEvent;
+import com.bon.event_bus.RxBus;
 import com.football.events.SignInEvent;
 import com.football.interactors.IDataModule;
 import com.football.interactors.database.IDbModule;

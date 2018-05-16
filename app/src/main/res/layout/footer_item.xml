@@ -18,7 +18,7 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/ivIcon"
-            style="@style/iconMedium"
+            style="@style/IconMedium"
             app:srcCompat="@drawable/ic_home" />
 
         <com.bon.customview.textview.ExtTextView

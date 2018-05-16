@@ -10,6 +10,7 @@
     <dimen name="avatar_normal">80dp</dimen>
     <dimen name="avatar_small">60dp</dimen>
     <dimen name="avatar_border">2dp</dimen>
+    <dimen name="avatar_padding">4dp</dimen>
 
     <!--icon-->
     <dimen name="icon_tiny">15dp</dimen>

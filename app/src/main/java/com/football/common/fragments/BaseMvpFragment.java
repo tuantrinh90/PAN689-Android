@@ -9,8 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bon.eventbus.IEvent;
-import com.bon.eventbus.RxBus;
+import com.bon.event_bus.IEvent;
+import com.bon.event_bus.RxBus;
 import com.bon.interfaces.Optional;
 import com.bon.util.KeyboardUtils;
 import com.bon.util.StringUtils;

@@ -2,22 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/bg_white_gray_radius_selector"
     android:orientation="horizontal"
     android:padding="@dimen/padding_layout">
 
-    <android.support.v7.widget.AppCompatImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivAvatar"
         android:layout_width="@dimen/avatar_normal"
-        android:layout_height="@dimen/avatar_normal" />
+        android:layout_height="@dimen/avatar_normal"
+        android:background="@drawable/bg_avatar_default"
+        app:civ_border_overlay="true" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_layout"
         android:layout_weight="1"
         android:orientation="vertical">
 
         <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvTitle"
             style="@style/StyleContentBlue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,7 +33,8 @@
             tools:text="@string/app_name" />
 
         <com.bon.customview.textview.ExtTextView
-            style="@style/StyleDescriptionAvatar"
+            android:id="@+id/tvDescription"
+            style="@style/StyleDescriptionGreenButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="0dp"
@@ -35,6 +43,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <com.bon.customview.textview.ExtTextView
@@ -46,7 +55,8 @@
                 app:textViewFontAssetName="@string/font_display_bold" />
 
             <com.bon.customview.textview.ExtTextView
-                style="@style/StyleDescriptionGray"
+                android:id="@+id/tvRankNumber"
+                style="@style/StyleTitleWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_small"
@@ -63,6 +73,7 @@
                 android:text="/" />
 
             <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvRankTotal"
                 style="@style/StyleDescriptionGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -71,9 +82,11 @@
                 android:text="8" />
 
             <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/ivArrowUp"
                 android:layout_width="@dimen/icon_tiny"
                 android:layout_height="@dimen/icon_tiny"
                 android:layout_marginLeft="@dimen/padding_layout"
+                android:background="@drawable/bg_null_gray_selector"
                 app:srcCompat="@drawable/ic_arrow_upward_green" />
 
             <View
@@ -82,8 +95,10 @@
                 android:layout_weight="1" />
 
             <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/ivArrowDown"
                 android:layout_width="@dimen/icon_tiny"
                 android:layout_height="@dimen/icon_tiny"
+                android:background="@drawable/bg_null_gray_selector"
                 app:srcCompat="@drawable/ic_arrow_forward_gray" />
         </LinearLayout>
     </LinearLayout>

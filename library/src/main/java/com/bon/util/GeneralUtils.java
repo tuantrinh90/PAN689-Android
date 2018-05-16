@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.WindowManager;
 
 import com.bon.logger.Logger;
 
@@ -75,19 +74,20 @@ public class GeneralUtils {
      * @return DisplayMetrics
      */
     public static DisplayMetrics getDisplayMetrics(Context context) {
-        WindowManager windowManager;
-        DisplayMetrics displayMetrics;
-
-        try {
-            displayMetrics = new DisplayMetrics();
-            windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-            windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-        } catch (Exception e) {
-            Logger.e(TAG, e);
-            displayMetrics = null;
-        }
-
-        return displayMetrics;
+//        WindowManager windowManager;
+//        DisplayMetrics displayMetrics;
+//
+//        try {
+//            displayMetrics = new DisplayMetrics();
+//            windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+//            windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+//        } catch (Exception e) {
+//            Logger.e(TAG, e);
+//            displayMetrics = null;
+//        }
+//
+//        return displayMetrics;
+        return context.getResources().getDisplayMetrics();
     }
 
     /**
