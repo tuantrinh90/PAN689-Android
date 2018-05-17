@@ -35,20 +35,20 @@ public class ExtKeyValuePairDialogFragment extends ExtBaseBottomDialogFragment {
         return new ExtKeyValuePairDialogFragment();
     }
 
-    private String value;
-    private List<ExtKeyValuePair> extKeyValuePairs;
-    private List<ExtKeyValuePair> extKeyValuePairsOrigins;
-    private boolean isVisibleFilter;
+    String value;
+    List<ExtKeyValuePair> extKeyValuePairs;
+    List<ExtKeyValuePair> extKeyValuePairsOrigins;
+    boolean isVisibleFilter;
 
-    private ExtKeyValuePairAdapter<ExtKeyValuePair> extKeyValuePairAdapter;
-    private Consumer<ExtKeyValuePair> onSelectedConsumer;
+    ExtKeyValuePairAdapter<ExtKeyValuePair> extKeyValuePairAdapter;
+    Consumer<ExtKeyValuePair> onSelectedConsumer;
 
-    private ExtTextView tvCancel;
-    private ExtEditText edtSearch;
-    private ExtListView lvKeyValuePair;
+    ExtTextView tvCancel;
+    ExtEditText edtSearch;
+    ExtListView lvKeyValuePair;
 
-    private int index = 0;
-    private int positionSelected = 0;
+    int index = 0;
+    int positionSelected = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,31 +61,31 @@ public class ExtKeyValuePairDialogFragment extends ExtBaseBottomDialogFragment {
         super.onViewCreated(view, savedInstanceState);
         try {
             // cancel
-            this.tvCancel = view.findViewById(R.id.tvCancel);
-            this.tvCancel.setOnClickListener(v -> onClickCancel());
+            tvCancel = view.findViewById(R.id.tvCancel);
+            tvCancel.setOnClickListener(v -> onClickCancel());
 
             // filter
-            this.edtSearch = view.findViewById(R.id.edtSearch);
+            edtSearch = view.findViewById(R.id.edtSearch);
 
             // data
-            this.lvKeyValuePair = view.findViewById(R.id.lvKeyValuePair);
+            lvKeyValuePair = view.findViewById(R.id.lvKeyValuePair);
 
             // active key is selected
-            if (this.extKeyValuePairsOrigins != null && this.extKeyValuePairsOrigins.size() > 0) {
-                StreamSupport.stream(this.extKeyValuePairsOrigins).forEach(n -> {
-                    if (!StringUtils.isEmpty(this.value) && this.value.equalsIgnoreCase(n.getKey())) {
+            if (extKeyValuePairsOrigins != null && extKeyValuePairsOrigins.size() > 0) {
+                StreamSupport.stream(extKeyValuePairsOrigins).forEach(n -> {
+                    if (!StringUtils.isEmpty(value) && value.equalsIgnoreCase(n.getKey())) {
                         n.setSelected(true);
-                        this.positionSelected = this.index;
+                        positionSelected = index;
                     } else {
                         n.setSelected(false);
                     }
-                    this.index++;
+                    index++;
                 });
             }
 
             // filter
-            this.edtSearch.setVisibility(this.isVisibleFilter ? View.VISIBLE : View.GONE);
-            this.edtSearch.addTextChangedListener(new TextWatcher() {
+            edtSearch.setVisibility(isVisibleFilter ? View.VISIBLE : View.GONE);
+            edtSearch.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -103,10 +103,10 @@ public class ExtKeyValuePairDialogFragment extends ExtBaseBottomDialogFragment {
             });
 
             // don't show keyboard
-            this.getDialog().setOnShowListener(dialog -> KeyboardUtils.hideKeyboard(getActivity(), this.edtSearch));
+            getDialog().setOnShowListener(dialog -> KeyboardUtils.hideKeyboard(getActivity(), edtSearch));
 
             // load data
-            this.loadData();
+            loadData();
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
@@ -114,8 +114,8 @@ public class ExtKeyValuePairDialogFragment extends ExtBaseBottomDialogFragment {
 
     public void onClickCancel() {
         try {
-            if (this.onSelectedConsumer != null) {
-                this.onSelectedConsumer.accept(new ExtKeyValuePair("", ""));
+            if (onSelectedConsumer != null) {
+                onSelectedConsumer.accept(new ExtKeyValuePair("", ""));
             }
 
             dismiss();
@@ -126,18 +126,18 @@ public class ExtKeyValuePairDialogFragment extends ExtBaseBottomDialogFragment {
 
     private void filterData() {
         try {
-            this.extKeyValuePairs = new ArrayList<>(this.extKeyValuePairsOrigins);
+            extKeyValuePairs = new ArrayList<>(extKeyValuePairsOrigins);
 
             // filter
-            String query = this.edtSearch.getText().toString().toLowerCase();
+            String query = edtSearch.getText().toString().toLowerCase();
             if (!StringUtils.isEmpty(query)) {
-                this.extKeyValuePairs = StreamSupport.stream(this.extKeyValuePairs)
+                extKeyValuePairs = StreamSupport.stream(extKeyValuePairs)
                         .filter(n -> n.getKey().toLowerCase().contains(query) || n.getValue().toLowerCase().contains(query))
                         .collect(Collectors.toList());
             }
 
             // notification data
-            this.extKeyValuePairAdapter.notifyDataSetChanged(this.extKeyValuePairs);
+            extKeyValuePairAdapter.notifyDataSetChanged(extKeyValuePairs);
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
@@ -145,13 +145,13 @@ public class ExtKeyValuePairDialogFragment extends ExtBaseBottomDialogFragment {
 
     private void loadData() {
         try {
-            this.extKeyValuePairs = new ArrayList<>(this.extKeyValuePairsOrigins);
-            this.extKeyValuePairAdapter = new ExtKeyValuePairAdapter(this.getContext(), this.extKeyValuePairs);
-            this.lvKeyValuePair.setAdapter(this.extKeyValuePairAdapter);
-            this.lvKeyValuePair.setOnItemClickListener((parent, view, position, id) -> {
+            extKeyValuePairs = new ArrayList<>(extKeyValuePairsOrigins);
+            extKeyValuePairAdapter = new ExtKeyValuePairAdapter(getContext(), extKeyValuePairs);
+            lvKeyValuePair.setAdapter(extKeyValuePairAdapter);
+            lvKeyValuePair.setOnItemClickListener((parent, view, position, id) -> {
                 try {
-                    if (this.onSelectedConsumer != null) {
-                        this.onSelectedConsumer.accept(this.extKeyValuePairAdapter.getItem(position));
+                    if (onSelectedConsumer != null) {
+                        onSelectedConsumer.accept(extKeyValuePairAdapter.getItem(position));
                     }
 
                     dismiss();
@@ -160,7 +160,7 @@ public class ExtKeyValuePairDialogFragment extends ExtBaseBottomDialogFragment {
                 }
             });
 
-            this.lvKeyValuePair.setSelection(this.positionSelected);
+            lvKeyValuePair.setSelection(positionSelected);
         } catch (Exception e) {
             Logger.e(TAG, e);
         }

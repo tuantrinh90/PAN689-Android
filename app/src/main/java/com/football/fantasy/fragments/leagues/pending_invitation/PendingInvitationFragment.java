@@ -1,4 +1,4 @@
-package com.football.fantasy.fragments.pending_invitation;
+package com.football.fantasy.fragments.leagues.pending_invitation;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

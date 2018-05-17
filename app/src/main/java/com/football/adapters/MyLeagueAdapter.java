@@ -15,6 +15,7 @@ import com.bon.interfaces.Optional;
 import com.bon.util.GeneralUtils;
 import com.football.fantasy.R;
 import com.football.models.League;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class MyLeagueAdapter extends RecyclerView.Adapter<MyLeagueAdapter.ViewHo
         holder.tvDescription.setText(league.getOwner());
         holder.tvRankNumber.setText(String.valueOf(league.getRankNumber()));
         holder.tvRankTotal.setText(String.valueOf(league.getRankTotal()));
-        holder.ivArrowDown.setOnClickListener(v -> Optional.from(leagueConsumer).doIfPresent(c -> c.accept(league)));
+        RxView.clicks(holder.itemView).subscribe(v -> Optional.from(leagueConsumer).doIfPresent(c -> c.accept(league)));
 
         // update layout
         DisplayMetrics displayMetrics = GeneralUtils.getDisplayMetrics(context);

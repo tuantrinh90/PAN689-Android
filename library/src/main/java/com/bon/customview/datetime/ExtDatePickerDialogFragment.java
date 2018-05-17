@@ -55,38 +55,38 @@ public class ExtDatePickerDialogFragment extends ExtBaseBottomDialogFragment {
 
         try {
             // null point exception value
-            if (this.minDate == null || this.maxDate == null || this.calendar == null || this.calendarConsumer == null
-                    || this.conditionFunction == null) {
+            if (minDate == null || maxDate == null || calendar == null || calendarConsumer == null
+                    || conditionFunction == null) {
                 throw new NullPointerException();
             }
 
             // cancel
-            this.tvCancel = view.findViewById(R.id.tvCancel);
-            this.tvCancel.setOnClickListener(v -> onClickCancel());
+            tvCancel = view.findViewById(R.id.tvCancel);
+            tvCancel.setOnClickListener(v -> onClickCancel());
 
             // save
-            this.tvSave = view.findViewById(R.id.tvSave);
-            this.tvSave.setOnClickListener(v -> onClickSave());
+            tvSave = view.findViewById(R.id.tvSave);
+            tvSave.setOnClickListener(v -> onClickSave());
 
             // date picker
-            this.dpDatePicker = view.findViewById(R.id.dpDatePicker);
+            dpDatePicker = view.findViewById(R.id.dpDatePicker);
 
-            this.dpDatePicker.init(this.calendar.get(Calendar.YEAR), this.calendar.get(Calendar.MONTH),
-                    this.calendar.get(Calendar.DAY_OF_MONTH), (viewDatePicker, year, monthOfYear, dayOfMonth) -> {
+            dpDatePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH), (viewDatePicker, year, monthOfYear, dayOfMonth) -> {
                 try {
-                    this.calendar.set(Calendar.YEAR, year);
-                    this.calendar.set(Calendar.MONTH, monthOfYear);
-                    this.calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                    this.setDisplayButtonDone(conditionFunction.apply(calendar));
+                    calendar.set(Calendar.YEAR, year);
+                    calendar.set(Calendar.MONTH, monthOfYear);
+                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    setDisplayButtonDone(conditionFunction.apply(calendar));
                 } catch (Exception e) {
                     Logger.e(TAG, e);
                 }
             });
 
             // set min, max date
-            this.dpDatePicker.setMinDate(minDate.getTimeInMillis());
-            this.dpDatePicker.setMaxDate(this.maxDate.getTimeInMillis());
-            this.setDisplayButtonDone(conditionFunction.apply(calendar));
+            dpDatePicker.setMinDate(minDate.getTimeInMillis());
+            dpDatePicker.setMaxDate(maxDate.getTimeInMillis());
+            setDisplayButtonDone(conditionFunction.apply(calendar));
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
@@ -106,8 +106,8 @@ public class ExtDatePickerDialogFragment extends ExtBaseBottomDialogFragment {
 
     void onClickSave() {
         try {
-            if (this.calendarConsumer != null) {
-                this.calendarConsumer.accept(calendar);
+            if (calendarConsumer != null) {
+                calendarConsumer.accept(calendar);
             }
             dismiss();
         } catch (Exception e) {

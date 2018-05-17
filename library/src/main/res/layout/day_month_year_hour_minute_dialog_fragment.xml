@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/color_white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <TableRow
@@ -24,6 +25,7 @@
 
         <com.bon.customview.textview.ExtTextView
             style="@style/StyleTitle"
+            app:textViewFontAssetName="@string/font_display_bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5" />

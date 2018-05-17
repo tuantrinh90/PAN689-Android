@@ -5,17 +5,12 @@
     <string name="sign_in">Sign-In</string>
     <string name="register">Register</string>
     <string name="first_name">First name</string>
-    <string name="first_name_hint"><b>First name</b></string>
     <string name="last_name">Last name</string>
-    <string name="last_name_hint"><b>Last name</b></string>
     <string name="email">Email</string>
-    <string name="email_hint"><b>Email</b></string>
     <string name="password">Password</string>
-    <string name="password_hint"><b>Password</b></string>
     <string name="forgot_password_question">Forgot password?</string>
     <string name="password_description">Your password must not be lesser than 6 characters</string>
     <string name="retype_password">Re-type password</string>
-    <string name="retype_password_hint"><b>Re-type password</b></string>
     <string name="register_condition">I have read and agreed to the <a href="https://google.com.vn"><font color="#3b3fc2"><b>Term and Privacy policy</b></font></a></string>
     <string name="sign_with">Or sign-in with</string>
     <string name="forgot_description">Enter your email. We’ll send email instructions on how to reset your password.</string>
@@ -43,4 +38,27 @@
     <string name="owner">Owner</string>
     <string name="invitor">Invitor</string>
     <string name="entrants">Entrants</string>
+    <string name="create_new_league">Create a new league</string>
+    <string name="league_name_logo">League name &amp; logo</string>
+    <string name="enter_league_name">Enter league name</string>
+    <string name="league_type">League type</string>
+    <string name="open_league">Open league</string>
+    <string name="private_league">Private league</string>
+    <string name="game_play_options">Gameplay options</string>
+    <string name="transfer">Transfer</string>
+    <string name="draft">Draft</string>
+    <string name="number_of_users">Number of users</string>
+    <string name="trade_review_setting">Trade review setting</string>
+    <string name="no_trade_review">No trade review</string>
+    <string name="trade_review_by_league_creator">Trade review by league creator</string>
+    <string name="trade_review_by_league_members">Trade review by league members</string>
+    <string name="scoring_system">Scoring system</string>
+    <string name="regular_football_point">Regular football point(3,1,0)</string>
+    <string name="point_per_stats">Points per stats</string>
+    <string name="draft_time">Draft time</string>
+    <string name="time_per_draft_pick">Time per draft pick</string>
+    <string name="start_time">Start time</string>
+    <string name="description">Description</string>
+    <string name="tell_us_more_about_your_league">Tell us more about your league</string>
+    <string name="create_league">Create league</string>
 </resources>

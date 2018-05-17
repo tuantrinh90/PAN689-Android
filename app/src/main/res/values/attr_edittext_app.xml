@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="EditTextApp">
+        <attr name="editTextAppContent" format="string" />
+        <attr name="editTextAppHint" format="reference" />
+        <attr name="editTextAppIcon" format="reference" />
+        <attr name="editTextAppEnable" format="boolean" />
+        <attr name="android:inputType" />
+        <attr name="android:imeOptions" />
+        <attr name="android:lines" />
+    </declare-styleable>
+</resources>

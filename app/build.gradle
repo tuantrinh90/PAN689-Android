@@ -43,6 +43,7 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/rxjava.properties'
     }
 
     lintOptions {
@@ -93,8 +94,16 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:${rootProject.ext.okhttpVer}"
 
     // rx java, android
-    implementation "io.reactivex:rxandroid:${rootProject.ext.rxVer}"
-    implementation "io.reactivex:rxjava:${rootProject.ext.rxVer}"
+    implementation "io.reactivex.rxjava2:rxandroid:${rootProject.ext.rxjandroid}"
+    implementation "io.reactivex.rxjava2:rxjava:${rootProject.ext.rxjava}"
+    implementation "com.jakewharton.rxbinding2:rxbinding:${rootProject.ext.rxbinding}"
+
+    // rx lifecycle
+    implementation "com.trello.rxlifecycle2:rxlifecycle:${rootProject.ext.rxlifecycle}"
+    implementation "com.trello.rxlifecycle2:rxlifecycle-android:${rootProject.ext.rxlifecycle}"
+
+    // rx permission
+    implementation "com.tbruyelle.rxpermissions2:rxpermissions:${rootProject.ext.rxpermissions}"
 
     // animation
     implementation "com.nineoldandroids:library:${rootProject.ext.nineoldandroidsVer}"
@@ -118,5 +127,5 @@ dependencies {
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootProject.ext.leakCanary}"
 
     // circle image
-    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation "de.hdodenhof:circleimageview:${rootProject.ext.circleimageview}"
 }

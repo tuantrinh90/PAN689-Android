@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LabelView">
+        <attr name="labelViewLabel" format="reference" />
+        <attr name="labelViewRequired" format="boolean" />
+        <attr name="labelViewInfo" format="boolean" />
+        <attr name="android:textAllCaps" />
+    </declare-styleable>
+</resources>

@@ -11,6 +11,7 @@ import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.football.customizes.carousels.Carousel;
 import com.football.fantasy.R;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;
 
@@ -54,7 +55,7 @@ public class CarouselAdapter extends RecyclerView.Adapter<CarouselAdapter.ViewHo
         Carousel carousel = items.get(position);
         holder.tvContent.setText(carousel.getContent());
         holder.tvContent.setTextColor(ContextCompat.getColor(context, carousel.isActive() ? colorActive : colorNormal));
-        holder.itemView.setOnClickListener(v -> Optional.from(positionConsumer).doIfPresent(consumer -> consumer.accept(position)));
+        RxView.clicks(holder.itemView).subscribe(o -> Optional.from(positionConsumer).doIfPresent(consumer -> consumer.accept(position)));
     }
 
     @Override

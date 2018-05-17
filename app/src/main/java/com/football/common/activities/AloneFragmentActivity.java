@@ -17,6 +17,7 @@ import android.view.WindowManager;
 
 import com.bon.interfaces.Optional;
 import com.bon.share_preferences.AppPreferences;
+import com.bon.util.KeyboardUtils;
 import com.football.common.Keys;
 import com.football.fantasy.R;
 
@@ -44,11 +45,13 @@ public class AloneFragmentActivity extends BaseAppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setSupportActionBar(toolbar);
-        Optional.from(savedInstanceState)
-                .doIfEmpty(b -> {
-                    Bundle bundle = getIntent().getExtras();
-                    getFragmentForOpen(bundle, fr -> replaceFragment(fr, false));
-                });
+        Optional.from(savedInstanceState).doIfEmpty(b -> {
+            Bundle bundle = getIntent().getExtras();
+            getFragmentForOpen(bundle, fr -> replaceFragment(fr, false));
+        });
+
+        // dont show keyboard
+        KeyboardUtils.dontShowKeyboardActivity(this);
     }
 
     @Override

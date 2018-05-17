@@ -1,4 +1,4 @@
-package com.football.fantasy.fragments.pending_invitation;
+package com.football.fantasy.fragments.leagues.pending_invitation;
 
 import com.hannesdorfmann.mosby3.mvp.MvpPresenter;
 import com.hannesdorfmann.mosby3.mvp.MvpView;

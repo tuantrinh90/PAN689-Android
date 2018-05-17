@@ -29,14 +29,19 @@ ext {
     okhttpVer = "3.9.1"
     streamsupportVer = '1.6.0'
     playServiceVer = '11.8.0'
-    daggerVer = "2.4"
-    rxVer = "1.2.1"
+    daggerVer = '2.4'
+    rxjandroid = '2.0.2'
+    rxjava = '2.1.13'
+    rxbinding = '2.1.1'
+    rxlifecycle = '2.2.1'
+    rxpermissions = '0.9.5@aar'
     nineoldandroidsVer = '2.4.0'
     swipelayoutVer = '1.2.0'
     circleindicatorVer = '1.2.2'
     eventbusVer = '3.1.1'
     mosbyVer = '3.1.0'
     leakCanary = '1.5.4'
+    circleimageview = '2.2.0'
 }
 
 allprojects {

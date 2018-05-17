@@ -1,6 +1,7 @@
 package com.bon.util;
 
 import android.annotation.SuppressLint;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.bon.logger.Logger;
@@ -80,10 +81,27 @@ public class StringUtils {
      * @return true or false
      */
     @SuppressLint("DefaultLocale")
-    public static boolean isEmpty(String value) {
+    public static boolean isEmpty(@Nullable String value) {
         try {
-            if (value == null || value.equalsIgnoreCase("") || value.equalsIgnoreCase(" ") || TextUtils.isEmpty(value)
-                    || value.equalsIgnoreCase("null")) {
+            if (value == null || value.trim().equalsIgnoreCase("") ||
+                    TextUtils.isEmpty(value) || value.equalsIgnoreCase("null")) {
+                return true;
+            }
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param value
+     * @return
+     */
+    public static boolean isEmpty(@Nullable CharSequence value) {
+        try {
+            if (value == null || value.toString().trim().equalsIgnoreCase("") ||
+                    TextUtils.isEmpty(value) || value.toString().equalsIgnoreCase("null")) {
                 return true;
             }
         } catch (Exception e) {

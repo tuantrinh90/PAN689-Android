@@ -11,6 +11,7 @@ import com.bon.interfaces.Optional;
 import com.bon.util.GeneralUtils;
 import com.football.fantasy.R;
 import com.football.models.News;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         holder.tvDay.setText(item.getDay());
         holder.tvMonth.setText(item.getMonth());
         holder.tvContent.setText(item.getContent());
-        holder.itemView.setOnClickListener(v -> Optional.from(newsConsumer).doIfPresent(c -> c.accept(item)));
+        RxView.clicks(holder.itemView).subscribe(v -> Optional.from(newsConsumer).doIfPresent(c -> c.accept(item)));
 
         // update layout
         int marginLayout = GeneralUtils.convertDpMeasureToPixel(context, R.dimen.padding_layout);

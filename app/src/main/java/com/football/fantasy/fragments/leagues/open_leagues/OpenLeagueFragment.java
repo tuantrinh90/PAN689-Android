@@ -1,11 +1,10 @@
-package com.football.fantasy.fragments.open_leagues;
+package com.football.fantasy.fragments.leagues.open_leagues;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 
 import com.football.adapters.LeaguesAdapter;
 import com.football.common.fragments.BaseMvpFragment;
@@ -67,19 +66,14 @@ public class OpenLeagueFragment extends BaseMvpFragment<IOpenLeagueView, IOpenLe
         rvRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         rvRecyclerView.setAdapter(leaguesAdapter);
 
-        // search view
-        svSearchView.setFilterListener(v -> {
+        // click button filter
+        svSearchView.setFilerConsumer(aVoid -> {
 
         });
 
-        // action search
-        svSearchView.getSearchView().setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+        // search view
+        svSearchView.setSearchConsumer(query -> {
 
-                return true;
-            }
-
-            return false;
         });
     }
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/color_white"
@@ -31,14 +32,15 @@
             android:gravity="center"
             android:padding="@dimen/padding_layout"
             android:text="@string/select_value"
-            android:textColor="@color/color_white" />
+            android:textColor="@color/color_white"
+            app:textViewFontAssetName="@string/font_display_bold" />
 
         <com.bon.customview.textview.ExtTextView
             style="@style/StyleContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:background="@drawable/bg_null_gray_selector"
+            android:gravity="center"
             android:padding="@dimen/padding_layout"
             android:text="@string/cancel"
             android:textSize="@dimen/font_size_title"
@@ -61,5 +63,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/color_border"
-        android:dividerHeight="@dimen/size_border"/>
+        android:dividerHeight="@dimen/size_border" />
 </LinearLayout>

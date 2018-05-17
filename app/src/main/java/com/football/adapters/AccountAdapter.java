@@ -2,13 +2,13 @@ package com.football.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.football.common.fragments.BaseMvpFragment;
 
 import java.util.List;
 
-public class AccountAdapter extends FragmentPagerAdapter {
+public class AccountAdapter extends FragmentStatePagerAdapter  {
     private static final String TAG = AccountAdapter.class.getSimpleName();
     private final List<BaseMvpFragment> carousels;
 

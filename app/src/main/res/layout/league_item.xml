@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/padding_layout">
+    android:layout_marginBottom="@dimen/padding_layout">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,7 +42,9 @@
                 <com.bon.customview.textview.ExtTextView
                     android:id="@+id/tvTitle"
                     style="@style/StyleTitleBlue"
+                    android:layout_width="match_parent"
                     android:ellipsize="end"
+                    android:gravity="left"
                     android:maxLines="2"
                     android:padding="0dp"
                     app:textViewFontAssetName="@string/font_display_bold"
@@ -63,6 +65,8 @@
                         android:id="@+id/tvOwner"
                         style="@style/StyleDescriptionGreenButton"
                         android:layout_marginLeft="@dimen/padding_content"
+                        android:ellipsize="end"
+                        android:lines="1"
                         android:padding="0dp"
                         android:text="@string/owner" />
                 </TableRow>
@@ -82,6 +86,8 @@
                         android:id="@+id/tvInvitor"
                         style="@style/StyleDescriptionGreenButton"
                         android:layout_marginLeft="@dimen/padding_content"
+                        android:ellipsize="end"
+                        android:lines="1"
                         android:padding="0dp"
                         android:text="@string/invitor" />
                 </TableRow>
@@ -217,11 +223,11 @@
         android:layout_height="@dimen/home_size_button_height_leagues"
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="@dimen/leagues_margin_join"
+        android:layout_marginRight="@dimen/padding_small"
         android:background="@drawable/bg_home_button_green"
         android:gravity="center"
         android:text="@string/join"
         android:textAllCaps="true"
-        android:layout_marginRight="@dimen/padding_small"
         android:textSize="@dimen/font_size_description"
         android:visibility="visible"
         app:textViewFontAssetName="@string/font_display_bold" />

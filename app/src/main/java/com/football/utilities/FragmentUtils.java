@@ -72,7 +72,7 @@ public class FragmentUtils {
                 fragmentActivity.getSupportFragmentManager()
                         .beginTransaction()
                         .replace(containerViewId, f)
-                        .addToBackStack(null)
+                        //.addToBackStack(null)
                         .commitAllowingStateLoss();
                 if (fragmentConsumer != null) fragmentConsumer.accept(f);
             });

@@ -2,7 +2,6 @@ package com.bon.customview.datetime;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,13 +31,13 @@ public class ExtDayMonthYearDialogFragment extends ExtBaseBottomDialogFragment {
     }
 
     // const
-    private static final int MIN_INDEX_MONTH = 0;
-    private static final int MAX_INDEX_MONTH = 11;
-    private static final int MIN_INDEX_DAY = 1;
-    private static final int MAX_INDEX_DAY_31 = 31;
-    private static final int MAX_INDEX_DAY_30 = 30;
-    private static final int MAX_INDEX_DAY_29 = 29;
-    private static final int MAX_INDEX_DAY_28 = 28;
+     static final int MIN_INDEX_MONTH = 0;
+     static final int MAX_INDEX_MONTH = 11;
+     static final int MIN_INDEX_DAY = 1;
+     static final int MAX_INDEX_DAY_31 = 31;
+     static final int MAX_INDEX_DAY_30 = 30;
+     static final int MAX_INDEX_DAY_29 = 29;
+     static final int MAX_INDEX_DAY_28 = 28;
 
     // view
     ExtTextView tvCancel;
@@ -67,8 +66,8 @@ public class ExtDayMonthYearDialogFragment extends ExtBaseBottomDialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         try {
-            this.setUpViews(view);
-            this.initDatePicker();
+            setUpViews(view);
+            initDatePicker();
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
@@ -77,8 +76,8 @@ public class ExtDayMonthYearDialogFragment extends ExtBaseBottomDialogFragment {
     void setUpViews(View view) {
         try {
             // null point exception value
-            if (this.minDate == null || this.maxDate == null || this.defaultDate == null
-                    || this.valueDate == null || this.calendarConsumer == null || this.conditionFunction == null) {
+            if (minDate == null || maxDate == null || defaultDate == null
+                    || valueDate == null || calendarConsumer == null || conditionFunction == null) {
                 throw new NullPointerException();
             }
 
@@ -102,16 +101,16 @@ public class ExtDayMonthYearDialogFragment extends ExtBaseBottomDialogFragment {
     private void initDatePicker() {
         try {
             // wheel
-            this.numPickerDay.setWrapSelectorWheel(false);
-            this.numPickerMonth.setWrapSelectorWheel(false);
-            this.numPickerYear.setWrapSelectorWheel(false);
+            numPickerDay.setWrapSelectorWheel(false);
+            numPickerMonth.setWrapSelectorWheel(false);
+            numPickerYear.setWrapSelectorWheel(false);
 
             //  max min day
-            this.numPickerDay.setMinValue(MIN_INDEX_DAY);
-            this.numPickerDay.setMaxValue(MAX_INDEX_DAY_31);
+            numPickerDay.setMinValue(MIN_INDEX_DAY);
+            numPickerDay.setMaxValue(MAX_INDEX_DAY_31);
 
             // day value display
-            this.numPickerDay.setDisplayedValues(new String[]{
+            numPickerDay.setDisplayedValues(new String[]{
                     "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
                     "21", "22", "23", "24", "25", "26", "27", "28", "29", "30",
@@ -119,11 +118,11 @@ public class ExtDayMonthYearDialogFragment extends ExtBaseBottomDialogFragment {
             });
 
             // max min month
-            this.numPickerMonth.setMinValue(MIN_INDEX_MONTH);
-            this.numPickerMonth.setMaxValue(MAX_INDEX_MONTH);
+            numPickerMonth.setMinValue(MIN_INDEX_MONTH);
+            numPickerMonth.setMaxValue(MAX_INDEX_MONTH);
 
             // month value display
-            this.numPickerMonth.setDisplayedValues(new String[]{
+            numPickerMonth.setDisplayedValues(new String[]{
                     getString(R.string.month_one),
                     getString(R.string.month_two),
                     getString(R.string.month_three),
@@ -139,41 +138,41 @@ public class ExtDayMonthYearDialogFragment extends ExtBaseBottomDialogFragment {
             });
 
             // max, min year by params
-            this.numPickerYear.setMinValue(this.minDate.get(Calendar.YEAR));
-            this.numPickerYear.setMaxValue(this.maxDate.get(Calendar.YEAR));
+            numPickerYear.setMinValue(minDate.get(Calendar.YEAR));
+            numPickerYear.setMaxValue(maxDate.get(Calendar.YEAR));
 
             // listener year
-            this.numPickerYear.setOnValueChangedListener((picker, oldVal, newVal) -> {
+            numPickerYear.setOnValueChangedListener((picker, oldVal, newVal) -> {
                 try {
-                    this.valueDate.set(Calendar.YEAR, newVal);
-                    this.setDisplayButtonDone(conditionFunction.apply(valueDate));
+                    valueDate.set(Calendar.YEAR, newVal);
+                    setDisplayButtonDone(conditionFunction.apply(valueDate));
                 } catch (Exception e) {
                     Logger.e(TAG, e);
                 }
             });
 
             // month
-            this.numPickerMonth.setOnValueChangedListener((picker, oldVal, newVal) -> {
+            numPickerMonth.setOnValueChangedListener((picker, oldVal, newVal) -> {
                 try {
-                    this.valueDate.set(Calendar.MONTH, newVal);
-                    this.setDisplayButtonDone(conditionFunction.apply(valueDate));
+                    valueDate.set(Calendar.MONTH, newVal);
+                    setDisplayButtonDone(conditionFunction.apply(valueDate));
                 } catch (Exception e) {
                     Logger.e(TAG, e);
                 }
             });
 
             // day
-            this.numPickerDay.setOnValueChangedListener((picker, oldVal, newVal) -> {
+            numPickerDay.setOnValueChangedListener((picker, oldVal, newVal) -> {
                 try {
-                    this.valueDate.set(Calendar.DAY_OF_MONTH, newVal);
-                    this.setDisplayButtonDone(conditionFunction.apply(valueDate));
+                    valueDate.set(Calendar.DAY_OF_MONTH, newVal);
+                    setDisplayButtonDone(conditionFunction.apply(valueDate));
                 } catch (Exception e) {
                     Logger.e(TAG, e);
                 }
             });
 
             // Set default value
-            this.setValue();
+            setValue();
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
@@ -181,10 +180,10 @@ public class ExtDayMonthYearDialogFragment extends ExtBaseBottomDialogFragment {
 
     private void setValue() {
         try {
-            this.numPickerDay.setValue(this.valueDate.get(Calendar.DAY_OF_MONTH));
-            this.numPickerMonth.setValue(this.valueDate.get(Calendar.MONTH));
-            this.numPickerYear.setValue(this.valueDate.get(Calendar.YEAR));
-            this.setDisplayButtonDone(conditionFunction.apply(valueDate));
+            numPickerDay.setValue(valueDate.get(Calendar.DAY_OF_MONTH));
+            numPickerMonth.setValue(valueDate.get(Calendar.MONTH));
+            numPickerYear.setValue(valueDate.get(Calendar.YEAR));
+            setDisplayButtonDone(conditionFunction.apply(valueDate));
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
@@ -193,7 +192,7 @@ public class ExtDayMonthYearDialogFragment extends ExtBaseBottomDialogFragment {
     private void setDisplayButtonDone(boolean isVisible) {
         try {
             // check month
-            switch (this.valueDate.get(Calendar.MONTH)) {
+            switch (valueDate.get(Calendar.MONTH)) {
                 case 0:
                 case 2:
                 case 4:
@@ -205,7 +204,7 @@ public class ExtDayMonthYearDialogFragment extends ExtBaseBottomDialogFragment {
                     break;
                 case 1:
                     // check year
-                    if (DateTimeUtils.isLeapYear(this.valueDate.get(Calendar.YEAR))) {
+                    if (DateTimeUtils.isLeapYear(valueDate.get(Calendar.YEAR))) {
                         dayOfMonth = MAX_INDEX_DAY_29;
                     }else{
                         dayOfMonth = MAX_INDEX_DAY_28;
@@ -221,7 +220,7 @@ public class ExtDayMonthYearDialogFragment extends ExtBaseBottomDialogFragment {
 
             // set max day
             numPickerDay.setMaxValue(dayOfMonth);
-            if (this.valueDate.get(Calendar.DAY_OF_MONTH) > dayOfMonth) {
+            if (valueDate.get(Calendar.DAY_OF_MONTH) > dayOfMonth) {
                 numPickerDay.setValue(dayOfMonth);
             }
 
@@ -233,8 +232,8 @@ public class ExtDayMonthYearDialogFragment extends ExtBaseBottomDialogFragment {
 
     void onSaveClick() {
         try {
-            if (this.calendarConsumer != null) {
-                this.calendarConsumer.accept(valueDate);
+            if (calendarConsumer != null) {
+                calendarConsumer.accept(valueDate);
             }
             dismiss();
         } catch (Exception e) {
@@ -252,7 +251,7 @@ public class ExtDayMonthYearDialogFragment extends ExtBaseBottomDialogFragment {
         return this;
     }
 
-    public ExtDayMonthYearDialogFragment setDefaultDate(Calendar defaultDate) {
+    public ExtDayMonthYearDialogFragment setValueDate(Calendar defaultDate) {
         this.defaultDate = defaultDate;
         this.valueDate = defaultDate == null ? Calendar.getInstance() :
                 DateTimeUtils.getCalendarNoTime(defaultDate.get(Calendar.YEAR), defaultDate.get(Calendar.MONTH), defaultDate.get(Calendar.DAY_OF_MONTH));

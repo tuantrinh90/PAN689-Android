@@ -35,6 +35,8 @@
             style="@style/StyleContentBlue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:lines="1"
+            android:maxLines="1"
             android:padding="0dp"
             app:textViewFontAssetName="@string/font_display_bold"
             tools:text="@string/app_name" />
@@ -98,7 +100,6 @@
                 android:layout_width="@dimen/icon_tiny"
                 android:layout_height="@dimen/icon_tiny"
                 android:layout_marginLeft="@dimen/padding_layout"
-                android:background="@drawable/bg_null_gray_selector"
                 app:srcCompat="@drawable/ic_arrow_upward_green" />
 
             <View
@@ -110,7 +111,6 @@
                 android:id="@+id/ivArrowDown"
                 android:layout_width="@dimen/icon_tiny"
                 android:layout_height="@dimen/icon_tiny"
-                android:background="@drawable/bg_null_gray_selector"
                 app:srcCompat="@drawable/ic_arrow_forward_gray" />
         </LinearLayout>
     </LinearLayout>

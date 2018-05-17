@@ -6,13 +6,15 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.football.adapters.LeagueAdapter;
+import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.my_leagues.MyLeagueFragment;
-import com.football.fantasy.fragments.open_leagues.OpenLeagueFragment;
-import com.football.fantasy.fragments.pending_invitation.PendingInvitationFragment;
+import com.football.fantasy.fragments.leagues.action.ActionLeagueFragment;
+import com.football.fantasy.fragments.leagues.my_leagues.MyLeagueFragment;
+import com.football.fantasy.fragments.leagues.open_leagues.OpenLeagueFragment;
+import com.football.fantasy.fragments.leagues.pending_invitation.PendingInvitationFragment;
 
 import java.util.ArrayList;
 
@@ -86,5 +88,6 @@ public class LeagueFragment extends BaseMvpFragment<ILeagueView, ILeaguePresente
 
     @OnClick(R.id.btnAdd)
     void onClickAdd() {
+        AloneFragmentActivity.with(this).start(ActionLeagueFragment.class);
     }
 }

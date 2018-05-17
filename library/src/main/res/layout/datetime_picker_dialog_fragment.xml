@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/color_white"
     android:gravity="center_horizontal"
     android:orientation="vertical">
@@ -23,6 +24,7 @@
 
         <com.bon.customview.textview.ExtTextView
             style="@style/StyleTitle"
+            app:textViewFontAssetName="@string/font_display_bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5" />

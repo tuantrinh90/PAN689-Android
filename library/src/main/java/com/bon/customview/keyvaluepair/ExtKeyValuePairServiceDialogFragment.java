@@ -35,20 +35,20 @@ public class ExtKeyValuePairServiceDialogFragment<AD extends ExtBaseAdapter<T>, 
     }
 
     // view
-    private RelativeLayout trSearch;
-    private ExtTextView tvCancel;
-    private ExtTextView tvTitle;
-    private ExtEditText edtSearch;
-    private ExtPagingListView<T> lvData;
-    private ImageView ivCancel;
+    RelativeLayout trSearch;
+    ExtTextView tvCancel;
+    ExtTextView tvTitle;
+    ExtEditText edtSearch;
+    ExtPagingListView<T> lvData;
+    ImageView ivCancel;
 
     // variable
-    private AD adapter;
-    private ExtKeyValuePairListener<T> actionListener;
-    private String titleDialog;
-    private boolean isVisibleFilter;
-    private int index = 0;
-    private int indexSelected = 0;
+    AD adapter;
+    ExtKeyValuePairListener<T> actionListener;
+    String titleDialog;
+    boolean isVisibleFilter;
+    int index = 0;
+    int indexSelected = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,19 +61,19 @@ public class ExtKeyValuePairServiceDialogFragment<AD extends ExtBaseAdapter<T>, 
         super.onViewCreated(view, savedInstanceState);
         try {
             // view
-            this.tvTitle = view.findViewById(R.id.tvTitle);
-            this.tvCancel = view.findViewById(R.id.tvCancel);
-            this.tvCancel.setOnClickListener(v -> onClickCancel());
-            this.ivCancel = view.findViewById(R.id.ivCancel);
-            this.trSearch = view.findViewById(R.id.trSearch);
-            this.edtSearch = view.findViewById(R.id.edtSearch);
-            this.lvData = view.findViewById(R.id.lvData);
+            tvTitle = view.findViewById(R.id.tvTitle);
+            tvCancel = view.findViewById(R.id.tvCancel);
+            tvCancel.setOnClickListener(v -> onClickCancel());
+            ivCancel = view.findViewById(R.id.ivCancel);
+            trSearch = view.findViewById(R.id.trSearch);
+            edtSearch = view.findViewById(R.id.edtSearch);
+            lvData = view.findViewById(R.id.lvData);
 
             // setup view
-            this.setUpView();
+            setUpView();
 
             // load default data
-            if (this.actionListener != null) this.actionListener.loadData(this);
+            if (actionListener != null) actionListener.loadData(this);
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
@@ -85,25 +85,25 @@ public class ExtKeyValuePairServiceDialogFragment<AD extends ExtBaseAdapter<T>, 
     private void setUpView() {
         try {
             // don't show keyboard
-            this.getDialog().setOnShowListener(dialog -> KeyboardUtils.hideKeyboard(getActivity(), this.edtSearch));
+            getDialog().setOnShowListener(dialog -> KeyboardUtils.hideKeyboard(getActivity(), edtSearch));
 
             // set title app
-            this.tvTitle.setText(StringUtils.isEmpty(titleDialog) ? getString(R.string.select_value) : titleDialog);
+            tvTitle.setText(StringUtils.isEmpty(titleDialog) ? getString(R.string.select_value) : titleDialog);
 
             // show or hide search view
-            this.trSearch.setVisibility(this.isVisibleFilter ? View.VISIBLE : View.GONE);
-            this.edtSearch.setOnEditorActionListener((v, actionId, event) -> {
+            trSearch.setVisibility(isVisibleFilter ? View.VISIBLE : View.GONE);
+            edtSearch.setOnEditorActionListener((v, actionId, event) -> {
                 try {
                     if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                         // hide keyboard
                         KeyboardUtils.hideKeyboard(getActivity(), edtSearch);
 
                         // clear data
-                        this.lvData.clearItems();
+                        lvData.clearItems();
 
                         // load data
-                        if (this.actionListener != null) {
-                            this.actionListener.loadData(this);
+                        if (actionListener != null) {
+                            actionListener.loadData(this);
                         }
 
                         return true;
@@ -116,7 +116,7 @@ public class ExtKeyValuePairServiceDialogFragment<AD extends ExtBaseAdapter<T>, 
             });
 
             // search
-            this.edtSearch.addTextChangedListener(new TextWatcher() {
+            edtSearch.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -138,20 +138,20 @@ public class ExtKeyValuePairServiceDialogFragment<AD extends ExtBaseAdapter<T>, 
             });
 
             // cancel search
-            this.ivCancel.setOnClickListener(view -> {
+            ivCancel.setOnClickListener(view -> {
                 try {
                     // hide keyboard
                     KeyboardUtils.hideKeyboard(getActivity(), edtSearch);
 
                     // clear search condition
-                    this.edtSearch.setText("");
+                    edtSearch.setText("");
 
                     // clear data
-                    this.lvData.clearItems();
+                    lvData.clearItems();
 
                     // load data
-                    if (this.actionListener != null) {
-                        this.actionListener.loadData(this);
+                    if (actionListener != null) {
+                        actionListener.loadData(this);
                     }
                 } catch (Exception e) {
                     Logger.e(TAG, e);
@@ -159,12 +159,12 @@ public class ExtKeyValuePairServiceDialogFragment<AD extends ExtBaseAdapter<T>, 
             });
 
             // adapter
-            if (this.adapter == null) {
+            if (adapter == null) {
                 throw new NullPointerException("Adapter can not null!!!");
             }
 
             // init data list view
-            this.lvData.init(this.getContext(), this.adapter)
+            lvData.init(getContext(), adapter)
                     .setOnExtClickListener((position, item) -> {
                         try {
                             if (actionListener != null) {
@@ -184,9 +184,9 @@ public class ExtKeyValuePairServiceDialogFragment<AD extends ExtBaseAdapter<T>, 
                     })
                     .setEnabledSwipeRefreshing(true)
                     .setOnExtRefreshListener(() -> {
-                        this.lvData.clearItems();
-                        if (this.actionListener != null) {
-                            this.actionListener.loadData(this);
+                        lvData.clearItems();
+                        if (actionListener != null) {
+                            actionListener.loadData(this);
                         }
                     });
         } catch (Exception e) {
@@ -233,27 +233,27 @@ public class ExtKeyValuePairServiceDialogFragment<AD extends ExtBaseAdapter<T>, 
      */
     public ExtKeyValuePairServiceDialogFragment setSelectedItem(T item) {
         try {
-            if (this.adapter == null || this.adapter.getCount() <= 0 || item == null) {
+            if (adapter == null || adapter.getCount() <= 0 || item == null) {
                 return this;
             }
 
             // set selected
-            this.indexSelected = 0;
-            this.index = 0;
-            StreamSupport.stream(this.adapter.getItems()).forEach(n -> {
+            indexSelected = 0;
+            index = 0;
+            StreamSupport.stream(adapter.getItems()).forEach(n -> {
                 if (item.getKey().equalsIgnoreCase(n.getKey())) {
                     n.setSelected(true);
-                    this.indexSelected = index;
+                    indexSelected = index;
                 } else {
                     n.setSelected(false);
                 }
 
-                this.index++;
+                index++;
             });
 
             // notification
-            this.lvData.notifyDataSetChanged(this.adapter.getItems());
-            this.lvData.setSelection(this.indexSelected);
+            lvData.notifyDataSetChanged(adapter.getItems());
+            lvData.setSelection(indexSelected);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -300,11 +300,11 @@ public class ExtKeyValuePairServiceDialogFragment<AD extends ExtBaseAdapter<T>, 
      * @return
      */
     public ExtPagingListView getPagingListView() {
-        if (this.lvData == null) {
+        if (lvData == null) {
             throw new NullPointerException("PagingListView can not null!!!");
         }
 
-        return this.lvData;
+        return lvData;
     }
 
     /**
@@ -313,11 +313,11 @@ public class ExtKeyValuePairServiceDialogFragment<AD extends ExtBaseAdapter<T>, 
      * @return
      */
     public ExtEditText getEditTextSearch() {
-        if (this.edtSearch == null) {
+        if (edtSearch == null) {
             throw new NullPointerException("EditText can not null!!!");
         }
 
-        return this.edtSearch;
+        return edtSearch;
     }
 
     /**
@@ -325,7 +325,7 @@ public class ExtKeyValuePairServiceDialogFragment<AD extends ExtBaseAdapter<T>, 
      */
     public String getConditionText() {
         try {
-            return this.edtSearch.getText().toString();
+            return edtSearch.getText().toString();
         } catch (Exception e) {
             Logger.e(TAG, e);
         }

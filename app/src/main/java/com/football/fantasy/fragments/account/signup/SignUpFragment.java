@@ -6,9 +6,9 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import com.bon.customview.checkbox.ExtCheckBox;
-import com.bon.customview.edittext.ExtEditText;
 import com.bon.textstyle.TextViewLinkMovementMethod;
 import com.football.common.fragments.BaseMvpFragment;
+import com.football.customizes.edittext_app.EditTextApp;
 import com.football.fantasy.R;
 
 import butterknife.BindView;
@@ -20,15 +20,15 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
     }
 
     @BindView(R.id.etFirstName)
-    ExtEditText etFirstName;
+    EditTextApp etFirstName;
     @BindView(R.id.etLastName)
-    ExtEditText etLastName;
+    EditTextApp etLastName;
     @BindView(R.id.etEmail)
-    ExtEditText etEmail;
+    EditTextApp etEmail;
     @BindView(R.id.etPassword)
-    ExtEditText etPassword;
+    EditTextApp etPassword;
     @BindView(R.id.etConfirmPassword)
-    ExtEditText etConfirmPassword;
+    EditTextApp etConfirmPassword;
     @BindView(R.id.cbAgreed)
     ExtCheckBox cbAgreed;
 
@@ -51,7 +51,6 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
         cbAgreed.setMovementMethod(TextViewLinkMovementMethod.newInstance(mActivity, null));
         TextViewLinkMovementMethod.stripUnderlines(cbAgreed, ContextCompat.getColor(mActivity, R.color.color_blue));
         TextViewLinkMovementMethod.changeColorTextSelector(cbAgreed, ContextCompat.getColor(mActivity, R.color.color_gray_selector));
-
     }
 
     @OnClick(R.id.tvRegister)

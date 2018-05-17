@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true">
+        <layer-list>
+            <item>
+                <shape android:shape="oval">
+                    <corners android:radius="@dimen/radius_view" />
+                    <stroke android:width="@dimen/border_component" android:color="@color/color_border" />
+                    <size android:width="@dimen/check_box_size" android:height="@dimen/check_box_size" />
+                </shape>
+            </item>
+            <item android:drawable="@drawable/ic_tick" />
+        </layer-list>
+    </item>
+    <item>
+        <shape android:shape="oval">
+            <corners android:radius="@dimen/radius_view" />
+            <stroke android:width="@dimen/border_component" android:color="@color/color_border" />
+            <size android:width="@dimen/check_box_size" android:height="@dimen/check_box_size" />
+            <solid android:color="@color/color_white" />
+        </shape>
+    </item>
+</selector>

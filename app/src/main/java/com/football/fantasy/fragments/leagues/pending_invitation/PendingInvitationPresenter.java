@@ -1,4 +1,4 @@
-package com.football.fantasy.fragments.pending_invitation;
+package com.football.fantasy.fragments.leagues.pending_invitation;
 
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;

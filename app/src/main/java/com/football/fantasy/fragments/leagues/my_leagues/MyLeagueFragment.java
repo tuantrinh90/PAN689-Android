@@ -1,4 +1,4 @@
-package com.football.fantasy.fragments.my_leagues;
+package com.football.fantasy.fragments.leagues.my_leagues;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

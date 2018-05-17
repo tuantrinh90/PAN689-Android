@@ -61,7 +61,7 @@ public class ExtKeyValuePairAdapter<T extends ExtKeyValuePair> extends ExtBaseAd
 
         ViewHolder(View view) {
             try {
-                this.tvContent = (ExtTextView) view.findViewById(R.id.tvContent);
+                tvContent = view.findViewById(R.id.tvContent);
             } catch (Exception e) {
                 Logger.e(TAG, e);
             }
@@ -71,8 +71,8 @@ public class ExtKeyValuePairAdapter<T extends ExtKeyValuePair> extends ExtBaseAd
             try {
                 if (keyValuePair == null) return;
 
-                this.tvContent.setText(keyValuePair.getValue());
-                this.tvContent.setGravity(textGravity);
+                tvContent.setText(keyValuePair.getValue());
+                tvContent.setGravity(textGravity);
 
                 if (keyValuePair.isSelected()) {
                     TextUtils.setTextAppearance(context, tvContent, R.style.StyleContentBold);

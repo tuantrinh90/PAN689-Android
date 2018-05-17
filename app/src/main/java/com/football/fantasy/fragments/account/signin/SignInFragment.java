@@ -5,10 +5,10 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
-import com.bon.customview.edittext.ExtEditText;
 import com.bon.util.ActivityUtils;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
+import com.football.customizes.edittext_app.EditTextApp;
 import com.football.fantasy.MainActivity;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.account.forgot.ForgotPasswordFragment;
@@ -27,9 +27,9 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInPresente
     }
 
     @BindView(R.id.etEmail)
-    ExtEditText etEmail;
+    EditTextApp etEmail;
     @BindView(R.id.etPassword)
-    ExtEditText etPassword;
+    EditTextApp etPassword;
 
     @Override
     public ISignInPresenter<ISignInView> createPresenter() {
@@ -45,6 +45,11 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInPresente
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
+        initView();
+    }
+
+    void initView(){
+
     }
 
     @Override
@@ -52,10 +57,16 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInPresente
         showProgress(isLoading);
     }
 
+    @Override
+    public void goToMain() {
+        ActivityUtils.startActivity(MainActivity.class);
+        getActivity().finish();
+    }
+
     @OnClick(R.id.tvSignIn)
     void onClickSignIn() {
         Log.e("Sign", "onClickSignIn");
-        ActivityUtils.startActivity(MainActivity.class);
+        goToMain();
     }
 
     @OnClick(R.id.tvForgotPassword)

@@ -23,7 +23,7 @@ public final class ExtUtils {
 
     static List<Activity> sActivityList = new LinkedList<>();
     @SuppressLint("StaticFieldLeak")
-    static Activity sTopActivity;
+    public static Activity sTopActivity;
 
     private static Application.ActivityLifecycleCallbacks mCallbacks = new Application.ActivityLifecycleCallbacks() {
         @Override

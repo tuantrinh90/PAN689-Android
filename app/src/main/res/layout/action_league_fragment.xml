@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.bon.customview.scrollview.ExtScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:paddingBottom="@dimen/padding_layout"
+    android:paddingLeft="@dimen/padding_layout"
+    android:paddingRight="@dimen/padding_layout">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/padding_layout"
+        android:layout_marginRight="@dimen/padding_layout"
+        android:orientation="vertical">
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleTitle"
+            android:text="@string/create_new_league"
+            android:textAllCaps="true"
+            app:textViewFontAssetName="@string/font_regular_display_black_italic" />
+
+        <com.football.customizes.labels.LabelView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_layout"
+            app:labelViewLabel="@string/league_name_logo"
+            app:labelViewRequired="true" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/padding_layout"
+            android:paddingRight="@dimen/padding_layout">
+
+            <com.football.customizes.edittext_app.EditTextApp
+                android:id="@+id/etLeagueName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:editTextAppHint="@string/enter_league_name" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvImagePick"
+                android:layout_width="@dimen/avatar_normal"
+                android:layout_height="@dimen/avatar_normal"
+                android:layout_marginLeft="@dimen/padding_layout"
+                android:background="@drawable/bg_image_pick" />
+        </TableRow>
+
+        <com.football.customizes.labels.LabelView
+            android:id="@+id/lvLeagueType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_layout"
+            app:labelViewInfo="true"
+            app:labelViewLabel="@string/league_type"
+            app:labelViewRequired="false" />
+
+        <RadioGroup
+            android:id="@+id/rgLeagueType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/padding_layout">
+
+            <com.bon.customview.radiobutton.ExtRadioButton
+                android:id="@+id/rbOpenLeague"
+                style="@style/StyleContentContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/bg_radio"
+                android:checked="true"
+                android:text="@string/open_league"
+                app:radioButtonFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.radiobutton.ExtRadioButton
+                android:id="@+id/rbPrivateLeague"
+                style="@style/StyleContentContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/bg_radio"
+                android:checked="false"
+                android:text="@string/private_league"
+                app:radioButtonFontAssetName="@string/font_display_bold" />
+        </RadioGroup>
+
+        <com.football.customizes.labels.LabelView
+            android:id="@+id/lvGamePlayOption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_layout"
+            app:labelViewInfo="true"
+            app:labelViewLabel="@string/game_play_options"
+            app:labelViewRequired="false" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_layout">
+
+            <LinearLayout
+                android:id="@+id/llTransfer"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_game_option"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_layout">
+
+                <android.support.v7.widget.AppCompatImageView
+                    style="@style/IconLarge"
+                    app:srcCompat="@drawable/bg_transfer" />
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_content"
+                    android:padding="0dp"
+                    android:text="@string/transfer"
+                    android:textColor="@color/color_white_blue"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llDraft"
+                android:layout_width="0dp"
+                android:layout_marginLeft="@dimen/padding_layout"
+                android:layout_weight="1"
+                android:background="@drawable/bg_game_option"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_layout">
+
+                <android.support.v7.widget.AppCompatImageView
+                    style="@style/IconLarge"
+                    app:srcCompat="@drawable/bg_draft" />
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_content"
+                    android:padding="0dp"
+                    android:text="@string/draft"
+                    android:textColor="@color/color_white_blue"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+            </LinearLayout>
+        </TableRow>
+
+        <com.football.customizes.labels.LabelView
+            android:id="@+id/lvNumberOfUsers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_layout"
+            app:labelViewInfo="true"
+            app:labelViewLabel="@string/number_of_users"
+            app:labelViewRequired="false" />
+
+        <com.football.customizes.edittext_app.EditTextApp
+            android:id="@+id/etNumberOfUser"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_layout"
+            app:editTextAppEnable="false"
+            app:editTextAppIcon="@drawable/ic_arrow_drop_down_black" />
+
+        <com.football.customizes.labels.LabelView
+            android:id="@+id/lvTradeReviewSetting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:padding="@dimen/padding_layout"
+            app:labelViewInfo="true"
+            app:labelViewLabel="@string/trade_review_setting"
+            app:labelViewRequired="false" />
+
+        <RadioGroup
+            android:id="@+id/rgTradeReviewSetting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/padding_layout">
+
+            <com.bon.customview.radiobutton.ExtRadioButton
+                android:id="@+id/rbNoTradeReview"
+                style="@style/StyleContentContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/bg_radio"
+                android:checked="true"
+                android:text="@string/no_trade_review"
+                app:radioButtonFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.radiobutton.ExtRadioButton
+                android:id="@+id/rbTradeReviewCreator"
+                style="@style/StyleContentContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/bg_radio"
+                android:checked="false"
+                android:text="@string/trade_review_by_league_creator"
+                app:radioButtonFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.radiobutton.ExtRadioButton
+                android:id="@+id/rbTradeReviewUsers"
+                style="@style/StyleContentContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/bg_radio"
+                android:checked="false"
+                android:text="@string/trade_review_by_league_members"
+                app:radioButtonFontAssetName="@string/font_display_bold" />
+        </RadioGroup>
+
+        <com.football.customizes.labels.LabelView
+            android:id="@+id/lvScoringSystem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:padding="@dimen/padding_layout"
+            app:labelViewInfo="true"
+            app:labelViewLabel="@string/scoring_system"
+            app:labelViewRequired="false" />
+
+        <RadioGroup
+            android:id="@+id/rgScoringSystem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/padding_layout">
+
+            <com.bon.customview.radiobutton.ExtRadioButton
+                android:id="@+id/rbRegular"
+                style="@style/StyleContentContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/bg_radio"
+                android:checked="true"
+                android:text="@string/regular_football_point"
+                app:radioButtonFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.radiobutton.ExtRadioButton
+                android:id="@+id/rbPointPerStats"
+                style="@style/StyleContentContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/bg_radio"
+                android:checked="false"
+                android:text="@string/point_per_stats"
+                app:radioButtonFontAssetName="@string/font_display_bold" />
+        </RadioGroup>
+
+        <com.football.customizes.labels.LabelView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:padding="@dimen/padding_layout"
+            app:labelViewInfo="false"
+            app:labelViewLabel="@string/draft_time"
+            app:labelViewRequired="true" />
+
+        <com.football.customizes.edittext_app.EditTextApp
+            android:id="@+id/etDraftTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout"
+            app:editTextAppEnable="false"
+            app:editTextAppIcon="@drawable/ic_date_range" />
+
+        <com.football.customizes.labels.LabelView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:padding="@dimen/padding_layout"
+            app:labelViewInfo="true"
+            app:labelViewLabel="@string/time_per_draft_pick"
+            app:labelViewRequired="false" />
+
+        <com.football.customizes.edittext_app.EditTextApp
+            android:id="@+id/etTimePerDraftPick"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout"
+            app:editTextAppEnable="false"
+            app:editTextAppIcon="@drawable/ic_arrow_drop_down_black" />
+
+        <com.football.customizes.labels.LabelView
+            android:id="@+id/lvStartTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:padding="@dimen/padding_layout"
+            app:labelViewInfo="false"
+            app:labelViewLabel="@string/start_time"
+            app:labelViewRequired="true" />
+
+        <com.football.customizes.edittext_app.EditTextApp
+            android:id="@+id/etStartTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout"
+            app:editTextAppEnable="false"
+            app:editTextAppIcon="@drawable/ic_arrow_drop_down_black" />
+
+        <com.football.customizes.labels.LabelView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:padding="@dimen/padding_layout"
+            app:labelViewInfo="false"
+            app:labelViewLabel="@string/description"
+            app:labelViewRequired="false" />
+
+        <com.football.customizes.edittext_app.EditTextApp
+            android:id="@+id/etDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_layout"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout"
+            android:lines="5"
+            app:editTextAppHint="@string/tell_us_more_about_your_league" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvCreateLeague"
+            style="@style/StyleButton"
+            android:layout_margin="@dimen/padding_layout"
+            android:text="@string/create_league"
+            android:textAllCaps="true"
+            app:textViewFontAssetName="@string/font_regular_display_black" />
+    </LinearLayout>
+</com.bon.customview.scrollview.ExtScrollView>

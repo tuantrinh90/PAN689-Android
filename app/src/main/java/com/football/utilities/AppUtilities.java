@@ -11,4 +11,10 @@ public class AppUtilities {
         calendar.add(Calendar.YEAR, -120);
         return calendar;
     }
+
+    public static Calendar getMaxCalendar() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.YEAR, 120);
+        return calendar;
+    }
 }

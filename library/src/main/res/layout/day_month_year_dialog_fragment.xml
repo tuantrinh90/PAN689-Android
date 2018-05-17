@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/color_white"
@@ -15,9 +16,9 @@
         <com.bon.customview.textview.ExtTextView
             android:id="@+id/tvCancel"
             style="@style/StyleTitle"
-            android:background="@drawable/bg_null_gray_selector"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_null_gray_selector"
             android:padding="@dimen/padding_layout"
             android:text="@string/cancel"
             android:textSize="@dimen/font_size_title" />
@@ -26,16 +27,17 @@
             style="@style/StyleTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1.5" />
+            android:layout_weight="1.5"
+            app:textViewFontAssetName="@string/font_display_bold" />
 
         <com.bon.customview.textview.ExtTextView
             android:id="@+id/tvSave"
             style="@style/StyleTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_null_gray_selector"
             android:padding="@dimen/padding_layout"
             android:text="@string/done"
-            android:background="@drawable/bg_null_gray_selector"
             android:textColor="@color/color_white"
             android:textSize="@dimen/font_size_title" />
     </TableRow>

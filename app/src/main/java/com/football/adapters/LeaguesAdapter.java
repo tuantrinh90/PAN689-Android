@@ -15,6 +15,7 @@ import com.bon.image.ImageLoaderUtils;
 import com.bon.interfaces.Optional;
 import com.football.fantasy.R;
 import com.football.models.League;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;
 
@@ -74,10 +75,10 @@ public class LeaguesAdapter extends RecyclerView.Adapter<LeaguesAdapter.ViewHold
         holder.tvJoin.setVisibility(league.getStatus() == League.OPEN_LEAGUES ? View.VISIBLE : View.GONE);
 
         // event
-        holder.itemView.setOnClickListener(v -> Optional.from(detailConsumer).doIfPresent(c -> c.accept(league)));
-        holder.tvJoin.setOnClickListener(v -> Optional.from(joinConsumer).doIfPresent(c -> c.accept(league)));
-        holder.tvCheck.setOnClickListener(v -> Optional.from(approveConsumer).doIfPresent(c -> c.accept(league)));
-        holder.tvClose.setOnClickListener(v -> Optional.from(rejectConsumer).doIfPresent(c -> c.accept(league)));
+        RxView.clicks(holder.itemView).subscribe(v -> Optional.from(detailConsumer).doIfPresent(c -> c.accept(league)));
+        RxView.clicks(holder.tvJoin).subscribe(v -> Optional.from(joinConsumer).doIfPresent(c -> c.accept(league)));
+        RxView.clicks(holder.tvCheck).subscribe(v -> Optional.from(approveConsumer).doIfPresent(c -> c.accept(league)));
+        RxView.clicks(holder.tvClose).subscribe(v -> Optional.from(rejectConsumer).doIfPresent(c -> c.accept(league)));
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.football.fantasy.fragments.my_leagues;
+package com.football.fantasy.fragments.leagues.my_leagues;
 
 import com.hannesdorfmann.mosby3.mvp.MvpPresenter;
 import com.hannesdorfmann.mosby3.mvp.MvpView;

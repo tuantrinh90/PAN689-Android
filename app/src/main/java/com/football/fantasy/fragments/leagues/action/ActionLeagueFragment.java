@@ -1,0 +1,203 @@
+package com.football.fantasy.fragments.leagues.action;
+
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
+
+import com.bon.customview.datetime.ExtDayMonthYearHourMinuteDialogFragment;
+import com.bon.customview.keyvaluepair.ExtKeyValuePair;
+import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
+import com.bon.customview.textview.ExtTextView;
+import com.bon.util.DateTimeUtils;
+import com.football.common.fragments.BaseMvpFragment;
+import com.football.customizes.edittext_app.EditTextApp;
+import com.football.customizes.labels.LabelView;
+import com.football.fantasy.R;
+import com.football.utilities.AppUtilities;
+import com.football.utilities.Constant;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+
+public class ActionLeagueFragment extends BaseMvpFragment<IActionLeagueView, IActionLeaguePresenter<IActionLeagueView>> implements IActionLeagueView {
+    public static ActionLeagueFragment newInstance() {
+        return new ActionLeagueFragment();
+    }
+
+    @BindView(R.id.etLeagueName)
+    EditTextApp etLeagueName;
+    @BindView(R.id.tvImagePick)
+    ExtTextView tvImagePick;
+    @BindView(R.id.lvLeagueType)
+    LabelView lvLeagueType;
+    @BindView(R.id.rgLeagueType)
+    RadioGroup rgLeagueType;
+    @BindView(R.id.lvGamePlayOption)
+    LabelView lvGamePlayOption;
+    @BindView(R.id.llTransfer)
+    LinearLayout llTransfer;
+    @BindView(R.id.llDraft)
+    LinearLayout llDraft;
+    @BindView(R.id.lvNumberOfUsers)
+    LabelView lvNumberOfUsers;
+    @BindView(R.id.etNumberOfUser)
+    EditTextApp etNumberOfUser;
+    @BindView(R.id.lvTradeReviewSetting)
+    LabelView lvTradeReviewSetting;
+    @BindView(R.id.rgTradeReviewSetting)
+    RadioGroup rgTradeReviewSetting;
+    @BindView(R.id.lvScoringSystem)
+    LabelView lvScoringSystem;
+    @BindView(R.id.rgScoringSystem)
+    RadioGroup rgScoringSystem;
+    @BindView(R.id.etDraftTime)
+    EditTextApp etDraftTime;
+    @BindView(R.id.etTimePerDraftPick)
+    EditTextApp etTimePerDraftPick;
+    @BindView(R.id.lvStartTime)
+    LabelView lvStartTime;
+    @BindView(R.id.etStartTime)
+    EditTextApp etStartTime;
+    @BindView(R.id.etDescription)
+    EditTextApp etDescription;
+    @BindView(R.id.tvCreateLeague)
+    ExtTextView tvCreateLeague;
+
+    Calendar calendarDraftTime = Calendar.getInstance();
+    Calendar calendarStartTime = Calendar.getInstance();
+    ExtKeyValuePair keyValuePairNumberOfUser = new ExtKeyValuePair("06", "06");
+
+    @Override
+    public int getResourceId() {
+        return R.layout.action_league_fragment;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        bindButterKnife(view);
+        initView();
+    }
+
+    void initView() {
+        onClickTransfer();
+        formatDateTime();
+        setData();
+    }
+
+    @Override
+    public IActionLeaguePresenter<IActionLeagueView> createPresenter() {
+        return new ActionLeaguePresenter(getAppComponent());
+    }
+
+    @Override
+    public int getTitleId() {
+        return R.string.leagues;
+    }
+
+    @Override
+    public void initToolbar(@NonNull ActionBar supportActionBar) {
+        super.initToolbar(supportActionBar);
+        supportActionBar.setDisplayHomeAsUpEnabled(true);
+        supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_blue);
+    }
+
+    void setData() {
+        etNumberOfUser.setContent(keyValuePairNumberOfUser.getValue());
+    }
+
+    void formatDateTime() {
+        etDraftTime.setContent(DateTimeUtils.convertCalendarToString(calendarDraftTime, Constant.FORMAT_DATE_TIME));
+        etStartTime.setContent(DateTimeUtils.convertCalendarToString(calendarStartTime, Constant.FORMAT_DATE_TIME));
+    }
+
+    @OnClick(R.id.tvImagePick)
+    void onClickImagePick() {
+    }
+
+    @OnClick(R.id.lvGamePlayOption)
+    void onClickGamePlayOption() {
+    }
+
+    @OnClick(R.id.llTransfer)
+    void onClickTransfer() {
+        llTransfer.setActivated(true);
+        llDraft.setActivated(false);
+    }
+
+    @OnClick(R.id.llDraft)
+    void onClickDraft() {
+        llTransfer.setActivated(false);
+        llDraft.setActivated(true);
+    }
+
+    @OnClick(R.id.lvNumberOfUsers)
+    void onClickNumberOfUsers() {
+    }
+
+    @OnClick(R.id.etNumberOfUser)
+    void onClickNumberOfUser() {
+        ExtKeyValuePairDialogFragment.newInstance()
+                .setExtKeyValuePairs(new ArrayList<ExtKeyValuePair>() {{
+                    add(new ExtKeyValuePair("04", "04"));
+                    add(new ExtKeyValuePair("06", "06"));
+                    add(new ExtKeyValuePair("08", "08"));
+                    add(new ExtKeyValuePair("10", "10"));
+                }})
+                .setValue(keyValuePairNumberOfUser.getKey())
+                .setOnSelectedConsumer(extKeyValuePair -> {
+                    keyValuePairNumberOfUser = extKeyValuePair;
+                    setData();
+                })
+                .show(getFragmentManager(), null);
+    }
+
+    @OnClick(R.id.lvTradeReviewSetting)
+    void onClickTradeReviewSetting() {
+    }
+
+    @OnClick(R.id.lvScoringSystem)
+    void onClickScoringSystem() {
+    }
+
+    @OnClick(R.id.etDraftTime)
+    void onClickDraftTime() {
+        ExtDayMonthYearHourMinuteDialogFragment.newInstance()
+                .setMinDate(AppUtilities.getMinCalendar())
+                .setMaxDate(AppUtilities.getMaxCalendar())
+                .setValueDate(calendarDraftTime)
+                .setConditionFunction(calendar -> calendar.getTimeInMillis() >= Calendar.getInstance().getTimeInMillis())
+                .setCalendarConsumer(calendar -> {
+                    calendarDraftTime = calendar;
+                    formatDateTime();
+                }).show(getFragmentManager(), null);
+    }
+
+    @OnClick(R.id.etTimePerDraftPick)
+    void onClickTimePerDraftPick() {
+    }
+
+    @OnClick(R.id.etStartTime)
+    void onClickStartTime() {
+        ExtDayMonthYearHourMinuteDialogFragment.newInstance()
+                .setMinDate(AppUtilities.getMinCalendar())
+                .setMaxDate(AppUtilities.getMaxCalendar())
+                .setValueDate(calendarStartTime)
+                .setConditionFunction(calendar -> calendar.getTimeInMillis() >= Calendar.getInstance().getTimeInMillis())
+                .setCalendarConsumer(calendar -> {
+                    calendarStartTime = calendar;
+                    formatDateTime();
+                }).show(getFragmentManager(), null);
+    }
+
+    @OnClick(R.id.tvCreateLeague)
+    void onClickCreateLeague() {
+    }
+}
