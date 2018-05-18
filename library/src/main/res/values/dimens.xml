@@ -11,4 +11,8 @@
     <dimen name="radius">3dp</dimen>
     <dimen name="size_border">1dp</dimen>
     <dimen name="size_border_bold">2dp</dimen>
+
+    <!--Shadow layout-->
+    <dimen name="shadow_layout_default_corner_radius">4dp</dimen>
+    <dimen name="shadow_layout_default_shadow_radius">4dp</dimen>
 </resources>

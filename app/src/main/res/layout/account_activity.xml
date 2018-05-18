@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_header"
         android:orientation="vertical"
-        android:padding="@dimen/account_padding_header">
+        android:padding="@dimen/padding_status_bar">
 
         <com.bon.customview.textview.ExtTextView
             style="@style/StyleHeaderWhite"

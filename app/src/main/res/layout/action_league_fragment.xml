@@ -5,15 +5,16 @@
     android:layout_height="match_parent"
     android:background="@color/color_white"
     android:paddingBottom="@dimen/padding_layout"
-    android:paddingLeft="@dimen/padding_layout"
-    android:paddingRight="@dimen/padding_layout">
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/padding_layout"
         android:layout_marginRight="@dimen/padding_layout"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/padding_layout"
+        android:paddingRight="@dimen/padding_layout">
 
         <com.bon.customview.textview.ExtTextView
             style="@style/StyleTitle"
@@ -167,6 +168,114 @@
             android:layout_marginLeft="@dimen/padding_layout"
             app:editTextAppEnable="false"
             app:editTextAppIcon="@drawable/ic_arrow_drop_down_black" />
+
+        <com.football.customizes.labels.LabelView
+            android:id="@+id/lvBudgetOption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:padding="@dimen/padding_layout"
+            app:labelViewInfo="true"
+            app:labelViewLabel="@string/budget_option"
+            app:labelViewRequired="false" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_layout">
+
+            <LinearLayout
+                android:id="@+id/llBudgetOptionBottom"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_game_option"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_layout">
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="@string/bottom"
+                    android:textColor="@color/color_white_blue"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvBudgetOptionBottom"
+                    style="@style/StyleDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_content"
+                    android:padding="0dp"
+                    android:text="$10 mil"
+                    android:textColor="@color/color_white_gray"
+                    app:textViewFontAssetName="@string/font_display_regular" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llBudgetOptionChallenge"
+                android:layout_width="0dp"
+                android:layout_marginLeft="@dimen/padding_small"
+                android:layout_weight="1"
+                android:background="@drawable/bg_game_option"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_layout">
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="@string/challenge"
+                    android:textColor="@color/color_white_blue"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvBudgetOptionChallenge"
+                    style="@style/StyleDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_content"
+                    android:padding="0dp"
+                    android:text="$10 mil"
+                    android:textColor="@color/color_white_gray"
+                    app:textViewFontAssetName="@string/font_display_regular" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llBudgetOptionDream"
+                android:layout_width="0dp"
+                android:layout_marginLeft="@dimen/padding_small"
+                android:layout_weight="1"
+                android:background="@drawable/bg_game_option"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_layout">
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="@string/dream"
+                    android:textColor="@color/color_white_blue"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvBudgetOptionDream"
+                    style="@style/StyleDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_content"
+                    android:padding="0dp"
+                    android:text="$10 mil"
+                    android:textColor="@color/color_white_gray"
+                    app:textViewFontAssetName="@string/font_display_regular" />
+            </LinearLayout>
+        </TableRow>
 
         <com.football.customizes.labels.LabelView
             android:id="@+id/lvTradeReviewSetting"
@@ -328,12 +437,20 @@
             android:lines="5"
             app:editTextAppHint="@string/tell_us_more_about_your_league" />
 
-        <com.bon.customview.textview.ExtTextView
-            android:id="@+id/tvCreateLeague"
-            style="@style/StyleButton"
+        <com.bon.customview.shadowlayout.ShadowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="@dimen/padding_layout"
-            android:text="@string/create_league"
-            android:textAllCaps="true"
-            app:textViewFontAssetName="@string/font_regular_display_black" />
+            app:shadowLayoutCornerRadius="@dimen/component_radius"
+            app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+            app:shadowLayoutShadowColor="@color/color_shadow">
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvCreateLeague"
+                style="@style/StyleButton"
+                android:text="@string/create_league"
+                android:textAllCaps="true"
+                app:textViewFontAssetName="@string/font_regular_display_black" />
+        </com.bon.customview.shadowlayout.ShadowLayout>
     </LinearLayout>
 </com.bon.customview.scrollview.ExtScrollView>

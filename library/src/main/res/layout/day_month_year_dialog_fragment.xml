@@ -57,11 +57,11 @@
             <com.bon.customview.textview.ExtTextView
                 style="@style/StyleContent"
                 android:gravity="center"
-                android:text="@string/day"
+                android:text="@string/month"
                 android:visibility="gone" />
 
             <com.bon.customview.numberpicker.ExtNumberPicker
-                android:id="@+id/numPickerDay"
+                android:id="@+id/numPickerMonth"
                 style="@style/StyleContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -78,11 +78,11 @@
             <com.bon.customview.textview.ExtTextView
                 style="@style/StyleContent"
                 android:gravity="center"
-                android:text="@string/month"
+                android:text="@string/day"
                 android:visibility="gone" />
 
             <com.bon.customview.numberpicker.ExtNumberPicker
-                android:id="@+id/numPickerMonth"
+                android:id="@+id/numPickerDay"
                 style="@style/StyleContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

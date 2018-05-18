@@ -49,6 +49,22 @@ public class ActionLeagueFragment extends BaseMvpFragment<IActionLeagueView, IAc
     LabelView lvNumberOfUsers;
     @BindView(R.id.etNumberOfUser)
     EditTextApp etNumberOfUser;
+
+    @BindView(R.id.lvBudgetOption)
+    LabelView lvBudgetOption;
+    @BindView(R.id.llBudgetOptionBottom)
+    LinearLayout llBudgetOptionBottom;
+    @BindView(R.id.tvBudgetOptionBottom)
+    ExtTextView tvBudgetOptionBottom;
+    @BindView(R.id.llBudgetOptionChallenge)
+    LinearLayout llBudgetOptionChallenge;
+    @BindView(R.id.tvBudgetOptionChallenge)
+    ExtTextView tvBudgetOptionChallenge;
+    @BindView(R.id.llBudgetOptionDream)
+    LinearLayout llBudgetOptionDream;
+    @BindView(R.id.tvBudgetOptionDream)
+    ExtTextView tvBudgetOptionDream;
+
     @BindView(R.id.lvTradeReviewSetting)
     LabelView lvTradeReviewSetting;
     @BindView(R.id.rgTradeReviewSetting)
@@ -88,6 +104,7 @@ public class ActionLeagueFragment extends BaseMvpFragment<IActionLeagueView, IAc
 
     void initView() {
         onClickTransfer();
+        onClickBudgetOptionBottom();
         formatDateTime();
         setData();
     }
@@ -157,6 +174,32 @@ public class ActionLeagueFragment extends BaseMvpFragment<IActionLeagueView, IAc
                     setData();
                 })
                 .show(getFragmentManager(), null);
+    }
+
+    @OnClick(R.id.lvBudgetOption)
+    void onClickBudgetOption() {
+
+    }
+
+    @OnClick(R.id.llBudgetOptionBottom)
+    void onClickBudgetOptionBottom() {
+        llBudgetOptionBottom.setActivated(true);
+        llBudgetOptionChallenge.setActivated(false);
+        llBudgetOptionDream.setActivated(false);
+    }
+
+    @OnClick(R.id.llBudgetOptionChallenge)
+    void onClickBudgetOptionChallenge() {
+        llBudgetOptionBottom.setActivated(false);
+        llBudgetOptionChallenge.setActivated(true);
+        llBudgetOptionDream.setActivated(false);
+    }
+
+    @OnClick(R.id.llBudgetOptionDream)
+    void onClickBudgetOptionDream() {
+        llBudgetOptionBottom.setActivated(false);
+        llBudgetOptionChallenge.setActivated(false);
+        llBudgetOptionDream.setActivated(true);
     }
 
     @OnClick(R.id.lvTradeReviewSetting)

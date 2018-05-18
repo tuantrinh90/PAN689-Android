@@ -33,12 +33,21 @@
             android:inputType="textPassword"
             app:editTextAppHint="@string/password" />
 
-        <com.bon.customview.textview.ExtTextView
-            android:id="@+id/tvSignIn"
-            style="@style/StyleButton"
+        <com.bon.customview.shadowlayout.ShadowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_layout"
-            android:text="@string/sign_in"
-            app:textViewFontAssetName="@string/font_regular_display_black" />
+            app:shadowLayoutCornerRadius="@dimen/component_radius"
+            app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+            app:shadowLayoutShadowColor="@color/color_shadow">
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvSignIn"
+                style="@style/StyleButton"
+                android:text="@string/sign_in"
+                app:textViewFontAssetName="@string/font_regular_display_black" />
+        </com.bon.customview.shadowlayout.ShadowLayout>
+
 
         <com.bon.customview.textview.ExtTextView
             android:id="@+id/tvForgotPassword"

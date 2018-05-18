@@ -82,12 +82,20 @@
             android:button="@drawable/bg_check_box"
             android:text="@string/register_condition" />
 
-        <com.bon.customview.textview.ExtTextView
-            android:id="@+id/tvRegister"
-            style="@style/StyleButton"
+        <com.bon.customview.shadowlayout.ShadowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/padding_layout"
             android:layout_marginTop="@dimen/padding_layout"
-            android:text="@string/register"
-            app:textViewFontAssetName="@string/font_regular_display_black" />
+            app:shadowLayoutCornerRadius="@dimen/component_radius"
+            app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+            app:shadowLayoutShadowColor="@color/color_shadow">
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvRegister"
+                style="@style/StyleButton"
+                android:text="@string/register"
+                app:textViewFontAssetName="@string/font_regular_display_black" />
+        </com.bon.customview.shadowlayout.ShadowLayout>
     </LinearLayout>
 </com.bon.customview.scrollview.ExtScrollView>

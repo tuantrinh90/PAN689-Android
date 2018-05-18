@@ -11,8 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TableRow;
 
 import com.bon.customview.textview.ExtTextView;
-import com.bon.image.ImageLoaderUtils;
 import com.bon.interfaces.Optional;
+import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
 import com.football.models.League;
 import com.jakewharton.rxbinding2.view.RxView;
@@ -21,7 +21,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 import java8.util.function.Consumer;
 
 public class LeaguesAdapter extends RecyclerView.Adapter<LeaguesAdapter.ViewHolder> {
@@ -54,7 +53,7 @@ public class LeaguesAdapter extends RecyclerView.Adapter<LeaguesAdapter.ViewHold
         if (getItemCount() <= 0) return;
 
         League league = leagues.get(position);
-        ImageLoaderUtils.displayImage(league.getAvatar(), holder.ivAvatar, ImageLoaderUtils.getDisplayImageOption(R.drawable.bg_avatar_default));
+        holder.ivAvatar.setImageUri(league.getAvatar());
         holder.tvTitle.setText(league.getTitle());
         holder.tvOwner.setText(league.getOwner());
         holder.tvInvitor.setText(league.getInvitor());
@@ -88,7 +87,7 @@ public class LeaguesAdapter extends RecyclerView.Adapter<LeaguesAdapter.ViewHold
 
     class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.ivAvatar)
-        CircleImageView ivAvatar;
+        CircleImageViewApp ivAvatar;
         @BindView(R.id.tvTitle)
         ExtTextView tvTitle;
         @BindView(R.id.tvOwner)

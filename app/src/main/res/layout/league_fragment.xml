@@ -10,9 +10,9 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingTop="@dimen/padding_layout"
         android:paddingLeft="@dimen/padding_layout"
-        android:paddingRight="@dimen/padding_layout">
+        android:paddingRight="@dimen/padding_layout"
+        android:paddingTop="@dimen/padding_layout">
 
         <com.bon.customview.textview.ExtTextView
             style="@style/StyleHeaderWhite"
@@ -22,10 +22,21 @@
             android:text="@string/leagues"
             app:textViewFontAssetName="@string/font_regular_display_heavy_italic" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btnAdd"
-            style="@style/FloatingActionButton"
-            android:src="@drawable/bg_button_float_action" />
+        <com.bon.customview.shadowlayout.ShadowLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:shadowLayoutCornerRadius="@dimen/component_radius"
+            app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+            app:shadowLayoutShadowColor="@color/color_shadow">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btnAdd"
+                style="@style/FloatingActionButton"
+                android:layout_marginTop="@dimen/shadow_layout_dxy_normal"
+                android:src="@drawable/bg_button_float_action" />
+        </com.bon.customview.shadowlayout.ShadowLayout>
+
+
     </LinearLayout>
 
     <com.football.customizes.carousels.CarouselView

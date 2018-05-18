@@ -6,11 +6,13 @@
     <dimen name="padding_small">4dp</dimen>
 
     <!--avatar-->
-    <dimen name="avatar_large">120dp</dimen>
+    <dimen name="avatar_xxlarge">140dp</dimen>
+    <dimen name="avatar_xlarge">120dp</dimen>
+    <dimen name="avatar_large">100dp</dimen>
     <dimen name="avatar_normal">80dp</dimen>
     <dimen name="avatar_small">60dp</dimen>
     <dimen name="avatar_border">3dp</dimen>
-    <dimen name="avatar_padding">6dp</dimen>
+    <dimen name="avatar_padding">5dp</dimen>
 
     <!--icon-->
     <dimen name="icon_tiny">15dp</dimen>
@@ -41,11 +43,17 @@
     <!--checkbox-->
     <dimen name="check_box_size">24dp</dimen>
 
-    <!--account screen-->
-    <dimen name="account_padding_header">25dp</dimen>
+    <!--status bar-->
+    <dimen name="padding_status_bar">25dp</dimen>
 
     <!--footer-->
     <dimen name="footer_padding">6dp</dimen>
+
+    <!--shadow-->
+    <dimen name="shadow_layout_dxy_large">3dp</dimen>
+    <dimen name="shadow_layout_dxy_normal">2dp</dimen>
+    <dimen name="shadow_layout_dxy_small">1dp</dimen>
+    <dimen name="shadow_layout_dxy_none">0dp</dimen>
 
     <!--home-->
     <dimen name="home_size_button_width_leagues">100dp</dimen>

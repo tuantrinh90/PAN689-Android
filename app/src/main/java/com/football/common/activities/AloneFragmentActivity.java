@@ -50,7 +50,7 @@ public class AloneFragmentActivity extends BaseAppCompatActivity {
             getFragmentForOpen(bundle, fr -> replaceFragment(fr, false));
         });
 
-        // dont show keyboard
+        // don't show keyboard
         KeyboardUtils.dontShowKeyboardActivity(this);
     }
 

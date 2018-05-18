@@ -6,166 +6,170 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/padding_layout">
 
-    <LinearLayout
+    <com.bon.customview.shadowlayout.ShadowLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/leagues_margin"
         android:layout_marginRight="@dimen/leagues_margin"
-        android:background="@drawable/bg_white_gray_radius_selector"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="@dimen/padding_layout">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/ivAvatar"
-                android:layout_width="@dimen/avatar_normal"
-                android:layout_height="@dimen/avatar_normal"
-                android:background="@drawable/bg_avatar_default"
-                app:civ_border_color="@color/color_border_avatar"
-                app:civ_border_width="@dimen/avatar_border" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_layout"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
-
-                <com.bon.customview.textview.ExtTextView
-                    android:id="@+id/tvTitle"
-                    style="@style/StyleTitleBlue"
-                    android:layout_width="match_parent"
-                    android:ellipsize="end"
-                    android:gravity="left"
-                    android:maxLines="2"
-                    android:padding="0dp"
-                    app:textViewFontAssetName="@string/font_display_bold"
-                    tools:text="@string/app_name" />
-
-                <TableRow
-                    android:id="@+id/trOwner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical">
-
-                    <com.bon.customview.textview.ExtTextView
-                        style="@style/StyleDescriptionGray"
-                        android:padding="0dp"
-                        android:text="@string/owner" />
-
-                    <com.bon.customview.textview.ExtTextView
-                        android:id="@+id/tvOwner"
-                        style="@style/StyleDescriptionGreenButton"
-                        android:layout_marginLeft="@dimen/padding_content"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:padding="0dp"
-                        android:text="@string/owner" />
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/trInvitor"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical">
-
-                    <com.bon.customview.textview.ExtTextView
-                        style="@style/StyleDescriptionGray"
-                        android:padding="0dp"
-                        android:text="@string/invitor" />
-
-                    <com.bon.customview.textview.ExtTextView
-                        android:id="@+id/tvInvitor"
-                        style="@style/StyleDescriptionGreenButton"
-                        android:layout_marginLeft="@dimen/padding_content"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:padding="0dp"
-                        android:text="@string/invitor" />
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/trEntrants"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical">
-
-                    <com.bon.customview.textview.ExtTextView
-                        android:id="@+id/tvEntrantNumber"
-                        style="@style/StyleTitleWhite"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_marginLeft="@dimen/padding_small"
-                        android:padding="0dp"
-                        android:text="2"
-                        android:textColor="@color/color_content"
-                        app:textViewFontAssetName="@string/font_display_bold" />
-
-                    <com.bon.customview.textview.ExtTextView
-                        style="@style/StyleTitleWhite"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:padding="0dp"
-                        android:text="/"
-                        android:textColor="@color/color_gray" />
-
-                    <com.bon.customview.textview.ExtTextView
-                        android:id="@+id/tvEntrantTotal"
-                        style="@style/StyleDescriptionGray"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_marginRight="@dimen/padding_small"
-                        android:padding="0dp"
-                        android:text="8"
-                        app:textViewFontAssetName="@string/font_display_bold" />
-
-                    <com.bon.customview.textview.ExtTextView
-                        style="@style/StyleDescriptionContent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_marginRight="@dimen/padding_small"
-                        android:padding="0dp"
-                        android:text="@string/entrants"
-                        app:textViewFontAssetName="@string/font_display_bold" />
-                </TableRow>
-            </LinearLayout>
-        </LinearLayout>
+        app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+        app:shadowLayoutShadowColor="@color/color_shadow">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_content"
-            android:background="@drawable/bg_blue_gradient"
+            android:background="@drawable/bg_white_gray_radius_selector"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="@dimen/padding_content">
+            android:orientation="vertical">
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/ivSchedule"
-                style="@style/IconMedium"
-                app:srcCompat="@drawable/ic_schedule_white" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_layout">
 
-            <com.bon.customview.textview.ExtTextView
-                android:id="@+id/tvDescription"
-                style="@style/StyleDescriptionWhite"
-                android:layout_width="wrap_content"
+                <com.football.customizes.images.CircleImageViewApp
+                    android:id="@+id/ivAvatar"
+                    android:layout_width="@dimen/avatar_large"
+                    android:layout_height="@dimen/avatar_large" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/padding_layout"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <com.bon.customview.textview.ExtTextView
+                        android:id="@+id/tvTitle"
+                        style="@style/StyleTitleBlue"
+                        android:layout_width="match_parent"
+                        android:ellipsize="end"
+                        android:gravity="left"
+                        android:maxLines="2"
+                        android:padding="0dp"
+                        app:textViewFontAssetName="@string/font_display_bold"
+                        tools:text="@string/app_name" />
+
+                    <TableRow
+                        android:id="@+id/trOwner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical">
+
+                        <com.bon.customview.textview.ExtTextView
+                            style="@style/StyleDescriptionGray"
+                            android:padding="0dp"
+                            android:text="@string/owner" />
+
+                        <com.bon.customview.textview.ExtTextView
+                            android:id="@+id/tvOwner"
+                            style="@style/StyleDescriptionGreenButton"
+                            android:layout_marginLeft="@dimen/padding_content"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:padding="0dp"
+                            android:text="@string/owner" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/trInvitor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical">
+
+                        <com.bon.customview.textview.ExtTextView
+                            style="@style/StyleDescriptionGray"
+                            android:padding="0dp"
+                            android:text="@string/invitor" />
+
+                        <com.bon.customview.textview.ExtTextView
+                            android:id="@+id/tvInvitor"
+                            style="@style/StyleDescriptionGreenButton"
+                            android:layout_marginLeft="@dimen/padding_content"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:padding="0dp"
+                            android:text="@string/invitor" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/trEntrants"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical">
+
+                        <com.bon.customview.textview.ExtTextView
+                            android:id="@+id/tvEntrantNumber"
+                            style="@style/StyleTitleWhite"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:layout_marginLeft="@dimen/padding_small"
+                            android:padding="0dp"
+                            android:text="2"
+                            android:textColor="@color/color_content"
+                            app:textViewFontAssetName="@string/font_display_bold" />
+
+                        <com.bon.customview.textview.ExtTextView
+                            style="@style/StyleTitleWhite"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:padding="0dp"
+                            android:text="/"
+                            android:textColor="@color/color_gray" />
+
+                        <com.bon.customview.textview.ExtTextView
+                            android:id="@+id/tvEntrantTotal"
+                            style="@style/StyleDescriptionGray"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:layout_marginRight="@dimen/padding_small"
+                            android:padding="0dp"
+                            android:text="8"
+                            app:textViewFontAssetName="@string/font_display_bold" />
+
+                        <com.bon.customview.textview.ExtTextView
+                            style="@style/StyleDescriptionContent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:layout_marginRight="@dimen/padding_small"
+                            android:padding="0dp"
+                            android:text="@string/entrants"
+                            app:textViewFontAssetName="@string/font_display_bold" />
+                    </TableRow>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:textViewFontAssetName="@string/font_display_regular"
-                tools:text="1 hour to Draft Time" />
+                android:layout_marginTop="@dimen/padding_content"
+                android:background="@drawable/bg_blue_gradient"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_content">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/ivSchedule"
+                    style="@style/IconMedium"
+                    app:srcCompat="@drawable/ic_schedule_white" />
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvDescription"
+                    style="@style/StyleDescriptionWhite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:textViewFontAssetName="@string/font_display_regular"
+                    tools:text="1 hour to Draft Time" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </com.bon.customview.shadowlayout.ShadowLayout>
 
     <LinearLayout
         android:id="@+id/llBottomAction"

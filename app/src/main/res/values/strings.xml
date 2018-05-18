@@ -61,4 +61,8 @@
     <string name="description">Description</string>
     <string name="tell_us_more_about_your_league">Tell us more about your league</string>
     <string name="create_league">Create league</string>
+    <string name="budget_option">Budget options</string>
+    <string name="bottom">Bottom</string>
+    <string name="challenge">Challenge</string>
+    <string name="dream">Dream</string>
 </resources>
