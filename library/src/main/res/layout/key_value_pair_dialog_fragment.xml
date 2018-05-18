@@ -9,7 +9,7 @@
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/bg_title_dialog_fragment"
         android:orientation="horizontal"
         android:visibility="visible">
 
@@ -33,7 +33,7 @@
             android:padding="@dimen/padding_layout"
             android:text="@string/select_value"
             android:textColor="@color/color_white"
-            app:textViewFontAssetName="@string/font_display_bold" />
+            app:textViewFontAssetName="@string/font_regular_display_black" />
 
         <com.bon.customview.textview.ExtTextView
             style="@style/StyleContent"

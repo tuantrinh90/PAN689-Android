@@ -9,7 +9,7 @@
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/bg_title_dialog_fragment"
         android:orientation="horizontal"
         android:visibility="visible">
 
@@ -28,7 +28,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
-            app:textViewFontAssetName="@string/font_display_bold" />
+            app:textViewFontAssetName="@string/font_regular_display_black" />
 
         <com.bon.customview.textview.ExtTextView
             android:id="@+id/tvSave"
@@ -39,7 +39,8 @@
             android:padding="@dimen/padding_layout"
             android:text="@string/done"
             android:textColor="@color/color_white"
-            android:textSize="@dimen/font_size_title" />
+            android:textSize="@dimen/font_size_title"
+            app:textViewFontAssetName="@string/font_regular_display_black" />
     </TableRow>
 
     <LinearLayout

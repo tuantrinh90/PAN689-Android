@@ -12,7 +12,7 @@
     <color name="color_yellow_start">#f76b1c</color>
     <color name="color_yellow_end">#fad961</color>
     <color name="color_yellow_end_selector">#d2fad961</color>
-    <color name="color_yellow_pressed">#64f76b1c</color>
+    <color name="color_yellow_pressed">#dcfad961</color>
     <color name="color_green">#57a700</color>
     <color name="color_green_selector">#d257a700</color>
     <color name="color_blue_start">#2324bf</color>

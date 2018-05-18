@@ -10,7 +10,7 @@
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/bg_title_dialog_fragment"
         android:orientation="horizontal"
         android:padding="@dimen/padding_layout">
 
@@ -24,7 +24,7 @@
 
         <com.bon.customview.textview.ExtTextView
             style="@style/StyleTitle"
-            app:textViewFontAssetName="@string/font_display_bold"
+            app:textViewFontAssetName="@string/font_regular_display_black"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5" />
@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_null_gray_selector"
             android:text="@string/done"
+            app:textViewFontAssetName="@string/font_regular_display_black"
             android:textColor="@color/color_white" />
     </TableRow>
 
