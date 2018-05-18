@@ -23,7 +23,6 @@ import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import java8.util.function.Consumer;
 
 public class SearchView extends LinearLayout {
@@ -36,7 +35,6 @@ public class SearchView extends LinearLayout {
     @BindView(R.id.ivFilter)
     AppCompatImageView ivFilter;
 
-    Unbinder unbinder;
     Consumer<String> searchConsumer;
     Consumer<Void> filerConsumer;
 
@@ -63,7 +61,7 @@ public class SearchView extends LinearLayout {
 
     void initView(Context context, AttributeSet attrs) {
         View view = LayoutInflater.from(context).inflate(R.layout.search_view, this);
-        unbinder = ButterKnife.bind(this, view);
+        ButterKnife.bind(this, view);
 
         // update hint
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SearchView);
@@ -119,11 +117,5 @@ public class SearchView extends LinearLayout {
     public SearchView setFilerConsumer(Consumer<Void> filerConsumer) {
         this.filerConsumer = filerConsumer;
         return this;
-    }
-
-    @Override
-    protected void detachViewFromParent(View child) {
-        super.detachViewFromParent(child);
-        Optional.from(unbinder).doIfPresent(Unbinder::unbind);
     }
 }

@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.bon.customview.recycleview.centering_recyclerview.CenteringRecyclerView;
-import com.bon.interfaces.Optional;
 import com.football.adapters.CarouselAdapter;
 import com.football.adapters.CarouselDotAdapter;
 import com.football.fantasy.R;
@@ -22,7 +21,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import java8.util.function.Consumer;
 
 public class CarouselView extends LinearLayout {
@@ -33,7 +31,6 @@ public class CarouselView extends LinearLayout {
     @BindView(R.id.rvRecyclerViewDot)
     CenteringRecyclerView rvRecyclerViewDot;
 
-    Unbinder unbinder;
     CarouselAdapter carouselAdapter;
     CarouselDotAdapter carouselDotAdapter;
 
@@ -60,7 +57,7 @@ public class CarouselView extends LinearLayout {
 
     void initView(Context context, AttributeSet attrs) {
         View view = LayoutInflater.from(context).inflate(R.layout.carousel_view, this);
-        unbinder = ButterKnife.bind(this, view);
+        ButterKnife.bind(this, view);
     }
 
     /**
@@ -99,11 +96,5 @@ public class CarouselView extends LinearLayout {
 
         // move recycle to item selected
         rvRecyclerView.center(position);
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        Optional.from(unbinder).doIfPresent(Unbinder::unbind);
     }
 }

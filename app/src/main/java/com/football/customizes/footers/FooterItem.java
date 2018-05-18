@@ -15,12 +15,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.bon.customview.textview.ExtTextView;
-import com.bon.interfaces.Optional;
 import com.football.fantasy.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 public class FooterItem extends LinearLayout {
     @BindView(R.id.llView)
@@ -30,7 +28,6 @@ public class FooterItem extends LinearLayout {
     @BindView(R.id.tvContent)
     ExtTextView tvContent;
 
-    Unbinder unbinder;
     Drawable icon;
 
     public FooterItem(Context context) {
@@ -56,7 +53,7 @@ public class FooterItem extends LinearLayout {
 
     void initView(Context context, AttributeSet attrs) {
         View view = LayoutInflater.from(context).inflate(R.layout.footer_item, this);
-        unbinder = ButterKnife.bind(this, view);
+        ButterKnife.bind(this, view);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.FooterItem);
 
@@ -84,11 +81,5 @@ public class FooterItem extends LinearLayout {
 
         // text
         tvContent.setTextColor(ContextCompat.getColor(context, isActive ? R.color.color_blue : R.color.color_white));
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        Optional.from(unbinder).doIfPresent(Unbinder::unbind);
     }
 }

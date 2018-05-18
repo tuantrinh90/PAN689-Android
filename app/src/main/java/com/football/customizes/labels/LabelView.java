@@ -18,7 +18,6 @@ import com.jakewharton.rxbinding2.view.RxView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import java8.util.function.Consumer;
 
 public class LabelView extends LinearLayout {
@@ -29,7 +28,6 @@ public class LabelView extends LinearLayout {
     @BindView(R.id.ivInfo)
     AppCompatImageView ivInfo;
 
-    Unbinder unbinder;
     Consumer<Void> infoConsumer;
 
     public LabelView(Context context) {
@@ -55,7 +53,7 @@ public class LabelView extends LinearLayout {
 
     void initView(Context context, AttributeSet attrs) {
         View view = LayoutInflater.from(context).inflate(R.layout.label_view, this);
-        unbinder = ButterKnife.bind(this, view);
+        ButterKnife.bind(this, view);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LabelView);
 
@@ -78,11 +76,5 @@ public class LabelView extends LinearLayout {
     public LabelView setInfoConsumer(Consumer<Void> infoConsumer) {
         this.infoConsumer = infoConsumer;
         return this;
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        Optional.from(unbinder).doIfPresent(Unbinder::unbind);
     }
 }

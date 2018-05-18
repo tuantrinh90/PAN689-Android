@@ -23,7 +23,6 @@ import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import java8.util.function.Consumer;
 
 public class EditTextApp extends LinearLayout {
@@ -38,7 +37,6 @@ public class EditTextApp extends LinearLayout {
     @BindView(R.id.tvError)
     ExtTextView tvError;
 
-    Unbinder unbinder;
     Consumer<String> textChangeConsumer;
 
     public EditTextApp(Context context) {
@@ -64,7 +62,7 @@ public class EditTextApp extends LinearLayout {
 
     void initView(Context context, AttributeSet attrs) {
         View view = LayoutInflater.from(context).inflate(R.layout.edittext_view, this);
-        unbinder = ButterKnife.bind(this, view);
+        ButterKnife.bind(this, view);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.EditTextApp);
 
@@ -148,11 +146,5 @@ public class EditTextApp extends LinearLayout {
 
     public ExtTextView getErrorView() {
         return tvError;
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        Optional.from(unbinder).doIfPresent(Unbinder::unbind);
     }
 }

@@ -10,19 +10,15 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.bon.image.ImageLoaderUtils;
-import com.bon.interfaces.Optional;
 import com.football.fantasy.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CircleImageViewApp extends LinearLayout {
     @BindView(R.id.ivImage)
     CircleImageView ivImage;
-
-    Unbinder unbinder;
 
     public CircleImageViewApp(Context context) {
         super(context);
@@ -47,17 +43,11 @@ public class CircleImageViewApp extends LinearLayout {
 
     void initView(Context context) {
         View view = LayoutInflater.from(context).inflate(R.layout.circle_image_view, this);
-        unbinder = ButterKnife.bind(this, view);
+        ButterKnife.bind(this, view);
     }
 
     public CircleImageViewApp setImageUri(String uri) {
         ImageLoaderUtils.displayImage(uri, ivImage);
         return this;
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        Optional.from(unbinder).doIfPresent(Unbinder::unbind);
     }
 }
