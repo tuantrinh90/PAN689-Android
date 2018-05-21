@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_layout">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_layout"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvTeamSetupTime"
+                    style="@style/StyleContentContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    app:textViewFontAssetName="@string/font_display_bold"
+                    tools:text="@string/app_name" />
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_content"
+                    tools:text="13/04/2018 09:10AM" />
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvSetupTeam"
+                    style="@style/StyleButtonBlue"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/padding_layout"
+                    android:text="@string/setup_team"
+                    android:textAllCaps="false"
+                    app:textViewFontAssetName="@string/font_display_black" />
+            </LinearLayout>
+
+            <com.football.customizes.images.CircleImageViewApp
+                android:id="@+id/ivLeague"
+                android:layout_width="@dimen/avatar_large"
+                android:layout_height="@dimen/avatar_large"
+                android:layout_marginLeft="@dimen/padding_layout" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_layout"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.bon.customview.textview.ExtTextView
+                style="@style/StyleContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/league_type"
+                android:textAllCaps="true"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvLeagueType"
+                style="@style/StyleContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                tools:text="Open League" />
+        </TableRow>
+
+        <View
+            style="@style/Line"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_layout"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.bon.customview.textview.ExtTextView
+                style="@style/StyleContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/max_number_of_team"
+                android:textAllCaps="true"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvMaxNumberOfTeam"
+                style="@style/StyleContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                tools:text="04" />
+        </TableRow>
+
+        <View
+            style="@style/Line"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_layout"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.bon.customview.textview.ExtTextView
+                style="@style/StyleContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/game_play_options"
+                android:textAllCaps="true"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvGamePlayOptions"
+                style="@style/StyleContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                tools:text="Transfer" />
+        </TableRow>
+
+        <View
+            style="@style/Line"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_layout"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.bon.customview.textview.ExtTextView
+                style="@style/StyleContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/budget"
+                android:textAllCaps="true"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvBudget"
+                style="@style/StyleContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                tools:text="Bottom ($10 mil)" />
+        </TableRow>
+
+        <View
+            style="@style/Line"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_layout"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.bon.customview.textview.ExtTextView
+                style="@style/StyleContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/scoring_system"
+                android:textAllCaps="true"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvScoringSystem"
+                style="@style/StyleContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                tools:text="@string/regular_football_point" />
+        </TableRow>
+
+        <View
+            style="@style/Line"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_layout"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.bon.customview.textview.ExtTextView
+                style="@style/StyleContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                android:textAllCaps="true"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvDescription"
+                style="@style/StyleContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                tools:text="@string/app_name" />
+        </TableRow>
+
+        <com.bon.customview.shadowlayout.ShadowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_layout"
+            android:layout_marginTop="@dimen/padding_layout"
+            app:shadowLayoutCornerRadius="@dimen/component_radius"
+            app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+            app:shadowLayoutShadowColor="@color/color_shadow">
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvStartLeague"
+                style="@style/StyleButton"
+                android:text="@string/start_league"
+                app:textViewFontAssetName="@string/font_display_black" />
+        </com.bon.customview.shadowlayout.ShadowLayout>
+    </LinearLayout>
+</ScrollView>

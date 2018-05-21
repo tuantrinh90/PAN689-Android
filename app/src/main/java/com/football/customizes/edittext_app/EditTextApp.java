@@ -28,12 +28,14 @@ import java8.util.function.Consumer;
 public class EditTextApp extends LinearLayout {
     @BindView(R.id.llView)
     LinearLayout llView;
+    @BindView(R.id.ivIconLeft)
+    AppCompatImageView ivIconLeft;
     @BindView(R.id.tvContent)
     ExtTextView tvContent;
     @BindView(R.id.etContent)
     ExtEditText etContent;
-    @BindView(R.id.ivIcon)
-    AppCompatImageView ivIcon;
+    @BindView(R.id.ivIconRight)
+    AppCompatImageView ivIconRight;
     @BindView(R.id.tvError)
     ExtTextView tvError;
 
@@ -79,13 +81,38 @@ public class EditTextApp extends LinearLayout {
         tvContent.setVisibility(isEnabled ? GONE : VISIBLE);
         etContent.setVisibility(!isEnabled ? GONE : VISIBLE);
 
-        // icon
-        ivIcon.setVisibility(GONE);
-        Drawable drawable = typedArray.getDrawable(R.styleable.EditTextApp_editTextAppIcon);
-        Optional.from(drawable).doIfPresent(icon -> {
-            ivIcon.setImageDrawable(drawable);
-            ivIcon.setVisibility(VISIBLE);
+        // icon left
+        ivIconLeft.setVisibility(GONE);
+        Drawable drawableLeft = typedArray.getDrawable(R.styleable.EditTextApp_editTextAppIconLeft);
+        Optional.from(drawableLeft).doIfPresent(icon -> {
+            ivIconLeft.setImageDrawable(drawableLeft);
+            ivIconLeft.setVisibility(VISIBLE);
         });
+
+        // icon right
+        ivIconRight.setVisibility(GONE);
+        Drawable drawableRight = typedArray.getDrawable(R.styleable.EditTextApp_editTextAppIconRight);
+        Optional.from(drawableRight).doIfPresent(icon -> {
+            ivIconRight.setImageDrawable(drawableRight);
+            ivIconRight.setVisibility(VISIBLE);
+        });
+
+        // padding content
+        int paddingLeft = (int) (context.getResources().getDimensionPixelSize(R.dimen.padding_layout) * 1.6);
+        int paddingRight = (int) (context.getResources().getDimensionPixelSize(R.dimen.padding_layout) * 1.6);
+
+        // left
+        if (ivIconLeft.getVisibility() == VISIBLE) {
+            paddingLeft = context.getResources().getDimensionPixelSize(R.dimen.padding_layout);
+        }
+
+        // right
+        if (ivIconRight.getVisibility() == VISIBLE) {
+            paddingRight = context.getResources().getDimensionPixelSize(R.dimen.padding_layout);
+        }
+
+        // update padding view
+        llView.setPadding(paddingLeft, 0, paddingRight, 0);
 
         // input type
         int inputType = typedArray.getInt(R.styleable.EditTextApp_android_inputType, EditorInfo.TYPE_NULL);
@@ -140,8 +167,16 @@ public class EditTextApp extends LinearLayout {
         return etContent;
     }
 
-    public AppCompatImageView getIconImageView() {
-        return ivIcon;
+    public AppCompatImageView getIconRightImageView() {
+        return ivIconRight;
+    }
+
+    public AppCompatImageView getIconLeftImageView() {
+        return ivIconLeft;
+    }
+
+    public void setIvIconLeft(AppCompatImageView ivIconLeft) {
+        this.ivIconLeft = ivIconLeft;
     }
 
     public ExtTextView getErrorView() {

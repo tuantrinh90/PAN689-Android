@@ -15,7 +15,7 @@
     <dimen name="avatar_padding">5dp</dimen>
 
     <!--icon-->
-    <dimen name="icon_tiny">15dp</dimen>
+    <dimen name="icon_tiny">18dp</dimen>
     <dimen name="icon_small">25dp</dimen>
     <dimen name="icon_medium">30dp</dimen>
     <dimen name="icon_large">40dp</dimen>

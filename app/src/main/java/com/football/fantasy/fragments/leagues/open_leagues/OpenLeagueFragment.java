@@ -7,9 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.football.adapters.LeaguesAdapter;
+import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.searchs.SearchView;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.League;
 
 import java.util.ArrayList;
@@ -55,7 +57,12 @@ public class OpenLeagueFragment extends BaseMvpFragment<IOpenLeagueView, IOpenLe
         }};
 
         leaguesAdapter = new LeaguesAdapter(mActivity, leagues, details -> {
-
+            Bundle bundle = new Bundle();
+            bundle.putString(LeagueDetailFragment.KEY_TITLE, getString(R.string.open_leagues));
+            bundle.putSerializable(LeagueDetailFragment.KEY_LEAGUE, details);
+            AloneFragmentActivity.with(this)
+                    .parameters(bundle)
+                    .start(LeagueDetailFragment.class);
         }, approve -> {
 
         }, reject -> {

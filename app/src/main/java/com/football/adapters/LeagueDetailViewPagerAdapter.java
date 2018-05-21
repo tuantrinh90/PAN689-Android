@@ -8,22 +8,21 @@ import com.football.common.fragments.BaseMvpFragment;
 
 import java.util.List;
 
-public class AccountAdapter extends FragmentStatePagerAdapter  {
-    private static final String TAG = AccountAdapter.class.getSimpleName();
-    private final List<BaseMvpFragment> carousels;
+public class LeagueDetailViewPagerAdapter extends FragmentStatePagerAdapter {
+    List<BaseMvpFragment> fragments;
 
-    public AccountAdapter(FragmentManager fm, List<BaseMvpFragment> carousels) {
+    public LeagueDetailViewPagerAdapter(FragmentManager fm, List<BaseMvpFragment> fragments) {
         super(fm);
-        this.carousels = carousels;
+        this.fragments = fragments;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return carousels.get(position);
+        return fragments.get(position);
     }
 
     @Override
     public int getCount() {
-        return carousels.size();
+        return fragments.size();
     }
 }

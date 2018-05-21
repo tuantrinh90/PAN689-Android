@@ -20,7 +20,7 @@
             style="@style/StyleTitle"
             android:text="@string/create_new_league"
             android:textAllCaps="true"
-            app:textViewFontAssetName="@string/font_regular_display_black_italic" />
+            app:textViewFontAssetName="@string/font_display_black_italic" />
 
         <com.football.customizes.labels.LabelView
             android:layout_width="wrap_content"
@@ -167,7 +167,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/padding_layout"
             app:editTextAppEnable="false"
-            app:editTextAppIcon="@drawable/ic_arrow_drop_down_black" />
+            app:editTextAppIconRight="@drawable/ic_arrow_drop_down_black" />
 
         <com.football.customizes.labels.LabelView
             android:id="@+id/lvBudgetOption"
@@ -379,7 +379,7 @@
             android:layout_marginLeft="@dimen/padding_layout"
             android:layout_marginRight="@dimen/padding_layout"
             app:editTextAppEnable="false"
-            app:editTextAppIcon="@drawable/ic_date_range" />
+            app:editTextAppIconRight="@drawable/ic_date_range" />
 
         <com.football.customizes.labels.LabelView
             android:layout_width="wrap_content"
@@ -397,7 +397,7 @@
             android:layout_marginLeft="@dimen/padding_layout"
             android:layout_marginRight="@dimen/padding_layout"
             app:editTextAppEnable="false"
-            app:editTextAppIcon="@drawable/ic_arrow_drop_down_black" />
+            app:editTextAppIconRight="@drawable/ic_arrow_drop_down_black" />
 
         <com.football.customizes.labels.LabelView
             android:id="@+id/lvStartTime"
@@ -416,7 +416,7 @@
             android:layout_marginLeft="@dimen/padding_layout"
             android:layout_marginRight="@dimen/padding_layout"
             app:editTextAppEnable="false"
-            app:editTextAppIcon="@drawable/ic_arrow_drop_down_black" />
+            app:editTextAppIconRight="@drawable/ic_arrow_drop_down_black" />
 
         <com.football.customizes.labels.LabelView
             android:layout_width="wrap_content"
@@ -450,7 +450,7 @@
                 style="@style/StyleButton"
                 android:text="@string/create_league"
                 android:textAllCaps="true"
-                app:textViewFontAssetName="@string/font_regular_display_black" />
+                app:textViewFontAssetName="@string/font_display_black" />
         </com.bon.customview.shadowlayout.ShadowLayout>
     </LinearLayout>
 </com.bon.customview.scrollview.ExtScrollView>

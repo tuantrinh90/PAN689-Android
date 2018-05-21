@@ -17,7 +17,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_white_gray_radius_selector"
+            android:background="@drawable/bg_white_radius_selector"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
@@ -150,7 +150,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_content"
-                android:background="@drawable/bg_blue_gradient"
+                android:background="@drawable/bg_blue_gradient_radius_bottom"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="@dimen/padding_content">
@@ -242,7 +242,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/leagues_margin"
         android:layout_marginRight="@dimen/leagues_margin"
-        android:background="@drawable/bg_white_white_radius_selector"
+        android:background="@drawable/bg_white_opacity_radius_selector"
         android:orientation="vertical"
         android:visibility="gone" />
 </FrameLayout>

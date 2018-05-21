@@ -15,7 +15,7 @@
         android:paddingRight="@dimen/padding_layout"
         android:paddingTop="@dimen/padding_layout"
         android:text="@string/football_fantasy"
-        app:textViewFontAssetName="@string/font_regular_display_heavy_italic" />
+        app:textViewFontAssetName="@string/font_display_heavy_italic" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -58,7 +58,7 @@
                         android:paddingRight="@dimen/padding_layout"
                         android:text="@string/football_leagues_break"
                         android:textAllCaps="true"
-                        app:textViewFontAssetName="@string/font_regular_display_black_italic" />
+                        app:textViewFontAssetName="@string/font_display_black_italic" />
                 </LinearLayout>
 
                 <android.support.v7.widget.AppCompatImageView
@@ -130,7 +130,7 @@
                     android:padding="0dp"
                     android:text="@string/player_list"
                     android:textAllCaps="true"
-                    app:textViewFontAssetName="@string/font_regular_display_black_italic" />
+                    app:textViewFontAssetName="@string/font_display_black_italic" />
             </LinearLayout>
 
             <com.bon.customview.textview.ExtTextView
@@ -140,7 +140,7 @@
                 android:background="@drawable/bg_null_gray_selector"
                 android:padding="0dp"
                 android:text="@string/my_leagues"
-                app:textViewFontAssetName="@string/font_regular_display_black_italic" />
+                app:textViewFontAssetName="@string/font_display_black_italic" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvMyLeagues"
@@ -158,7 +158,7 @@
                 android:background="@drawable/bg_null_gray_selector"
                 android:padding="0dp"
                 android:text="@string/news"
-                app:textViewFontAssetName="@string/font_regular_display_black_italic" />
+                app:textViewFontAssetName="@string/font_display_black_italic" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvNews"

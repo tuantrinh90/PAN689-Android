@@ -53,6 +53,9 @@ public abstract class BaseMvpFragment<V extends MvpView, P extends MvpPresenter<
     // unbind butter knife
     private Unbinder unbinder;
 
+    // is child fragment
+    boolean isChildFragment = false;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -84,9 +87,11 @@ public abstract class BaseMvpFragment<V extends MvpView, P extends MvpPresenter<
         // hide keyboard
         KeyboardUtils.hideKeyboard(mActivity, view);
 
+        // only update title with isChildFragment = false
+        if (isChildFragment) return;
+
         // update toolbar
-        Optional.from(mActivity.getAppSupportActionBar())
-                .doIfPresent(actionBar -> initToolbar(actionBar));
+        Optional.from(mActivity.getAppSupportActionBar()).doIfPresent(actionBar -> initToolbar(actionBar));
 
         // update title
         if (StringUtils.isEmpty(getTitleString())) {
@@ -149,5 +154,14 @@ public abstract class BaseMvpFragment<V extends MvpView, P extends MvpPresenter<
         supportActionBar.setHomeAsUpIndicator(0);
         supportActionBar.setIcon(0);
         supportActionBar.show();
+    }
+
+    /**
+     * @param isChildFragment
+     * @return
+     */
+    public BaseMvpFragment<V, P> setChildFragment(boolean isChildFragment) {
+        this.isChildFragment = isChildFragment;
+        return this;
     }
 }

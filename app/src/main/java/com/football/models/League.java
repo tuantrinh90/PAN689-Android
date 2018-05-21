@@ -1,6 +1,8 @@
 package com.football.models;
 
-public class League {
+import java.io.Serializable;
+
+public class League implements Serializable{
     public static final int OPEN_LEAGUES = 1;
     public static final int MY_LEAGUES = 2;
     public static final int PENDING_LEAGUES = 3;

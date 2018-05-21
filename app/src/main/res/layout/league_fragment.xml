@@ -20,7 +20,7 @@
             android:layout_weight="1"
             android:gravity="left"
             android:text="@string/leagues"
-            app:textViewFontAssetName="@string/font_regular_display_heavy_italic" />
+            app:textViewFontAssetName="@string/font_display_heavy_italic" />
 
         <com.bon.customview.shadowlayout.ShadowLayout
             android:layout_width="wrap_content"

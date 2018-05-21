@@ -45,7 +45,7 @@
                 android:id="@+id/tvSignIn"
                 style="@style/StyleButton"
                 android:text="@string/sign_in"
-                app:textViewFontAssetName="@string/font_regular_display_black" />
+                app:textViewFontAssetName="@string/font_display_black" />
         </com.bon.customview.shadowlayout.ShadowLayout>
 
 

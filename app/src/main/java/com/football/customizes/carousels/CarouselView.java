@@ -33,6 +33,8 @@ public class CarouselView extends LinearLayout {
 
     CarouselAdapter carouselAdapter;
     CarouselDotAdapter carouselDotAdapter;
+    boolean isTextAllCaps = true;
+    String fontPath = "";
 
     public CarouselView(Context context) {
         super(context);
@@ -66,7 +68,7 @@ public class CarouselView extends LinearLayout {
      * @param positionConsumer
      */
     public void setAdapter(Context context, List<Carousel> items, int colorActive, int colorNormal, Consumer<Integer> positionConsumer) {
-        carouselAdapter = new CarouselAdapter(context, items, colorActive, colorNormal, positionConsumer);
+        carouselAdapter = new CarouselAdapter(context, items, colorActive, colorNormal, positionConsumer, isTextAllCaps, fontPath);
         rvRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         rvRecyclerView.setAdapter(carouselAdapter);
 
@@ -96,5 +98,23 @@ public class CarouselView extends LinearLayout {
 
         // move recycle to item selected
         rvRecyclerView.center(position);
+    }
+
+    /**
+     * @param isTextAllCaps
+     * @return
+     */
+    public CarouselView setTextAllCaps(boolean isTextAllCaps) {
+        this.isTextAllCaps = isTextAllCaps;
+        return this;
+    }
+
+    /**
+     * @param fontPath
+     * @return
+     */
+    public CarouselView setFontPath(String fontPath) {
+        this.fontPath = fontPath;
+        return this;
     }
 }

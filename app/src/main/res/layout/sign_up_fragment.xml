@@ -95,7 +95,7 @@
                 android:id="@+id/tvRegister"
                 style="@style/StyleButton"
                 android:text="@string/register"
-                app:textViewFontAssetName="@string/font_regular_display_black" />
+                app:textViewFontAssetName="@string/font_display_black" />
         </com.bon.customview.shadowlayout.ShadowLayout>
     </LinearLayout>
 </com.bon.customview.scrollview.ExtScrollView>

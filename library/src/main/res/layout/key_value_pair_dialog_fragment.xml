@@ -33,7 +33,7 @@
             android:padding="@dimen/padding_layout"
             android:text="@string/select_value"
             android:textColor="@color/color_white"
-            app:textViewFontAssetName="@string/font_regular_display_black" />
+            app:textViewFontAssetName="@string/font_display_black" />
 
         <com.bon.customview.textview.ExtTextView
             style="@style/StyleContent"

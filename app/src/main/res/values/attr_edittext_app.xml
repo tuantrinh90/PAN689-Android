@@ -3,7 +3,8 @@
     <declare-styleable name="EditTextApp">
         <attr name="editTextAppContent" format="string" />
         <attr name="editTextAppHint" format="reference" />
-        <attr name="editTextAppIcon" format="reference" />
+        <attr name="editTextAppIconLeft" format="reference" />
+        <attr name="editTextAppIconRight" format="reference" />
         <attr name="editTextAppEnable" format="boolean" />
         <attr name="android:inputType" />
         <attr name="android:imeOptions" />

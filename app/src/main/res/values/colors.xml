@@ -9,6 +9,7 @@
     <color name="color_black">#333333</color>
     <color name="color_line">#d9d9d9</color>
     <color name="color_blue">#3b3fc2</color>
+    <color name="color_blue_selector">#dc3b3fc2</color>
     <color name="color_yellow_start">#f76b1c</color>
     <color name="color_yellow_end">#fad961</color>
     <color name="color_yellow_end_selector">#d2fad961</color>
@@ -29,4 +30,5 @@
     <color name="color_border_avatar_two">#75b8daf7</color>
     <color name="color_red">#d03202</color>
     <color name="color_red_selector">#d2d03202</color>
+    <color name="color_label">#837c86</color>
 </resources>

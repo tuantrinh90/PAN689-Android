@@ -5,7 +5,7 @@
     android:id="@+id/llContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_white_gray_radius_selector"
+    android:background="@drawable/bg_white_radius_selector"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:padding="@dimen/padding_layout">

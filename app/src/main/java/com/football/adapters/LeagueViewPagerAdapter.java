@@ -8,11 +8,11 @@ import com.football.common.fragments.BaseMvpFragment;
 
 import java.util.List;
 
-public class LeagueAdapter extends FragmentStatePagerAdapter {
-    private static final String TAG = LeagueAdapter.class.getSimpleName();
+public class LeagueViewPagerAdapter extends FragmentStatePagerAdapter {
+    private static final String TAG = LeagueViewPagerAdapter.class.getSimpleName();
     private final List<BaseMvpFragment> carousels;
 
-    public LeagueAdapter(FragmentManager fm, List<BaseMvpFragment> carousels) {
+    public LeagueViewPagerAdapter(FragmentManager fm, List<BaseMvpFragment> carousels) {
         super(fm);
         this.carousels = carousels;
     }

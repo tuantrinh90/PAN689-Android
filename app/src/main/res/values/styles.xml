@@ -54,6 +54,7 @@
         <item name="android:textColor">@color/color_gray</item>
     </style>
 
+    <!--content-->
     <style name="StyleContent">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -74,6 +75,7 @@
         <item name="android:textColor">@color/color_content</item>
     </style>
 
+    <!--edittext-->
     <style name="StyleEditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -85,6 +87,7 @@
         <item name="android:paddingBottom">@dimen/padding_content</item>
     </style>
 
+    <!--menu-->
     <style name="StyleMenu" parent="StyleContent">
         <item name="android:textSize">@dimen/font_size_menu</item>
     </style>
@@ -97,6 +100,7 @@
         <item name="android:textColor">@color/color_white</item>
     </style>
 
+    <!--description-->
     <style name="StyleDescription" parent="StyleContent">
         <item name="android:textSize">@dimen/font_size_description</item>
     </style>
@@ -121,11 +125,13 @@
         <item name="android:textColor">@color/color_green_button</item>
     </style>
 
+    <!--footer-->
     <style name="StyleFooter" parent="StyleDescription">
         <item name="android:textSize">@dimen/font_footer</item>
         <item name="android:textColor">@color/color_white</item>
     </style>
 
+    <!--button-->
     <style name="StyleButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -137,6 +143,17 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
+    <style name="StyleButtonBlue">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/font_size_content</item>
+        <item name="android:textColor">@color/color_white</item>
+        <item name="android:padding">@dimen/padding_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/bg_blue_radius_selector</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
     <style name="StyleFooterItem">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
@@ -144,6 +161,7 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <!--icon-->
     <style name="IconTiny">
         <item name="android:layout_width">@dimen/icon_tiny</item>
         <item name="android:layout_height">@dimen/icon_tiny</item>
@@ -168,13 +186,17 @@
         <item name="android:scaleType">fitCenter</item>
     </style>
 
+    <!--float action button-->
     <style name="FloatingActionButton">
         <item name="android:layout_width">@dimen/float_action_button_size</item>
         <item name="android:layout_height">@dimen/float_action_button_size</item>
         <item name="android:scaleType">center</item>
     </style>
 
-    <style name="Avatar">
-        <item name="android:padding">@dimen/avatar_padding</item>
+    <!--line-->
+    <style name="Line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/border_component</item>
+        <item name="android:background">@color/color_gray</item>
     </style>
 </resources>

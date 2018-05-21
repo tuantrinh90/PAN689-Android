@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import com.football.adapters.LeagueAdapter;
+import com.football.adapters.LeagueViewPagerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
@@ -31,7 +31,7 @@ public class LeagueFragment extends BaseMvpFragment<ILeagueView, ILeaguePresente
     @BindView(R.id.vpViewPager)
     ViewPager vpViewPager;
 
-    LeagueAdapter leagueAdapter;
+    LeagueViewPagerAdapter leagueViewPagerAdapter;
 
     @Override
     public int getResourceId() {
@@ -57,12 +57,12 @@ public class LeagueFragment extends BaseMvpFragment<ILeagueView, ILeaguePresente
         });
 
         // view pager
-        leagueAdapter = new LeagueAdapter(getFragmentManager(), new ArrayList<BaseMvpFragment>() {{
+        leagueViewPagerAdapter = new LeagueViewPagerAdapter(getFragmentManager(), new ArrayList<BaseMvpFragment>() {{
             add(OpenLeagueFragment.newInstance());
             add(MyLeagueFragment.newInstance());
             add(PendingInvitationFragment.newInstance());
         }});
-        vpViewPager.setAdapter(leagueAdapter);
+        vpViewPager.setAdapter(leagueViewPagerAdapter);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

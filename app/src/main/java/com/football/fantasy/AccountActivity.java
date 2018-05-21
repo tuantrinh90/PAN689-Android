@@ -8,7 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.WindowManager;
 
-import com.football.adapters.AccountAdapter;
+import com.football.adapters.AccountViewPagerAdapter;
 import com.football.common.activities.BaseAppCompatActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
@@ -50,7 +50,7 @@ public class AccountActivity extends BaseAppCompatActivity {
         });
 
         // view pager
-        vpViewPager.setAdapter(new AccountAdapter(getSupportFragmentManager(), new ArrayList<BaseMvpFragment>() {{
+        vpViewPager.setAdapter(new AccountViewPagerAdapter(getSupportFragmentManager(), new ArrayList<BaseMvpFragment>() {{
             add(SignInFragment.newInstance());
             add(SignUpFragment.newInstance());
         }}));

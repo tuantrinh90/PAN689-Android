@@ -65,4 +65,16 @@
     <string name="bottom">Bottom</string>
     <string name="challenge">Challenge</string>
     <string name="dream">Dream</string>
+    <string name="league_information">League information</string>
+    <string name="teams">Teams</string>
+    <string name="invite_friend">Invite friends</string>
+    <string name="setup_team">Setup team</string>
+    <string name="max_number_of_team">Max number of teams</string>
+    <string name="budget">Budget</string>
+    <string name="start_league">Start League</string>
+    <string name="team_setup_time">Time setup team</string>
+    <string name="remove">Remove</string>
+    <string name="invite_user_in_the_system">Invite users in the system to join</string>
+    <string name="invite_social">OR invite friends via social networks</string>
+    <string name="invite">Invite</string>
 </resources>

@@ -24,7 +24,7 @@
 
         <com.bon.customview.textview.ExtTextView
             style="@style/StyleTitle"
-            app:textViewFontAssetName="@string/font_regular_display_black"
+            app:textViewFontAssetName="@string/font_display_black"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5" />
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_null_gray_selector"
             android:text="@string/done"
-            app:textViewFontAssetName="@string/font_regular_display_black"
+            app:textViewFontAssetName="@string/font_display_black"
             android:textColor="@color/color_white" />
     </TableRow>
 

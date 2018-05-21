@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:orientation="vertical">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_layout"
+        android:layout_marginRight="@dimen/padding_layout"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/padding_layout"
+        android:paddingRight="@dimen/padding_layout">
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleContentContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/team_setup_time"
+            android:textAllCaps="true"
+            app:textViewFontAssetName="@string/font_display_bold" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvTeamSetupTime"
+            style="@style/StyleContent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            tools:text="10/10/2018 09:10AM" />
+    </TableRow>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/padding_layout"
+        android:layout_weight="1" />
+</LinearLayout>

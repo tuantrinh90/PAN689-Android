@@ -8,6 +8,6 @@
     <com.bon.customview.textview.ExtTextView
         style="@style/StyleHeaderWhite"
         android:text="@string/match_up"
-        app:textViewFontAssetName="@string/font_regular_display_heavy_italic" />
+        app:textViewFontAssetName="@string/font_display_heavy_italic" />
 
 </LinearLayout>
