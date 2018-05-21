@@ -137,7 +137,10 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/font_size_content</item>
         <item name="android:textColor">@color/color_white</item>
-        <item name="android:padding">@dimen/padding_content</item>
+        <item name="android:paddingTop">@dimen/padding_content</item>
+        <item name="android:paddingLeft">@dimen/padding_layout</item>
+        <item name="android:paddingRight">@dimen/padding_layout</item>
+        <item name="android:paddingBottom">@dimen/padding_content</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/bg_button_yellow</item>
         <item name="android:textAllCaps">true</item>
@@ -148,7 +151,10 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/font_size_content</item>
         <item name="android:textColor">@color/color_white</item>
-        <item name="android:padding">@dimen/padding_content</item>
+        <item name="android:paddingTop">@dimen/padding_content</item>
+        <item name="android:paddingLeft">@dimen/padding_layout</item>
+        <item name="android:paddingRight">@dimen/padding_layout</item>
+        <item name="android:paddingBottom">@dimen/padding_content</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/bg_blue_radius_selector</item>
         <item name="android:textAllCaps">true</item>

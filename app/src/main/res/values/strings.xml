@@ -77,4 +77,5 @@
     <string name="invite_user_in_the_system">Invite users in the system to join</string>
     <string name="invite_social">OR invite friends via social networks</string>
     <string name="invite">Invite</string>
+    <string name="invited">Invited</string>
 </resources>

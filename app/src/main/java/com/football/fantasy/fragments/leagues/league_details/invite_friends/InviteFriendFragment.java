@@ -64,8 +64,11 @@ public class InviteFriendFragment extends BaseMvpFragment<IInviteFriendView, IIn
             add(new Friend("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Bruce Wayne", true));
             add(new Friend("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Bruce Wayne", false));
         }};
+        inviteFriendAdapter = new InviteFriendAdapter(mActivity, friends, detailFriend -> {
 
-        inviteFriendAdapter = new InviteFriendAdapter(mActivity, friends);
+        }, inviteFriend -> {
+
+        });
         rvRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         rvRecyclerView.setAdapter(inviteFriendAdapter);
     }

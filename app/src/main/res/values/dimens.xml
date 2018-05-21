@@ -55,6 +55,9 @@
     <dimen name="shadow_layout_dxy_small">1dp</dimen>
     <dimen name="shadow_layout_dxy_none">0dp</dimen>
 
+    <!--button-->
+    <dimen name="button_min_width">100dp</dimen>
+
     <!--home-->
     <dimen name="home_size_button_width_leagues">100dp</dimen>
     <dimen name="home_size_button_height_leagues">40dp</dimen>

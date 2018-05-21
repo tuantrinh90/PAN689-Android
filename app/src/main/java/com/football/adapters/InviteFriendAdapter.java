@@ -8,22 +8,30 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bon.customview.textview.ExtTextView;
+import com.bon.interfaces.Optional;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
 import com.football.models.Friend;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import java8.util.function.Consumer;
 
 public class InviteFriendAdapter extends RecyclerView.Adapter<InviteFriendAdapter.ViewHolder> {
     Context context;
     List<Friend> friends;
+    Consumer<Friend> detailConsumer;
+    Consumer<Friend> inviteConsumer;
 
-    public InviteFriendAdapter(Context context, List<Friend> friends) {
+    public InviteFriendAdapter(Context context, List<Friend> friends,
+                               Consumer<Friend> detailConsumer, Consumer<Friend> inviteConsumer) {
         this.context = context;
         this.friends = friends;
+        this.detailConsumer = detailConsumer;
+        this.inviteConsumer = inviteConsumer;
     }
 
     @Override
@@ -43,9 +51,17 @@ public class InviteFriendAdapter extends RecyclerView.Adapter<InviteFriendAdapte
         if (friend.isFriend()) {
             holder.tvStatus.setBackground(null);
             holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.color_content));
+            holder.tvStatus.setEnabled(false);
+            holder.tvStatus.setText(R.string.invited);
         } else {
             holder.tvStatus.setBackgroundResource(R.drawable.bg_blue_radius_selector);
+            holder.tvStatus.setEnabled(true);
+            holder.tvStatus.setText(R.string.invite);
         }
+
+        // click
+        RxView.clicks(holder.itemView).subscribe(o -> Optional.from(detailConsumer).doIfPresent(d -> d.accept(friend)));
+        RxView.clicks(holder.tvStatus).subscribe(o -> Optional.from(inviteConsumer).doIfPresent(d -> d.accept(friend)));
     }
 
     @Override

@@ -7,10 +7,14 @@
     android:background="@drawable/bg_null_gray_selector"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:padding="@dimen/padding_layout">
+    android:paddingBottom="@dimen/padding_content"
+    android:paddingLeft="@dimen/padding_layout"
+    android:paddingRight="@dimen/padding_layout"
+    android:paddingTop="@dimen/padding_content">
 
     <com.football.customizes.images.CircleImageViewApp
         android:id="@+id/ivAvatar"
+        android:layout_marginLeft="@dimen/padding_layout"
         android:layout_width="@dimen/avatar_normal"
         android:layout_height="@dimen/avatar_normal" />
 
@@ -46,14 +50,17 @@
         style="@style/StyleButtonBlue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minWidth="@dimen/button_min_width"
         android:text="@string/remove"
         android:textAllCaps="false"
+        android:layout_marginRight="@dimen/padding_layout"
         android:textSize="@dimen/font_size_description"
         app:textViewFontAssetName="@string/font_display_black" />
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/ivLock"
         style="@style/IconSmall"
+        android:layout_marginRight="@dimen/padding_layout"
         android:background="@drawable/bg_null_gray_selector"
         app:srcCompat="@drawable/ic_lock_outline_shadow" />
 </LinearLayout>

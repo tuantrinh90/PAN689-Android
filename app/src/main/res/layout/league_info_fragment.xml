@@ -46,6 +46,7 @@
                     style="@style/StyleButtonBlue"
                     android:layout_width="wrap_content"
                     android:layout_marginTop="@dimen/padding_layout"
+                    android:minWidth="@dimen/button_min_width"
                     android:text="@string/setup_team"
                     android:textAllCaps="false"
                     app:textViewFontAssetName="@string/font_display_black" />
