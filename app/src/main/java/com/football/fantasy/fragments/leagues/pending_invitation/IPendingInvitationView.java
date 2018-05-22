@@ -1,6 +1,6 @@
 package com.football.fantasy.fragments.leagues.pending_invitation;
 
-import com.hannesdorfmann.mosby3.mvp.MvpView;
+import com.football.common.views.IBaseMvpView;
 
-public interface IPendingInvitationView extends MvpView {
+public interface IPendingInvitationView extends IBaseMvpView {
 }

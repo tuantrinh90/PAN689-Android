@@ -31,7 +31,7 @@ public class ForgotPasswordFragment extends BaseMvpFragment<IForgotPasswordView,
 
     @Override
     public IForgotPasswordPresenter<IForgotPasswordView> createPresenter() {
-        return new ForgotPasswordPresenter(getAppComponent());
+        return new ForgotPasswordDataPresenter(getAppComponent());
     }
 
     @Override

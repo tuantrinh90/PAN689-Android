@@ -7,7 +7,6 @@ import android.content.res.TypedArray;
 import android.graphics.Paint;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
-import android.widget.EditText;
 
 import com.bon.customview.edittext.validators.AlphaNumericValidator;
 import com.bon.customview.edittext.validators.AlphaValidator;

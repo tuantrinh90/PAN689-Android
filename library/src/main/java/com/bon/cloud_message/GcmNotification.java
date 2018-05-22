@@ -107,7 +107,8 @@ public class GcmNotification {
             Bitmap bigIcon = BitmapFactory.decodeResource(context.getResources(), largeIconResId);
 
             // builder
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context).setContentIntent(pendingIntent)
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+                    .setContentIntent(pendingIntent)
                     .setSmallIcon(smallIconResId)
                     .setLargeIcon(bigIcon)
                     .setContentTitle(title).setContentText(message).setTicker(title).setStyle(bigText)

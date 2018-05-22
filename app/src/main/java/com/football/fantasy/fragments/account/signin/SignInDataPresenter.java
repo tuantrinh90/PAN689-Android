@@ -9,11 +9,11 @@ import com.football.events.SignInEvent;
  * Created by dangpp on 3/1/2018.
  */
 
-public class SignInPresenter<V extends ISignInView> extends BaseDataPresenter<V> implements ISignInPresenter<V> {
+public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresenter<V> implements ISignInDataPresenter<V> {
     /**
      * @param appComponent
      */
-    protected SignInPresenter(AppComponent appComponent) {
+    protected SignInDataPresenter(AppComponent appComponent) {
         super(appComponent);
         bus.subscribe(this, SignInEvent.class, signInEvent -> {
 
@@ -21,12 +21,11 @@ public class SignInPresenter<V extends ISignInView> extends BaseDataPresenter<V>
     }
 
     @Override
-    public boolean isValid() {
-        return false;
-    }
-
-    @Override
     public void onSignIn() {
-
+        getOptView().doIfPresent(v -> {
+            if (v.isValid()) {
+                v.goToMain();
+            }
+        });
     }
 }

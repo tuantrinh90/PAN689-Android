@@ -1,4 +1,4 @@
-package com.football.fantasy;
+package com.football.fantasy.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

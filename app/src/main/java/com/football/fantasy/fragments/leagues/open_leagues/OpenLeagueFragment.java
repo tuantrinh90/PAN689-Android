@@ -86,6 +86,6 @@ public class OpenLeagueFragment extends BaseMvpFragment<IOpenLeagueView, IOpenLe
 
     @Override
     public IOpenLeaguePresenter<IOpenLeagueView> createPresenter() {
-        return new OpenLeaguePresenter(getAppComponent());
+        return new OpenLeagueDataPresenter(getAppComponent());
     }
 }

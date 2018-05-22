@@ -1,9 +1,12 @@
 package com.football.fantasy.fragments.leagues.action;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -12,14 +15,19 @@ import com.bon.customview.datetime.ExtDayMonthYearHourMinuteDialogFragment;
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.textview.ExtTextView;
+import com.bon.image.ImageFilePath;
+import com.bon.image.ImageUtils;
 import com.bon.util.DateTimeUtils;
+import com.bon.util.StringUtils;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
+import com.football.customizes.images.CircleImageViewApp;
 import com.football.customizes.labels.LabelView;
 import com.football.fantasy.R;
 import com.football.utilities.AppUtilities;
 import com.football.utilities.Constant;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -33,8 +41,8 @@ public class ActionLeagueFragment extends BaseMvpFragment<IActionLeagueView, IAc
 
     @BindView(R.id.etLeagueName)
     EditTextApp etLeagueName;
-    @BindView(R.id.tvImagePick)
-    ExtTextView tvImagePick;
+    @BindView(R.id.ivImagePick)
+    CircleImageViewApp ivImagePick;
     @BindView(R.id.lvLeagueType)
     LabelView lvLeagueType;
     @BindView(R.id.rgLeagueType)
@@ -86,6 +94,7 @@ public class ActionLeagueFragment extends BaseMvpFragment<IActionLeagueView, IAc
     @BindView(R.id.tvCreateLeague)
     ExtTextView tvCreateLeague;
 
+    File filePath;
     Calendar calendarDraftTime = Calendar.getInstance();
     Calendar calendarStartTime = Calendar.getInstance();
     ExtKeyValuePair keyValuePairNumberOfUser = new ExtKeyValuePair("06", "06");
@@ -103,15 +112,20 @@ public class ActionLeagueFragment extends BaseMvpFragment<IActionLeagueView, IAc
     }
 
     void initView() {
+        setImagePick();
         onClickTransfer();
         onClickBudgetOptionBottom();
         formatDateTime();
         setData();
     }
 
+    void setImagePick() {
+        ivImagePick.getImageView().setImageResource(R.drawable.bg_image_pick);
+    }
+
     @Override
     public IActionLeaguePresenter<IActionLeagueView> createPresenter() {
-        return new ActionLeaguePresenter(getAppComponent());
+        return new ActionLeagueDataPresenter(getAppComponent());
     }
 
     @Override
@@ -135,8 +149,23 @@ public class ActionLeagueFragment extends BaseMvpFragment<IActionLeagueView, IAc
         etStartTime.setContent(DateTimeUtils.convertCalendarToString(calendarStartTime, Constant.FORMAT_DATE_TIME));
     }
 
-    @OnClick(R.id.tvImagePick)
+    @OnClick(R.id.ivImagePick)
     void onClickImagePick() {
+        ExtKeyValuePairDialogFragment.newInstance()
+                .setExtKeyValuePairs(new ArrayList<ExtKeyValuePair>() {{
+                    add(new ExtKeyValuePair(getString(R.string.camera), getString(R.string.camera)));
+                    add(new ExtKeyValuePair(getString(R.string.gallery), getString(R.string.gallery)));
+                }})
+                .setOnSelectedConsumer(extKeyValuePair -> {
+                    if (extKeyValuePair.getKey().equalsIgnoreCase(getString(R.string.camera))) {
+                        filePath = ImageUtils.getImageUrlPng();
+                        ImageUtils.captureCamera(ActionLeagueFragment.this, filePath);
+                    }
+
+                    if (extKeyValuePair.getKey().equalsIgnoreCase(getString(R.string.gallery))) {
+                        ImageUtils.chooseImageFromGallery(ActionLeagueFragment.this, getString(R.string.select_value));
+                    }
+                }).show(getFragmentManager(), null);
     }
 
     @OnClick(R.id.lvGamePlayOption)
@@ -242,5 +271,23 @@ public class ActionLeagueFragment extends BaseMvpFragment<IActionLeagueView, IAc
 
     @OnClick(R.id.tvCreateLeague)
     void onClickCreateLeague() {
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case ImageUtils.CAMERA_REQUEST: {
+                    ivImagePick.setImageUri(ImageUtils.getUriImageDisplayFromFile(filePath));
+                    break;
+                }
+                case ImageUtils.REQUEST_PICK_CONTENT: {
+                    String pathFile = ImageFilePath.getPath(mActivity, data.getData());
+                    StringUtils.isNotEmpty(pathFile, s -> ivImagePick.setImageUri(ImageUtils.getUriImageDisplayFromFile(new File(s))));
+                    break;
+                }
+            }
+        }
     }
 }

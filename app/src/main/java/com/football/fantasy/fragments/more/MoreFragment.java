@@ -25,6 +25,6 @@ public class MoreFragment extends BaseMvpFragment<IMoreView, IMorePresenter<IMor
 
     @Override
     public IMorePresenter<IMoreView> createPresenter() {
-        return new MorePresenter(getAppComponent());
+        return new MoreDataPresenter(getAppComponent());
     }
 }

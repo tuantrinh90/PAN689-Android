@@ -65,6 +65,6 @@ public class TeamFragment extends BaseMvpFragment<ITeamView, ITeamPresenter<ITea
 
     @Override
     public ITeamPresenter<ITeamView> createPresenter() {
-        return new TeamPresenter(getAppComponent());
+        return new TeamDataPresenter(getAppComponent());
     }
 }

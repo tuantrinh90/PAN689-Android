@@ -43,12 +43,11 @@
                 android:layout_weight="1"
                 app:editTextAppHint="@string/enter_league_name" />
 
-            <com.bon.customview.textview.ExtTextView
-                android:id="@+id/tvImagePick"
+            <com.football.customizes.images.CircleImageViewApp
+                android:id="@+id/ivImagePick"
                 android:layout_width="@dimen/avatar_normal"
                 android:layout_height="@dimen/avatar_normal"
-                android:layout_marginLeft="@dimen/padding_layout"
-                android:background="@drawable/bg_image_pick" />
+                android:layout_marginLeft="@dimen/padding_layout" />
         </TableRow>
 
         <com.football.customizes.labels.LabelView
@@ -434,7 +433,7 @@
             android:layout_marginBottom="@dimen/padding_layout"
             android:layout_marginLeft="@dimen/padding_layout"
             android:layout_marginRight="@dimen/padding_layout"
-            android:lines="5"
+            android:lines="6"
             app:editTextAppHint="@string/tell_us_more_about_your_league" />
 
         <com.bon.customview.shadowlayout.ShadowLayout

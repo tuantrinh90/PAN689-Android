@@ -4,8 +4,7 @@ import com.football.application.AppContext;
 import com.football.common.activities.BaseAppCompatActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.common.presenters.BaseDataPresenter;
-import com.hannesdorfmann.mosby3.mvp.MvpPresenter;
-import com.hannesdorfmann.mosby3.mvp.MvpView;
+import com.football.common.views.IBaseMvpView;
 
 import javax.inject.Singleton;
 
@@ -31,7 +30,7 @@ public interface AppComponent {
 
     void inject(BaseAppCompatActivity activity);
 
-    void inject(BaseDataPresenter<MvpView> presenter);
+    void inject(BaseDataPresenter<IBaseMvpView> presenter);
 
-    void inject(BaseMvpFragment<MvpView, MvpPresenter<MvpView>> fragment);
+    void inject(BaseMvpFragment<IBaseMvpView, BaseDataPresenter<IBaseMvpView>> fragment);
 }

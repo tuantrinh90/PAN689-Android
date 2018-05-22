@@ -1,6 +1,6 @@
 package com.football.fantasy.fragments.match_up;
 
-import com.hannesdorfmann.mosby3.mvp.MvpView;
+import com.football.common.views.IBaseMvpView;
 
-public interface IMatchUpView extends MvpView {
+public interface IMatchUpView extends IBaseMvpView {
 }

@@ -2,26 +2,23 @@ package com.football.fantasy.fragments.account.signin;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 
 import com.bon.util.ActivityUtils;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
-import com.football.fantasy.MainActivity;
 import com.football.fantasy.R;
+import com.football.fantasy.activities.MainActivity;
 import com.football.fantasy.fragments.account.forgot.ForgotPasswordFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-
 /**
  * Created by dangpp on 3/1/2018.
  */
-
-public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInPresenter<ISignInView>> implements ISignInView {
+public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPresenter<ISignInView>> implements ISignInView {
     public static SignInFragment newInstance() {
         return new SignInFragment();
     }
@@ -32,8 +29,8 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInPresente
     EditTextApp etPassword;
 
     @Override
-    public ISignInPresenter<ISignInView> createPresenter() {
-        return new SignInPresenter<>(getAppComponent());
+    public ISignInDataPresenter<ISignInView> createPresenter() {
+        return new SignInDataPresenter<>(getAppComponent());
     }
 
     @Override
@@ -48,13 +45,17 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInPresente
         initView();
     }
 
-    void initView(){
-
+    void initView() {
+        etEmail.setContent("test@gmail.com");
+        etPassword.setContent("1");
     }
 
     @Override
-    public void showLoading(boolean isLoading) {
-        showProgress(isLoading);
+    public boolean isValid() {
+        boolean result = true;
+        if (!etEmail.isValidEmail(mActivity)) result = false;
+        if (etPassword.isEmpty(mActivity)) result = false;
+        return result;
     }
 
     @Override
@@ -65,8 +66,7 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInPresente
 
     @OnClick(R.id.tvSignIn)
     void onClickSignIn() {
-        Log.e("Sign", "onClickSignIn");
-        goToMain();
+        presenter.onSignIn();
     }
 
     @OnClick(R.id.tvForgotPassword)
@@ -76,7 +76,7 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInPresente
 
     @OnClick(R.id.ivFacebook)
     void onClickFacebook() {
-        Log.e("Sign", "onClickFacebook");
+
     }
 
     @OnClick(R.id.ivGoogle)

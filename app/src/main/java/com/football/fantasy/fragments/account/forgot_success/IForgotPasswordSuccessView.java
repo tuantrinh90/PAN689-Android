@@ -1,6 +1,6 @@
 package com.football.fantasy.fragments.account.forgot_success;
 
-import com.hannesdorfmann.mosby3.mvp.MvpView;
+import com.football.common.views.IBaseMvpView;
 
-public interface IForgotPasswordSuccessView extends MvpView {
+public interface IForgotPasswordSuccessView extends IBaseMvpView {
 }

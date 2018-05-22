@@ -39,7 +39,7 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
 
     @Override
     public ISignUpPresenter<ISignUpView> createPresenter() {
-        return new SignUpPresenter<>(getAppComponent());
+        return new SignUpDataPresenter<>(getAppComponent());
     }
 
     @Override

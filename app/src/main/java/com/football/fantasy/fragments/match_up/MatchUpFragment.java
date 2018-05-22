@@ -25,6 +25,6 @@ public class MatchUpFragment extends BaseMvpFragment<IMatchUpView, IMatchUpPrese
 
     @Override
     public IMatchUpPresenter<IMatchUpView> createPresenter() {
-        return new MatchUpPresenter(getAppComponent());
+        return new MatchUpDataPresenter(getAppComponent());
     }
 }

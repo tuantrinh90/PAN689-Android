@@ -11,6 +11,7 @@ import com.bon.customview.edittext.ExtEditText;
 import com.bon.customview.listview.ExtListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.fragment.ExtBaseBottomDialogFragment;
+import com.bon.interfaces.Optional;
 import com.bon.library.R;
 import com.bon.logger.Logger;
 import com.bon.util.KeyboardUtils;
@@ -114,10 +115,7 @@ public class ExtKeyValuePairDialogFragment extends ExtBaseBottomDialogFragment {
 
     public void onClickCancel() {
         try {
-            if (onSelectedConsumer != null) {
-                onSelectedConsumer.accept(new ExtKeyValuePair("", ""));
-            }
-
+            Optional.from(onSelectedConsumer).doIfPresent(o -> o.accept(new ExtKeyValuePair("", "")));
             dismiss();
         } catch (Exception e) {
             Logger.e(TAG, e);

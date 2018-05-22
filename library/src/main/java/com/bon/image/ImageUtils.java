@@ -74,7 +74,7 @@ public class ImageUtils {
      * @param file
      * @return
      */
-    public static Uri getUriFromFile(Context context, File file) {
+    public static Uri getUriFromFileProvider(Context context, File file) {
         return FileProvider.getUriForFile(context, context.getPackageName() + ".provider", file);
     }
 
@@ -82,26 +82,23 @@ public class ImageUtils {
      * @param filePath
      * @return
      */
-    public static String getUriImage(String filePath) {
-        if (StringUtils.isEmpty(filePath)) return null;
-
-        File file = new File(filePath);
-        if (!file.exists()) return null;
-
-        return Uri.fromFile(file).toString();
+    public static String getUriImageDisplayFromFile(File filePath) {
+        if (filePath == null) return null;
+        if (!filePath.exists()) return null;
+        return Uri.fromFile(filePath).toString();
     }
 
     /**
      * capture image
      *
      * @param activity
-     * @param imageUri
+     * @param fileUri
      */
-    public static void captureCamera(Activity activity, Uri imageUri) {
+    public static void captureCamera(Activity activity, File fileUri) {
         try {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, getUriFromFileProvider(activity, fileUri));
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             activity.startActivityForResult(intent, CAMERA_REQUEST);
         } catch (Exception e) {
@@ -113,13 +110,13 @@ public class ImageUtils {
      * capture image
      *
      * @param fragment
-     * @param imageUri
+     * @param fileUri
      */
-    public static void captureCamera(Fragment fragment, Uri imageUri) {
+    public static void captureCamera(Fragment fragment, File fileUri) {
         try {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, getUriFromFileProvider(fragment.getActivity(), fileUri));
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             fragment.startActivityForResult(intent, CAMERA_REQUEST);
         } catch (Exception e) {

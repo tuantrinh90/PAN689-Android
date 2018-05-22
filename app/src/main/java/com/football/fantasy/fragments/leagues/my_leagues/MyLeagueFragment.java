@@ -67,6 +67,6 @@ public class MyLeagueFragment extends BaseMvpFragment<IMyLeagueView, IMyLeaguePr
 
     @Override
     public IMyLeaguePresenter<IMyLeagueView> createPresenter() {
-        return new MyLeaguePresenter(getAppComponent());
+        return new MyLeagueDataPresenter(getAppComponent());
     }
 }

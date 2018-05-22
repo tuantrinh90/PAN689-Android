@@ -15,6 +15,7 @@ import com.bon.customview.listview.ExtBaseAdapter;
 import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.fragment.ExtBaseBottomDialogFragment;
+import com.bon.interfaces.Optional;
 import com.bon.library.R;
 import com.bon.logger.Logger;
 import com.bon.util.KeyboardUtils;
@@ -73,7 +74,7 @@ public class ExtKeyValuePairServiceDialogFragment<AD extends ExtBaseAdapter<T>, 
             setUpView();
 
             // load default data
-            if (actionListener != null) actionListener.loadData(this);
+            Optional.from(actionListener).doIfPresent(a -> a.loadData(this));
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
@@ -102,9 +103,7 @@ public class ExtKeyValuePairServiceDialogFragment<AD extends ExtBaseAdapter<T>, 
                         lvData.clearItems();
 
                         // load data
-                        if (actionListener != null) {
-                            actionListener.loadData(this);
-                        }
+                        Optional.from(actionListener).doIfPresent(a -> a.loadData(this));
 
                         return true;
                     }
@@ -150,9 +149,7 @@ public class ExtKeyValuePairServiceDialogFragment<AD extends ExtBaseAdapter<T>, 
                     lvData.clearItems();
 
                     // load data
-                    if (actionListener != null) {
-                        actionListener.loadData(this);
-                    }
+                    Optional.from(actionListener).doIfPresent(a -> a.loadData(this));
                 } catch (Exception e) {
                     Logger.e(TAG, e);
                 }
@@ -167,27 +164,17 @@ public class ExtKeyValuePairServiceDialogFragment<AD extends ExtBaseAdapter<T>, 
             lvData.init(getContext(), adapter)
                     .setOnExtClickListener((position, item) -> {
                         try {
-                            if (actionListener != null) {
-                                actionListener.onClickItem((T) item);
-                            }
-
+                            Optional.from(actionListener).doIfPresent(a -> a.onClickItem((T) item));
                             dismiss();
                         } catch (Exception e) {
                             Logger.e(TAG, e);
                         }
                     })
-                    .setOnExtLoadMoreListener(() -> {
-                        // load more
-                        if (actionListener != null) {
-                            actionListener.loadMoreData(this);
-                        }
-                    })
+                    .setOnExtLoadMoreListener(() -> Optional.from(actionListener).doIfPresent(a -> a.loadMoreData(this)))
                     .setEnabledSwipeRefreshing(true)
                     .setOnExtRefreshListener(() -> {
                         lvData.clearItems();
-                        if (actionListener != null) {
-                            actionListener.loadData(this);
-                        }
+                        Optional.from(actionListener).doIfPresent(a -> a.loadData(this));
                     });
         } catch (Exception e) {
             Logger.e(TAG, e);
@@ -199,10 +186,7 @@ public class ExtKeyValuePairServiceDialogFragment<AD extends ExtBaseAdapter<T>, 
      */
     void onClickCancel() {
         try {
-            if (actionListener != null) {
-                actionListener.onClickItem(null);
-            }
-
+            Optional.from(actionListener).doIfPresent(a -> a.onClickItem(null));
             dismiss();
         } catch (Exception e) {
             Logger.e(TAG, e);

@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import com.bon.customview.edittext.ExtEditText;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
+import com.bon.util.EmailUtils;
 import com.bon.util.FontUtils;
 import com.bon.util.StringUtils;
 import com.football.fantasy.R;
@@ -66,6 +67,7 @@ public class EditTextApp extends LinearLayout {
         View view = LayoutInflater.from(context).inflate(R.layout.edittext_view, this);
         ButterKnife.bind(this, view);
 
+        // typed array
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.EditTextApp);
 
         // update content
@@ -80,6 +82,8 @@ public class EditTextApp extends LinearLayout {
         boolean isEnabled = typedArray.getBoolean(R.styleable.EditTextApp_editTextAppEnable, true);
         tvContent.setVisibility(isEnabled ? GONE : VISIBLE);
         etContent.setVisibility(!isEnabled ? GONE : VISIBLE);
+        etContent.setEnabled(isEnabled);
+        tvContent.setEnabled(isEnabled);
 
         // icon left
         ivIconLeft.setVisibility(GONE);
@@ -132,7 +136,14 @@ public class EditTextApp extends LinearLayout {
         etContent.setLines(typedArray.getInt(R.styleable.EditTextApp_android_lines, 1));
 
         // focus view
-        etContent.setOnFocusChangeListener((v, hasFocus) -> llView.setPressed(hasFocus));
+        llView.setBackgroundResource(R.drawable.bg_edit_text_normal);
+        etContent.setOnFocusChangeListener((v, hasFocus) -> {
+            if (tvError.getVisibility() == GONE) {
+                llView.setBackgroundResource(hasFocus ? R.drawable.bg_edit_text_focused : R.drawable.bg_edit_text_normal);
+            } else {
+                llView.setBackgroundResource(R.drawable.bg_edit_text_error);
+            }
+        });
 
         // text changes
         RxTextView.textChanges(etContent).subscribe(charSequence -> {
@@ -145,40 +156,117 @@ public class EditTextApp extends LinearLayout {
         typedArray.recycle();
     }
 
+    /**
+     * valid empty
+     *
+     * @param context
+     * @return
+     */
+    public boolean isEmpty(Context context) {
+        if (StringUtils.isEmpty(getContent())) {
+            setError(context.getString(R.string.error_field_must_not_be_empty));
+            return true;
+        }
+
+        setError(null);
+        return false;
+    }
+
+    /**
+     * valid email
+     *
+     * @param context
+     * @return
+     */
+    public boolean isValidEmail(Context context) {
+        if (StringUtils.isEmpty(getContent())) {
+            setError(context.getString(R.string.error_field_must_not_be_empty));
+            return false;
+        }
+
+        if (!EmailUtils.isValidate(getContent())) {
+            setError(context.getString(R.string.error_email_address_not_valid));
+            return false;
+        }
+
+        setError(null);
+        return true;
+    }
+
+    /**
+     * set content value
+     */
     public EditTextApp setContent(String value) {
         etContent.setText(value);
         tvContent.setText(value);
         return this;
     }
 
+    /**
+     * show error
+     *
+     * @param error
+     * @return
+     */
     public EditTextApp setError(String error) {
         tvError.setText(error);
         tvError.setVisibility(StringUtils.isEmpty(error) ? GONE : VISIBLE);
-        llView.setActivated(StringUtils.isEmpty(error) ? false : true);
+        llView.setBackgroundResource(!StringUtils.isEmpty(error) ? R.drawable.bg_edit_text_error : R.drawable.bg_edit_text_normal);
         return this;
     }
 
+    /**
+     * set text change listener
+     *
+     * @param textChangeConsumer
+     * @return
+     */
     public EditTextApp setTextChangeConsumer(Consumer<String> textChangeConsumer) {
         this.textChangeConsumer = textChangeConsumer;
         return this;
     }
 
-    public ExtEditText getContentView() {
-        return etContent;
-    }
-
-    public AppCompatImageView getIconRightImageView() {
-        return ivIconRight;
-    }
-
+    /**
+     * get icon left
+     *
+     * @return
+     */
     public AppCompatImageView getIconLeftImageView() {
         return ivIconLeft;
     }
 
-    public void setIvIconLeft(AppCompatImageView ivIconLeft) {
-        this.ivIconLeft = ivIconLeft;
+    /**
+     * get content from edit text
+     *
+     * @return
+     */
+    public String getContent() {
+        return etContent.getText().toString();
     }
 
+    /**
+     * get content view
+     *
+     * @return
+     */
+    public ExtEditText getContentView() {
+        return etContent;
+    }
+
+    /**
+     * get icon right
+     *
+     * @return
+     */
+    public AppCompatImageView getIconRightImageView() {
+        return ivIconRight;
+    }
+
+    /**
+     * get error view
+     *
+     * @return
+     */
     public ExtTextView getErrorView() {
         return tvError;
     }

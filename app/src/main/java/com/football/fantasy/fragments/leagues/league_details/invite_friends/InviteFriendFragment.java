@@ -75,6 +75,6 @@ public class InviteFriendFragment extends BaseMvpFragment<IInviteFriendView, IIn
 
     @Override
     public IInviteFriendPresenter<IInviteFriendView> createPresenter() {
-        return new InviteFriendPresenter(getAppComponent());
+        return new InviteFriendDataPresenter(getAppComponent());
     }
 }

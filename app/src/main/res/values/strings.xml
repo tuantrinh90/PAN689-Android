@@ -78,4 +78,9 @@
     <string name="invite_social">OR invite friends via social networks</string>
     <string name="invite">Invite</string>
     <string name="invited">Invited</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <!--// error message-->
+    <string name="error_field_must_not_be_empty">This field is required</string>
+    <string name="error_email_address_not_valid">Invalid email</string>
 </resources>

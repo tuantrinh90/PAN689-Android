@@ -1,6 +1,6 @@
 package com.football.fantasy.fragments.more;
 
-import com.hannesdorfmann.mosby3.mvp.MvpView;
+import com.football.common.views.IBaseMvpView;
 
-public interface IMoreView extends MvpView {
+public interface IMoreView extends IBaseMvpView {
 }

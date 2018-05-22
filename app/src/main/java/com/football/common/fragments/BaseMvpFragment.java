@@ -16,13 +16,14 @@ import com.bon.util.KeyboardUtils;
 import com.bon.util.StringUtils;
 import com.football.application.AppContext;
 import com.football.common.activities.BaseAppCompatActivity;
+import com.football.common.presenters.BaseDataPresenter;
+import com.football.common.presenters.IBaseDataPresenter;
+import com.football.common.views.IBaseMvpView;
 import com.football.di.AppComponent;
 import com.football.interactors.IDataModule;
 import com.football.interactors.database.IDbModule;
 import com.football.interactors.service.IApiService;
 import com.hannesdorfmann.mosby3.mvp.MvpFragment;
-import com.hannesdorfmann.mosby3.mvp.MvpPresenter;
-import com.hannesdorfmann.mosby3.mvp.MvpView;
 
 import javax.inject.Inject;
 
@@ -32,8 +33,8 @@ import butterknife.Unbinder;
 /**
  * Created by dangpp on 2/21/2018.
  */
-public abstract class BaseMvpFragment<V extends MvpView, P extends MvpPresenter<V>>
-        extends MvpFragment<V, P> implements IBaseFragment, IResourceFragment {
+public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDataPresenter<V>>
+        extends MvpFragment<V, P> implements IBaseFragment, IResourceFragment, IBaseMvpView {
     private static final String TAG = BaseMvpFragment.class.getSimpleName();
 
     protected BaseAppCompatActivity mActivity;
@@ -67,8 +68,9 @@ public abstract class BaseMvpFragment<V extends MvpView, P extends MvpPresenter<
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         // inject component
-        getAppContext().getComponent().inject((BaseMvpFragment<MvpView, MvpPresenter<MvpView>>) this);
+        getAppContext().getComponent().inject((BaseMvpFragment<IBaseMvpView, BaseDataPresenter<IBaseMvpView>>) this);
 
         // retain this fragment when activity is re-initialized
         setRetainInstance(true);
@@ -109,16 +111,22 @@ public abstract class BaseMvpFragment<V extends MvpView, P extends MvpPresenter<
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        // hide loading, keyboard
-        showProgress(false);
+
+        // hide loading
+        showLoading(false);
+
+        // hide keyboard
         KeyboardUtils.hideSoftKeyboard(mActivity);
 
         // unbind butter knife
         Optional.from(unbinder).doIfPresent(u -> u.unbind());
+
+        // unbind event
+        Optional.from(presenter).doIfPresent(p -> p.unbindEvent());
     }
 
     @Override
-    public void showProgress(boolean show) {
+    public void showLoading(boolean show) {
         if (show) {
             mActivity.showProgressDialog();
         } else {

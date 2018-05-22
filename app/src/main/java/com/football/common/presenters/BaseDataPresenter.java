@@ -6,19 +6,19 @@ import android.support.annotation.NonNull;
 import com.bon.event_bus.IEvent;
 import com.bon.event_bus.RxBus;
 import com.bon.interfaces.Optional;
+import com.football.common.views.IBaseMvpView;
 import com.football.di.AppComponent;
 import com.football.interactors.IDataModule;
 import com.football.interactors.database.IDbModule;
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
-import com.hannesdorfmann.mosby3.mvp.MvpView;
 
 import javax.inject.Inject;
 
 /**
  * Created by dangpp on 2/21/2018.
  */
-public abstract class BaseDataPresenter<V extends MvpView> extends MvpBasePresenter<V>
-        implements IBasePresenter {
+public abstract class BaseDataPresenter<V extends IBaseMvpView> extends MvpBasePresenter<V>
+        implements IBaseDataPresenter<V> {
 
     @Inject
     public IDataModule dataModule;
@@ -32,7 +32,7 @@ public abstract class BaseDataPresenter<V extends MvpView> extends MvpBasePresen
      */
     public BaseDataPresenter(AppComponent appComponent) {
         // leave casting to match generic type for Dagger2
-        appComponent.inject((BaseDataPresenter<MvpView>) this);
+        appComponent.inject((BaseDataPresenter<IBaseMvpView>) this);
     }
 
     /**
@@ -61,12 +61,7 @@ public abstract class BaseDataPresenter<V extends MvpView> extends MvpBasePresen
     }
 
     @Override
-    public void onStart() {
-
-    }
-
-    @Override
-    public void onStop() {
+    public void unbindEvent() {
         bus.unSubscribe(this);
     }
 }

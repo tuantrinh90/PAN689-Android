@@ -22,6 +22,4 @@ public interface IBaseFragment {
     String getTitleString();
 
     void initToolbar(@NonNull ActionBar supportActionBar);
-
-    void showProgress(boolean show);
 }

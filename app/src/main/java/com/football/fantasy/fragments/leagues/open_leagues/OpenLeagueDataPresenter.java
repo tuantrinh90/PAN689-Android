@@ -3,11 +3,11 @@ package com.football.fantasy.fragments.leagues.open_leagues;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 
-public class OpenLeaguePresenter extends BaseDataPresenter<IOpenLeagueView> implements IOpenLeaguePresenter<IOpenLeagueView> {
+public class OpenLeagueDataPresenter extends BaseDataPresenter<IOpenLeagueView> implements IOpenLeaguePresenter<IOpenLeagueView> {
     /**
      * @param appComponent
      */
-    public OpenLeaguePresenter(AppComponent appComponent) {
+    public OpenLeagueDataPresenter(AppComponent appComponent) {
         super(appComponent);
     }
 }

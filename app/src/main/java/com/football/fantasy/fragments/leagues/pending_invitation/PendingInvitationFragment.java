@@ -66,6 +66,6 @@ public class PendingInvitationFragment extends BaseMvpFragment<IPendingInvitatio
 
     @Override
     public IPendingInvitationPresenter<IPendingInvitationView> createPresenter() {
-        return new PendingInvitationPresenter(getAppComponent());
+        return new PendingInvitationDataPresenter(getAppComponent());
     }
 }

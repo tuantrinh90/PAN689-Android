@@ -16,7 +16,7 @@ ext {
     compileSdkVersion = 26
     buildToolsVersion = '27.0.3'
     minSdkVersion = 16
-    targetSdkVersion = 26
+    targetSdkVersion = 23
     androidVer = '27.0.2'
     constrainLayoutVer = '1.0.2'
     butterknifeVer = '8.8.1'
@@ -26,7 +26,7 @@ ext {
     jacksonVer = '2.9.0'
     imageLoaderVer = '1.9.5'
     retrofitVer = '2.3.0'
-    okhttpVer = "3.9.1"
+    okhttpVer = '3.9.1'
     streamsupportVer = '1.6.0'
     playServiceVer = '11.8.0'
     daggerVer = '2.4'

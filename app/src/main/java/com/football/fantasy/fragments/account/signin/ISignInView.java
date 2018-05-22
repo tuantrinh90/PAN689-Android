@@ -1,13 +1,13 @@
 package com.football.fantasy.fragments.account.signin;
 
-import com.hannesdorfmann.mosby3.mvp.MvpView;
+import com.football.common.views.IBaseMvpView;
 
 /**
  * Created by dangpp on 3/1/2018.
  */
 
-public interface ISignInView extends MvpView {
-    void showLoading(boolean isLoading);
+public interface ISignInView extends IBaseMvpView {
+    boolean isValid();
 
     void goToMain();
 }

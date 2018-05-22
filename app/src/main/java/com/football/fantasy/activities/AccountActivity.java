@@ -1,4 +1,4 @@
-package com.football.fantasy;
+package com.football.fantasy.activities;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import com.football.common.activities.BaseAppCompatActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
+import com.football.fantasy.R;
 import com.football.fantasy.fragments.account.signin.SignInFragment;
 import com.football.fantasy.fragments.account.signup.SignUpFragment;
 

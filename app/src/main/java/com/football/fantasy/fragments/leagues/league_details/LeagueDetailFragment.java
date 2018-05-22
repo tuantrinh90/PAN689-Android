@@ -104,7 +104,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
 
     @Override
     public ILeagueDetailPresenter<ILeagueDetailView> createPresenter() {
-        return new LeagueDetailPresenter(getAppComponent());
+        return new LeagueDetailDataPresenter(getAppComponent());
     }
 
     @Override

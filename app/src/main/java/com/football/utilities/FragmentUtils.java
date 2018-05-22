@@ -7,7 +7,8 @@ import android.support.v4.app.FragmentTransaction;
 import com.bon.interfaces.Optional;
 import com.bon.logger.Logger;
 import com.football.common.fragments.BaseMvpFragment;
-import com.hannesdorfmann.mosby3.mvp.MvpPresenter;
+import com.football.common.presenters.IBaseDataPresenter;
+import com.football.common.views.IBaseMvpView;
 import com.hannesdorfmann.mosby3.mvp.MvpView;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class FragmentUtils {
      * @param fragmentActivity
      * @param fragment
      */
-    public static <V extends MvpView, P extends MvpPresenter<V>> void replaceFragment(FragmentActivity fragmentActivity, BaseMvpFragment<V, P> fragment) {
+    public static <V extends IBaseMvpView, P extends IBaseDataPresenter<V>> void replaceFragment(FragmentActivity fragmentActivity, BaseMvpFragment<V, P> fragment) {
         replaceFragment(fragmentActivity, fragment, null);
     }
 
@@ -43,7 +44,7 @@ public class FragmentUtils {
      * @param fragment
      * @param fragmentConsumer
      */
-    public static <V extends MvpView, P extends MvpPresenter<V>> void replaceFragment(FragmentActivity fragmentActivity,
+    public static <V extends IBaseMvpView, P extends IBaseDataPresenter<V>> void replaceFragment(FragmentActivity fragmentActivity,
                                                                                       BaseMvpFragment<V, P> fragment, Consumer<BaseMvpFragment<V, P>> fragmentConsumer) {
         if (containerViewId <= 0) throw new NullPointerException();
         replaceFragment(fragmentActivity, containerViewId, fragment, fragmentConsumer);
@@ -54,7 +55,7 @@ public class FragmentUtils {
      * @param containerViewId
      * @param fragment
      */
-    public static <V extends MvpView, P extends MvpPresenter<V>> void replaceFragment(FragmentActivity fragmentActivity,
+    public static <V extends IBaseMvpView, P extends IBaseDataPresenter<V>> void replaceFragment(FragmentActivity fragmentActivity,
                                                                                       int containerViewId, BaseMvpFragment<V, P> fragment) {
         replaceFragment(fragmentActivity, containerViewId, fragment, null);
     }
@@ -65,7 +66,7 @@ public class FragmentUtils {
      * @param fragment
      * @param fragmentConsumer
      */
-    public static <V extends MvpView, P extends MvpPresenter<V>> void replaceFragment(FragmentActivity fragmentActivity, int containerViewId,
+    public static <V extends IBaseMvpView, P extends IBaseDataPresenter<V>> void replaceFragment(FragmentActivity fragmentActivity, int containerViewId,
                                                                                       BaseMvpFragment<V, P> fragment, Consumer<BaseMvpFragment<V, P>> fragmentConsumer) {
         try {
             Optional.from(fragment).doIfPresent(f -> {
@@ -89,7 +90,7 @@ public class FragmentUtils {
      * @param activity
      * @param fragments
      */
-    public static <V extends MvpView, P extends MvpPresenter<V>> void clearCacheFragment(FragmentActivity activity, List<BaseMvpFragment<V, P>> fragments) {
+    public static <V extends IBaseMvpView, P extends IBaseDataPresenter<V>> void clearCacheFragment(FragmentActivity activity, List<BaseMvpFragment<V, P>> fragments) {
         try {
             // remove all cache in viewpager
             if (fragments != null && fragments.size() > 0) {
@@ -115,7 +116,7 @@ public class FragmentUtils {
      * @param activity
      * @param fragment
      */
-    public static <V extends MvpView, P extends MvpPresenter<V>> void clearCacheFragment(FragmentActivity activity, BaseMvpFragment<V, P> fragment) {
+    public static <V extends IBaseMvpView, P extends IBaseDataPresenter<V>> void clearCacheFragment(FragmentActivity activity, BaseMvpFragment<V, P> fragment) {
         try {
             // remove all cache in viewpager
             if (fragment != null) {

@@ -24,7 +24,7 @@ public class ForgotPasswordSuccessFragment
 
     @Override
     public IForgotPasswordSuccessPresenter<IForgotPasswordSuccessView> createPresenter() {
-        return new ForgotPasswordSuccessPresenter(getAppComponent());
+        return new ForgotPasswordSuccessDataPresenter(getAppComponent());
     }
 
     @Override

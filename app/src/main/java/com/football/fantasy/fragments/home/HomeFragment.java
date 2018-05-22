@@ -109,7 +109,7 @@ public class HomeFragment extends BaseMvpFragment<IHomeView, IHomePresenter<IHom
 
     @Override
     public IHomePresenter<IHomeView> createPresenter() {
-        return new HomePresenter(getAppComponent());
+        return new HomeDataPresenter(getAppComponent());
     }
 
     @OnClick(R.id.tvCreateLeagues)

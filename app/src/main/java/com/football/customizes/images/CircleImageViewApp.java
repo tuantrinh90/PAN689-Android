@@ -50,4 +50,8 @@ public class CircleImageViewApp extends LinearLayout {
         ImageLoaderUtils.displayImage(uri, ivImage);
         return this;
     }
+
+    public CircleImageView getImageView() {
+        return ivImage;
+    }
 }

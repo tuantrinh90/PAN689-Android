@@ -55,7 +55,7 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
 
     @Override
     public ILeagueInfoPresenter<ILeagueInfoView> createPresenter() {
-        return new LeagueInfoPresenter(getAppComponent());
+        return new LeagueInfoDataPresenter(getAppComponent());
     }
 
     @OnClick(R.id.tvSetupTeam)

@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import java8.util.function.Consumer;
+
 public class StringUtils {
     private static final String TAG = StringUtils.class.getSimpleName();
 
@@ -109,6 +111,38 @@ public class StringUtils {
         }
 
         return false;
+    }
+
+    /**
+     * @param value
+     * @param objectConsumer
+     */
+    public static void isEmpty(@Nullable String value, Consumer<String> objectConsumer) {
+        if (isEmpty(value) && objectConsumer != null) objectConsumer.accept(null);
+    }
+
+    /**
+     * @param value
+     * @param objectConsumer
+     */
+    public static void isEmpty(@Nullable CharSequence value, Consumer<String> objectConsumer) {
+        if (!isEmpty(value) && objectConsumer != null) objectConsumer.accept(null);
+    }
+
+    /**
+     * @param value
+     * @param objectConsumer
+     */
+    public static void isNotEmpty(@Nullable String value, Consumer<String> objectConsumer) {
+        if (!isEmpty(value) && objectConsumer != null) objectConsumer.accept(value);
+    }
+
+    /**
+     * @param value
+     * @param objectConsumer
+     */
+    public static void isNotEmpty(@Nullable CharSequence value, Consumer<String> objectConsumer) {
+        if (!isEmpty(value) && objectConsumer != null) objectConsumer.accept(value + "");
     }
 
     /**

@@ -25,6 +25,6 @@ public class NotificationFragment extends BaseMvpFragment<INotificationView, INo
 
     @Override
     public INotificationPresenter<INotificationView> createPresenter() {
-        return new NotificationPresenter(getAppComponent());
+        return new NotificationDataPresenter(getAppComponent());
     }
 }

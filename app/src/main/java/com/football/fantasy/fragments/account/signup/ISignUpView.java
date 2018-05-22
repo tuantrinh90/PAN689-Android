@@ -1,6 +1,6 @@
 package com.football.fantasy.fragments.account.signup;
 
-import com.hannesdorfmann.mosby3.mvp.MvpView;
+import com.football.common.views.IBaseMvpView;
 
-public interface ISignUpView extends MvpView {
+public interface ISignUpView extends IBaseMvpView {
 }
