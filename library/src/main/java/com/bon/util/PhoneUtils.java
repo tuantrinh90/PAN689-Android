@@ -243,6 +243,7 @@ public class PhoneUtils {
      * <p>{@code <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>}</p>
      * <p>{@code <uses-permission android:name="android.permission.READ_SMS"/>}</p>
      */
+    @SuppressLint("SdCardPath")
     public static void getAllSMS() {
         ContentResolver resolver = ExtUtils.getApp().getContentResolver();
 

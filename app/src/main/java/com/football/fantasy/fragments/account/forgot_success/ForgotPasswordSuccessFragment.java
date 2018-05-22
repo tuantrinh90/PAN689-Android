@@ -22,6 +22,7 @@ public class ForgotPasswordSuccessFragment
         bindButterKnife(view);
     }
 
+    @NonNull
     @Override
     public IForgotPasswordSuccessPresenter<IForgotPasswordSuccessView> createPresenter() {
         return new ForgotPasswordSuccessDataPresenter(getAppComponent());

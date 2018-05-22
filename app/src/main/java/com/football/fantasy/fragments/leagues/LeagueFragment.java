@@ -1,6 +1,7 @@
 package com.football.fantasy.fragments.leagues;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -81,6 +82,7 @@ public class LeagueFragment extends BaseMvpFragment<ILeagueView, ILeaguePresente
         });
     }
 
+    @NonNull
     @Override
     public ILeaguePresenter<ILeagueView> createPresenter() {
         return new LeagueDataPresenter(getAppComponent());

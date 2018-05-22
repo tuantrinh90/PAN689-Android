@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -123,6 +122,7 @@ public class ActionLeagueFragment extends BaseMvpFragment<IActionLeagueView, IAc
         ivImagePick.getImageView().setImageResource(R.drawable.bg_image_pick);
     }
 
+    @NonNull
     @Override
     public IActionLeaguePresenter<IActionLeagueView> createPresenter() {
         return new ActionLeagueDataPresenter(getAppComponent());

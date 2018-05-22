@@ -18,12 +18,10 @@
                 tools:targetApi="n">
                 <item
                     android:color="#FFFAD961"
-                    android:offset="0"
-                    tools:targetApi="n" />
+                    android:offset="0" />
                 <item
                     android:color="#FFF76B1C"
-                    android:offset="1"
-                    tools:targetApi="n" />
+                    android:offset="1" />
             </gradient>
         </aapt:attr>
     </path>

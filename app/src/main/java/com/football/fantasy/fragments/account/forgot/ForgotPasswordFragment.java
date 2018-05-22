@@ -29,6 +29,7 @@ public class ForgotPasswordFragment extends BaseMvpFragment<IForgotPasswordView,
         bindButterKnife(view);
     }
 
+    @NonNull
     @Override
     public IForgotPasswordPresenter<IForgotPasswordView> createPresenter() {
         return new ForgotPasswordDataPresenter(getAppComponent());

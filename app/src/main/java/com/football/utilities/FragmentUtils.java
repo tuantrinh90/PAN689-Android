@@ -9,7 +9,6 @@ import com.bon.logger.Logger;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.common.presenters.IBaseDataPresenter;
 import com.football.common.views.IBaseMvpView;
-import com.hannesdorfmann.mosby3.mvp.MvpView;
 
 import java.util.List;
 
@@ -45,7 +44,7 @@ public class FragmentUtils {
      * @param fragmentConsumer
      */
     public static <V extends IBaseMvpView, P extends IBaseDataPresenter<V>> void replaceFragment(FragmentActivity fragmentActivity,
-                                                                                      BaseMvpFragment<V, P> fragment, Consumer<BaseMvpFragment<V, P>> fragmentConsumer) {
+                                                                                                 BaseMvpFragment<V, P> fragment, Consumer<BaseMvpFragment<V, P>> fragmentConsumer) {
         if (containerViewId <= 0) throw new NullPointerException();
         replaceFragment(fragmentActivity, containerViewId, fragment, fragmentConsumer);
     }
@@ -56,7 +55,7 @@ public class FragmentUtils {
      * @param fragment
      */
     public static <V extends IBaseMvpView, P extends IBaseDataPresenter<V>> void replaceFragment(FragmentActivity fragmentActivity,
-                                                                                      int containerViewId, BaseMvpFragment<V, P> fragment) {
+                                                                                                 int containerViewId, BaseMvpFragment<V, P> fragment) {
         replaceFragment(fragmentActivity, containerViewId, fragment, null);
     }
 
@@ -67,7 +66,7 @@ public class FragmentUtils {
      * @param fragmentConsumer
      */
     public static <V extends IBaseMvpView, P extends IBaseDataPresenter<V>> void replaceFragment(FragmentActivity fragmentActivity, int containerViewId,
-                                                                                      BaseMvpFragment<V, P> fragment, Consumer<BaseMvpFragment<V, P>> fragmentConsumer) {
+                                                                                                 BaseMvpFragment<V, P> fragment, Consumer<BaseMvpFragment<V, P>> fragmentConsumer) {
         try {
             Optional.from(fragment).doIfPresent(f -> {
                 fragmentActivity.getSupportFragmentManager()

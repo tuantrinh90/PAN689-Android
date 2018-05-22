@@ -63,9 +63,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     }
 
     void initView() {
-        Optional.from(league).doIfPresent(l -> {
-            tvTitle.setText(league.getTitle());
-        });
+        Optional.from(league).doIfPresent(l -> tvTitle.setText(league.getTitle()));
 
         cvCarouselView.setTextAllCaps(false)
                 .setFontPath(getString(R.string.font_display_heavy_italic))
@@ -102,6 +100,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
         });
     }
 
+    @NonNull
     @Override
     public ILeagueDetailPresenter<ILeagueDetailView> createPresenter() {
         return new LeagueDetailDataPresenter(getAppComponent());

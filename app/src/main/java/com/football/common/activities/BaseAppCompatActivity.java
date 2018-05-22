@@ -76,7 +76,7 @@ public abstract class BaseAppCompatActivity extends ExtBaseActivity implements I
         KeyboardUtils.hideSoftKeyboard(this);
 
         // unbind butter knife
-        Optional.from(unbinder).doIfPresent(u -> u.unbind());
+        Optional.from(unbinder).doIfPresent(Unbinder::unbind);
     }
 
     @Override

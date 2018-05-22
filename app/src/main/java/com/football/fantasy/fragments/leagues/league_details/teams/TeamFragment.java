@@ -1,6 +1,7 @@
 package com.football.fantasy.fragments.leagues.league_details.teams;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -63,6 +64,7 @@ public class TeamFragment extends BaseMvpFragment<ITeamView, ITeamPresenter<ITea
         rvRecyclerView.setAdapter(teamAdapter);
     }
 
+    @NonNull
     @Override
     public ITeamPresenter<ITeamView> createPresenter() {
         return new TeamDataPresenter(getAppComponent());

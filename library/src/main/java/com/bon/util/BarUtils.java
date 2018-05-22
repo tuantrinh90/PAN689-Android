@@ -10,6 +10,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.widget.DrawerLayout;
 import android.util.TypedValue;
 import android.view.KeyCharacterMap;
@@ -582,6 +583,7 @@ public final class BarUtils {
     /**
      * @param activity
      */
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static void hideNavBar(@NonNull final Activity activity) {
         try {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) return;

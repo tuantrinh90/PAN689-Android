@@ -47,7 +47,8 @@
                 android:id="@+id/ivImagePick"
                 android:layout_width="@dimen/avatar_normal"
                 android:layout_height="@dimen/avatar_normal"
-                android:layout_marginLeft="@dimen/padding_layout" />
+                android:layout_marginLeft="@dimen/padding_layout"
+                android:layout_marginStart="@dimen/padding_layout" />
         </TableRow>
 
         <com.football.customizes.labels.LabelView
@@ -64,7 +65,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/padding_layout">
+            android:paddingLeft="@dimen/padding_layout"
+            android:paddingRight="@dimen/padding_layout">
 
             <com.bon.customview.radiobutton.ExtRadioButton
                 android:id="@+id/rbOpenLeague"
@@ -129,6 +131,7 @@
                 android:id="@+id/llDraft"
                 android:layout_width="0dp"
                 android:layout_marginLeft="@dimen/padding_layout"
+                android:layout_marginStart="@dimen/padding_layout"
                 android:layout_weight="1"
                 android:background="@drawable/bg_game_option"
                 android:gravity="center"
@@ -165,6 +168,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginStart="@dimen/padding_layout"
             app:editTextAppEnable="false"
             app:editTextAppIconRight="@drawable/ic_arrow_drop_down_black" />
 
@@ -217,6 +221,7 @@
                 android:id="@+id/llBudgetOptionChallenge"
                 android:layout_width="0dp"
                 android:layout_marginLeft="@dimen/padding_small"
+                android:layout_marginStart="@dimen/padding_layout"
                 android:layout_weight="1"
                 android:background="@drawable/bg_game_option"
                 android:gravity="center"
@@ -248,6 +253,7 @@
                 android:id="@+id/llBudgetOptionDream"
                 android:layout_width="0dp"
                 android:layout_marginLeft="@dimen/padding_small"
+                android:layout_marginStart="@dimen/padding_layout"
                 android:layout_weight="1"
                 android:background="@drawable/bg_game_option"
                 android:gravity="center"
@@ -291,7 +297,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/padding_layout">
+            android:paddingLeft="@dimen/padding_layout"
+            android:paddingRight="@dimen/padding_layout">
 
             <com.bon.customview.radiobutton.ExtRadioButton
                 android:id="@+id/rbNoTradeReview"
@@ -339,7 +346,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/padding_layout">
+            android:paddingLeft="@dimen/padding_layout"
+            android:paddingRight="@dimen/padding_layout">
 
             <com.bon.customview.radiobutton.ExtRadioButton
                 android:id="@+id/rbRegular"

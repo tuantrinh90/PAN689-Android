@@ -4,18 +4,13 @@ import android.os.Handler;
 
 import com.bon.event_bus.IEvent;
 import com.bon.event_bus.RxBus;
-import com.football.events.SignInEvent;
 import com.football.interactors.IDataModule;
 import com.football.interactors.database.IDbModule;
 import com.football.interactors.service.IApiService;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import dagger.Module;
-import java8.util.function.Consumer;
-import rx.functions.Action0;
 
 /**
  * Created by dangpp on 2/9/2018.
@@ -38,20 +33,11 @@ public class DataModule implements IDataModule {
 
     public DataModule(AppComponent component) {
         this.component = component;
-        component.inject(this);
+        this.component.inject(this);
     }
 
     @Override
     public Handler getHandler() {
         return handler;
-    }
-
-    @Override
-    public void getUsers(Consumer<List<String>> consumer) {
-        Action0 f;
-    }
-
-    public void sentMessage() {
-        bus.send(new SignInEvent("fdfdfdf"));
     }
 }

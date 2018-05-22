@@ -76,7 +76,8 @@
             android:layout_marginLeft="@dimen/padding_layout"
             android:padding="@dimen/padding_layout"
             android:src="@drawable/cancel_icon"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:contentDescription="@string/app_name" />
     </RelativeLayout>
 
     <View

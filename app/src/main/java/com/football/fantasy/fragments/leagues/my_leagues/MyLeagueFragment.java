@@ -1,6 +1,7 @@
 package com.football.fantasy.fragments.leagues.my_leagues;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -65,6 +66,7 @@ public class MyLeagueFragment extends BaseMvpFragment<IMyLeagueView, IMyLeaguePr
         rvRecyclerView.setAdapter(leaguesAdapter);
     }
 
+    @NonNull
     @Override
     public IMyLeaguePresenter<IMyLeagueView> createPresenter() {
         return new MyLeagueDataPresenter(getAppComponent());

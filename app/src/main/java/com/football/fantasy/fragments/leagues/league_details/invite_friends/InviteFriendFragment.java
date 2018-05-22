@@ -1,6 +1,7 @@
 package com.football.fantasy.fragments.leagues.league_details.invite_friends;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -73,6 +74,7 @@ public class InviteFriendFragment extends BaseMvpFragment<IInviteFriendView, IIn
         rvRecyclerView.setAdapter(inviteFriendAdapter);
     }
 
+    @NonNull
     @Override
     public IInviteFriendPresenter<IInviteFriendView> createPresenter() {
         return new InviteFriendDataPresenter(getAppComponent());

@@ -14,10 +14,10 @@
 
         <activity
             android:name=".activities.AccountActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait"
             android:configChanges="keyboard|keyboardHidden|screenSize"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

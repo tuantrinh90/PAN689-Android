@@ -1,6 +1,7 @@
 package com.football.fantasy.fragments.leagues.pending_invitation;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -64,6 +65,7 @@ public class PendingInvitationFragment extends BaseMvpFragment<IPendingInvitatio
         rvRecyclerView.setAdapter(leaguesAdapter);
     }
 
+    @NonNull
     @Override
     public IPendingInvitationPresenter<IPendingInvitationView> createPresenter() {
         return new PendingInvitationDataPresenter(getAppComponent());

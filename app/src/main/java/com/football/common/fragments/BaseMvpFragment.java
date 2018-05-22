@@ -78,7 +78,7 @@ public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDat
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(getResourceId(), container, false);
     }
 
@@ -93,7 +93,7 @@ public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDat
         if (isChildFragment) return;
 
         // update toolbar
-        Optional.from(mActivity.getAppSupportActionBar()).doIfPresent(actionBar -> initToolbar(actionBar));
+        Optional.from(mActivity.getAppSupportActionBar()).doIfPresent(this::initToolbar);
 
         // update title
         if (StringUtils.isEmpty(getTitleString())) {
@@ -119,10 +119,10 @@ public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDat
         KeyboardUtils.hideSoftKeyboard(mActivity);
 
         // unbind butter knife
-        Optional.from(unbinder).doIfPresent(u -> u.unbind());
+        Optional.from(unbinder).doIfPresent(Unbinder::unbind);
 
         // unbind event
-        Optional.from(presenter).doIfPresent(p -> p.unbindEvent());
+        Optional.from(presenter).doIfPresent(IBaseDataPresenter::unbindEvent);
     }
 
     @Override

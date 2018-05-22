@@ -1,6 +1,7 @@
 package com.football.fantasy.fragments.home;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
@@ -107,6 +108,7 @@ public class HomeFragment extends BaseMvpFragment<IHomeView, IHomePresenter<IHom
         gravitySnapHelper.attachToRecyclerView(rvMyLeagues);
     }
 
+    @NonNull
     @Override
     public IHomePresenter<IHomeView> createPresenter() {
         return new HomeDataPresenter(getAppComponent());
