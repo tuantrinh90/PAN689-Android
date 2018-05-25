@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/padding_layout">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_layout"
+        android:layout_marginRight="@dimen/padding_layout"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_layout">
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvCancel"
+            style="@style/StyleContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_null_gray_selector"
+            android:padding="0dp"
+            android:text="@string/cancel"
+            android:textColor="@color/color_blue" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvDone"
+            style="@style/StyleContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_null_gray_selector"
+            android:padding="0dp"
+            android:text="@string/done"
+            android:textColor="@color/color_blue"
+            app:textViewFontAssetName="@string/font_display_bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_layout"
+        android:layout_marginRight="@dimen/padding_layout"
+        android:orientation="vertical">
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleTitle"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout"
+            android:padding="0dp"
+            android:text="@string/choose_a_successor"
+            android:textAllCaps="true"
+            app:textViewFontAssetName="@string/font_display_black_italic" />
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleContent"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:padding="0dp"
+            android:text="@string/choose_a_successor_description"
+            android:textColor="@color/color_gray" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/padding_layout"
+        android:layout_weight="1"></android.support.v7.widget.RecyclerView>
+</LinearLayout>

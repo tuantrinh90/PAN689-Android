@@ -124,14 +124,15 @@
                     android:padding="0dp"
                     android:text="@string/transfer"
                     android:textColor="@color/color_white_blue"
+                    android:textSize="@dimen/font_size_description"
                     app:textViewFontAssetName="@string/font_display_bold" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llDraft"
                 android:layout_width="0dp"
-                android:layout_marginLeft="@dimen/padding_layout"
-                android:layout_marginStart="@dimen/padding_layout"
+                android:layout_marginLeft="@dimen/padding_small"
+                android:layout_marginStart="@dimen/padding_small"
                 android:layout_weight="1"
                 android:background="@drawable/bg_game_option"
                 android:gravity="center"
@@ -150,6 +151,7 @@
                     android:padding="0dp"
                     android:text="@string/draft"
                     android:textColor="@color/color_white_blue"
+                    android:textSize="@dimen/font_size_description"
                     app:textViewFontAssetName="@string/font_display_bold" />
             </LinearLayout>
         </TableRow>
@@ -200,9 +202,13 @@
                     style="@style/StyleContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:lines="1"
                     android:padding="0dp"
+                    android:singleLine="true"
                     android:text="@string/bottom"
                     android:textColor="@color/color_white_blue"
+                    android:textSize="@dimen/font_size_description"
                     app:textViewFontAssetName="@string/font_display_bold" />
 
                 <com.bon.customview.textview.ExtTextView
@@ -211,9 +217,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/padding_content"
+                    android:ellipsize="end"
+                    android:lines="1"
                     android:padding="0dp"
+                    android:singleLine="true"
                     android:text="$10 mil"
                     android:textColor="@color/color_white_gray"
+                    android:textSize="@dimen/font_size_description"
                     app:textViewFontAssetName="@string/font_display_regular" />
             </LinearLayout>
 
@@ -221,7 +231,7 @@
                 android:id="@+id/llBudgetOptionChallenge"
                 android:layout_width="0dp"
                 android:layout_marginLeft="@dimen/padding_small"
-                android:layout_marginStart="@dimen/padding_layout"
+                android:layout_marginStart="@dimen/padding_small"
                 android:layout_weight="1"
                 android:background="@drawable/bg_game_option"
                 android:gravity="center"
@@ -232,9 +242,13 @@
                     style="@style/StyleContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:lines="1"
                     android:padding="0dp"
+                    android:singleLine="true"
                     android:text="@string/challenge"
                     android:textColor="@color/color_white_blue"
+                    android:textSize="@dimen/font_size_description"
                     app:textViewFontAssetName="@string/font_display_bold" />
 
                 <com.bon.customview.textview.ExtTextView
@@ -243,9 +257,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/padding_content"
+                    android:ellipsize="end"
+                    android:lines="1"
                     android:padding="0dp"
+                    android:singleLine="true"
                     android:text="$10 mil"
                     android:textColor="@color/color_white_gray"
+                    android:textSize="@dimen/font_size_description"
                     app:textViewFontAssetName="@string/font_display_regular" />
             </LinearLayout>
 
@@ -253,7 +271,7 @@
                 android:id="@+id/llBudgetOptionDream"
                 android:layout_width="0dp"
                 android:layout_marginLeft="@dimen/padding_small"
-                android:layout_marginStart="@dimen/padding_layout"
+                android:layout_marginStart="@dimen/padding_small"
                 android:layout_weight="1"
                 android:background="@drawable/bg_game_option"
                 android:gravity="center"
@@ -264,9 +282,13 @@
                     style="@style/StyleContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:lines="1"
                     android:padding="0dp"
+                    android:singleLine="true"
                     android:text="@string/dream"
                     android:textColor="@color/color_white_blue"
+                    android:textSize="@dimen/font_size_description"
                     app:textViewFontAssetName="@string/font_display_bold" />
 
                 <com.bon.customview.textview.ExtTextView
@@ -275,9 +297,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/padding_content"
+                    android:ellipsize="end"
+                    android:lines="1"
                     android:padding="0dp"
+                    android:singleLine="true"
                     android:text="$10 mil"
                     android:textColor="@color/color_white_gray"
+                    android:textSize="@dimen/font_size_description"
                     app:textViewFontAssetName="@string/font_display_regular" />
             </LinearLayout>
         </TableRow>

@@ -3,13 +3,13 @@ package com.football.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.bon.util.GeneralUtils;
+import com.football.common.adapters.BaseRecyclerViewAdapter;
 import com.football.fantasy.R;
 import com.football.models.News;
 import com.jakewharton.rxbinding2.view.RxView;
@@ -20,28 +20,25 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import java8.util.function.Consumer;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
-    Context context;
-    List<News> news;
+public class NewsAdapter extends BaseRecyclerViewAdapter<News, NewsAdapter.ViewHolder> {
     Consumer<News> newsConsumer;
 
     public NewsAdapter(Context context, List<News> news, Consumer<News> newsConsumer) {
-        this.context = context;
-        this.news = news;
+        super(context, news);
         this.newsConsumer = newsConsumer;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.news_item, parent, false));
+        return new ViewHolder(layoutInflater.inflate(R.layout.news_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (getItemCount() <= 0) return;
+        News item = getItem(position);
+        assert item != null;
 
-        News item = news.get(position);
         holder.tvDay.setText(item.getDay());
         holder.tvMonth.setText(item.getMonth());
         holder.tvContent.setText(item.getContent());
@@ -52,11 +49,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(marginLayout, 0, marginLayout, marginLayout / 2);
         holder.itemView.setLayoutParams(layoutParams);
-    }
-
-    @Override
-    public int getItemCount() {
-        return news == null ? 0 : news.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

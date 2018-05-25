@@ -3,21 +3,29 @@ package com.football.fantasy.fragments.leagues.league_details;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 
+import com.bon.customview.keyvaluepair.ExtKeyValuePair;
+import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
+import com.bon.util.DialogUtils;
 import com.football.adapters.LeagueDetailViewPagerAdapter;
 import com.football.common.Keys;
+import com.football.common.activities.AloneFragmentActivity;
+import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.action.ActionLeagueFragment;
 import com.football.fantasy.fragments.leagues.league_details.invite_friends.InviteFriendFragment;
 import com.football.fantasy.fragments.leagues.league_details.league_info.LeagueInfoFragment;
+import com.football.fantasy.fragments.leagues.league_details.successor.SuccessorFragment;
 import com.football.fantasy.fragments.leagues.league_details.teams.TeamFragment;
 import com.football.models.League;
 
@@ -26,7 +34,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILeagueDetailPresenter<ILeagueDetailView>> implements ILeagueDetailView {
+public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView, ILeagueDetailPresenter<ILeagueDetailView>> implements ILeagueDetailView {
     public static final String KEY_TITLE = "key_title";
     public static final String KEY_LEAGUE = "key_league";
 
@@ -120,11 +128,31 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
 
     @OnClick(R.id.ivMenu)
     void onClickMenu() {
+        ExtKeyValuePairDialogFragment.newInstance()
+                .setValue("")
+                .setExtKeyValuePairs(new ArrayList<ExtKeyValuePair>() {{
+                    add(new ExtKeyValuePair("", getString(R.string.edit), ContextCompat.getColor(mActivity, R.color.color_blue)));
+                    add(new ExtKeyValuePair("", getString(R.string.leave), ContextCompat.getColor(mActivity, R.color.color_blue)));
+                    add(new ExtKeyValuePair("", getString(R.string.stop_league), ContextCompat.getColor(mActivity, R.color.color_red)));
+                }})
+                .setOnSelectedConsumer(extKeyValuePair -> {
+                    // edit
+                    if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.edit))) {
+                        AloneFragmentActivity.with(LeagueDetailFragment.this).start(ActionLeagueFragment.class);
+                    }
 
-    }
+                    // leave
+                    if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.leave))) {
+                        AloneFragmentActivity.with(LeagueDetailFragment.this)
+                                .start(SuccessorFragment.class);
+                    }
 
-    public LeagueDetailFragment setTitle(String title) {
-        this.title = title;
-        return this;
+                    // edit
+                    if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.stop_league))) {
+                        DialogUtils.confirmBox(mActivity, getString(R.string.app_name), getString(R.string.stop_league_message), getString(R.string.yes),
+                                getString(R.string.no), (dialog, which) -> {
+                                });
+                    }
+                }).show(getFragmentManager(), null);
     }
 }

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.bon.customview.textview.ExtTextView;
+import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
@@ -13,7 +14,7 @@ import com.football.fantasy.R;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeagueInfoPresenter<ILeagueInfoView>> implements ILeagueInfoView {
+public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILeagueInfoPresenter<ILeagueInfoView>> implements ILeagueInfoView {
     static final String TAG = LeagueInfoFragment.class.getSimpleName();
 
     public static LeagueInfoFragment newInstance() {

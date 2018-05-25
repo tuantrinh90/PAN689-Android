@@ -10,6 +10,7 @@ import com.bon.customview.listview.ExtBaseAdapter;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.library.R;
 import com.bon.logger.Logger;
+import com.bon.util.FontUtils;
 import com.bon.util.TextUtils;
 
 import java.util.List;
@@ -71,14 +72,19 @@ public class ExtKeyValuePairAdapter<T extends ExtKeyValuePair> extends ExtBaseAd
             try {
                 if (keyValuePair == null) return;
 
-                tvContent.setText(keyValuePair.getValue());
-                tvContent.setGravity(textGravity);
-
+                // selected
                 if (keyValuePair.isSelected()) {
                     TextUtils.setTextAppearance(context, tvContent, R.style.StyleContentBold);
+                    FontUtils.setCustomTypeface(context, tvContent, context.getString(R.string.font_display_bold));
                 } else {
                     TextUtils.setTextAppearance(context, tvContent, R.style.StyleContent);
+                    FontUtils.setCustomTypeface(context, tvContent, context.getString(R.string.font_display_regular));
                 }
+
+                // content
+                tvContent.setText(keyValuePair.getValue());
+                tvContent.setGravity(textGravity);
+                tvContent.setTextColor(keyValuePair.getTextColor());
             } catch (Exception e) {
                 Logger.e(TAG, e);
             }

@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.football.adapters.LeaguesAdapter;
 import com.football.common.activities.AloneFragmentActivity;
+import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.searchs.SearchView;
 import com.football.fantasy.R;
@@ -20,7 +21,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class OpenLeagueFragment extends BaseMvpFragment<IOpenLeagueView, IOpenLeaguePresenter<IOpenLeagueView>> implements IOpenLeagueView {
+public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOpenLeaguePresenter<IOpenLeagueView>> implements IOpenLeagueView {
     public static OpenLeagueFragment newInstance() {
         return new OpenLeagueFragment();
     }

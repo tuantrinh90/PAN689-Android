@@ -10,6 +10,7 @@ import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import com.bon.library.R;
 import com.bon.logger.Logger;
@@ -75,6 +76,7 @@ public class PermissionUtils {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
                 for (String permission : permissions) {
                     if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                        Log.e("permission","permission:: " + permission);
                         return false;
                     }
                 }

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.football.adapters.LeaguesAdapter;
+import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.fantasy.R;
 import com.football.models.League;
@@ -17,7 +18,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class PendingInvitationFragment extends BaseMvpFragment<IPendingInvitationView, IPendingInvitationPresenter<IPendingInvitationView>> implements IPendingInvitationView {
+public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvitationView, IPendingInvitationPresenter<IPendingInvitationView>> implements IPendingInvitationView {
     public static PendingInvitationFragment newInstance() {
         return new PendingInvitationFragment();
     }

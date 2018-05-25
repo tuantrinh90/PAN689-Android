@@ -21,11 +21,11 @@ import butterknife.OnClick;
 public class MainActivity extends BaseAppCompatActivity {
     static final String TAG = MainActivity.class.getSimpleName();
 
-    static final int HOME = 0;
-    static final int LEAGUES = 1;
-    static final int MATCH_UP = 2;
-    static final int NOTIFICATION = 3;
-    static final int MORE = 4;
+    public static final int HOME = 0;
+    public static final int LEAGUES = 1;
+    public static final int MATCH_UP = 2;
+    public static final int NOTIFICATION = 3;
+    public static final int MORE = 4;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -101,7 +101,7 @@ public class MainActivity extends BaseAppCompatActivity {
         onClickFooter(MORE);
     }
 
-    void onClickFooter(int tabActive) {
+    public void onClickFooter(int tabActive) {
         // does not click current tab
         if (fragment != null) {
             if (tabActive == HOME && fragment instanceof HomeFragment) return;

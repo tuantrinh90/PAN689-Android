@@ -99,7 +99,6 @@ public class ImageUtils {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, getUriFromFileProvider(activity, fileUri));
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             activity.startActivityForResult(intent, CAMERA_REQUEST);
         } catch (Exception e) {
             Logger.e(TAG, e);
@@ -117,7 +116,6 @@ public class ImageUtils {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, getUriFromFileProvider(fragment.getActivity(), fileUri));
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             fragment.startActivityForResult(intent, CAMERA_REQUEST);
         } catch (Exception e) {
             Logger.e(TAG, e);
@@ -136,11 +134,9 @@ public class ImageUtils {
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             activity.startActivityForResult(Intent.createChooser(intent, titleChooseImage), REQUEST_PICK_CONTENT);
         } else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             activity.startActivityForResult(Intent.createChooser(intent, titleChooseImage), REQUEST_PICK_CONTENT);
         }
     }
@@ -158,11 +154,9 @@ public class ImageUtils {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 fragment.startActivityForResult(Intent.createChooser(intent, titleChooseImage), REQUEST_PICK_CONTENT);
             } else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
                 Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 fragment.startActivityForResult(Intent.createChooser(intent, titleChooseImage), REQUEST_PICK_CONTENT);
             }
         } catch (Exception e) {

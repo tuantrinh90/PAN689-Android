@@ -5,5 +5,4 @@
     <dimen name="font_size_menu">20sp</dimen>
     <dimen name="font_size_content">18sp</dimen>
     <dimen name="font_size_description">16sp</dimen>
-    <dimen name="font_footer">11sp</dimen>
 </resources>

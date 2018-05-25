@@ -1,8 +1,9 @@
 package com.bon.customview.keyvaluepair;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import android.graphics.Color;
+
 import com.bon.util.StringUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 
@@ -11,12 +12,12 @@ import java.io.Serializable;
  */
 
 public class ExtKeyValuePair implements Serializable {
-    @JsonProperty("Key")
-    private String key;
-    @JsonProperty("Value")
-    private String value;
+    String key;
+    String value;
     @JsonIgnore
-    private boolean selected;
+    boolean selected;
+    @JsonIgnore
+    int textColor = Color.BLACK;
 
     public ExtKeyValuePair() {
     }
@@ -26,10 +27,23 @@ public class ExtKeyValuePair implements Serializable {
         this.value = value;
     }
 
+    public ExtKeyValuePair(String key, String value, int textColor) {
+        this.key = key;
+        this.value = value;
+        this.textColor = textColor;
+    }
+
     public ExtKeyValuePair(String key, String value, boolean selected) {
         this.key = key;
         this.value = value;
         this.selected = selected;
+    }
+
+    public ExtKeyValuePair(String key, String value, boolean selected, int textColor) {
+        this.key = key;
+        this.value = value;
+        this.selected = selected;
+        this.textColor = textColor;
     }
 
     public String getKey() {
@@ -56,12 +70,21 @@ public class ExtKeyValuePair implements Serializable {
         this.selected = selected;
     }
 
+    public int getTextColor() {
+        return textColor;
+    }
+
+    public void setTextColor(int textColor) {
+        this.textColor = textColor;
+    }
+
     @Override
     public String toString() {
         return "ExtKeyValuePair{" +
                 "key='" + key + '\'' +
                 ", value='" + value + '\'' +
                 ", selected=" + selected +
+                ", textColor=" + textColor +
                 '}';
     }
 }

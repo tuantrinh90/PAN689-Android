@@ -7,6 +7,7 @@ public class Team implements Serializable {
     private String teamName;
     private String description;
     private boolean isLock;
+    private boolean isChecked;
 
     public Team() {
     }
@@ -50,6 +51,14 @@ public class Team implements Serializable {
         this.isLock = isLock;
     }
 
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean isChecked) {
+        this.isChecked = isChecked;
+    }
+
     @Override
     public String toString() {
         return "Team{" +
@@ -57,6 +66,7 @@ public class Team implements Serializable {
                 ", teamName='" + teamName + '\'' +
                 ", description='" + description + '\'' +
                 ", isLock=" + isLock +
+                ", isChecked=" + isChecked +
                 '}';
     }
 }

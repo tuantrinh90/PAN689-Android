@@ -1,6 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias KEY_ALIAS
+            keyPassword KEY_PASS
+            storeFile file(KEY_STORE)
+            storePassword KEY_PASS
+        }
+    }
+
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
@@ -19,6 +28,8 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+            zipAlignEnabled true
         }
     }
 
@@ -66,6 +77,7 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:${rootProject.ext.androidVer}"
     implementation "com.android.support:support-annotations:${rootProject.ext.androidVer}"
     implementation "com.android.support.constraint:constraint-layout:${rootProject.ext.constrainLayoutVer}"
+    implementation "com.android.support:customtabs:${rootProject.ext.androidVer}"
 
     // play service
     implementation "com.google.android.gms:play-services-base:${rootProject.ext.playServiceVer}"

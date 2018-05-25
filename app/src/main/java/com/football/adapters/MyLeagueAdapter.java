@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -13,6 +12,7 @@ import android.widget.LinearLayout;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.bon.util.GeneralUtils;
+import com.football.common.adapters.BaseRecyclerViewAdapter;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
 import com.football.models.League;
@@ -24,28 +24,25 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import java8.util.function.Consumer;
 
-public class MyLeagueAdapter extends RecyclerView.Adapter<MyLeagueAdapter.ViewHolder> {
-    Context context;
-    List<League> leagues;
+public class MyLeagueAdapter extends BaseRecyclerViewAdapter<League, MyLeagueAdapter.ViewHolder> {
     Consumer<League> leagueConsumer;
 
     public MyLeagueAdapter(Context context, List<League> leagues, Consumer<League> leagueConsumer) {
-        this.context = context;
-        this.leagues = leagues;
+        super(context, leagues);
         this.leagueConsumer = leagueConsumer;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.my_league_item, parent, false));
+        return new ViewHolder(layoutInflater.inflate(R.layout.my_league_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (getItemCount() <= 0) return;
+        League league = getItem(position);
+        assert league != null;
 
-        League league = leagues.get(position);
         holder.ivAvatar.setImageUri(league.getAvatar());
         holder.tvTitle.setText(league.getTitle());
         holder.tvDescription.setText(league.getOwner());
@@ -59,11 +56,6 @@ public class MyLeagueAdapter extends RecyclerView.Adapter<MyLeagueAdapter.ViewHo
         RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(displayMetrics.widthPixels - marginLayout * 2, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(position == 0 ? marginLayout : marginLayout / 3, 0, (position == getItemCount() - 1) ? marginLayout : marginLayout / 3, 0);
         holder.llContainer.setLayoutParams(layoutParams);
-    }
-
-    @Override
-    public int getItemCount() {
-        return leagues == null ? 0 : leagues.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

@@ -4,12 +4,12 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
+import com.football.common.adapters.BaseRecyclerViewAdapter;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
 import com.football.models.Friend;
@@ -21,16 +21,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import java8.util.function.Consumer;
 
-public class InviteFriendAdapter extends RecyclerView.Adapter<InviteFriendAdapter.ViewHolder> {
-    Context context;
-    List<Friend> friends;
+public class InviteFriendAdapter extends BaseRecyclerViewAdapter<Friend, InviteFriendAdapter.ViewHolder> {
     Consumer<Friend> detailConsumer;
     Consumer<Friend> inviteConsumer;
 
     public InviteFriendAdapter(Context context, List<Friend> friends,
                                Consumer<Friend> detailConsumer, Consumer<Friend> inviteConsumer) {
-        this.context = context;
-        this.friends = friends;
+        super(context, friends);
         this.detailConsumer = detailConsumer;
         this.inviteConsumer = inviteConsumer;
     }
@@ -38,14 +35,14 @@ public class InviteFriendAdapter extends RecyclerView.Adapter<InviteFriendAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.invite_friend_item, parent, false));
+        return new ViewHolder(layoutInflater.inflate(R.layout.invite_friend_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (getItemCount() <= 0) return;
+        Friend friend = getItem(position);
+        assert friend != null;
 
-        Friend friend = friends.get(position);
         holder.ivAvatar.setImageUri(friend.getAvatar());
         holder.tvName.setText(friend.getName());
         holder.tvStatus.setEnabled(!friend.isFriend());
@@ -64,11 +61,6 @@ public class InviteFriendAdapter extends RecyclerView.Adapter<InviteFriendAdapte
         // click
         RxView.clicks(holder.itemView).subscribe(o -> Optional.from(detailConsumer).doIfPresent(d -> d.accept(friend)));
         RxView.clicks(holder.tvStatus).subscribe(o -> Optional.from(inviteConsumer).doIfPresent(d -> d.accept(friend)));
-    }
-
-    @Override
-    public int getItemCount() {
-        return friends == null ? 0 : friends.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

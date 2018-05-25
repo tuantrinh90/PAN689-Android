@@ -1,11 +1,13 @@
 package com.football.fantasy.fragments.leagues.action;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -16,9 +18,10 @@ import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageFilePath;
 import com.bon.image.ImageUtils;
+import com.bon.permission.PermissionUtils;
 import com.bon.util.DateTimeUtils;
 import com.bon.util.StringUtils;
-import com.football.common.fragments.BaseMvpFragment;
+import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.customizes.labels.LabelView;
@@ -33,7 +36,7 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class ActionLeagueFragment extends BaseMvpFragment<IActionLeagueView, IActionLeaguePresenter<IActionLeagueView>> implements IActionLeagueView {
+public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView, IActionLeaguePresenter<IActionLeagueView>> implements IActionLeagueView {
     public static ActionLeagueFragment newInstance() {
         return new ActionLeagueFragment();
     }
@@ -151,6 +154,9 @@ public class ActionLeagueFragment extends BaseMvpFragment<IActionLeagueView, IAc
 
     @OnClick(R.id.ivImagePick)
     void onClickImagePick() {
+        if (PermissionUtils.requestPermission(this, PermissionUtils.REQUEST_CODE_PERMISSION,
+                Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)) return;
+
         ExtKeyValuePairDialogFragment.newInstance()
                 .setExtKeyValuePairs(new ArrayList<ExtKeyValuePair>() {{
                     add(new ExtKeyValuePair(getString(R.string.camera), getString(R.string.camera)));
@@ -196,6 +202,7 @@ public class ActionLeagueFragment extends BaseMvpFragment<IActionLeagueView, IAc
                     add(new ExtKeyValuePair("06", "06"));
                     add(new ExtKeyValuePair("08", "08"));
                     add(new ExtKeyValuePair("10", "10"));
+                    add(new ExtKeyValuePair("12", "12"));
                 }})
                 .setValue(keyValuePairNumberOfUser.getKey())
                 .setOnSelectedConsumer(extKeyValuePair -> {
@@ -274,8 +281,16 @@ public class ActionLeagueFragment extends BaseMvpFragment<IActionLeagueView, IAc
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        onClickImagePick();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        Log.e("onActivityResult", "onActivityResult");
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case ImageUtils.CAMERA_REQUEST: {
@@ -284,6 +299,7 @@ public class ActionLeagueFragment extends BaseMvpFragment<IActionLeagueView, IAc
                 }
                 case ImageUtils.REQUEST_PICK_CONTENT: {
                     String pathFile = ImageFilePath.getPath(mActivity, data.getData());
+                    Log.e("pathFile", "pathFile:: " + pathFile);
                     StringUtils.isNotEmpty(pathFile, s -> ivImagePick.setImageUri(ImageUtils.getUriImageDisplayFromFile(new File(s))));
                     break;
                 }

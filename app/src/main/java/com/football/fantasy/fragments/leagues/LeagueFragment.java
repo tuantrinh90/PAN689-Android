@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.football.adapters.LeagueViewPagerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
+import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class LeagueFragment extends BaseMvpFragment<ILeagueView, ILeaguePresenter<ILeagueView>> implements ILeagueView {
+public class LeagueFragment extends BaseMainMvpFragment<ILeagueView, ILeaguePresenter<ILeagueView>> implements ILeagueView {
     public static LeagueFragment newInstance() {
         return new LeagueFragment();
     }

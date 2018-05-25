@@ -1,8 +1,10 @@
 package com.football.fantasy.fragments.account.signup;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 
@@ -50,7 +52,13 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
         bindButterKnife(view);
 
         // agreed
-        cbAgreed.setMovementMethod(TextViewLinkMovementMethod.newInstance(mActivity, null));
+        cbAgreed.setMovementMethod(TextViewLinkMovementMethod.newInstance(mActivity, s -> {
+            String url = "https://www.google.com.vn/";
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            builder.setToolbarColor(ContextCompat.getColor(mActivity, R.color.colorPrimary));
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(mActivity, Uri.parse(url));
+        }));
         TextViewLinkMovementMethod.stripUnderlines(cbAgreed, ContextCompat.getColor(mActivity, R.color.color_blue));
         TextViewLinkMovementMethod.changeColorTextSelector(cbAgreed, ContextCompat.getColor(mActivity, R.color.color_gray_selector));
     }

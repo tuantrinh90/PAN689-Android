@@ -15,8 +15,11 @@ import com.bon.customview.textview.ExtTextView;
 import com.bon.util.ViewUtils;
 import com.football.adapters.MyLeagueAdapter;
 import com.football.adapters.NewsAdapter;
-import com.football.common.fragments.BaseMvpFragment;
+import com.football.common.activities.AloneFragmentActivity;
+import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
+import com.football.fantasy.activities.MainActivity;
+import com.football.fantasy.fragments.leagues.action.ActionLeagueFragment;
 import com.football.models.League;
 import com.football.models.News;
 
@@ -26,7 +29,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class HomeFragment extends BaseMvpFragment<IHomeView, IHomePresenter<IHomeView>> implements IHomeView, ViewTreeObserver.OnGlobalLayoutListener {
+public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<IHomeView>> implements IHomeView, ViewTreeObserver.OnGlobalLayoutListener {
     public static HomeFragment newInstance() {
         return new HomeFragment();
     }
@@ -88,7 +91,7 @@ public class HomeFragment extends BaseMvpFragment<IHomeView, IHomePresenter<IHom
         rvNews.setAdapter(newsAdapter);
 
         // leagues
-        leagues = new ArrayList<League>(){{
+        leagues = new ArrayList<League>() {{
             add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 1, 1));
             add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 1, 1));
             add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 1, 1));
@@ -97,7 +100,7 @@ public class HomeFragment extends BaseMvpFragment<IHomeView, IHomePresenter<IHom
             add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 1, 1));
             add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 1, 1));
         }};
-        myLeagueAdapter= new MyLeagueAdapter(mActivity, leagues, league -> {
+        myLeagueAdapter = new MyLeagueAdapter(mActivity, leagues, league -> {
 
         });
         rvMyLeagues.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
@@ -116,10 +119,12 @@ public class HomeFragment extends BaseMvpFragment<IHomeView, IHomePresenter<IHom
 
     @OnClick(R.id.tvCreateLeagues)
     void onClickCreateLeagues() {
+        AloneFragmentActivity.with(this).start(ActionLeagueFragment.class);
     }
 
     @OnClick(R.id.tvJoinLeagues)
     void onClickJoinLeagues() {
+        mMainActivity.onClickFooter(MainActivity.LEAGUES);
     }
 
     @OnClick(R.id.tvPlayerList)

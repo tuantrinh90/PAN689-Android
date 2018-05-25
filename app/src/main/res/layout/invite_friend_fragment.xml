@@ -37,16 +37,35 @@
         android:layout_weight="1"
         android:visibility="gone" />
 
-    <com.bon.customview.textview.ExtTextView
-        android:id="@+id/tvInviteFriend"
-        style="@style/StyleContentContent"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/llInvite"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/padding_layout"
         android:layout_marginRight="@dimen/padding_layout"
-        android:padding="@dimen/padding_layout"
-        android:text="@string/invite_social"
-        android:textAllCaps="true"
-        app:textViewFontAssetName="@string/font_display_bold" />
+        android:orientation="vertical">
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleContentContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_layout"
+            android:text="@string/invite_social"
+            android:textAllCaps="true"
+            app:textViewFontAssetName="@string/font_display_bold" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvInvite"
+            style="@style/StyleButtonBlue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout"
+            android:minWidth="@dimen/button_min_width"
+            android:text="@string/invite"
+            app:textAllCaps="false"
+            app:textViewFontAssetName="@string/font_display_black" />
+    </LinearLayout>
+
 
 </LinearLayout>
