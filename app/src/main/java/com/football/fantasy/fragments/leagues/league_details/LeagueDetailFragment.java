@@ -6,8 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.AppCompatImageView;
+
 import android.view.View;
+import android.widget.ImageView;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
@@ -41,7 +42,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
     @BindView(R.id.tvTitle)
     ExtTextView tvTitle;
     @BindView(R.id.ivMenu)
-    AppCompatImageView ivMenu;
+    ImageView ivMenu;
     @BindView(R.id.cvCarouselView)
     CarouselView cvCarouselView;
     @BindView(R.id.vpViewPager)

@@ -39,7 +39,7 @@ public class ExtAutoCompleteTextView extends AppCompatAutoCompleteTextView {
      */
     private void applyAttributes(Context context, AttributeSet attrs) {
         try {
-            TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ExtAutoCompleteTextView);
+            TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ExtAutoCompleteTextView, 0, 0);
             String fontPath = typedArray.getString(R.styleable.ExtAutoCompleteTextView_autoCompleteFontAssetName);
             if (StringUtils.isEmpty(fontPath)) fontPath = TypefacesUtils.FONT_DEFAULT;
             this.setTypeface(TypefacesUtils.get(getContext(), fontPath));

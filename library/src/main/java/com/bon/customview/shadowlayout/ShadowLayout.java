@@ -97,7 +97,6 @@ public class ShadowLayout extends FrameLayout {
         }
     }
 
-
     private void initAttributes(Context context, AttributeSet attrs) {
         TypedArray typedArray = getTypedArray(context, attrs, R.styleable.ShadowLayout);
         try {

@@ -27,7 +27,7 @@
 
         app:textViewFontAssetName="@string/font_display_bold" />
 
-    <android.support.v7.widget.AppCompatImageView
+    <ImageView
         android:id="@+id/ivInfo"
         style="@style/IconTiny"
         android:layout_marginLeft="@dimen/padding_layout"

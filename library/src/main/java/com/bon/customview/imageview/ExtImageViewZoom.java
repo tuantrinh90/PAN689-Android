@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.PointF;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -17,7 +16,7 @@ import com.bon.logger.Logger;
  * Created by Dang on 9/14/2015.
  */
 @SuppressLint("AppCompatCustomView")
-public class ExtImageViewZoom extends AppCompatImageView {
+public class ExtImageViewZoom extends ImageView {
     private static final String TAG = ExtImageViewZoom.class.getSimpleName();
 
     private static final int NONE = 0;

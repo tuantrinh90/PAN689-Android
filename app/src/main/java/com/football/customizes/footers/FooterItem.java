@@ -8,10 +8,10 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bon.customview.textview.ExtTextView;
@@ -24,7 +24,7 @@ public class FooterItem extends LinearLayout {
     @BindView(R.id.llView)
     LinearLayout llView;
     @BindView(R.id.ivIcon)
-    AppCompatImageView ivIcon;
+    ImageView ivIcon;
     @BindView(R.id.tvContent)
     ExtTextView tvContent;
 

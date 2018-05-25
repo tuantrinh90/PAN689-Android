@@ -62,7 +62,7 @@
                         app:textViewFontAssetName="@string/font_display_black_italic" />
                 </LinearLayout>
 
-                <android.support.v7.widget.AppCompatImageView
+                <ImageView
                     android:layout_width="@dimen/home_size_cup_width"
                     android:layout_height="@dimen/home_size_cup_height"
                     android:layout_gravity="right"

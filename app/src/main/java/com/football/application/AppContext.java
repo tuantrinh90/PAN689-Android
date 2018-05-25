@@ -2,6 +2,7 @@ package com.football.application;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.bon.application.ExtApplication;
 import com.bon.logger.Logger;
@@ -37,6 +38,9 @@ public class AppContext extends ExtApplication {
 
         // update fragment utils
         FragmentUtils.setContainerViewId(R.id.fl_content);
+
+        // enable image vector for version  < 21
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
     /**

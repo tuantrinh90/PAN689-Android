@@ -2,11 +2,12 @@ package com.football.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.AppCompatImageView;
+
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bon.customview.textview.ExtTextView;
@@ -72,9 +73,9 @@ public class MyLeagueAdapter extends BaseRecyclerViewAdapter<League, MyLeagueAda
         @BindView(R.id.tvRankTotal)
         ExtTextView tvRankTotal;
         @BindView(R.id.ivArrowUp)
-        AppCompatImageView ivArrowUp;
+        ImageView ivArrowUp;
         @BindView(R.id.ivArrowDown)
-        AppCompatImageView ivArrowDown;
+        ImageView ivArrowDown;
 
         public ViewHolder(View itemView) {
             super(itemView);

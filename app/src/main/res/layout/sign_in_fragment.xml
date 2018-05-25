@@ -78,7 +78,7 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <android.support.v7.widget.AppCompatImageView
+            <ImageView
                 android:id="@+id/ivFacebook"
                 style="@style/IconLarge"
                 android:layout_margin="@dimen/padding_content"
@@ -86,7 +86,7 @@
                 android:scaleType="center"
                 app:srcCompat="@drawable/ic_facebook" />
 
-            <android.support.v7.widget.AppCompatImageView
+            <ImageView
                 android:id="@+id/ivGoogle"
                 style="@style/IconLarge"
                 android:layout_margin="@dimen/padding_content"
@@ -94,7 +94,7 @@
                 android:scaleType="center"
                 app:srcCompat="@drawable/ic_google_plus" />
 
-            <android.support.v7.widget.AppCompatImageView
+            <ImageView
                 android:id="@+id/ivTwitter"
                 style="@style/IconLarge"
                 android:layout_margin="@dimen/padding_content"

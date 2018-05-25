@@ -47,7 +47,7 @@ public class ExtReadMoreTextView extends ExtTextView {
     public ExtReadMoreTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         try {
-            TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ExtReadMoreTextView);
+            TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ExtReadMoreTextView, 0, 0);
             if (typedArray != null) {
                 this.trimLength = typedArray.getInt(R.styleable.ExtReadMoreTextView_trimLength, DEFAULT_TRIM_LENGTH);
                 this.trimCollapsedText = getResources().getString(typedArray.getResourceId(R.styleable.ExtReadMoreTextView_trimCollapsedText, R.string.read_more));

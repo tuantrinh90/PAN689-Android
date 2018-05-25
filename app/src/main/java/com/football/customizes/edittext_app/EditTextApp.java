@@ -6,11 +6,12 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v7.widget.AppCompatImageView;
+
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bon.customview.edittext.ExtEditText;
@@ -30,13 +31,13 @@ public class EditTextApp extends LinearLayout {
     @BindView(R.id.llView)
     LinearLayout llView;
     @BindView(R.id.ivIconLeft)
-    AppCompatImageView ivIconLeft;
+    ImageView ivIconLeft;
     @BindView(R.id.tvContent)
     ExtTextView tvContent;
     @BindView(R.id.etContent)
     ExtEditText etContent;
     @BindView(R.id.ivIconRight)
-    AppCompatImageView ivIconRight;
+    ImageView ivIconRight;
     @BindView(R.id.tvError)
     ExtTextView tvError;
 
@@ -68,7 +69,7 @@ public class EditTextApp extends LinearLayout {
         ButterKnife.bind(this, view);
 
         // typed array
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.EditTextApp);
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.EditTextApp, 0, 0);
 
         // update content
         etContent.setText(typedArray.getString(R.styleable.EditTextApp_editTextAppContent));
@@ -231,7 +232,7 @@ public class EditTextApp extends LinearLayout {
      *
      * @return
      */
-    public AppCompatImageView getIconLeftImageView() {
+    public ImageView getIconLeftImageView() {
         return ivIconLeft;
     }
 
@@ -258,7 +259,7 @@ public class EditTextApp extends LinearLayout {
      *
      * @return
      */
-    public AppCompatImageView getIconRightImageView() {
+    public ImageView getIconRightImageView() {
         return ivIconRight;
     }
 

@@ -48,7 +48,6 @@ public class CircleImageViewApp extends LinearLayout {
     }
 
     public CircleImageViewApp setImageUri(String uri) {
-        Log.d("SetImageUri",uri);
         ImageLoaderUtils.displayImage(uri, ivImage);
         return this;
     }

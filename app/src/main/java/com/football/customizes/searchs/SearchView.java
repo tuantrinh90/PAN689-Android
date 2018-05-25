@@ -5,11 +5,12 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v7.widget.AppCompatImageView;
+
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bon.customview.edittext.ExtEditText;
@@ -27,13 +28,13 @@ import java8.util.function.Consumer;
 
 public class SearchView extends LinearLayout {
     @BindView(R.id.ivSearch)
-    AppCompatImageView ivSearch;
+    ImageView ivSearch;
     @BindView(R.id.etSearch)
     ExtEditText etSearch;
     @BindView(R.id.ivCancel)
-    AppCompatImageView ivCancel;
+    ImageView ivCancel;
     @BindView(R.id.ivFilter)
-    AppCompatImageView ivFilter;
+    ImageView ivFilter;
 
     Consumer<String> searchConsumer;
     Consumer<Void> filerConsumer;
@@ -64,7 +65,7 @@ public class SearchView extends LinearLayout {
         ButterKnife.bind(this, view);
 
         // update hint
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SearchView);
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SearchView, 0, 0);
         etSearch.setHint(typedArray.getString(R.styleable.SearchView_searchViewHint));
         typedArray.recycle();
 
@@ -93,7 +94,7 @@ public class SearchView extends LinearLayout {
         Optional.from(searchConsumer).doIfPresent(s -> s.accept(query));
     }
 
-    public AppCompatImageView getSearchImageView() {
+    public ImageView getSearchImageView() {
         return ivSearch;
     }
 
@@ -101,11 +102,11 @@ public class SearchView extends LinearLayout {
         return etSearch;
     }
 
-    public AppCompatImageView getCancelImageView() {
+    public ImageView getCancelImageView() {
         return ivCancel;
     }
 
-    public AppCompatImageView getFilter() {
+    public ImageView getFilter() {
         return ivFilter;
     }
 

@@ -2,11 +2,12 @@ package com.football.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.AppCompatImageView;
+
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
@@ -64,7 +65,7 @@ public class TeamAdapter extends BaseRecyclerViewAdapter<Team, TeamAdapter.ViewH
         @BindView(R.id.tvRemove)
         ExtTextView tvRemove;
         @BindView(R.id.ivLock)
-        AppCompatImageView ivLock;
+        ImageView ivLock;
 
         public ViewHolder(View itemView) {
             super(itemView);

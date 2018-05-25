@@ -37,7 +37,7 @@ public class ExtSwitch extends SwitchCompat {
      */
     private void applyAttributes(Context context, AttributeSet attrs) {
         try {
-            TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ExtSwitchView);
+            TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ExtSwitchView, 0, 0);
             String fontPath = typedArray.getString(R.styleable.ExtSwitchView_switchFontAssetName);
             if (StringUtils.isEmpty(fontPath)) fontPath = TypefacesUtils.FONT_DEFAULT;
             this.setTypeface(TypefacesUtils.get(getContext(), fontPath));

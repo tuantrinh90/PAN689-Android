@@ -92,7 +92,7 @@
                 android:padding="0dp"
                 android:text="8" />
 
-            <android.support.v7.widget.AppCompatImageView
+            <ImageView
                 android:id="@+id/ivArrowUp"
                 android:layout_width="@dimen/icon_tiny"
                 android:layout_height="@dimen/icon_tiny"
@@ -104,7 +104,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
 
-            <android.support.v7.widget.AppCompatImageView
+            <ImageView
                 android:id="@+id/ivArrowDown"
                 android:layout_width="@dimen/icon_tiny"
                 android:layout_height="@dimen/icon_tiny"

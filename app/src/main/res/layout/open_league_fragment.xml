@@ -1,30 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_layout">
 
-    <LinearLayout
+    <com.bon.customview.listview.ExtPagingListView
+        android:id="@+id/rvRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/padding_layout">
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/padding_layout"
+        android:layout_weight="1"
+        app:noDataMessage="@string/no_data"
+        app:swipeRefreshIndicatorColor="@color/colorAccent" />
+</LinearLayout>
 
-        <com.football.customizes.searchs.SearchView
-            android:id="@+id/svSearchView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/leagues_margin"
-            android:layout_marginRight="@dimen/leagues_margin"
-            app:searchViewHint="@string/search_public_leagues" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_layout"
-            android:nestedScrollingEnabled="false"
-            tools:targetApi="lollipop" />
-    </LinearLayout>
-</android.support.v4.widget.NestedScrollView>

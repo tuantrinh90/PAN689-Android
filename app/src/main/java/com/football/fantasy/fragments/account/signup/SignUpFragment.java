@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
 import android.view.View;
 
 import com.bon.customview.checkbox.ExtCheckBox;
@@ -50,7 +51,7 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
-
+        initView();
         // agreed
         cbAgreed.setMovementMethod(TextViewLinkMovementMethod.newInstance(mActivity, s -> {
             String url = "https://www.google.com.vn/";
@@ -61,6 +62,10 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
         }));
         TextViewLinkMovementMethod.stripUnderlines(cbAgreed, ContextCompat.getColor(mActivity, R.color.color_blue));
         TextViewLinkMovementMethod.changeColorTextSelector(cbAgreed, ContextCompat.getColor(mActivity, R.color.color_gray_selector));
+    }
+
+    void initView() {
+        cbAgreed.setText(Html.fromHtml(getString(R.string.register_condition)));
     }
 
     @OnClick(R.id.tvRegister)

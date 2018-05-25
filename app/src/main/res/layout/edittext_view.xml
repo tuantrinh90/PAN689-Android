@@ -17,7 +17,7 @@
         android:paddingLeft="@dimen/padding_layout"
         android:paddingRight="@dimen/padding_layout">
 
-        <android.support.v7.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/ivIconLeft"
             style="@style/IconTiny"
             android:layout_marginEnd="@dimen/padding_content"
@@ -58,7 +58,7 @@
             app:textViewFontAssetName="@string/font_display_bold"
             tools:hint="@string/app_name" />
 
-        <android.support.v7.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/ivIconRight"
             style="@style/IconTiny"
             android:layout_marginLeft="@dimen/padding_content"

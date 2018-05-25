@@ -19,7 +19,7 @@
         android:paddingRight="@dimen/padding_layout"
         android:paddingTop="@dimen/padding_small">
 
-        <android.support.v7.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/ivSearch"
             style="@style/IconTiny"
             app:srcCompat="@drawable/ic_search_blue" />
@@ -40,7 +40,7 @@
             app:editTextFontAssetName="@string/font_display_bold"
             tools:hint="@string/app_name" />
 
-        <android.support.v7.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/ivCancel"
             style="@style/IconTiny"
             android:background="@drawable/bg_null_gray_selector"
@@ -48,7 +48,7 @@
             app:srcCompat="@drawable/ic_close_blue" />
     </LinearLayout>
 
-    <android.support.v7.widget.AppCompatImageView
+    <ImageView
         android:id="@+id/ivFilter"
         style="@style/IconTiny"
         android:layout_marginLeft="@dimen/padding_layout"

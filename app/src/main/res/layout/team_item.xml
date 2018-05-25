@@ -57,7 +57,7 @@
         android:textSize="@dimen/font_size_description"
         app:textViewFontAssetName="@string/font_display_black" />
 
-    <android.support.v7.widget.AppCompatImageView
+    <ImageView
         android:id="@+id/ivLock"
         style="@style/IconSmall"
         android:layout_marginRight="@dimen/padding_layout"

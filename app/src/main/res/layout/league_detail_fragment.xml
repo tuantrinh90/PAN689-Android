@@ -27,7 +27,7 @@
             app:textViewFontAssetName="@string/font_display_black_italic"
             tools:text="Jupiter Pro League" />
 
-        <android.support.v7.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/ivMenu"
             style="@style/IconSmall"
             android:background="@drawable/bg_null_gray_selector"

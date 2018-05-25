@@ -83,7 +83,7 @@ public class ExtEditText extends AppCompatEditText {
      */
     protected void initControl(Context context, AttributeSet attrs) {
         try {
-            TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ExtEditText);
+            TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ExtEditText, 0, 0);
 
             // valid
             this.errorString = typedArray.getString(R.styleable.ExtEditText_errorString);

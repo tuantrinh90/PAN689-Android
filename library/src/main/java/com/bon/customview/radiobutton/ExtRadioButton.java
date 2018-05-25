@@ -6,7 +6,6 @@ import android.content.res.TypedArray;
 import android.graphics.Paint;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.util.AttributeSet;
-import android.widget.RadioButton;
 
 import com.bon.library.R;
 import com.bon.logger.Logger;
@@ -41,7 +40,7 @@ public class ExtRadioButton extends AppCompatRadioButton {
      */
     private void applyAttributes(Context context, AttributeSet attrs) {
         try {
-            TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ExtRadioButton);
+            TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ExtRadioButton, 0, 0);
             String fontPath = typedArray.getString(R.styleable.ExtRadioButton_radioButtonFontAssetName);
             if (StringUtils.isEmpty(fontPath)) fontPath = TypefacesUtils.FONT_DEFAULT;
             this.setTypeface(TypefacesUtils.get(getContext(), fontPath));

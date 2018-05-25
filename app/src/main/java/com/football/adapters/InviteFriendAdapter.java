@@ -63,7 +63,7 @@ public class InviteFriendAdapter extends BaseRecyclerViewAdapter<Friend, InviteF
         RxView.clicks(holder.tvStatus).subscribe(o -> Optional.from(inviteConsumer).doIfPresent(d -> d.accept(friend)));
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.ivAvatar)
         CircleImageViewApp ivAvatar;
         @BindView(R.id.tvName)

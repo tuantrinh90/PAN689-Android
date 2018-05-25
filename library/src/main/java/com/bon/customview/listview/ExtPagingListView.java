@@ -19,8 +19,8 @@ import com.bon.customview.listview.listener.ExtLoadMoreListener;
 import com.bon.customview.listview.listener.ExtLongClickListener;
 import com.bon.customview.listview.listener.ExtRefreshListener;
 import com.bon.customview.textview.ExtTextView;
+import com.bon.interfaces.Optional;
 import com.bon.library.R;
-import com.bon.logger.Logger;
 import com.bon.util.StringUtils;
 
 import java.util.List;
@@ -30,33 +30,33 @@ import java.util.List;
  */
 @SuppressWarnings("ALL")
 public class ExtPagingListView<T> extends FrameLayout {
-    private static final String TAG = ExtPagingListView.class.getSimpleName();
+    public static int NUMBER_PER_PAGE = 20;
 
     // view
-    private SwipeRefreshLayout rfLayout;
-    private ListView lvData;
-    private View vLoading;
-    private ExtTextView tvMessage;
+    SwipeRefreshLayout rfLayout;
+    ListView lvData;
+    View vLoading;
+    ExtTextView tvMessage;
 
     // status
-    private boolean loading = false;
-    private boolean hasMore = true;
+    boolean loading = false;
+    boolean hasMore = true;
 
     // adapter
-    private ExtBaseAdapter extBaseAdapter = null;
+    ExtBaseAdapter<T> extBaseAdapter = null;
 
     // listener
-    private ExtClickListener<T> onExtClickListener = null;
-    private ExtLongClickListener<T> onExtLongClickListener = null;
-    private ExtLoadMoreListener onExtLoadMoreListener = null;
-    private ExtRefreshListener onExtRefreshListener = null;
+    ExtClickListener<T> onExtClickListener = null;
+    ExtLongClickListener<T> onExtLongClickListener = null;
+    ExtLoadMoreListener onExtLoadMoreListener = null;
+    ExtRefreshListener onExtRefreshListener = null;
 
     /**
      * @param context
      */
     public ExtPagingListView(Context context) {
         super(context);
-        this.initView(context, null);
+        initView(context, null);
     }
 
     /**
@@ -65,7 +65,7 @@ public class ExtPagingListView<T> extends FrameLayout {
      */
     public ExtPagingListView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.initView(context, attrs);
+        initView(context, attrs);
     }
 
     /**
@@ -75,7 +75,7 @@ public class ExtPagingListView<T> extends FrameLayout {
      */
     public ExtPagingListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        this.initView(context, attrs);
+        initView(context, attrs);
     }
 
     /**
@@ -87,89 +87,79 @@ public class ExtPagingListView<T> extends FrameLayout {
             View view = inflate(context, R.layout.paging_listview, this);
 
             // refresh layout
-            this.rfLayout = view.findViewById(R.id.rf_layout);
-            this.rfLayout.setOnRefreshListener(() -> {
-                if (this.onExtRefreshListener != null) {
-                    this.onExtRefreshListener.onRefresh();
-                }
+            rfLayout = view.findViewById(R.id.rf_layout);
+            rfLayout.setOnRefreshListener(() -> {
+                rfLayout.setRefreshing(false);
+                Optional.from(onExtRefreshListener).doIfPresent(r -> r.onRefresh());
             });
 
             // listview
-            this.lvData = view.findViewById(R.id.lv_data);
-            this.lvData.setFooterDividersEnabled(false);
-            this.lvData.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+            lvData = view.findViewById(R.id.lv_data);
+            lvData.setFooterDividersEnabled(false);
+            lvData.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
 
             //data not found
-            this.tvMessage = view.findViewById(R.id.tv_message);
+            tvMessage = view.findViewById(R.id.tv_message);
 
             //attribute config
-            if (attrs != null) {
-                TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ExtPagingListView, 0, 0);
-                try {
-                    // swipe refresh enable
-                    boolean swipeRefreshEnable = typedArray.getBoolean(R.styleable.ExtPagingListView_swipeRefreshEnable, true);
-                    if (!swipeRefreshEnable) {
-                        this.rfLayout.setEnabled(false);
-                        this.rfLayout.setRefreshing(false);
-                    }
+            TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ExtPagingListView, 0, 0);
+            try {
+                // swipe refresh enable
+                boolean swipeRefreshEnable = typedArray.getBoolean(R.styleable.ExtPagingListView_swipeRefreshEnable, true);
+                rfLayout.setEnabled(swipeRefreshEnable);
 
-                    // swipe refresh indicator color
-                    int swipeRefreshIndicatorColor = typedArray.getColor(R.styleable.ExtPagingListView_swipeRefreshIndicatorColor,
-                            context.getResources().getColor(android.R.color.black));
-                    this.rfLayout.setColorSchemeColors(swipeRefreshIndicatorColor);
+                // swipe refresh indicator color
+                rfLayout.setColorSchemeColors(typedArray.getColor(R.styleable.ExtPagingListView_swipeRefreshIndicatorColor,
+                        context.getResources().getColor(android.R.color.black)));
 
-                    // scroll bar visibility
-                    boolean scrollbarVisible = typedArray.getBoolean(R.styleable.ExtPagingListView_scrollbarVisible, true);
-                    this.lvData.setVerticalScrollBarEnabled(scrollbarVisible);
+                // scroll bar visibility
+                lvData.setVerticalScrollBarEnabled(typedArray.getBoolean(R.styleable.ExtPagingListView_scrollbarVisible, false));
 
-                    // divider color
-                    int color = typedArray.getColor(R.styleable.ExtPagingListView_dividerColor, 0);
-                    this.lvData.setDivider(new ColorDrawable(color));
+                // divider color
+                lvData.setDivider(new ColorDrawable(typedArray.getColor(R.styleable.ExtPagingListView_dividerColor, 0)));
 
-                    // divider height
-                    int dividerHeight = typedArray.getDimensionPixelSize(R.styleable.ExtPagingListView_dividerHeight, 0);
-                    this.lvData.setDividerHeight(dividerHeight);
+                // divider height
+                lvData.setDividerHeight(typedArray.getDimensionPixelSize(R.styleable.ExtPagingListView_dividerHeight, 0));
 
-                    // message no data
-                    String message = typedArray.getString(R.styleable.ExtPagingListView_noDataMessage);
-                    if (!StringUtils.isEmpty(message)) this.tvMessage.setText(message);
-                } finally {
-                    typedArray.recycle();
-                }
+                // message no data
+                String message = typedArray.getString(R.styleable.ExtPagingListView_noDataMessage);
+                StringUtils.isNotEmpty(message, s -> tvMessage.setText(s));
+            } finally {
+                typedArray.recycle();
             }
         } catch (Resources.NotFoundException e) {
-            Logger.e(TAG, e);
+            e.printStackTrace();
         }
     }
 
     /**
      * @param context
-     * @param extBaseAdapter
+     * @param adapter
      */
-    public ExtPagingListView init(Context context, ExtBaseAdapter<T> extBaseAdapter) {
-        return init(context, extBaseAdapter, null);
+    public ExtPagingListView init(Context context, ExtBaseAdapter<T> adapter) {
+        return init(context, adapter, null);
     }
 
     /**
      * @param context
-     * @param extBaseAdapter
+     * @param adapter
      * @param loadingView
      */
     @SuppressLint("InflateParams")
-    public ExtPagingListView init(Context context, ExtBaseAdapter<T> extBaseAdapter, final View loadingView) {
+    public ExtPagingListView init(Context context, ExtBaseAdapter<T> adapter, final View loadingView) {
         try {
-            this.extBaseAdapter = extBaseAdapter;
-            this.lvData.setAdapter(extBaseAdapter);
+            extBaseAdapter = adapter;
+            lvData.setAdapter(extBaseAdapter);
 
             // loading view
             if (loadingView != null) {
-                this.vLoading = loadingView;
+                vLoading = loadingView;
             } else {
-                this.vLoading = LayoutInflater.from(context).inflate(R.layout.paging_item_loading, null);
+                vLoading = LayoutInflater.from(context).inflate(R.layout.paging_item_loading, null);
             }
 
             // scroll listview
-            this.lvData.setOnScrollListener(new AbsListView.OnScrollListener() {
+            lvData.setOnScrollListener(new AbsListView.OnScrollListener() {
                 @Override
                 public void onScrollStateChanged(AbsListView view, int scrollState) {
                 }
@@ -183,36 +173,31 @@ public class ExtPagingListView<T> extends FrameLayout {
                             onExtLoadMoreListener.onLoadMore();
                         }
                     } catch (Exception e) {
-                        Logger.e(TAG, e);
+                        e.printStackTrace();
                     }
                 }
             });
 
             // click
-            this.lvData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            lvData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (onExtClickListener != null) {
-                        onExtClickListener.onClick(position, extBaseAdapter == null ? null : extBaseAdapter.getItem(position));
-                    }
+                    Optional.from(onExtClickListener).doIfPresent(c -> c.onClick(position, adapter == null ? null : adapter.getItem(position)));
                 }
             });
 
             // long click
-            this.lvData.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            lvData.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (onExtLongClickListener != null) {
-                        onExtLongClickListener.onLongClick(position, extBaseAdapter == null ? null : extBaseAdapter.getItem(position));
-                    }
-
+                    Optional.from(onExtLongClickListener).doIfPresent(c -> c.onLongClick(position, adapter == null ? null : adapter.getItem(position)));
                     return false;
                 }
             });
 
-            this.displayMessage();
+            displayMessage();
         } catch (Exception e) {
-            Logger.e(TAG, e);
+            e.printStackTrace();
         }
 
         return this;
@@ -224,16 +209,15 @@ public class ExtPagingListView<T> extends FrameLayout {
      * @param items
      * @param <T>
      */
-    public void notifyDataSetChanged(List<T> items) {
+    public ExtPagingListView notifyDataSetChanged(List<T> items) {
         try {
-            if (this.extBaseAdapter != null) {
-                this.extBaseAdapter.notifyDataSetChanged(items);
-            }
-
-            this.displayMessage();
+            Optional.from(extBaseAdapter).doIfPresent(a -> a.notifyDataSetChanged(items));
+            displayMessage();
         } catch (Exception e) {
-            Logger.e(TAG, e);
+            e.printStackTrace();
         }
+
+        return this;
     }
 
     /**
@@ -241,13 +225,9 @@ public class ExtPagingListView<T> extends FrameLayout {
      */
     public ExtPagingListView displayMessage() {
         try {
-            if (this.extBaseAdapter == null || this.extBaseAdapter.getCount() <= 0) {
-                this.tvMessage.setVisibility(VISIBLE);
-            } else {
-                this.tvMessage.setVisibility(GONE);
-            }
+            tvMessage.setVisibility(extBaseAdapter == null || extBaseAdapter.getCount() <= 0 ? VISIBLE : GONE);
         } catch (Exception e) {
-            Logger.e(TAG, e);
+            e.printStackTrace();
         }
 
         return this;
@@ -259,10 +239,8 @@ public class ExtPagingListView<T> extends FrameLayout {
      * @return
      */
     public ExtBaseAdapter getExtBaseAdapter() {
-        if (extBaseAdapter == null) {
+        if (extBaseAdapter == null)
             throw new NullPointerException("ExtBaseAdapter can not null!!!");
-        }
-
         return extBaseAdapter;
     }
 
@@ -275,19 +253,25 @@ public class ExtPagingListView<T> extends FrameLayout {
      */
     public <AD extends ExtBaseAdapter<T>> ExtPagingListView setExtBaseAdapter(AD adapter) {
         try {
-            this.extBaseAdapter = adapter;
+            extBaseAdapter = adapter;
         } catch (Exception e) {
-            Logger.e(TAG, e);
+            e.printStackTrace();
         }
 
         return this;
     }
 
+    /**
+     * set selected items
+     *
+     * @param position
+     * @return
+     */
     public ExtPagingListView setSelection(int position) {
         try {
-            this.lvData.setSelection(position);
+            lvData.setSelection(position);
         } catch (Exception e) {
-            Logger.e(TAG, e);
+            e.printStackTrace();
         }
 
         return this;
@@ -298,9 +282,9 @@ public class ExtPagingListView<T> extends FrameLayout {
      */
     public ExtPagingListView addNewItem(T newItem) {
         try {
-            this.extBaseAdapter.addNewItem(newItem);
+            extBaseAdapter.addNewItem(newItem);
         } catch (Exception e) {
-            Logger.e(TAG, e);
+            e.printStackTrace();
         }
 
         return this;
@@ -311,16 +295,12 @@ public class ExtPagingListView<T> extends FrameLayout {
      */
     public ExtPagingListView addNewItems(List<T> newItems) {
         try {
-            if (newItems == null || newItems.size() <= 0) {
-                this.hasMore = false;
-            }
-
-            this.extBaseAdapter.addNewItems(newItems);
-
-            // display no data mesage
-            this.displayMessage();
+            if (newItems == null || newItems.size() < NUMBER_PER_PAGE)
+                hasMore = false;
+            extBaseAdapter.addNewItems(newItems);
+            displayMessage();
         } catch (Exception e) {
-            Logger.e(TAG, e);
+            e.printStackTrace();
         }
 
         return this;
@@ -333,12 +313,10 @@ public class ExtPagingListView<T> extends FrameLayout {
      */
     public ExtPagingListView removeItem(T item) {
         try {
-            this.extBaseAdapter.removeItem(item);
-
-            // display no data mesage
-            this.displayMessage();
+            extBaseAdapter.removeItem(item);
+            displayMessage();
         } catch (Exception e) {
-            Logger.e(TAG, e);
+            e.printStackTrace();
         }
 
         return this;
@@ -351,12 +329,10 @@ public class ExtPagingListView<T> extends FrameLayout {
      */
     public ExtPagingListView removeItems(List<T> items) {
         try {
-            this.extBaseAdapter.removeItems(items);
-
-            // display no data mesage
-            this.displayMessage();
+            extBaseAdapter.removeItems(items);
+            displayMessage();
         } catch (Exception e) {
-            Logger.e(TAG, e);
+            e.printStackTrace();
         }
 
         return this;
@@ -367,13 +343,11 @@ public class ExtPagingListView<T> extends FrameLayout {
      */
     public ExtPagingListView clearItems() {
         try {
-            this.hasMore = true;
-            this.extBaseAdapter.clearList();
-
-            // display no data mesage
-            this.displayMessage();
+            hasMore = true;
+            extBaseAdapter.clearList();
+            displayMessage();
         } catch (Exception e) {
-            Logger.e(TAG, e);
+            e.printStackTrace();
         }
 
         return this;
@@ -383,28 +357,21 @@ public class ExtPagingListView<T> extends FrameLayout {
      * start loading
      */
     public ExtPagingListView startLoading() {
-        this.startLoading(false);
+        startLoading(false);
         return this;
     }
 
     /**
      * start loading
      */
-    public ExtPagingListView startLoading(boolean isLoading) {
+    public ExtPagingListView startLoading(boolean isShowLoading) {
         try {
-            this.loading = true;
-            if (this.rfLayout == null || this.lvData == null || this.vLoading == null) {
-                return this;
-            }
-
+            loading = true;
             // add loading view to footer
-            if (!this.rfLayout.isRefreshing() && isLoading) {
-                this.lvData.addFooterView(vLoading);
-            }
-
-            this.tvMessage.setVisibility(GONE);
+            if (isShowLoading) lvData.addFooterView(vLoading);
+            tvMessage.setVisibility(GONE);
         } catch (Exception e) {
-            Logger.e(TAG, e);
+            e.printStackTrace();
         }
 
         return this;
@@ -414,29 +381,20 @@ public class ExtPagingListView<T> extends FrameLayout {
      * stop loading
      */
     public ExtPagingListView stopLoading() {
-        this.stopLoading(false);
+        stopLoading(false);
         return this;
     }
 
     /**
      * stop loading
      */
-    public ExtPagingListView stopLoading(boolean isLoading) {
+    public ExtPagingListView stopLoading(boolean isShowLoading) {
         try {
-            this.loading = false;
-            if (this.rfLayout == null || this.lvData == null || this.vLoading == null) {
-                return this;
-            }
-
+            loading = false;
             // remove loading view
-            if (!this.rfLayout.isRefreshing() && isLoading) {
-                this.lvData.removeFooterView(vLoading);
-            }
-
-            // disable swipe loading
-            this.rfLayout.setRefreshing(false);
+            if (isShowLoading) lvData.removeFooterView(vLoading);
         } catch (Exception e) {
-            Logger.e(TAG, e);
+            e.printStackTrace();
         }
 
         return this;
@@ -452,6 +410,11 @@ public class ExtPagingListView<T> extends FrameLayout {
         return this;
     }
 
+    /**
+     * is has more items
+     *
+     * @return
+     */
     public boolean isHasMore() {
         return hasMore;
     }
@@ -500,19 +463,25 @@ public class ExtPagingListView<T> extends FrameLayout {
      */
     public ExtPagingListView setEnabledSwipeRefreshing(boolean isEnabled) {
         try {
-            this.rfLayout.setEnabled(isEnabled);
+            rfLayout.setEnabled(isEnabled);
         } catch (Exception e) {
-            Logger.e(TAG, e);
+            e.printStackTrace();
         }
 
         return this;
     }
 
+    /**
+     * scroll to position
+     *
+     * @param position
+     * @return
+     */
     public ExtPagingListView scrollToPosition(int position) {
         try {
-            this.lvData.smoothScrollToPosition(position);
+            lvData.smoothScrollToPosition(position);
         } catch (Exception e) {
-            Logger.e(TAG, e);
+            e.printStackTrace();
         }
 
         return this;
@@ -526,11 +495,20 @@ public class ExtPagingListView<T> extends FrameLayout {
      */
     public ExtPagingListView setMessage(String message) {
         try {
-            this.tvMessage.setText(message);
+            tvMessage.setText(message);
         } catch (Exception e) {
-            Logger.e(TAG, e);
+            e.printStackTrace();
         }
 
         return this;
+    }
+
+    /**
+     * get list view
+     *
+     * @return
+     */
+    public ListView getListView() {
+        return lvData;
     }
 }

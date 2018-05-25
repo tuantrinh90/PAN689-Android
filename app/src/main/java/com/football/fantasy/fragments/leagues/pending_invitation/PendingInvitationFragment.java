@@ -3,13 +3,11 @@ package com.football.fantasy.fragments.leagues.pending_invitation;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.bon.customview.listview.ExtPagingListView;
 import com.football.adapters.LeaguesAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
-import com.football.common.fragments.BaseMvpFragment;
 import com.football.fantasy.R;
 import com.football.models.League;
 
@@ -24,7 +22,7 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
     }
 
     @BindView(R.id.rvRecyclerView)
-    RecyclerView rvRecyclerView;
+    ExtPagingListView rvRecyclerView;
 
     List<League> leagues;
     LeaguesAdapter leaguesAdapter;
@@ -62,8 +60,7 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
         }, join -> {
 
         });
-        rvRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
-        rvRecyclerView.setAdapter(leaguesAdapter);
+        rvRecyclerView.init(mActivity, leaguesAdapter);
     }
 
     @NonNull

@@ -1,9 +1,9 @@
 package com.bon.customview.listview;
 
 import android.content.Context;
+import android.text.Layout;
+import android.view.LayoutInflater;
 import android.widget.BaseAdapter;
-
-import com.bon.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,31 +13,31 @@ import java.util.List;
  */
 
 public abstract class ExtBaseAdapter<T> extends BaseAdapter {
-    private static final String TAG = ExtBaseAdapter.class.getSimpleName();
-
+    protected LayoutInflater layoutInflater;
     protected Context context;
-    protected List<T> items = null;
+    protected List<T> items;
 
     /**
-     * @param context
-     * @param items
+     * @param ctx
+     * @param its
      */
-    public ExtBaseAdapter(Context context, List<T> items) {
-        this.context = context;
-        this.items = items;
+    public ExtBaseAdapter(Context ctx, List<T> its) {
+        context = ctx;
+        items = its;
+        layoutInflater = LayoutInflater.from(context);
     }
 
     /**
      * notification data
      *
-     * @param items
+     * @param its
      */
-    public void notifyDataSetChanged(List<T> items) {
+    public void notifyDataSetChanged(List<T> its) {
         try {
-            this.items = items;
-            this.notifyDataSetChanged();
+            items = its;
+            notifyDataSetChanged();
         } catch (Exception e) {
-            Logger.e(TAG, e);
+            e.printStackTrace();
         }
     }
 
@@ -47,14 +47,11 @@ public abstract class ExtBaseAdapter<T> extends BaseAdapter {
     public void addNewItem(T newItem) {
         try {
             if (newItem == null) return;
-            if (this.items == null) {
-                this.items = new ArrayList<>();
-            }
-
-            this.items.add(newItem);
-            this.notifyDataSetChanged();
+            if (items == null) items = new ArrayList<>();
+            items.add(newItem);
+            notifyDataSetChanged();
         } catch (Exception e) {
-            Logger.e(TAG, e);
+            e.printStackTrace();
         }
     }
 
@@ -64,14 +61,11 @@ public abstract class ExtBaseAdapter<T> extends BaseAdapter {
     public void addNewItems(List<T> newItems) {
         try {
             if (newItems == null || newItems.size() <= 0) return;
-            if (this.items == null) {
-                this.items = new ArrayList<>();
-            }
-
-            this.items.addAll(newItems);
-            this.notifyDataSetChanged();
+            if (items == null) items = new ArrayList<>();
+            items.addAll(newItems);
+            notifyDataSetChanged();
         } catch (Exception e) {
-            Logger.e(TAG, e);
+            e.printStackTrace();
         }
     }
 
@@ -82,29 +76,26 @@ public abstract class ExtBaseAdapter<T> extends BaseAdapter {
      */
     public void removeItem(T item) {
         try {
-            if (item == null || this.items == null || this.items.size() <= 0) return;
-            this.items.remove(item);
-            this.notifyDataSetChanged();
+            if (item == null || items == null || items.size() <= 0) return;
+            items.remove(item);
+            notifyDataSetChanged();
         } catch (Exception e) {
-            Logger.e(TAG, e);
+            e.printStackTrace();
         }
     }
 
     /**
      * remove items
      *
-     * @param items
+     * @param its
      */
-    public void removeItems(List<T> items) {
+    public void removeItems(List<T> its) {
         try {
-            if (items == null || items.size() <= 0 || this.items == null || this.items.size() <= 0) {
-                return;
-            }
-
-            this.items.removeAll(items);
-            this.notifyDataSetChanged();
+            if (its == null || its.size() <= 0 || items == null || items.size() <= 0) return;
+            items.removeAll(its);
+            notifyDataSetChanged();
         } catch (Exception e) {
-            Logger.e(TAG, e);
+            e.printStackTrace();
         }
     }
 
@@ -113,11 +104,11 @@ public abstract class ExtBaseAdapter<T> extends BaseAdapter {
      */
     public void clearList() {
         try {
-            if (this.items == null || this.items.size() <= 0) return;
-            this.items.clear();
-            this.notifyDataSetChanged();
+            if (items == null || items.size() <= 0) return;
+            items.clear();
+            notifyDataSetChanged();
         } catch (Exception e) {
-            Logger.e(TAG, e);
+            e.printStackTrace();
         }
     }
 
@@ -128,15 +119,15 @@ public abstract class ExtBaseAdapter<T> extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return this.items == null ? 0 : this.items.size();
+        return items == null ? 0 : items.size();
     }
 
     @Override
     public T getItem(int position) {
         try {
-            return this.items == null ? null : this.items.get(position);
+            return items == null ? null : items.get(position);
         } catch (Exception e) {
-            Logger.e(TAG, e);
+            e.printStackTrace();
         }
 
         return null;

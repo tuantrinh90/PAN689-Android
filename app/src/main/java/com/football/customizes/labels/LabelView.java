@@ -5,10 +5,11 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v7.widget.AppCompatImageView;
+
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bon.customview.textview.ExtTextView;
@@ -26,7 +27,7 @@ public class LabelView extends LinearLayout {
     @BindView(R.id.tvRequired)
     ExtTextView tvRequired;
     @BindView(R.id.ivInfo)
-    AppCompatImageView ivInfo;
+    ImageView ivInfo;
 
     Consumer<Void> infoConsumer;
 
@@ -55,7 +56,7 @@ public class LabelView extends LinearLayout {
         View view = LayoutInflater.from(context).inflate(R.layout.label_view, this);
         ButterKnife.bind(this, view);
 
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LabelView);
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.LabelView, 0, 0);
 
         // text all caps
         boolean isTextAllCaps = typedArray.getBoolean(R.styleable.LabelView_android_textAllCaps, true);

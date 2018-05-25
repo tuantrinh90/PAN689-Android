@@ -155,7 +155,7 @@
                 android:orientation="horizontal"
                 android:padding="@dimen/padding_content">
 
-                <android.support.v7.widget.AppCompatImageView
+                <ImageView
                     android:id="@+id/ivSchedule"
                     style="@style/IconMedium"
                     app:srcCompat="@drawable/ic_schedule_white" />
@@ -203,7 +203,7 @@
         android:layout_marginRight="@dimen/leagues_margin_number"
         android:visibility="gone">
 
-        <android.support.v7.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/ivNumber"
             android:layout_width="@dimen/leagues_size_number_number"
             android:layout_height="@dimen/leagues_size_number_number"
@@ -211,7 +211,7 @@
             android:layout_marginBottom="@dimen/padding_layout"
             app:srcCompat="@drawable/ic_number_one" />
 
-        <android.support.v7.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/ivUpOrDown"
             style="@style/IconMedium"
             android:layout_gravity="right"
