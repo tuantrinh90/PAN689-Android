@@ -4,7 +4,9 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="@dimen/padding_layout">
+    android:paddingTop="@dimen/padding_content"
+    android:paddingLeft="@dimen/padding_layout"
+    android:paddingRight="@dimen/padding_layout">
 
     <com.bon.customview.recycleview.centering_recyclerview.CenteringRecyclerView
         android:id="@+id/rvRecyclerView"

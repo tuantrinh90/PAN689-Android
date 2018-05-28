@@ -43,12 +43,16 @@
                 android:layout_weight="1"
                 app:editTextAppHint="@string/enter_league_name" />
 
-            <com.football.customizes.images.CircleImageViewApp
+            <ImageView
                 android:id="@+id/ivImagePick"
                 android:layout_width="@dimen/avatar_normal"
                 android:layout_height="@dimen/avatar_normal"
                 android:layout_marginLeft="@dimen/padding_layout"
-                android:layout_marginStart="@dimen/padding_layout" />
+                android:layout_marginStart="@dimen/padding_layout"
+                android:background="@drawable/bg_image_pick"
+                android:padding="@dimen/padding_layout"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_photo_white" />
         </TableRow>
 
         <com.football.customizes.labels.LabelView
@@ -114,7 +118,7 @@
 
                 <ImageView
                     style="@style/IconLarge"
-                    app:srcCompat="@drawable/bg_transfer" />
+                    android:src="@drawable/bg_transfer" />
 
                 <com.bon.customview.textview.ExtTextView
                     style="@style/StyleContent"
@@ -141,7 +145,7 @@
 
                 <ImageView
                     style="@style/IconLarge"
-                    app:srcCompat="@drawable/bg_draft" />
+                    android:src="@drawable/bg_draft" />
 
                 <com.bon.customview.textview.ExtTextView
                     style="@style/StyleContent"

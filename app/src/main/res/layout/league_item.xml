@@ -158,7 +158,7 @@
                 <ImageView
                     android:id="@+id/ivSchedule"
                     style="@style/IconMedium"
-                    app:srcCompat="@drawable/ic_schedule_white" />
+                    android:src="@drawable/ic_schedule_white" />
 
                 <com.bon.customview.textview.ExtTextView
                     android:id="@+id/tvDescription"
@@ -179,19 +179,23 @@
         android:layout_marginBottom="@dimen/leagues_margin_action_button"
         android:layout_marginRight="@dimen/leagues_margin"
         android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="visible">
 
-        <com.bon.customview.textview.ExtTextView
+        <ImageView
             android:id="@+id/tvCheck"
             style="@style/FloatingActionButton"
-            android:background="@drawable/bg_button_check" />
+            android:background="@drawable/bg_button_check"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_check_white" />
 
-        <com.bon.customview.textview.ExtTextView
+        <ImageView
             android:id="@+id/tvClose"
             style="@style/FloatingActionButton"
             android:layout_marginLeft="@dimen/padding_layout"
             android:layout_marginRight="@dimen/padding_layout"
-            android:background="@drawable/bg_button_close" />
+            android:background="@drawable/bg_button_close"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_close_white" />
     </LinearLayout>
 
     <FrameLayout
@@ -209,15 +213,19 @@
             android:layout_height="@dimen/leagues_size_number_number"
             android:layout_gravity="bottom"
             android:layout_marginBottom="@dimen/padding_layout"
-            app:srcCompat="@drawable/ic_number_one" />
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_number_one" />
 
         <ImageView
             android:id="@+id/ivUpOrDown"
-            style="@style/IconMedium"
+            style="@style/IconSmall"
             android:layout_gravity="right"
             android:layout_marginBottom="@dimen/padding_layout"
-            android:visibility="visible"
-            app:srcCompat="@drawable/bg_green_arrow_up_circle" />
+            android:background="@drawable/bg_green_arrow_up_circle"
+            android:scaleType="centerInside"
+            android:padding="@dimen/padding_content"
+            android:src="@drawable/ic_arrow_upward_white_small"
+            android:visibility="visible" />
     </FrameLayout>
 
     <com.bon.customview.textview.ExtTextView
@@ -233,7 +241,7 @@
         android:text="@string/join"
         android:textAllCaps="true"
         android:textSize="@dimen/font_size_description"
-        android:visibility="visible"
+        android:visibility="gone"
         app:textViewFontAssetName="@string/font_display_bold" />
 
     <LinearLayout

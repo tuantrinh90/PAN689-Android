@@ -1,0 +1,45 @@
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<resources>
+    <!--layout-->
+    <dimen name="padding_content">6dp</dimen>
+    <dimen name="padding_layout">10dp</dimen>
+    <dimen name="padding_small">3dp</dimen>
+
+    <!--avatar-->
+    <dimen name="avatar_xxlarge">120dp</dimen>
+    <dimen name="avatar_xlarge">100dp</dimen>
+    <dimen name="avatar_large">80dp</dimen>
+    <dimen name="avatar_normal">60dp</dimen>
+    <dimen name="avatar_small">40dp</dimen>
+    <dimen name="avatar_border">2dp</dimen>
+    <dimen name="avatar_padding">3dp</dimen>
+
+    <!--icon-->
+    <dimen name="icon_tiny">18dp</dimen>
+    <dimen name="icon_small">25dp</dimen>
+    <dimen name="icon_medium">30dp</dimen>
+    <dimen name="icon_large">40dp</dimen>
+
+    <!--float action button-->
+    <dimen name="float_action_button_size">40dp</dimen>
+
+    <!--home-->
+    <dimen name="home_size_button_width_leagues">80dp</dimen>
+    <dimen name="home_size_button_height_leagues">35dp</dimen>
+    <dimen name="home_size_margin_leagues">20dp</dimen>
+    <dimen name="home_size_cup_width">110dp</dimen>
+    <dimen name="home_size_cup_height">130dp</dimen>
+    <dimen name="home_size_cup_margin_right">45dp</dimen>
+    <dimen name="home_size_football_leagues">105dp</dimen>
+    <dimen name="home_size_football_margin_action">30dp</dimen>
+    <dimen name="home_player_list_height">180dp</dimen>
+
+    <!--leagues-->
+    <dimen name="leagues_margin_action_button">15dp</dimen>
+    <dimen name="leagues_margin">10dp</dimen>
+    <dimen name="leagues_margin_number">30dp</dimen>
+    <dimen name="leagues_margin_join">30dp</dimen>
+    <dimen name="leagues_size_number_width">60dp</dimen>
+    <dimen name="leagues_size_number_number">55dp</dimen>
+    <dimen name="leagues_size_number_height">70dp</dimen>
+</resources>

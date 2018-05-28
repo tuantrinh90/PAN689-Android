@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
@@ -17,13 +18,13 @@ import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageFilePath;
+import com.bon.image.ImageLoaderUtils;
 import com.bon.image.ImageUtils;
 import com.bon.permission.PermissionUtils;
 import com.bon.util.DateTimeUtils;
 import com.bon.util.StringUtils;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
-import com.football.customizes.images.CircleImageViewApp;
 import com.football.customizes.labels.LabelView;
 import com.football.fantasy.R;
 import com.football.utilities.AppUtilities;
@@ -44,7 +45,7 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
     @BindView(R.id.etLeagueName)
     EditTextApp etLeagueName;
     @BindView(R.id.ivImagePick)
-    CircleImageViewApp ivImagePick;
+    ImageView ivImagePick;
     @BindView(R.id.lvLeagueType)
     LabelView lvLeagueType;
     @BindView(R.id.rgLeagueType)
@@ -114,15 +115,10 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
     }
 
     void initView() {
-        setImagePick();
         onClickTransfer();
         onClickBudgetOptionBottom();
         formatDateTime();
         setData();
-    }
-
-    void setImagePick() {
-        ivImagePick.getImageView().setImageResource(R.drawable.bg_image_pick);
     }
 
     @NonNull
@@ -294,13 +290,13 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case ImageUtils.CAMERA_REQUEST: {
-                    ivImagePick.setImageUri(ImageUtils.getUriImageDisplayFromFile(filePath));
+                    ImageLoaderUtils.displayImage(ImageUtils.getUriImageDisplayFromFile(filePath), ivImagePick);
                     break;
                 }
                 case ImageUtils.REQUEST_PICK_CONTENT: {
                     String pathFile = ImageFilePath.getPath(mActivity, data.getData());
                     Log.e("pathFile", "pathFile:: " + pathFile);
-                    StringUtils.isNotEmpty(pathFile, s -> ivImagePick.setImageUri(ImageUtils.getUriImageDisplayFromFile(new File(s))));
+                    StringUtils.isNotEmpty(pathFile, s -> ImageLoaderUtils.displayImage(ImageUtils.getUriImageDisplayFromFile(new File(s)), ivImagePick));
                     break;
                 }
             }

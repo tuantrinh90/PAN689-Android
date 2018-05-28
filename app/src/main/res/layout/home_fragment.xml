@@ -52,7 +52,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/padding_content"
                         android:layout_marginLeft="@dimen/home_size_margin_leagues"
-                        android:layout_marginRight="@dimen/padding_layout"
+                        android:layout_marginRight="@dimen/padding_content"
                         android:layout_marginTop="@dimen/padding_content"
                         android:gravity="left"
                         android:maxLines="2"

@@ -22,7 +22,7 @@
         <ImageView
             android:id="@+id/ivSearch"
             style="@style/IconTiny"
-            app:srcCompat="@drawable/ic_search_blue" />
+            android:src="@drawable/ic_search_blue" />
 
         <com.bon.customview.edittext.ExtEditText
             android:id="@+id/etSearch"
@@ -45,7 +45,7 @@
             style="@style/IconTiny"
             android:background="@drawable/bg_null_gray_selector"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_close_blue" />
+            android:src="@drawable/ic_close_blue" />
     </LinearLayout>
 
     <ImageView
@@ -53,5 +53,5 @@
         style="@style/IconTiny"
         android:layout_marginLeft="@dimen/padding_layout"
         android:background="@drawable/bg_null_gray_selector"
-        app:srcCompat="@drawable/ic_filter_white" />
+        android:src="@drawable/ic_filter_white" />
 </LinearLayout>

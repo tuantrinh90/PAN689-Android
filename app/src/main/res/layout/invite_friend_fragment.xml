@@ -61,6 +61,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/padding_layout"
             android:layout_marginRight="@dimen/padding_layout"
+            android:drawableLeft="@drawable/ic_invite_white"
+            android:drawablePadding="@dimen/padding_content"
             android:minWidth="@dimen/button_min_width"
             android:text="@string/invite"
             app:textAllCaps="false"

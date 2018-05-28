@@ -14,7 +14,6 @@
                     <solid android:color="@color/color_red_selector" />
                 </shape>
             </item>
-            <item android:drawable="@drawable/ic_close_white" android:gravity="center" />
         </layer-list>
     </item>
     <item>
@@ -31,7 +30,6 @@
                     <solid android:color="@color/color_red" />
                 </shape>
             </item>
-            <item android:drawable="@drawable/ic_close_white" android:gravity="center" />
         </layer-list>
     </item>
 </selector>

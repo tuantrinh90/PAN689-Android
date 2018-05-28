@@ -1,7 +1,6 @@
 package com.football.adapters;
 
 import android.content.Context;
-
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,8 +64,11 @@ public class LeaguesAdapter extends ExtBaseAdapter<League> {
         holder.tvDescription.setText(league.getDescription());
 
         // number
-        holder.ivUpOrDown.setImageResource(league.getType() == League.TYPE_INCREASE ? R.drawable.bg_green_arrow_up_circle :
+        holder.ivUpOrDown.setBackgroundResource(league.getType() == League.TYPE_INCREASE ? R.drawable.bg_green_arrow_up_circle :
                 (league.getType() == League.TYPE_DECREASE ? R.drawable.bg_green_arrow_down_red : 0));
+        holder.ivUpOrDown.setImageResource(league.getType() == League.TYPE_INCREASE ? R.drawable.ic_arrow_upward_white_small :
+                (league.getType() == League.TYPE_DECREASE ? R.drawable.ic_arrow_down_white_small : 0));
+
         holder.ivNumber.setImageResource(league.getRate() == 1 ? R.drawable.ic_number_one :
                 (league.getRate() == 2 ? R.drawable.ic_number_two : R.drawable.ic_number_three));
 
@@ -105,9 +107,9 @@ public class LeaguesAdapter extends ExtBaseAdapter<League> {
         @BindView(R.id.llBottomAction)
         LinearLayout llBottomAction;
         @BindView(R.id.tvCheck)
-        ExtTextView tvCheck;
+        ImageView tvCheck;
         @BindView(R.id.tvClose)
-        ExtTextView tvClose;
+        ImageView tvClose;
         @BindView(R.id.llNumber)
         FrameLayout llNumber;
         @BindView(R.id.ivUpOrDown)

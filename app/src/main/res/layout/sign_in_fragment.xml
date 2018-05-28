@@ -83,24 +83,27 @@
                 style="@style/IconLarge"
                 android:layout_margin="@dimen/padding_content"
                 android:background="@drawable/bg_circle_social"
-                android:scaleType="center"
-                app:srcCompat="@drawable/ic_facebook" />
+                android:padding="@dimen/padding_small"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_facebook" />
 
             <ImageView
                 android:id="@+id/ivGoogle"
                 style="@style/IconLarge"
                 android:layout_margin="@dimen/padding_content"
                 android:background="@drawable/bg_circle_social"
-                android:scaleType="center"
-                app:srcCompat="@drawable/ic_google_plus" />
+                android:padding="@dimen/padding_small"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_google_plus" />
 
             <ImageView
                 android:id="@+id/ivTwitter"
                 style="@style/IconLarge"
                 android:layout_margin="@dimen/padding_content"
                 android:background="@drawable/bg_circle_social"
-                android:scaleType="center"
-                app:srcCompat="@drawable/ic_twitter" />
+                android:padding="@dimen/padding_small"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_twitter" />
         </LinearLayout>
 
     </LinearLayout>

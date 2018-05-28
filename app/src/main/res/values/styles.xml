@@ -171,25 +171,25 @@
     <style name="IconTiny">
         <item name="android:layout_width">@dimen/icon_tiny</item>
         <item name="android:layout_height">@dimen/icon_tiny</item>
-        <item name="android:scaleType">fitCenter</item>
+        <item name="android:scaleType">centerInside</item>
     </style>
 
     <style name="IconSmall">
         <item name="android:layout_width">@dimen/icon_small</item>
         <item name="android:layout_height">@dimen/icon_small</item>
-        <item name="android:scaleType">fitCenter</item>
+        <item name="android:scaleType">centerInside</item>
     </style>
 
     <style name="IconMedium">
         <item name="android:layout_width">@dimen/icon_medium</item>
         <item name="android:layout_height">@dimen/icon_medium</item>
-        <item name="android:scaleType">fitCenter</item>
+        <item name="android:scaleType">centerInside</item>
     </style>
 
     <style name="IconLarge">
         <item name="android:layout_width">@dimen/icon_large</item>
         <item name="android:layout_height">@dimen/icon_large</item>
-        <item name="android:scaleType">fitCenter</item>
+        <item name="android:scaleType">centerInside</item>
     </style>
 
     <!--float action button-->

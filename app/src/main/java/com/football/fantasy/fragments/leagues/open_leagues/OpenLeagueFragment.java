@@ -53,6 +53,29 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
 
     void initView() {
         try {
+            // search view
+            DisplayMetrics displayMetrics = GeneralUtils.getDisplayMetrics(mActivity);
+            int paddingLayout = getResources().getDimensionPixelSize(R.dimen.padding_layout);
+            int marginLayout = getResources().getDimensionPixelOffset(R.dimen.leagues_margin);
+
+            SearchView svSearchView = new SearchView(mActivity);
+            AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(displayMetrics.widthPixels - paddingLayout * 2, ViewGroup.LayoutParams.WRAP_CONTENT);
+            svSearchView.setPadding(marginLayout, 0, marginLayout, marginLayout);
+            //layoutParams.gravity = Gravity.CENTER;
+            svSearchView.setLayoutParams(layoutParams);
+
+            // add search view to header
+            rvRecyclerView.getListView().addHeaderView(svSearchView);
+
+            // update hint
+            svSearchView.getSearchView().setHint(R.string.search_public_leagues);
+
+            // click button filter
+            svSearchView.setFilerConsumer(v -> onClickFilter());
+
+            // search view
+            svSearchView.setSearchConsumer(query -> onPerformSearch(query));
+
             // leagues
             leagues = new ArrayList<League>() {{
                 add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 1, 1));
@@ -79,29 +102,6 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
 
             });
             rvRecyclerView.init(mActivity, leaguesAdapter);
-
-            // search view
-            DisplayMetrics displayMetrics = GeneralUtils.getDisplayMetrics(mActivity);
-            int paddingLayout = getResources().getDimensionPixelSize(R.dimen.padding_layout);
-            int marginLayout = getResources().getDimensionPixelOffset(R.dimen.leagues_margin);
-
-            SearchView svSearchView = new SearchView(mActivity);
-            AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(displayMetrics.widthPixels - paddingLayout * 2, ViewGroup.LayoutParams.WRAP_CONTENT);
-            svSearchView.setPadding(marginLayout, 0, marginLayout, marginLayout);
-            //layoutParams.gravity = Gravity.CENTER;
-            svSearchView.setLayoutParams(layoutParams);
-
-            // add search view to header
-            rvRecyclerView.getListView().addHeaderView(svSearchView);
-
-            // update hint
-            svSearchView.getSearchView().setHint(R.string.search_public_leagues);
-
-            // click button filter
-            svSearchView.setFilerConsumer(v -> onClickFilter());
-
-            // search view
-            svSearchView.setSearchConsumer(query -> onPerformSearch(query));
         } catch (Resources.NotFoundException e) {
             Logger.e(TAG, e);
         }

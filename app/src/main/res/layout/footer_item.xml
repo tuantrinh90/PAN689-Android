@@ -19,7 +19,7 @@
         <ImageView
             android:id="@+id/ivIcon"
             style="@style/IconMedium"
-            app:srcCompat="@drawable/ic_home" />
+            android:src="@drawable/ic_home" />
 
         <com.bon.customview.textview.ExtTextView
             android:id="@+id/tvContent"

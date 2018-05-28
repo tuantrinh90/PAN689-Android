@@ -24,7 +24,6 @@
         android:layout_height="wrap_content"
         android:padding="0dp"
         android:text="*"
-
         app:textViewFontAssetName="@string/font_display_bold" />
 
     <ImageView
@@ -32,6 +31,6 @@
         style="@style/IconTiny"
         android:layout_marginLeft="@dimen/padding_layout"
         android:background="@drawable/bg_null_gray_selector"
-        app:srcCompat="@drawable/ic_info_black" />
+        android:src="@drawable/ic_info_black" />
 
 </LinearLayout>

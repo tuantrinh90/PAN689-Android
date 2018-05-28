@@ -97,7 +97,7 @@
                 android:layout_width="@dimen/icon_tiny"
                 android:layout_height="@dimen/icon_tiny"
                 android:layout_marginLeft="@dimen/padding_layout"
-                app:srcCompat="@drawable/ic_arrow_upward_green" />
+                android:src="@drawable/ic_arrow_upward_green" />
 
             <View
                 android:layout_width="0dp"
@@ -108,7 +108,7 @@
                 android:id="@+id/ivArrowDown"
                 android:layout_width="@dimen/icon_tiny"
                 android:layout_height="@dimen/icon_tiny"
-                app:srcCompat="@drawable/ic_arrow_forward_gray" />
+                android:src="@drawable/ic_arrow_forward_gray" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -29,14 +29,13 @@
             app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
             app:shadowLayoutShadowColor="@color/color_shadow">
 
-            <android.support.design.widget.FloatingActionButton
+            <ImageView
                 android:id="@+id/btnAdd"
                 style="@style/FloatingActionButton"
+                android:background="@drawable/bg_button_float_action"
                 android:layout_marginTop="@dimen/shadow_layout_dxy_normal"
-                android:src="@drawable/bg_button_float_action" />
+                android:src="@drawable/ic_add_white_small" />
         </com.bon.customview.shadowlayout.ShadowLayout>
-
-
     </LinearLayout>
 
     <com.football.customizes.carousels.CarouselView
