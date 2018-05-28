@@ -27,7 +27,7 @@ import java8.util.stream.StreamSupport;
  * Created by Administrator on 12/01/2017.
  */
 
-public class ExtKeyValuePairServiceDialogFragment<AD extends ExtBaseAdapter<T>, T extends ExtKeyValuePair> extends ExtBaseBottomDialogFragment {
+public class ExtKeyValuePairServiceDialogFragment<AD extends ExtKeyValuePairAdapter<T>, T extends ExtKeyValuePair> extends ExtBaseBottomDialogFragment {
     private static final String TAG = ExtKeyValuePairServiceDialogFragment.class.getSimpleName();
 
     // instance

@@ -25,6 +25,9 @@ import com.bon.util.StringUtils;
 
 import java.util.List;
 
+import java8.util.function.BiConsumer;
+import java8.util.function.Consumer;
+
 /**
  * Created by Dang on 5/27/2016.
  */
@@ -43,7 +46,7 @@ public class ExtPagingListView<T> extends FrameLayout {
     boolean hasMore = true;
 
     // adapter
-    ExtBaseAdapter<T> extBaseAdapter = null;
+    ExtBaseAdapter<T, ? extends ExtPagingListView.ExtViewHolder> extBaseAdapter;
 
     // listener
     ExtClickListener<T> onExtClickListener = null;
@@ -136,7 +139,7 @@ public class ExtPagingListView<T> extends FrameLayout {
      * @param context
      * @param adapter
      */
-    public ExtPagingListView init(Context context, ExtBaseAdapter<T> adapter) {
+    public ExtPagingListView init(Context context, ExtBaseAdapter<T, ? extends ExtPagingListView.ExtViewHolder> adapter) {
         return init(context, adapter, null);
     }
 
@@ -146,7 +149,7 @@ public class ExtPagingListView<T> extends FrameLayout {
      * @param loadingView
      */
     @SuppressLint("InflateParams")
-    public ExtPagingListView init(Context context, ExtBaseAdapter<T> adapter, final View loadingView) {
+    public ExtPagingListView init(Context context, ExtBaseAdapter<T, ? extends ExtPagingListView.ExtViewHolder> adapter, final View loadingView) {
         try {
             extBaseAdapter = adapter;
             lvData.setAdapter(extBaseAdapter);
@@ -251,7 +254,7 @@ public class ExtPagingListView<T> extends FrameLayout {
      * @param <AD>
      * @return
      */
-    public <AD extends ExtBaseAdapter<T>> ExtPagingListView setExtBaseAdapter(AD adapter) {
+    public <AD extends ExtBaseAdapter<T, ? extends ExtPagingListView.ExtViewHolder>> ExtPagingListView setExtBaseAdapter(AD adapter) {
         try {
             extBaseAdapter = adapter;
         } catch (Exception e) {
@@ -420,42 +423,6 @@ public class ExtPagingListView<T> extends FrameLayout {
     }
 
     /**
-     * @param onExtLongClickListener
-     * @return
-     */
-    public ExtPagingListView setOnExtLongClickListener(ExtLongClickListener<T> onExtLongClickListener) {
-        this.onExtLongClickListener = onExtLongClickListener;
-        return this;
-    }
-
-    /**
-     * @param onExtClickListener
-     * @return
-     */
-    public ExtPagingListView setOnExtClickListener(ExtClickListener<T> onExtClickListener) {
-        this.onExtClickListener = onExtClickListener;
-        return this;
-    }
-
-    /**
-     * @param onExtLoadMoreListener
-     * @return
-     */
-    public ExtPagingListView setOnExtLoadMoreListener(ExtLoadMoreListener onExtLoadMoreListener) {
-        this.onExtLoadMoreListener = onExtLoadMoreListener;
-        return this;
-    }
-
-    /**
-     * @param onExtRefreshListener
-     * @return
-     */
-    public ExtPagingListView setOnExtRefreshListener(ExtRefreshListener onExtRefreshListener) {
-        this.onExtRefreshListener = onExtRefreshListener;
-        return this;
-    }
-
-    /**
      * set refresh listview
      *
      * @param isEnabled
@@ -503,6 +470,26 @@ public class ExtPagingListView<T> extends FrameLayout {
         return this;
     }
 
+    public ExtPagingListView setOnExtClickListener(ExtClickListener<T> onExtClickListener) {
+        this.onExtClickListener = onExtClickListener;
+        return this;
+    }
+
+    public ExtPagingListView setOnExtLongClickListener(ExtLongClickListener<T> onExtLongClickListener) {
+        this.onExtLongClickListener = onExtLongClickListener;
+        return this;
+    }
+
+    public ExtPagingListView setOnExtLoadMoreListener(ExtLoadMoreListener onExtLoadMoreListener) {
+        this.onExtLoadMoreListener = onExtLoadMoreListener;
+        return this;
+    }
+
+    public ExtPagingListView setOnExtRefreshListener(ExtRefreshListener onExtRefreshListener) {
+        this.onExtRefreshListener = onExtRefreshListener;
+        return this;
+    }
+
     /**
      * get list view
      *
@@ -510,5 +497,16 @@ public class ExtPagingListView<T> extends FrameLayout {
      */
     public ListView getListView() {
         return lvData;
+    }
+
+    /**
+     * view holder
+     */
+    public static class ExtViewHolder {
+        public final View itemView;
+
+        public ExtViewHolder(View itemView) {
+            this.itemView = itemView;
+        }
     }
 }

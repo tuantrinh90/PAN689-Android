@@ -2,11 +2,10 @@ package com.bon.customview.keyvaluepair;
 
 import android.content.Context;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.bon.customview.listview.ExtBaseAdapter;
+import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.library.R;
 import com.bon.logger.Logger;
@@ -19,7 +18,7 @@ import java.util.List;
  * Created by Administrator on 12/01/2017.
  */
 
-public class ExtKeyValuePairAdapter<T extends ExtKeyValuePair> extends ExtBaseAdapter<T> {
+public class ExtKeyValuePairAdapter<T extends ExtKeyValuePair> extends ExtBaseAdapter<T, ExtKeyValuePairAdapter.ViewHolder<T>> {
     private static final String TAG = ExtKeyValuePairAdapter.class.getSimpleName();
 
     // text gravity
@@ -41,31 +40,26 @@ public class ExtKeyValuePairAdapter<T extends ExtKeyValuePair> extends ExtBaseAd
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
-
-        if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.key_value_pair_row, parent, false);
-            viewHolder = new ViewHolder<T>(convertView);
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-
-        viewHolder.setData(context, getItem(position), textGravity);
-
-        return convertView;
+    protected int getViewId() {
+        return R.layout.key_value_pair_row;
     }
 
-    static class ViewHolder<T extends ExtKeyValuePair> {
+    @Override
+    protected ViewHolder<T> onCreateViewHolder(View view) {
+        return new ViewHolder<>(view);
+    }
+
+    @Override
+    protected void onBindViewHolder(ViewHolder<T> viewHolder, T data) {
+        viewHolder.setData(context, data, textGravity);
+    }
+
+    static class ViewHolder<T extends ExtKeyValuePair> extends ExtPagingListView.ExtViewHolder {
         ExtTextView tvContent;
 
         ViewHolder(View view) {
-            try {
-                tvContent = view.findViewById(R.id.tvContent);
-            } catch (Exception e) {
-                Logger.e(TAG, e);
-            }
+            super(view);
+            tvContent = view.findViewById(R.id.tvContent);
         }
 
         public void setData(Context context, T keyValuePair, int textGravity) {

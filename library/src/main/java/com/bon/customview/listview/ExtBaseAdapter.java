@@ -1,8 +1,9 @@
 package com.bon.customview.listview;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.List;
  * Created by Dang on 5/27/2016.
  */
 
-public abstract class ExtBaseAdapter<T> extends BaseAdapter {
+public abstract class ExtBaseAdapter<T, VH extends ExtPagingListView.ExtViewHolder> extends BaseAdapter {
     protected LayoutInflater layoutInflater;
     protected Context context;
     protected List<T> items;
@@ -25,6 +26,33 @@ public abstract class ExtBaseAdapter<T> extends BaseAdapter {
         context = ctx;
         items = its;
         layoutInflater = LayoutInflater.from(context);
+    }
+
+    protected abstract int getViewId();
+
+    protected abstract VH onCreateViewHolder(View view);
+
+    protected abstract void onBindViewHolder(VH viewHolder, T data);
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if (getViewId() <= 0 || getCount() <= 0) return null;
+        VH viewHolder;
+
+        if (convertView == null) {
+            convertView = layoutInflater.inflate(getViewId(), parent, false);
+            // create view holder
+            viewHolder = onCreateViewHolder(convertView);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (VH) convertView.getTag();
+        }
+
+        // bind data
+        onBindViewHolder(viewHolder, getItem(position));
+
+        // view
+        return convertView;
     }
 
     /**

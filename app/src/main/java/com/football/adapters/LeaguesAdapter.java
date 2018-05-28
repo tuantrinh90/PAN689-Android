@@ -1,15 +1,14 @@
 package com.football.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
 
 import com.bon.customview.listview.ExtBaseAdapter;
+import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.football.customizes.images.CircleImageViewApp;
@@ -23,7 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import java8.util.function.Consumer;
 
-public class LeaguesAdapter extends ExtBaseAdapter<League> {
+public class LeaguesAdapter extends ExtBaseAdapter<League, LeaguesAdapter.ViewHolder> {
     Consumer<League> detailConsumer;
     Consumer<League> approveConsumer;
     Consumer<League> rejectConsumer;
@@ -41,20 +40,17 @@ public class LeaguesAdapter extends ExtBaseAdapter<League> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+    protected int getViewId() {
+        return R.layout.league_item;
+    }
 
-        if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.league_item, parent, false);
-            holder = new ViewHolder(convertView);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
+    @Override
+    protected ViewHolder onCreateViewHolder(View view) {
+        return new ViewHolder(view);
+    }
 
-        League league = getItem(position);
-        assert league != null;
-
+    @Override
+    protected void onBindViewHolder(ViewHolder holder, League league) {
         holder.ivAvatar.setImageUri(league.getAvatar());
         holder.tvTitle.setText(league.getTitle());
         holder.tvOwner.setText(league.getOwner());
@@ -83,11 +79,9 @@ public class LeaguesAdapter extends ExtBaseAdapter<League> {
         RxView.clicks(holder.tvJoin).subscribe(v -> Optional.from(joinConsumer).doIfPresent(c -> c.accept(league)));
         RxView.clicks(holder.tvCheck).subscribe(v -> Optional.from(approveConsumer).doIfPresent(c -> c.accept(league)));
         RxView.clicks(holder.tvClose).subscribe(v -> Optional.from(rejectConsumer).doIfPresent(c -> c.accept(league)));
-
-        return convertView;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends ExtPagingListView.ExtViewHolder {
         @BindView(R.id.ivAvatar)
         CircleImageViewApp ivAvatar;
         @BindView(R.id.tvTitle)
