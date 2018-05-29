@@ -8,12 +8,14 @@ import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bon.customview.checkbox.ExtCheckBox;
 import com.bon.textstyle.TextViewLinkMovementMethod;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.fantasy.R;
+import com.football.models.Register;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -70,6 +72,31 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
 
     @OnClick(R.id.tvRegister)
     void onClickSignUp() {
+        if (isValid()) {
+            Register register = new Register(etFirstName.getContent(), etLastName.getContent(), etEmail.getContent(), etPassword.getContent(), etConfirmPassword.getContent());
+        }
+    }
 
+    private boolean isValid() {
+        boolean valid = !etFirstName.isEmpty(getContext()) && !etLastName.isEmpty(getContext())
+                && !etPassword.isEmpty(getContext()) && !etConfirmPassword.isEmpty(getContext());
+        if (valid) {
+            if (etEmail.isValidEmail(getContext())) {
+                return false;
+
+            } else if (etPassword.getContent().length() < 6) {
+                Toast.makeText(mActivity, R.string.password_description, Toast.LENGTH_SHORT).show();
+                return false;
+
+            } else if (etPassword.getContent().equals(etConfirmPassword.getContent())) {
+                Toast.makeText(mActivity, "Not match", Toast.LENGTH_SHORT).show();
+                return false;
+
+            } else if (!cbAgreed.isChecked()) {
+                return false;
+            }
+            return true;
+        }
+        return false;
     }
 }
