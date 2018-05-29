@@ -1,9 +1,9 @@
 <resources>
     <!--social-->
-    <string name="facebook_app_id">1963122033999975</string>
-    <string name="fb_login_protocol_scheme">fb1963122033999975</string>
-    <string name="twitter_api_key">CvKiQhkd0p1hoHgf7b0XfhTgn</string>
-    <string name="twitter_secret_key">lNiDzrqmXFzGWPgcBXzcE7lrAwzKfPz8GDjfyvMnml3nGj5ANC</string>
+    <string name="facebook_app_id">138085307053883</string>
+    <string name="fb_login_protocol_scheme">fb138085307053883</string>
+    <string name="twitter_api_key">P4cJrXCOyUKRT3STozI81yWM0</string>
+    <string name="twitter_secret_key">4H87uKfxfbo5Gt3fvUtpspaatNthJPsbJCv16t76BERjISM7ew</string>
 
     <string name="app_name">PAN689</string>
     <string name="yes">Yes</string>

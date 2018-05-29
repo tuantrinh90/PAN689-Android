@@ -4,15 +4,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterAuthToken;
 import com.twitter.sdk.android.core.TwitterConfig;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
+import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+
+import java.lang.ref.WeakReference;
 
 public class TwitterHelper {
     private TwitterAuthClient mAuthClient;
@@ -22,23 +28,18 @@ public class TwitterHelper {
 
     @NonNull
     private final TwitterListener mListener;
-    @NonNull
-    private final String mTwitterApiKey;
-    @NonNull
-    private final String mTwitterSecreteKey;
 
     public TwitterHelper(@NonNull TwitterListener response, @NonNull Activity context,
                          @NonNull String twitterApiKey, @NonNull String twitterSecreteKey) {
         mActivity = context;
         mListener = response;
-        mTwitterApiKey = twitterApiKey;
-        mTwitterSecreteKey = twitterSecreteKey;
 
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(mTwitterApiKey, mTwitterSecreteKey);
-        TwitterConfig twitterConfig = new TwitterConfig.Builder(mActivity)
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(twitterApiKey, twitterSecreteKey);
+        TwitterConfig config = new TwitterConfig.Builder(mActivity.getApplicationContext())
+                .logger(new DefaultLogger(Log.DEBUG))
                 .twitterAuthConfig(authConfig)
                 .build();
-        Twitter.initialize(twitterConfig);
+        Twitter.initialize(config);
 
         mAuthClient = new TwitterAuthClient();
     }
@@ -53,12 +54,12 @@ public class TwitterHelper {
 
         @Override
         public void failure(TwitterException exception) {
+            exception.printStackTrace();
             mListener.onTwitterError(exception.getMessage());
         }
     };
 
-    public void performSignIn(Context context) {
-
+    public void performSignIn() {
         mAuthClient.authorize(mActivity, mCallback);
     }
 
