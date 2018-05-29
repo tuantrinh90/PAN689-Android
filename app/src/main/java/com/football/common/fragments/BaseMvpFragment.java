@@ -26,7 +26,6 @@ import com.football.interactors.IDataModule;
 import com.football.interactors.database.IDbModule;
 import com.football.interactors.service.IApiService;
 import com.hannesdorfmann.mosby3.mvp.MvpFragment;
-import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.RxLifecycle;
 import com.trello.rxlifecycle2.android.FragmentEvent;

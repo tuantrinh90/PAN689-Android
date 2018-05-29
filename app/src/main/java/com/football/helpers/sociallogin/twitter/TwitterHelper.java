@@ -1,7 +1,6 @@
 package com.football.helpers.sociallogin.twitter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -11,14 +10,10 @@ import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterAuthToken;
 import com.twitter.sdk.android.core.TwitterConfig;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
-import com.twitter.sdk.android.core.identity.TwitterLoginButton;
-
-import java.lang.ref.WeakReference;
 
 public class TwitterHelper {
     private TwitterAuthClient mAuthClient;
@@ -38,6 +33,7 @@ public class TwitterHelper {
         TwitterConfig config = new TwitterConfig.Builder(mActivity.getApplicationContext())
                 .logger(new DefaultLogger(Log.DEBUG))
                 .twitterAuthConfig(authConfig)
+                .debug(true)
                 .build();
         Twitter.initialize(config);
 
@@ -54,7 +50,6 @@ public class TwitterHelper {
 
         @Override
         public void failure(TwitterException exception) {
-            exception.printStackTrace();
             mListener.onTwitterError(exception.getMessage());
         }
     };
