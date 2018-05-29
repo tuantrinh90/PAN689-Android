@@ -9,7 +9,7 @@ import com.football.interactors.service.AccessInterceptor;
 import com.football.interactors.service.IApiService;
 import com.football.interactors.service.IFileService;
 import com.football.interactors.service.ILongApiService;
-import com.football.utilities.Config;
+import com.football.utilities.ServiceConfig;
 
 import java.util.concurrent.TimeUnit;
 
@@ -55,7 +55,7 @@ public class ApiModule {
 
     @Provides
     public Retrofit provideRetrofit(JacksonConverterFactory converterFactory, OkHttpClient client) {
-        return provideBaseRetrofit(Config.BASE_URL, converterFactory, client);
+        return provideBaseRetrofit(ServiceConfig.BASE_URL, converterFactory, client);
     }
 
     @Provides
@@ -66,23 +66,23 @@ public class ApiModule {
     private OkHttpClient provideBaseOkHttp(@Nullable HttpLoggingInterceptor logging, AccessInterceptor access,
                                            @NonNull OkHttpType type) {
         OkHttpClient.Builder client = new OkHttpClient.Builder()
-                //.retryOnConnectionFailure(Config.RETRY_POLICY)
+                //.retryOnConnectionFailure(ServiceConfig.RETRY_POLICY)
                 .addInterceptor(access);
 
         int reqTimeOut;
         switch (type) {
             case FILE:
                 addLogInterceptorIfNeed(logging, client);
-                reqTimeOut = Config.REQUEST_FILE_TIMEOUT;
+                reqTimeOut = ServiceConfig.REQUEST_FILE_TIMEOUT;
                 break;
             case LONG_TIMEOUT:
                 addLogInterceptorIfNeed(logging, client);
-                reqTimeOut = Config.REQUEST_TIMEOUT_LONG;
+                reqTimeOut = ServiceConfig.REQUEST_TIMEOUT_LONG;
                 break;
             case USUAL:
             default:
                 addLogInterceptorIfNeed(logging, client);
-                reqTimeOut = Config.REQUEST_TIMEOUT;
+                reqTimeOut = ServiceConfig.REQUEST_TIMEOUT;
                 break;
         }
 
@@ -116,7 +116,7 @@ public class ApiModule {
 
     @Provides
     public IFileService provideFileService(HttpLoggingInterceptor logging, AccessInterceptor access) {
-        Retrofit retrofit = provideBaseRetrofit(Config.BASE_URL, provideJacksonConverterFactory(),
+        Retrofit retrofit = provideBaseRetrofit(ServiceConfig.BASE_URL, provideJacksonConverterFactory(),
                 provideBaseOkHttp(logging, access, OkHttpType.FILE));
         return retrofit.create(IFileService.class);
     }
@@ -124,7 +124,7 @@ public class ApiModule {
     @Provides
     public ILongApiService provideLongService(HttpLoggingInterceptor logging, AccessInterceptor access) {
         OkHttpClient client = provideBaseOkHttp(logging, access, OkHttpType.LONG_TIMEOUT);
-        Retrofit retrofit = provideBaseRetrofit(Config.BASE_URL, provideJacksonConverterFactory(), client);
+        Retrofit retrofit = provideBaseRetrofit(ServiceConfig.BASE_URL, provideJacksonConverterFactory(), client);
         return retrofit.create(ILongApiService.class);
     }
 }

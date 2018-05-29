@@ -4,7 +4,7 @@ package com.football.utilities;
  * Created by dangpp on 2/9/2018.
  */
 
-public interface Config {
+public interface ServiceConfig {
     // base url
     String BASE_URL = "https://google.com.vn";
 
