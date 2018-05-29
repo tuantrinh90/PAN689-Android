@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
@@ -36,19 +38,21 @@ public class TwitterHelper {
 
         TwitterAuthConfig authConfig = new TwitterAuthConfig(mTwitterApiKey, mTwitterSecreteKey);
         TwitterConfig twitterConfig = new TwitterConfig.Builder(mActivity)
+                .logger(new DefaultLogger(Log.DEBUG))
                 .twitterAuthConfig(authConfig)
+                .debug(true)
                 .build();
         Twitter.initialize(twitterConfig);
 
         mAuthClient = new TwitterAuthClient();
+
     }
 
     private Callback<TwitterSession> mCallback = new Callback<TwitterSession>() {
         @Override
         public void success(Result<TwitterSession> result) {
             TwitterSession session = result.data;
-            mListener.onTwitterSignIn(session.getAuthToken().token, session.getAuthToken().secret,
-                    session.getUserId());
+            mListener.onTwitterSignIn(session.getAuthToken().token, session.getAuthToken().secret, session.getUserId());
         }
 
         @Override
@@ -58,7 +62,6 @@ public class TwitterHelper {
     };
 
     public void performSignIn(Context context) {
-
         mAuthClient.authorize(mActivity, mCallback);
     }
 

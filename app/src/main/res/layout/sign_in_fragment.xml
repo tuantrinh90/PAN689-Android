@@ -105,6 +105,5 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_twitter" />
         </LinearLayout>
-
     </LinearLayout>
 </LinearLayout>
