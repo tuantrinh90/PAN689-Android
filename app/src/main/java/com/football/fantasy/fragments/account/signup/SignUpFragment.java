@@ -81,14 +81,14 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
         boolean valid = !etFirstName.isEmpty(getContext()) && !etLastName.isEmpty(getContext())
                 && !etPassword.isEmpty(getContext()) && !etConfirmPassword.isEmpty(getContext());
         if (valid) {
-            if (etEmail.isValidEmail(getContext())) {
+            if (!etEmail.isValidEmail(getContext())) {
                 return false;
 
             } else if (etPassword.getContent().length() < 6) {
                 Toast.makeText(mActivity, R.string.password_description, Toast.LENGTH_SHORT).show();
                 return false;
 
-            } else if (etPassword.getContent().equals(etConfirmPassword.getContent())) {
+            } else if (!etPassword.getContent().equals(etConfirmPassword.getContent())) {
                 Toast.makeText(mActivity, "Not match", Toast.LENGTH_SHORT).show();
                 return false;
 

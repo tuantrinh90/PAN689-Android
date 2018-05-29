@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
+import com.bon.facebook.FacebookUtils;
 import com.bon.util.ActivityUtils;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
@@ -72,8 +73,11 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
     }
 
     private void initSocialLogin() {
+        Log.d(TAG, "initSocialLogin: " + FacebookUtils.getHashKey(mActivity));
         mFacebook = new FacebookHelper(this);
-        mTwitter = new TwitterHelper(this, getActivity(), "Your Twitter Api Key", "Your Twitter Api Secret");
+        mTwitter = new TwitterHelper(this, mActivity,
+                "CvKiQhkd0p1hoHgf7b0XfhTgn",
+                "lNiDzrqmXFzGWPgcBXzcE7lrAwzKfPz8GDjfyvMnml3nGj5ANC");
         mGoogle = new GoogleHelper(this, getActivity(), null);
     }
 
@@ -113,7 +117,7 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
 
     @OnClick(R.id.ivTwitter)
     void onClickTwitter() {
-        mTwitter.performSignIn(getContext());
+        mTwitter.performSignIn(mActivity);
     }
 
     @Override
