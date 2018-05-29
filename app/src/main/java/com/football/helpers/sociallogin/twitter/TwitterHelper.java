@@ -1,7 +1,6 @@
 package com.football.helpers.sociallogin.twitter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -24,35 +23,29 @@ public class TwitterHelper {
 
     @NonNull
     private final TwitterListener mListener;
-    @NonNull
-    private final String mTwitterApiKey;
-    @NonNull
-    private final String mTwitterSecreteKey;
 
     public TwitterHelper(@NonNull TwitterListener response, @NonNull Activity context,
                          @NonNull String twitterApiKey, @NonNull String twitterSecreteKey) {
         mActivity = context;
         mListener = response;
-        mTwitterApiKey = twitterApiKey;
-        mTwitterSecreteKey = twitterSecreteKey;
 
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(mTwitterApiKey, mTwitterSecreteKey);
-        TwitterConfig twitterConfig = new TwitterConfig.Builder(mActivity)
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(twitterApiKey, twitterSecreteKey);
+        TwitterConfig config = new TwitterConfig.Builder(mActivity.getApplicationContext())
                 .logger(new DefaultLogger(Log.DEBUG))
                 .twitterAuthConfig(authConfig)
                 .debug(true)
                 .build();
-        Twitter.initialize(twitterConfig);
+        Twitter.initialize(config);
 
         mAuthClient = new TwitterAuthClient();
-
     }
 
     private Callback<TwitterSession> mCallback = new Callback<TwitterSession>() {
         @Override
         public void success(Result<TwitterSession> result) {
             TwitterSession session = result.data;
-            mListener.onTwitterSignIn(session.getAuthToken().token, session.getAuthToken().secret, session.getUserId());
+            mListener.onTwitterSignIn(session.getAuthToken().token, session.getAuthToken().secret,
+                    session.getUserId());
         }
 
         @Override
@@ -61,7 +54,7 @@ public class TwitterHelper {
         }
     };
 
-    public void performSignIn(Context context) {
+    public void performSignIn() {
         mAuthClient.authorize(mActivity, mCallback);
     }
 
