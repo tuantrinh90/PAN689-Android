@@ -100,7 +100,8 @@ dependencies {
 
     // network
     implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVer}"
-    implementation "com.squareup.retrofit2:adapter-rxjava:${rootProject.ext.retrofitVer}"
+//    implementation "com.squareup.retrofit2:adapter-rxjava:${rootProject.ext.retrofitVer}"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${rootProject.ext.retrofitVer}"
     implementation "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofitVer}"
     implementation "com.squareup.retrofit2:converter-jackson:${rootProject.ext.retrofitVer}"
     implementation "com.squareup.okhttp3:logging-interceptor:${rootProject.ext.okhttpVer}"

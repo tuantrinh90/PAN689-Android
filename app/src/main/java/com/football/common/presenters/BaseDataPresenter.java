@@ -69,7 +69,6 @@ public abstract class BaseDataPresenter<V extends IBaseMvpView> extends MvpBaseP
 
     @Override
     public void unbindEvent() {
-        bus.unSubscribe(this);
         if (!mCompositeDisposable.isDisposed()) {
             mCompositeDisposable.dispose();
         }

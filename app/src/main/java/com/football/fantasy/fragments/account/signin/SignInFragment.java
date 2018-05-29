@@ -68,17 +68,15 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
 
     void initView() {
         if (BuildConfig.DEBUG) {
-            etEmail.setContent("test@gmail.com");
-            etPassword.setContent("1");
+            etEmail.setContent("henry.tran@qsoft.com.vn");
+            etPassword.setContent("Admin@123456!");
         }
     }
 
     private void initSocialLogin() {
         Log.d(TAG, "initSocialLogin: " + FacebookUtils.getHashKey(mActivity));
         mFacebook = new FacebookHelper(this);
-        mTwitter = new TwitterHelper(this, mActivity,
-                getString(R.string.twitter_api_key),
-                getString(R.string.twitter_secret_key));
+        mTwitter = new TwitterHelper(this, mActivity, getString(R.string.twitter_api_key), getString(R.string.twitter_secret_key));
         mGoogle = new GoogleHelper(this, getActivity(), null);
     }
 
