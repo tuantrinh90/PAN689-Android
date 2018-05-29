@@ -9,5 +9,5 @@ public abstract class ApiCallback<T> {
 
     public abstract void onSuccess(T t);
 
-    public abstract void onError(Throwable e);
+    public abstract void onError(Throwable error);
 }
