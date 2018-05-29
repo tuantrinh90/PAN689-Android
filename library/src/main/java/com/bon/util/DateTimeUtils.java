@@ -7,6 +7,7 @@ import com.bon.logger.Logger;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Dang on 10/14/2015.
@@ -92,7 +93,7 @@ public class DateTimeUtils {
             if (date == null) return "";
 
             @SuppressLint("SimpleDateFormat")
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, Locale.US);
             return simpleDateFormat.format(date);
         } catch (Exception ex) {
             Logger.e(TAG, ex);

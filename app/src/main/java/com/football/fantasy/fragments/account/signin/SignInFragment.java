@@ -9,6 +9,7 @@ import com.bon.util.ActivityUtils;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
+import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
 import com.football.fantasy.activities.MainActivity;
 import com.football.fantasy.fragments.account.forgot.ForgotPasswordFragment;
@@ -48,8 +49,10 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
     }
 
     void initView() {
-        etEmail.setContent("test@gmail.com");
-        etPassword.setContent("1");
+        if (BuildConfig.DEBUG) {
+            etEmail.setContent("test@gmail.com");
+            etPassword.setContent("1");
+        }
     }
 
     @Override

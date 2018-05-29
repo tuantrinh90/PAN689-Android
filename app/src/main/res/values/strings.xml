@@ -31,12 +31,12 @@
     <string name="news">News</string>
     <string name="create">Create</string>
     <string name="join">Join</string>
-    <string name="football_leagues">Football Leagues</string>
-    <string name="football_leagues_break">Football\nLeagues</string>
+    <string name="football_leagues">Football League</string>
+    <string name="football_leagues_break">Football\nLeague</string>
     <string name="player_list">Player\nList</string>
     <string name="rank">Rank</string>
     <string name="open_leagues">Open Leagues</string>
-    <string name="pending_invitation">Pending Invitation</string>
+    <string name="pending_invitation">Pending Invitations</string>
     <string name="search_public_leagues">Search public leagues</string>
     <string name="owner">Owner</string>
     <string name="invitor">Invitor</string>
@@ -47,7 +47,7 @@
     <string name="league_type">League type</string>
     <string name="open_league">Open league</string>
     <string name="private_league">Private league</string>
-    <string name="game_play_options">Gameplay options</string>
+    <string name="game_play_options">Gameplay option</string>
     <string name="transfer">Transfer</string>
     <string name="draft">Draft</string>
     <string name="number_of_users">Number of users</string>
@@ -85,7 +85,7 @@
     <string name="gallery">Gallery</string>
     <string name="remove_team">Remove Team</string>
     <string name="remove_team_message">You are about to remove %s from this League. Are you sure you want to do this?</string>
-
+    <string name="money_prefix">%s mio</string>
     <!--// error message-->
     <string name="error_field_must_not_be_empty">This field is required</string>
     <string name="error_email_address_not_valid">Invalid email</string>
