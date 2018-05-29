@@ -13,6 +13,7 @@ import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
 import com.football.fantasy.activities.MainActivity;
 import com.football.fantasy.fragments.account.forgot.ForgotPasswordFragment;
+import com.football.models.requests.LoginRequest;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -67,6 +68,11 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
     public void goToMain() {
         ActivityUtils.startActivity(MainActivity.class);
         getActivity().finish();
+    }
+
+    @Override
+    public LoginRequest getLoginRequest() {
+        return new LoginRequest(etEmail.getContent(), etPassword.getContent(), "");
     }
 
     @OnClick(R.id.tvSignIn)

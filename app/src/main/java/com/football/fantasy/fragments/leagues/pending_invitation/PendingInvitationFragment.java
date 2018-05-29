@@ -9,7 +9,7 @@ import com.bon.customview.listview.ExtPagingListView;
 import com.football.adapters.LeaguesAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
-import com.football.models.League;
+import com.football.models.responses.League;
 
 import java.util.ArrayList;
 import java.util.List;

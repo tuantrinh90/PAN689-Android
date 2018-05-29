@@ -12,7 +12,7 @@ import com.bon.interfaces.Optional;
 import com.football.common.adapters.BaseRecyclerViewAdapter;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
-import com.football.models.Friend;
+import com.football.models.responses.Friend;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;

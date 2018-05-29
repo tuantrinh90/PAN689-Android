@@ -14,7 +14,7 @@ import com.football.adapters.InviteFriendAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.searchs.SearchView;
 import com.football.fantasy.R;
-import com.football.models.Friend;
+import com.football.models.responses.Friend;
 
 import java.util.ArrayList;
 import java.util.List;

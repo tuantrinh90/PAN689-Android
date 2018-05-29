@@ -16,7 +16,7 @@ import com.bon.util.GeneralUtils;
 import com.football.common.adapters.BaseRecyclerViewAdapter;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
-import com.football.models.League;
+import com.football.models.responses.League;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;

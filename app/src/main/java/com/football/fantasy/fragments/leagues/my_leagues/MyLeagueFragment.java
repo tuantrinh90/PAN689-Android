@@ -3,14 +3,13 @@ package com.football.fantasy.fragments.leagues.my_leagues;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.bon.customview.listview.ExtPagingListView;
 import com.football.adapters.LeaguesAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
-import com.football.models.League;
+import com.football.models.responses.League;
 
 import java.util.ArrayList;
 import java.util.List;

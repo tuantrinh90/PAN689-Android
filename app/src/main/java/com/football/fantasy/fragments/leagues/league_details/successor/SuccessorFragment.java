@@ -1,6 +1,5 @@
 package com.football.fantasy.fragments.leagues.league_details.successor;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,7 +13,7 @@ import com.bon.util.DialogUtils;
 import com.football.adapters.SuccessorAdapter;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.fantasy.R;
-import com.football.models.Team;
+import com.football.models.responses.Team;
 
 import java.util.ArrayList;
 import java.util.List;

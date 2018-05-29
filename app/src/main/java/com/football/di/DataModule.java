@@ -7,6 +7,8 @@ import com.bon.event_bus.RxBus;
 import com.football.interactors.IDataModule;
 import com.football.interactors.database.IDbModule;
 import com.football.interactors.service.IApiService;
+import com.football.interactors.service.IFileService;
+import com.football.interactors.service.ILongApiService;
 
 import javax.inject.Inject;
 
@@ -29,6 +31,12 @@ public class DataModule implements IDataModule {
     IApiService apiService;
 
     @Inject
+    ILongApiService longApiService;
+
+    @Inject
+    IFileService fileService;
+
+    @Inject
     IDbModule dbModule;
 
     public DataModule(AppComponent component) {
@@ -39,5 +47,20 @@ public class DataModule implements IDataModule {
     @Override
     public Handler getHandler() {
         return handler;
+    }
+
+    @Override
+    public IFileService getFileService() {
+        return fileService;
+    }
+
+    @Override
+    public IApiService getApiService() {
+        return apiService;
+    }
+
+    @Override
+    public ILongApiService getLongService() {
+        return longApiService;
     }
 }

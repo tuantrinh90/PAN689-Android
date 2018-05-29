@@ -1,6 +1,5 @@
 package com.football.fantasy.fragments.leagues.league_details.teams;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,9 +11,8 @@ import com.bon.customview.textview.ExtTextView;
 import com.bon.util.DialogUtils;
 import com.football.adapters.TeamAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
-import com.football.common.fragments.BaseMvpFragment;
 import com.football.fantasy.R;
-import com.football.models.Team;
+import com.football.models.responses.Team;
 
 import java.util.ArrayList;
 import java.util.List;

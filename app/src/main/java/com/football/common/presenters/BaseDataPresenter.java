@@ -14,6 +14,8 @@ import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
 
 import javax.inject.Inject;
 
+import io.reactivex.disposables.CompositeDisposable;
+
 /**
  * Created by dangpp on 2/21/2018.
  */
@@ -21,11 +23,16 @@ public abstract class BaseDataPresenter<V extends IBaseMvpView> extends MvpBaseP
         implements IBaseDataPresenter<V> {
 
     @Inject
-    public IDataModule dataModule;
+    protected IDataModule dataModule;
+
     @Inject
-    public IDbModule dbModule;
+    protected IDbModule dbModule;
+
     @Inject
-    public RxBus<IEvent> bus;
+    protected RxBus<IEvent> bus;
+
+    // composite disposable
+    protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     /**
      * @param appComponent
@@ -63,5 +70,8 @@ public abstract class BaseDataPresenter<V extends IBaseMvpView> extends MvpBaseP
     @Override
     public void unbindEvent() {
         bus.unSubscribe(this);
+        if (!mCompositeDisposable.isDisposed()) {
+            mCompositeDisposable.dispose();
+        }
     }
 }

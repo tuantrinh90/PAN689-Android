@@ -11,7 +11,7 @@ import com.bon.interfaces.Optional;
 import com.bon.util.GeneralUtils;
 import com.football.common.adapters.BaseRecyclerViewAdapter;
 import com.football.fantasy.R;
-import com.football.models.News;
+import com.football.models.responses.News;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;

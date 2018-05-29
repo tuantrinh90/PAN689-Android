@@ -86,9 +86,6 @@
     <string name="remove_team">Remove Team</string>
     <string name="remove_team_message">You are about to remove %s from this League. Are you sure you want to do this?</string>
     <string name="money_prefix">%s mio</string>
-    <!--// error message-->
-    <string name="error_field_must_not_be_empty">This field is required</string>
-    <string name="error_email_address_not_valid">Invalid email</string>
     <string name="edit">Edit</string>
     <string name="leave">Leave</string>
     <string name="stop_league">Stop League</string>
@@ -98,5 +95,15 @@
     <string name="choose_a_successor_description">You need to select your successor before you leave this league.</string>
     <string name="stop_league_message">This league will be removed from the list of Open Leagues if you decide to stop it. Are you sure to do that?</string>
     <string name="email_input">Enter email address</string>
+
+    <!--// error message-->
+    <string name="error_field_must_not_be_empty">This field is required</string>
+    <string name="error_email_address_not_valid">Invalid email</string>
+    <string name="some_thing_wrong">Something went wrong. Please, try again later…</string>
+    <string name="you_are_offline">You are offline</string>
+    <string name="no_internet">Something wrong here. Retry connection or try again later.</string>
+    <string name="server_not_responding">Server is temporary unavailable, please try again later.</string>
+    <string name="forbidden">Forbidden</string>
+    <string name="unknown_error">Unknown error.</string>
     <string name="no_data"></string>
 </resources>

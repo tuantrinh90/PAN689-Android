@@ -19,7 +19,7 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.searchs.SearchView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
-import com.football.models.League;
+import com.football.models.responses.League;
 
 import java.util.ArrayList;
 import java.util.List;
