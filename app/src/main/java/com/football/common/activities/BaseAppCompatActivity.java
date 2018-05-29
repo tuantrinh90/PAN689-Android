@@ -71,12 +71,13 @@ public abstract class BaseAppCompatActivity extends ExtBaseActivity implements I
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         // hide key board
         KeyboardUtils.hideSoftKeyboard(this);
 
         // unbind butter knife
         Optional.from(unbinder).doIfPresent(Unbinder::unbind);
+
+        super.onDestroy();
     }
 
     @Override
@@ -98,6 +99,10 @@ public abstract class BaseAppCompatActivity extends ExtBaseActivity implements I
      */
     public abstract ActionBar getAppSupportActionBar();
 
+    /**
+     * get toolbar
+     * @return
+     */
     public abstract Toolbar getToolBar();
 
     @Override

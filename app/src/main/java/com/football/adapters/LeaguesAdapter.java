@@ -13,7 +13,7 @@ import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
-import com.football.models.League;
+import com.football.models.responses.League;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;

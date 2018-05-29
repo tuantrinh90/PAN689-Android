@@ -20,8 +20,8 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
 import com.football.fantasy.activities.MainActivity;
 import com.football.fantasy.fragments.leagues.action.ActionLeagueFragment;
-import com.football.models.League;
-import com.football.models.News;
+import com.football.models.responses.League;
+import com.football.models.responses.News;
 
 import java.util.ArrayList;
 import java.util.List;

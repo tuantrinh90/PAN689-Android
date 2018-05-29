@@ -31,7 +31,7 @@ ext {
     playServiceVer = '15.0.1'
     daggerVer = '2.4'
     rxjandroid = '2.0.2'
-    rxjava = '2.1.13'
+    rxjava = '2.1.14'
     rxbinding = '2.1.1'
     rxlifecycle = '2.2.1'
     rxpermissions = '0.9.5@aar'

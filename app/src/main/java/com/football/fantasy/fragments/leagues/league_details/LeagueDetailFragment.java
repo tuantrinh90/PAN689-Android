@@ -28,7 +28,7 @@ import com.football.fantasy.fragments.leagues.league_details.invite_friends.Invi
 import com.football.fantasy.fragments.leagues.league_details.league_info.LeagueInfoFragment;
 import com.football.fantasy.fragments.leagues.league_details.successor.SuccessorFragment;
 import com.football.fantasy.fragments.leagues.league_details.teams.TeamFragment;
-import com.football.models.League;
+import com.football.models.responses.League;
 
 import java.util.ArrayList;
 
