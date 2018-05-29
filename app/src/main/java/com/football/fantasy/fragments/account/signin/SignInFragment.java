@@ -16,13 +16,13 @@ import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
 import com.football.fantasy.activities.MainActivity;
 import com.football.fantasy.fragments.account.forgot.ForgotPasswordFragment;
-import com.football.models.requests.LoginRequest;
 import com.football.helpers.sociallogin.facebook.FacebookHelper;
 import com.football.helpers.sociallogin.facebook.FacebookListener;
 import com.football.helpers.sociallogin.google.GoogleHelper;
 import com.football.helpers.sociallogin.google.GoogleListener;
 import com.football.helpers.sociallogin.twitter.TwitterHelper;
 import com.football.helpers.sociallogin.twitter.TwitterListener;
+import com.football.models.requests.LoginRequest;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -77,8 +77,8 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
         Log.d(TAG, "initSocialLogin: " + FacebookUtils.getHashKey(mActivity));
         mFacebook = new FacebookHelper(this);
         mTwitter = new TwitterHelper(this, mActivity,
-                "CvKiQhkd0p1hoHgf7b0XfhTgn",
-                "lNiDzrqmXFzGWPgcBXzcE7lrAwzKfPz8GDjfyvMnml3nGj5ANC");
+                getString(R.string.twitter_api_key),
+                getString(R.string.twitter_secret_key));
         mGoogle = new GoogleHelper(this, getActivity(), null);
     }
 
