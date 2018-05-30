@@ -76,7 +76,7 @@ public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresente
                             .setType(MultipartBody.FORM)
                             .addFormDataPart("provider", provider)
                             .addFormDataPart("access_token", accessToken)
-                            .addFormDataPart("device_token", "")
+                            .addFormDataPart("device_token", "123")
                             .build()),
                     new ApiCallback<UserResponse>() {
                         @Override
@@ -102,10 +102,7 @@ public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresente
     }
 
     private void loginError(String e) {
-        // TODO: 5/30/2018 fake login
         getOptView().doIfPresent(view -> {
-            view.showMessage("Fake login nhé");
-            view.goToMain();
             view.showLoading(false);
         });
     }

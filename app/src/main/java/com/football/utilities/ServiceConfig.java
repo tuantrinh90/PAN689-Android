@@ -21,7 +21,7 @@ public interface ServiceConfig {
     String PROVIDER_TWITTER = "twitter";
 
     String LOGIN ="login";
-    String LOGIN_SOCIAL ="auth/login";
+    String LOGIN_SOCIAL ="auth/social";
     String REGISTER ="auth/store";
     String LOGOUT ="users/logout";
     String FORGOT_PASSWORD ="auth/recover-password";

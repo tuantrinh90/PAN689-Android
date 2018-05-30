@@ -1,8 +1,10 @@
 package com.football.fantasy.activities;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -81,5 +83,15 @@ public class AccountActivity extends BaseAppCompatActivity {
     @Override
     public Toolbar getToolBar() {
         return null;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            if (fragment instanceof SignInFragment) {
+                ((SignInFragment) fragment).onActivityResults(requestCode, resultCode, data);
+            }
+        }
     }
 }
