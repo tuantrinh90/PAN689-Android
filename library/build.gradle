@@ -80,7 +80,6 @@ dependencies {
 
     // network
     implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVer}"
-//    implementation "com.squareup.retrofit2:adapter-rxjava:${rootProject.ext.retrofitVer}"
     implementation "com.squareup.retrofit2:adapter-rxjava2:${rootProject.ext.retrofitVer}"
     implementation "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofitVer}"
     implementation "com.squareup.retrofit2:converter-jackson:${rootProject.ext.retrofitVer}"
@@ -117,9 +116,6 @@ dependencies {
 
     // circle indicator
     implementation "me.relex:circleindicator:${rootProject.ext.circleindicatorVer}@aar"
-
-    // event bus
-    implementation "org.greenrobot:eventbus:${rootProject.ext.eventbusVer}"
 
     // mvp
     implementation "com.hannesdorfmann.mosby3:mvp:${rootProject.ext.mosbyVer}"
