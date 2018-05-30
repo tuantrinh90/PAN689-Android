@@ -1,6 +1,8 @@
 package com.football.fantasy.fragments.account.signin;
 
 
+import android.util.Log;
+
 import com.bon.share_preferences.AppPreferences;
 import com.football.application.AppContext;
 import com.football.common.presenters.BaseDataPresenter;
@@ -70,7 +72,12 @@ public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresente
             v.showLoading(true);
             mCompositeDisposable.add(RxUtilities.async(
                     v,
-                    dataModule.getApiService().loginSocial(provider, accessToken, ""),
+                    dataModule.getApiService().loginSocial(new MultipartBody.Builder()
+                            .setType(MultipartBody.FORM)
+                            .addFormDataPart("provider", provider)
+                            .addFormDataPart("access_token", accessToken)
+                            .addFormDataPart("device_token", "")
+                            .build()),
                     new ApiCallback<UserResponse>() {
                         @Override
                         public void onSuccess(UserResponse userResponse) {

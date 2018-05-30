@@ -106,6 +106,6 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
     @Override
     public void goToMain() {
         ActivityUtils.startActivity(MainActivity.class);
-        getActivity().finish();
+        mActivity.finish();
     }
 }

@@ -7,6 +7,8 @@ import com.football.models.requests.SignupRequest;
 import com.football.models.responses.UserResponse;
 import com.football.utilities.RxUtilities;
 
+import okhttp3.MultipartBody;
+
 public class SignUpDataPresenter<V extends ISignUpView> extends BaseDataPresenter<V> implements ISignUpPresenter<V> {
     /**
      * @param appComponent
@@ -21,12 +23,14 @@ public class SignUpDataPresenter<V extends ISignUpView> extends BaseDataPresente
             v.showLoading(true);
             mCompositeDisposable.add(RxUtilities.async(
                     v,
-                    dataModule.getApiService().register(
-                            request.getFirstName(),
-                            request.getLastName(),
-                            request.getEmail(),
-                            request.getPassword(),
-                            request.getPasswordConfirm()),
+                    dataModule.getApiService().register(new MultipartBody.Builder()
+                            .setType(MultipartBody.FORM)
+                            .addFormDataPart("first_name", request.getFirstName())
+                            .addFormDataPart("last_name", request.getLastName())
+                            .addFormDataPart("email", request.getEmail())
+                            .addFormDataPart("password", request.getPassword())
+                            .addFormDataPart("password_confirmation", request.getPasswordConfirm())
+                            .build()),
                     new ApiCallback<UserResponse>() {
                         @Override
                         public void onSuccess(UserResponse response) {
