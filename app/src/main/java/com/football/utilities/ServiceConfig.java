@@ -16,6 +16,10 @@ public interface ServiceConfig {
     int REQUEST_TIMEOUT_LONG = 60;
     int REQUEST_TIMEOUT = 30;
 
+    String PROVIDER_FACEBOOK = "facebook";
+    String PROVIDER_GOOGLE = "google";
+    String PROVIDER_TWITTER = "twitter";
+
     String LOGIN ="login";
     String LOGIN_SOCIAL ="auth/login";
     String REGISTER ="auth/store";

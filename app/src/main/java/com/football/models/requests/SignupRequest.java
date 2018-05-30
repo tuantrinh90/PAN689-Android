@@ -1,13 +1,13 @@
-package com.football.models;
+package com.football.models.requests;
 
-public class Register {
+public class SignupRequest {
     private String firstName;
     private String lastName;
     private String email;
     private String password;
     private String passwordConfirm;
 
-    public Register(String firstName, String lastName, String email, String password, String passwordConfirm) {
+    public SignupRequest(String firstName, String lastName, String email, String password, String passwordConfirm) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

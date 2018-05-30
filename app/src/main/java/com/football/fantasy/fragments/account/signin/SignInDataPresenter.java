@@ -26,20 +26,67 @@ public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresente
     public void onSignIn() {
         getOptView().doIfPresent(v -> {
             if (v.isValid()) {
+                v.showLoading(true);
                 LoginRequest loginRequest = v.getLoginRequest();
-                mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().loginService(loginRequest.getEmail(), loginRequest.getPassword(), loginRequest.getDeviceToken()),
+                mCompositeDisposable.add(RxUtilities.async(
+                        v,
+                        dataModule.getApiService().login(
+                                loginRequest.getEmail(),
+                                loginRequest.getPassword(),
+                                loginRequest.getDeviceToken()),
                         new ApiCallback<UserResponse>() {
                             @Override
                             public void onSuccess(UserResponse userResponse) {
                                 Log.e("TAG", userResponse.toString());
+                                loginSuccess(userResponse);
                             }
 
                             @Override
                             public void onError(String e) {
                                 Log.e("eee", e);
+                                loginError(e);
                             }
                         }));
             }
+        });
+    }
+
+    @Override
+    public void onSignIn(String provider, String accessToken) {
+        getOptView().doIfPresent(v -> {
+            v.showLoading(true);
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().loginSocial(provider, accessToken, ""),
+                    new ApiCallback<UserResponse>() {
+                        @Override
+                        public void onSuccess(UserResponse userResponse) {
+                            Log.e("TAG", userResponse.toString());
+                            loginSuccess(userResponse);
+                        }
+
+                        @Override
+                        public void onError(String e) {
+                            Log.e("eee", e);
+                            loginError(e);
+                        }
+                    }));
+        });
+    }
+
+    private void loginSuccess(UserResponse response) {
+        getOptView().doIfPresent(view -> {
+            view.goToMain();
+            view.showLoading(false);
+        });
+    }
+
+    private void loginError(String e) {
+        // TODO: 5/30/2018 fake login
+        getOptView().doIfPresent(view -> {
+            view.showMessage("Fake login nhé");
+            view.goToMain();
+            view.showLoading(false);
         });
     }
 }

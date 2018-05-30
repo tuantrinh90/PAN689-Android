@@ -9,5 +9,7 @@ import com.trello.rxlifecycle2.android.FragmentEvent;
 public interface IBaseMvpView extends MvpView, LifecycleProvider<FragmentEvent> {
     void showLoading(boolean isLoading);
 
+    void showMessage(String message);
+
     RxBus<IEvent> getRxBus();
 }

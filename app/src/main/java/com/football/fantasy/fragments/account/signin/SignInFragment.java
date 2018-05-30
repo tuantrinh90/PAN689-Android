@@ -22,6 +22,7 @@ import com.football.helpers.sociallogin.google.GoogleListener;
 import com.football.helpers.sociallogin.twitter.TwitterHelper;
 import com.football.helpers.sociallogin.twitter.TwitterListener;
 import com.football.models.requests.LoginRequest;
+import com.football.utilities.ServiceConfig;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -138,7 +139,7 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
 
     @Override
     public void onFbSignInSuccess(String authToken, String userId) {
-        Log.d(TAG, "onFbSignInSuccess: " + authToken);
+        presenter.onSignIn(ServiceConfig.PROVIDER_FACEBOOK, authToken);
     }
 
     @Override
@@ -155,14 +156,14 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
 
     @Override
     public void onTwitterSignIn(String authToken, String secret, long userId) {
-        Log.d(TAG, "onTwitterSignIn: " + authToken);
+        presenter.onSignIn(ServiceConfig.PROVIDER_TWITTER, authToken);
     }
     // ----------------
 
     // google login
     @Override
     public void onGoogleAuthSignIn(String authToken, String userId) {
-        Log.d(TAG, "onGoogleAuthSignIn: " + authToken);
+        presenter.onSignIn(ServiceConfig.PROVIDER_GOOGLE, authToken);
     }
 
     @Override

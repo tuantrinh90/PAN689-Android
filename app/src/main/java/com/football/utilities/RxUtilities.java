@@ -23,7 +23,7 @@ public class RxUtilities {
         return observable.compose(mvpView.bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnError(e -> Optional.from(apiCallback).doIfPresent(c -> c.onError(ErrorHelper.getBaseErrorText(mvpView, ErrorHelper.createErrorBody(e)))))
+//                .doOnError(e -> Optional.from(apiCallback).doIfPresent(c -> c.onError(ErrorHelper.getBaseErrorText(mvpView, ErrorHelper.createErrorBody(e)))))
                 .subscribeWith(new DisposableObserver<BaseResponse<T>>() {
                     @Override
                     public void onNext(BaseResponse<T> response) {

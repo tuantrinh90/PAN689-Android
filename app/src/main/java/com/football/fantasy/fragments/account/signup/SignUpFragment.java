@@ -12,10 +12,12 @@ import android.widget.Toast;
 
 import com.bon.customview.checkbox.ExtCheckBox;
 import com.bon.textstyle.TextViewLinkMovementMethod;
+import com.bon.util.ActivityUtils;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.fantasy.R;
-import com.football.models.Register;
+import com.football.fantasy.activities.MainActivity;
+import com.football.models.requests.SignupRequest;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -73,7 +75,8 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
     @OnClick(R.id.tvRegister)
     void onClickSignUp() {
         if (isValid()) {
-            Register register = new Register(etFirstName.getContent(), etLastName.getContent(), etEmail.getContent(), etPassword.getContent(), etConfirmPassword.getContent());
+            SignupRequest request = new SignupRequest(etFirstName.getContent(), etLastName.getContent(), etEmail.getContent(), etPassword.getContent(), etConfirmPassword.getContent());
+            presenter.register(request);
         }
     }
 
@@ -98,5 +101,11 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void goToMain() {
+        ActivityUtils.startActivity(MainActivity.class);
+        getActivity().finish();
     }
 }
