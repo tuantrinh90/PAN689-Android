@@ -3,6 +3,7 @@ package com.football.fantasy.fragments.leagues.action;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -150,7 +151,7 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
 
     @OnClick(R.id.ivImagePick)
     void onClickImagePick() {
-        if (PermissionUtils.requestPermission(this, PermissionUtils.REQUEST_CODE_PERMISSION,
+        if (!PermissionUtils.requestPermission(this, PermissionUtils.REQUEST_CODE_PERMISSION,
                 Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)) return;
 
         ExtKeyValuePairDialogFragment.newInstance()
@@ -279,7 +280,13 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        onClickImagePick();
+        switch (requestCode) {
+            case PermissionUtils.REQUEST_CODE_PERMISSION:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    onClickImagePick();
+                }
+                break;
+        }
     }
 
     @Override
