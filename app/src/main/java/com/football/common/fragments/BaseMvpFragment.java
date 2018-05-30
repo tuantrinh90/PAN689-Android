@@ -259,6 +259,11 @@ public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDat
         supportActionBar.show();
     }
 
+    @Override
+    public RxBus<IEvent> getRxBus() {
+        return bus;
+    }
+
     /**
      * @param isChildFragment
      * @return

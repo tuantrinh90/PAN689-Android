@@ -42,4 +42,12 @@
     <string name="month_ten">Oct</string>
     <string name="month_eleven">Nov</string>
     <string name="month_twelfth">Dec</string>
+
+    <!--error network-->
+    <string name="some_thing_wrong">Something went wrong. Please, try again later…</string>
+    <string name="you_are_offline">You are offline</string>
+    <string name="no_internet">Something wrong here. Retry connection or try again later.</string>
+    <string name="server_not_responding">Server is temporary unavailable, please try again later.</string>
+    <string name="forbidden">Forbidden</string>
+    <string name="unknown_error">Unknown error.</string>
 </resources>

@@ -100,7 +100,6 @@ dependencies {
 
     // network
     implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVer}"
-//    implementation "com.squareup.retrofit2:adapter-rxjava:${rootProject.ext.retrofitVer}"
     implementation "com.squareup.retrofit2:adapter-rxjava2:${rootProject.ext.retrofitVer}"
     implementation "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofitVer}"
     implementation "com.squareup.retrofit2:converter-jackson:${rootProject.ext.retrofitVer}"
@@ -129,9 +128,6 @@ dependencies {
     // image
     implementation "com.nostra13.universalimageloader:universal-image-loader:${rootProject.ext.imageLoaderVer}"
 
-    // event bus
-    implementation "org.greenrobot:eventbus:${rootProject.ext.eventbusVer}"
-
     // mvp
     implementation "com.hannesdorfmann.mosby3:mvp:${rootProject.ext.mosbyVer}"
     implementation "com.hannesdorfmann.mosby3:viewstate:${rootProject.ext.mosbyVer}"
@@ -144,7 +140,6 @@ dependencies {
     implementation "de.hdodenhof:circleimageview:${rootProject.ext.circleimageview}"
 
     // socials
-
     implementation "com.google.android.gms:play-services-auth:${rootProject.ext.playServiceVer}"
     implementation "com.facebook.android:facebook-android-sdk:${rootProject.ext.facebookVer}"
     implementation("com.twitter.sdk.android:twitter:${rootProject.ext.twitterVer}") {

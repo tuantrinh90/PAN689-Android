@@ -24,6 +24,7 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by dangpp on 2/21/2018.
@@ -53,6 +54,9 @@ public abstract class BaseAppCompatActivity extends ExtBaseActivity implements I
     // title app
     ExtTextView tvTitleToolBar;
 
+    // dispose rxjava
+    protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +80,11 @@ public abstract class BaseAppCompatActivity extends ExtBaseActivity implements I
 
         // unbind butter knife
         Optional.from(unbinder).doIfPresent(Unbinder::unbind);
+
+        // rxjava
+        if (!mCompositeDisposable.isDisposed()) {
+            mCompositeDisposable.dispose();
+        }
 
         super.onDestroy();
     }
@@ -101,6 +110,7 @@ public abstract class BaseAppCompatActivity extends ExtBaseActivity implements I
 
     /**
      * get toolbar
+     *
      * @return
      */
     public abstract Toolbar getToolBar();

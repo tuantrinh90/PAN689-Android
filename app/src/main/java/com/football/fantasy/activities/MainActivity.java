@@ -1,12 +1,16 @@
 package com.football.fantasy.activities;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
+import com.bon.util.ActivityUtils;
+import com.bon.util.DialogUtils;
 import com.football.common.activities.BaseAppCompatActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.footers.FooterItem;
+import com.football.events.UnauthorizedEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.home.HomeFragment;
 import com.football.fantasy.fragments.leagues.LeagueFragment;
@@ -17,6 +21,7 @@ import com.football.utilities.FragmentUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.observers.DisposableObserver;
 
 public class MainActivity extends BaseAppCompatActivity {
     static final String TAG = MainActivity.class.getSimpleName();
@@ -54,6 +59,32 @@ public class MainActivity extends BaseAppCompatActivity {
         super.onCreate(savedInstanceState);
         setSupportActionBar(toolbar);
         initFragmentDefault();
+        initRxBus();
+    }
+
+    void initRxBus() {
+        mCompositeDisposable.add(bus.ofType(UnauthorizedEvent.class).subscribeWith(new DisposableObserver<UnauthorizedEvent>() {
+            @Override
+            public void onNext(UnauthorizedEvent unauthorizedEvent) {
+                DialogUtils.messageBox(MainActivity.this, getString(R.string.app_name), unauthorizedEvent.getMessage(), getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityUtils.startActivity(AccountActivity.class);
+                        MainActivity.this.finish();
+                    }
+                });
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        }));
     }
 
     @Override

@@ -38,7 +38,6 @@ ext {
     nineoldandroidsVer = '2.4.0'
     swipelayoutVer = '1.2.0'
     circleindicatorVer = '1.2.2'
-    eventbusVer = '3.1.1'
     mosbyVer = '3.1.0'
     leakCanary = '1.5.4'
     circleimageview = '2.2.0'

@@ -1,10 +1,12 @@
 package com.football.utilities;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
-import android.util.Log;
 
 import com.bon.util.StringUtils;
+import com.football.application.AppContext;
+import com.football.common.views.IBaseMvpView;
+import com.football.events.UnauthorizedEvent;
 import com.football.fantasy.R;
 import com.football.models.ErrorBody;
 import com.google.gson.JsonParseException;
@@ -15,30 +17,43 @@ import java.net.UnknownHostException;
 import retrofit2.HttpException;
 
 public class ErrorHelper {
-    @StringRes
-    public static int getBaseErrorText(@NonNull ErrorBody error) {
+    public static String getBaseErrorText(@NonNull IBaseMvpView mvpView, @NonNull ErrorBody error) {
+        Context context = AppContext.getInstance();
         int code = error.getStatus();
-        int stringRes;
+        String stringRes;
+
         if (code >= ErrorCodes.SERVER_ERROR && code < 600) {
-            return R.string.some_thing_wrong;
+            return context.getString(R.string.some_thing_wrong);
         }
 
         if (ConnectionHelper.isOfflineMode(code)) {
-            return R.string.you_are_offline;
+            return context.getString(R.string.you_are_offline);
         }
 
         switch (code) {
             case ErrorCodes.NO_INTERNET:
-                stringRes = R.string.no_internet;
+                stringRes = context.getString(R.string.no_internet);
                 break;
             case ErrorCodes.TIME_OUT:
-                stringRes = R.string.server_not_responding;
+                stringRes = context.getString(R.string.server_not_responding);
                 break;
             case ErrorCodes.FORBIDDEN:
-                stringRes = R.string.forbidden;
+                stringRes = context.getString(R.string.forbidden);
+                break;
+            case ErrorCodes.APP_ERROR:
+                stringRes = context.getString(context.getResources().getIdentifier(error.getMessage(), "string", context.getPackageName()));
+                if (StringUtils.isEmpty(stringRes))
+                    stringRes = context.getString(R.string.not_found_resource);
+                break;
+            case ErrorCodes.UNAUTHORIZED:
+                stringRes = context.getString(R.string.unauthorized);
+                mvpView.getRxBus().send(new UnauthorizedEvent(stringRes));
+                break;
+            case ErrorCodes.NOT_FOUND:
+                stringRes = context.getString(R.string.server_not_found);
                 break;
             default:
-                stringRes = R.string.unknown_error;
+                stringRes = context.getString(R.string.unknown_error);
                 break;
         }
 
@@ -47,15 +62,14 @@ public class ErrorHelper {
 
     @NonNull
     public static ErrorBody createErrorBody(Throwable e) {
+        System.out.println("ErrorBody::CreateErrorBody::" + e.getMessage());
         ErrorBody error = new ErrorBody();
         if (e instanceof HttpException) {
             error.setStatus(((HttpException) e).code());
             error.setMessage(((HttpException) e).message());
-
             if (((HttpException) e).response() != null && ((HttpException) e).response().errorBody() != null) {
                 try {
                     String stringErrorBody = ((HttpException) e).response().errorBody().string();
-                    Log.e("stringErrorBody", "stringErrorBody:: " + stringErrorBody);
                     StringUtils.isNotEmpty(stringErrorBody, s -> error.setMessage(s));
                 } catch (IOException | JsonParseException e1) {
                     e.printStackTrace();
@@ -67,6 +81,17 @@ public class ErrorHelper {
         } else {
             error.setStatus(ErrorCodes.UNKNOWN);
         }
+
+        System.out.println("ErrorBody::ErrorBody::" + error.toString());
         return error;
+    }
+
+    /**
+     * @param messageCode
+     * @return
+     */
+    public static ErrorBody getErrorBodyApp(String messageCode) {
+        System.out.println("ErrorBody::GetErrorBodyApp::" + messageCode);
+        return new ErrorBody(ErrorCodes.APP_ERROR, messageCode);
     }
 }

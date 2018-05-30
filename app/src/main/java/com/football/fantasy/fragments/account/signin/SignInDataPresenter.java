@@ -20,13 +20,10 @@ public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresente
      */
     protected SignInDataPresenter(AppComponent appComponent) {
         super(appComponent);
-
     }
 
     @Override
     public void onSignIn() {
-
-
         getOptView().doIfPresent(v -> {
             if (v.isValid()) {
                 LoginRequest loginRequest = v.getLoginRequest();
@@ -38,8 +35,8 @@ public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresente
                             }
 
                             @Override
-                            public void onError(Throwable e) {
-                                Log.e("eee", e.getMessage());
+                            public void onError(String e) {
+                                Log.e("eee", e);
                             }
                         }));
             }
