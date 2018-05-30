@@ -10,4 +10,14 @@ public class HomeDataPresenter extends BaseDataPresenter<IHomeView> implements I
     protected HomeDataPresenter(AppComponent appComponent) {
         super(appComponent);
     }
+
+    @Override
+    public void getMyLeagues() {
+
+    }
+
+    @Override
+    public void getNews() {
+
+    }
 }

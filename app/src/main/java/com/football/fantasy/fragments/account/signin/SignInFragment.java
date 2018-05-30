@@ -95,7 +95,7 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
 
     @Override
     public LoginRequest getLoginRequest() {
-        return new LoginRequest(etEmail.getContent(), etPassword.getContent(), "");
+        return new LoginRequest(etEmail.getContent(), etPassword.getContent(), " ");
     }
 
     @OnClick(R.id.tvSignIn)

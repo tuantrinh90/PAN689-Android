@@ -27,6 +27,7 @@ public class RxUtilities {
                 .subscribeWith(new DisposableObserver<BaseResponse<T>>() {
                     @Override
                     public void onNext(BaseResponse<T> response) {
+                        System.out.println("onNext");
                         Optional.from(response).doIfPresent(r -> {
                             if (r.isSuccess()) {
                                 Optional.from(apiCallback).doIfPresent(c -> c.onSuccess(r.getResponse()));
@@ -38,7 +39,10 @@ public class RxUtilities {
 
                     @Override
                     public void onError(Throwable e) {
-                        Optional.from(apiCallback).doIfPresent(c -> c.onError(ErrorHelper.getBaseErrorText(mvpView, ErrorHelper.createErrorBody(e))));
+                        Optional.from(apiCallback).doIfPresent(c -> {
+                            c.onError(ErrorHelper.getBaseErrorText(mvpView, ErrorHelper.createErrorBody(e)));
+                            c.onComplete();
+                        });
                     }
 
                     @Override
