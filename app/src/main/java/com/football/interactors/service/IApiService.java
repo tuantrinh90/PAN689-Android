@@ -5,9 +5,9 @@ import com.football.models.responses.UserResponse;
 import com.football.utilities.ServiceConfig;
 
 import io.reactivex.Observable;
-import retrofit2.http.Multipart;
+import okhttp3.RequestBody;
+import retrofit2.http.Body;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
 
 /**
  * Created by dangpp on 2/9/2018.
@@ -15,6 +15,5 @@ import retrofit2.http.Part;
 
 public interface IApiService {
     @POST(ServiceConfig.LOGIN)
-    @Multipart
-    Observable<BaseResponse<UserResponse>> loginService(@Part("email") String email, @Part("password") String password, @Part("device_token") String deviceToken);
+    Observable<BaseResponse<UserResponse>> loginService(@Body RequestBody body);
 }

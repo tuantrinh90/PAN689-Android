@@ -6,4 +6,5 @@ package com.football.common;
 
 public interface Keys {
     String ARGS = "args";
+     String AUTH_TOKEN  ="Authorization";
 }

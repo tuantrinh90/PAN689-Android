@@ -47,7 +47,7 @@ public class ApiModule {
                 .build();
     }
 
-    @Singleton
+    // @Singleton
     @Provides
     public AccessInterceptor provideAccessInterceptor(Context context) {
         return new AccessInterceptor(context);

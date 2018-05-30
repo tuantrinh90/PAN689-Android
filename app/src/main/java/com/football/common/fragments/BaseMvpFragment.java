@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.bon.event_bus.IEvent;
 import com.bon.event_bus.RxBus;
 import com.bon.interfaces.Optional;
+import com.bon.util.DialogUtils;
 import com.bon.util.KeyboardUtils;
 import com.bon.util.StringUtils;
 import com.football.application.AppContext;
@@ -22,6 +23,7 @@ import com.football.common.presenters.BaseDataPresenter;
 import com.football.common.presenters.IBaseDataPresenter;
 import com.football.common.views.IBaseMvpView;
 import com.football.di.AppComponent;
+import com.football.fantasy.R;
 import com.football.interactors.IDataModule;
 import com.football.interactors.database.IDbModule;
 import com.football.interactors.service.IApiService;
@@ -37,6 +39,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
+import java8.util.function.Consumer;
 
 /**
  * Created by dangpp on 2/21/2018.
@@ -240,6 +243,11 @@ public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDat
     }
 
     @Override
+    public BaseAppCompatActivity getAppActivity() {
+        return mActivity;
+    }
+
+    @Override
     public AppContext getAppContext() {
         return mActivity.getAppContext();
     }
@@ -262,6 +270,19 @@ public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDat
     @Override
     public RxBus<IEvent> getRxBus() {
         return bus;
+    }
+
+    @Override
+    public void showMessage(String message, int ok, Consumer<Void> consumer) {
+        DialogUtils.messageBox(mActivity, getString(R.string.app_name), message, getString(ok),
+                (dialog, which) -> Optional.from(consumer).doIfPresent(c -> c.accept(null)));
+    }
+
+    @Override
+    public void showMessage(String message, int ok, int cancel, Consumer<Void> okConsumer, Consumer<Void> cancelConsumer) {
+        DialogUtils.messageBox(mActivity, 0, getString(R.string.app_name), message, getString(ok), getString(cancel),
+                (dialog, which) -> Optional.from(okConsumer).doIfPresent(c -> c.accept(null)),
+                (dialog, which) -> Optional.from(cancelConsumer).doIfPresent(c -> c.accept(null)));
     }
 
     /**

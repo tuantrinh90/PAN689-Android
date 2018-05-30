@@ -74,6 +74,7 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     void initView() {
         initRecyclerView();
         ViewUtils.attachViewTreeObserver(llPlayerList, this);
+        presenter.getMyLeagues();
     }
 
     void initRecyclerView() {
