@@ -155,7 +155,7 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
 
     @Override
     public void onFbSignInSuccess(String authToken, String userId) {
-        presenter.onSignIn(ServiceConfig.PROVIDER_FACEBOOK, authToken);
+        presenter.onSignIn(ServiceConfig.PROVIDER_FACEBOOK, authToken, "");
     }
 
     @Override
@@ -172,14 +172,14 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
 
     @Override
     public void onTwitterSignIn(String authToken, String secret, long userId) {
-        presenter.onSignIn(ServiceConfig.PROVIDER_TWITTER, authToken);
+        presenter.onSignIn(ServiceConfig.PROVIDER_TWITTER, authToken, secret);
     }
     // ----------------
 
     // google login
     @Override
     public void onGoogleAuthSignIn(String authToken, String userId) {
-        presenter.onSignIn(ServiceConfig.PROVIDER_GOOGLE, authToken);
+        presenter.onSignIn(ServiceConfig.PROVIDER_GOOGLE, authToken, "");
     }
 
     @Override

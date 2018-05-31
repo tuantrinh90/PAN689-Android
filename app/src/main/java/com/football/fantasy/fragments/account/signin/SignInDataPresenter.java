@@ -67,7 +67,7 @@ public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresente
     }
 
     @Override
-    public void onSignIn(String provider, String accessToken) {
+    public void onSignIn(String provider, String accessToken, String secret) {
         getOptView().doIfPresent(v -> {
             v.showLoading(true);
             mCompositeDisposable.add(RxUtilities.async(
@@ -76,6 +76,7 @@ public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresente
                             .setType(MultipartBody.FORM)
                             .addFormDataPart("provider", provider)
                             .addFormDataPart("access_token", accessToken)
+                            .addFormDataPart("secret_key", secret)
                             .addFormDataPart("device_token", "123")
                             .build()),
                     new ApiCallback<UserResponse>() {
@@ -104,6 +105,7 @@ public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresente
     private void loginError(String e) {
         getOptView().doIfPresent(view -> {
             view.showLoading(false);
+            view.showMessage(e);
         });
     }
 }
