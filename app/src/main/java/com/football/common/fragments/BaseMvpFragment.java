@@ -301,11 +301,6 @@ public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDat
 
     }
 
-    @Override
-    public <T> void notifyDataSetChanged(List<T> its) {
-
-    }
-
     /**
      * @param isChildFragment
      * @return

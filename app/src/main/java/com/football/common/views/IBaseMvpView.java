@@ -26,7 +26,5 @@ public interface IBaseMvpView extends MvpView, LifecycleProvider<FragmentEvent> 
 
     void showMessage(String message, @IdRes int ok, @IdRes int cancel, Consumer<Void> okConsumer, Consumer<Void> cancelConsumer);
 
-    <T> void notifyDataSetChanged(List<T> its);
-
     void showLoadingPagingListView(boolean isLoading);
 }

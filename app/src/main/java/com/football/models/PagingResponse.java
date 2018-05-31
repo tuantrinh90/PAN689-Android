@@ -1,5 +1,7 @@
 package com.football.models;
 
+import android.content.Intent;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
@@ -19,9 +21,9 @@ public class PagingResponse<T> implements Serializable {
     @JsonProperty("prev_page_url")
     private String prevPageUrl;
     @JsonProperty("from")
-    private String from;
+    private Integer from;
     @JsonProperty("to")
-    private String to;
+    private Integer to;
     @JsonProperty("data")
     private List<T> data;
 
@@ -73,19 +75,19 @@ public class PagingResponse<T> implements Serializable {
         this.prevPageUrl = prevPageUrl;
     }
 
-    public String getFrom() {
+    public Integer getFrom() {
         return from;
     }
 
-    public void setFrom(String from) {
+    public void setFrom(Integer from) {
         this.from = from;
     }
 
-    public String getTo() {
+    public Integer getTo() {
         return to;
     }
 
-    public void setTo(String to) {
+    public void setTo(Integer to) {
         this.to = to;
     }
 

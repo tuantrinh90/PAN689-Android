@@ -1,15 +1,10 @@
 package com.football.models.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.twitter.sdk.android.core.models.User;
 
 import java.io.Serializable;
 
-public class LeagueResponse implements Serializable{
-    public static final int OPEN_LEAGUES = 1;
-    public static final int MY_LEAGUES = 2;
-    public static final int PENDING_LEAGUES = 3;
-
+public class LeagueResponse implements Serializable {
     public static final int TYPE_INCREASE = 1;
     public static final int TYPE_DECREASE = 2;
 
@@ -75,6 +70,8 @@ public class LeagueResponse implements Serializable{
     private String statusDisplay;
     @JsonProperty("is_owner")
     private Boolean isOwner;
+    @JsonProperty("invitation")
+    private InvitationResponse invitation;
 
     public LeagueResponse() {
     }
@@ -327,6 +324,14 @@ public class LeagueResponse implements Serializable{
         isOwner = owner;
     }
 
+    public InvitationResponse getInvitation() {
+        return invitation;
+    }
+
+    public void setInvitation(InvitationResponse invitation) {
+        this.invitation = invitation;
+    }
+
     @Override
     public String toString() {
         return "LeagueResponse{" +
@@ -361,6 +366,7 @@ public class LeagueResponse implements Serializable{
                 ", status='" + status + '\'' +
                 ", statusDisplay='" + statusDisplay + '\'' +
                 ", isOwner=" + isOwner +
+                ", invitation=" + invitation +
                 '}';
     }
 }

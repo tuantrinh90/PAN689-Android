@@ -40,7 +40,7 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
 
     void initView() {
         // leagueResponses
-        leaguesAdapter = new LeaguesAdapter(mActivity, leagueResponses, details -> {
+        leaguesAdapter = new LeaguesAdapter(mActivity,LeaguesAdapter.MY_LEAGUES, leagueResponses, details -> {
 
         }, approve -> {
 

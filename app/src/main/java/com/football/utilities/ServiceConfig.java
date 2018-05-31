@@ -27,4 +27,5 @@ public interface ServiceConfig {
     String FORGOT_PASSWORD ="auth/recover-password";
     String MY_LEAGUES ="leagues/index";
     String PENDING_INVITATIONS="invitations/pending_list";
+    String INVITE_FRIEND ="invitations/search_friends";
 }

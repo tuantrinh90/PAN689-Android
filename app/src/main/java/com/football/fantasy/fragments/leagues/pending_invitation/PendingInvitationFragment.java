@@ -6,9 +6,6 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.bon.customview.listview.ExtPagingListView;
-import com.bon.customview.listview.listener.ExtClickListener;
-import com.bon.customview.listview.listener.ExtLoadMoreListener;
-import com.bon.customview.listview.listener.ExtRefreshListener;
 import com.bon.interfaces.Optional;
 import com.football.adapters.LeaguesAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
@@ -30,6 +27,8 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
     List<LeagueResponse> leagueResponses;
     LeaguesAdapter leaguesAdapter;
 
+    int page = 1;
+
     @Override
     public int getResourceId() {
         return R.layout.pending_invitation_fragment;
@@ -44,7 +43,7 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
 
     void initView() {
         // leagueResponses
-        leaguesAdapter = new LeaguesAdapter(mActivity, leagueResponses, details -> {
+        leaguesAdapter = new LeaguesAdapter(mActivity, LeaguesAdapter.PENDING_INVITATIONS, leagueResponses, details -> {
 
         }, approve -> {
 
@@ -53,27 +52,17 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
         }, join -> {
 
         });
+
         rvRecyclerView.init(mActivity, leaguesAdapter)
-                .setOnExtClickListener(new ExtClickListener<LeagueResponse>() {
-
-                    @Override
-                    public void onClick(int position, LeagueResponse item) {
-
-                    }
+                .setOnExtRefreshListener(() -> {
+                    page = 0;
+                    presenter.getPendingInvitations(page, ExtPagingListView.NUMBER_PER_PAGE);
                 })
-                .setOnExtRefreshListener(new ExtRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-
-                    }
-                })
-                .setOnExtLoadMoreListener(new ExtLoadMoreListener() {
-                    @Override
-                    public void onLoadMore() {
-
-                    }
+                .setOnExtLoadMoreListener(() -> {
+                    // page++;
+                    //  presenter.getPendingInvitations(page, ExtPagingListView.NUMBER_PER_PAGE);
                 });
-        presenter.getPendingInvitations(1);
+        presenter.getPendingInvitations(page, ExtPagingListView.NUMBER_PER_PAGE);
     }
 
     @NonNull
@@ -91,5 +80,10 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
                 rv.stopLoading(true);
             }
         });
+    }
+
+    @Override
+    public void notifyDataSetChanged(List<LeagueResponse> its) {
+        Optional.from(rvRecyclerView).doIfPresent(rv -> rv.notifyDataSetChanged(its));
     }
 }

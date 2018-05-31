@@ -6,4 +6,7 @@ public interface Constant {
 
     // login response
     String KEY_USER = "key_user";
+    String KEY_PAGE = "page";
+    String KEY_PER_PAGE = "per_page";
+
 }

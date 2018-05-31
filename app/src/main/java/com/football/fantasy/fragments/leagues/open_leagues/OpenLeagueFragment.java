@@ -77,7 +77,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
             svSearchView.setSearchConsumer(query -> onPerformSearch(query));
 
             // leagueResponses
-            leaguesAdapter = new LeaguesAdapter(mActivity, leagueResponses, details -> {
+            leaguesAdapter = new LeaguesAdapter(mActivity,LeaguesAdapter.OPEN_LEAGUES, leagueResponses, details -> {
                 Bundle bundle = new Bundle();
                 bundle.putString(LeagueDetailFragment.KEY_TITLE, getString(R.string.open_leagues));
                 bundle.putSerializable(LeagueDetailFragment.KEY_LEAGUE, details);

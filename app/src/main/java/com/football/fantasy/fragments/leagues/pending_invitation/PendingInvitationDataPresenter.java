@@ -19,9 +19,9 @@ public class PendingInvitationDataPresenter extends BaseDataPresenter<IPendingIn
     }
 
     @Override
-    public void getPendingInvitations(int perPage) {
+    public void getPendingInvitations(int page, int perPage) {
         getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().getPendingInvitations(perPage), new ApiCallback<PagingResponse<LeagueResponse>>() {
+            mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().getPendingInvitations(page, perPage), new ApiCallback<PagingResponse<LeagueResponse>>() {
                 @Override
                 public void onStart() {
                     v.showLoadingPagingListView(true);
