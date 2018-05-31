@@ -77,7 +77,7 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
         tvLeagueType.setText(league.getLeagueTypeDisplay());
         tvMaxNumberOfTeam.setText(String.valueOf(league.getNumberOfUser()));
         tvGamePlayOptions.setText(league.getGameplayOptionDisplay());
-        tvBudget.setText(getString(R.string.budget_value, league.getBudgetOption().getName(), league.getBudgetOption().getValueDisplay() + ""));
+        tvBudget.setText(getString(R.string.budget_value, league.getBudgetId() + "", league.getBudgetValue() + "")); // todo: chua co budget name
         tvScoringSystem.setText(league.getScoringSystemDisplay());
         tvDescription.setText(league.getDescription());
         ImageLoaderUtils.displayImage(league.getLogo(), ivLeague.getImageView());

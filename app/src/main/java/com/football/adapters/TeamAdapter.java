@@ -45,7 +45,7 @@ public class TeamAdapter extends ExtBaseAdapter<TeamResponse, TeamAdapter.ViewHo
         holder.tvTeam.setText(teamResponse.getName());
         holder.tvDescription.setText(teamResponse.getDescription());
         holder.tvRemove.setVisibility(teamResponse.getOwner() ? View.VISIBLE : View.GONE);
-        holder.ivLock.setVisibility(teamResponse.getOwner() ? View.VISIBLE : View.GONE);
+        holder.ivLock.setVisibility(teamResponse.getOwner() ? View.GONE : View.VISIBLE);
 
         // click
         RxView.clicks(holder.itemView).subscribe(o -> Optional.from(detailConsumer).doIfPresent(t -> t.accept(teamResponse)));

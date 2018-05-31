@@ -42,6 +42,9 @@ public interface IApiService {
     @POST(ServiceConfig.REGISTER)
     Observable<BaseResponse<UserResponse>> register(@Body RequestBody body);
 
+    @POST(ServiceConfig.RECOVER_PASSWORD)
+    Observable<BaseResponse<Object>> recoverPassword(@Body RequestBody body);
+
     @GET(ServiceConfig.PENDING_INVITATIONS)
     Observable<BaseResponse<PagingResponse<LeagueResponse>>> getPendingInvitations(@Query(Constant.KEY_PAGE) int page, @Query(Constant.KEY_PER_PAGE) int perPage);
 

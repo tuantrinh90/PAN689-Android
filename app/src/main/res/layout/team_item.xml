@@ -14,9 +14,9 @@
 
     <com.football.customizes.images.CircleImageViewApp
         android:id="@+id/ivAvatar"
-        android:layout_marginLeft="@dimen/padding_layout"
         android:layout_width="@dimen/avatar_normal"
-        android:layout_height="@dimen/avatar_normal" />
+        android:layout_height="@dimen/avatar_normal"
+        android:layout_marginLeft="@dimen/padding_layout" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -40,6 +40,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_content"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:padding="0dp"
             android:textColor="@color/color_green_button"
             tools:text="@string/app_name" />
@@ -50,18 +52,18 @@
         style="@style/StyleButtonBlue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/padding_layout"
         android:minWidth="@dimen/button_min_width"
         android:text="@string/remove"
         android:textAllCaps="false"
-        android:layout_marginRight="@dimen/padding_layout"
         android:textSize="@dimen/font_size_description"
         app:textViewFontAssetName="@string/font_display_black" />
 
     <ImageView
         android:id="@+id/ivLock"
         style="@style/IconSmall"
-        android:scaleType="centerInside"
         android:layout_marginRight="@dimen/padding_layout"
         android:background="@drawable/bg_null_gray_selector"
+        android:scaleType="centerInside"
         android:src="@drawable/ic_lock_outline_shadow" />
 </LinearLayout>

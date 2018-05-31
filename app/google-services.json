@@ -1,69 +1,21 @@
 {
   "project_info": {
-    "project_number": "216628404645",
-    "firebase_url": "https://testprojecct-1504854105551.firebaseio.com",
-    "project_id": "testprojecct-1504854105551",
-    "storage_bucket": "testprojecct-1504854105551.appspot.com"
+    "project_number": "31156627640",
+    "firebase_url": "https://football-fantasy-be26c.firebaseio.com",
+    "project_id": "football-fantasy-be26c",
+    "storage_bucket": "football-fantasy-be26c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:216628404645:android:a1f6aa70b77684b9",
-        "android_client_info": {
-          "package_name": "com.football.fantasy"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "216628404645-0333s4bidiif68malm6lijtoeulop9i6.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.football.fantasy",
-            "certificate_hash": "e3a1e1ed84e4163a8706010a090879dcc25d4dcb"
-          }
-        },
-        {
-          "client_id": "216628404645-efbmi70v1rdigotp7m01buiu7laett2d.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "216628404645-efbmi70v1rdigotp7m01buiu7laett2d.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBkz_qIAUzFTlOsVVkL4xjHz8eLYnbF90k"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "216628404645-efbmi70v1rdigotp7m01buiu7laett2d.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:216628404645:android:848ca578837a4c6c",
+        "mobilesdk_app_id": "1:31156627640:android:848ca578837a4c6c",
         "android_client_info": {
           "package_name": "com.footballbelgium.fantasy"
         }
       },
       "oauth_client": [
         {
-          "client_id": "216628404645-t93bm3ar2mlf27ntu211heo7r8so6it5.apps.googleusercontent.com",
+          "client_id": "31156627640-kf1o09rbpfjol26du65bvl9cege0ch2c.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.footballbelgium.fantasy",
@@ -71,17 +23,17 @@
           }
         },
         {
-          "client_id": "216628404645-efbmi70v1rdigotp7m01buiu7laett2d.apps.googleusercontent.com",
+          "client_id": "31156627640-h499nc51gg2e5ktad4ohc0sejkh7d8pl.apps.googleusercontent.com",
           "client_type": 3
         },
         {
-          "client_id": "216628404645-efbmi70v1rdigotp7m01buiu7laett2d.apps.googleusercontent.com",
+          "client_id": "31156627640-h499nc51gg2e5ktad4ohc0sejkh7d8pl.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBkz_qIAUzFTlOsVVkL4xjHz8eLYnbF90k"
+          "current_key": "AIzaSyBB3aIyNoxcwX66CwGxyy_VaGZw3QUCOS4"
         }
       ],
       "services": {
@@ -92,7 +44,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "216628404645-efbmi70v1rdigotp7m01buiu7laett2d.apps.googleusercontent.com",
+              "client_id": "31156627640-h499nc51gg2e5ktad4ohc0sejkh7d8pl.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

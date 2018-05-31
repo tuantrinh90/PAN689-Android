@@ -22,7 +22,8 @@ public interface ServiceConfig {
     String KEY_LEAGUE_ID = "league_id";
     String LOGIN = "login";
     String LOGIN_SOCIAL = "auth/social";
-    String REGISTER = "auth/store";
+    String REGISTER = "auth/register";
+    String RECOVER_PASSWORD = "users/forgot";
     String LOGOUT = "users/logout";
     String FORGOT_PASSWORD = "users/forgot";
     String MY_LEAGUES = "leagues/my_index";

@@ -39,9 +39,7 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
 
     private int leagueId;
 
-    List<TeamResponse> teamResponses = new ArrayList<>();
-    TeamAdapter teamAdapter;
-
+    private TeamAdapter teamAdapter;
 
     @Override
     public int getResourceId() {
@@ -64,7 +62,7 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
     }
 
     void initView() {
-        teamAdapter = new TeamAdapter(mActivity, teamResponses, teamResponseDetails -> {
+        teamAdapter = new TeamAdapter(mActivity, new ArrayList<>(), teamResponseDetails -> {
         }, removeTeamResponse -> {
             DialogUtils.confirmBox(mActivity, getString(R.string.app_name), String.format(getString(R.string.remove_team_message), removeTeamResponse.getName()),
                     getString(R.string.yes), getString(R.string.no), (dialogInterface, i) -> {
@@ -90,8 +88,12 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
 
     @Override
     public void displayTeams(List<TeamResponse> teams) {
-        teamResponses.clear();
-        teamResponses.addAll(teams);
-        teamAdapter.notifyDataSetChanged();
+        teamAdapter.notifyDataSetChanged(teams);
+        if (teamAdapter.getCount() == 0) {
+            rvRecyclerView.setMessage("No data");
+            rvRecyclerView.displayMessage();
+        } else {
+            rvRecyclerView.setMessage("");
+        }
     }
 }
