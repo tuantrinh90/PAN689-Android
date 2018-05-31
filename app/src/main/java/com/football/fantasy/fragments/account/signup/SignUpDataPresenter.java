@@ -1,10 +1,13 @@
 package com.football.fantasy.fragments.account.signup;
 
+import com.bon.share_preferences.AppPreferences;
+import com.football.application.AppContext;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
 import com.football.models.requests.SignupRequest;
 import com.football.models.responses.UserResponse;
+import com.football.utilities.Constant;
 import com.football.utilities.RxUtilities;
 
 import okhttp3.MultipartBody;
@@ -47,6 +50,7 @@ public class SignUpDataPresenter<V extends ISignUpView> extends BaseDataPresente
 
     private void registerSuccess(UserResponse response) {
         getOptView().doIfPresent(v -> {
+            AppPreferences.getInstance(AppContext.getInstance()).putObject(Constant.KEY_USER, response);
             v.showLoading(false);
             v.goToMain();
         });
@@ -54,9 +58,8 @@ public class SignUpDataPresenter<V extends ISignUpView> extends BaseDataPresente
 
     private void registerError(String e) {
         getOptView().doIfPresent(v -> {
-            v.showMessage("Fake register nhé");
+            v.showMessage(e);
             v.showLoading(false);
-            v.goToMain();
         });
     }
 }
