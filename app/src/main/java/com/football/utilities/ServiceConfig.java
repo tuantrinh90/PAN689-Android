@@ -28,4 +28,5 @@ public interface ServiceConfig {
     String MY_LEAGUES = "leagues/index";
     String PENDING_INVITATIONS = "invitations/pending_list";
     String LEAGUE = "leagues/{league_id}";
+    String TEAMS = "teams";
 }

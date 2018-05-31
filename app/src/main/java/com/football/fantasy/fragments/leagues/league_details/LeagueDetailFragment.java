@@ -21,6 +21,7 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
+import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.ActionLeagueFragment;
 import com.football.fantasy.fragments.leagues.league_details.invite_friends.InviteFriendFragment;
@@ -140,7 +141,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
         leagueDetailViewPagerAdapter = new LeagueDetailViewPagerAdapter(getFragmentManager(),
                 new ArrayList<BaseMvpFragment>() {{
                     add(LeagueInfoFragment.newInstance(league).setChildFragment(true));
-                    add(TeamFragment.newInstance().setChildFragment(true));
+                    add(TeamFragment.newInstance(BuildConfig.DEBUG ? 2 : league.getId()).setChildFragment(true)); // TODO: 5/31/2018 fake leagueId
                     add(InviteFriendFragment.newInstance().setChildFragment(true));
                 }});
         vpViewPager.setAdapter(leagueDetailViewPagerAdapter);

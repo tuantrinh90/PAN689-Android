@@ -3,8 +3,11 @@ package com.football.interactors.service;
 import com.football.models.BaseResponse;
 import com.football.models.PagingResponse;
 import com.football.models.responses.LeagueResponse;
+import com.football.models.responses.TeamResponse;
 import com.football.models.responses.UserResponse;
 import com.football.utilities.ServiceConfig;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
@@ -36,4 +39,7 @@ public interface IApiService {
 
     @GET(ServiceConfig.LEAGUE)
     Observable<BaseResponse<LeagueResponse>> getLeagueDetail(@Path("league_id") int leagueId);
+
+    @GET(ServiceConfig.TEAMS)
+    Observable<BaseResponse<List<TeamResponse>>> getTeams(@Query("league_id") int leagueId);
 }
