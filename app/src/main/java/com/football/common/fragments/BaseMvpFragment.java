@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bon.customview.listview.ExtPagingListView;
 import com.bon.event_bus.IEvent;
@@ -232,6 +233,13 @@ public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDat
             mActivity.showProgressDialog();
         } else {
             mActivity.hideProgressDialog();
+        }
+    }
+
+    @Override
+    public void showMessage(String message) {
+        if (!android.text.TextUtils.isEmpty(message)) {
+            Toast.makeText(mActivity, message, Toast.LENGTH_SHORT).show();
         }
     }
 

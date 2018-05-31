@@ -16,6 +16,8 @@ import java8.util.function.Consumer;
 public interface IBaseMvpView extends MvpView, LifecycleProvider<FragmentEvent> {
     void showLoading(boolean isLoading);
 
+    void showMessage(String message);
+
     RxBus<IEvent> getRxBus();
 
     BaseAppCompatActivity getAppActivity();

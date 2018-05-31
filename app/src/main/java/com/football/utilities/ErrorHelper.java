@@ -41,9 +41,14 @@ public class ErrorHelper {
                 stringRes = context.getString(R.string.forbidden);
                 break;
             case ErrorCodes.APP_ERROR:
-                stringRes = context.getString(context.getResources().getIdentifier(error.getMessage(), "string", context.getPackageName()));
-                if (StringUtils.isEmpty(stringRes))
-                    stringRes = context.getString(R.string.not_found_resource);
+                String messageError = error.getMessage();
+                stringRes = context.getString(R.string.not_found_resource);
+                if (messageError != null) {
+                    int idRes = context.getResources().getIdentifier(messageError, "string", context.getPackageName());
+                    if (idRes != 0) {
+                        stringRes = context.getString(idRes);
+                    }
+                }
                 break;
             case ErrorCodes.UNAUTHORIZED:
                 stringRes = context.getString(R.string.unauthorized);

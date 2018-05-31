@@ -1,5 +1,7 @@
 package com.football.fantasy.fragments.account.signin;
 
+import android.content.Intent;
+
 import com.football.common.views.IBaseMvpView;
 import com.football.models.requests.LoginRequest;
 
@@ -13,4 +15,6 @@ public interface ISignInView extends IBaseMvpView {
     void goToMain();
 
     LoginRequest getLoginRequest();
+
+    void onActivityResults(int requestCode, int resultCode, Intent data);
 }

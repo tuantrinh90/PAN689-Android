@@ -22,6 +22,7 @@ import com.football.helpers.sociallogin.google.GoogleListener;
 import com.football.helpers.sociallogin.twitter.TwitterHelper;
 import com.football.helpers.sociallogin.twitter.TwitterListener;
 import com.football.models.requests.LoginRequest;
+import com.football.utilities.ServiceConfig;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -45,6 +46,8 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
     private FacebookHelper mFacebook;
     private GoogleHelper mGoogle;
     private TwitterHelper mTwitter;
+
+    private String currentProvider;
 
     @NonNull
     @Override
@@ -97,6 +100,18 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
         return new LoginRequest(etEmail.getContent(), etPassword.getContent(), " ");
     }
 
+    /**
+     * for twitter
+     */
+    @Override
+    public void onActivityResults(int requestCode, int resultCode, Intent data) {
+        switch (currentProvider) {
+            case ServiceConfig.PROVIDER_TWITTER:
+                mTwitter.onActivityResult(requestCode, resultCode, data);
+                break;
+        }
+    }
+
     @OnClick(R.id.tvSignIn)
     void onClickSignIn() {
         presenter.onSignIn();
@@ -109,16 +124,19 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
 
     @OnClick(R.id.ivFacebook)
     void onClickFacebook() {
+        currentProvider = "";
         mFacebook.performSignIn(this);
     }
 
     @OnClick(R.id.ivGoogle)
     void onClickGoogle() {
+        currentProvider = "";
         mGoogle.performSignIn(this);
     }
 
     @OnClick(R.id.ivTwitter)
     void onClickTwitter() {
+        currentProvider = ServiceConfig.PROVIDER_TWITTER;
         mTwitter.performSignIn();
     }
 
@@ -126,7 +144,6 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mFacebook.onActivityResult(requestCode, resultCode, data);
-        mTwitter.onActivityResult(requestCode, resultCode, data);
         mGoogle.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -138,7 +155,7 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
 
     @Override
     public void onFbSignInSuccess(String authToken, String userId) {
-        Log.d(TAG, "onFbSignInSuccess: " + authToken);
+        presenter.onSignIn(ServiceConfig.PROVIDER_FACEBOOK, authToken);
     }
 
     @Override
@@ -155,14 +172,14 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
 
     @Override
     public void onTwitterSignIn(String authToken, String secret, long userId) {
-        Log.d(TAG, "onTwitterSignIn: " + authToken);
+        presenter.onSignIn(ServiceConfig.PROVIDER_TWITTER, authToken);
     }
     // ----------------
 
     // google login
     @Override
     public void onGoogleAuthSignIn(String authToken, String userId) {
-        Log.d(TAG, "onGoogleAuthSignIn: " + authToken);
+        presenter.onSignIn(ServiceConfig.PROVIDER_GOOGLE, authToken);
     }
 
     @Override

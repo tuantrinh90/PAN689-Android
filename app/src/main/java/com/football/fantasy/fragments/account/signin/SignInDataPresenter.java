@@ -1,6 +1,8 @@
 package com.football.fantasy.fragments.account.signin;
 
 
+import android.util.Log;
+
 import com.bon.share_preferences.AppPreferences;
 import com.football.application.AppContext;
 import com.football.common.presenters.BaseDataPresenter;
@@ -30,6 +32,7 @@ public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresente
     public void onSignIn() {
         getOptView().doIfPresent(v -> {
             if (v.isValid()) {
+                v.showLoading(true);
                 LoginRequest loginRequest = v.getLoginRequest();
                 mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().loginService(new MultipartBody.Builder()
                                 .setType(MultipartBody.FORM)
@@ -60,6 +63,47 @@ public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresente
                             }
                         }));
             }
+        });
+    }
+
+    @Override
+    public void onSignIn(String provider, String accessToken) {
+        getOptView().doIfPresent(v -> {
+            v.showLoading(true);
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().loginSocial(new MultipartBody.Builder()
+                            .setType(MultipartBody.FORM)
+                            .addFormDataPart("provider", provider)
+                            .addFormDataPart("access_token", accessToken)
+                            .addFormDataPart("device_token", "123")
+                            .build()),
+                    new ApiCallback<UserResponse>() {
+                        @Override
+                        public void onSuccess(UserResponse userResponse) {
+                            Log.e("TAG", userResponse.toString());
+                            loginSuccess(userResponse);
+                        }
+
+                        @Override
+                        public void onError(String e) {
+                            Log.e("eee", e);
+                            loginError(e);
+                        }
+                    }));
+        });
+    }
+
+    private void loginSuccess(UserResponse response) {
+        getOptView().doIfPresent(view -> {
+            view.goToMain();
+            view.showLoading(false);
+        });
+    }
+
+    private void loginError(String e) {
+        getOptView().doIfPresent(view -> {
+            view.showLoading(false);
         });
     }
 }
