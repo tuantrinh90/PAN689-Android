@@ -6,10 +6,11 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.bon.customview.textview.ExtTextView;
+import com.bon.image.ImageLoaderUtils;
 import com.football.common.fragments.BaseMainMvpFragment;
-import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
+import com.football.models.responses.LeagueResponse;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -17,9 +18,7 @@ import butterknife.OnClick;
 public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILeagueInfoPresenter<ILeagueInfoView>> implements ILeagueInfoView {
     static final String TAG = LeagueInfoFragment.class.getSimpleName();
 
-    public static LeagueInfoFragment newInstance() {
-        return new LeagueInfoFragment();
-    }
+    private static final String KEY_LEAGUE = "LEAGUE";
 
     @BindView(R.id.tvTeamSetupTime)
     ExtTextView tvTeamSetupTime;
@@ -44,6 +43,18 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
     @BindView(R.id.tvStartLeague)
     ExtTextView tvStartLeague;
 
+    private LeagueResponse league;
+
+    public static LeagueInfoFragment newInstance(LeagueResponse league) {
+        LeagueInfoFragment fragment = new LeagueInfoFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(KEY_LEAGUE, league);
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
+
     @Override
     public int getResourceId() {
         return R.layout.league_info_fragment;
@@ -51,8 +62,26 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
+
+        displayViews();
+    }
+
+    private void getDataFromBundle() {
+        Bundle bundle = getArguments();
+        league = (LeagueResponse) bundle.getSerializable(KEY_LEAGUE);
+    }
+
+    private void displayViews() {
+        tvLeagueType.setText(league.getLeagueTypeDisplay());
+        tvMaxNumberOfTeam.setText(String.valueOf(league.getNumberOfUser()));
+        tvGamePlayOptions.setText(league.getGameplayOptionDisplay());
+        tvBudget.setText(getString(R.string.budget_value, league.getBudgetOption().getName(), league.getBudgetOption().getValueDisplay() + ""));
+        tvScoringSystem.setText(league.getScoringSystemDisplay());
+        tvDescription.setText(league.getDescription());
+        ImageLoaderUtils.displayImage(league.getLogo(), ivLeague.getImageView());
     }
 
     @NonNull

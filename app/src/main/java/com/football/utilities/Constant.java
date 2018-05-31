@@ -6,4 +6,5 @@ public interface Constant {
 
     // login response
     String KEY_USER = "key_user";
+    float KEY_MIO = 1000000f;
 }

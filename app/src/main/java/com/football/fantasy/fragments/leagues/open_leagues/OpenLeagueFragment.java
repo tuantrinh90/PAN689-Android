@@ -21,7 +21,6 @@ import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.responses.LeagueResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -80,7 +79,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
             leaguesAdapter = new LeaguesAdapter(mActivity, leagueResponses, details -> {
                 Bundle bundle = new Bundle();
                 bundle.putString(LeagueDetailFragment.KEY_TITLE, getString(R.string.open_leagues));
-                bundle.putSerializable(LeagueDetailFragment.KEY_LEAGUE, details);
+                bundle.putSerializable(LeagueDetailFragment.KEY_LEAGUE_ID, details.getId());
                 AloneFragmentActivity.with(this)
                         .parameters(bundle)
                         .start(LeagueDetailFragment.class);

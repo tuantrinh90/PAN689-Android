@@ -7,8 +7,6 @@ import android.view.View;
 
 import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.listview.listener.ExtClickListener;
-import com.bon.customview.listview.listener.ExtLoadMoreListener;
-import com.bon.customview.listview.listener.ExtRefreshListener;
 import com.bon.interfaces.Optional;
 import com.football.adapters.LeaguesAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
@@ -54,24 +52,14 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
 
         });
         rvRecyclerView.init(mActivity, leaguesAdapter)
-                .setOnExtClickListener(new ExtClickListener<LeagueResponse>() {
+                .setOnExtClickListener((ExtClickListener<LeagueResponse>) (position, item) -> {
 
-                    @Override
-                    public void onClick(int position, LeagueResponse item) {
-
-                    }
                 })
-                .setOnExtRefreshListener(new ExtRefreshListener() {
-                    @Override
-                    public void onRefresh() {
+                .setOnExtRefreshListener(() -> {
 
-                    }
                 })
-                .setOnExtLoadMoreListener(new ExtLoadMoreListener() {
-                    @Override
-                    public void onLoadMore() {
+                .setOnExtLoadMoreListener(() -> {
 
-                    }
                 });
         presenter.getPendingInvitations(1);
     }

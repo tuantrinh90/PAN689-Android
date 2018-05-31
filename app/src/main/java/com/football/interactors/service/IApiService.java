@@ -11,6 +11,7 @@ import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -32,4 +33,7 @@ public interface IApiService {
 
     @GET(ServiceConfig.PENDING_INVITATIONS)
     Observable<BaseResponse<PagingResponse<LeagueResponse>>> getPendingInvitations(@Query("per_page") int perPage);
+
+    @GET(ServiceConfig.LEAGUE)
+    Observable<BaseResponse<LeagueResponse>> getLeagueDetail(@Path("league_id") int leagueId);
 }

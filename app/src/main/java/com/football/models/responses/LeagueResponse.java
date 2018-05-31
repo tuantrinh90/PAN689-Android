@@ -1,11 +1,10 @@
 package com.football.models.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.twitter.sdk.android.core.models.User;
 
 import java.io.Serializable;
 
-public class LeagueResponse implements Serializable{
+public class LeagueResponse implements Serializable {
     public static final int OPEN_LEAGUES = 1;
     public static final int MY_LEAGUES = 2;
     public static final int PENDING_LEAGUES = 3;
@@ -58,7 +57,7 @@ public class LeagueResponse implements Serializable{
     @JsonProperty("budget_value")
     private Integer budgetValue;
     @JsonProperty("budget_option")
-    private String budgetOption;
+    private BudgetResponse budgetOption;
     @JsonProperty("team_setup")
     private String teamSetup;
     @JsonProperty("trade_review")
@@ -255,11 +254,11 @@ public class LeagueResponse implements Serializable{
         this.budgetValue = budgetValue;
     }
 
-    public String getBudgetOption() {
+    public BudgetResponse getBudgetOption() {
         return budgetOption;
     }
 
-    public void setBudgetOption(String budgetOption) {
+    public void setBudgetOption(BudgetResponse budgetOption) {
         this.budgetOption = budgetOption;
     }
 

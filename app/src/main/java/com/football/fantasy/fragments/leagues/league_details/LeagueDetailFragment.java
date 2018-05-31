@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-
 import android.view.View;
 import android.widget.ImageView;
 
@@ -37,7 +36,7 @@ import butterknife.OnClick;
 
 public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView, ILeagueDetailPresenter<ILeagueDetailView>> implements ILeagueDetailView {
     public static final String KEY_TITLE = "key_title";
-    public static final String KEY_LEAGUE = "key_league";
+    public static final String KEY_LEAGUE_ID = "key_league";
 
     @BindView(R.id.tvTitle)
     ExtTextView tvTitle;
@@ -49,7 +48,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
     ViewPager vpViewPager;
 
     String title;
-    LeagueResponse leagueResponse;
+    int leagueId;
     LeagueDetailViewPagerAdapter leagueDetailViewPagerAdapter;
 
     @Override
@@ -63,17 +62,17 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
         initView();
+
+        presenter.getLeagueDetail(leagueId);
     }
 
     void getDataFromBundle() {
         Bundle bundle = mActivity.getIntent().getBundleExtra(Keys.ARGS);
         title = bundle.getString(KEY_TITLE, "");
-        leagueResponse = (LeagueResponse) bundle.getSerializable(KEY_LEAGUE);
+        leagueId = bundle.getInt(KEY_LEAGUE_ID);
     }
 
     void initView() {
-        Optional.from(leagueResponse).doIfPresent(l -> tvTitle.setText(leagueResponse.getName()));
-
         cvCarouselView.setTextAllCaps(false)
                 .setFontPath(getString(R.string.font_display_heavy_italic))
                 .setAdapter(mActivity, new ArrayList<Carousel>() {{
@@ -84,29 +83,6 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
                     cvCarouselView.setActivePosition(position);
                     vpViewPager.setCurrentItem(position);
                 });
-
-        leagueDetailViewPagerAdapter = new LeagueDetailViewPagerAdapter(getFragmentManager(), new ArrayList<BaseMvpFragment>() {{
-            add(LeagueInfoFragment.newInstance().setChildFragment(true));
-            add(TeamFragment.newInstance().setChildFragment(true));
-            add(InviteFriendFragment.newInstance().setChildFragment(true));
-        }});
-        vpViewPager.setAdapter(leagueDetailViewPagerAdapter);
-        vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                cvCarouselView.setActivePosition(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
     }
 
     @NonNull
@@ -155,5 +131,34 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
                                 });
                     }
                 }).show(getFragmentManager(), null);
+    }
+
+    @Override
+    public void displayLeague(LeagueResponse league) {
+        Optional.from(league).doIfPresent(l -> tvTitle.setText(l.getName()));
+
+        leagueDetailViewPagerAdapter = new LeagueDetailViewPagerAdapter(getFragmentManager(),
+                new ArrayList<BaseMvpFragment>() {{
+                    add(LeagueInfoFragment.newInstance(league).setChildFragment(true));
+                    add(TeamFragment.newInstance().setChildFragment(true));
+                    add(InviteFriendFragment.newInstance().setChildFragment(true));
+                }});
+        vpViewPager.setAdapter(leagueDetailViewPagerAdapter);
+        vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                cvCarouselView.setActivePosition(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 }

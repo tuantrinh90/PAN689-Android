@@ -80,6 +80,7 @@
     <string name="setup_team">Setup teamResponse</string>
     <string name="max_number_of_team">Max number of teamResponses</string>
     <string name="budget">Budget</string>
+    <string name="budget_value">%s ($%s mio)</string>
     <string name="start_league">Start League</string>
     <string name="team_setup_time">Time setup teamResponse</string>
     <string name="remove">Remove</string>
