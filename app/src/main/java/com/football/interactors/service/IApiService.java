@@ -60,6 +60,9 @@ public interface IApiService {
     @GET(ServiceConfig.TEAMS)
     Observable<BaseResponse<List<TeamResponse>>> getTeams(@Query(ServiceConfig.KEY_LEAGUE_ID) int leagueId);
 
+    @POST(ServiceConfig.REMOVE_TEAM)
+    Observable<BaseResponse<Object>> removeTeam(@Path(ServiceConfig.KEY_LEAGUE_ID) int leagueId, @Path(ServiceConfig.KEY_TEAM_ID) int teamId);
+
     @GET(ServiceConfig.SEARCH_FRIEND)
     Observable<BaseResponse<List<FriendResponse>>> getInviteFriends(@Query(ServiceConfig.KEY_LEAGUE_ID) int leagueId, @Query("keyword") String keyword);
 

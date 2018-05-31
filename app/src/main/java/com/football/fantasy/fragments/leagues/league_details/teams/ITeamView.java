@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ITeamView extends IBaseMvpView {
     void displayTeams(List<TeamResponse> teams);
+
+    void removeSuccess(int leagueId);
 }

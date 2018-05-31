@@ -7,4 +7,5 @@ public interface ITeamPresenter<V extends IBaseMvpView> extends IBaseDataPresent
 
     void getTeams(int leagueId);
 
+    void removeTeam(int leagueId, Integer teamId);
 }

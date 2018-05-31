@@ -20,8 +20,8 @@ import butterknife.ButterKnife;
 import java8.util.function.Consumer;
 
 public class TeamAdapter extends ExtBaseAdapter<TeamResponse, TeamAdapter.ViewHolder> {
-    Consumer<TeamResponse> detailConsumer;
-    Consumer<TeamResponse> teamConsumer;
+    private Consumer<TeamResponse> detailConsumer;
+    private Consumer<TeamResponse> teamConsumer;
 
     public TeamAdapter(Context context, List<TeamResponse> teamResponses, Consumer<TeamResponse> detailConsumer, Consumer<TeamResponse> teamConsumer) {
         super(context, teamResponses);

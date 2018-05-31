@@ -38,4 +38,25 @@ public class TeamDataPresenter extends BaseDataPresenter<ITeamView> implements I
                     }));
         });
     }
+
+    @Override
+    public void removeTeam(int leagueId, Integer teamId) {
+        getOptView().doIfPresent(v -> {
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().removeTeam(leagueId, teamId),
+                    new ApiCallback<Object>() {
+                        @Override
+                        public void onSuccess(Object object) {
+                            v.removeSuccess(leagueId);
+                        }
+
+                        @Override
+                        public void onError(String e) {
+                            Log.e("eee", e);
+                            v.showMessage(e);
+                        }
+                    }));
+        });
+    }
 }

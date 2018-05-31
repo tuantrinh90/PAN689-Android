@@ -64,9 +64,12 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
     void initView() {
         teamAdapter = new TeamAdapter(mActivity, new ArrayList<>(), teamResponseDetails -> {
         }, removeTeamResponse -> {
-            DialogUtils.confirmBox(mActivity, getString(R.string.app_name), String.format(getString(R.string.remove_team_message), removeTeamResponse.getName()),
-                    getString(R.string.yes), getString(R.string.no), (dialogInterface, i) -> {
-                        showMessage("Chưa làm");
+            DialogUtils.confirmBox(mActivity,
+                    getString(R.string.app_name),
+                    String.format(getString(R.string.remove_team_message), removeTeamResponse.getName()),
+                    getString(R.string.yes),
+                    getString(R.string.no), (dialogInterface, i) -> {
+                        presenter.removeTeam(leagueId, removeTeamResponse.getId());
                     });
         });
 
@@ -95,5 +98,16 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
         } else {
             rvRecyclerView.setMessage("");
         }
+    }
+
+    @Override
+    public void removeSuccess(int leagueId) {
+//        for (TeamResponse teamResponse : teamAdapter.getItems()) {
+//            if (teamResponse.getId().equals(leagueId)) {
+//                teamAdapter.removeItem(teamResponse);
+//                break;
+//            }
+//        }
+        getTeams();
     }
 }
