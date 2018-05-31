@@ -20,6 +20,8 @@ public interface ServiceConfig {
     String PROVIDER_GOOGLE = "google";
     String PROVIDER_TWITTER = "twitter";
 
+    String KEY_LEAGUE_ID = "league_id";
+
     String LOGIN = "login";
     String LOGIN_SOCIAL = "auth/social";
     String REGISTER = "auth/store";
@@ -27,12 +29,12 @@ public interface ServiceConfig {
     String FORGOT_PASSWORD = "auth/recover-password";
     String MY_LEAGUES = "leagues/index";
     String PENDING_INVITATIONS = "invitations/pending_list";
-    String LEAGUE = "leagues/{league_id}";
+    String LEAGUE = "leagues/{" + KEY_LEAGUE_ID + "}";
     String TEAMS = "teams";
-    String FRIENDS = "invitations/search_friends";
     String INVITE_FRIEND = "invitations";
     String STOP_LEAGUE = "leagues/{league_id}";
-    String SEARCH_FRIEND ="invitations/search_friends";
-    String INVITATION_DECISION ="invitations/decision/{id}";
+    String SEARCH_FRIEND = "invitations/search_friends";
+    String INVITATION_DECISION = "invitations/decision/{id}";
     String HOME_NEWS = "posts";
+
 }

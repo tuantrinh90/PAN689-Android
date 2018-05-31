@@ -5,9 +5,9 @@ import com.football.models.PagingResponse;
 import com.football.models.responses.FriendResponse;
 import com.football.models.responses.InviteResponse;
 import com.football.models.responses.LeagueResponse;
+import com.football.models.responses.NewsResponse;
 import com.football.models.responses.StopResponse;
 import com.football.models.responses.TeamResponse;
-import com.football.models.responses.NewsResponse;
 import com.football.models.responses.UserResponse;
 import com.football.utilities.Constant;
 import com.football.utilities.ServiceConfig;
@@ -47,20 +47,19 @@ public interface IApiService {
 
     @GET(ServiceConfig.HOME_NEWS)
     Observable<BaseResponse<PagingResponse<NewsResponse>>> getHomeNews(@Query(Constant.KEY_PAGE) int page, @Query(Constant.KEY_PER_PAGE) int perPage);
-    Observable<BaseResponse<PagingResponse<LeagueResponse>>> getPendingInvitations(@Query("per_page") int perPage);
 
     @GET(ServiceConfig.LEAGUE)
-    Observable<BaseResponse<LeagueResponse>> getLeagueDetail(@Path("league_id") int leagueId);
+    Observable<BaseResponse<LeagueResponse>> getLeagueDetail(@Path(ServiceConfig.KEY_LEAGUE_ID) int leagueId);
 
     @GET(ServiceConfig.TEAMS)
-    Observable<BaseResponse<List<TeamResponse>>> getTeams(@Query("league_id") int leagueId);
+    Observable<BaseResponse<List<TeamResponse>>> getTeams(@Query(ServiceConfig.KEY_LEAGUE_ID) int leagueId);
 
-    @GET(ServiceConfig.FRIENDS)
-    Observable<BaseResponse<List<FriendResponse>>> getInviteFriends(@Query("league_id") int leagueId, @Query("keyword") String keyword);
+    @GET(ServiceConfig.SEARCH_FRIEND)
+    Observable<BaseResponse<List<FriendResponse>>> getInviteFriends(@Query(ServiceConfig.KEY_LEAGUE_ID) int leagueId, @Query("keyword") String keyword);
 
     @POST(ServiceConfig.INVITE_FRIEND)
     Observable<BaseResponse<InviteResponse>> inviteFriends(@Body RequestBody body);
 
     @POST(ServiceConfig.STOP_LEAGUE)
-    Observable<BaseResponse<StopResponse>> stopLeague(@Path("league_id") int leagueId, @Body RequestBody body);
+    Observable<BaseResponse<StopResponse>> stopLeague(@Path(ServiceConfig.KEY_LEAGUE_ID) int leagueId, @Body RequestBody body);
 }
