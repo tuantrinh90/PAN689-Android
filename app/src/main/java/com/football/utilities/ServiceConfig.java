@@ -32,4 +32,7 @@ public interface ServiceConfig {
     String FRIENDS = "invitations/search_friends";
     String INVITE_FRIEND = "invitations";
     String STOP_LEAGUE = "leagues/{league_id}";
+    String SEARCH_FRIEND ="invitations/search_friends";
+    String INVITATION_DECISION ="invitations/decision/{id}";
+    String HOME_NEWS = "posts";
 }

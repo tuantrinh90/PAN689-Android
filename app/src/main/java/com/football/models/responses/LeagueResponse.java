@@ -1,14 +1,17 @@
 package com.football.models.responses;
 
+import android.content.Context;
+
+import com.bon.util.DateTimeUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.football.fantasy.R;
+import com.football.utilities.Constant;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 public class LeagueResponse implements Serializable {
-    public static final int OPEN_LEAGUES = 1;
-    public static final int MY_LEAGUES = 2;
-    public static final int PENDING_LEAGUES = 3;
-
     public static final int TYPE_INCREASE = 1;
     public static final int TYPE_DECREASE = 2;
 
@@ -74,6 +77,8 @@ public class LeagueResponse implements Serializable {
     private String statusDisplay;
     @JsonProperty("is_owner")
     private Boolean isOwner;
+    @JsonProperty("invitation")
+    private InvitationResponse invitation;
 
     public LeagueResponse() {
     }
@@ -270,6 +275,59 @@ public class LeagueResponse implements Serializable {
         this.teamSetup = teamSetup;
     }
 
+    @JsonIgnore
+    public Calendar getTeamSetUpCalendar() {
+        return DateTimeUtils.convertStringToCalendar(teamSetup, Constant.FORMAT_DATE_TIME_SERVER);
+    }
+
+    @JsonIgnore
+    public String getDescriptionText(Context context) {
+        Calendar calendarCurrent = Calendar.getInstance();
+        long time = 0l;
+
+        if (gameplayOption.equalsIgnoreCase(Constant.KEY_TRANSFER)) {
+            Calendar calendarTimeSetUp = getTeamSetUpCalendar();
+            if (calendarTimeSetUp != null) {
+                time = calendarTimeSetUp.getTimeInMillis() - calendarCurrent.getTimeInMillis();
+            }
+        } else {
+            Calendar calendarDraftTime = getDraftTimeCalendar();
+            if (calendarDraftTime != null) {
+                time = calendarDraftTime.getTimeInMillis() - calendarCurrent.getTimeInMillis();
+            }
+        }
+
+        if (time > 0) {
+            String des;
+            String result;
+
+            if (gameplayOption.equalsIgnoreCase(Constant.KEY_TRANSFER)) {
+                des = context.getString(R.string.util_team_setup_time);
+            } else {
+                des = context.getString(R.string.util_team_draft_time);
+            }
+
+            long division = time / 1000;
+            result = division + " " + context.getString(R.string.second) + " " + des;
+
+            if (division > 60) {
+                result = division / 60 + " " + context.getString(R.string.minute) + " " + des;
+            }
+
+            if (division > 60 * 60) {
+                result = division / 60 / 60 + " " + context.getString(R.string.hour) + " " + des;
+            }
+
+            if (division > 60 * 60 * 24) {
+                result = division / 60 / 60 / 24 + " " + context.getString(R.string.day) + " " + des;
+            }
+
+            return result;
+        } else {
+            return "";
+        }
+    }
+
     public String getTradeReview() {
         return tradeReview;
     }
@@ -292,6 +350,11 @@ public class LeagueResponse implements Serializable {
 
     public void setDraftTime(String draftTime) {
         this.draftTime = draftTime;
+    }
+
+    @JsonIgnore
+    public Calendar getDraftTimeCalendar() {
+        return DateTimeUtils.convertStringToCalendar(draftTime, Constant.FORMAT_DATE_TIME_SERVER);
     }
 
     public Integer getTimeToPick() {
@@ -324,6 +387,14 @@ public class LeagueResponse implements Serializable {
 
     public void setOwner(Boolean owner) {
         isOwner = owner;
+    }
+
+    public InvitationResponse getInvitation() {
+        return invitation;
+    }
+
+    public void setInvitation(InvitationResponse invitation) {
+        this.invitation = invitation;
     }
 
     @Override
@@ -360,6 +431,7 @@ public class LeagueResponse implements Serializable {
                 ", status='" + status + '\'' +
                 ", statusDisplay='" + statusDisplay + '\'' +
                 ", isOwner=" + isOwner +
+                ", invitation=" + invitation +
                 '}';
     }
 }

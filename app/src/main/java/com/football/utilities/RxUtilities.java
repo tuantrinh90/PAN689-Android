@@ -23,17 +23,18 @@ public class RxUtilities {
         return observable.compose(mvpView.bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-//                .doOnError(e -> Optional.from(apiCallback).doIfPresent(c -> c.onError(ErrorHelper.getBaseErrorText(mvpView, ErrorHelper.createErrorBody(e)))))
                 .subscribeWith(new DisposableObserver<BaseResponse<T>>() {
                     @Override
                     public void onNext(BaseResponse<T> response) {
                         System.out.println("onNext");
-                        Optional.from(response).doIfPresent(r -> {
-                            if (r.isSuccess()) {
-                                Optional.from(apiCallback).doIfPresent(c -> c.onSuccess(r.getResponse()));
-                            } else {
-                                Optional.from(apiCallback).doIfPresent(c -> c.onError(ErrorHelper.getBaseErrorText(mvpView, ErrorHelper.getErrorBodyApp(r.getMessage()))));
-                            }
+                        Optional.from(apiCallback).doIfPresent(c -> {
+                            Optional.from(response).doIfPresent(r -> {
+                                if (r.isSuccess()) {
+                                    c.onSuccess(r.getResponse());
+                                } else {
+                                    c.onError(ErrorHelper.getBaseErrorText(mvpView, ErrorHelper.getErrorBodyApp(r.getMessage())));
+                                }
+                            });
                         });
                     }
 

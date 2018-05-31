@@ -12,6 +12,7 @@ import com.football.adapters.LeaguesAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
 import com.football.models.responses.LeagueResponse;
+import com.football.utilities.Constant;
 
 import java.util.List;
 
@@ -28,6 +29,8 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
     List<LeagueResponse> leagueResponses;
     LeaguesAdapter leaguesAdapter;
 
+    int page = 1;
+
     @Override
     public int getResourceId() {
         return R.layout.pending_invitation_fragment;
@@ -42,26 +45,27 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
 
     void initView() {
         // leagueResponses
-        leaguesAdapter = new LeaguesAdapter(mActivity, leagueResponses, details -> {
+        leaguesAdapter = new LeaguesAdapter(mActivity, LeaguesAdapter.PENDING_INVITATIONS, leagueResponses, details -> {
 
         }, approve -> {
-
+            presenter.invitationDecisions(approve, Constant.KEY_INVITATION_ACCEPT);
         }, reject -> {
-
+            presenter.invitationDecisions(reject, Constant.KEY_INVITATION_DECLINE);
         }, join -> {
 
         });
+
         rvRecyclerView.init(mActivity, leaguesAdapter)
-                .setOnExtClickListener((ExtClickListener<LeagueResponse>) (position, item) -> {
-
-                })
                 .setOnExtRefreshListener(() -> {
-
+                    rvRecyclerView.clearItems();
+                    page = 1;
+                    presenter.getPendingInvitations(page, ExtPagingListView.NUMBER_PER_PAGE);
                 })
                 .setOnExtLoadMoreListener(() -> {
-
+                    page++;
+                    presenter.getPendingInvitations(page, ExtPagingListView.NUMBER_PER_PAGE);
                 });
-        presenter.getPendingInvitations(1);
+        presenter.getPendingInvitations(page, ExtPagingListView.NUMBER_PER_PAGE);
     }
 
     @NonNull
@@ -79,5 +83,15 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
                 rv.stopLoading(true);
             }
         });
+    }
+
+    @Override
+    public void notifyDataSetChanged(List<LeagueResponse> its) {
+        Optional.from(rvRecyclerView).doIfPresent(rv -> rv.addNewItems(its));
+    }
+
+    @Override
+    public void removeItem(LeagueResponse leagueResponse) {
+        Optional.from(rvRecyclerView).doIfPresent(rv -> rv.removeItem(leagueResponse));
     }
 }

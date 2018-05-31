@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.bon.customview.listview.ExtPagingListView;
 import com.bon.event_bus.IEvent;
 import com.bon.event_bus.RxBus;
 import com.bon.interfaces.Optional;
@@ -34,8 +33,6 @@ import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.RxLifecycle;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 import com.trello.rxlifecycle2.android.RxLifecycleAndroid;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -237,13 +234,6 @@ public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDat
     }
 
     @Override
-    public void showMessage(String message) {
-        if (!android.text.TextUtils.isEmpty(message)) {
-            Toast.makeText(mActivity, message, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
     public int getTitleId() {
         return 0;
     }
@@ -284,6 +274,12 @@ public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDat
     }
 
     @Override
+    public void showMessage(String message) {
+        if (StringUtils.isEmpty(message))return;
+        showMessage(message, R.string.ok, null);
+    }
+
+    @Override
     public void showMessage(String message, int ok, Consumer<Void> consumer) {
         DialogUtils.messageBox(mActivity, getString(R.string.app_name), message, getString(ok),
                 (dialog, which) -> Optional.from(consumer).doIfPresent(c -> c.accept(null)));
@@ -297,12 +293,17 @@ public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDat
     }
 
     @Override
-    public void showLoadingPagingListView(boolean isLoading) {
-
+    public void showMessage(int message, int ok, Consumer<Void> consumer) {
+        showMessage(getString(message), ok, consumer);
     }
 
     @Override
-    public <T> void notifyDataSetChanged(List<T> its) {
+    public void showMessage(int message, int ok, int cancel, Consumer<Void> okConsumer, Consumer<Void> cancelConsumer) {
+        showMessage(getString(message), ok, cancel, okConsumer, cancelConsumer);
+    }
+
+    @Override
+    public void showLoadingPagingListView(boolean isLoading) {
 
     }
 

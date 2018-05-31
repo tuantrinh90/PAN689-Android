@@ -65,6 +65,32 @@ public class DateTimeUtils {
         return null;
     }
 
+
+    /**
+     * get calendar from date
+     *
+     * @param date
+     * @param format
+     * @return
+     */
+    public static Calendar convertStringToCalendar(String date, String format) {
+        if (StringUtils.isEmpty(date)) return null;
+
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat(format, Locale.US);
+            Date dt = formatter.parse(date);
+            if (dt == null) return null;
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(dt);
+            return cal;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     /**
      * convert calendar to string
      *

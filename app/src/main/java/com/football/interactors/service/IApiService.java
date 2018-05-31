@@ -7,7 +7,9 @@ import com.football.models.responses.InviteResponse;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.StopResponse;
 import com.football.models.responses.TeamResponse;
+import com.football.models.responses.NewsResponse;
 import com.football.models.responses.UserResponse;
+import com.football.utilities.Constant;
 import com.football.utilities.ServiceConfig;
 
 import java.util.List;
@@ -38,6 +40,13 @@ public interface IApiService {
     Observable<BaseResponse<UserResponse>> register(@Body RequestBody body);
 
     @GET(ServiceConfig.PENDING_INVITATIONS)
+    Observable<BaseResponse<PagingResponse<LeagueResponse>>> getPendingInvitations(@Query(Constant.KEY_PAGE) int page, @Query(Constant.KEY_PER_PAGE) int perPage);
+
+    @POST(ServiceConfig.INVITATION_DECISION)
+    Observable<BaseResponse<Object>> invitationDecision(@Path("id") int id, @Body RequestBody body);
+
+    @GET(ServiceConfig.HOME_NEWS)
+    Observable<BaseResponse<PagingResponse<NewsResponse>>> getHomeNews(@Query(Constant.KEY_PAGE) int page, @Query(Constant.KEY_PER_PAGE) int perPage);
     Observable<BaseResponse<PagingResponse<LeagueResponse>>> getPendingInvitations(@Query("per_page") int perPage);
 
     @GET(ServiceConfig.LEAGUE)

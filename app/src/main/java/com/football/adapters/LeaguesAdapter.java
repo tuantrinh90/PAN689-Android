@@ -14,6 +14,7 @@ import com.bon.interfaces.Optional;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
 import com.football.models.responses.LeagueResponse;
+import com.football.models.responses.UserResponse;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;
@@ -23,16 +24,20 @@ import butterknife.ButterKnife;
 import java8.util.function.Consumer;
 
 public class LeaguesAdapter extends ExtBaseAdapter<LeagueResponse, LeaguesAdapter.ViewHolder> {
-    private Consumer<LeagueResponse> detailConsumer;
-    private Consumer<LeagueResponse> approveConsumer;
-    private Consumer<LeagueResponse> rejectConsumer;
-    private Consumer<LeagueResponse> joinConsumer;
+    public static final int OPEN_LEAGUES = 1, MY_LEAGUES = 2, PENDING_INVITATIONS = 3;
 
-    public LeaguesAdapter(Context context, List<LeagueResponse> leagueResponses, Consumer<LeagueResponse> detailConsumer,
+    int leagueType = OPEN_LEAGUES;
+    Consumer<LeagueResponse> detailConsumer;
+    Consumer<LeagueResponse> approveConsumer;
+    Consumer<LeagueResponse> rejectConsumer;
+    Consumer<LeagueResponse> joinConsumer;
+
+    public LeaguesAdapter(Context context, int leagueType, List<LeagueResponse> leagueResponses, Consumer<LeagueResponse> detailConsumer,
                           Consumer<LeagueResponse> approveConsumer,
                           Consumer<LeagueResponse> rejectConsumer,
                           Consumer<LeagueResponse> joinConsumer) {
         super(context, leagueResponses);
+        this.leagueType = leagueType;
         this.detailConsumer = detailConsumer;
         this.approveConsumer = approveConsumer;
         this.rejectConsumer = rejectConsumer;
@@ -54,25 +59,30 @@ public class LeaguesAdapter extends ExtBaseAdapter<LeagueResponse, LeaguesAdapte
         holder.ivAvatar.setImageUri(leagueResponse.getLogo());
         holder.tvTitle.setText(leagueResponse.getName());
         holder.tvOwner.setText(leagueResponse.getUser().getName());
-        holder.tvInvitor.setText("Chua Ro lOgic");
         holder.tvEntrantNumber.setText(String.valueOf(leagueResponse.getCurrentNumberOfUser()));
         holder.tvEntrantTotal.setText(String.valueOf(leagueResponse.getNumberOfUser()));
-        holder.tvDescription.setText(leagueResponse.getDescription());
+        holder.tvDescription.setText(leagueResponse.getDescriptionText(context));
 
-        // number
-//        holder.ivUpOrDown.setBackgroundResource(leagueResponse.getType() == LeagueResponse.TYPE_INCREASE ? R.drawable.bg_green_arrow_up_circle :
-//                (leagueResponse.getType() == LeagueResponse.TYPE_DECREASE ? R.drawable.bg_green_arrow_down_red : 0));
-//        holder.ivUpOrDown.setImageResource(leagueResponse.getType() == LeagueResponse.TYPE_INCREASE ? R.drawable.ic_arrow_upward_white_small :
-//                (leagueResponse.getType() == LeagueResponse.TYPE_DECREASE ? R.drawable.ic_arrow_down_white_small : 0));
-//
-//        holder.ivNumber.setImageResource(leagueResponse.getRate() == 1 ? R.drawable.ic_number_one :
-//                (leagueResponse.getRate() == 2 ? R.drawable.ic_number_two : R.drawable.ic_number_three));
+        if (leagueType == MY_LEAGUES) {
+            //        holder.ivUpOrDown.setBackgroundResource(leagueResponse.getType() == LeagueResponse.TYPE_INCREASE ? R.drawable.bg_green_arrow_up_circle :
+            //                (leagueResponse.getType() == LeagueResponse.TYPE_DECREASE ? R.drawable.bg_green_arrow_down_red : 0));
+            //        holder.ivUpOrDown.setImageResource(leagueResponse.getType() == LeagueResponse.TYPE_INCREASE ? R.drawable.ic_arrow_upward_white_small :
+            //                (leagueResponse.getType() == LeagueResponse.TYPE_DECREASE ? R.drawable.ic_arrow_down_white_small : 0));
+            //
+            //        holder.ivNumber.setImageResource(leagueResponse.getRate() == 1 ? R.drawable.ic_number_one :
+            //                (leagueResponse.getRate() == 2 ? R.drawable.ic_number_two : R.drawable.ic_number_three));
+        }
+
+        if (leagueType == PENDING_INVITATIONS) {
+            UserResponse sender = leagueResponse.getInvitation() != null ? leagueResponse.getInvitation().getSender() : null;
+            holder.tvInvitor.setText(sender != null ? sender.getName() : "");
+        }
 
         // show/hide action
-//        holder.trInvitor.setVisibility(leagueResponse.getStatus() == LeagueResponse.PENDING_LEAGUES ? View.VISIBLE : View.GONE);
-//        holder.llBottomAction.setVisibility(leagueResponse.getStatus() == LeagueResponse.PENDING_LEAGUES ? View.VISIBLE : View.GONE);
-//        holder.llNumber.setVisibility(leagueResponse.getStatus() == LeagueResponse.MY_LEAGUES && leagueResponse.getRate() >= 1 && leagueResponse.getRate() <= 3 ? View.VISIBLE : View.GONE);
-//        holder.tvJoin.setVisibility(leagueResponse.getStatus() == LeagueResponse.OPEN_LEAGUES ? View.VISIBLE : View.GONE);
+        holder.llNumber.setVisibility(leagueType == MY_LEAGUES ? View.VISIBLE : View.GONE);
+        holder.trInvitor.setVisibility(leagueType == PENDING_INVITATIONS ? View.VISIBLE : View.GONE);
+        holder.llBottomAction.setVisibility(leagueType == PENDING_INVITATIONS ? View.VISIBLE : View.GONE);
+        holder.tvJoin.setVisibility(leagueType == OPEN_LEAGUES ? View.VISIBLE : View.GONE);
 
         // event
         RxView.clicks(holder.itemView).subscribe(v -> Optional.from(detailConsumer).doIfPresent(c -> c.accept(leagueResponse)));
