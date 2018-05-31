@@ -2,6 +2,8 @@ package com.football.interactors.service;
 
 import com.football.models.BaseResponse;
 import com.football.models.PagingResponse;
+import com.football.models.responses.FriendResponse;
+import com.football.models.responses.InviteResponse;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.models.responses.UserResponse;
@@ -42,4 +44,10 @@ public interface IApiService {
 
     @GET(ServiceConfig.TEAMS)
     Observable<BaseResponse<List<TeamResponse>>> getTeams(@Query("league_id") int leagueId);
+
+    @GET(ServiceConfig.FRIENDS)
+    Observable<BaseResponse<List<FriendResponse>>> getInviteFriends(@Query("league_id") int leagueId, @Query("keyword") String keyword);
+
+    @POST(ServiceConfig.INVITE_FRIEND)
+    Observable<BaseResponse<InviteResponse>> inviteFriends(@Body RequestBody body);
 }

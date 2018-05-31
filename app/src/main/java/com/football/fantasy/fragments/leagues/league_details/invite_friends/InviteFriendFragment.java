@@ -3,8 +3,6 @@ package com.football.fantasy.fragments.leagues.league_details.invite_friends;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -24,8 +22,17 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView, IInviteFriendPresenter<IInviteFriendView>> implements IInviteFriendView {
-    public static InviteFriendFragment newInstance() {
-        return new InviteFriendFragment();
+
+    private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+
+    public static InviteFriendFragment newInstance(int leagueId) {
+        InviteFriendFragment fragment = new InviteFriendFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putInt(KEY_LEAGUE_ID, leagueId);
+        fragment.setArguments(bundle);
+
+        return fragment;
     }
 
     @BindView(R.id.rvRecyclerView)
@@ -35,7 +42,7 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
     @BindView(R.id.llInvite)
     LinearLayout llInvite;
 
-    List<FriendResponse> friendResponses;
+    private int leagueId;
     InviteFriendAdapter inviteFriendAdapter;
 
     @Override
@@ -45,9 +52,20 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
         initView();
+    }
+
+    private void getFriends(String keyword) {
+        rvRecyclerView.startLoading();
+        presenter.getInviteFriends(leagueId, keyword);
+    }
+
+    private void getDataFromBundle() {
+        Bundle bundle = getArguments();
+        leagueId = bundle.getInt(KEY_LEAGUE_ID);
     }
 
     void initView() {
@@ -55,14 +73,18 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
         svSearch.setSearchConsumer(query -> {
             rvRecyclerView.setVisibility(StringUtils.isEmpty(query) ? View.GONE : View.VISIBLE);
             llInvite.setVisibility(StringUtils.isEmpty(query) ? View.VISIBLE : View.GONE);
+            getFriends(query);
         });
 
-        inviteFriendAdapter = new InviteFriendAdapter(mActivity, friendResponses, detailFriendResponse -> {
+        inviteFriendAdapter = new InviteFriendAdapter(mActivity, new ArrayList<>(), detailFriend -> {
 
-        }, inviteFriendResponse -> {
-
+        }, inviteFriend -> {
+            presenter.inviteFriend(leagueId, inviteFriend.getId());
         });
-        rvRecyclerView.init(mActivity, inviteFriendAdapter);
+        rvRecyclerView.init(mActivity, inviteFriendAdapter)
+                .setOnExtRefreshListener(() -> {
+                    getFriends(svSearch.getSearchView().getText().toString());
+                });
     }
 
     @NonNull
@@ -75,5 +97,24 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
     void onClickInvite() {
         SharedUtils.actionShare(mActivity, getString(R.string.app_name), SharedUtils.TYPE_TEXT, null, getString(R.string.app_name),
                 "https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", null, null);
+    }
+
+    @Override
+    public void displayFriends(List<FriendResponse> friends) {
+        inviteFriendAdapter.notifyDataSetChanged(friends);
+        rvRecyclerView.stopLoading();
+        rvRecyclerView.setMessage(friends.isEmpty() ? "No data" : "");
+        rvRecyclerView.displayMessage();
+    }
+
+    @Override
+    public void inviteSuccess(Integer receiverId) {
+        for (FriendResponse friend : inviteFriendAdapter.getItems()) {
+            if (friend.getId().equals(receiverId)) {
+                friend.setInvited(true);
+                break;
+            }
+        }
+        inviteFriendAdapter.notifyDataSetChanged();
     }
 }

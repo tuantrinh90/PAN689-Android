@@ -20,8 +20,8 @@ import butterknife.ButterKnife;
 import java8.util.function.Consumer;
 
 public class InviteFriendAdapter extends ExtBaseAdapter<FriendResponse, InviteFriendAdapter.ViewHolder> {
-    Consumer<FriendResponse> detailConsumer;
-    Consumer<FriendResponse> inviteConsumer;
+    private Consumer<FriendResponse> detailConsumer;
+    private Consumer<FriendResponse> inviteConsumer;
 
     public InviteFriendAdapter(Context context, List<FriendResponse> friendResponses,
                                Consumer<FriendResponse> detailConsumer, Consumer<FriendResponse> inviteConsumer) {

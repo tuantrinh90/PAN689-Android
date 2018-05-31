@@ -142,7 +142,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
                 new ArrayList<BaseMvpFragment>() {{
                     add(LeagueInfoFragment.newInstance(league).setChildFragment(true));
                     add(TeamFragment.newInstance(BuildConfig.DEBUG ? 2 : league.getId()).setChildFragment(true)); // TODO: 5/31/2018 fake leagueId
-                    add(InviteFriendFragment.newInstance().setChildFragment(true));
+                    add(InviteFriendFragment.newInstance(BuildConfig.DEBUG ? 2 : league.getId()).setChildFragment(true)); // TODO: 5/31/2018 fake leagueId
                 }});
         vpViewPager.setAdapter(leagueDetailViewPagerAdapter);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
