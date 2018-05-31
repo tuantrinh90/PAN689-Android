@@ -56,6 +56,7 @@ public class LeaguesAdapter extends ExtBaseAdapter<LeagueResponse, LeaguesAdapte
 
     @Override
     protected void onBindViewHolder(ViewHolder holder, LeagueResponse leagueResponse) {
+        System.out.println("leagueResponse::" +leagueResponse);
         holder.ivAvatar.setImageUri(leagueResponse.getLogo());
         holder.tvTitle.setText(leagueResponse.getName());
         holder.tvOwner.setText(leagueResponse.getUser().getName());
@@ -63,14 +64,20 @@ public class LeaguesAdapter extends ExtBaseAdapter<LeagueResponse, LeaguesAdapte
         holder.tvEntrantTotal.setText(String.valueOf(leagueResponse.getNumberOfUser()));
         holder.tvDescription.setText(leagueResponse.getDescriptionText(context));
 
+        // hide up/down
+        holder.ivUpOrDown.setVisibility(View.GONE);
         if (leagueType == MY_LEAGUES) {
             //        holder.ivUpOrDown.setBackgroundResource(leagueResponse.getType() == LeagueResponse.TYPE_INCREASE ? R.drawable.bg_green_arrow_up_circle :
             //                (leagueResponse.getType() == LeagueResponse.TYPE_DECREASE ? R.drawable.bg_green_arrow_down_red : 0));
             //        holder.ivUpOrDown.setImageResource(leagueResponse.getType() == LeagueResponse.TYPE_INCREASE ? R.drawable.ic_arrow_upward_white_small :
             //                (leagueResponse.getType() == LeagueResponse.TYPE_DECREASE ? R.drawable.ic_arrow_down_white_small : 0));
             //
-            //        holder.ivNumber.setImageResource(leagueResponse.getRate() == 1 ? R.drawable.ic_number_one :
-            //                (leagueResponse.getRate() == 2 ? R.drawable.ic_number_two : R.drawable.ic_number_three));
+
+            holder.tvNumber.setText(String.valueOf(leagueResponse.getRank()));
+            holder.tvNumber.setVisibility(leagueResponse.getRank() > 3 ? View.VISIBLE : View.GONE);
+            holder.ivAvatar.setVisibility(leagueResponse.getRank() <= 3 ? View.VISIBLE : View.GONE);
+            holder.ivNumber.setImageResource(leagueResponse.getRank() == 1 ? R.drawable.ic_number_one :
+                    (leagueResponse.getRank() == 2 ? R.drawable.ic_number_two : (leagueResponse.getRank() == 2 ? R.drawable.ic_number_three : 0)));
         }
 
         if (leagueType == PENDING_INVITATIONS) {
@@ -120,6 +127,8 @@ public class LeaguesAdapter extends ExtBaseAdapter<LeagueResponse, LeaguesAdapte
         ImageView ivUpOrDown;
         @BindView(R.id.ivNumber)
         ImageView ivNumber;
+        @BindView(R.id.tvNumber)
+        ExtTextView tvNumber;
         @BindView(R.id.tvJoin)
         ExtTextView tvJoin;
         @BindView(R.id.llOpacity)

@@ -21,6 +21,7 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
 import com.football.fantasy.activities.MainActivity;
 import com.football.fantasy.fragments.leagues.action.ActionLeagueFragment;
+import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.NewsResponse;
 
@@ -74,7 +75,6 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     void initView() {
         initRecyclerView();
         ViewUtils.attachViewTreeObserver(llPlayerList, this);
-        presenter.getMyLeagues();
     }
 
     void initRecyclerView() {
@@ -86,6 +86,12 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
 
         // leagueResponses
         myLeagueRecyclerAdapter = new MyLeagueRecyclerAdapter(mActivity, leagueResponses, league -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(LeagueDetailFragment.KEY_TITLE, getString(R.string.open_leagues));
+            bundle.putInt(LeagueDetailFragment.KEY_LEAGUE_ID, league.getId());
+            AloneFragmentActivity.with(this)
+                    .parameters(bundle)
+                    .start(LeagueDetailFragment.class);
         });
         rvMyLeagues.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
         rvMyLeagues.setAdapter(myLeagueRecyclerAdapter);
@@ -93,6 +99,9 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
         // center view
         SnapHelper gravitySnapHelper = new LinearSnapHelper();
         gravitySnapHelper.attachToRecyclerView(rvMyLeagues);
+
+        // load my leagues
+        presenter.getMyLeagues(1, ExtPagingListView.NUMBER_PER_PAGE);
 
         // load news
         presenter.getNews(1, ExtPagingListView.NUMBER_PER_PAGE);

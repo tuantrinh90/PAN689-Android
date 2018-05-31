@@ -19,15 +19,13 @@ public interface ServiceConfig {
     String PROVIDER_FACEBOOK = "facebook";
     String PROVIDER_GOOGLE = "google";
     String PROVIDER_TWITTER = "twitter";
-
     String KEY_LEAGUE_ID = "league_id";
-
     String LOGIN = "login";
     String LOGIN_SOCIAL = "auth/social";
     String REGISTER = "auth/store";
     String LOGOUT = "users/logout";
-    String FORGOT_PASSWORD = "auth/recover-password";
-    String MY_LEAGUES = "leagues/index";
+    String FORGOT_PASSWORD = "users/forgot";
+    String MY_LEAGUES = "leagues/my_index";
     String PENDING_INVITATIONS = "invitations/pending_list";
     String LEAGUE = "leagues/{" + KEY_LEAGUE_ID + "}";
     String TEAMS = "teams";
@@ -36,5 +34,5 @@ public interface ServiceConfig {
     String SEARCH_FRIEND = "invitations/search_friends";
     String INVITATION_DECISION = "invitations/decision/{id}";
     String HOME_NEWS = "posts";
-
+    String OPEN_LEAGUES ="leagues/open_league";
 }

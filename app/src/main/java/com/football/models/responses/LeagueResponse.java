@@ -77,6 +77,8 @@ public class LeagueResponse implements Serializable {
     private String statusDisplay;
     @JsonProperty("is_owner")
     private Boolean isOwner;
+    @JsonProperty("rank")
+    private Integer rank;
     @JsonProperty("invitation")
     private InvitationResponse invitation;
 
@@ -297,7 +299,7 @@ public class LeagueResponse implements Serializable {
             }
         }
 
-        if (time > 0) {
+        if (time >= 0) {
             String des;
             String result;
 
@@ -397,6 +399,14 @@ public class LeagueResponse implements Serializable {
         this.invitation = invitation;
     }
 
+    public Integer getRank() {
+        return rank;
+    }
+
+    public void setRank(Integer rank) {
+        this.rank = rank;
+    }
+
     @Override
     public String toString() {
         return "LeagueResponse{" +
@@ -422,7 +432,7 @@ public class LeagueResponse implements Serializable {
                 ", realRoundEnd=" + realRoundEnd +
                 ", budgetId=" + budgetId +
                 ", budgetValue=" + budgetValue +
-                ", budgetOption='" + budgetOption + '\'' +
+                ", budgetOption=" + budgetOption +
                 ", teamSetup='" + teamSetup + '\'' +
                 ", tradeReview='" + tradeReview + '\'' +
                 ", tradeReviewDisplay='" + tradeReviewDisplay + '\'' +
@@ -431,6 +441,7 @@ public class LeagueResponse implements Serializable {
                 ", status='" + status + '\'' +
                 ", statusDisplay='" + statusDisplay + '\'' +
                 ", isOwner=" + isOwner +
+                ", rank=" + rank +
                 ", invitation=" + invitation +
                 '}';
     }

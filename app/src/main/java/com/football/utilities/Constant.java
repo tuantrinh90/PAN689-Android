@@ -8,6 +8,7 @@ public interface Constant {
     // login response
     String KEY_USER = "key_user";
     float KEY_MIO = 1000000f;
+    String KEY_ORDER_BY = "orderBy";
     String KEY_PAGE = "page";
     String KEY_PER_PAGE = "per_page";
     String KEY_TRANSFER = "transfer";

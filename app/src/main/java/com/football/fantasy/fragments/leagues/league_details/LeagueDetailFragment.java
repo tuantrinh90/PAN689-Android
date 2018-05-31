@@ -12,16 +12,13 @@ import android.widget.ImageView;
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.textview.ExtTextView;
-import com.bon.interfaces.Optional;
 import com.bon.util.DialogUtils;
 import com.football.adapters.LeagueDetailViewPagerAdapter;
-import com.football.common.Keys;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
-import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.ActionLeagueFragment;
 import com.football.fantasy.fragments.leagues.league_details.invite_friends.InviteFriendFragment;
@@ -63,12 +60,11 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
         initView();
-
         presenter.getLeagueDetail(leagueId);
     }
 
     void getDataFromBundle() {
-        Bundle bundle = mActivity.getIntent().getBundleExtra(Keys.ARGS);
+        Bundle bundle = getArguments();
         title = bundle.getString(KEY_TITLE, "");
         leagueId = bundle.getInt(KEY_LEAGUE_ID);
     }
@@ -128,22 +124,18 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
                     // edit
                     if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.stop_league))) {
                         DialogUtils.confirmBox(mActivity, getString(R.string.app_name), getString(R.string.stop_league_message), getString(R.string.yes),
-                                getString(R.string.no), (dialog, which) -> {
-                                    presenter.stopLeague(leagueId);
-                                });
+                                getString(R.string.no), (dialog, which) -> presenter.stopLeague(leagueId));
                     }
                 }).show(getFragmentManager(), null);
     }
 
     @Override
     public void displayLeague(LeagueResponse league) {
-        Optional.from(league).doIfPresent(l -> tvTitle.setText(l.getName()));
-
         leagueDetailViewPagerAdapter = new LeagueDetailViewPagerAdapter(getFragmentManager(),
                 new ArrayList<BaseMvpFragment>() {{
                     add(LeagueInfoFragment.newInstance(league).setChildFragment(true));
-                    add(TeamFragment.newInstance(BuildConfig.DEBUG ? 2 : league.getId()).setChildFragment(true)); // TODO: 5/31/2018 fake leagueId
-                    add(InviteFriendFragment.newInstance(BuildConfig.DEBUG ? 2 : league.getId()).setChildFragment(true)); // TODO: 5/31/2018 fake leagueId
+                    add(TeamFragment.newInstance(league.getId()).setChildFragment(true));
+                    add(InviteFriendFragment.newInstance(league.getId()).setChildFragment(true));
                 }});
         vpViewPager.setAdapter(leagueDetailViewPagerAdapter);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

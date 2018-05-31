@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.bon.interfaces.Optional;
-import com.bon.share_preferences.AppPreferences;
 import com.bon.util.KeyboardUtils;
 import com.football.common.Keys;
 import com.football.fantasy.R;
@@ -73,15 +72,7 @@ public class AloneFragmentActivity extends BaseAppCompatActivity {
      * @param fragmentForOpen
      */
     protected void getFragmentForOpen(Bundle bundle, Consumer<Fragment> fragmentForOpen) {
-        String fragment;
-
-        if (bundle.getString(FRAGMENT_NAME) == null) {
-            fragment = AppPreferences.getInstance(getAppContext()).getString("FRAGMENT_INTENT");
-        } else {
-            fragment = bundle.getString(FRAGMENT_NAME);
-        }
-
-        fragmentForOpen.accept(Fragment.instantiate(getBaseContext(), fragment, getArgsForFragment(bundle)));
+        fragmentForOpen.accept(Fragment.instantiate(getBaseContext(), bundle.getString(FRAGMENT_NAME), getArgsForFragment(bundle)));
     }
 
     /**

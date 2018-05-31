@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 
 import com.bon.customview.listview.ExtPagingListView;
+import com.bon.interfaces.Optional;
 import com.bon.logger.Logger;
 import com.bon.util.GeneralUtils;
 import com.football.adapters.LeaguesAdapter;
@@ -35,8 +35,12 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
     @BindView(R.id.rvRecyclerView)
     ExtPagingListView rvRecyclerView;
 
+    SearchView svSearchView;
     List<LeagueResponse> leagueResponses;
     LeaguesAdapter leaguesAdapter;
+    String orderBy = "desc";
+    int page = 1;
+    String query = "";
 
     @Override
     public int getResourceId() {
@@ -60,6 +64,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
             SearchView svSearchView = new SearchView(mActivity);
             AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(displayMetrics.widthPixels - paddingLayout * 2, ViewGroup.LayoutParams.WRAP_CONTENT);
             svSearchView.setPadding(marginLayout, 0, marginLayout, marginLayout);
+
             //layoutParams.gravity = Gravity.CENTER;
             svSearchView.setLayoutParams(layoutParams);
 
@@ -76,37 +81,71 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
             svSearchView.setSearchConsumer(query -> onPerformSearch(query));
 
             // leagueResponses
-            leaguesAdapter = new LeaguesAdapter(mActivity,LeaguesAdapter.OPEN_LEAGUES, leagueResponses, details -> {
+            leaguesAdapter = new LeaguesAdapter(mActivity, LeaguesAdapter.OPEN_LEAGUES, leagueResponses, details -> {
                 Bundle bundle = new Bundle();
                 bundle.putString(LeagueDetailFragment.KEY_TITLE, getString(R.string.open_leagues));
-                bundle.putSerializable(LeagueDetailFragment.KEY_LEAGUE_ID, details.getId());
+                bundle.putInt(LeagueDetailFragment.KEY_LEAGUE_ID, details.getId());
                 AloneFragmentActivity.with(this)
                         .parameters(bundle)
                         .start(LeagueDetailFragment.class);
-            }, approve -> {
-
-            }, reject -> {
-
-            }, join -> {
+            }, null, null, join -> {
 
             });
-            rvRecyclerView.init(mActivity, leaguesAdapter);
+            rvRecyclerView.init(mActivity, leaguesAdapter)
+                    .setOnExtLoadMoreListener(() -> {
+                        page++;
+                        presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+                    })
+                    .setOnExtRefreshListener(() -> Optional.from(rvRecyclerView).doIfPresent(rv -> {
+                        page = 1;
+                        rv.clearItems();
+                        presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+                    }));
+
+            // load data
+            presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
         } catch (Resources.NotFoundException e) {
             Logger.e(TAG, e);
         }
     }
 
     void onClickFilter() {
-        Log.e("onClickFilter", "onClickFilter");
+        Optional.from(rvRecyclerView).doIfPresent(rv -> {
+            orderBy = orderBy.equalsIgnoreCase("desc") ? "asc" : "desc";
+            rv.clearItems();
+            page = 1;
+            presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+        });
     }
 
-    void onPerformSearch(String query) {
-        Log.e("onPerformSearch", "onPerformSearch");
+    void onPerformSearch(String q) {
+        Optional.from(rvRecyclerView).doIfPresent(rv -> {
+            query = q;
+            rv.clearItems();
+            page = 1;
+            presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+        });
     }
 
     @NonNull
     @Override
     public IOpenLeaguePresenter<IOpenLeagueView> createPresenter() {
         return new OpenLeagueDataPresenter(getAppComponent());
+    }
+
+    @Override
+    public void notifyDataSetChangedLeagues(List<LeagueResponse> its) {
+        Optional.from(rvRecyclerView).doIfPresent(rv -> rv.addNewItems(its));
+    }
+
+    @Override
+    public void showLoadingPagingListView(boolean isLoading) {
+        Optional.from(rvRecyclerView).doIfPresent(rv -> {
+            if (isLoading) {
+                rv.startLoading(true);
+            } else {
+                rv.stopLoading(true);
+            }
+        });
     }
 }

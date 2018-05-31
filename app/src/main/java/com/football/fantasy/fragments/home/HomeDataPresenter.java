@@ -4,6 +4,7 @@ import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
 import com.football.models.PagingResponse;
+import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.NewsResponse;
 import com.football.utilities.RxUtilities;
 
@@ -16,8 +17,20 @@ public class HomeDataPresenter extends BaseDataPresenter<IHomeView> implements I
     }
 
     @Override
-    public void getMyLeagues() {
+    public void getMyLeagues(int page, int perPage) {
+        getOptView().doIfPresent(v -> {
+            mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().getMyLeagues(page, perPage), new ApiCallback<PagingResponse<LeagueResponse>>() {
+                @Override
+                public void onSuccess(PagingResponse<LeagueResponse> leagueResponsePagingResponse) {
+                    v.notifyDataSetChangedLeagues(leagueResponsePagingResponse.getData());
+                }
 
+                @Override
+                public void onError(String error) {
+                    v.showMessage(error);
+                }
+            }));
+        });
     }
 
     @Override

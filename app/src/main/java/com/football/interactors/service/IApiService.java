@@ -36,6 +36,9 @@ public interface IApiService {
     @GET(ServiceConfig.LOGOUT)
     Observable<BaseResponse<UserResponse>> logout();
 
+    @POST(ServiceConfig.FORGOT_PASSWORD)
+    Observable<BaseResponse<Object>> forgotPassword(@Body RequestBody body);
+
     @POST(ServiceConfig.REGISTER)
     Observable<BaseResponse<UserResponse>> register(@Body RequestBody body);
 
@@ -62,4 +65,12 @@ public interface IApiService {
 
     @POST(ServiceConfig.STOP_LEAGUE)
     Observable<BaseResponse<StopResponse>> stopLeague(@Path(ServiceConfig.KEY_LEAGUE_ID) int leagueId, @Body RequestBody body);
+
+    @GET(ServiceConfig.MY_LEAGUES)
+    Observable<BaseResponse<PagingResponse<LeagueResponse>>> getMyLeagues(@Query(Constant.KEY_PAGE) int page, @Query(Constant.KEY_PER_PAGE) int perPage);
+
+    @GET(ServiceConfig.OPEN_LEAGUES)
+    Observable<BaseResponse<PagingResponse<LeagueResponse>>> getOpenLeagues(@Query(Constant.KEY_ORDER_BY) String orderBy, @Query(Constant.KEY_PAGE) int page,
+                                                                            @Query(Constant.KEY_PER_PAGE) int perPage,
+                                                                            @Query("name") String query);
 }

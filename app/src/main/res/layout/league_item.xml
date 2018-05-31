@@ -164,8 +164,8 @@
                     android:id="@+id/tvDescription"
                     style="@style/StyleDescriptionWhite"
                     android:layout_width="wrap_content"
-                    android:textSize="@dimen/font_footer"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_footer"
                     app:textViewFontAssetName="@string/font_display_regular"
                     tools:text="1 hour to Draft Time" />
             </LinearLayout>
@@ -180,7 +180,7 @@
         android:layout_marginBottom="@dimen/leagues_margin_action_button"
         android:layout_marginRight="@dimen/leagues_margin"
         android:orientation="horizontal"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/tvCheck"
@@ -206,7 +206,7 @@
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="@dimen/padding_layout"
         android:layout_marginRight="@dimen/leagues_margin_number"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/ivNumber"
@@ -217,14 +217,28 @@
             android:scaleType="centerInside"
             android:src="@drawable/ic_number_one" />
 
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvNumber"
+            style="@style/StyleContent"
+            android:layout_width="@dimen/leagues_size_number_number"
+            android:layout_height="@dimen/leagues_size_number_number"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/padding_layout"
+            android:background="@drawable/bg_circle_white"
+            android:gravity="center"
+            android:textColor="@color/color_label"
+            android:textSize="@dimen/font_size_menu"
+            app:textViewFontAssetName="@string/font_display_bold"
+            tools:text="100" />
+
         <ImageView
             android:id="@+id/ivUpOrDown"
             style="@style/IconSmall"
             android:layout_gravity="right"
             android:layout_marginBottom="@dimen/padding_layout"
             android:background="@drawable/bg_green_arrow_up_circle"
-            android:scaleType="centerInside"
             android:padding="@dimen/padding_content"
+            android:scaleType="centerInside"
             android:src="@drawable/ic_arrow_upward_white_small"
             android:visibility="visible" />
     </FrameLayout>

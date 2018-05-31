@@ -24,8 +24,7 @@ public class InviteFriendDataPresenter extends BaseDataPresenter<IInviteFriendVi
     @Override
     public void getInviteFriends(int leagueId, String keyword) {
         getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(
-                    v,
+            mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().getInviteFriends(leagueId, keyword),
                     new ApiCallback<List<FriendResponse>>() {
                         @Override

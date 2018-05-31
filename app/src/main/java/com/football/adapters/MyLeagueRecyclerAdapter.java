@@ -2,7 +2,6 @@ package com.football.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -47,7 +46,7 @@ public class MyLeagueRecyclerAdapter extends BaseRecyclerViewAdapter<LeagueRespo
         holder.ivAvatar.setImageUri(leagueResponse.getLogo());
         holder.tvTitle.setText(leagueResponse.getName());
         holder.tvDescription.setText(leagueResponse.getUser().getName());
-        holder.tvRankNumber.setText(String.valueOf(leagueResponse.getCurrentNumberOfUser()));
+        holder.tvRankNumber.setText(String.valueOf(leagueResponse.getRank()));
         holder.tvRankTotal.setText(String.valueOf(leagueResponse.getNumberOfUser()));
         RxView.clicks(holder.itemView).subscribe(v -> Optional.from(leagueConsumer).doIfPresent(c -> c.accept(leagueResponse)));
 

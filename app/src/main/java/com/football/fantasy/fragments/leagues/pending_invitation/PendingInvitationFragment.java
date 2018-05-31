@@ -9,8 +9,10 @@ import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.listview.listener.ExtClickListener;
 import com.bon.interfaces.Optional;
 import com.football.adapters.LeaguesAdapter;
+import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.utilities.Constant;
 
@@ -46,7 +48,12 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
     void initView() {
         // leagueResponses
         leaguesAdapter = new LeaguesAdapter(mActivity, LeaguesAdapter.PENDING_INVITATIONS, leagueResponses, details -> {
-
+            Bundle bundle = new Bundle();
+            bundle.putString(LeagueDetailFragment.KEY_TITLE, getString(R.string.open_leagues));
+            bundle.putInt(LeagueDetailFragment.KEY_LEAGUE_ID, details.getId());
+            AloneFragmentActivity.with(this)
+                    .parameters(bundle)
+                    .start(LeagueDetailFragment.class);
         }, approve -> {
             presenter.invitationDecisions(approve, Constant.KEY_INVITATION_ACCEPT);
         }, reject -> {
