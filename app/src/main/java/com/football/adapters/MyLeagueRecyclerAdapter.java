@@ -48,6 +48,8 @@ public class MyLeagueRecyclerAdapter extends BaseRecyclerViewAdapter<LeagueRespo
         holder.tvDescription.setText(leagueResponse.getUser().getName());
         holder.tvRankNumber.setText(String.valueOf(leagueResponse.getRank()));
         holder.tvRankTotal.setText(String.valueOf(leagueResponse.getNumberOfUser()));
+        holder.ivArrowUp.setImageResource(leagueResponse.getRankStatus() > 0 ? R.drawable.ic_arrow_upward_green
+                : (leagueResponse.getRankStatus() < 0 ? R.drawable.ic_arrow_upward_green_down : 0));
         RxView.clicks(holder.itemView).subscribe(v -> Optional.from(leagueConsumer).doIfPresent(c -> c.accept(leagueResponse)));
 
         // update layout
