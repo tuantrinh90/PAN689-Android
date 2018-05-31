@@ -129,6 +129,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
                     if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.stop_league))) {
                         DialogUtils.confirmBox(mActivity, getString(R.string.app_name), getString(R.string.stop_league_message), getString(R.string.yes),
                                 getString(R.string.no), (dialog, which) -> {
+                                    presenter.stopLeague(leagueId);
                                 });
                     }
                 }).show(getFragmentManager(), null);
@@ -161,5 +162,10 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
 
             }
         });
+    }
+
+    @Override
+    public void stopLeagueSuccess() {
+        mActivity.finish();
     }
 }

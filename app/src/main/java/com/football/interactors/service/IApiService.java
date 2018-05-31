@@ -5,6 +5,7 @@ import com.football.models.PagingResponse;
 import com.football.models.responses.FriendResponse;
 import com.football.models.responses.InviteResponse;
 import com.football.models.responses.LeagueResponse;
+import com.football.models.responses.StopResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.models.responses.UserResponse;
 import com.football.utilities.ServiceConfig;
@@ -50,4 +51,7 @@ public interface IApiService {
 
     @POST(ServiceConfig.INVITE_FRIEND)
     Observable<BaseResponse<InviteResponse>> inviteFriends(@Body RequestBody body);
+
+    @POST(ServiceConfig.STOP_LEAGUE)
+    Observable<BaseResponse<StopResponse>> stopLeague(@Path("league_id") int leagueId, @Body RequestBody body);
 }

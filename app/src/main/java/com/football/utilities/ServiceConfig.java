@@ -31,4 +31,5 @@ public interface ServiceConfig {
     String TEAMS = "teams";
     String FRIENDS = "invitations/search_friends";
     String INVITE_FRIEND = "invitations";
+    String STOP_LEAGUE = "leagues/{league_id}";
 }

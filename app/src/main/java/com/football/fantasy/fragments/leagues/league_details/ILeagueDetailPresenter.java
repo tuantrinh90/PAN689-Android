@@ -7,4 +7,8 @@ public interface ILeagueDetailPresenter<V extends IBaseMvpView> extends IBaseDat
 
     void getLeagueDetail(int leagueId);
 
+    void stopLeague(int leagueId);
+
+    void leaveLeague(int leagueId);
+
 }
