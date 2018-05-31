@@ -19,7 +19,7 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.searchs.SearchView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
-import com.football.models.responses.League;
+import com.football.models.responses.LeagueResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
     @BindView(R.id.rvRecyclerView)
     ExtPagingListView rvRecyclerView;
 
-    List<League> leagues;
+    List<LeagueResponse> leagueResponses;
     LeaguesAdapter leaguesAdapter;
 
     @Override
@@ -76,18 +76,8 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
             // search view
             svSearchView.setSearchConsumer(query -> onPerformSearch(query));
 
-            // leagues
-            leagues = new ArrayList<League>() {{
-                add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 1, 1));
-                add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 1, 1));
-                add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 1, 1));
-                add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 1, 1));
-                add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 1, 1));
-                add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 1, 1));
-                add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 1, 1));
-            }};
-
-            leaguesAdapter = new LeaguesAdapter(mActivity, leagues, details -> {
+            // leagueResponses
+            leaguesAdapter = new LeaguesAdapter(mActivity, leagueResponses, details -> {
                 Bundle bundle = new Bundle();
                 bundle.putString(LeagueDetailFragment.KEY_TITLE, getString(R.string.open_leagues));
                 bundle.putSerializable(LeagueDetailFragment.KEY_LEAGUE, details);

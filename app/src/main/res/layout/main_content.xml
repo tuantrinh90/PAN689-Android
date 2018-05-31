@@ -37,7 +37,7 @@
         <com.football.customizes.footers.FooterItem
             android:id="@+id/footerLeagues"
             style="@style/StyleFooterItem"
-            app:footerItemContent="@string/leagues"
+            app:footerItemContent="@string/leagueResponses"
             app:footerItemIcon="@drawable/ic_trophy" />
 
         <com.football.customizes.footers.FooterItem

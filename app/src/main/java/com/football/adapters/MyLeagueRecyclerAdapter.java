@@ -1,14 +1,19 @@
 package com.football.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+
+import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.bon.customview.listview.ExtBaseAdapter;
-import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
+import com.bon.util.GeneralUtils;
+import com.football.common.adapters.BaseRecyclerViewAdapter;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
 import com.football.models.responses.LeagueResponse;
@@ -20,35 +25,41 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import java8.util.function.Consumer;
 
-public class MyLeagueAdapter extends ExtBaseAdapter<LeagueResponse, MyLeagueAdapter.ViewHolder> {
+public class MyLeagueRecyclerAdapter extends BaseRecyclerViewAdapter<LeagueResponse, MyLeagueRecyclerAdapter.ViewHolder> {
     Consumer<LeagueResponse> leagueConsumer;
 
-    public MyLeagueAdapter(Context context, List<LeagueResponse> leagueResponses, Consumer<LeagueResponse> leagueConsumer) {
+    public MyLeagueRecyclerAdapter(Context context, List<LeagueResponse> leagueResponses, Consumer<LeagueResponse> leagueConsumer) {
         super(context, leagueResponses);
         this.leagueConsumer = leagueConsumer;
     }
 
+    @NonNull
     @Override
-    protected int getViewId() {
-        return R.layout.my_league_item;
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(layoutInflater.inflate(R.layout.my_league_item, parent, false));
     }
 
     @Override
-    protected ViewHolder onCreateViewHolder(View view) {
-        return new ViewHolder(view);
-    }
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        LeagueResponse leagueResponse = getItem(position);
+        assert leagueResponse != null;
 
-    @Override
-    protected void onBindViewHolder(ViewHolder holder, LeagueResponse leagueResponse) {
         holder.ivAvatar.setImageUri(leagueResponse.getLogo());
         holder.tvTitle.setText(leagueResponse.getName());
         holder.tvDescription.setText(leagueResponse.getUser().getName());
         holder.tvRankNumber.setText(String.valueOf(leagueResponse.getCurrentNumberOfUser()));
         holder.tvRankTotal.setText(String.valueOf(leagueResponse.getNumberOfUser()));
         RxView.clicks(holder.itemView).subscribe(v -> Optional.from(leagueConsumer).doIfPresent(c -> c.accept(leagueResponse)));
+
+        // update layout
+        DisplayMetrics displayMetrics = GeneralUtils.getDisplayMetrics(context);
+        int marginLayout = GeneralUtils.convertDpMeasureToPixel(context, R.dimen.padding_layout);
+        RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(displayMetrics.widthPixels - marginLayout * 2, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(position == 0 ? marginLayout : marginLayout / 3, 0, (position == getItemCount() - 1) ? marginLayout : marginLayout / 3, 0);
+        holder.llContainer.setLayoutParams(layoutParams);
     }
 
-    class ViewHolder extends ExtPagingListView.ExtViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.llContainer)
         LinearLayout llContainer;
         @BindView(R.id.ivAvatar)

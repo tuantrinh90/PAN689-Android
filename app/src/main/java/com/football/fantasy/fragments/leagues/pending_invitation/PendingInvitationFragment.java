@@ -6,12 +6,12 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.bon.customview.listview.ExtPagingListView;
+import com.bon.interfaces.Optional;
 import com.football.adapters.LeaguesAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
-import com.football.models.responses.League;
+import com.football.models.responses.LeagueResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,7 +24,7 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
     @BindView(R.id.rvRecyclerView)
     ExtPagingListView rvRecyclerView;
 
-    List<League> leagues;
+    List<LeagueResponse> leagueResponses;
     LeaguesAdapter leaguesAdapter;
 
     @Override
@@ -40,18 +40,8 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
     }
 
     void initView() {
-        // leagues
-        leagues = new ArrayList<League>() {{
-            add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 3, 1));
-            add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 3, 1));
-            add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 3, 1));
-            add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 3, 1));
-            add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 3, 1));
-            add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 3, 1));
-            add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 3, 1));
-        }};
-
-        leaguesAdapter = new LeaguesAdapter(mActivity, leagues, details -> {
+        // leagueResponses
+        leaguesAdapter = new LeaguesAdapter(mActivity, leagueResponses, details -> {
 
         }, approve -> {
 
@@ -61,11 +51,23 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
 
         });
         rvRecyclerView.init(mActivity, leaguesAdapter);
+        presenter.getPendingInvitations(1);
     }
 
     @NonNull
     @Override
     public IPendingInvitationPresenter<IPendingInvitationView> createPresenter() {
         return new PendingInvitationDataPresenter(getAppComponent());
+    }
+
+    @Override
+    public void showLoadingPagingListView(boolean isLoading) {
+        Optional.from(rvRecyclerView).doIfPresent(rv -> {
+            if (isLoading) {
+                rv.startLoading(true);
+            } else {
+                rv.stopLoading(true);
+            }
+        });
     }
 }

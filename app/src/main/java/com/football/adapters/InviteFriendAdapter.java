@@ -1,18 +1,16 @@
 package com.football.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
 
+import com.bon.customview.listview.ExtBaseAdapter;
+import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
-import com.football.common.adapters.BaseRecyclerViewAdapter;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
-import com.football.models.responses.Friend;
+import com.football.models.responses.FriendResponse;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;
@@ -21,33 +19,34 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import java8.util.function.Consumer;
 
-public class InviteFriendAdapter extends BaseRecyclerViewAdapter<Friend, InviteFriendAdapter.ViewHolder> {
-    Consumer<Friend> detailConsumer;
-    Consumer<Friend> inviteConsumer;
+public class InviteFriendAdapter extends ExtBaseAdapter<FriendResponse, InviteFriendAdapter.ViewHolder> {
+    Consumer<FriendResponse> detailConsumer;
+    Consumer<FriendResponse> inviteConsumer;
 
-    public InviteFriendAdapter(Context context, List<Friend> friends,
-                               Consumer<Friend> detailConsumer, Consumer<Friend> inviteConsumer) {
-        super(context, friends);
+    public InviteFriendAdapter(Context context, List<FriendResponse> friendResponses,
+                               Consumer<FriendResponse> detailConsumer, Consumer<FriendResponse> inviteConsumer) {
+        super(context, friendResponses);
         this.detailConsumer = detailConsumer;
         this.inviteConsumer = inviteConsumer;
     }
 
-    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(layoutInflater.inflate(R.layout.invite_friend_item, parent, false));
+    protected int getViewId() {
+        return R.layout.invite_friend_item;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Friend friend = getItem(position);
-        assert friend != null;
+    protected ViewHolder onCreateViewHolder(View view) {
+        return new ViewHolder(view);
+    }
 
-        holder.ivAvatar.setImageUri(friend.getAvatar());
-        holder.tvName.setText(friend.getName());
-        holder.tvStatus.setEnabled(!friend.isFriend());
+    @Override
+    protected void onBindViewHolder(ViewHolder holder, FriendResponse friendResponse) {
+        holder.ivAvatar.setImageUri(friendResponse.getPhoto());
+        holder.tvName.setText(friendResponse.getName());
+        holder.tvStatus.setEnabled(!friendResponse.getInvited());
 
-        if (friend.isFriend()) {
+        if (friendResponse.getInvited()) {
             holder.tvStatus.setBackground(null);
             holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.color_content));
             holder.tvStatus.setEnabled(false);
@@ -59,11 +58,11 @@ public class InviteFriendAdapter extends BaseRecyclerViewAdapter<Friend, InviteF
         }
 
         // click
-        RxView.clicks(holder.itemView).subscribe(o -> Optional.from(detailConsumer).doIfPresent(d -> d.accept(friend)));
-        RxView.clicks(holder.tvStatus).subscribe(o -> Optional.from(inviteConsumer).doIfPresent(d -> d.accept(friend)));
+        RxView.clicks(holder.itemView).subscribe(o -> Optional.from(detailConsumer).doIfPresent(d -> d.accept(friendResponse)));
+        RxView.clicks(holder.tvStatus).subscribe(o -> Optional.from(inviteConsumer).doIfPresent(d -> d.accept(friendResponse)));
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends ExtPagingListView.ExtViewHolder {
         @BindView(R.id.ivAvatar)
         CircleImageViewApp ivAvatar;
         @BindView(R.id.tvName)

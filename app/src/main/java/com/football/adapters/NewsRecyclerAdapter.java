@@ -20,10 +20,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import java8.util.function.Consumer;
 
-public class NewsAdapter extends BaseRecyclerViewAdapter<News, NewsAdapter.ViewHolder> {
+public class NewsRecyclerAdapter extends BaseRecyclerViewAdapter<News, NewsRecyclerAdapter.ViewHolder> {
     Consumer<News> newsConsumer;
 
-    public NewsAdapter(Context context, List<News> news, Consumer<News> newsConsumer) {
+    public NewsRecyclerAdapter(Context context, List<News> news, Consumer<News> newsConsumer) {
         super(context, news);
         this.newsConsumer = newsConsumer;
     }

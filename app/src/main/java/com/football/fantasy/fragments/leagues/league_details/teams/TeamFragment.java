@@ -3,18 +3,16 @@ package com.football.fantasy.fragments.leagues.league_details.teams;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.util.DialogUtils;
 import com.football.adapters.TeamAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
-import com.football.models.responses.Team;
+import com.football.models.responses.TeamResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -27,9 +25,9 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
     @BindView(R.id.tvTeamSetupTime)
     ExtTextView tvTeamSetupTime;
     @BindView(R.id.rvRecyclerView)
-    RecyclerView rvRecyclerView;
+    ExtPagingListView rvRecyclerView;
 
-    List<Team> teams;
+    List<TeamResponse> teamResponses;
     TeamAdapter teamAdapter;
 
     @Override
@@ -45,27 +43,15 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
     }
 
     void initView() {
-        teams = new ArrayList<Team>() {{
-            add(new Team("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "My Supper Team", "Clark Kent", true));
-            add(new Team("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "My Supper Team", "Clark Kent", false));
-            add(new Team("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "My Supper Team", "Clark Kent", false));
-            add(new Team("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "My Supper Team", "Clark Kent", false));
-            add(new Team("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "My Supper Team", "Clark Kent", false));
-            add(new Team("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "My Supper Team", "Clark Kent", false));
-            add(new Team("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "My Supper Team", "Clark Kent", false));
-            add(new Team("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "My Supper Team", "Clark Kent", false));
-        }};
-
-        teamAdapter = new TeamAdapter(mActivity, teams, teamDetails -> {
-
-        }, removeTeam -> {
-            DialogUtils.confirmBox(mActivity, getString(R.string.app_name), String.format(getString(R.string.remove_team_message), removeTeam.getTeamName()),
+        teamAdapter = new TeamAdapter(mActivity, teamResponses, teamResponseDetails -> {
+        }, removeTeamResponse -> {
+            DialogUtils.confirmBox(mActivity, getString(R.string.app_name), String.format(getString(R.string.remove_team_message), removeTeamResponse.getName()),
                     getString(R.string.yes), getString(R.string.no), (dialogInterface, i) -> {
 
                     });
         });
-        rvRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
-        rvRecyclerView.setAdapter(teamAdapter);
+
+        rvRecyclerView.init(mActivity, teamAdapter);
     }
 
     @NonNull

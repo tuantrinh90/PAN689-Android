@@ -8,13 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.bon.customview.listview.ExtPagingListView;
 import com.bon.util.SharedUtils;
 import com.bon.util.StringUtils;
 import com.football.adapters.InviteFriendAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.searchs.SearchView;
 import com.football.fantasy.R;
-import com.football.models.responses.Friend;
+import com.football.models.responses.FriendResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +29,13 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
     }
 
     @BindView(R.id.rvRecyclerView)
-    RecyclerView rvRecyclerView;
+    ExtPagingListView rvRecyclerView;
     @BindView(R.id.svSearch)
     SearchView svSearch;
     @BindView(R.id.llInvite)
     LinearLayout llInvite;
 
-    List<Friend> friends;
+    List<FriendResponse> friendResponses;
     InviteFriendAdapter inviteFriendAdapter;
 
     @Override
@@ -56,24 +57,12 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
             llInvite.setVisibility(StringUtils.isEmpty(query) ? View.VISIBLE : View.GONE);
         });
 
-        friends = new ArrayList<Friend>() {{
-            add(new Friend("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Bruce Wayne", false));
-            add(new Friend("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Bruce Wayne", false));
-            add(new Friend("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Bruce Wayne", false));
-            add(new Friend("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Bruce Wayne", true));
-            add(new Friend("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Bruce Wayne", false));
-            add(new Friend("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Bruce Wayne", false));
-            add(new Friend("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Bruce Wayne", false));
-            add(new Friend("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Bruce Wayne", true));
-            add(new Friend("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Bruce Wayne", false));
-        }};
-        inviteFriendAdapter = new InviteFriendAdapter(mActivity, friends, detailFriend -> {
+        inviteFriendAdapter = new InviteFriendAdapter(mActivity, friendResponses, detailFriendResponse -> {
 
-        }, inviteFriend -> {
+        }, inviteFriendResponse -> {
 
         });
-        rvRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
-        rvRecyclerView.setAdapter(inviteFriendAdapter);
+        rvRecyclerView.init(mActivity, inviteFriendAdapter);
     }
 
     @NonNull
