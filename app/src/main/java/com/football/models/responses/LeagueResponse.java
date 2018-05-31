@@ -79,6 +79,8 @@ public class LeagueResponse implements Serializable {
     private Boolean isOwner;
     @JsonProperty("rank")
     private Integer rank;
+    @JsonProperty("rank_status")
+    private Integer rankStatus;
     @JsonProperty("invitation")
     private InvitationResponse invitation;
 
@@ -407,6 +409,14 @@ public class LeagueResponse implements Serializable {
         this.rank = rank;
     }
 
+    public Integer getRankStatus() {
+        return rankStatus;
+    }
+
+    public void setRankStatus(Integer rankStatus) {
+        this.rankStatus = rankStatus;
+    }
+
     @Override
     public String toString() {
         return "LeagueResponse{" +
@@ -442,6 +452,7 @@ public class LeagueResponse implements Serializable {
                 ", statusDisplay='" + statusDisplay + '\'' +
                 ", isOwner=" + isOwner +
                 ", rank=" + rank +
+                ", rankStatus=" + rankStatus +
                 ", invitation=" + invitation +
                 '}';
     }

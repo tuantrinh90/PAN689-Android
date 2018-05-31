@@ -13,6 +13,8 @@ import com.bon.customview.listview.ExtPagingListView;
 import com.bon.interfaces.Optional;
 import com.bon.logger.Logger;
 import com.bon.util.GeneralUtils;
+import com.bon.view_animation.Techniques;
+import com.bon.view_animation.YoYo;
 import com.football.adapters.LeaguesAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
@@ -61,7 +63,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
             int paddingLayout = getResources().getDimensionPixelSize(R.dimen.padding_layout);
             int marginLayout = getResources().getDimensionPixelOffset(R.dimen.leagues_margin);
 
-            SearchView svSearchView = new SearchView(mActivity);
+            svSearchView = new SearchView(mActivity);
             AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(displayMetrics.widthPixels - paddingLayout * 2, ViewGroup.LayoutParams.WRAP_CONTENT);
             svSearchView.setPadding(marginLayout, 0, marginLayout, marginLayout);
 
@@ -110,8 +112,11 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
     }
 
     void onClickFilter() {
+
+
         Optional.from(rvRecyclerView).doIfPresent(rv -> {
             orderBy = orderBy.equalsIgnoreCase("desc") ? "asc" : "desc";
+            YoYo.with(orderBy.equalsIgnoreCase("desc") ? Techniques.RotateInUpLeft : Techniques.RotateInDownRight).playOn(svSearchView.getFilter());
             rv.clearItems();
             page = 1;
             presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
