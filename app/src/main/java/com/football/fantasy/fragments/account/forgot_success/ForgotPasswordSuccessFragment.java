@@ -9,8 +9,15 @@ import android.view.View;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.fantasy.R;
 
+import butterknife.OnClick;
+
 public class ForgotPasswordSuccessFragment
         extends BaseMvpFragment<IForgotPasswordSuccessView, IForgotPasswordSuccessPresenter<IForgotPasswordSuccessView>> implements IForgotPasswordSuccessView {
+
+    public static final String KEY_EMAIL = "email";
+
+    private String email;
+
     @Override
     public int getResourceId() {
         return R.layout.forgot_password_success_fragment;
@@ -18,8 +25,13 @@ public class ForgotPasswordSuccessFragment
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
+    }
+
+    private void getDataFromBundle() {
+        email = getArguments().getString(KEY_EMAIL);
     }
 
     @NonNull
@@ -38,5 +50,16 @@ public class ForgotPasswordSuccessFragment
     @Override
     public int getTitleId() {
         return R.string.sign_in;
+    }
+
+
+    @OnClick(R.id.tvReSend)
+    void onClickResend() {
+        presenter.recoverPassword(email);
+    }
+
+    @Override
+    public void recoverSuccess() {
+        getActivity().finish();
     }
 }

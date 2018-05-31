@@ -8,15 +8,20 @@ import android.view.View;
 
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
+import com.football.customizes.edittext_app.EditTextApp;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.account.forgot_success.ForgotPasswordSuccessFragment;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class ForgotPasswordFragment extends BaseMvpFragment<IForgotPasswordView, IForgotPasswordPresenter<IForgotPasswordView>> implements IForgotPasswordView {
     public static ForgotPasswordFragment newInstance() {
         return new ForgotPasswordFragment();
     }
+
+    @BindView(R.id.etEmail)
+    EditTextApp etEmail;
 
     @Override
     public int getResourceId() {
@@ -49,7 +54,19 @@ public class ForgotPasswordFragment extends BaseMvpFragment<IForgotPasswordView,
 
     @OnClick(R.id.tvSend)
     void onClickSend() {
-        AloneFragmentActivity.with(this).start(ForgotPasswordSuccessFragment.class);
+        if (etEmail.isValidEmail(mActivity)) {
+            presenter.recoverPassword(etEmail.getContent());
+        }
+    }
+
+    @Override
+    public void recoverSuccessful() {
+        Bundle bundle = new Bundle();
+        bundle.putString(ForgotPasswordSuccessFragment.KEY_EMAIL, etEmail.getContent());
+
+        AloneFragmentActivity.with(this)
+                .parameters(bundle)
+                .start(ForgotPasswordSuccessFragment.class);
         getActivity().finish();
     }
 }
