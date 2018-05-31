@@ -31,7 +31,7 @@
     <dimen name="home_size_football_margin_action">30dp</dimen>
     <dimen name="home_player_list_height">180dp</dimen>
 
-    <!--leagues-->
+    <!--leagueResponses-->
     <dimen name="leagues_margin_action_button">20dp</dimen>
     <dimen name="leagues_margin">20dp</dimen>
     <dimen name="leagues_margin_number">45dp</dimen>

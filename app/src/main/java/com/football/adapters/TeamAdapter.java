@@ -1,20 +1,16 @@
 package com.football.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bon.customview.listview.ExtBaseAdapter;
+import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
-import com.football.common.adapters.BaseRecyclerViewAdapter;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
-import com.football.models.responses.Team;
+import com.football.models.responses.TeamResponse;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;
@@ -23,39 +19,40 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import java8.util.function.Consumer;
 
-public class TeamAdapter extends BaseRecyclerViewAdapter<Team, TeamAdapter.ViewHolder> {
-    Consumer<Team> detailConsumer;
-    Consumer<Team> teamConsumer;
+public class TeamAdapter extends ExtBaseAdapter<TeamResponse, TeamAdapter.ViewHolder> {
+    Consumer<TeamResponse> detailConsumer;
+    Consumer<TeamResponse> teamConsumer;
 
-    public TeamAdapter(Context context, List<Team> teams, Consumer<Team> detailConsumer, Consumer<Team> teamConsumer) {
-        super(context, teams);
+    public TeamAdapter(Context context, List<TeamResponse> teamResponses, Consumer<TeamResponse> detailConsumer, Consumer<TeamResponse> teamConsumer) {
+        super(context, teamResponses);
         this.detailConsumer = detailConsumer;
         this.teamConsumer = teamConsumer;
     }
 
-    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.team_item, parent, false));
+    protected int getViewId() {
+        return R.layout.team_item;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Team team = getItem(position);
-        assert team != null;
+    protected ViewHolder onCreateViewHolder(View view) {
+        return new ViewHolder(view);
+    }
 
-        holder.ivAvatar.setImageUri(team.getAvatar());
-        holder.tvTeam.setText(team.getTeamName());
-        holder.tvDescription.setText(team.getDescription());
-        holder.tvRemove.setVisibility(team.getIsLock() ? View.GONE : View.VISIBLE);
-        holder.ivLock.setVisibility(team.getIsLock() ? View.VISIBLE : View.GONE);
+    @Override
+    protected void onBindViewHolder(ViewHolder holder, TeamResponse teamResponse) {
+        holder.ivAvatar.setImageUri(teamResponse.getLogo());
+        holder.tvTeam.setText(teamResponse.getName());
+        holder.tvDescription.setText(teamResponse.getDescription());
+        holder.tvRemove.setVisibility(teamResponse.getOwner() ? View.VISIBLE : View.GONE);
+        holder.ivLock.setVisibility(teamResponse.getOwner() ? View.VISIBLE : View.GONE);
 
         // click
-        RxView.clicks(holder.itemView).subscribe(o -> Optional.from(detailConsumer).doIfPresent(t -> t.accept(team)));
-        RxView.clicks(holder.tvRemove).subscribe(o -> Optional.from(teamConsumer).doIfPresent(t -> t.accept(team)));
+        RxView.clicks(holder.itemView).subscribe(o -> Optional.from(detailConsumer).doIfPresent(t -> t.accept(teamResponse)));
+        RxView.clicks(holder.tvRemove).subscribe(o -> Optional.from(teamConsumer).doIfPresent(t -> t.accept(teamResponse)));
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends ExtPagingListView.ExtViewHolder {
         @BindView(R.id.ivAvatar)
         CircleImageViewApp ivAvatar;
         @BindView(R.id.tvTeam)

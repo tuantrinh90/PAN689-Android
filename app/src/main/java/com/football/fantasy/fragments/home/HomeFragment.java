@@ -13,14 +13,14 @@ import android.widget.LinearLayout;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.util.ViewUtils;
-import com.football.adapters.MyLeagueAdapter;
-import com.football.adapters.NewsAdapter;
+import com.football.adapters.MyLeagueRecyclerAdapter;
+import com.football.adapters.NewsRecyclerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
 import com.football.fantasy.activities.MainActivity;
 import com.football.fantasy.fragments.leagues.action.ActionLeagueFragment;
-import com.football.models.responses.League;
+import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.News;
 
 import java.util.ArrayList;
@@ -53,11 +53,11 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     @BindView(R.id.rvNews)
     RecyclerView rvNews;
 
-    NewsAdapter newsAdapter;
+    NewsRecyclerAdapter newsRecyclerAdapter;
     List<News> news;
 
-    MyLeagueAdapter myLeagueAdapter;
-    List<League> leagues;
+    MyLeagueRecyclerAdapter myLeagueRecyclerAdapter;
+    List<LeagueResponse> leagueResponses;
 
     @Override
     public int getResourceId() {
@@ -86,26 +86,16 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
             add(new News("17", "May", getString(R.string.forgot_description_success)));
         }};
 
-        newsAdapter = new NewsAdapter(mActivity, news, item -> {
+        newsRecyclerAdapter = new NewsRecyclerAdapter(mActivity, news, item -> {
         });
         rvNews.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
-        rvNews.setAdapter(newsAdapter);
+        rvNews.setAdapter(newsRecyclerAdapter);
 
-        // leagues
-        leagues = new ArrayList<League>() {{
-            add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 1, 1));
-            add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 1, 1));
-            add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 1, 1));
-            add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 1, 1));
-            add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 1, 1));
-            add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 1, 1));
-            add(new League("https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", "Lorem ipsum dolor", "Join Hard", "Invitor", 2, 8, "1 hour to Draft Time", 1, 1));
-        }};
-        myLeagueAdapter = new MyLeagueAdapter(mActivity, leagues, league -> {
-
+        // leagueResponses
+        myLeagueRecyclerAdapter = new MyLeagueRecyclerAdapter(mActivity, leagueResponses, league -> {
         });
         rvMyLeagues.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-        rvMyLeagues.setAdapter(myLeagueAdapter);
+        rvMyLeagues.setAdapter(myLeagueRecyclerAdapter);
 
         // center view
         SnapHelper gravitySnapHelper = new LinearSnapHelper();

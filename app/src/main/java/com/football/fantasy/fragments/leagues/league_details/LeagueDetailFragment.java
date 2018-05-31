@@ -28,7 +28,7 @@ import com.football.fantasy.fragments.leagues.league_details.invite_friends.Invi
 import com.football.fantasy.fragments.leagues.league_details.league_info.LeagueInfoFragment;
 import com.football.fantasy.fragments.leagues.league_details.successor.SuccessorFragment;
 import com.football.fantasy.fragments.leagues.league_details.teams.TeamFragment;
-import com.football.models.responses.League;
+import com.football.models.responses.LeagueResponse;
 
 import java.util.ArrayList;
 
@@ -49,7 +49,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
     ViewPager vpViewPager;
 
     String title;
-    League league;
+    LeagueResponse leagueResponse;
     LeagueDetailViewPagerAdapter leagueDetailViewPagerAdapter;
 
     @Override
@@ -68,11 +68,11 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
     void getDataFromBundle() {
         Bundle bundle = mActivity.getIntent().getBundleExtra(Keys.ARGS);
         title = bundle.getString(KEY_TITLE, "");
-        league = (League) bundle.getSerializable(KEY_LEAGUE);
+        leagueResponse = (LeagueResponse) bundle.getSerializable(KEY_LEAGUE);
     }
 
     void initView() {
-        Optional.from(league).doIfPresent(l -> tvTitle.setText(league.getTitle()));
+        Optional.from(leagueResponse).doIfPresent(l -> tvTitle.setText(leagueResponse.getName()));
 
         cvCarouselView.setTextAllCaps(false)
                 .setFontPath(getString(R.string.font_display_heavy_italic))

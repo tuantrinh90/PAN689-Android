@@ -69,10 +69,10 @@
             android:textColor="@color/color_gray" />
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <com.bon.customview.listview.ExtPagingListView
         android:id="@+id/rvRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/padding_layout"
-        android:layout_weight="1"></android.support.v7.widget.RecyclerView>
+        android:layout_weight="1"></com.bon.customview.listview.ExtPagingListView>
 </LinearLayout>
