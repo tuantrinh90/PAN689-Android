@@ -103,7 +103,7 @@
     <string name="choose_a_successor_description">You need to select your successor before you leave this leagueResponse.</string>
     <string name="stop_league_message">This leagueResponse will be removed from the list of Open Leagues if you decide to stop it. Are you sure to do that?</string>
     <string name="email_input">Enter email address</string>
-    <string name="no_data"></string>
+    <string name="no_data">No data</string>
     <string name="leagues">Leagues</string>
     <string name="second">s</string>
     <string name="minute">m</string>

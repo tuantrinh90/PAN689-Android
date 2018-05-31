@@ -91,13 +91,7 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
 
     @Override
     public void displayTeams(List<TeamResponse> teams) {
-        teamAdapter.notifyDataSetChanged(teams);
-        if (teamAdapter.getCount() == 0) {
-            rvRecyclerView.setMessage("No data");
-            rvRecyclerView.displayMessage();
-        } else {
-            rvRecyclerView.setMessage("");
-        }
+        teamAdapter.addNewItems(teams);
     }
 
     @Override
