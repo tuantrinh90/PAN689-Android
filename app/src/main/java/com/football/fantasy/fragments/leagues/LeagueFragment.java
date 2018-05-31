@@ -95,7 +95,7 @@ public class LeagueFragment extends BaseMainMvpFragment<ILeagueView, ILeaguePres
 
         Bundle bundle = new Bundle();
         bundle.putString(LeagueDetailFragment.KEY_TITLE, getString(R.string.open_leagues));
-        bundle.putInt(LeagueDetailFragment.KEY_LEAGUE_ID, 3); // todo: test id: 3
+        bundle.putInt(LeagueDetailFragment.KEY_LEAGUE_ID, 2); // todo: test id: 2
         AloneFragmentActivity.with(this)
                 .parameters(bundle)
                 .start(LeagueDetailFragment.class);
