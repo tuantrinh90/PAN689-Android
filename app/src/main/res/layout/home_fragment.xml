@@ -140,6 +140,7 @@
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/bg_null_gray_selector"
                 android:padding="0dp"
+                android:visibility="gone"
                 android:text="@string/my_leagues"
                 app:textViewFontAssetName="@string/font_display_black_italic" />
 
@@ -148,6 +149,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/padding_layout"
+                android:visibility="gone"
                 android:layout_marginTop="@dimen/padding_layout"
                 android:nestedScrollingEnabled="false"
                 tools:targetApi="lollipop" />
@@ -157,15 +159,17 @@
                 style="@style/StyleTitleWhite"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/padding_layout"
+                android:visibility="gone"
                 android:background="@drawable/bg_null_gray_selector"
                 android:padding="0dp"
-                android:text="@string/news"
+                android:text="@string/newsResponses"
                 app:textViewFontAssetName="@string/font_display_black_italic" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvNews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginBottom="@dimen/padding_layout"
                 android:layout_marginTop="@dimen/padding_layout"
                 android:nestedScrollingEnabled="false"

@@ -8,9 +8,9 @@ import com.football.models.PagingResponse;
 import com.football.models.responses.LeagueResponse;
 import com.football.utilities.RxUtilities;
 
-public class PendingInvitationDataPresenter extends BaseDataPresenter<IPendingInvitationView> implements IPendingInvitationPresenter<IPendingInvitationView> {
-    int page = 1;
+import okhttp3.MultipartBody;
 
+public class PendingInvitationDataPresenter extends BaseDataPresenter<IPendingInvitationView> implements IPendingInvitationPresenter<IPendingInvitationView> {
     /**
      * @param appComponent
      */
@@ -35,6 +35,26 @@ public class PendingInvitationDataPresenter extends BaseDataPresenter<IPendingIn
                 @Override
                 public void onSuccess(PagingResponse<LeagueResponse> pagingResponse) {
                     v.notifyDataSetChanged(pagingResponse.getData());
+                }
+
+                @Override
+                public void onError(String error) {
+                    v.showMessage(error, R.string.ok, null);
+                }
+            }));
+        });
+    }
+
+    @Override
+    public void invitationDecisions(LeagueResponse leagueResponse, int status) {
+        getOptView().doIfPresent(v -> {
+            mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().invitationDecision(leagueResponse.getInvitation().getId(),
+                    new MultipartBody.Builder()
+                            .setType(MultipartBody.FORM)
+                            .addFormDataPart("status", String.valueOf(status)).build()), new ApiCallback<Object>() {
+                @Override
+                public void onSuccess(Object o) {
+                    v.showMessage(R.string.update_success, R.string.ok, aVoid -> v.removeItem(leagueResponse));
                 }
 
                 @Override

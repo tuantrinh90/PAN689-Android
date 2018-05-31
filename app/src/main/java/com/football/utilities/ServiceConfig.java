@@ -20,12 +20,14 @@ public interface ServiceConfig {
     String PROVIDER_GOOGLE = "google";
     String PROVIDER_TWITTER = "twitter";
 
-    String LOGIN ="login";
-    String LOGIN_SOCIAL ="auth/social";
-    String REGISTER ="auth/store";
-    String LOGOUT ="users/logout";
-    String FORGOT_PASSWORD ="auth/recover-password";
-    String MY_LEAGUES ="leagues/index";
-    String PENDING_INVITATIONS="invitations/pending_list";
+    String LOGIN = "login";
+    String LOGIN_SOCIAL = "auth/social";
+    String REGISTER = "auth/store";
+    String LOGOUT = "users/logout";
+    String FORGOT_PASSWORD = "auth/recover-password";
+    String MY_LEAGUES = "leagues/index";
+    String PENDING_INVITATIONS = "invitations/pending_list";
     String INVITE_FRIEND ="invitations/search_friends";
+    String INVITATION_DECISION ="invitations/decision/{id}";
+    String HOME_NEWS = "posts";
 }

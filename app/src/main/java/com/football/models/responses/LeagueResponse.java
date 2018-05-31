@@ -1,8 +1,15 @@
 package com.football.models.responses;
 
+import android.content.Context;
+
+import com.bon.util.DateTimeUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.football.fantasy.R;
+import com.football.utilities.Constant;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 public class LeagueResponse implements Serializable {
     public static final int TYPE_INCREASE = 1;
@@ -53,7 +60,7 @@ public class LeagueResponse implements Serializable {
     @JsonProperty("budget_value")
     private Integer budgetValue;
     @JsonProperty("budget_option")
-    private String budgetOption;
+    private BudgetResponse budgetOption;
     @JsonProperty("team_setup")
     private String teamSetup;
     @JsonProperty("trade_review")
@@ -252,11 +259,11 @@ public class LeagueResponse implements Serializable {
         this.budgetValue = budgetValue;
     }
 
-    public String getBudgetOption() {
+    public BudgetResponse getBudgetOption() {
         return budgetOption;
     }
 
-    public void setBudgetOption(String budgetOption) {
+    public void setBudgetOption(BudgetResponse budgetOption) {
         this.budgetOption = budgetOption;
     }
 
@@ -266,6 +273,59 @@ public class LeagueResponse implements Serializable {
 
     public void setTeamSetup(String teamSetup) {
         this.teamSetup = teamSetup;
+    }
+
+    @JsonIgnore
+    public Calendar getTeamSetUpCalendar() {
+        return DateTimeUtils.convertStringToCalendar(teamSetup, Constant.FORMAT_DATE_TIME_SERVER);
+    }
+
+    @JsonIgnore
+    public String getDescriptionText(Context context) {
+        Calendar calendarCurrent = Calendar.getInstance();
+        long time = 0l;
+
+        if (gameplayOption.equalsIgnoreCase(Constant.KEY_TRANSFER)) {
+            Calendar calendarTimeSetUp = getTeamSetUpCalendar();
+            if (calendarTimeSetUp != null) {
+                time = calendarTimeSetUp.getTimeInMillis() - calendarCurrent.getTimeInMillis();
+            }
+        } else {
+            Calendar calendarDraftTime = getDraftTimeCalendar();
+            if (calendarDraftTime != null) {
+                time = calendarDraftTime.getTimeInMillis() - calendarCurrent.getTimeInMillis();
+            }
+        }
+
+        if (time > 0) {
+            String des;
+            String result;
+
+            if (gameplayOption.equalsIgnoreCase(Constant.KEY_TRANSFER)) {
+                des = context.getString(R.string.util_team_setup_time);
+            } else {
+                des = context.getString(R.string.util_team_draft_time);
+            }
+
+            long division = time / 1000;
+            result = division + " " + context.getString(R.string.second) + " " + des;
+
+            if (division > 60) {
+                result = division / 60 + " " + context.getString(R.string.minute) + " " + des;
+            }
+
+            if (division > 60 * 60) {
+                result = division / 60 / 60 + " " + context.getString(R.string.hour) + " " + des;
+            }
+
+            if (division > 60 * 60 * 24) {
+                result = division / 60 / 60 / 24 + " " + context.getString(R.string.day) + " " + des;
+            }
+
+            return result;
+        } else {
+            return "";
+        }
     }
 
     public String getTradeReview() {
@@ -290,6 +350,11 @@ public class LeagueResponse implements Serializable {
 
     public void setDraftTime(String draftTime) {
         this.draftTime = draftTime;
+    }
+
+    @JsonIgnore
+    public Calendar getDraftTimeCalendar() {
+        return DateTimeUtils.convertStringToCalendar(draftTime, Constant.FORMAT_DATE_TIME_SERVER);
     }
 
     public Integer getTimeToPick() {

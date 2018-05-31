@@ -11,7 +11,7 @@ import com.bon.interfaces.Optional;
 import com.bon.util.GeneralUtils;
 import com.football.common.adapters.BaseRecyclerViewAdapter;
 import com.football.fantasy.R;
-import com.football.models.responses.News;
+import com.football.models.responses.NewsResponse;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;
@@ -20,11 +20,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import java8.util.function.Consumer;
 
-public class NewsRecyclerAdapter extends BaseRecyclerViewAdapter<News, NewsRecyclerAdapter.ViewHolder> {
-    Consumer<News> newsConsumer;
+public class NewsAdapter extends BaseRecyclerViewAdapter<NewsResponse, NewsAdapter.ViewHolder> {
+    Consumer<NewsResponse> newsConsumer;
 
-    public NewsRecyclerAdapter(Context context, List<News> news, Consumer<News> newsConsumer) {
-        super(context, news);
+    public NewsAdapter(Context context, List<NewsResponse> newsResponses, Consumer<NewsResponse> newsConsumer) {
+        super(context, newsResponses);
         this.newsConsumer = newsConsumer;
     }
 
@@ -36,12 +36,12 @@ public class NewsRecyclerAdapter extends BaseRecyclerViewAdapter<News, NewsRecyc
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        News item = getItem(position);
+        NewsResponse item = getItem(position);
         assert item != null;
 
         holder.tvDay.setText(item.getDay());
         holder.tvMonth.setText(item.getMonth());
-        holder.tvContent.setText(item.getContent());
+        holder.tvContent.setText(item.getTitle());
         RxView.clicks(holder.itemView).subscribe(v -> Optional.from(newsConsumer).doIfPresent(c -> c.accept(item)));
 
         // update layout

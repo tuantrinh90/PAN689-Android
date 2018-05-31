@@ -10,5 +10,5 @@ import com.football.common.views.IBaseMvpView;
 public interface ISignInDataPresenter<V extends IBaseMvpView> extends IBaseDataPresenter<V> {
     void onSignIn();
 
-    void onSignIn(String provider, String accessToken);
+    void onSignIn(String provider, String accessToken, String secret);
 }

@@ -164,6 +164,7 @@
                     android:id="@+id/tvDescription"
                     style="@style/StyleDescriptionWhite"
                     android:layout_width="wrap_content"
+                    android:textSize="@dimen/font_footer"
                     android:layout_height="wrap_content"
                     app:textViewFontAssetName="@string/font_display_regular"
                     tools:text="1 hour to Draft Time" />

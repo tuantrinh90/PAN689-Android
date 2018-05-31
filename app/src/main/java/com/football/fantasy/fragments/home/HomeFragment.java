@@ -11,19 +11,19 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 
+import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.util.ViewUtils;
 import com.football.adapters.MyLeagueRecyclerAdapter;
-import com.football.adapters.NewsRecyclerAdapter;
+import com.football.adapters.NewsAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
 import com.football.fantasy.activities.MainActivity;
 import com.football.fantasy.fragments.leagues.action.ActionLeagueFragment;
 import com.football.models.responses.LeagueResponse;
-import com.football.models.responses.News;
+import com.football.models.responses.NewsResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -53,8 +53,8 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     @BindView(R.id.rvNews)
     RecyclerView rvNews;
 
-    NewsRecyclerAdapter newsRecyclerAdapter;
-    List<News> news;
+    NewsAdapter newsAdapter;
+    List<NewsResponse> newsResponses;
 
     MyLeagueRecyclerAdapter myLeagueRecyclerAdapter;
     List<LeagueResponse> leagueResponses;
@@ -78,18 +78,11 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     }
 
     void initRecyclerView() {
-        // news
-        news = new ArrayList<News>() {{
-            add(new News("20", "May", getString(R.string.forgot_description_success)));
-            add(new News("19", "May", getString(R.string.forgot_description_success)));
-            add(new News("18", "May", getString(R.string.forgot_description_success)));
-            add(new News("17", "May", getString(R.string.forgot_description_success)));
-        }};
+        newsAdapter = new NewsAdapter(mActivity, newsResponses, item -> {
 
-        newsRecyclerAdapter = new NewsRecyclerAdapter(mActivity, news, item -> {
         });
         rvNews.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
-        rvNews.setAdapter(newsRecyclerAdapter);
+        rvNews.setAdapter(newsAdapter);
 
         // leagueResponses
         myLeagueRecyclerAdapter = new MyLeagueRecyclerAdapter(mActivity, leagueResponses, league -> {
@@ -100,6 +93,9 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
         // center view
         SnapHelper gravitySnapHelper = new LinearSnapHelper();
         gravitySnapHelper.attachToRecyclerView(rvMyLeagues);
+
+        // load news
+        presenter.getNews(1, ExtPagingListView.NUMBER_PER_PAGE);
     }
 
     @NonNull
@@ -124,6 +120,7 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
 
     @OnClick(R.id.tvMyLeagues)
     void onClickMyLeagues() {
+        mMainActivity.onClickFooter(MainActivity.LEAGUES);
     }
 
     @OnClick(R.id.tvNews)
@@ -134,5 +131,19 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     public void onGlobalLayout() {
         ViewUtils.autoLayoutScale(llPlayerList, 2.26f);
         ViewUtils.detachViewTreeObserver(llPlayerList, this);
+    }
+
+    @Override
+    public void notifyDataSetChangedNews(List<NewsResponse> its) {
+        rvNews.setVisibility(its != null && its.size() > 0 ? View.VISIBLE : View.GONE);
+        newsAdapter.notifyDataSetChanged(its);
+        tvNews.setVisibility(its != null && its.size() > 0 ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void notifyDataSetChangedLeagues(List<LeagueResponse> its) {
+        rvMyLeagues.setVisibility(its != null && its.size() > 0 ? View.VISIBLE : View.GONE);
+        myLeagueRecyclerAdapter.notifyDataSetChanged(its);
+        tvMyLeagues.setVisibility(its != null && its.size() > 0 ? View.VISIBLE : View.GONE);
     }
 }

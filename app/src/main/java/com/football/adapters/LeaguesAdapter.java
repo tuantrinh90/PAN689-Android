@@ -14,6 +14,7 @@ import com.bon.interfaces.Optional;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
 import com.football.models.responses.LeagueResponse;
+import com.football.models.responses.UserResponse;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;
@@ -36,6 +37,7 @@ public class LeaguesAdapter extends ExtBaseAdapter<LeagueResponse, LeaguesAdapte
                           Consumer<LeagueResponse> rejectConsumer,
                           Consumer<LeagueResponse> joinConsumer) {
         super(context, leagueResponses);
+        this.leagueType = leagueType;
         this.detailConsumer = detailConsumer;
         this.approveConsumer = approveConsumer;
         this.rejectConsumer = rejectConsumer;
@@ -57,10 +59,9 @@ public class LeaguesAdapter extends ExtBaseAdapter<LeagueResponse, LeaguesAdapte
         holder.ivAvatar.setImageUri(leagueResponse.getLogo());
         holder.tvTitle.setText(leagueResponse.getName());
         holder.tvOwner.setText(leagueResponse.getUser().getName());
-        holder.tvInvitor.setText("Chua Ro lOgic");
         holder.tvEntrantNumber.setText(String.valueOf(leagueResponse.getCurrentNumberOfUser()));
         holder.tvEntrantTotal.setText(String.valueOf(leagueResponse.getNumberOfUser()));
-        holder.tvDescription.setText(leagueResponse.getDescription());
+        holder.tvDescription.setText(leagueResponse.getDescriptionText(context));
 
         if (leagueType == MY_LEAGUES) {
             //        holder.ivUpOrDown.setBackgroundResource(leagueResponse.getType() == LeagueResponse.TYPE_INCREASE ? R.drawable.bg_green_arrow_up_circle :
@@ -70,6 +71,11 @@ public class LeaguesAdapter extends ExtBaseAdapter<LeagueResponse, LeaguesAdapte
             //
             //        holder.ivNumber.setImageResource(leagueResponse.getRate() == 1 ? R.drawable.ic_number_one :
             //                (leagueResponse.getRate() == 2 ? R.drawable.ic_number_two : R.drawable.ic_number_three));
+        }
+
+        if (leagueType == PENDING_INVITATIONS) {
+            UserResponse sender = leagueResponse.getInvitation() != null ? leagueResponse.getInvitation().getSender() : null;
+            holder.tvInvitor.setText(sender != null ? sender.getName() : "");
         }
 
         // show/hide action
