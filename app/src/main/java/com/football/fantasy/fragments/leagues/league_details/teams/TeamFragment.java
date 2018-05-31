@@ -68,7 +68,7 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
         }, removeTeamResponse -> {
             DialogUtils.confirmBox(mActivity, getString(R.string.app_name), String.format(getString(R.string.remove_team_message), removeTeamResponse.getName()),
                     getString(R.string.yes), getString(R.string.no), (dialogInterface, i) -> {
-
+                        showMessage("Chưa làm");
                     });
         });
 
