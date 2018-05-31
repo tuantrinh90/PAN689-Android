@@ -23,10 +23,10 @@ import butterknife.ButterKnife;
 import java8.util.function.Consumer;
 
 public class LeaguesAdapter extends ExtBaseAdapter<LeagueResponse, LeaguesAdapter.ViewHolder> {
-    Consumer<LeagueResponse> detailConsumer;
-    Consumer<LeagueResponse> approveConsumer;
-    Consumer<LeagueResponse> rejectConsumer;
-    Consumer<LeagueResponse> joinConsumer;
+    private Consumer<LeagueResponse> detailConsumer;
+    private Consumer<LeagueResponse> approveConsumer;
+    private Consumer<LeagueResponse> rejectConsumer;
+    private Consumer<LeagueResponse> joinConsumer;
 
     public LeaguesAdapter(Context context, List<LeagueResponse> leagueResponses, Consumer<LeagueResponse> detailConsumer,
                           Consumer<LeagueResponse> approveConsumer,
