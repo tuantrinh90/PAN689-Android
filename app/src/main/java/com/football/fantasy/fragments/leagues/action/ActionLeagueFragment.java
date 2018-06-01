@@ -275,6 +275,28 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
 
     @OnClick(R.id.tvCreateLeague)
     void onClickCreateLeague() {
+
+
+    }
+
+    private boolean isValid() {
+        // league name
+        if (!etLeagueName.isEmpty(mActivity)) {
+            String name = etLeagueName.getContent();
+            if (name.length() > Constant.MAX_LENGTH_LEAGUE_NAME) {
+                etLeagueName.setError(getString(R.string.error_creditcard_number_not_valid));
+                return false;
+            }
+        }
+
+        // description
+        if (etDescription.isEmpty(mActivity)) {
+            return false;
+        }
+
+
+
+        return true;
     }
 
     @Override

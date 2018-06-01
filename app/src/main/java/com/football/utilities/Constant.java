@@ -15,4 +15,6 @@ public interface Constant {
     String KEY_DRAFT = "draft";
     int KEY_INVITATION_DECLINE = -1;
     int KEY_INVITATION_ACCEPT = 1;
+
+    int MAX_LENGTH_LEAGUE_NAME = 40;
 }
