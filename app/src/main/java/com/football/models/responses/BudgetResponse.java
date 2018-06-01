@@ -12,7 +12,7 @@ public class BudgetResponse implements Serializable {
     @JsonProperty("name")
     private String name;
     @JsonProperty("value")
-    private long value;
+    private Float value;
 
     public Integer getId() {
         return id;
@@ -30,16 +30,16 @@ public class BudgetResponse implements Serializable {
         this.name = name;
     }
 
-    public long getValue() {
+    public Float getValue() {
         return value;
     }
 
-    public void setValue(long value) {
+    public void setValue(Float value) {
         this.value = value;
     }
 
     @JsonIgnore
-    public long getValueDisplay() {
+    public Float getValueDisplay() {
         return value / Constant.KEY_MIO;
     }
 
