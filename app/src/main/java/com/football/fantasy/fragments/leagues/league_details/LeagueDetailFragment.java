@@ -59,7 +59,6 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
     int leagueId;
     private LeagueResponse league;
     LeagueDetailViewPagerAdapter leagueDetailViewPagerAdapter;
-    LeagueResponse leagueResponse;
     List<ExtKeyValuePair> valuePairs = new ArrayList<>();
 
     @Override
@@ -135,7 +134,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
 
                     // leave
                     if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.leave))) {
-                        if (leagueResponse.getOwner()) {
+                        if (league.getOwner()) {
                             Bundle bundle = new Bundle();
                             bundle.putInt(LeagueDetailFragment.KEY_LEAGUE_ID, leagueId);
                             AloneFragmentActivity.with(LeagueDetailFragment.this)
@@ -158,28 +157,27 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
     @Override
     public void displayLeague(LeagueResponse league) {
         // update league
-        leagueResponse = league;
+        this.league = league;
 
         // menu
         // owner
-        if (leagueResponse.getOwner()) {
+        if (league.getOwner()) {
             valuePairs.add(new ExtKeyValuePair("", getString(R.string.edit), ContextCompat.getColor(mActivity, R.color.color_blue)));
         }
 
         // my leagues or owner
-        if (getArguments().getString(KEY_LEAGUE_TYPE, "").equalsIgnoreCase(MY_LEAGUES) || leagueResponse.getOwner()) {
+        if (getArguments().getString(KEY_LEAGUE_TYPE, "").equalsIgnoreCase(MY_LEAGUES) || league.getOwner()) {
             valuePairs.add(new ExtKeyValuePair("", getString(R.string.leave), ContextCompat.getColor(mActivity, R.color.color_blue)));
         }
 
         // only owner league has stop leagues
-        if (leagueResponse.getOwner()) {
+        if (league.getOwner()) {
             valuePairs.add(new ExtKeyValuePair("", getString(R.string.stop_league), ContextCompat.getColor(mActivity, R.color.color_red)));
         }
         ivMenu.setVisibility(valuePairs.size() > 0 ? View.VISIBLE : View.GONE);
 
         // load info
         Optional.from(tvTitle).doIfPresent(t -> t.setText(league.getName()));
-        this.league = league;
         leagueDetailViewPagerAdapter = new LeagueDetailViewPagerAdapter(getFragmentManager(),
                 new ArrayList<BaseMvpFragment>() {{
                     add(LeagueInfoFragment.newInstance(league).setChildFragment(true));
