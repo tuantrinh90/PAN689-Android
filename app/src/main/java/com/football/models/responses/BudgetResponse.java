@@ -4,13 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.football.utilities.Constant;
 
-public class BudgetResponse {
+import java.io.Serializable;
+
+public class BudgetResponse implements Serializable {
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("name")
     private String name;
     @JsonProperty("value")
-    private Integer value;
+    private long value;
 
     public Integer getId() {
         return id;
@@ -28,17 +30,17 @@ public class BudgetResponse {
         this.name = name;
     }
 
-    public Integer getValue() {
+    public long getValue() {
         return value;
     }
 
-    public void setValue(Integer value) {
+    public void setValue(long value) {
         this.value = value;
     }
 
     @JsonIgnore
-    public Float getValueDisplay() {
-        return value != null ? value / Constant.KEY_MIO : 0f;
+    public long getValueDisplay() {
+        return value / Constant.KEY_MIO;
     }
 
     @Override

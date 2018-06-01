@@ -17,6 +17,7 @@
         android:paddingRight="@dimen/padding_layout">
 
         <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvHeader"
             style="@style/StyleTitle"
             android:text="@string/create_new_league"
             android:textAllCaps="true"
@@ -203,6 +204,7 @@
                 android:padding="@dimen/padding_layout">
 
                 <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvBudgetOption1"
                     style="@style/StyleContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -216,7 +218,7 @@
                     app:textViewFontAssetName="@string/font_display_bold" />
 
                 <com.bon.customview.textview.ExtTextView
-                    android:id="@+id/tvBudgetOptionBottom"
+                    android:id="@+id/tvBudgetOption1Value"
                     style="@style/StyleDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -243,6 +245,7 @@
                 android:padding="@dimen/padding_layout">
 
                 <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvBudgetOption2"
                     style="@style/StyleContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -256,7 +259,7 @@
                     app:textViewFontAssetName="@string/font_display_bold" />
 
                 <com.bon.customview.textview.ExtTextView
-                    android:id="@+id/tvBudgetOptionChallenge"
+                    android:id="@+id/tvBudgetOption2Value"
                     style="@style/StyleDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -283,6 +286,7 @@
                 android:padding="@dimen/padding_layout">
 
                 <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvBudgetOption3"
                     style="@style/StyleContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -296,7 +300,7 @@
                     app:textViewFontAssetName="@string/font_display_bold" />
 
                 <com.bon.customview.textview.ExtTextView
-                    android:id="@+id/tvBudgetOptionDream"
+                    android:id="@+id/tvBudgetOption3Value"
                     style="@style/StyleDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

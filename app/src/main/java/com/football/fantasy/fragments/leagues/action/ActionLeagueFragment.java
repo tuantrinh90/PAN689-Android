@@ -31,6 +31,7 @@ import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.labels.LabelView;
 import com.football.fantasy.R;
 import com.football.models.requests.LeagueRequest;
+import com.football.models.responses.BudgetResponse;
 import com.football.models.responses.LeagueResponse;
 import com.football.utilities.AppUtilities;
 import com.football.utilities.Constant;
@@ -38,6 +39,7 @@ import com.football.utilities.Constant;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -75,16 +77,23 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
     LabelView lvBudgetOption;
     @BindView(R.id.llBudgetOptionBottom)
     LinearLayout llBudgetOptionBottom;
-    @BindView(R.id.tvBudgetOptionBottom)
-    ExtTextView tvBudgetOptionBottom;
     @BindView(R.id.llBudgetOptionChallenge)
     LinearLayout llBudgetOptionChallenge;
-    @BindView(R.id.tvBudgetOptionChallenge)
-    ExtTextView tvBudgetOptionChallenge;
     @BindView(R.id.llBudgetOptionDream)
     LinearLayout llBudgetOptionDream;
-    @BindView(R.id.tvBudgetOptionDream)
-    ExtTextView tvBudgetOptionDream;
+    @BindView(R.id.tvBudgetOption1)
+    ExtTextView tvBudgetOption1;
+    @BindView(R.id.tvBudgetOption1Value)
+    ExtTextView tvBudgetOption1Value;
+    @BindView(R.id.tvBudgetOption2)
+    ExtTextView tvBudgetOption2;
+    @BindView(R.id.tvBudgetOption2Value)
+    ExtTextView tvBudgetOption2Value;
+    @BindView(R.id.tvBudgetOption3)
+    ExtTextView tvBudgetOption3;
+    @BindView(R.id.tvBudgetOption3Value)
+    ExtTextView tvBudgetOption3Value;
+
 
     @BindView(R.id.lvTradeReviewSetting)
     LabelView lvTradeReviewSetting;
@@ -106,12 +115,17 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
     EditTextApp etDescription;
     @BindView(R.id.tvCreateLeague)
     ExtTextView tvCreateLeague;
+    @BindView(R.id.tvHeader)
+    ExtTextView tvHeader;
 
     File filePath;
     Calendar calendarDraftTime = Calendar.getInstance();
     Calendar calendarStartTime = Calendar.getInstance();
     Calendar calendarTeamSetupTime = Calendar.getInstance();
     ExtKeyValuePair keyValuePairNumberOfUser = new ExtKeyValuePair("06", "06");
+
+    private int leagueId;
+    private List<BudgetResponse> budgets;
 
     @Override
     public int getResourceId() {
@@ -122,6 +136,8 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
+        presenter.getBudgets(leagueId);
+
         initView();
         displayData();
     }
@@ -130,6 +146,8 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
         LeagueResponse league = (LeagueResponse) (getArguments() != null ? getArguments().getSerializable(KEY_LEAGUE) : null);
         // display data to views
         if (league != null) {
+            leagueId = league.getId();
+
             etLeagueName.setContent(league.getName());
             ImageLoaderUtils.displayImage(league.getLogo(), ivImagePick);
             rbOpenLeague.setChecked(league.getLeagueType().equals(LeagueRequest.LEAGUE_TYPE_OPEN));
@@ -166,6 +184,11 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
         onClickBudgetOptionBottom();
         formatDateTime();
         setData();
+
+        if (!isCreateMode()) {
+            tvCreateLeague.setText(R.string.update_league);
+            tvHeader.setText(R.string.update_league);
+        }
     }
 
     @NonNull
@@ -198,6 +221,10 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
 
     private boolean isTransfer() {
         return llTransfer.isActivated();
+    }
+
+    private boolean isCreateMode() {
+        return getArguments() == null || !getArguments().containsKey(KEY_LEAGUE);
     }
 
     @OnClick(R.id.ivImagePick)
@@ -347,9 +374,12 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
     void onClickCreateLeague() {
         LeagueRequest leagueRequest = new LeagueRequest();
         if (isValid(leagueRequest)) {
-            presenter.createLeague(leagueRequest);
+            if (isCreateMode()) {
+                presenter.createLeague(leagueRequest);
+            } else {
+                presenter.updateLeague(leagueId, leagueRequest);
+            }
         }
-
     }
 
     private boolean isValid(LeagueRequest leagueRequest) {
@@ -399,7 +429,15 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
         leagueRequest.gameplay_option = llTransfer.isActivated() ? LeagueRequest.GAMEPLAY_OPTION_TRANSFER : LeagueRequest.GAMEPLAY_OPTION_DRAFT;
 
         // budget_id
-        leagueRequest.budget_id = llBudgetOptionBottom.isActivated() ? 0 : (llBudgetOptionChallenge.isActivated() ? 1 : (llBudgetOptionDream.isActivated() ? 2 : 0));
+        try {
+            leagueRequest.budget_id = llBudgetOptionBottom.isActivated() ? budgets.get(0).getId() :
+                    (llBudgetOptionChallenge.isActivated() ? budgets.get(1).getId()
+                            : (llBudgetOptionDream.isActivated() ? budgets.get(2).getId() : budgets.get(0).getId()));
+
+        } catch (Exception e) {
+            // default
+            leagueRequest.budget_id = llBudgetOptionBottom.isActivated() ? 1 : (llBudgetOptionChallenge.isActivated() ? 2 : (llBudgetOptionDream.isActivated() ? 3 : 1));
+        }
 
         // team_setup
         if (etTeamSetupTime.isEmpty(mActivity)) {
@@ -411,9 +449,33 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
     }
 
     @Override
+    public void displayBudgets(List<BudgetResponse> budgets) {
+        this.budgets = budgets;
+
+        try {
+            tvBudgetOption1.setText(budgets.get(0).getName());
+            tvBudgetOption2.setText(budgets.get(1).getName());
+            tvBudgetOption3.setText(budgets.get(2).getName());
+
+            tvBudgetOption1Value.setText(getString(R.string.money_prefix, budgets.get(0).getValueDisplay() + ""));
+            tvBudgetOption2Value.setText(getString(R.string.money_prefix, budgets.get(1).getValueDisplay() + ""));
+            tvBudgetOption3Value.setText(getString(R.string.money_prefix, budgets.get(2).getValueDisplay() + ""));
+
+        } catch (Exception e) {
+
+        }
+
+    }
+
+    @Override
     public void openCreateTeam() {
 //        AloneFragmentActivity.with(this).start(.class);
         Toast.makeText(mActivity, "Tạo thành công rồi nhé", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void updateSuccess() {
+        Toast.makeText(mActivity, "Cập nhật thành công rồi nhé", Toast.LENGTH_SHORT).show();
     }
 
     @Override

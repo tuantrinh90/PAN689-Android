@@ -2,6 +2,7 @@ package com.football.interactors.service;
 
 import com.football.models.BaseResponse;
 import com.football.models.PagingResponse;
+import com.football.models.responses.FormResponse;
 import com.football.models.responses.FriendResponse;
 import com.football.models.responses.InviteResponse;
 import com.football.models.responses.LeagueResponse;
@@ -19,6 +20,7 @@ import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -80,6 +82,12 @@ public interface IApiService {
                                                                             @Query(Constant.KEY_PER_PAGE) int perPage,
                                                                             @Query("name") String query);
 
+    @GET(ServiceConfig.FORM_OPTIONS)
+    Observable<BaseResponse<FormResponse>> getFormOption(@Path(ServiceConfig.KEY_LEAGUE_ID) int leagueId);
+
     @POST(ServiceConfig.CREATE_LEAGUE)
     Observable<BaseResponse<LeagueResponse>> createLeague(@Body RequestBody body);
+
+    @PUT(ServiceConfig.UPDATE_LEAGUE)
+    Observable<BaseResponse<LeagueResponse>> updateLeague(@Path(ServiceConfig.KEY_LEAGUE_ID) int leagueId, @Body RequestBody body);
 }

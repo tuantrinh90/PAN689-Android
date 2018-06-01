@@ -18,12 +18,12 @@ public class LeagueRequest {
     public String name = "";
     public String logo = "";
     public String league_type = "";
-    public int number_of_user;
+    public int number_of_user = 6; // default
     public String scoring_system = "";
     public String start_at = "";
     public String description = "";
     public String gameplay_option = "";
-    public int budget_id;
+    public int budget_id = 1; // default
     public String team_setup = "";
     public String trade_review = "";
     public String draft_time = "";
