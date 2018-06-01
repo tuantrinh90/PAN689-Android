@@ -9,7 +9,7 @@ public interface IActionLeagueView extends IBaseMvpView {
 
     void displayBudgets(List<BudgetResponse> budgets);
 
-    void openCreateTeam();
+    void openCreateTeam(Integer leagueId);
 
     void updateSuccess();
 

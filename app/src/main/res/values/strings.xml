@@ -51,6 +51,7 @@
     <string name="create_new_league">Create a new league</string>
     <string name="league_name_logo">League name &amp; logo</string>
     <string name="enter_league_name">Enter league name</string>
+    <string name="enter_team_name">Enter team name</string>
     <string name="league_type">League type</string>
     <string name="open_league">Open league</string>
     <string name="private_league">Private league</string>
@@ -71,7 +72,9 @@
     <string name="setup_time">Team setup time</string>
     <string name="description">Description</string>
     <string name="tell_us_more_about_your_league">Tell us more about your league</string>
+    <string name="tell_us_more_about_your_team">Tell us more about your team</string>
     <string name="create_league">Create league</string>
+    <string name="create_team">Create team</string>
     <string name="update_league">Update league</string>
     <string name="budget_option">Budget options</string>
     <string name="bottom">Bottom</string>
@@ -81,6 +84,8 @@
     <string name="teamResponses">Teams</string>
     <string name="invite_friend">Invite friend</string>
     <string name="setup_team">Setup team</string>
+    <string name="setup_your_team">Setup your team</string>
+    <string name="team_name">Team name</string>
     <string name="max_number_of_team">Max number of league</string>
     <string name="budget">Budget</string>
     <string name="budget_value">%s ($%s mio)</string>

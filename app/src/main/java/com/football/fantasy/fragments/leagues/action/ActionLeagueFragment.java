@@ -26,10 +26,12 @@ import com.bon.image.ImageUtils;
 import com.bon.permission.PermissionUtils;
 import com.bon.util.DateTimeUtils;
 import com.bon.util.StringUtils;
+import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.labels.LabelView;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.action.team.CreateTeamFragment;
 import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.BudgetResponse;
 import com.football.models.responses.LeagueResponse;
@@ -468,9 +470,14 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
     }
 
     @Override
-    public void openCreateTeam() {
-//        AloneFragmentActivity.with(this).start(.class);
-        Toast.makeText(mActivity, "Tạo thành công rồi nhé", Toast.LENGTH_SHORT).show();
+    public void openCreateTeam(Integer leagueId) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(CreateTeamFragment.KEY_LEAGUE_ID, leagueId);
+
+        AloneFragmentActivity.with(this)
+                .parameters(bundle)
+                .start(CreateTeamFragment.class);
+        mActivity.finish();
     }
 
     @Override

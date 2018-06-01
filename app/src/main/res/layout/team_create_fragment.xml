@@ -3,15 +3,92 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_white"
-    android:orientation="vertical">
+    android:layout_marginLeft="@dimen/padding_layout"
+    android:layout_marginRight="@dimen/padding_layout"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/padding_layout"
+    android:paddingRight="@dimen/padding_layout">
+
 
     <com.bon.customview.textview.ExtTextView
-        style="@style/StyleContentContent"
+        android:id="@+id/tvHeader"
+        style="@style/StyleTitle"
+        android:text="@string/setup_your_team"
+        android:textAllCaps="true"
+        app:textViewFontAssetName="@string/font_display_black_italic" />
+
+    <com.football.customizes.labels.LabelView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create team"
-        android:textAllCaps="true"
-        app:textViewFontAssetName="@string/font_display_bold" />
+        android:padding="@dimen/padding_layout"
+        app:labelViewLabel="@string/team_name"
+        app:labelViewRequired="true" />
 
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/padding_layout"
+        android:paddingRight="@dimen/padding_layout">
+
+        <com.football.customizes.edittext_app.EditTextApp
+            android:id="@+id/etTeamName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:editTextAppHint="@string/enter_team_name" />
+
+        <ImageView
+            android:id="@+id/ivImagePick"
+            android:layout_width="@dimen/avatar_normal"
+            android:layout_height="@dimen/avatar_normal"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginStart="@dimen/padding_layout"
+            android:background="@drawable/bg_image_pick"
+            android:padding="@dimen/padding_layout"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_photo_white" />
+    </TableRow>
+
+    <com.football.customizes.labels.LabelView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_layout"
+        android:padding="@dimen/padding_layout"
+        app:labelViewInfo="false"
+        app:labelViewLabel="@string/description"
+        app:labelViewRequired="false" />
+
+    <com.football.customizes.edittext_app.EditTextApp
+        android:id="@+id/etDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/padding_layout"
+        android:layout_marginLeft="@dimen/padding_layout"
+        android:layout_marginRight="@dimen/padding_layout"
+        android:lines="6"
+        app:editTextAppHint="@string/tell_us_more_about_your_team" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.bon.customview.shadowlayout.ShadowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="@dimen/padding_layout"
+            app:shadowLayoutCornerRadius="@dimen/component_radius"
+            app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+            app:shadowLayoutShadowColor="@color/color_shadow">
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvCreateTeam"
+                style="@style/StyleButton"
+                android:text="@string/create_team"
+                android:textAllCaps="true"
+                app:textViewFontAssetName="@string/font_display_black" />
+        </com.bon.customview.shadowlayout.ShadowLayout>
+    </FrameLayout>
 </LinearLayout>

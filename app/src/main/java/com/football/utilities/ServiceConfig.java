@@ -43,6 +43,7 @@ public interface ServiceConfig {
     String CREATE_LEAGUE = "leagues";
     String UPDATE_LEAGUE = "leagues/{" + KEY_LEAGUE_ID + "}";
     String FORM_OPTIONS = "leagues/get_form/{" + KEY_LEAGUE_ID + "}";
+    String CREATE_TEAM = "teams";
 
 
 }

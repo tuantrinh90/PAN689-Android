@@ -5,13 +5,11 @@ import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
 import com.football.models.requests.LeagueRequest;
-import com.football.models.responses.BudgetResponse;
 import com.football.models.responses.FormResponse;
 import com.football.models.responses.LeagueResponse;
 import com.football.utilities.RxUtilities;
 
 import java.io.File;
-import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -53,7 +51,7 @@ public class ActionLeagueDataPresenter extends BaseDataPresenter<IActionLeagueVi
                     new ApiCallback<LeagueResponse>() {
                         @Override
                         public void onSuccess(LeagueResponse response) {
-                            v.openCreateTeam();
+                            v.openCreateTeam(response.getId());
                             v.showLoading(false);
                         }
 

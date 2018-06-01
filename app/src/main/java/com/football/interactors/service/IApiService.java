@@ -90,4 +90,8 @@ public interface IApiService {
 
     @PUT(ServiceConfig.UPDATE_LEAGUE)
     Observable<BaseResponse<LeagueResponse>> updateLeague(@Path(ServiceConfig.KEY_LEAGUE_ID) int leagueId, @Body RequestBody body);
+
+    @POST(ServiceConfig.CREATE_TEAM)
+    Observable<BaseResponse<TeamResponse>> createTeam(@Body RequestBody body);
+
 }
