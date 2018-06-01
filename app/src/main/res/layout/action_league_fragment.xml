@@ -312,54 +312,63 @@
             </LinearLayout>
         </TableRow>
 
-        <com.football.customizes.labels.LabelView
-            android:id="@+id/lvTradeReviewSetting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_layout"
-            android:padding="@dimen/padding_layout"
-            app:labelViewInfo="true"
-            app:labelViewLabel="@string/trade_review_setting"
-            app:labelViewRequired="false" />
-
-        <RadioGroup
-            android:id="@+id/rgTradeReviewSetting"
+        <LinearLayout
+            android:id="@+id/draftTradeReview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/padding_layout"
-            android:paddingRight="@dimen/padding_layout">
+            android:visibility="gone">
 
-            <com.bon.customview.radiobutton.ExtRadioButton
-                android:id="@+id/rbNoTradeReview"
-                style="@style/StyleContentContent"
+            <com.football.customizes.labels.LabelView
+                android:id="@+id/lvTradeReviewSetting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@drawable/bg_radio"
-                android:checked="true"
-                android:text="@string/no_trade_review"
-                app:radioButtonFontAssetName="@string/font_display_bold" />
+                android:layout_marginTop="@dimen/padding_layout"
+                android:padding="@dimen/padding_layout"
+                app:labelViewInfo="true"
+                app:labelViewLabel="@string/trade_review_setting"
+                app:labelViewRequired="false" />
 
-            <com.bon.customview.radiobutton.ExtRadioButton
-                android:id="@+id/rbTradeReviewCreator"
-                style="@style/StyleContentContent"
-                android:layout_width="wrap_content"
+            <RadioGroup
+                android:id="@+id/rgTradeReviewSetting"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:button="@drawable/bg_radio"
-                android:checked="false"
-                android:text="@string/trade_review_by_league_creator"
-                app:radioButtonFontAssetName="@string/font_display_bold" />
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/padding_layout"
+                android:paddingRight="@dimen/padding_layout">
 
-            <com.bon.customview.radiobutton.ExtRadioButton
-                android:id="@+id/rbTradeReviewUsers"
-                style="@style/StyleContentContent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:button="@drawable/bg_radio"
-                android:checked="false"
-                android:text="@string/trade_review_by_league_members"
-                app:radioButtonFontAssetName="@string/font_display_bold" />
-        </RadioGroup>
+                <com.bon.customview.radiobutton.ExtRadioButton
+                    android:id="@+id/rbNoTradeReview"
+                    style="@style/StyleContentContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/bg_radio"
+                    android:checked="true"
+                    android:text="@string/no_trade_review"
+                    app:radioButtonFontAssetName="@string/font_display_bold" />
+
+                <com.bon.customview.radiobutton.ExtRadioButton
+                    android:id="@+id/rbTradeReviewCreator"
+                    style="@style/StyleContentContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/bg_radio"
+                    android:checked="false"
+                    android:text="@string/trade_review_by_league_creator"
+                    app:radioButtonFontAssetName="@string/font_display_bold" />
+
+                <com.bon.customview.radiobutton.ExtRadioButton
+                    android:id="@+id/rbTradeReviewUsers"
+                    style="@style/StyleContentContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/bg_radio"
+                    android:checked="false"
+                    android:text="@string/trade_review_by_league_members"
+                    app:radioButtonFontAssetName="@string/font_display_bold" />
+            </RadioGroup>
+
+        </LinearLayout>
 
         <com.football.customizes.labels.LabelView
             android:id="@+id/lvScoringSystem"
@@ -400,41 +409,76 @@
                 app:radioButtonFontAssetName="@string/font_display_bold" />
         </RadioGroup>
 
-        <com.football.customizes.labels.LabelView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_layout"
-            android:padding="@dimen/padding_layout"
-            app:labelViewInfo="false"
-            app:labelViewLabel="@string/draft_time"
-            app:labelViewRequired="true" />
-
-        <com.football.customizes.edittext_app.EditTextApp
-            android:id="@+id/etDraftTime"
+        <LinearLayout
+            android:id="@+id/draftTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_layout"
-            android:layout_marginRight="@dimen/padding_layout"
-            app:editTextAppEnable="false"
-            app:editTextAppIconRight="@drawable/ic_date_range" />
+            android:orientation="vertical"
+            android:visibility="gone">
 
-        <com.football.customizes.labels.LabelView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_layout"
-            android:padding="@dimen/padding_layout"
-            app:labelViewInfo="true"
-            app:labelViewLabel="@string/time_per_draft_pick"
-            app:labelViewRequired="false" />
+            <com.football.customizes.labels.LabelView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_layout"
+                android:padding="@dimen/padding_layout"
+                app:labelViewInfo="false"
+                app:labelViewLabel="@string/draft_time"
+                app:labelViewRequired="true" />
 
-        <com.football.customizes.edittext_app.EditTextApp
-            android:id="@+id/etTimePerDraftPick"
+            <com.football.customizes.edittext_app.EditTextApp
+                android:id="@+id/etDraftTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_layout"
+                android:layout_marginRight="@dimen/padding_layout"
+                app:editTextAppEnable="false"
+                app:editTextAppIconRight="@drawable/ic_date_range" />
+
+            <com.football.customizes.labels.LabelView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_layout"
+                android:padding="@dimen/padding_layout"
+                app:labelViewInfo="true"
+                app:labelViewLabel="@string/time_per_draft_pick"
+                app:labelViewRequired="false" />
+
+            <com.football.customizes.edittext_app.EditTextApp
+                android:id="@+id/etTimePerDraftPick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_layout"
+                android:layout_marginRight="@dimen/padding_layout"
+                app:editTextAppEnable="false"
+                app:editTextAppIconRight="@drawable/ic_arrow_drop_down_black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/transferTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_layout"
-            android:layout_marginRight="@dimen/padding_layout"
-            app:editTextAppEnable="false"
-            app:editTextAppIconRight="@drawable/ic_arrow_drop_down_black" />
+            android:orientation="vertical">
+
+            <com.football.customizes.labels.LabelView
+                android:id="@+id/lvTeamSetupTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_layout"
+                android:padding="@dimen/padding_layout"
+                app:labelViewInfo="true"
+                app:labelViewLabel="@string/team_setup_time"
+                app:labelViewRequired="true" />
+
+            <com.football.customizes.edittext_app.EditTextApp
+                android:id="@+id/etTeamSetupTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_layout"
+                android:layout_marginRight="@dimen/padding_layout"
+                app:editTextAppEnable="false"
+                app:editTextAppIconRight="@drawable/ic_arrow_drop_down_black" />
+        </LinearLayout>
 
         <com.football.customizes.labels.LabelView
             android:id="@+id/lvStartTime"

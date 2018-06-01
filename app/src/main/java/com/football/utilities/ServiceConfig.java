@@ -40,4 +40,5 @@ public interface ServiceConfig {
     String INVITATION_DECISION = "invitations/decision/{id}";
     String HOME_NEWS = "posts";
     String OPEN_LEAGUES = "leagues/open_league";
+    String CREATE_LEAGUE = "leagues";
 }

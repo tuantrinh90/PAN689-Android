@@ -11,5 +11,6 @@
     <string name="error_ip_not_valid">IP Address not valid</string>
     <string name="error_url_not_valid">Web Url is not valid</string>
     <string name="error_regexp_not_valid">Reg exp is not valid</string>
-    <string name="error_league_name_not_valid">error_league_name_not_valid > 40</string>
+    <string name="error_league_name_not_valid">The League name must be less than 40 characters</string>
+    <string name="error_league_description_not_valid">The Description must be less than 255 characters</string>
 </resources>

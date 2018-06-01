@@ -17,4 +17,5 @@ public interface Constant {
     int KEY_INVITATION_ACCEPT = 1;
 
     int MAX_LENGTH_LEAGUE_NAME = 40;
+    int MAX_LENGTH_LEAGUE_DESCRIPTION = 255;
 }

@@ -17,6 +17,7 @@ import android.widget.RadioGroup;
 import com.bon.customview.datetime.ExtDayMonthYearHourMinuteDialogFragment;
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
+import com.bon.customview.radiobutton.ExtRadioButton;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageFilePath;
 import com.bon.image.ImageLoaderUtils;
@@ -28,6 +29,7 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.labels.LabelView;
 import com.football.fantasy.R;
+import com.football.models.requests.LeagueRequest;
 import com.football.utilities.AppUtilities;
 import com.football.utilities.Constant;
 
@@ -49,8 +51,10 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
     ImageView ivImagePick;
     @BindView(R.id.lvLeagueType)
     LabelView lvLeagueType;
-    @BindView(R.id.rgLeagueType)
-    RadioGroup rgLeagueType;
+    @BindView(R.id.rbOpenLeague)
+    ExtRadioButton rbOpenLeague;
+    @BindView(R.id.rbRegular)
+    ExtRadioButton rbRegular;
     @BindView(R.id.lvGamePlayOption)
     LabelView lvGamePlayOption;
     @BindView(R.id.llTransfer)
@@ -89,8 +93,8 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
     EditTextApp etDraftTime;
     @BindView(R.id.etTimePerDraftPick)
     EditTextApp etTimePerDraftPick;
-    @BindView(R.id.lvStartTime)
-    LabelView lvStartTime;
+    @BindView(R.id.etTeamSetupTime)
+    EditTextApp etTeamSetupTime;
     @BindView(R.id.etStartTime)
     EditTextApp etStartTime;
     @BindView(R.id.etDescription)
@@ -101,6 +105,7 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
     File filePath;
     Calendar calendarDraftTime = Calendar.getInstance();
     Calendar calendarStartTime = Calendar.getInstance();
+    Calendar calendarTeamSetupTime = Calendar.getInstance();
     ExtKeyValuePair keyValuePairNumberOfUser = new ExtKeyValuePair("06", "06");
 
     @Override
@@ -145,8 +150,13 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
     }
 
     void formatDateTime() {
-        etDraftTime.setContent(DateTimeUtils.convertCalendarToString(calendarDraftTime, Constant.FORMAT_DATE_TIME));
-        etStartTime.setContent(DateTimeUtils.convertCalendarToString(calendarStartTime, Constant.FORMAT_DATE_TIME));
+        etDraftTime.setContent(DateTimeUtils.convertCalendarToString(calendarDraftTime, Constant.FORMAT_DATE_TIME_SERVER));
+        etStartTime.setContent(DateTimeUtils.convertCalendarToString(calendarStartTime, Constant.FORMAT_DATE_TIME_SERVER));
+        etTeamSetupTime.setContent(DateTimeUtils.convertCalendarToString(calendarTeamSetupTime, Constant.FORMAT_DATE_TIME_SERVER));
+    }
+
+    private boolean isTransfer() {
+        return llTransfer.isActivated();
     }
 
     @OnClick(R.id.ivImagePick)
@@ -247,17 +257,31 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
     void onClickDraftTime() {
         ExtDayMonthYearHourMinuteDialogFragment.newInstance()
                 .setMinDate(AppUtilities.getMinCalendar())
-                .setMaxDate(AppUtilities.getMaxCalendar())
+                .setMaxDate(calendarStartTime)
                 .setValueDate(calendarDraftTime)
                 .setConditionFunction(calendar -> calendar.getTimeInMillis() >= Calendar.getInstance().getTimeInMillis())
                 .setCalendarConsumer(calendar -> {
                     calendarDraftTime = calendar;
-                    formatDateTime();
+                    etDraftTime.setContent(DateTimeUtils.convertCalendarToString(calendarDraftTime, Constant.FORMAT_DATE_TIME_SERVER));
+
                 }).show(getFragmentManager(), null);
     }
 
     @OnClick(R.id.etTimePerDraftPick)
     void onClickTimePerDraftPick() {
+    }
+
+    @OnClick(R.id.etTeamSetupTime)
+    void onClickTeamSetupTime() {
+        ExtDayMonthYearHourMinuteDialogFragment.newInstance()
+                .setMinDate(AppUtilities.getMinCalendar())
+                .setMaxDate(AppUtilities.getMaxCalendar())
+                .setValueDate(calendarTeamSetupTime)
+                .setConditionFunction(calendar -> calendar.getTimeInMillis() >= Calendar.getInstance().getTimeInMillis())
+                .setCalendarConsumer(calendar -> {
+                    calendarTeamSetupTime = calendar;
+                    etTeamSetupTime.setContent(DateTimeUtils.convertCalendarToString(calendarTeamSetupTime, Constant.FORMAT_DATE_TIME_SERVER));
+                }).show(getFragmentManager(), null);
     }
 
     @OnClick(R.id.etStartTime)
@@ -269,32 +293,78 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
                 .setConditionFunction(calendar -> calendar.getTimeInMillis() >= Calendar.getInstance().getTimeInMillis())
                 .setCalendarConsumer(calendar -> {
                     calendarStartTime = calendar;
-                    formatDateTime();
+//                    if (calendarStartTime.before(isTransfer() ? calendarTeamSetupTime : calendarDraftTime)) {
+//                        etStartTime.setError()
+//                        return;
+//                    }
+                    etStartTime.setContent(DateTimeUtils.convertCalendarToString(calendarStartTime, Constant.FORMAT_DATE_TIME_SERVER));
+
                 }).show(getFragmentManager(), null);
     }
 
     @OnClick(R.id.tvCreateLeague)
     void onClickCreateLeague() {
-
+        LeagueRequest leagueRequest = new LeagueRequest();
+        if (isValid(leagueRequest)) {
+            presenter.createLeague(leagueRequest);
+        }
 
     }
 
-    private boolean isValid() {
+    private boolean isValid(LeagueRequest leagueRequest) {
         // league name
         if (!etLeagueName.isEmpty(mActivity)) {
             String name = etLeagueName.getContent();
             if (name.length() > Constant.MAX_LENGTH_LEAGUE_NAME) {
-                etLeagueName.setError(getString(R.string.error_creditcard_number_not_valid));
+                etLeagueName.setError(getString(R.string.error_league_name_not_valid));
                 return false;
             }
-        }
-
-        // description
-        if (etDescription.isEmpty(mActivity)) {
+            leagueRequest.name = name;
+        } else {
             return false;
         }
 
+        // logo
+        leagueRequest.logo = filePath == null ? "" : filePath.getAbsolutePath();
 
+        // league type
+        leagueRequest.league_type = rbOpenLeague.isChecked() ? LeagueRequest.LEAGUE_TYPE_OPEN : LeagueRequest.LEAGUE_TYPE_PRIVATE;
+
+        // number_of_user
+        leagueRequest.number_of_user = Integer.parseInt(etNumberOfUser.getContent());
+
+        // scoring_system
+        leagueRequest.scoring_system = rbRegular.isChecked() ? LeagueRequest.SCORING_SYSTEM_REGULAR : LeagueRequest.SCORING_SYSTEM_POINTS;
+
+        //start_at
+        if (etStartTime.isEmpty(mActivity)) {
+            return false;
+        }
+        leagueRequest.start_at = etStartTime.getContent();
+
+        // description
+        if (!etDescription.isEmpty(mActivity)) {
+            String des = etDescription.getContent();
+            if (des.length() > Constant.MAX_LENGTH_LEAGUE_NAME) {
+                etDescription.setError(getString(R.string.error_league_description_not_valid));
+                return false;
+            }
+            leagueRequest.description = des;
+        } else {
+            return false;
+        }
+
+        // gameplay_option
+        leagueRequest.gameplay_option = llTransfer.isActivated() ? LeagueRequest.GAMEPLAY_OPTION_TRANSFER : LeagueRequest.GAMEPLAY_OPTION_DRAFT;
+
+        // budget_id
+        leagueRequest.budget_id = llBudgetOptionBottom.isActivated() ? 0 : (llBudgetOptionChallenge.isActivated() ? 1 : (llBudgetOptionDream.isActivated() ? 2 : 0));
+
+        // team_setup
+        if (etTeamSetupTime.isEmpty(mActivity)) {
+            return false;
+        }
+        leagueRequest.team_setup = etTeamSetupTime.getContent();
 
         return true;
     }
@@ -325,7 +395,10 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
                 case ImageUtils.REQUEST_PICK_CONTENT: {
                     String pathFile = ImageFilePath.getPath(mActivity, data.getData());
                     Log.e("pathFile", "pathFile:: " + pathFile);
-                    StringUtils.isNotEmpty(pathFile, s -> ImageLoaderUtils.displayImage(ImageUtils.getUriImageDisplayFromFile(new File(s)), ivImagePick));
+                    StringUtils.isNotEmpty(pathFile, s -> {
+                        filePath = new File(s);
+                        ImageLoaderUtils.displayImage(ImageUtils.getUriImageDisplayFromFile(filePath), ivImagePick);
+                    });
                     break;
                 }
             }

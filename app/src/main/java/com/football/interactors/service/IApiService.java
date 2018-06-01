@@ -79,4 +79,7 @@ public interface IApiService {
     Observable<BaseResponse<PagingResponse<LeagueResponse>>> getOpenLeagues(@Query(Constant.KEY_ORDER_BY) String orderBy, @Query(Constant.KEY_PAGE) int page,
                                                                             @Query(Constant.KEY_PER_PAGE) int perPage,
                                                                             @Query("name") String query);
+
+    @POST(ServiceConfig.CREATE_LEAGUE)
+    Observable<BaseResponse<LeagueResponse>> createLeague(@Body RequestBody body);
 }
