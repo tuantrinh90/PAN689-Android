@@ -7,6 +7,9 @@ import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.AbsListView;
 
 import com.bon.customview.listview.ExtPagingListView;
@@ -64,7 +67,8 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
             int marginLayout = getResources().getDimensionPixelOffset(R.dimen.leagues_margin);
 
             svSearchView = new SearchView(mActivity);
-            AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(displayMetrics.widthPixels - paddingLayout * 2, ViewGroup.LayoutParams.WRAP_CONTENT);
+            AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(displayMetrics.widthPixels - paddingLayout * 2,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
             svSearchView.setPadding(marginLayout, 0, marginLayout, marginLayout);
 
             //layoutParams.gravity = Gravity.CENTER;
@@ -112,11 +116,10 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
     }
 
     void onClickFilter() {
-
-
         Optional.from(rvRecyclerView).doIfPresent(rv -> {
             orderBy = orderBy.equalsIgnoreCase("desc") ? "asc" : "desc";
-            YoYo.with(orderBy.equalsIgnoreCase("desc") ? Techniques.RotateInUpLeft : Techniques.RotateInDownRight).playOn(svSearchView.getFilter());
+            svSearchView.getFilter().animate().rotation(orderBy.equalsIgnoreCase("desc") ? 0: 180)
+                    .setDuration(1000).setInterpolator(new LinearInterpolator()).start();
             rv.clearItems();
             page = 1;
             presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
