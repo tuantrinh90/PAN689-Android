@@ -47,6 +47,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
 
     String title;
     int leagueId;
+    private LeagueResponse league;
     LeagueDetailViewPagerAdapter leagueDetailViewPagerAdapter;
 
     @Override
@@ -112,7 +113,15 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
                 .setOnSelectedConsumer(extKeyValuePair -> {
                     // edit
                     if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.edit))) {
-                        AloneFragmentActivity.with(LeagueDetailFragment.this).start(ActionLeagueFragment.class);
+                        if (league != null) {
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable(ActionLeagueFragment.KEY_LEAGUE, league);
+                            AloneFragmentActivity.with(LeagueDetailFragment.this)
+                                    .parameters(bundle)
+                                    .start(ActionLeagueFragment.class);
+                        } else {
+                            showMessage("League is loading...");
+                        }
                     }
 
                     // leave
@@ -131,6 +140,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
 
     @Override
     public void displayLeague(LeagueResponse league) {
+        this.league = league;
         leagueDetailViewPagerAdapter = new LeagueDetailViewPagerAdapter(getFragmentManager(),
                 new ArrayList<BaseMvpFragment>() {{
                     add(LeagueInfoFragment.newInstance(league).setChildFragment(true));

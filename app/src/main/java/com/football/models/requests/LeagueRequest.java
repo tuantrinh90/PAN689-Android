@@ -11,6 +11,10 @@ public class LeagueRequest {
     public static final String GAMEPLAY_OPTION_TRANSFER = "transfer";
     public static final String GAMEPLAY_OPTION_DRAFT = "draft";
 
+    public static final int BUDGET_BOTTOM = 0;
+    public static final int BUDGET_CHALLENGE = 1;
+    public static final int BUDGET_DREAM = 2;
+
     public String name = "";
     public String logo = "";
     public String league_type = "";

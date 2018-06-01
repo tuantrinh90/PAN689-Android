@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.bon.customview.datetime.ExtDayMonthYearHourMinuteDialogFragment;
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
@@ -30,6 +31,7 @@ import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.labels.LabelView;
 import com.football.fantasy.R;
 import com.football.models.requests.LeagueRequest;
+import com.football.models.responses.LeagueResponse;
 import com.football.utilities.AppUtilities;
 import com.football.utilities.Constant;
 
@@ -41,6 +43,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView, IActionLeaguePresenter<IActionLeagueView>> implements IActionLeagueView {
+
+    public static final String KEY_LEAGUE = "league";
+
     public static ActionLeagueFragment newInstance() {
         return new ActionLeagueFragment();
     }
@@ -118,6 +123,42 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
         initView();
+        displayData();
+    }
+
+    private void displayData() {
+        LeagueResponse league = (LeagueResponse) (getArguments() != null ? getArguments().getSerializable(KEY_LEAGUE) : null);
+        // display data to views
+        if (league != null) {
+            etLeagueName.setContent(league.getName());
+            ImageLoaderUtils.displayImage(league.getLogo(), ivImagePick);
+            rbOpenLeague.setChecked(league.getLeagueType().equals(LeagueRequest.LEAGUE_TYPE_OPEN));
+            if (league.getGameplayOption().equals(LeagueRequest.GAMEPLAY_OPTION_TRANSFER)) {
+                onClickTransfer();
+            } else {
+                onClickDraft();
+            }
+            etNumberOfUser.setContent(String.format("%02d", league.getNumberOfUser()));
+            switch (league.getBudgetId()) {
+                case LeagueRequest.BUDGET_BOTTOM:
+                    onClickBudgetOptionBottom();
+                    break;
+
+                case LeagueRequest.BUDGET_CHALLENGE:
+                    onClickBudgetOptionChallenge();
+                    break;
+
+                case LeagueRequest.BUDGET_DREAM:
+                    onClickBudgetOptionDream();
+                    break;
+            }
+            rbRegular.setChecked(league.getScoringSystem().equals(LeagueRequest.SCORING_SYSTEM_REGULAR));
+            etTeamSetupTime.setContent(league.getTeamSetup());
+            etStartTime.setContent(league.getStartAt());
+            etDescription.setContent(league.getDescription());
+
+
+        }
     }
 
     void initView() {
@@ -370,6 +411,12 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
     }
 
     @Override
+    public void openCreateTeam() {
+//        AloneFragmentActivity.with(this).start(.class);
+        Toast.makeText(mActivity, "Tạo thành công rồi nhé", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
@@ -384,8 +431,6 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        Log.e("onActivityResult", "onActivityResult");
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case ImageUtils.CAMERA_REQUEST: {

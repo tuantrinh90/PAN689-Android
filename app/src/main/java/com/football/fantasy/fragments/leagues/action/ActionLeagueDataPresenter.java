@@ -35,7 +35,7 @@ public class ActionLeagueDataPresenter extends BaseDataPresenter<IActionLeagueVi
                     .addFormDataPart("start_at", request.start_at)
                     .addFormDataPart("description", request.description)
                     .addFormDataPart("gameplay_option", request.gameplay_option)
-                    .addFormDataPart("budget_id", String.valueOf(request.budget_id))
+                    .addFormDataPart("budget_id", String.valueOf(1/*request.budget_id*/)) // todo: test
                     .addFormDataPart("team_setup", request.team_setup)
                     .addFormDataPart("trade_review", request.trade_review)
                     .addFormDataPart("draft_time", request.draft_time)
@@ -52,7 +52,7 @@ public class ActionLeagueDataPresenter extends BaseDataPresenter<IActionLeagueVi
                     new ApiCallback<LeagueResponse>() {
                         @Override
                         public void onSuccess(LeagueResponse response) {
-                            v.showMessage("Success rồi nhé");
+                            v.openCreateTeam();
                             v.showLoading(false);
                         }
 
