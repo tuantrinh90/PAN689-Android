@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,11 +18,12 @@
 
     <com.bon.customview.textview.ExtTextView
         android:id="@+id/tv_message"
-        android:gravity="center"
-        android:visibility="gone"
-        android:textSize="@dimen/font_size_message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/no_data" />
+        android:gravity="center"
+        android:text="@string/no_data"
+        android:textSize="@dimen/font_size_message"
+        android:visibility="gone"
+        app:textViewFontAssetName="@string/font_display_regular_italic" />
 
 </FrameLayout>

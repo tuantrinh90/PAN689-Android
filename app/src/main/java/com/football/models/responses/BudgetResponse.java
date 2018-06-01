@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.football.utilities.Constant;
 
-public class BudgetResponse {
+import java.io.Serializable;
+
+public class BudgetResponse implements Serializable {
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("name")

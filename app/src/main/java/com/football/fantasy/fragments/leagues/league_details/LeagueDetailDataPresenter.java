@@ -1,7 +1,5 @@
 package com.football.fantasy.fragments.leagues.league_details;
 
-import android.util.Log;
-
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
@@ -22,10 +20,19 @@ public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailVi
     @Override
     public void getLeagueDetail(int leagueId) {
         getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(
-                    v,
+            mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().getLeagueDetail(leagueId),
                     new ApiCallback<LeagueResponse>() {
+                        @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
+
                         @Override
                         public void onSuccess(LeagueResponse response) {
                             v.displayLeague(response);
@@ -33,7 +40,6 @@ public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailVi
 
                         @Override
                         public void onError(String e) {
-                            Log.e("eee", e);
                             v.showMessage(e);
                         }
                     }));
@@ -43,13 +49,22 @@ public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailVi
     @Override
     public void stopLeague(int leagueId) {
         getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(
-                    v,
+            mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().stopLeague(leagueId, new MultipartBody.Builder()
                             .setType(MultipartBody.FORM)
                             .addFormDataPart("_method", "DELETE")
                             .build()),
                     new ApiCallback<StopResponse>() {
+                        @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
+
                         @Override
                         public void onSuccess(StopResponse response) {
                             v.stopLeagueSuccess();
@@ -57,7 +72,6 @@ public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailVi
 
                         @Override
                         public void onError(String e) {
-                            Log.e("eee", e);
                             v.showMessage(e);
                         }
                     }));
@@ -66,6 +80,28 @@ public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailVi
 
     @Override
     public void leaveLeague(int leagueId) {
+        getOptView().doIfPresent(v -> {
+            mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().leaveLeagues(leagueId, null), new ApiCallback<Object>() {
+                @Override
+                public void onStart() {
+                    v.showLoading(true);
+                }
 
+                @Override
+                public void onComplete() {
+                    v.showLoading(false);
+                }
+
+                @Override
+                public void onSuccess(Object o) {
+                    v.onLeaveLeague();
+                }
+
+                @Override
+                public void onError(String error) {
+                    v.showMessage(error);
+                }
+            }));
+        });
     }
 }

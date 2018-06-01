@@ -10,7 +10,6 @@ import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.bon.event_bus.IEvent;
 import com.bon.event_bus.RxBus;
@@ -39,6 +38,7 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.reactivex.Observable;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.BehaviorSubject;
 import java8.util.function.Consumer;
 
@@ -68,6 +68,8 @@ public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDat
 
     // is child fragment
     boolean isChildFragment = false;
+
+    protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     // lifecycle subject
     private final BehaviorSubject<FragmentEvent> lifecycleSubject = BehaviorSubject.create();
@@ -216,6 +218,11 @@ public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDat
         // unbind event
         Optional.from(presenter).doIfPresent(IBaseDataPresenter::unbindEvent);
 
+        // rxjava
+        if (!mCompositeDisposable.isDisposed()) {
+            mCompositeDisposable.dispose();
+        }
+
         super.onDestroyView();
     }
 
@@ -275,7 +282,7 @@ public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDat
 
     @Override
     public void showMessage(String message) {
-        if (StringUtils.isEmpty(message))return;
+        if (StringUtils.isEmpty(message)) return;
         showMessage(message, R.string.ok, null);
     }
 

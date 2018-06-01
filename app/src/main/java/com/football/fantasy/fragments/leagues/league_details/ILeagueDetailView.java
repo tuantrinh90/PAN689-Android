@@ -4,8 +4,9 @@ import com.football.common.views.IBaseMvpView;
 import com.football.models.responses.LeagueResponse;
 
 public interface ILeagueDetailView extends IBaseMvpView {
-
     void displayLeague(LeagueResponse league);
 
     void stopLeagueSuccess();
+
+    void onLeaveLeague();
 }

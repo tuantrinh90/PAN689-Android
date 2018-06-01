@@ -1,7 +1,5 @@
 package com.football.fantasy.fragments.leagues.league_details.invite_friends;
 
-import android.util.Log;
-
 import com.bon.share_preferences.AppPreferences;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
@@ -25,11 +23,22 @@ public class InviteFriendDataPresenter extends BaseDataPresenter<IInviteFriendVi
     }
 
     @Override
-    public void getInviteFriends(int leagueId, String keyword) {
+    public void getInviteFriends(int leagueId, String keyword, int page, int perPage) {
         getOptView().doIfPresent(v -> {
             mCompositeDisposable.add(RxUtilities.async(v,
-                    dataModule.getApiService().getInviteFriends(leagueId, keyword),
+                    dataModule.getApiService().getInviteFriends(leagueId, keyword, page, perPage),
                     new ApiCallback<List<FriendResponse>>() {
+
+                        @Override
+                        public void onStart() {
+                            v.showLoadingPagingListView(true);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            v.showLoadingPagingListView(false);
+                        }
+
                         @Override
                         public void onSuccess(List<FriendResponse> friends) {
                             v.displayFriends(friends);
@@ -37,7 +46,7 @@ public class InviteFriendDataPresenter extends BaseDataPresenter<IInviteFriendVi
 
                         @Override
                         public void onError(String e) {
-                            Log.e("eee", e);
+                            v.displayFriends(null);
                             v.showMessage(e);
                         }
                     }));
@@ -49,10 +58,7 @@ public class InviteFriendDataPresenter extends BaseDataPresenter<IInviteFriendVi
         getOptView().doIfPresent(v -> {
             UserResponse user = AppPreferences.getInstance(v.getAppActivity()).getObject(Constant.KEY_USER, UserResponse.class);
             int senderId = user.getId();
-
-            v.showLoading(true);
-            mCompositeDisposable.add(RxUtilities.async(
-                    v,
+            mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().inviteFriends(new MultipartBody.Builder()
                             .setType(MultipartBody.FORM)
                             .addFormDataPart("league_id", String.valueOf(leagueId))
@@ -61,15 +67,22 @@ public class InviteFriendDataPresenter extends BaseDataPresenter<IInviteFriendVi
                             .build()),
                     new ApiCallback<InviteResponse>() {
                         @Override
-                        public void onSuccess(InviteResponse invite) {
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
+
+                        @Override
+                        public void onComplete() {
                             v.showLoading(false);
+                        }
+
+                        @Override
+                        public void onSuccess(InviteResponse invite) {
                             v.inviteSuccess(invite.getReceiverId());
                         }
 
                         @Override
                         public void onError(String e) {
-                            Log.e("eee", e);
-                            v.showLoading(false);
                             v.showMessage(e);
                         }
                     }));

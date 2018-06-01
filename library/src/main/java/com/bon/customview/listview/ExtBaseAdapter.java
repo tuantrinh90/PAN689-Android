@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.bon.interfaces.Optional;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,8 +50,7 @@ public abstract class ExtBaseAdapter<T, VH extends ExtPagingListView.ExtViewHold
             viewHolder = (VH) convertView.getTag();
         }
 
-        // bind data
-        onBindViewHolder(viewHolder, getItem(position));
+        Optional.from(getItem(position)).doIfPresent(item -> onBindViewHolder(viewHolder, item));
 
         // view
         return convertView;

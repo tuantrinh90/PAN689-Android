@@ -1,13 +1,11 @@
 package com.football.fantasy.fragments.account.signup;
 
-import com.bon.share_preferences.AppPreferences;
-import com.football.application.AppContext;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
+import com.football.fantasy.R;
 import com.football.listeners.ApiCallback;
 import com.football.models.requests.SignupRequest;
 import com.football.models.responses.UserResponse;
-import com.football.utilities.Constant;
 import com.football.utilities.RxUtilities;
 
 import okhttp3.MultipartBody;
@@ -23,9 +21,7 @@ public class SignUpDataPresenter<V extends ISignUpView> extends BaseDataPresente
     @Override
     public void register(SignupRequest request) {
         getOptView().doIfPresent(v -> {
-            v.showLoading(true);
-            mCompositeDisposable.add(RxUtilities.async(
-                    v,
+            mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().register(new MultipartBody.Builder()
                             .setType(MultipartBody.FORM)
                             .addFormDataPart("first_name", request.getFirstName())
@@ -36,30 +32,26 @@ public class SignUpDataPresenter<V extends ISignUpView> extends BaseDataPresente
                             .build()),
                     new ApiCallback<UserResponse>() {
                         @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
+
+                        @Override
                         public void onSuccess(UserResponse response) {
-                            registerSuccess(response);
+                            v.onRegisterSuccess();
+                            v.showMessage(R.string.register_successful, R.string.ok, null);
                         }
 
                         @Override
                         public void onError(String e) {
-                            registerError(e);
+                            v.showMessage(e);
                         }
                     }));
-        });
-    }
-
-    private void registerSuccess(UserResponse response) {
-        getOptView().doIfPresent(v -> {
-            AppPreferences.getInstance(AppContext.getInstance()).putObject(Constant.KEY_USER, response);
-            v.showLoading(false);
-            v.goToMain();
-        });
-    }
-
-    private void registerError(String e) {
-        getOptView().doIfPresent(v -> {
-            v.showMessage(e);
-            v.showLoading(false);
         });
     }
 }

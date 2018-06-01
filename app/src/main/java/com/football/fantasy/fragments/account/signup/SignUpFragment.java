@@ -8,16 +8,15 @@ import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.view.View;
-import android.widget.Toast;
 
 import com.bon.customview.checkbox.ExtCheckBox;
+import com.bon.customview.textview.ExtTextView;
 import com.bon.textstyle.TextViewLinkMovementMethod;
-import com.bon.util.ActivityUtils;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.fantasy.R;
-import com.football.fantasy.activities.MainActivity;
 import com.football.models.requests.SignupRequest;
+import com.football.utilities.Constant;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -37,6 +36,8 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
     EditTextApp etPassword;
     @BindView(R.id.etConfirmPassword)
     EditTextApp etConfirmPassword;
+    @BindView(R.id.tvErrorAgreed)
+    ExtTextView tvErrorAgreed;
     @BindView(R.id.cbAgreed)
     ExtCheckBox cbAgreed;
 
@@ -81,31 +82,45 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
     }
 
     private boolean isValid() {
-        boolean valid = !etFirstName.isEmpty(getContext()) && !etLastName.isEmpty(getContext())
-                && !etPassword.isEmpty(getContext()) && !etConfirmPassword.isEmpty(getContext());
-        if (valid) {
-            if (!etEmail.isValidEmail(getContext())) {
-                return false;
+        boolean valid = true;
 
-            } else if (etPassword.getContent().length() < 6) {
-                Toast.makeText(mActivity, R.string.password_description, Toast.LENGTH_SHORT).show();
-                return false;
-
-            } else if (!etPassword.getContent().equals(etConfirmPassword.getContent())) {
-                Toast.makeText(mActivity, "Not match", Toast.LENGTH_SHORT).show();
-                return false;
-
-            } else if (!cbAgreed.isChecked()) {
-                return false;
+        if (etFirstName.isEmpty(mActivity)) valid = false;
+        if (etLastName.isEmpty(mActivity)) valid = false;
+        if (!etEmail.isValidEmail(mActivity)) valid = false;
+        if (etPassword.isEmpty(mActivity)) {
+            valid = false;
+        } else {
+            if (etPassword.getContent().length() < Constant.MIN_PASSWORD) {
+                etPassword.setError(getString(R.string.min_password));
+                valid = false;
             }
-            return true;
         }
-        return false;
+
+        if (etConfirmPassword.isEmpty(mActivity)) {
+            valid = false;
+        } else {
+            if (!etPassword.getContent().equals(etConfirmPassword.getContent())) {
+                etConfirmPassword.setError(getString(R.string.confirm_not_match));
+                valid = false;
+            }
+        }
+
+        tvErrorAgreed.setVisibility(View.GONE);
+        if (!cbAgreed.isChecked()) {
+            tvErrorAgreed.setVisibility(View.VISIBLE);
+            valid = false;
+        }
+
+        return valid;
     }
 
     @Override
-    public void goToMain() {
-        ActivityUtils.startActivity(MainActivity.class);
-        mActivity.finish();
+    public void onRegisterSuccess() {
+        etFirstName.setContent("");
+        etLastName.setContent("");
+        etEmail.setContent("");
+        etPassword.setContent("");
+        etConfirmPassword.setContent("");
+        cbAgreed.setChecked(false);
     }
 }

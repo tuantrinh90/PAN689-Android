@@ -91,6 +91,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
                 Bundle bundle = new Bundle();
                 bundle.putString(LeagueDetailFragment.KEY_TITLE, getString(R.string.open_leagues));
                 bundle.putInt(LeagueDetailFragment.KEY_LEAGUE_ID, details.getId());
+                bundle.putString(LeagueDetailFragment.KEY_LEAGUE_TYPE, LeagueDetailFragment.OPEN_LEAGUES);
                 AloneFragmentActivity.with(this)
                         .parameters(bundle)
                         .start(LeagueDetailFragment.class);
@@ -119,7 +120,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
         Optional.from(rvRecyclerView).doIfPresent(rv -> {
             orderBy = orderBy.equalsIgnoreCase("desc") ? "asc" : "desc";
             svSearchView.getFilter().animate().rotation(orderBy.equalsIgnoreCase("desc") ? 0: 180)
-                    .setDuration(1000).setInterpolator(new LinearInterpolator()).start();
+                    .setDuration(500).setInterpolator(new LinearInterpolator()).start();
             rv.clearItems();
             page = 1;
             presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);

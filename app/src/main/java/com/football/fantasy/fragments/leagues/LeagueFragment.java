@@ -14,7 +14,6 @@ import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.ActionLeagueFragment;
-import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.fantasy.fragments.leagues.my_leagues.MyLeagueFragment;
 import com.football.fantasy.fragments.leagues.open_leagues.OpenLeagueFragment;
 import com.football.fantasy.fragments.leagues.pending_invitation.PendingInvitationFragment;
@@ -92,13 +91,6 @@ public class LeagueFragment extends BaseMainMvpFragment<ILeagueView, ILeaguePres
 
     @OnClick(R.id.btnAdd)
     void onClickAdd() {
-//        AloneFragmentActivity.with(this).start(ActionLeagueFragment.class);
-
-        Bundle bundle = new Bundle();
-        bundle.putString(LeagueDetailFragment.KEY_TITLE, getString(R.string.open_leagues));
-        bundle.putInt(LeagueDetailFragment.KEY_LEAGUE_ID, 2);
-        AloneFragmentActivity.with(this)
-                .parameters(bundle)
-                .start(LeagueDetailFragment.class);
+        AloneFragmentActivity.with(this).start(ActionLeagueFragment.class);
     }
 }

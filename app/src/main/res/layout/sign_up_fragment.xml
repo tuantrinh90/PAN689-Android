@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.bon.customview.scrollview.ExtScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_white"
@@ -60,6 +61,7 @@
 
         <com.bon.customview.textview.ExtTextView
             style="@style/StyleDescriptionGray"
+            android:visibility="gone"
             android:text="@string/password_description"
             app:textViewFontAssetName="@string/font_display_regular_italic" />
 
@@ -77,10 +79,20 @@
             style="@style/StyleDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/padding_layout"
             android:layout_marginTop="@dimen/padding_layout"
             android:button="@drawable/bg_check_box"
             android:text="@string/app_name" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvErrorAgreed"
+            style="@style/StyleDescriptionRed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:visibility="gone"
+            android:text="@string/agreed_error"
+            app:textViewFontAssetName="@string/font_display_regular_italic"
+            tools:text="@string/app_name" />
 
         <com.bon.customview.shadowlayout.ShadowLayout
             android:layout_width="match_parent"
