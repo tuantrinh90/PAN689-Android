@@ -11,7 +11,6 @@ import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
@@ -122,7 +121,7 @@ public class CreateTeamFragment extends BaseMainMvpFragment<ICreateTeamView, ICr
 
     @Override
     public void createTeamSuccess() {
-        Toast.makeText(mActivity, "Create successful", Toast.LENGTH_SHORT).show();
+        showMessage(getString(R.string.update_success));
         mActivity.finish();
     }
 

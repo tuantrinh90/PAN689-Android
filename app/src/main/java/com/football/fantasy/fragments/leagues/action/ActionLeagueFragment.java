@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.bon.customview.datetime.ExtDayMonthYearHourMinuteDialogFragment;
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
@@ -482,7 +481,7 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
 
     @Override
     public void updateSuccess() {
-        Toast.makeText(mActivity, "Cập nhật thành công rồi nhé", Toast.LENGTH_SHORT).show();
+        showMessage(getString(R.string.update_success));
     }
 
     @Override
