@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
+import com.bon.interfaces.Optional;
 import com.bon.util.DialogUtils;
 import com.football.adapters.TeamAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
@@ -52,7 +53,6 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
         initView();
-
         getTeams();
     }
 
@@ -75,6 +75,7 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
 
         rvRecyclerView.init(mActivity, teamAdapter)
                 .setOnExtRefreshListener(() -> {
+                    Optional.from(rvRecyclerView).doIfPresent(rv -> rv.clearItems());
                     getTeams();
                 });
     }
@@ -91,17 +92,22 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
 
     @Override
     public void displayTeams(List<TeamResponse> teams) {
-        teamAdapter.addNewItems(teams);
+        Optional.from(rvRecyclerView).doIfPresent(rv -> rv.addNewItems(teams));
     }
 
     @Override
     public void removeSuccess(int leagueId) {
-//        for (TeamResponse teamResponse : teamAdapter.getItems()) {
-//            if (teamResponse.getId().equals(leagueId)) {
-//                teamAdapter.removeItem(teamResponse);
-//                break;
-//            }
-//        }
         getTeams();
+    }
+
+    @Override
+    public void showLoadingPagingListView(boolean isLoading) {
+        Optional.from(rvRecyclerView).doIfPresent(rv -> {
+            if (isLoading) {
+                rvRecyclerView.startLoading(true);
+            } else {
+                rvRecyclerView.stopLoading(true);
+            }
+        });
     }
 }

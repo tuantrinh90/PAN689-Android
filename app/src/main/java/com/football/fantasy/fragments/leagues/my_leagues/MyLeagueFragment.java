@@ -10,6 +10,7 @@ import com.bon.interfaces.Optional;
 import com.football.adapters.LeaguesAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.events.StopLeagueEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.responses.LeagueResponse;
@@ -17,6 +18,8 @@ import com.football.models.responses.LeagueResponse;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableObserver;
 
 public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeaguePresenter<IMyLeagueView>> implements IMyLeagueView {
     public static MyLeagueFragment newInstance() {
@@ -48,6 +51,7 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
             Bundle bundle = new Bundle();
             bundle.putString(LeagueDetailFragment.KEY_TITLE, getString(R.string.open_leagues));
             bundle.putInt(LeagueDetailFragment.KEY_LEAGUE_ID, details.getId());
+            bundle.putString(LeagueDetailFragment.KEY_LEAGUE_TYPE, LeagueDetailFragment.MY_LEAGUES);
             AloneFragmentActivity.with(this)
                     .parameters(bundle)
                     .start(LeagueDetailFragment.class);
@@ -65,7 +69,43 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
 
         // load data
         presenter.getMyLeagues(page, ExtPagingListView.NUMBER_PER_PAGE);
+
+        subscribeRxBus();
     }
+
+    void subscribeRxBus() {
+        mCompositeDisposable.add(bus.ofType(StopLeagueEvent.class).observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<StopLeagueEvent>() {
+                    @Override
+                    public void onNext(StopLeagueEvent stopLeagueEvent) {
+                        List<LeagueResponse> leagueResponses = leaguesAdapter.getItems();
+                        if (leagueResponses != null && leagueResponses.size() > 0) {
+                            LeagueResponse leagueResponse = null;
+                            for (int i = 0; i < leagueResponses.size(); i++) {
+                                if (leagueResponses.get(i).getId() == stopLeagueEvent.getLeagueId()) {
+                                    leagueResponse = leagueResponses.get(i);
+                                    break;
+                                }
+                            }
+
+                            if (leagueResponse != null) {
+                                leaguesAdapter.removeItem(leagueResponse);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                }));
+    }
+
 
     @NonNull
     @Override

@@ -1,5 +1,6 @@
 package com.football.fantasy.fragments.leagues.league_details.successor;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,10 +9,12 @@ import android.view.View;
 
 import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
+import com.bon.interfaces.Optional;
 import com.bon.util.DialogUtils;
 import com.football.adapters.SuccessorAdapter;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.responses.TeamResponse;
 
 import java.util.List;
@@ -21,6 +24,8 @@ import butterknife.OnClick;
 import java8.util.stream.StreamSupport;
 
 public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccessorPresenter<ISuccessorView>> implements ISuccessorView {
+    public static final int REQUEST_CODE = 100;
+
     @BindView(R.id.tvCancel)
     ExtTextView tvCancel;
     @BindView(R.id.tvDone)
@@ -30,6 +35,8 @@ public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccesso
 
     List<TeamResponse> teamResponses;
     SuccessorAdapter successorAdapter;
+    int leagueId;
+    TeamResponse teamResponse;
 
     @Override
     public int getResourceId() {
@@ -44,25 +51,35 @@ public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccesso
     }
 
     void initView() {
+        leagueId = getArguments().getInt(LeagueDetailFragment.KEY_LEAGUE_ID);
+
         // only display button when at least a item selected
         tvDone.setVisibility(View.INVISIBLE);
 
         // adapter
         successorAdapter = new SuccessorAdapter(mActivity, teamResponses, teamResponse -> {
-            // precess data
-            for (int i = 0; i < teamResponses.size(); i++) {
-                TeamResponse t = teamResponses.get(i);
-                // reset check
-                t.setChecked(t.getName().equalsIgnoreCase(teamResponse.getName()));
-            }
+                // precess data
+                for (int i = 0; i < successorAdapter.getItems().size(); i++) {
+                    TeamResponse t = successorAdapter.getItems().get(i);
+                    // reset check
+                    t.setChecked(t.getName().equalsIgnoreCase(teamResponse.getName()));
+                }
 
-            // notification
-            successorAdapter.notifyDataSetChanged(teamResponses);
+                // notification
+                successorAdapter.notifyDataSetChanged(successorAdapter.getItems());
 
-            // set visibility view
-            tvDone.setVisibility(StreamSupport.stream(teamResponses).filter(n -> n.isChecked()).count() > 0 ? View.VISIBLE : View.GONE);
+                // set visibility view
+                tvDone.setVisibility(StreamSupport.stream(successorAdapter.getItems()).filter(n -> n.isChecked()).count() > 0 ? View.VISIBLE : View.GONE);
         });
-        rvRecyclerView.init(mActivity, successorAdapter);
+
+        rvRecyclerView.init(mActivity, successorAdapter)
+                .setOnExtRefreshListener(() -> {
+                    rvRecyclerView.clearItems();
+                    presenter.getTeams(leagueId);
+                });
+
+        // load data
+        presenter.getTeams(leagueId);
     }
 
     @Override
@@ -74,11 +91,17 @@ public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccesso
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tvCancel:
+                getActivity().setResult(Activity.RESULT_CANCELED);
                 getActivity().finish();
                 break;
             case R.id.tvDone:
-                DialogUtils.messageBox(mActivity, getString(R.string.app_name), getString(R.string.leave_message),
-                        getString(R.string.ok), (dialog, which) -> getActivity().finish());
+                if (successorAdapter.getItems() != null && successorAdapter.getItems().size() > 0) {
+                    java8.util.Optional<TeamResponse> teamOptional = StreamSupport.stream(successorAdapter.getItems()).filter(n -> n.isChecked()).findAny();
+                    if (teamOptional.isPresent()) teamResponse = teamOptional.get();
+                }
+
+                DialogUtils.messageBox(mActivity, getString(R.string.app_name), getString(R.string.message_confirm_leave_leagues),
+                        getString(R.string.ok), (dialog, which) -> presenter.leaveLeague(leagueId, teamResponse != null ? teamResponse.getId() : 0));
                 break;
         }
     }
@@ -87,5 +110,28 @@ public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccesso
     public void initToolbar(@NonNull ActionBar supportActionBar) {
         super.initToolbar(supportActionBar);
         supportActionBar.hide();
+    }
+
+    @Override
+    public void displayTeams(List<TeamResponse> teams) {
+        tvDone.setVisibility(teams == null || teams.size() <= 0 ? View.VISIBLE : View.INVISIBLE);
+        Optional.from(rvRecyclerView).doIfPresent(rv -> rv.addNewItems(teams));
+    }
+
+    @Override
+    public void onLeaveLeague() {
+        getActivity().setResult(Activity.RESULT_OK);
+        getActivity().finish();
+    }
+
+    @Override
+    public void showLoadingPagingListView(boolean isLoading) {
+        Optional.from(rvRecyclerView).doIfPresent(rv -> {
+            if (isLoading) {
+                rvRecyclerView.startLoading(true);
+            } else {
+                rvRecyclerView.stopLoading(true);
+            }
+        });
     }
 }

@@ -18,6 +18,7 @@ import com.football.adapters.MyLeagueRecyclerAdapter;
 import com.football.adapters.NewsAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.events.StopLeagueEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.activities.MainActivity;
 import com.football.fantasy.fragments.leagues.action.ActionLeagueFragment;
@@ -29,6 +30,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableObserver;
 
 public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<IHomeView>> implements IHomeView, ViewTreeObserver.OnGlobalLayoutListener {
     public static HomeFragment newInstance() {
@@ -89,6 +92,7 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
             Bundle bundle = new Bundle();
             bundle.putString(LeagueDetailFragment.KEY_TITLE, getString(R.string.open_leagues));
             bundle.putInt(LeagueDetailFragment.KEY_LEAGUE_ID, league.getId());
+            bundle.putString(LeagueDetailFragment.KEY_LEAGUE_TYPE, LeagueDetailFragment.MY_LEAGUES);
             AloneFragmentActivity.with(this)
                     .parameters(bundle)
                     .start(LeagueDetailFragment.class);
@@ -105,6 +109,41 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
 
         // load news
         presenter.getNews(1, ExtPagingListView.NUMBER_PER_PAGE);
+
+        subscribeRxBus();
+    }
+
+    void subscribeRxBus() {
+        mCompositeDisposable.add(bus.ofType(StopLeagueEvent.class).observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<StopLeagueEvent>() {
+                    @Override
+                    public void onNext(StopLeagueEvent stopLeagueEvent) {
+                        List<LeagueResponse> leagueResponses = myLeagueRecyclerAdapter.getItems();
+                        if (leagueResponses != null && leagueResponses.size() > 0) {
+                            int index = -1;
+                            for (int i = 0; i < leagueResponses.size(); i++) {
+                                if (leagueResponses.get(i).getId() == stopLeagueEvent.getLeagueId()) {
+                                    index = i;
+                                    break;
+                                }
+                            }
+
+                            if (index >= 0) {
+                                myLeagueRecyclerAdapter.notifyItemRemoved(index);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                }));
     }
 
     @NonNull

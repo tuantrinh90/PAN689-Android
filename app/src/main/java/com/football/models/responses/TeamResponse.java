@@ -9,9 +9,9 @@ public class TeamResponse implements Serializable {
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("created_at")
-    private String createdAt;
+    private DateResponse createdAt;
     @JsonProperty("updated_at")
-    private String updatedAt;
+    private DateResponse updatedAt;
     @JsonProperty("user_id")
     private Integer userId;
     @JsonProperty("user")
@@ -45,19 +45,19 @@ public class TeamResponse implements Serializable {
         this.id = id;
     }
 
-    public String getCreatedAt() {
+    public DateResponse getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(DateResponse createdAt) {
         this.createdAt = createdAt;
     }
 
-    public String getUpdatedAt() {
+    public DateResponse getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(String updatedAt) {
+    public void setUpdatedAt(DateResponse updatedAt) {
         this.updatedAt = updatedAt;
     }
 

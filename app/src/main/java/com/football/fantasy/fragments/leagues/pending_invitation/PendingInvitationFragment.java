@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.bon.customview.listview.ExtPagingListView;
-import com.bon.customview.listview.listener.ExtClickListener;
 import com.bon.interfaces.Optional;
 import com.football.adapters.LeaguesAdapter;
 import com.football.common.activities.AloneFragmentActivity;
@@ -51,6 +50,7 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
             Bundle bundle = new Bundle();
             bundle.putString(LeagueDetailFragment.KEY_TITLE, getString(R.string.open_leagues));
             bundle.putInt(LeagueDetailFragment.KEY_LEAGUE_ID, details.getId());
+            bundle.putString(LeagueDetailFragment.KEY_LEAGUE_TYPE, LeagueDetailFragment.PENDING_LEAGUES);
             AloneFragmentActivity.with(this)
                     .parameters(bundle)
                     .start(LeagueDetailFragment.class);

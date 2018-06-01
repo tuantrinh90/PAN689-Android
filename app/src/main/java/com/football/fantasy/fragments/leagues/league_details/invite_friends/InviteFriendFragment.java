@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.bon.customview.listview.ExtPagingListView;
+import com.bon.interfaces.Optional;
 import com.bon.util.SharedUtils;
 import com.bon.util.StringUtils;
 import com.football.adapters.InviteFriendAdapter;
@@ -22,16 +23,13 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView, IInviteFriendPresenter<IInviteFriendView>> implements IInviteFriendView {
-
     private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
 
     public static InviteFriendFragment newInstance(int leagueId) {
         InviteFriendFragment fragment = new InviteFriendFragment();
-
         Bundle bundle = new Bundle();
         bundle.putInt(KEY_LEAGUE_ID, leagueId);
         fragment.setArguments(bundle);
-
         return fragment;
     }
 
@@ -42,8 +40,9 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
     @BindView(R.id.llInvite)
     LinearLayout llInvite;
 
-    private int leagueId;
+    int leagueId;
     InviteFriendAdapter inviteFriendAdapter;
+    int page = 1;
 
     @Override
     public int getResourceId() {
@@ -59,8 +58,7 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
     }
 
     private void getFriends(String keyword) {
-        rvRecyclerView.startLoading();
-        presenter.getInviteFriends(leagueId, keyword);
+        presenter.getInviteFriends(leagueId, keyword, page, ExtPagingListView.NUMBER_PER_PAGE);
     }
 
     private void getDataFromBundle() {
@@ -73,16 +71,23 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
         svSearch.setSearchConsumer(query -> {
             rvRecyclerView.setVisibility(StringUtils.isEmpty(query) ? View.GONE : View.VISIBLE);
             llInvite.setVisibility(StringUtils.isEmpty(query) ? View.VISIBLE : View.GONE);
+            rvRecyclerView.clearItems();
+            page = 1;
             getFriends(query);
         });
 
         inviteFriendAdapter = new InviteFriendAdapter(mActivity, new ArrayList<>(), detailFriend -> {
 
-        }, inviteFriend -> {
-            presenter.inviteFriend(leagueId, inviteFriend.getId());
-        });
-        rvRecyclerView.init(mActivity, inviteFriendAdapter)
+        }, inviteFriend -> presenter.inviteFriend(leagueId, inviteFriend.getId()));
+        rvRecyclerView
+                .init(mActivity, inviteFriendAdapter)
                 .setOnExtRefreshListener(() -> {
+                    Optional.from(rvRecyclerView).doIfPresent(rv -> rv.clearItems());
+                    page = 1;
+                    getFriends(svSearch.getSearchView().getText().toString());
+                })
+                .setOnExtLoadMoreListener(() -> {
+                    page++;
                     getFriends(svSearch.getSearchView().getText().toString());
                 });
     }
@@ -101,10 +106,7 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
 
     @Override
     public void displayFriends(List<FriendResponse> friends) {
-        inviteFriendAdapter.notifyDataSetChanged(friends);
-        rvRecyclerView.stopLoading();
-        rvRecyclerView.setMessage(friends.isEmpty() ? "No data" : "");
-        rvRecyclerView.displayMessage();
+        Optional.from(rvRecyclerView).doIfPresent(rv -> rv.addNewItems(friends));
     }
 
     @Override
@@ -115,6 +117,18 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
                 break;
             }
         }
+
         inviteFriendAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showLoadingPagingListView(boolean isLoading) {
+        Optional.from(rvRecyclerView).doIfPresent(rv -> {
+            if (isLoading) {
+                rv.startLoading(true);
+            } else {
+                rv.stopLoading(true);
+            }
+        });
     }
 }

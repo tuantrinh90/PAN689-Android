@@ -55,6 +55,7 @@ public class InviteFriendAdapter extends ExtBaseAdapter<FriendResponse, InviteFr
             holder.tvStatus.setBackgroundResource(R.drawable.bg_blue_radius_selector);
             holder.tvStatus.setEnabled(true);
             holder.tvStatus.setText(R.string.invite);
+            holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.color_white));
         }
 
         // click

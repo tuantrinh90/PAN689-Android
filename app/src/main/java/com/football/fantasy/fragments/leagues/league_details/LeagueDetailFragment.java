@@ -1,5 +1,7 @@
 package com.football.fantasy.fragments.leagues.league_details;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.textview.ExtTextView;
+import com.bon.interfaces.Optional;
 import com.bon.util.DialogUtils;
 import com.football.adapters.LeagueDetailViewPagerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
@@ -19,6 +22,7 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
+import com.football.events.StopLeagueEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.ActionLeagueFragment;
 import com.football.fantasy.fragments.leagues.league_details.invite_friends.InviteFriendFragment;
@@ -28,6 +32,7 @@ import com.football.fantasy.fragments.leagues.league_details.teams.TeamFragment;
 import com.football.models.responses.LeagueResponse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -35,6 +40,11 @@ import butterknife.OnClick;
 public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView, ILeagueDetailPresenter<ILeagueDetailView>> implements ILeagueDetailView {
     public static final String KEY_TITLE = "key_title";
     public static final String KEY_LEAGUE_ID = "key_league";
+    public static final String KEY_LEAGUE_TYPE = "key_league_type";
+
+    public static final String OPEN_LEAGUES = "open_leagues";
+    public static final String MY_LEAGUES = "my_leagues";
+    public static final String PENDING_LEAGUES = "pending_leagues";
 
     @BindView(R.id.tvTitle)
     ExtTextView tvTitle;
@@ -49,6 +59,8 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
     int leagueId;
     private LeagueResponse league;
     LeagueDetailViewPagerAdapter leagueDetailViewPagerAdapter;
+    LeagueResponse leagueResponse;
+    List<ExtKeyValuePair> valuePairs = new ArrayList<>();
 
     @Override
     public int getResourceId() {
@@ -81,6 +93,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
                     cvCarouselView.setActivePosition(position);
                     vpViewPager.setCurrentItem(position);
                 });
+        ivMenu.setVisibility(View.GONE);
     }
 
     @NonNull
@@ -105,11 +118,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
     void onClickMenu() {
         ExtKeyValuePairDialogFragment.newInstance()
                 .setValue("")
-                .setExtKeyValuePairs(new ArrayList<ExtKeyValuePair>() {{
-                    add(new ExtKeyValuePair("", getString(R.string.edit), ContextCompat.getColor(mActivity, R.color.color_blue)));
-                    add(new ExtKeyValuePair("", getString(R.string.leave), ContextCompat.getColor(mActivity, R.color.color_blue)));
-                    add(new ExtKeyValuePair("", getString(R.string.stop_league), ContextCompat.getColor(mActivity, R.color.color_red)));
-                }})
+                .setExtKeyValuePairs(valuePairs)
                 .setOnSelectedConsumer(extKeyValuePair -> {
                     // edit
                     if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.edit))) {
@@ -126,8 +135,16 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
 
                     // leave
                     if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.leave))) {
-                        AloneFragmentActivity.with(LeagueDetailFragment.this)
-                                .start(SuccessorFragment.class);
+                        if (leagueResponse.getOwner()) {
+                            Bundle bundle = new Bundle();
+                            bundle.putInt(LeagueDetailFragment.KEY_LEAGUE_ID, leagueId);
+                            AloneFragmentActivity.with(LeagueDetailFragment.this)
+                                    .parameters(bundle)
+                                    .forResult(SuccessorFragment.REQUEST_CODE)
+                                    .start(SuccessorFragment.class);
+                        } else {
+                            showMessage(R.string.message_confirm_leave_leagues, R.string.yes, R.string.no, aVoid -> presenter.leaveLeague(leagueId), null);
+                        }
                     }
 
                     // edit
@@ -140,6 +157,28 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
 
     @Override
     public void displayLeague(LeagueResponse league) {
+        // update league
+        leagueResponse = league;
+
+        // menu
+        // owner
+        if (leagueResponse.getOwner()) {
+            valuePairs.add(new ExtKeyValuePair("", getString(R.string.edit), ContextCompat.getColor(mActivity, R.color.color_blue)));
+        }
+
+        // my leagues or owner
+        if (getArguments().getString(KEY_LEAGUE_TYPE, "").equalsIgnoreCase(MY_LEAGUES) || leagueResponse.getOwner()) {
+            valuePairs.add(new ExtKeyValuePair("", getString(R.string.leave), ContextCompat.getColor(mActivity, R.color.color_blue)));
+        }
+
+        // only owner league has stop leagues
+        if (leagueResponse.getOwner()) {
+            valuePairs.add(new ExtKeyValuePair("", getString(R.string.stop_league), ContextCompat.getColor(mActivity, R.color.color_red)));
+        }
+        ivMenu.setVisibility(valuePairs.size() > 0 ? View.VISIBLE : View.GONE);
+
+        // load info
+        Optional.from(tvTitle).doIfPresent(t -> t.setText(league.getName()));
         this.league = league;
         leagueDetailViewPagerAdapter = new LeagueDetailViewPagerAdapter(getFragmentManager(),
                 new ArrayList<BaseMvpFragment>() {{
@@ -168,6 +207,22 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
 
     @Override
     public void stopLeagueSuccess() {
-        mActivity.finish();
+        bus.send(new StopLeagueEvent(leagueId));
+        getActivity().finish();
+    }
+
+    @Override
+    public void onLeaveLeague() {
+        bus.send(new StopLeagueEvent(leagueId));
+        getActivity().finish();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Activity.RESULT_OK && requestCode == SuccessorFragment.REQUEST_CODE) {
+            bus.send(new StopLeagueEvent(leagueId));
+            getActivity().finish();
+        }
     }
 }
