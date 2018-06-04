@@ -1,4 +1,4 @@
-package com.football.fantasy.fragments.leagues.action.team;
+package com.football.fantasy.fragments.leagues.action.setup_team;
 
 import android.Manifest;
 import android.app.Activity;
@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class CreateTeamFragment extends BaseMainMvpFragment<ICreateTeamView, ICreateTeamPresenter<ICreateTeamView>> implements ICreateTeamView {
+public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetupTeamPresenter<ISetupTeamView>> implements ISetupTeamView {
 
     public static final String KEY_LEAGUE_ID = "LEAGUE_ID";
 
@@ -45,8 +45,8 @@ public class CreateTeamFragment extends BaseMainMvpFragment<ICreateTeamView, ICr
     private int leagueId;
     private File filePath;
 
-    public static CreateTeamFragment newInstance() {
-        return new CreateTeamFragment();
+    public static SetupTeamFragment newInstance() {
+        return new SetupTeamFragment();
     }
 
     @Override
@@ -67,8 +67,8 @@ public class CreateTeamFragment extends BaseMainMvpFragment<ICreateTeamView, ICr
 
     @NonNull
     @Override
-    public ICreateTeamPresenter<ICreateTeamView> createPresenter() {
-        return new CreateTeamDataPresenter(getAppComponent());
+    public ISetupTeamPresenter<ISetupTeamView> createPresenter() {
+        return new SetupTeamDataPresenter(getAppComponent());
     }
 
     @Override
@@ -96,11 +96,11 @@ public class CreateTeamFragment extends BaseMainMvpFragment<ICreateTeamView, ICr
                 .setOnSelectedConsumer(extKeyValuePair -> {
                     if (extKeyValuePair.getKey().equalsIgnoreCase(getString(R.string.camera))) {
                         filePath = ImageUtils.getImageUrlPng();
-                        ImageUtils.captureCamera(CreateTeamFragment.this, filePath);
+                        ImageUtils.captureCamera(SetupTeamFragment.this, filePath);
                     }
 
                     if (extKeyValuePair.getKey().equalsIgnoreCase(getString(R.string.gallery))) {
-                        ImageUtils.chooseImageFromGallery(CreateTeamFragment.this, getString(R.string.select_value));
+                        ImageUtils.chooseImageFromGallery(SetupTeamFragment.this, getString(R.string.select_value));
                     }
 
                 }).show(getFragmentManager(), null);
@@ -115,14 +115,15 @@ public class CreateTeamFragment extends BaseMainMvpFragment<ICreateTeamView, ICr
             return;
         }
 
-        TeamRequest request = new TeamRequest(leagueId, etTeamName.getContent(), etDescription.getContent(), filePath.getAbsolutePath());
+        String path = filePath == null ? "" : filePath.getAbsolutePath();
+
+        TeamRequest request = new TeamRequest(leagueId, etTeamName.getContent(), etDescription.getContent(), path);
         presenter.createTeam(request);
     }
 
     @Override
     public void createTeamSuccess() {
-        showMessage(getString(R.string.update_success));
-        mActivity.finish();
+
     }
 
     @Override

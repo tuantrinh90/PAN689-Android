@@ -30,7 +30,7 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.labels.LabelView;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.leagues.action.team.CreateTeamFragment;
+import com.football.fantasy.fragments.leagues.action.setup_team.SetupTeamFragment;
 import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.BudgetResponse;
 import com.football.models.responses.LeagueResponse;
@@ -471,11 +471,11 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
     @Override
     public void openCreateTeam(Integer leagueId) {
         Bundle bundle = new Bundle();
-        bundle.putInt(CreateTeamFragment.KEY_LEAGUE_ID, leagueId);
+        bundle.putInt(SetupTeamFragment.KEY_LEAGUE_ID, leagueId);
 
         AloneFragmentActivity.with(this)
                 .parameters(bundle)
-                .start(CreateTeamFragment.class);
+                .start(SetupTeamFragment.class);
         mActivity.finish();
     }
 

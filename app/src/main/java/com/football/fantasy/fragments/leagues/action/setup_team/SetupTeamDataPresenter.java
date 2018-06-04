@@ -1,4 +1,4 @@
-package com.football.fantasy.fragments.leagues.action.team;
+package com.football.fantasy.fragments.leagues.action.setup_team;
 
 import com.bon.util.StringUtils;
 import com.football.common.presenters.BaseDataPresenter;
@@ -14,11 +14,11 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
-public class CreateTeamDataPresenter extends BaseDataPresenter<ICreateTeamView> implements ICreateTeamPresenter<ICreateTeamView> {
+public class SetupTeamDataPresenter extends BaseDataPresenter<ISetupTeamView> implements ISetupTeamPresenter<ISetupTeamView> {
     /**
      * @param appComponent
      */
-    protected CreateTeamDataPresenter(AppComponent appComponent) {
+    protected SetupTeamDataPresenter(AppComponent appComponent) {
         super(appComponent);
     }
 
