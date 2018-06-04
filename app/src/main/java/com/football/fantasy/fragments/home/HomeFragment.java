@@ -21,7 +21,7 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.events.StopLeagueEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.activities.MainActivity;
-import com.football.fantasy.fragments.leagues.action.ActionLeagueFragment;
+import com.football.fantasy.fragments.leagues.action.setup_leagues.SetUpLeagueFragment;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.NewsResponse;
@@ -154,7 +154,7 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
 
     @OnClick(R.id.tvCreateLeagues)
     void onClickCreateLeagues() {
-        AloneFragmentActivity.with(this).start(ActionLeagueFragment.class);
+        AloneFragmentActivity.with(this).start(SetUpLeagueFragment.class);
     }
 
     @OnClick(R.id.tvJoinLeagues)

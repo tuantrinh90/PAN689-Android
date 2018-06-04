@@ -1,4 +1,4 @@
-package com.football.fantasy.fragments.leagues.action.setup_team;
+package com.football.fantasy.fragments.leagues.action.setup_teams;
 
 import android.Manifest;
 import android.app.Activity;
@@ -41,7 +41,6 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
     @BindView(R.id.etDescription)
     EditTextApp etDescription;
 
-
     private int leagueId;
     private File filePath;
 
@@ -51,7 +50,7 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
 
     @Override
     public int getResourceId() {
-        return R.layout.team_create_fragment;
+        return R.layout.setup_team_fragment;
     }
 
     @Override

@@ -129,7 +129,7 @@
                     android:background="@drawable/bg_null_gray_selector"
                     android:gravity="right"
                     android:padding="0dp"
-                    android:text="@string/player_list"
+                    android:text="@string/player_list_break"
                     android:textAllCaps="true"
                     app:textViewFontAssetName="@string/font_display_black_italic" />
             </LinearLayout>

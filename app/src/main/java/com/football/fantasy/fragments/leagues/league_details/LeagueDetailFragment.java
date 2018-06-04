@@ -24,7 +24,7 @@ import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
 import com.football.events.StopLeagueEvent;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.leagues.action.ActionLeagueFragment;
+import com.football.fantasy.fragments.leagues.action.setup_leagues.SetUpLeagueFragment;
 import com.football.fantasy.fragments.leagues.league_details.invite_friends.InviteFriendFragment;
 import com.football.fantasy.fragments.leagues.league_details.league_info.LeagueInfoFragment;
 import com.football.fantasy.fragments.leagues.league_details.successor.SuccessorFragment;
@@ -123,10 +123,10 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
                     if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.edit))) {
                         if (league != null) {
                             Bundle bundle = new Bundle();
-                            bundle.putSerializable(ActionLeagueFragment.KEY_LEAGUE, league);
+                            bundle.putSerializable(SetUpLeagueFragment.KEY_LEAGUE, league);
                             AloneFragmentActivity.with(LeagueDetailFragment.this)
                                     .parameters(bundle)
-                                    .start(ActionLeagueFragment.class);
+                                    .start(SetUpLeagueFragment.class);
                         } else {
                             showMessage("League is loading...");
                         }

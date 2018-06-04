@@ -13,7 +13,7 @@ import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.leagues.action.ActionLeagueFragment;
+import com.football.fantasy.fragments.leagues.action.setup_leagues.SetUpLeagueFragment;
 import com.football.fantasy.fragments.leagues.my_leagues.MyLeagueFragment;
 import com.football.fantasy.fragments.leagues.open_leagues.OpenLeagueFragment;
 import com.football.fantasy.fragments.leagues.pending_invitation.PendingInvitationFragment;
@@ -91,6 +91,6 @@ public class LeagueFragment extends BaseMainMvpFragment<ILeagueView, ILeaguePres
 
     @OnClick(R.id.btnAdd)
     void onClickAdd() {
-        AloneFragmentActivity.with(this).start(ActionLeagueFragment.class);
+        AloneFragmentActivity.with(this).start(SetUpLeagueFragment.class);
     }
 }

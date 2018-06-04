@@ -1,4 +1,4 @@
-package com.football.fantasy.fragments.leagues.action;
+package com.football.fantasy.fragments.leagues.action.setup_leagues;
 
 import android.Manifest;
 import android.app.Activity;
@@ -30,7 +30,7 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.labels.LabelView;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.leagues.action.setup_team.SetupTeamFragment;
+import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
 import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.BudgetResponse;
 import com.football.models.responses.LeagueResponse;
@@ -45,12 +45,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView, IActionLeaguePresenter<IActionLeagueView>> implements IActionLeagueView {
+public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, ISetUpLeaguePresenter<ISetupLeagueView>> implements ISetupLeagueView {
 
     public static final String KEY_LEAGUE = "league";
 
-    public static ActionLeagueFragment newInstance() {
-        return new ActionLeagueFragment();
+    public static SetUpLeagueFragment newInstance() {
+        return new SetUpLeagueFragment();
     }
 
     @BindView(R.id.etLeagueName)
@@ -130,7 +130,7 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
 
     @Override
     public int getResourceId() {
-        return R.layout.action_league_fragment;
+        return R.layout.setup_league_fragment;
     }
 
     @Override
@@ -152,11 +152,13 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
             etLeagueName.setContent(league.getName());
             ImageLoaderUtils.displayImage(league.getLogo(), ivImagePick);
             rbOpenLeague.setChecked(league.getLeagueType().equals(LeagueRequest.LEAGUE_TYPE_OPEN));
+
             if (league.getGameplayOption().equals(LeagueRequest.GAMEPLAY_OPTION_TRANSFER)) {
                 onClickTransfer();
             } else {
                 onClickDraft();
             }
+
             etNumberOfUser.setContent(String.format("%02d", league.getNumberOfUser()));
             switch (league.getBudgetId()) {
                 case LeagueRequest.BUDGET_BOTTOM:
@@ -171,12 +173,11 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
                     onClickBudgetOptionDream();
                     break;
             }
+
             rbRegular.setChecked(league.getScoringSystem().equals(LeagueRequest.SCORING_SYSTEM_REGULAR));
             etTeamSetupTime.setContent(league.getTeamSetup());
             etStartTime.setContent(league.getStartAt());
             etDescription.setContent(league.getDescription());
-
-
         }
     }
 
@@ -194,8 +195,8 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
 
     @NonNull
     @Override
-    public IActionLeaguePresenter<IActionLeagueView> createPresenter() {
-        return new ActionLeagueDataPresenter(getAppComponent());
+    public ISetUpLeaguePresenter<ISetupLeagueView> createPresenter() {
+        return new SetUpLeagueDataPresenter(getAppComponent());
     }
 
     @Override
@@ -241,11 +242,11 @@ public class ActionLeagueFragment extends BaseMainMvpFragment<IActionLeagueView,
                 .setOnSelectedConsumer(extKeyValuePair -> {
                     if (extKeyValuePair.getKey().equalsIgnoreCase(getString(R.string.camera))) {
                         filePath = ImageUtils.getImageUrlPng();
-                        ImageUtils.captureCamera(ActionLeagueFragment.this, filePath);
+                        ImageUtils.captureCamera(SetUpLeagueFragment.this, filePath);
                     }
 
                     if (extKeyValuePair.getKey().equalsIgnoreCase(getString(R.string.gallery))) {
-                        ImageUtils.chooseImageFromGallery(ActionLeagueFragment.this, getString(R.string.select_value));
+                        ImageUtils.chooseImageFromGallery(SetUpLeagueFragment.this, getString(R.string.select_value));
                     }
                 }).show(getFragmentManager(), null);
     }

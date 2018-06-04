@@ -7,9 +7,11 @@ import android.view.View;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageLoaderUtils;
+import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.your_team.YourTeamFragment;
 import com.football.models.responses.LeagueResponse;
 
 import butterknife.BindView;
@@ -91,7 +93,7 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
 
     @OnClick(R.id.tvSetupTeam)
     void onClickSetupTeam() {
-
+        AloneFragmentActivity.with(this).start(YourTeamFragment.class);
     }
 
     @OnClick(R.id.tvStartLeague)
