@@ -19,9 +19,11 @@ import com.bon.image.ImageLoaderUtils;
 import com.bon.image.ImageUtils;
 import com.bon.permission.PermissionUtils;
 import com.bon.util.StringUtils;
+import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.your_team.YourTeamFragment;
 import com.football.models.requests.TeamRequest;
 
 import java.io.File;
@@ -122,7 +124,11 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
 
     @Override
     public void createTeamSuccess() {
-
+        Bundle bundle = new Bundle();
+        bundle.putInt(YourTeamFragment.KEY_LEAGUE_ID, leagueId);
+        AloneFragmentActivity.with(this)
+                .parameters(bundle)
+                .start(YourTeamFragment.class);
     }
 
     @Override

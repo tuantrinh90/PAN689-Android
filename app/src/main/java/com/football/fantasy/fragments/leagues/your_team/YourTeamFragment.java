@@ -23,12 +23,17 @@ import java.util.ArrayList;
 import butterknife.BindView;
 
 public class YourTeamFragment extends BaseMainMvpFragment<IYourTeamView, IYourTeamPresenter<IYourTeamView>> implements IYourTeamView {
+
+    public static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+
     @BindView(R.id.tvTitle)
     ExtTextView tvTitle;
     @BindView(R.id.cvCarouselView)
     CarouselView cvCarouselView;
     @BindView(R.id.vpViewPager)
     ViewPager vpViewPager;
+
+    private int leagueId;
 
     @Override
     public int getResourceId() {
@@ -37,9 +42,15 @@ public class YourTeamFragment extends BaseMainMvpFragment<IYourTeamView, IYourTe
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
         initView();
+    }
+
+    private void getDataFromBundle() {
+        Bundle bundle = getArguments();
+        leagueId = bundle.getInt(KEY_LEAGUE_ID);
     }
 
     void initView() {
@@ -57,7 +68,7 @@ public class YourTeamFragment extends BaseMainMvpFragment<IYourTeamView, IYourTe
         vpViewPager.setAdapter(new YourTeamViewPagerAdapter(getFragmentManager(), new ArrayList<BaseMvpFragment>() {{
             add(LineUpFragment.newInstance().setChildFragment(true));
             add(PlayerListFragment.newInstance().setChildFragment(true));
-            add(TeamListFragment.newInstance().setChildFragment(true));
+            add(TeamListFragment.newInstance(leagueId).setChildFragment(true));
         }}));
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

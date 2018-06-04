@@ -23,6 +23,8 @@ public class TeamAdapter extends ExtBaseAdapter<TeamResponse, TeamAdapter.ViewHo
     private Consumer<TeamResponse> detailConsumer;
     private Consumer<TeamResponse> teamConsumer;
 
+    private boolean visibleRemove= true;
+
     public TeamAdapter(Context context, List<TeamResponse> teamResponses, Consumer<TeamResponse> detailConsumer, Consumer<TeamResponse> teamConsumer) {
         super(context, teamResponses);
         this.detailConsumer = detailConsumer;
@@ -44,12 +46,16 @@ public class TeamAdapter extends ExtBaseAdapter<TeamResponse, TeamAdapter.ViewHo
         holder.ivAvatar.setImageUri(teamResponse.getLogo());
         holder.tvTeam.setText(teamResponse.getName());
         holder.tvDescription.setText(teamResponse.getDescription());
-        holder.tvRemove.setVisibility(teamResponse.getOwner() ? View.VISIBLE : View.GONE);
+        holder.tvRemove.setVisibility(visibleRemove && teamResponse.getOwner() ? View.VISIBLE : View.GONE);
         holder.ivLock.setVisibility(teamResponse.getOwner() ? View.GONE : View.VISIBLE);
 
         // click
         RxView.clicks(holder.itemView).subscribe(o -> Optional.from(detailConsumer).doIfPresent(t -> t.accept(teamResponse)));
         RxView.clicks(holder.tvRemove).subscribe(o -> Optional.from(teamConsumer).doIfPresent(t -> t.accept(teamResponse)));
+    }
+
+    public void setVisibleRemove(boolean visibleRemove) {
+        this.visibleRemove = visibleRemove;
     }
 
     class ViewHolder extends ExtPagingListView.ExtViewHolder {

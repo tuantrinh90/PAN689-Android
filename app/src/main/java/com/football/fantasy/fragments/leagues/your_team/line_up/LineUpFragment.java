@@ -14,7 +14,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
 
     @Override
     public int getResourceId() {
-        return R.layout.linup_fragment;
+        return R.layout.lineup_fragment;
     }
 
     @Override
