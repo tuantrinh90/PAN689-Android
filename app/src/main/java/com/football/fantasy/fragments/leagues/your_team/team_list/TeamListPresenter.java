@@ -1,4 +1,4 @@
-package com.football.fantasy.fragments.your_team.team_list;
+package com.football.fantasy.fragments.leagues.your_team.team_list;
 
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;

@@ -1,4 +1,4 @@
-package com.football.fantasy.fragments.your_team;
+package com.football.fantasy.fragments.leagues.your_team;
 
 import com.football.common.presenters.IBaseDataPresenter;
 import com.football.common.views.IBaseMvpView;

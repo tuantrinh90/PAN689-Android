@@ -1,4 +1,4 @@
-package com.football.fantasy.fragments.your_team.line_up;
+package com.football.fantasy.fragments.leagues.your_team.player_list;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,14 +7,14 @@ import android.view.View;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
 
-public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPresenter<ILineUpView>> implements ILineUpView {
-    public static LineUpFragment newInstance() {
-        return new LineUpFragment();
+public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPlayerListPresenter<IPlayerListView>> implements IPlayerListView {
+    public static PlayerListFragment newInstance() {
+        return new PlayerListFragment();
     }
 
     @Override
     public int getResourceId() {
-        return R.layout.linup_fragment;
+        return R.layout.player_list_fragment;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     }
 
     @Override
-    public ILineUpPresenter<ILineUpView> createPresenter() {
-        return new LineUpPresenter(getAppComponent());
+    public IPlayerListPresenter<IPlayerListView> createPresenter() {
+        return new PlayerListPresenter(getAppComponent());
     }
 }

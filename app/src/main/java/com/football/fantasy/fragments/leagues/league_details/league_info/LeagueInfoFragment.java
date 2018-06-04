@@ -11,7 +11,7 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.your_team.YourTeamFragment;
+import com.football.fantasy.fragments.leagues.your_team.YourTeamFragment;
 import com.football.models.responses.LeagueResponse;
 
 import butterknife.BindView;

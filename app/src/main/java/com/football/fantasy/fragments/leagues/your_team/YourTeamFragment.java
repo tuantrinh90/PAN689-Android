@@ -1,4 +1,4 @@
-package com.football.fantasy.fragments.your_team;
+package com.football.fantasy.fragments.leagues.your_team;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,9 +14,9 @@ import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.your_team.line_up.LineUpFragment;
-import com.football.fantasy.fragments.your_team.player_list.PlayerListFragment;
-import com.football.fantasy.fragments.your_team.team_list.TeamListFragment;
+import com.football.fantasy.fragments.leagues.your_team.line_up.LineUpFragment;
+import com.football.fantasy.fragments.leagues.your_team.player_list.PlayerListFragment;
+import com.football.fantasy.fragments.leagues.your_team.team_list.TeamListFragment;
 
 import java.util.ArrayList;
 
@@ -59,6 +59,22 @@ public class YourTeamFragment extends BaseMainMvpFragment<IYourTeamView, IYourTe
             add(PlayerListFragment.newInstance().setChildFragment(true));
             add(TeamListFragment.newInstance().setChildFragment(true));
         }}));
+        vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                cvCarouselView.setActivePosition(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
