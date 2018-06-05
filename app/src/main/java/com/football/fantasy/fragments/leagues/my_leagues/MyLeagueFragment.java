@@ -31,6 +31,7 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
 
     List<LeagueResponse> leagueResponses;
     LeaguesAdapter leaguesAdapter;
+
     int page = 1;
 
     @Override
@@ -48,12 +49,8 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
     void initView() {
         // leagueResponses
         leaguesAdapter = new LeaguesAdapter(mActivity, LeaguesAdapter.MY_LEAGUES, leagueResponses, details -> {
-            Bundle bundle = new Bundle();
-            bundle.putString(LeagueDetailFragment.KEY_TITLE, getString(R.string.open_leagues));
-            bundle.putInt(LeagueDetailFragment.KEY_LEAGUE_ID, details.getId());
-            bundle.putString(LeagueDetailFragment.KEY_LEAGUE_TYPE, LeagueDetailFragment.MY_LEAGUES);
             AloneFragmentActivity.with(this)
-                    .parameters(bundle)
+                    .parameters(LeagueDetailFragment.newBundle(getString(R.string.my_leagues), details.getId(), LeagueDetailFragment.MY_LEAGUES))
                     .start(LeagueDetailFragment.class);
         }, null, null, null);
         rvRecyclerView.init(mActivity, leaguesAdapter)

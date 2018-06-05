@@ -89,12 +89,8 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
 
         // leagueResponses
         myLeagueRecyclerAdapter = new MyLeagueRecyclerAdapter(mActivity, leagueResponses, league -> {
-            Bundle bundle = new Bundle();
-            bundle.putString(LeagueDetailFragment.KEY_TITLE, getString(R.string.open_leagues));
-            bundle.putInt(LeagueDetailFragment.KEY_LEAGUE_ID, league.getId());
-            bundle.putString(LeagueDetailFragment.KEY_LEAGUE_TYPE, LeagueDetailFragment.MY_LEAGUES);
             AloneFragmentActivity.with(this)
-                    .parameters(bundle)
+                    .parameters(LeagueDetailFragment.newBundle(getString(R.string.my_leagues), league.getId(), LeagueDetailFragment.MY_LEAGUES))
                     .start(LeagueDetailFragment.class);
         });
         rvMyLeagues.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));

@@ -3,14 +3,12 @@ package com.football.fantasy.fragments.leagues.action.setup_leagues;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
@@ -20,14 +18,13 @@ import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.radiobutton.ExtRadioButton;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageFilePath;
-import com.bon.image.ImageLoaderUtils;
 import com.bon.image.ImageUtils;
-import com.bon.permission.PermissionUtils;
 import com.bon.util.DateTimeUtils;
 import com.bon.util.StringUtils;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
+import com.football.customizes.images.CircleImageViewApp;
 import com.football.customizes.labels.LabelView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
@@ -44,19 +41,22 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableObserver;
 
 public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, ISetUpLeaguePresenter<ISetupLeagueView>> implements ISetupLeagueView {
+    static final String KEY_LEAGUE = "league";
 
-    public static final String KEY_LEAGUE = "league";
-
-    public static SetUpLeagueFragment newInstance() {
-        return new SetUpLeagueFragment();
+    public static Bundle newBundle(LeagueResponse leagueResponse) {
+        Bundle bundle = new Bundle();
+        if (leagueResponse != null) bundle.putSerializable(KEY_LEAGUE, leagueResponse);
+        return bundle;
     }
 
     @BindView(R.id.etLeagueName)
     EditTextApp etLeagueName;
     @BindView(R.id.ivImagePick)
-    ImageView ivImagePick;
+    CircleImageViewApp ivImagePick;
     @BindView(R.id.lvLeagueType)
     LabelView lvLeagueType;
     @BindView(R.id.rbOpenLeague)
@@ -95,7 +95,6 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     @BindView(R.id.tvBudgetOption3Value)
     ExtTextView tvBudgetOption3Value;
 
-
     @BindView(R.id.lvTradeReviewSetting)
     LabelView lvTradeReviewSetting;
     @BindView(R.id.rgTradeReviewSetting)
@@ -125,8 +124,9 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     Calendar calendarTeamSetupTime = Calendar.getInstance();
     ExtKeyValuePair keyValuePairNumberOfUser = new ExtKeyValuePair("06", "06");
 
-    private int leagueId;
-    private List<BudgetResponse> budgets;
+    int leagueId;
+    List<BudgetResponse> budgets;
+    LeagueResponse league;
 
     @Override
     public int getResourceId() {
@@ -135,22 +135,30 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
         presenter.getBudgets(leagueId);
-
         initView();
         displayData();
     }
 
+    void getDataFromBundle() {
+        if (getArguments() == null) return;
+        if (getArguments().containsKey(KEY_LEAGUE)) {
+            league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
+        }
+    }
+
     private void displayData() {
-        LeagueResponse league = (LeagueResponse) (getArguments() != null ? getArguments().getSerializable(KEY_LEAGUE) : null);
+        ivImagePick.getImageView().setImageResource(R.drawable.bg_image_pick);
+
         // display data to views
         if (league != null) {
             leagueId = league.getId();
 
             etLeagueName.setContent(league.getName());
-            ImageLoaderUtils.displayImage(league.getLogo(), ivImagePick);
+            ivImagePick.setImageUri(league.getLogo());
             rbOpenLeague.setChecked(league.getLeagueType().equals(LeagueRequest.LEAGUE_TYPE_OPEN));
 
             if (league.getGameplayOption().equals(LeagueRequest.GAMEPLAY_OPTION_TRANSFER)) {
@@ -231,24 +239,44 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
 
     @OnClick(R.id.ivImagePick)
     void onClickImagePick() {
-        if (!PermissionUtils.requestPermission(this, PermissionUtils.REQUEST_CODE_PERMISSION,
-                Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)) return;
+        mActivity.getRxPermissions().request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<Boolean>() {
+                    @Override
+                    public void onNext(Boolean granted) {
+                        if (granted) {
+                            ExtKeyValuePairDialogFragment.newInstance()
+                                    .setExtKeyValuePairs(new ArrayList<ExtKeyValuePair>() {{
+                                        add(new ExtKeyValuePair(getString(R.string.camera), getString(R.string.camera)));
+                                        add(new ExtKeyValuePair(getString(R.string.gallery), getString(R.string.gallery)));
+                                    }})
+                                    .setOnSelectedConsumer(extKeyValuePair -> {
+                                        if (extKeyValuePair.getKey().equalsIgnoreCase(getString(R.string.camera))) {
+                                            filePath = ImageUtils.getImageUrlPng();
+                                            ImageUtils.captureCamera(SetUpLeagueFragment.this, filePath);
+                                        }
 
-        ExtKeyValuePairDialogFragment.newInstance()
-                .setExtKeyValuePairs(new ArrayList<ExtKeyValuePair>() {{
-                    add(new ExtKeyValuePair(getString(R.string.camera), getString(R.string.camera)));
-                    add(new ExtKeyValuePair(getString(R.string.gallery), getString(R.string.gallery)));
-                }})
-                .setOnSelectedConsumer(extKeyValuePair -> {
-                    if (extKeyValuePair.getKey().equalsIgnoreCase(getString(R.string.camera))) {
-                        filePath = ImageUtils.getImageUrlPng();
-                        ImageUtils.captureCamera(SetUpLeagueFragment.this, filePath);
+                                        if (extKeyValuePair.getKey().equalsIgnoreCase(getString(R.string.gallery))) {
+                                            ImageUtils.chooseImageFromGallery(SetUpLeagueFragment.this, getString(R.string.select_value));
+                                        }
+                                    }).show(getFragmentManager(), null);
+                        } else {
+                            onClickImagePick();
+                        }
                     }
 
-                    if (extKeyValuePair.getKey().equalsIgnoreCase(getString(R.string.gallery))) {
-                        ImageUtils.chooseImageFromGallery(SetUpLeagueFragment.this, getString(R.string.select_value));
+                    @Override
+                    public void onError(Throwable e) {
+
                     }
-                }).show(getFragmentManager(), null);
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+
     }
 
     @OnClick(R.id.lvGamePlayOption)
@@ -466,16 +494,12 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
         } catch (Exception e) {
 
         }
-
     }
 
     @Override
     public void openCreateTeam(Integer leagueId) {
-        Bundle bundle = new Bundle();
-        bundle.putInt(SetupTeamFragment.KEY_LEAGUE_ID, leagueId);
-
         AloneFragmentActivity.with(this)
-                .parameters(bundle)
+                .parameters(SetupTeamFragment.newBundle(leagueId, null))
                 .start(SetupTeamFragment.class);
         mActivity.finish();
     }
@@ -486,24 +510,12 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case PermissionUtils.REQUEST_CODE_PERMISSION:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    onClickImagePick();
-                }
-                break;
-        }
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case ImageUtils.CAMERA_REQUEST: {
-                    ImageLoaderUtils.displayImage(ImageUtils.getUriImageDisplayFromFile(filePath), ivImagePick);
+                    ivImagePick.setImageUri(ImageUtils.getUriImageDisplayFromFile(filePath));
                     break;
                 }
                 case ImageUtils.REQUEST_PICK_CONTENT: {
@@ -511,7 +523,7 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
                     Log.e("pathFile", "pathFile:: " + pathFile);
                     StringUtils.isNotEmpty(pathFile, s -> {
                         filePath = new File(s);
-                        ImageLoaderUtils.displayImage(ImageUtils.getUriImageDisplayFromFile(filePath), ivImagePick);
+                        ivImagePick.setImageUri(ImageUtils.getUriImageDisplayFromFile(filePath));
                     });
                     break;
                 }

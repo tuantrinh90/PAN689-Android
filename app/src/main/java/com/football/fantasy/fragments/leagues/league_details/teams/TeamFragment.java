@@ -20,16 +20,13 @@ import java.util.List;
 import butterknife.BindView;
 
 public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<ITeamView>> implements ITeamView {
-
-    private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+    static final String KEY_LEAGUE_ID = "LEAGUE_ID";
 
     public static TeamFragment newInstance(int leagueId) {
         TeamFragment fragment = new TeamFragment();
-
         Bundle bundle = new Bundle();
         bundle.putInt(KEY_LEAGUE_ID, leagueId);
         fragment.setArguments(bundle);
-
         return fragment;
     }
 
@@ -38,9 +35,9 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
     @BindView(R.id.rvRecyclerView)
     ExtPagingListView rvRecyclerView;
 
-    private int leagueId;
+    int leagueId;
 
-    private TeamAdapter teamAdapter;
+    TeamAdapter teamAdapter;
 
     @Override
     public int getResourceId() {
@@ -56,9 +53,9 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
         getTeams();
     }
 
-    private void getDataFromBundle() {
-        Bundle bundle = getArguments();
-        leagueId = bundle.getInt(KEY_LEAGUE_ID);
+    void getDataFromBundle() {
+        if (getArguments() == null) return;
+        leagueId = getArguments().getInt(KEY_LEAGUE_ID);
     }
 
     void initView() {
@@ -80,7 +77,7 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
                 });
     }
 
-    private void getTeams() {
+    void getTeams() {
         presenter.getTeams(leagueId);
     }
 

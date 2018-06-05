@@ -20,7 +20,7 @@ import butterknife.OnClick;
 public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILeagueInfoPresenter<ILeagueInfoView>> implements ILeagueInfoView {
     static final String TAG = LeagueInfoFragment.class.getSimpleName();
 
-    private static final String KEY_LEAGUE = "LEAGUE";
+    static final String KEY_LEAGUE = "LEAGUE";
 
     @BindView(R.id.tvTeamSetupTime)
     ExtTextView tvTeamSetupTime;
@@ -51,7 +51,7 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
         LeagueInfoFragment fragment = new LeagueInfoFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_LEAGUE, league);
+        if (league != null) bundle.putSerializable(KEY_LEAGUE, league);
         fragment.setArguments(bundle);
 
         return fragment;
@@ -70,12 +70,14 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
         displayViews();
     }
 
-    private void getDataFromBundle() {
-        Bundle bundle = getArguments();
-        league = (LeagueResponse) bundle.getSerializable(KEY_LEAGUE);
+    void getDataFromBundle() {
+        if (getArguments() == null) return;
+        if (getArguments().containsKey(KEY_LEAGUE)) {
+            league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
+        }
     }
 
-    private void displayViews() {
+    void displayViews() {
         tvLeagueType.setText(league.getLeagueTypeDisplay());
         tvMaxNumberOfTeam.setText(String.valueOf(league.getNumberOfUser()));
         tvGamePlayOptions.setText(league.getGameplayOptionDisplay());

@@ -32,22 +32,22 @@ import butterknife.OnClick;
  */
 public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPresenter<ISignInView>>
         implements ISignInView, FacebookListener, TwitterListener, GoogleListener {
+    static final String TAG = "SignInFragment";
+
     public static SignInFragment newInstance() {
         return new SignInFragment();
     }
-
-    private static final String TAG = "SignInFragment";
 
     @BindView(R.id.etEmail)
     EditTextApp etEmail;
     @BindView(R.id.etPassword)
     EditTextApp etPassword;
 
-    private FacebookHelper mFacebook;
-    private GoogleHelper mGoogle;
-    private TwitterHelper mTwitter;
+    FacebookHelper mFacebook;
+    GoogleHelper mGoogle;
+    TwitterHelper mTwitter;
 
-    private String currentProvider;
+    String currentProvider;
 
     @NonNull
     @Override
@@ -75,7 +75,7 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
         }
     }
 
-    private void initSocialLogin() {
+    void initSocialLogin() {
         mFacebook = new FacebookHelper(this);
         mTwitter = new TwitterHelper(this, mActivity, getString(R.string.twitter_api_key), getString(R.string.twitter_secret_key));
         mGoogle = new GoogleHelper(this, mActivity, null);

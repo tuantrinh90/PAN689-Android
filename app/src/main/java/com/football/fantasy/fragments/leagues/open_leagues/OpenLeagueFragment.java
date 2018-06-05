@@ -7,17 +7,13 @@ import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.AbsListView;
 
 import com.bon.customview.listview.ExtPagingListView;
 import com.bon.interfaces.Optional;
 import com.bon.logger.Logger;
 import com.bon.util.GeneralUtils;
-import com.bon.view_animation.Techniques;
-import com.bon.view_animation.YoYo;
 import com.football.adapters.LeaguesAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
@@ -31,7 +27,7 @@ import java.util.List;
 import butterknife.BindView;
 
 public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOpenLeaguePresenter<IOpenLeagueView>> implements IOpenLeagueView {
-    private static final String TAG = OpenLeagueFragment.class.getSimpleName();
+    static final String TAG = OpenLeagueFragment.class.getSimpleName();
 
     public static OpenLeagueFragment newInstance() {
         return new OpenLeagueFragment();
@@ -43,6 +39,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
     SearchView svSearchView;
     List<LeagueResponse> leagueResponses;
     LeaguesAdapter leaguesAdapter;
+
     String orderBy = "desc";
     int page = 1;
     String query = "";
@@ -88,12 +85,8 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
 
             // leagueResponses
             leaguesAdapter = new LeaguesAdapter(mActivity, LeaguesAdapter.OPEN_LEAGUES, leagueResponses, details -> {
-                Bundle bundle = new Bundle();
-                bundle.putString(LeagueDetailFragment.KEY_TITLE, getString(R.string.open_leagues));
-                bundle.putInt(LeagueDetailFragment.KEY_LEAGUE_ID, details.getId());
-                bundle.putString(LeagueDetailFragment.KEY_LEAGUE_TYPE, LeagueDetailFragment.OPEN_LEAGUES);
                 AloneFragmentActivity.with(this)
-                        .parameters(bundle)
+                        .parameters(LeagueDetailFragment.newBundle(getString(R.string.open_leagues), details.getId(), LeagueDetailFragment.OPEN_LEAGUES))
                         .start(LeagueDetailFragment.class);
             }, null, null, join -> {
 
@@ -119,7 +112,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
     void onClickFilter() {
         Optional.from(rvRecyclerView).doIfPresent(rv -> {
             orderBy = orderBy.equalsIgnoreCase("desc") ? "asc" : "desc";
-            svSearchView.getFilter().animate().rotation(orderBy.equalsIgnoreCase("desc") ? 0: 180)
+            svSearchView.getFilter().animate().rotation(orderBy.equalsIgnoreCase("desc") ? 0 : 180)
                     .setDuration(500).setInterpolator(new LinearInterpolator()).start();
             rv.clearItems();
             page = 1;

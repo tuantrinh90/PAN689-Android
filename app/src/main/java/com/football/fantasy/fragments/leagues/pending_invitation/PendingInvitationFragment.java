@@ -47,12 +47,8 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
     void initView() {
         // leagueResponses
         leaguesAdapter = new LeaguesAdapter(mActivity, LeaguesAdapter.PENDING_INVITATIONS, leagueResponses, details -> {
-            Bundle bundle = new Bundle();
-            bundle.putString(LeagueDetailFragment.KEY_TITLE, getString(R.string.open_leagues));
-            bundle.putInt(LeagueDetailFragment.KEY_LEAGUE_ID, details.getId());
-            bundle.putString(LeagueDetailFragment.KEY_LEAGUE_TYPE, LeagueDetailFragment.PENDING_LEAGUES);
             AloneFragmentActivity.with(this)
-                    .parameters(bundle)
+                    .parameters(LeagueDetailFragment.newBundle(getString(R.string.pending_invitation), details.getId(), LeagueDetailFragment.PENDING_LEAGUES))
                     .start(LeagueDetailFragment.class);
         }, approve -> {
             presenter.invitationDecisions(approve, Constant.KEY_INVITATION_ACCEPT);

@@ -38,16 +38,13 @@
             android:layout_weight="1"
             app:editTextAppHint="@string/enter_team_name" />
 
-        <ImageView
+        <com.football.customizes.images.CircleImageViewApp
             android:id="@+id/ivImagePick"
             android:layout_width="@dimen/avatar_normal"
             android:layout_height="@dimen/avatar_normal"
             android:layout_marginLeft="@dimen/padding_layout"
             android:layout_marginStart="@dimen/padding_layout"
-            android:background="@drawable/bg_image_pick"
-            android:padding="@dimen/padding_layout"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_photo_white" />
+            android:padding="@dimen/padding_layout" />
     </TableRow>
 
     <com.football.customizes.labels.LabelView

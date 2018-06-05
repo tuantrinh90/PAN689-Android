@@ -28,6 +28,7 @@ import com.football.interactors.IDataModule;
 import com.football.interactors.database.IDbModule;
 import com.football.interactors.service.IApiService;
 import com.hannesdorfmann.mosby3.mvp.MvpFragment;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.RxLifecycle;
 import com.trello.rxlifecycle2.android.FragmentEvent;
@@ -66,13 +67,14 @@ public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDat
     // unbind butter knife
     private Unbinder unbinder;
 
-    // is child fragment
-    boolean isChildFragment = false;
-
+    // rxjava
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     // lifecycle subject
     private final BehaviorSubject<FragmentEvent> lifecycleSubject = BehaviorSubject.create();
+
+    // is child fragment
+    boolean isChildFragment = false;
 
     @Override
     @NonNull
