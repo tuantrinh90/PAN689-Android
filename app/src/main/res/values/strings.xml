@@ -201,6 +201,7 @@
     <string name="player_list">Player list</string>
     <string name="team_list">Team list</string>
     <string name="league_details">League details</string>
+    <string name="message_confirm_remove_lineup_player">message_confirm_remove_lineup_player</string>
 
 
 </resources>

@@ -139,6 +139,9 @@ dependencies {
     // circle image
     implementation "de.hdodenhof:circleimageview:${rootProject.ext.circleimageview}"
 
+    // flexbox layout
+    implementation "com.google.android:flexbox:${rootProject.ext.flexboxVer}"
+
     // socials
     implementation "com.google.android.gms:play-services-auth:${rootProject.ext.playServiceVer}"
     implementation "com.facebook.android:facebook-android-sdk:${rootProject.ext.facebookVer}"
