@@ -41,12 +41,131 @@
                     tools:text="32132" />
             </TableRow>
 
-            <LinearLayout
+            <com.google.android.flexbox.FlexboxLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/color_background_edit_text_focused"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                app:justifyContent="space_evenly">
 
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-            </LinearLayout>
+                    <com.bon.customview.textview.ExtTextView
+                        style="@style/StyleDescriptionWhite"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/bg_player_position_g"
+                        android:gravity="center"
+                        android:text="G"
+                        android:textAllCaps="true"
+                        app:textViewFontAssetName="@string/font_display_bold" />
+
+                    <com.bon.customview.textview.ExtTextView
+                        style="@style/StyleBubble"
+                        android:layout_width="30dp"
+                        android:layout_height="22dp"
+                        android:layout_gravity="end"
+                        android:background="@drawable/bg_white_gray_radius"
+                        android:gravity="center"
+                        android:padding="0dp"
+                        android:text="123"
+                        android:textAllCaps="true"
+                        app:textViewFontAssetName="@string/font_display_bold" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <com.bon.customview.textview.ExtTextView
+                        style="@style/StyleDescriptionWhite"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/bg_player_position_d"
+                        android:gravity="center"
+                        android:text="D"
+                        android:textAllCaps="true"
+                        app:textViewFontAssetName="@string/font_display_bold" />
+
+                    <com.bon.customview.textview.ExtTextView
+                        style="@style/StyleBubble"
+                        android:layout_width="30dp"
+                        android:layout_height="22dp"
+                        android:layout_gravity="end"
+                        android:background="@drawable/bg_white_gray_radius"
+                        android:gravity="center"
+                        android:padding="0dp"
+                        android:text="123"
+                        android:textAllCaps="true"
+                        app:textViewFontAssetName="@string/font_display_bold" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <com.bon.customview.textview.ExtTextView
+                        style="@style/StyleDescriptionWhite"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/bg_player_position_m"
+                        android:gravity="center"
+                        android:text="M"
+                        android:textAllCaps="true"
+                        app:textViewFontAssetName="@string/font_display_bold" />
+
+                    <com.bon.customview.textview.ExtTextView
+                        style="@style/StyleBubble"
+                        android:layout_width="30dp"
+                        android:layout_height="22dp"
+                        android:layout_gravity="end"
+                        android:background="@drawable/bg_white_gray_radius"
+                        android:gravity="center"
+                        android:padding="0dp"
+                        android:text="123"
+                        android:textAllCaps="true"
+                        app:textViewFontAssetName="@string/font_display_bold" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <com.bon.customview.textview.ExtTextView
+                        style="@style/StyleDescriptionWhite"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/bg_player_position_a"
+                        android:gravity="center"
+                        android:text="A"
+                        android:textAllCaps="true"
+                        app:textViewFontAssetName="@string/font_display_bold" />
+
+                    <com.bon.customview.textview.ExtTextView
+                        style="@style/StyleBubble"
+                        android:layout_width="30dp"
+                        android:layout_height="22dp"
+                        android:layout_gravity="end"
+                        android:background="@drawable/bg_white_gray_radius"
+                        android:gravity="center"
+                        android:padding="0dp"
+                        android:text="123"
+                        android:textAllCaps="true"
+                        app:textViewFontAssetName="@string/font_display_bold" />
+
+                </FrameLayout>
+
+            </com.google.android.flexbox.FlexboxLayout>
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/relativeLayout"
@@ -91,7 +210,7 @@
                 app:shadowLayoutShadowColor="@color/color_shadow">
 
                 <com.bon.customview.textview.ExtTextView
-                    android:id="@+id/tvCreateLeague"
+                    android:id="@+id/tvCreateTeam"
                     style="@style/StyleButton"
                     android:text="@string/team_creation"
                     android:textAllCaps="true"
