@@ -89,20 +89,20 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
     private MultipartBody.Builder createMultiPartBuilder(LeagueRequest request) {
         MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("name", request.name)
-                .addFormDataPart("league_type", request.league_type)
-                .addFormDataPart("number_of_user", String.valueOf(request.number_of_user))
-                .addFormDataPart("scoring_system", request.scoring_system)
-                .addFormDataPart("start_at", request.start_at)
-                .addFormDataPart("description", request.description)
-                .addFormDataPart("gameplay_option", request.gameplay_option)
-                .addFormDataPart("budget_id", String.valueOf(request.budget_id))
-                .addFormDataPart("team_setup", request.team_setup)
-                .addFormDataPart("trade_review", request.trade_review)
-                .addFormDataPart("draft_time", request.draft_time)
-                .addFormDataPart("time_to_pick", request.time_to_pick);
-        if (!StringUtils.isEmpty(request.logo)) {
-            File logo = new File(request.logo);
+                .addFormDataPart("name", request.getName())
+                .addFormDataPart("league_type", request.getLeagueType())
+                .addFormDataPart("number_of_user", String.valueOf(request.getNumberOfUser()))
+                .addFormDataPart("scoring_system", request.getScoringSystem())
+                .addFormDataPart("start_at", request.getStartAt())
+                .addFormDataPart("description", request.getDescription())
+                .addFormDataPart("gameplay_option", request.getGameplayOption())
+                .addFormDataPart("budget_id", String.valueOf(request.getBudgetId()))
+                .addFormDataPart("team_setup", request.getTeamSetup())
+                .addFormDataPart("trade_review", request.getTradeReview())
+                .addFormDataPart("draft_time", request.getDraftTime())
+                .addFormDataPart("time_to_pick", request.getTimeToPick());
+        if (!StringUtils.isEmpty(request.getLogo())) {
+            File logo = new File(request.getLogo());
             if (logo.exists()) {
                 builder.addFormDataPart("logo", logo.getName(), RequestBody.create(MediaType.parse("image/*"), logo));
             }

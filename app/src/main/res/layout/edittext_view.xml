@@ -22,8 +22,8 @@
             style="@style/IconTiny"
             android:layout_marginEnd="@dimen/padding_content"
             android:layout_marginRight="@dimen/padding_content"
-            android:visibility="visible"
-            android:src="@drawable/ic_date_range" />
+            android:src="@drawable/ic_date_range"
+            android:visibility="visible" />
 
         <com.bon.customview.edittext.ExtEditText
             android:id="@+id/etContent"
@@ -63,8 +63,8 @@
             style="@style/IconTiny"
             android:layout_marginLeft="@dimen/padding_content"
             android:layout_marginStart="@dimen/padding_content"
-            android:visibility="visible"
-            android:src="@drawable/ic_date_range" />
+            android:src="@drawable/ic_date_range"
+            android:visibility="visible" />
     </LinearLayout>
 
     <com.bon.customview.textview.ExtTextView

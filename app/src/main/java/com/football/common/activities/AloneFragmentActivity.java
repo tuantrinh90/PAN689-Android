@@ -46,6 +46,7 @@ public class AloneFragmentActivity extends BaseAppCompatActivity {
         setSupportActionBar(toolbar);
         Optional.from(savedInstanceState).doIfEmpty(b -> {
             Bundle bundle = getIntent().getExtras();
+            if (bundle == null) bundle = new Bundle();
             getFragmentForOpen(bundle, fr -> replaceFragment(fr, false));
         });
 

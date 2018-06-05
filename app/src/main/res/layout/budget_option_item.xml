@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_game_option"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:minWidth="@dimen/button_min_width"
+    android:layout_marginRight="@dimen/padding_layout"
+    android:padding="@dimen/padding_layout">
+
+    <com.bon.customview.textview.ExtTextView
+        android:id="@+id/tvBudgetOption"
+        style="@style/StyleContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        android:padding="0dp"
+        android:singleLine="true"
+        android:text="@string/bottom"
+        android:textColor="@color/color_white_blue"
+        android:textSize="@dimen/font_size_description"
+        app:textViewFontAssetName="@string/font_display_bold" />
+
+    <com.bon.customview.textview.ExtTextView
+        android:id="@+id/tvBudgetOptionValue"
+        style="@style/StyleDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_content"
+        android:ellipsize="end"
+        android:lines="1"
+        android:padding="0dp"
+        android:singleLine="true"
+        android:text="@string/money_prefix"
+        android:textColor="@color/color_white_gray"
+        android:textSize="@dimen/font_size_description"
+        app:textViewFontAssetName="@string/font_display_regular" />
+</LinearLayout>

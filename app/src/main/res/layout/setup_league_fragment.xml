@@ -42,6 +42,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:maxLength="40"
                 app:editTextAppHint="@string/enter_league_name" />
 
             <com.football.customizes.images.CircleImageViewApp
@@ -186,132 +187,12 @@
             app:labelViewLabel="@string/budget_option"
             app:labelViewRequired="false" />
 
-        <TableRow
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvBudgetOption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/padding_layout">
-
-            <LinearLayout
-                android:id="@+id/llBudgetOptionBottom"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_game_option"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/padding_layout">
-
-                <com.bon.customview.textview.ExtTextView
-                    android:id="@+id/tvBudgetOption1"
-                    style="@style/StyleContent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    android:padding="0dp"
-                    android:singleLine="true"
-                    android:text="@string/bottom"
-                    android:textColor="@color/color_white_blue"
-                    android:textSize="@dimen/font_size_description"
-                    app:textViewFontAssetName="@string/font_display_bold" />
-
-                <com.bon.customview.textview.ExtTextView
-                    android:id="@+id/tvBudgetOption1Value"
-                    style="@style/StyleDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/padding_content"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    android:padding="0dp"
-                    android:singleLine="true"
-                    android:text="@string/money_prefix"
-                    android:textColor="@color/color_white_gray"
-                    android:textSize="@dimen/font_size_description"
-                    app:textViewFontAssetName="@string/font_display_regular" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llBudgetOptionChallenge"
-                android:layout_width="0dp"
-                android:layout_marginLeft="@dimen/padding_small"
-                android:layout_marginStart="@dimen/padding_small"
-                android:layout_weight="1"
-                android:background="@drawable/bg_game_option"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/padding_layout">
-
-                <com.bon.customview.textview.ExtTextView
-                    android:id="@+id/tvBudgetOption2"
-                    style="@style/StyleContent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    android:padding="0dp"
-                    android:singleLine="true"
-                    android:text="@string/challenge"
-                    android:textColor="@color/color_white_blue"
-                    android:textSize="@dimen/font_size_description"
-                    app:textViewFontAssetName="@string/font_display_bold" />
-
-                <com.bon.customview.textview.ExtTextView
-                    android:id="@+id/tvBudgetOption2Value"
-                    style="@style/StyleDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/padding_content"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    android:padding="0dp"
-                    android:singleLine="true"
-                    android:text="@string/money_prefix"
-                    android:textColor="@color/color_white_gray"
-                    android:textSize="@dimen/font_size_description"
-                    app:textViewFontAssetName="@string/font_display_regular" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llBudgetOptionDream"
-                android:layout_width="0dp"
-                android:layout_marginLeft="@dimen/padding_small"
-                android:layout_marginStart="@dimen/padding_small"
-                android:layout_weight="1"
-                android:background="@drawable/bg_game_option"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/padding_layout">
-
-                <com.bon.customview.textview.ExtTextView
-                    android:id="@+id/tvBudgetOption3"
-                    style="@style/StyleContent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    android:padding="0dp"
-                    android:singleLine="true"
-                    android:text="@string/dream"
-                    android:textColor="@color/color_white_blue"
-                    android:textSize="@dimen/font_size_description"
-                    app:textViewFontAssetName="@string/font_display_bold" />
-
-                <com.bon.customview.textview.ExtTextView
-                    android:id="@+id/tvBudgetOption3Value"
-                    style="@style/StyleDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/padding_content"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    android:padding="0dp"
-                    android:singleLine="true"
-                    android:text="@string/money_prefix"
-                    android:textColor="@color/color_white_gray"
-                    android:textSize="@dimen/font_size_description"
-                    app:textViewFontAssetName="@string/font_display_regular" />
-            </LinearLayout>
-        </TableRow>
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout" />
 
         <LinearLayout
             android:id="@+id/draftTradeReview"
@@ -517,6 +398,7 @@
             android:layout_marginLeft="@dimen/padding_layout"
             android:layout_marginRight="@dimen/padding_layout"
             android:lines="6"
+            android:maxLength="255"
             app:editTextAppHint="@string/tell_us_more_about_your_league" />
 
         <com.bon.customview.shadowlayout.ShadowLayout

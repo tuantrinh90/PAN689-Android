@@ -13,6 +13,8 @@ public class BudgetResponse implements Serializable {
     private String name;
     @JsonProperty("value")
     private Float value;
+    @JsonIgnore
+    private Boolean isActived = false;
 
     public Integer getId() {
         return id;
@@ -43,12 +45,21 @@ public class BudgetResponse implements Serializable {
         return value / Constant.KEY_MIO;
     }
 
+    public Boolean getActived() {
+        return isActived;
+    }
+
+    public void setActived(Boolean isActived) {
+        this.isActived = isActived;
+    }
+
     @Override
     public String toString() {
         return "BudgetResponse{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", value=" + value +
+                ", isActived=" + isActived +
                 '}';
     }
 }

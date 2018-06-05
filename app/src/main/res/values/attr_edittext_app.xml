@@ -9,5 +9,6 @@
         <attr name="android:inputType" />
         <attr name="android:imeOptions" />
         <attr name="android:lines" />
+        <attr name="android:maxLength" />
     </declare-styleable>
 </resources>

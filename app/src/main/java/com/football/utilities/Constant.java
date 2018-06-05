@@ -13,11 +13,8 @@ public interface Constant {
     String KEY_PER_PAGE = "per_page";
     String KEY_TRANSFER = "transfer";
     String KEY_DRAFT = "draft";
-    String KEY_WORD ="keyword";
+    String KEY_WORD = "keyword";
     int KEY_INVITATION_DECLINE = -1;
     int KEY_INVITATION_ACCEPT = 1;
-
-    int MAX_LENGTH_LEAGUE_NAME = 40;
-    int MAX_LENGTH_LEAGUE_DESCRIPTION = 255;
     int MIN_PASSWORD = 6;
 }

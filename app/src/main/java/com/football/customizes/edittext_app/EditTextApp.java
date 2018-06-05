@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-
+import android.text.InputFilter;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,6 +85,10 @@ public class EditTextApp extends LinearLayout {
         etContent.setVisibility(!isEnabled ? GONE : VISIBLE);
         etContent.setEnabled(isEnabled);
         tvContent.setEnabled(isEnabled);
+
+        // max length
+        int maxLength = typedArray.getInt(R.styleable.EditTextApp_android_maxLength, Integer.MAX_VALUE);
+        etContent.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength)});
 
         // icon left
         ivIconLeft.setVisibility(GONE);

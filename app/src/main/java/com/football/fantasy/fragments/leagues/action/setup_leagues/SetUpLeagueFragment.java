@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -21,6 +23,7 @@ import com.bon.image.ImageFilePath;
 import com.bon.image.ImageUtils;
 import com.bon.util.DateTimeUtils;
 import com.bon.util.StringUtils;
+import com.football.adapters.BudgetOptionAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
@@ -43,6 +46,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
+import java8.util.stream.StreamSupport;
 
 public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, ISetUpLeaguePresenter<ISetupLeagueView>> implements ISetupLeagueView {
     static final String KEY_LEAGUE = "league";
@@ -76,24 +80,8 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
 
     @BindView(R.id.lvBudgetOption)
     LabelView lvBudgetOption;
-    @BindView(R.id.llBudgetOptionBottom)
-    LinearLayout llBudgetOptionBottom;
-    @BindView(R.id.llBudgetOptionChallenge)
-    LinearLayout llBudgetOptionChallenge;
-    @BindView(R.id.llBudgetOptionDream)
-    LinearLayout llBudgetOptionDream;
-    @BindView(R.id.tvBudgetOption1)
-    ExtTextView tvBudgetOption1;
-    @BindView(R.id.tvBudgetOption1Value)
-    ExtTextView tvBudgetOption1Value;
-    @BindView(R.id.tvBudgetOption2)
-    ExtTextView tvBudgetOption2;
-    @BindView(R.id.tvBudgetOption2Value)
-    ExtTextView tvBudgetOption2Value;
-    @BindView(R.id.tvBudgetOption3)
-    ExtTextView tvBudgetOption3;
-    @BindView(R.id.tvBudgetOption3Value)
-    ExtTextView tvBudgetOption3Value;
+    @BindView(R.id.rvBudgetOption)
+    RecyclerView rvBudgetOption;
 
     @BindView(R.id.lvTradeReviewSetting)
     LabelView lvTradeReviewSetting;
@@ -122,10 +110,13 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     Calendar calendarDraftTime = Calendar.getInstance();
     Calendar calendarStartTime = Calendar.getInstance();
     Calendar calendarTeamSetupTime = Calendar.getInstance();
-    ExtKeyValuePair keyValuePairNumberOfUser = new ExtKeyValuePair("06", "06");
+    ExtKeyValuePair keyValuePairNumberOfUser = new ExtKeyValuePair("6", "06");
 
     int leagueId;
-    List<BudgetResponse> budgets;
+
+    BudgetOptionAdapter budgetOptionAdapter;
+    List<BudgetResponse> budgetResponses;
+    BudgetResponse budgetResponse;
     LeagueResponse league;
 
     @Override
@@ -138,9 +129,9 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
         getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
-        presenter.getBudgets(leagueId);
         initView();
         displayData();
+        loadData();
     }
 
     void getDataFromBundle() {
@@ -148,6 +139,10 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
         if (getArguments().containsKey(KEY_LEAGUE)) {
             league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
         }
+    }
+
+    void loadData() {
+        presenter.getBudgets(leagueId);
     }
 
     private void displayData() {
@@ -168,20 +163,6 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
             }
 
             etNumberOfUser.setContent(String.format("%02d", league.getNumberOfUser()));
-            switch (league.getBudgetId()) {
-                case LeagueRequest.BUDGET_BOTTOM:
-                    onClickBudgetOptionBottom();
-                    break;
-
-                case LeagueRequest.BUDGET_CHALLENGE:
-                    onClickBudgetOptionChallenge();
-                    break;
-
-                case LeagueRequest.BUDGET_DREAM:
-                    onClickBudgetOptionDream();
-                    break;
-            }
-
             rbRegular.setChecked(league.getScoringSystem().equals(LeagueRequest.SCORING_SYSTEM_REGULAR));
             etTeamSetupTime.setContent(league.getTeamSetup());
             etStartTime.setContent(league.getStartAt());
@@ -191,14 +172,27 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
 
     void initView() {
         onClickTransfer();
-        onClickBudgetOptionBottom();
+        initBudgetOption();
         formatDateTime();
-        setData();
+        setUpdateDataKeyValuePair();
 
         if (!isCreateMode()) {
             tvCreateLeague.setText(R.string.update_league);
             tvHeader.setText(R.string.update_league);
         }
+    }
+
+    void initBudgetOption() {
+        budgetOptionAdapter = new BudgetOptionAdapter(mActivity, budgetResponses, budgetResponse -> {
+            this.budgetResponse = budgetResponse;
+            if (budgetResponses != null && budgetResponses.size() > 0) {
+                StreamSupport.stream(budgetResponses).forEach(n -> n.setActived(n.getId() == budgetResponse.getId()));
+                budgetOptionAdapter.notifyDataSetChanged(budgetResponses);
+            }
+        });
+
+        rvBudgetOption.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
+        rvBudgetOption.setAdapter(budgetOptionAdapter);
     }
 
     @NonNull
@@ -219,7 +213,7 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
         supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_blue);
     }
 
-    void setData() {
+    void setUpdateDataKeyValuePair() {
         etNumberOfUser.setContent(keyValuePairNumberOfUser.getValue());
     }
 
@@ -227,10 +221,6 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
         etDraftTime.setContent(DateTimeUtils.convertCalendarToString(calendarDraftTime, Constant.FORMAT_DATE_TIME_SERVER));
         etStartTime.setContent(DateTimeUtils.convertCalendarToString(calendarStartTime, Constant.FORMAT_DATE_TIME_SERVER));
         etTeamSetupTime.setContent(DateTimeUtils.convertCalendarToString(calendarTeamSetupTime, Constant.FORMAT_DATE_TIME_SERVER));
-    }
-
-    private boolean isTransfer() {
-        return llTransfer.isActivated();
     }
 
     private boolean isCreateMode() {
@@ -275,8 +265,6 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
 
                     }
                 });
-
-
     }
 
     @OnClick(R.id.lvGamePlayOption)
@@ -303,16 +291,16 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     void onClickNumberOfUser() {
         ExtKeyValuePairDialogFragment.newInstance()
                 .setExtKeyValuePairs(new ArrayList<ExtKeyValuePair>() {{
-                    add(new ExtKeyValuePair("04", "04"));
-                    add(new ExtKeyValuePair("06", "06"));
-                    add(new ExtKeyValuePair("08", "08"));
+                    add(new ExtKeyValuePair("4", "04"));
+                    add(new ExtKeyValuePair("6", "06"));
+                    add(new ExtKeyValuePair("8", "08"));
                     add(new ExtKeyValuePair("10", "10"));
                     add(new ExtKeyValuePair("12", "12"));
                 }})
                 .setValue(keyValuePairNumberOfUser.getKey())
                 .setOnSelectedConsumer(extKeyValuePair -> {
                     keyValuePairNumberOfUser = extKeyValuePair;
-                    setData();
+                    setUpdateDataKeyValuePair();
                 })
                 .show(getFragmentManager(), null);
     }
@@ -320,27 +308,6 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     @OnClick(R.id.lvBudgetOption)
     void onClickBudgetOption() {
 
-    }
-
-    @OnClick(R.id.llBudgetOptionBottom)
-    void onClickBudgetOptionBottom() {
-        llBudgetOptionBottom.setActivated(true);
-        llBudgetOptionChallenge.setActivated(false);
-        llBudgetOptionDream.setActivated(false);
-    }
-
-    @OnClick(R.id.llBudgetOptionChallenge)
-    void onClickBudgetOptionChallenge() {
-        llBudgetOptionBottom.setActivated(false);
-        llBudgetOptionChallenge.setActivated(true);
-        llBudgetOptionDream.setActivated(false);
-    }
-
-    @OnClick(R.id.llBudgetOptionDream)
-    void onClickBudgetOptionDream() {
-        llBudgetOptionBottom.setActivated(false);
-        llBudgetOptionChallenge.setActivated(false);
-        llBudgetOptionDream.setActivated(true);
     }
 
     @OnClick(R.id.lvTradeReviewSetting)
@@ -391,109 +358,86 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
                 .setConditionFunction(calendar -> calendar.getTimeInMillis() >= Calendar.getInstance().getTimeInMillis())
                 .setCalendarConsumer(calendar -> {
                     calendarStartTime = calendar;
-//                    if (calendarStartTime.before(isTransfer() ? calendarTeamSetupTime : calendarDraftTime)) {
-//                        etStartTime.setError()
-//                        return;
-//                    }
                     etStartTime.setContent(DateTimeUtils.convertCalendarToString(calendarStartTime, Constant.FORMAT_DATE_TIME_SERVER));
-
                 }).show(getFragmentManager(), null);
     }
 
     @OnClick(R.id.tvCreateLeague)
     void onClickCreateLeague() {
-        LeagueRequest leagueRequest = new LeagueRequest();
-        if (isValid(leagueRequest)) {
-            if (isCreateMode()) {
-                presenter.createLeague(leagueRequest);
-            } else {
-                presenter.updateLeague(leagueId, leagueRequest);
-            }
+        if (!isValid()) return;
+
+        LeagueRequest leagueRequest = getLeagueRequest();
+        if (isCreateMode()) {
+            presenter.createLeague(leagueRequest);
+        } else {
+            presenter.updateLeague(leagueId, leagueRequest);
         }
     }
 
-    private boolean isValid(LeagueRequest leagueRequest) {
-        // league name
-        if (!etLeagueName.isEmpty(mActivity)) {
-            String name = etLeagueName.getContent();
-            if (name.length() > Constant.MAX_LENGTH_LEAGUE_NAME) {
-                etLeagueName.setError(getString(R.string.error_league_name_not_valid));
-                return false;
-            }
-            leagueRequest.name = name;
-        } else {
-            return false;
+    LeagueRequest getLeagueRequest() {
+        LeagueRequest leagueRequest = new LeagueRequest();
+        leagueRequest.setName(etLeagueName.getContent());
+        leagueRequest.setLogo(filePath == null ? "" : filePath.getAbsolutePath());
+        leagueRequest.setLeagueType(rbOpenLeague.isChecked() ? LeagueRequest.LEAGUE_TYPE_OPEN : LeagueRequest.LEAGUE_TYPE_PRIVATE);
+        leagueRequest.setGameplayOption(llTransfer.isActivated() ? LeagueRequest.GAMEPLAY_OPTION_TRANSFER : LeagueRequest.GAMEPLAY_OPTION_DRAFT);
+        leagueRequest.setNumberOfUser(Integer.parseInt(keyValuePairNumberOfUser.getKey()));
+        leagueRequest.setTradeReview(rgTradeReviewSetting.getCheckedRadioButtonId() == R.id.rbNoTradeReview ?
+                LeagueRequest.TRADE_REVIEW_NO_REVIEW : (rgTradeReviewSetting.getCheckedRadioButtonId() == R.id.rbTradeReviewCreator ?
+                LeagueRequest.TRADE_REVIEW_CREATOR : LeagueRequest.TRADE_REVIEW_MEMBER));
+        leagueRequest.setBudgetId(budgetResponse == null ? 0 : budgetResponse.getId());
+        leagueRequest.setScoringSystem(rbRegular.isChecked() ? LeagueRequest.SCORING_SYSTEM_REGULAR : LeagueRequest.SCORING_SYSTEM_POINTS);
+        leagueRequest.setTeamSetup(etTeamSetupTime.getContent());
+        leagueRequest.setStartAt(etStartTime.getContent());
+        leagueRequest.setDescription(etDescription.getContent());
+        return leagueRequest;
+    }
+
+    boolean isValid() {
+        boolean result = true;
+        if (etLeagueName.isEmpty(mActivity)) {
+            result = false;
         }
 
-        // logo
-        leagueRequest.logo = filePath == null ? "" : filePath.getAbsolutePath();
+        if (etNumberOfUser.isEmpty(mActivity)) {
+            result = false;
+        }
 
-        // league type
-        leagueRequest.league_type = rbOpenLeague.isChecked() ? LeagueRequest.LEAGUE_TYPE_OPEN : LeagueRequest.LEAGUE_TYPE_PRIVATE;
-
-        // number_of_user
-        leagueRequest.number_of_user = Integer.parseInt(etNumberOfUser.getContent());
-
-        // scoring_system
-        leagueRequest.scoring_system = rbRegular.isChecked() ? LeagueRequest.SCORING_SYSTEM_REGULAR : LeagueRequest.SCORING_SYSTEM_POINTS;
-
-        //start_at
+        //startAt
         if (etStartTime.isEmpty(mActivity)) {
-            return false;
+            result = false;
         }
-        leagueRequest.start_at = etStartTime.getContent();
 
         // description
-        if (!etDescription.isEmpty(mActivity)) {
-            String des = etDescription.getContent();
-            if (des.length() > Constant.MAX_LENGTH_LEAGUE_NAME) {
-                etDescription.setError(getString(R.string.error_league_description_not_valid));
-                return false;
-            }
-            leagueRequest.description = des;
-        } else {
-            return false;
+        if (etDescription.isEmpty(mActivity)) {
+            result = false;
         }
 
-        // gameplay_option
-        leagueRequest.gameplay_option = llTransfer.isActivated() ? LeagueRequest.GAMEPLAY_OPTION_TRANSFER : LeagueRequest.GAMEPLAY_OPTION_DRAFT;
-
-        // budget_id
-        try {
-            leagueRequest.budget_id = llBudgetOptionBottom.isActivated() ? budgets.get(0).getId() :
-                    (llBudgetOptionChallenge.isActivated() ? budgets.get(1).getId()
-                            : (llBudgetOptionDream.isActivated() ? budgets.get(2).getId() : budgets.get(0).getId()));
-
-        } catch (Exception e) {
-            // default
-            leagueRequest.budget_id = llBudgetOptionBottom.isActivated() ? 1 : (llBudgetOptionChallenge.isActivated() ? 2 : (llBudgetOptionDream.isActivated() ? 3 : 1));
-        }
-
-        // team_setup
-        if (etTeamSetupTime.isEmpty(mActivity)) {
-            return false;
-        }
-        leagueRequest.team_setup = etTeamSetupTime.getContent();
-
-        return true;
+        return result;
     }
 
     @Override
     public void displayBudgets(List<BudgetResponse> budgets) {
-        this.budgets = budgets;
+        budgetResponses = budgets;
 
-        try {
-            tvBudgetOption1.setText(budgets.get(0).getName());
-            tvBudgetOption2.setText(budgets.get(1).getName());
-            tvBudgetOption3.setText(budgets.get(2).getName());
-
-            tvBudgetOption1Value.setText(getString(R.string.money_prefix, budgets.get(0).getValueDisplay() + ""));
-            tvBudgetOption2Value.setText(getString(R.string.money_prefix, budgets.get(1).getValueDisplay() + ""));
-            tvBudgetOption3Value.setText(getString(R.string.money_prefix, budgets.get(2).getValueDisplay() + ""));
-
-        } catch (Exception e) {
-
+        // set default value
+        if (budgetResponses != null && budgetResponses.size() > 0) {
+            if (league != null) {
+                StreamSupport.stream(budgetResponses).forEach(n -> {
+                    if (n.getId() == league.getBudgetId()) {
+                        n.setActived(true);
+                        budgetResponse = n;
+                    } else {
+                        n.setActived(false);
+                    }
+                });
+            } else {
+                budgetResponses.get(0).setActived(true);
+                budgetResponse = budgetResponses.get(0);
+            }
         }
+
+        // update data
+        this.budgetOptionAdapter.notifyDataSetChanged(budgetResponses);
     }
 
     @Override

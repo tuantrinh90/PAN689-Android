@@ -25,7 +25,7 @@ public class LeagueResponse implements Serializable {
     private Integer userId;
     @JsonProperty("user")
     private UserResponse user;
-    @JsonProperty("gameplay_option")
+    @JsonProperty("gameplayOption")
     private String gameplayOption;
     @JsonProperty("gameplay_option_display")
     private String gameplayOptionDisplay;
@@ -37,39 +37,39 @@ public class LeagueResponse implements Serializable {
     private String description;
     @JsonProperty("logo")
     private String logo;
-    @JsonProperty("league_type")
+    @JsonProperty("leagueType")
     private String leagueType;
     @JsonProperty("league_type_display")
     private String leagueTypeDisplay;
-    @JsonProperty("number_of_user")
+    @JsonProperty("numberOfUser")
     private Integer numberOfUser;
     @JsonProperty("current_number_of_user")
     private Integer currentNumberOfUser;
-    @JsonProperty("scoring_system")
+    @JsonProperty("scoringSystem")
     private String scoringSystem;
     @JsonProperty("scoring_system_display")
     private String scoringSystemDisplay;
-    @JsonProperty("start_at")
+    @JsonProperty("startAt")
     private String startAt;
     @JsonProperty("real_round_start")
     private Integer realRoundStart;
     @JsonProperty("real_round_end")
     private Integer realRoundEnd;
-    @JsonProperty("budget_id")
+    @JsonProperty("budgetId")
     private Integer budgetId;
     @JsonProperty("budget_value")
     private Integer budgetValue;
     @JsonProperty("budget_option")
     private BudgetResponse budgetOption;
-    @JsonProperty("team_setup")
+    @JsonProperty("teamSetup")
     private String teamSetup;
-    @JsonProperty("trade_review")
+    @JsonProperty("tradeReview")
     private String tradeReview;
     @JsonProperty("trade_review_display")
     private String tradeReviewDisplay;
-    @JsonProperty("draft_time")
+    @JsonProperty("draftTime")
     private String draftTime;
-    @JsonProperty("time_to_pick")
+    @JsonProperty("timeToPick")
     private Integer timeToPick;
     @JsonProperty("status")
     private String status;
