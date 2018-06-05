@@ -47,22 +47,6 @@ public class ApiModule {
                 .build();
     }
 
-    // @Singleton
-    @Provides
-    public AccessInterceptor provideAccessInterceptor(Context context) {
-        return new AccessInterceptor(context);
-    }
-
-    @Provides
-    public Retrofit provideRetrofit(JacksonConverterFactory converterFactory, OkHttpClient client) {
-        return provideBaseRetrofit(ServiceConfig.BASE_URL, converterFactory, client);
-    }
-
-    @Provides
-    public OkHttpClient provideOkHttp(HttpLoggingInterceptor logging, AccessInterceptor access) {
-        return provideBaseOkHttp(logging, access, OkHttpType.USUAL);
-    }
-
     private OkHttpClient provideBaseOkHttp(@Nullable HttpLoggingInterceptor logging, AccessInterceptor access,
                                            @NonNull OkHttpType type) {
         OkHttpClient.Builder client = new OkHttpClient.Builder()
@@ -93,8 +77,23 @@ public class ApiModule {
         return client.build();
     }
 
-    private void addLogInterceptorIfNeed(@Nullable HttpLoggingInterceptor logging, OkHttpClient.Builder client) {
+    void addLogInterceptorIfNeed(@Nullable HttpLoggingInterceptor logging, OkHttpClient.Builder client) {
         client.addInterceptor(logging);
+    }
+
+    @Provides
+    public AccessInterceptor provideAccessInterceptor(Context context) {
+        return new AccessInterceptor(context);
+    }
+
+    @Provides
+    public Retrofit provideRetrofit(JacksonConverterFactory converterFactory, OkHttpClient client) {
+        return provideBaseRetrofit(ServiceConfig.BASE_URL, converterFactory, client);
+    }
+
+    @Provides
+    public OkHttpClient provideOkHttp(HttpLoggingInterceptor logging, AccessInterceptor access) {
+        return provideBaseOkHttp(logging, access, OkHttpType.USUAL);
     }
 
     @Singleton

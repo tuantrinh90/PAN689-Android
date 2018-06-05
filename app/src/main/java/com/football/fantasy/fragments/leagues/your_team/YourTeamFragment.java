@@ -23,8 +23,13 @@ import java.util.ArrayList;
 import butterknife.BindView;
 
 public class YourTeamFragment extends BaseMainMvpFragment<IYourTeamView, IYourTeamPresenter<IYourTeamView>> implements IYourTeamView {
+    static final String KEY_LEAGUE_ID = "LEAGUE_ID";
 
-    public static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+    public static Bundle newBundle(int leagueId) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(KEY_LEAGUE_ID, leagueId);
+        return bundle;
+    }
 
     @BindView(R.id.tvTitle)
     ExtTextView tvTitle;
@@ -33,7 +38,7 @@ public class YourTeamFragment extends BaseMainMvpFragment<IYourTeamView, IYourTe
     @BindView(R.id.vpViewPager)
     ViewPager vpViewPager;
 
-    private int leagueId;
+    int leagueId;
 
     @Override
     public int getResourceId() {

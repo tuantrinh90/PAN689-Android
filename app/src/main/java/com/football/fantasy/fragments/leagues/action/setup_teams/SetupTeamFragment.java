@@ -137,28 +137,32 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
                 }));
     }
 
-    @OnClick(R.id.tvCreateTeam)
-    public void onCreateTeamClicked() {
+    boolean isValid() {
+        boolean result = true;
+
         if (etTeamName.isEmpty(mActivity)) {
-            return;
+            result = false;
         }
 
         if (etDescription.isEmpty(mActivity)) {
-            return;
+            result = false;
         }
 
-        String path = filePath == null ? "" : filePath.getAbsolutePath();
+        return result;
+    }
 
-        TeamRequest request = new TeamRequest(leagueId, etTeamName.getContent(), etDescription.getContent(), path);
+    @OnClick(R.id.tvCreateTeam)
+    public void onCreateTeamClicked() {
+        if (!isValid()) return;
+        TeamRequest request = new TeamRequest(leagueId, etTeamName.getContent(),
+                etDescription.getContent(), filePath == null ? "" : filePath.getAbsolutePath());
         presenter.createTeam(request);
     }
 
     @Override
     public void createTeamSuccess() {
-        Bundle bundle = new Bundle();
-        bundle.putInt(YourTeamFragment.KEY_LEAGUE_ID, leagueId);
         AloneFragmentActivity.with(this)
-                .parameters(bundle)
+                .parameters(YourTeamFragment.newBundle(leagueId))
                 .start(YourTeamFragment.class);
     }
 

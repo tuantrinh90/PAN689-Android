@@ -95,10 +95,8 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
 
     @OnClick(R.id.tvSetupTeam)
     void onClickSetupTeam() {
-        Bundle bundle = new Bundle();
-        bundle.putInt(YourTeamFragment.KEY_LEAGUE_ID, league.getId());
         AloneFragmentActivity.with(this)
-                .parameters(bundle)
+                .parameters(YourTeamFragment.newBundle(league.getId()))
                 .start(YourTeamFragment.class);
     }
 

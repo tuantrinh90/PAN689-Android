@@ -47,12 +47,12 @@ public class SetupTeamDataPresenter extends BaseDataPresenter<ISetupTeamView> im
     private MultipartBody.Builder createMultiPartBuilder(TeamRequest request) {
         MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("league_id", String.valueOf(request.league_id))
-                .addFormDataPart("name", request.name)
-                .addFormDataPart("description", request.description);
+                .addFormDataPart("league_id", String.valueOf(request.getLeagueId()))
+                .addFormDataPart("name", request.getName())
+                .addFormDataPart("description", request.getDescription());
 
-        if (!StringUtils.isEmpty(request.logo)) {
-            File logo = new File(request.logo);
+        if (!StringUtils.isEmpty(request.getLogo())) {
+            File logo = new File(request.getLogo());
             if (logo.exists()) {
                 builder.addFormDataPart("logo", logo.getName(), RequestBody.create(MediaType.parse("image/*"), logo));
             }
