@@ -19,6 +19,7 @@ import com.football.fantasy.R;
 import com.football.interactors.IDataModule;
 import com.football.interactors.database.IDbModule;
 import com.football.interactors.service.IApiService;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import javax.inject.Inject;
 
@@ -57,11 +58,18 @@ public abstract class BaseAppCompatActivity extends ExtBaseActivity implements I
     // dispose rxjava
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
+    // rx permission
+    RxPermissions rxPermissions;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // inject component
         getAppContext().getComponent().inject(this);
+
+        // rx permission
+        rxPermissions = new RxPermissions(this);
+        rxPermissions.setLogging(true);
 
         // set content view
         if (getContentViewId() > 0) {
@@ -156,5 +164,14 @@ public abstract class BaseAppCompatActivity extends ExtBaseActivity implements I
     protected boolean onHomeClicked(MenuItem item) {
         onBackPressed();
         return true;
+    }
+
+    /**
+     * rx permission
+     *
+     * @return
+     */
+    public RxPermissions getRxPermissions() {
+        return rxPermissions;
     }
 }

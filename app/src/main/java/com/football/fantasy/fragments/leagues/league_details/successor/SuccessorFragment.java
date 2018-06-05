@@ -14,7 +14,6 @@ import com.bon.util.DialogUtils;
 import com.football.adapters.SuccessorAdapter;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.responses.TeamResponse;
 
 import java.util.List;
@@ -25,6 +24,13 @@ import java8.util.stream.StreamSupport;
 
 public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccessorPresenter<ISuccessorView>> implements ISuccessorView {
     public static final int REQUEST_CODE = 100;
+    static final String KEY_LEAGUE_ID = "key_leagues_id";
+
+    public static Bundle newBundle(int leagueId) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(KEY_LEAGUE_ID, leagueId);
+        return bundle;
+    }
 
     @BindView(R.id.tvCancel)
     ExtTextView tvCancel;
@@ -35,8 +41,9 @@ public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccesso
 
     List<TeamResponse> teamResponses;
     SuccessorAdapter successorAdapter;
-    int leagueId;
     TeamResponse teamResponse;
+
+    int leagueId;
 
     @Override
     public int getResourceId() {
@@ -45,31 +52,35 @@ public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccesso
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
         initView();
     }
 
-    void initView() {
-        leagueId = getArguments().getInt(LeagueDetailFragment.KEY_LEAGUE_ID);
+    void getDataFromBundle() {
+        if (getArguments() == null) return;
+        leagueId = getArguments().getInt(KEY_LEAGUE_ID);
+    }
 
+    void initView() {
         // only display button when at least a item selected
         tvDone.setVisibility(View.INVISIBLE);
 
         // adapter
         successorAdapter = new SuccessorAdapter(mActivity, teamResponses, teamResponse -> {
-                // precess data
-                for (int i = 0; i < successorAdapter.getItems().size(); i++) {
-                    TeamResponse t = successorAdapter.getItems().get(i);
-                    // reset check
-                    t.setChecked(t.getName().equalsIgnoreCase(teamResponse.getName()));
-                }
+            // precess data
+            for (int i = 0; i < successorAdapter.getItems().size(); i++) {
+                TeamResponse t = successorAdapter.getItems().get(i);
+                // reset check
+                t.setChecked(t.getName().equalsIgnoreCase(teamResponse.getName()));
+            }
 
-                // notification
-                successorAdapter.notifyDataSetChanged(successorAdapter.getItems());
+            // notification
+            successorAdapter.notifyDataSetChanged(successorAdapter.getItems());
 
-                // set visibility view
-                tvDone.setVisibility(StreamSupport.stream(successorAdapter.getItems()).filter(n -> n.isChecked()).count() > 0 ? View.VISIBLE : View.GONE);
+            // set visibility view
+            tvDone.setVisibility(StreamSupport.stream(successorAdapter.getItems()).filter(n -> n.isChecked()).count() > 0 ? View.VISIBLE : View.GONE);
         });
 
         rvRecyclerView.init(mActivity, successorAdapter)

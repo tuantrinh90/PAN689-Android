@@ -38,13 +38,22 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView, ILeagueDetailPresenter<ILeagueDetailView>> implements ILeagueDetailView {
-    public static final String KEY_TITLE = "key_title";
-    public static final String KEY_LEAGUE_ID = "key_league";
-    public static final String KEY_LEAGUE_TYPE = "key_league_type";
+    static final String KEY_TITLE = "key_title";
+    static final String KEY_LEAGUE_ID = "key_league";
+    static final String KEY_LEAGUE_TYPE = "key_league_type";
 
     public static final String OPEN_LEAGUES = "open_leagues";
     public static final String MY_LEAGUES = "my_leagues";
     public static final String PENDING_LEAGUES = "pending_leagues";
+
+    public static Bundle newBundle(String title, int leagueId, String leagueType) {
+        Bundle bundle = new Bundle();
+        bundle.putString(KEY_TITLE, title);
+        bundle.putInt(KEY_LEAGUE_ID, leagueId);
+        bundle.putString(KEY_LEAGUE_TYPE, leagueType);
+        return bundle;
+    }
+
 
     @BindView(R.id.tvTitle)
     ExtTextView tvTitle;
@@ -57,7 +66,9 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
 
     String title;
     int leagueId;
-    private LeagueResponse league;
+    String leagueType;
+
+    LeagueResponse league;
     LeagueDetailViewPagerAdapter leagueDetailViewPagerAdapter;
     List<ExtKeyValuePair> valuePairs = new ArrayList<>();
 
@@ -76,9 +87,11 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
     }
 
     void getDataFromBundle() {
+        if (getArguments() == null) return;
         Bundle bundle = getArguments();
         title = bundle.getString(KEY_TITLE, "");
         leagueId = bundle.getInt(KEY_LEAGUE_ID);
+        leagueType = bundle.getString(KEY_LEAGUE_TYPE, "");
     }
 
     void initView() {
@@ -115,30 +128,24 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
 
     @OnClick(R.id.ivMenu)
     void onClickMenu() {
+        if (league == null) return;
+
         ExtKeyValuePairDialogFragment.newInstance()
                 .setValue("")
                 .setExtKeyValuePairs(valuePairs)
                 .setOnSelectedConsumer(extKeyValuePair -> {
                     // edit
                     if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.edit))) {
-                        if (league != null) {
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable(SetUpLeagueFragment.KEY_LEAGUE, league);
-                            AloneFragmentActivity.with(LeagueDetailFragment.this)
-                                    .parameters(bundle)
-                                    .start(SetUpLeagueFragment.class);
-                        } else {
-                            showMessage("League is loading...");
-                        }
+                        AloneFragmentActivity.with(LeagueDetailFragment.this)
+                                .parameters(SetUpLeagueFragment.newBundle(league))
+                                .start(SetUpLeagueFragment.class);
                     }
 
                     // leave
                     if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.leave))) {
                         if (league.getOwner()) {
-                            Bundle bundle = new Bundle();
-                            bundle.putInt(LeagueDetailFragment.KEY_LEAGUE_ID, leagueId);
                             AloneFragmentActivity.with(LeagueDetailFragment.this)
-                                    .parameters(bundle)
+                                    .parameters(SuccessorFragment.newBundle(leagueId))
                                     .forResult(SuccessorFragment.REQUEST_CODE)
                                     .start(SuccessorFragment.class);
                         } else {
@@ -159,14 +166,13 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
         // update league
         this.league = league;
 
-        // menu
         // owner
         if (league.getOwner()) {
             valuePairs.add(new ExtKeyValuePair("", getString(R.string.edit), ContextCompat.getColor(mActivity, R.color.color_blue)));
         }
 
         // my leagues or owner
-        if (getArguments().getString(KEY_LEAGUE_TYPE, "").equalsIgnoreCase(MY_LEAGUES) || league.getOwner()) {
+        if (leagueType.equalsIgnoreCase(MY_LEAGUES) || league.getOwner()) {
             valuePairs.add(new ExtKeyValuePair("", getString(R.string.leave), ContextCompat.getColor(mActivity, R.color.color_blue)));
         }
 
@@ -174,10 +180,14 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
         if (league.getOwner()) {
             valuePairs.add(new ExtKeyValuePair("", getString(R.string.stop_league), ContextCompat.getColor(mActivity, R.color.color_red)));
         }
+
+        // show/hide menu
         ivMenu.setVisibility(valuePairs.size() > 0 ? View.VISIBLE : View.GONE);
 
         // load info
         Optional.from(tvTitle).doIfPresent(t -> t.setText(league.getName()));
+
+        // adapter
         leagueDetailViewPagerAdapter = new LeagueDetailViewPagerAdapter(getFragmentManager(),
                 new ArrayList<BaseMvpFragment>() {{
                     add(LeagueInfoFragment.newInstance(league).setChildFragment(true));

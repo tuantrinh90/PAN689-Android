@@ -23,7 +23,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView, IInviteFriendPresenter<IInviteFriendView>> implements IInviteFriendView {
-    private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+    static final String KEY_LEAGUE_ID = "LEAGUE_ID";
 
     public static InviteFriendFragment newInstance(int leagueId) {
         InviteFriendFragment fragment = new InviteFriendFragment();
@@ -41,8 +41,9 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
     LinearLayout llInvite;
 
     int leagueId;
-    InviteFriendAdapter inviteFriendAdapter;
     int page = 1;
+
+    InviteFriendAdapter inviteFriendAdapter;
 
     @Override
     public int getResourceId() {
@@ -57,11 +58,12 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
         initView();
     }
 
-    private void getFriends(String keyword) {
+    void getFriends(String keyword) {
         presenter.getInviteFriends(leagueId, keyword, page, ExtPagingListView.NUMBER_PER_PAGE);
     }
 
-    private void getDataFromBundle() {
+    void getDataFromBundle() {
+        if (getArguments() == null) return;
         Bundle bundle = getArguments();
         leagueId = bundle.getInt(KEY_LEAGUE_ID);
     }

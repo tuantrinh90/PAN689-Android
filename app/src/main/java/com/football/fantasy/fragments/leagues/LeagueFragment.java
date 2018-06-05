@@ -91,6 +91,7 @@ public class LeagueFragment extends BaseMainMvpFragment<ILeagueView, ILeaguePres
 
     @OnClick(R.id.btnAdd)
     void onClickAdd() {
-        AloneFragmentActivity.with(this).start(SetUpLeagueFragment.class);
+        AloneFragmentActivity.with(this)
+                .start(SetUpLeagueFragment.class);
     }
 }

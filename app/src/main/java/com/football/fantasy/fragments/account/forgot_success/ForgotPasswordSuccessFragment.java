@@ -49,6 +49,7 @@ public class ForgotPasswordSuccessFragment
 
     @OnClick(R.id.tvReSend)
     void onClickResend() {
+        if (getArguments() == null) return;
         presenter.forgotPassword(getArguments().getString("email"));
     }
 }
