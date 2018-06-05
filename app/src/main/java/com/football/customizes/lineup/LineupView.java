@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import com.bon.interfaces.Optional;
 import com.football.fantasy.R;
 import com.football.models.Player;
-import com.google.android.flexbox.AlignContent;
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayout;

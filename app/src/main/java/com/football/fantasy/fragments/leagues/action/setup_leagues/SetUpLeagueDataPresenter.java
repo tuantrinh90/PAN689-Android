@@ -86,6 +86,16 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
         });
     }
 
+//    private Observable zip(Observable<BaseResponse<LeagueResponse>> observableLeague, Observable<BaseResponse<Object>> observableUpload) {
+//        return Observable.zip(
+//                observableLeague,
+//                dataModule.getApiService().updateLeague(leagueId, createMultiPartBuilder(request).build()),
+//                (response, response2) -> {
+//
+//                }
+//        );
+//    }
+
     private MultipartBody.Builder createMultiPartBuilder(LeagueRequest request) {
         MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
@@ -110,4 +120,16 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
 
         return builder;
     }
+
+//    private MultipartBody.Builder createFileMultiPartBuilder(LeagueRequest request) {
+//        MultipartBody.Builder builder = new MultipartBody.Builder()
+//                .setType(MultipartBody.FORM);
+//        if (!StringUtils.isEmpty(request.getLogo())) {
+//            File logo = new File(request.getLogo());
+//            if (logo.exists()) {
+//                builder.addFormDataPart("logo", logo.getName(), RequestBody.create(MediaType.parse("image/*"), logo));
+//            }
+//        }
+//        return builder;
+//    }
 }

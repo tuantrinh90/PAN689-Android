@@ -6,31 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding_layout"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <com.bon.customview.textview.ExtTextView
-            style="@style/StyleContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/team_setup_time"
-            android:textAllCaps="true"
-            app:textViewFontAssetName="@string/font_display_bold" />
-
-        <com.bon.customview.textview.ExtTextView
-            android:id="@+id/tvSetupTime"
-            style="@style/StyleContent"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="end"
-            tools:text="" />
-    </TableRow>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -40,13 +15,36 @@
             android:layout_height="@dimen/radius"
             android:orientation="vertical">
 
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_layout"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/team_setup_time"
+                    android:textAllCaps="true"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvSetupTime"
+                    style="@style/StyleDescription"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    tools:text="32132" />
+            </TableRow>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
@@ -74,19 +72,31 @@
 
             </android.support.constraint.ConstraintLayout>
 
-            <LinearLayout
+            <com.bon.customview.textview.ExtTextView
+                style="@style/StyleDescriptionGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/padding_layout"
+                android:text="@string/team_budget"
+                android:textAllCaps="true"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.shadowlayout.ShadowLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_layout"
+                app:shadowLayoutCornerRadius="@dimen/component_radius"
+                app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+                app:shadowLayoutShadowColor="@color/color_shadow">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvCreateLeague"
+                    style="@style/StyleButton"
+                    android:text="@string/team_creation"
+                    android:textAllCaps="true"
+                    app:textViewFontAssetName="@string/font_display_black" />
+            </com.bon.customview.shadowlayout.ShadowLayout>
         </LinearLayout>
 
     </ScrollView>

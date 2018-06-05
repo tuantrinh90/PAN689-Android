@@ -161,9 +161,7 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
 
     @Override
     public void createTeamSuccess() {
-        AloneFragmentActivity.with(this)
-                .parameters(YourTeamFragment.newBundle(leagueId))
-                .start(YourTeamFragment.class);
+       mActivity.finish();
     }
 
     @Override
