@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.bon.interfaces.Optional;
+import com.bon.util.BarUtils;
 import com.bon.util.KeyboardUtils;
 import com.football.common.Keys;
 import com.football.fantasy.R;
@@ -30,6 +32,8 @@ public class AloneFragmentActivity extends BaseAppCompatActivity {
     private static final String FRAGMENT_NAME = "fragment_name";
     private static final String TRANSLUCENT = "translucent";
 
+    @BindView(R.id.aplAppBarLayout)
+    AppBarLayout aplAppBarLayout;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -38,10 +42,11 @@ public class AloneFragmentActivity extends BaseAppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && getIntent().getExtras().getBoolean(TRANSLUCENT)) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            Optional.from(getAppBarLayout()).doIfPresent(a -> a.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0));
         }
-        super.onCreate(savedInstanceState);
 
         setSupportActionBar(toolbar);
         Optional.from(savedInstanceState).doIfEmpty(b -> {
@@ -110,6 +115,11 @@ public class AloneFragmentActivity extends BaseAppCompatActivity {
     @Override
     public ActionBar getAppSupportActionBar() {
         return getSupportActionBar();
+    }
+
+    @Override
+    public AppBarLayout getAppBarLayout() {
+        return aplAppBarLayout;
     }
 
     @Override

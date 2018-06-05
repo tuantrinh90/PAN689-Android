@@ -203,6 +203,19 @@
     <string name="league_details">League details</string>
     <string name="message_confirm_remove_lineup_player">message_confirm_remove_lineup_player</string>
     <string name="statistics">Statistics</string>
+    <string name="my_supper_team">My Super Team</string>
+    <string name="points">Points</string>
+    <string name="team_line_up">Team Lineup</string>
+    <string name="team_squad">Team Squad</string>
+    <string name="point_per_player">Point per player</string>
+    <string name="points_per_round">Points Per Round</string>
+    <string name="round">Round</string>
+    <string name="point">Point</string>
+    <string name="change">Change</string>
+    <string name="trade">Trade</string>
+    <string name="sort_by">Sort By</string>
+    <string name="name">Name</string>
+    <string name="a_z">A-Z</string>
 
 
 </resources>

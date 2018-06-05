@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -117,6 +118,13 @@ public abstract class BaseAppCompatActivity extends ExtBaseActivity implements I
     public abstract ActionBar getAppSupportActionBar();
 
     /**
+     * get app bar layout
+     *
+     * @return
+     */
+    public abstract AppBarLayout getAppBarLayout();
+
+    /**
      * get toolbar
      *
      * @return
@@ -173,5 +181,14 @@ public abstract class BaseAppCompatActivity extends ExtBaseActivity implements I
      */
     public RxPermissions getRxPermissions() {
         return rxPermissions;
+    }
+
+    /**
+     * get title tool bar
+     *
+     * @return
+     */
+    public ExtTextView getTitleToolBar() {
+        return tvTitleToolBar;
     }
 }

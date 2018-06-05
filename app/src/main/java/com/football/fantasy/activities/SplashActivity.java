@@ -2,6 +2,7 @@ package com.football.fantasy.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
@@ -31,6 +32,11 @@ public class SplashActivity extends BaseAppCompatActivity {
 
     @Override
     public ActionBar getAppSupportActionBar() {
+        return null;
+    }
+
+    @Override
+    public AppBarLayout getAppBarLayout() {
         return null;
     }
 

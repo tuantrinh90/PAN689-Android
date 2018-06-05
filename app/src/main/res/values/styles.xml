@@ -23,7 +23,7 @@
     <style name="StyleHeader">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center</item>
+        <!--<item name="android:gravity">center</item>-->
         <item name="android:textSize">@dimen/font_size_header</item>
         <item name="android:textColor">@color/color_black</item>
         <item name="android:padding">@dimen/padding_content</item>
@@ -36,7 +36,7 @@
     <style name="StyleTitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center</item>
+        <!--<item name="android:gravity">center</item>-->
         <item name="android:textSize">@dimen/font_size_title</item>
         <item name="android:textColor">@color/color_black</item>
         <item name="android:padding">@dimen/padding_content</item>
