@@ -1,6 +1,316 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    android:background="@color/color_white"
+    android:paddingLeft="@dimen/padding_layout"
+    android:paddingRight="@dimen/padding_layout">
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/padding_layout"
+        android:orientation="vertical">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvHeader"
+                style="@style/StyleTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:padding="0dp"
+                android:text="@string/my_supper_team"
+                android:textAllCaps="true"
+                app:textViewFontAssetName="@string/font_display_black_italic" />
+
+            <ImageView
+                android:id="@+id/ivEdit"
+                style="@style/IconTiny"
+                android:src="@drawable/ic_edit_blue" />
+        </TableRow>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvName"
+                    style="@style/StyleTitleBlue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="Clark Kent"
+                    app:textViewFontAssetName="@string/font_display_black" />
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvOwner"
+                    style="@style/StyleContentContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="Owner"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+            </LinearLayout>
+
+            <com.football.customizes.images.CircleImageViewApp
+                android:id="@+id/ivAvatar"
+                android:layout_width="@dimen/avatar_large"
+                android:layout_height="@dimen/avatar_large" />
+        </LinearLayout>
+
+        <View
+            style="@style/Line"
+            android:layout_marginBottom="@dimen/padding_layout"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:background="@color/color_background_edit_text_focused" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvRank"
+                    style="@style/StyleTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="3"
+                    android:textColor="@color/colorPrimary"
+                    app:textViewFontAssetName="@string/font_display_black" />
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleContentContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="@string/rank"
+                    app:textAllCaps="true"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvPoints"
+                    style="@style/StyleTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="1200"
+                    android:textColor="@color/color_blue"
+                    app:textViewFontAssetName="@string/font_display_black" />
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleContentContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="@string/points"
+                    app:textAllCaps="true"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvBudget"
+                    style="@style/StyleTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="$2000"
+                    android:textColor="@color/colorPrimary"
+                    app:textViewFontAssetName="@string/font_display_black" />
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleContentContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="@string/budget"
+                    app:textAllCaps="true"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            style="@style/Line"
+            android:layout_marginBottom="@dimen/padding_layout"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:background="@color/color_background_edit_text_focused" />
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleContentContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:text="@string/description"
+            app:textAllCaps="true"
+            app:textViewFontAssetName="@string/font_display_bold" />
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
+            android:textColor="@color/color_black" />
+
+        <View
+            style="@style/Line"
+            android:layout_marginBottom="@dimen/padding_layout"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:background="@color/color_background_edit_text_focused" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/llTeamLineUp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_game_option"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_layout">
+
+                <ImageView
+                    style="@style/IconLarge"
+                    android:src="@drawable/ic_team_lineup" />
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_content"
+                    android:padding="0dp"
+                    android:text="@string/team_line_up"
+                    android:textColor="@color/color_white_blue"
+                    android:textSize="@dimen/font_size_description"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llTransfer"
+                android:layout_width="0dp"
+                android:layout_marginLeft="@dimen/padding_content"
+                android:layout_marginStart="@dimen/padding_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_game_option"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_layout">
+
+                <ImageView
+                    style="@style/IconLarge"
+                    android:src="@drawable/ic_transfer_blue" />
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_content"
+                    android:padding="0dp"
+                    android:text="@string/transfer"
+                    android:textColor="@color/color_white_blue"
+                    android:textSize="@dimen/font_size_description"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_content">
+
+            <LinearLayout
+                android:id="@+id/llTeamSquad"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_game_option"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_layout">
+
+                <ImageView
+                    style="@style/IconLarge"
+                    android:src="@drawable/ic_team_squad" />
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_content"
+                    android:padding="0dp"
+                    android:text="@string/team_squad"
+                    android:textColor="@color/color_white_blue"
+                    android:textSize="@dimen/font_size_description"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llStatistics"
+                android:layout_width="0dp"
+                android:layout_marginLeft="@dimen/padding_content"
+                android:layout_marginStart="@dimen/padding_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_game_option"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_layout">
+
+                <ImageView
+                    style="@style/IconLarge"
+                    android:src="@drawable/ic_bar_chart" />
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_content"
+                    android:padding="0dp"
+                    android:text="@string/statistics"
+                    android:textColor="@color/color_white_blue"
+                    android:textSize="@dimen/font_size_description"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+            </LinearLayout>
+        </TableRow>
+    </LinearLayout>
+</ScrollView>

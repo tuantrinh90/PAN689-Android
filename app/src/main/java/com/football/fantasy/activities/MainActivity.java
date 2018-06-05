@@ -2,6 +2,7 @@ package com.football.fantasy.activities;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
@@ -32,6 +33,8 @@ public class MainActivity extends BaseAppCompatActivity {
     public static final int NOTIFICATION = 3;
     public static final int MORE = 4;
 
+    @BindView(R.id.aplAppBarLayout)
+    AppBarLayout aplAppBarLayout;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.footerHome)
@@ -95,6 +98,11 @@ public class MainActivity extends BaseAppCompatActivity {
     @Override
     public ActionBar getAppSupportActionBar() {
         return getSupportActionBar();
+    }
+
+    @Override
+    public AppBarLayout getAppBarLayout() {
+        return aplAppBarLayout;
     }
 
     @Override

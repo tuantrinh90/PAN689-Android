@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_white"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/padding_layout"
+    android:paddingRight="@dimen/padding_layout">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="@dimen/padding_content">
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvRound"
+            style="@style/StyleDescription"
+            android:layout_width="@dimen/icon_medium"
+            android:layout_height="@dimen/icon_medium"
+            android:background="@drawable/bg_circle_yellow"
+            android:gravity="center"
+            android:text="01"
+            android:padding="0dp"
+            android:textColor="@color/color_white"
+            app:textViewFontAssetName="@string/font_display_bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="@dimen/padding_content">
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvPoint"
+            style="@style/StyleDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="300" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:padding="@dimen/padding_content">
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvChange"
+            style="@style/StyleDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="300" />
+
+        <ImageView
+            android:id="@+id/ivChange"
+            style="@style/IconTiny"
+            android:background="@drawable/bg_circle_red"
+            android:padding="@dimen/padding_small"
+            android:src="@drawable/ic_arrow_upward_white_small" />
+    </LinearLayout>
+</LinearLayout>

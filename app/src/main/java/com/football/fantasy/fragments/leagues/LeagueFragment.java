@@ -15,8 +15,11 @@ import com.football.customizes.carousels.CarouselView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_leagues.SetUpLeagueFragment;
 import com.football.fantasy.fragments.leagues.my_leagues.MyLeagueFragment;
+import com.football.fantasy.fragments.leagues.my_supper_team.MySupperTeamFragment;
 import com.football.fantasy.fragments.leagues.open_leagues.OpenLeagueFragment;
 import com.football.fantasy.fragments.leagues.pending_invitation.PendingInvitationFragment;
+import com.football.fantasy.fragments.leagues.team_squad.TeamSquadFragment;
+import com.football.fantasy.fragments.leagues.team_statistics.TeamStatisticFragment;
 
 import java.util.ArrayList;
 
@@ -91,7 +94,11 @@ public class LeagueFragment extends BaseMainMvpFragment<ILeagueView, ILeaguePres
 
     @OnClick(R.id.btnAdd)
     void onClickAdd() {
+//        AloneFragmentActivity.with(this)
+//                .start(SetUpLeagueFragment.class);
+
         AloneFragmentActivity.with(this)
-                .start(SetUpLeagueFragment.class);
+                .setStatusTransluent(true)
+                .start(TeamSquadFragment.class);
     }
 }

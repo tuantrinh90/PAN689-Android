@@ -1,6 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_background"
+    android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_layout"
+        android:layout_marginRight="@dimen/padding_layout"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/padding_layout"
+        android:paddingRight="@dimen/padding_layout">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.bon.customview.textview.ExtTextView
+                style="@style/StyleTitleWhite"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:text="@string/statistics"
+                app:textAllCaps="true"
+                app:textViewFontAssetName="@string/font_display_black_italic" />
+
+            <LinearLayout
+                android:id="@+id/llPointPerPlayer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white_component_radius"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/padding_layout"
+                android:paddingRight="@dimen/padding_layout">
+
+                <ImageView
+                    style="@style/IconTiny"
+                    android:src="@drawable/ic_keyboard_arrow_right" />
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleContentBlue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/point_per_player"
+                    android:textSize="@dimen/font_size_description"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+            </LinearLayout>
+        </TableRow>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_layout"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/ivNumber"
+                    style="@style/IconLarge"
+                    android:src="@drawable/ic_number_one" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvPoints"
+                    style="@style/StyleContentBlue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="1200"
+                    app:textViewFontAssetName="@string/font_display_black" />
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="@string/points"
+                    android:textColor="@color/color_white"
+                    app:textAllCaps="true"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvBudget"
+                    style="@style/StyleContentBlue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="$2000"
+                    app:textViewFontAssetName="@string/font_display_black" />
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="@string/budget"
+                    android:textColor="@color/color_white"
+                    app:textAllCaps="true"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/color_white"
+        android:orientation="vertical">
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleDescriptionContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout"
+            android:text="@string/points_per_round"
+            app:textAllCaps="true"
+            app:textViewFontAssetName="@string/font_display_bold" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_background_edit_text_focused"
+            android:paddingLeft="@dimen/padding_layout"
+            android:paddingRight="@dimen/padding_layout">
+
+            <com.bon.customview.textview.ExtTextView
+                style="@style/StyleDescriptionContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/round"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                style="@style/StyleDescriptionContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/point"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                style="@style/StyleDescriptionContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/change"
+                app:textViewFontAssetName="@string/font_display_bold" />
+        </TableRow>
+
+        <com.bon.customview.listview.ExtPagingListView
+            android:id="@+id/lvData"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
 </LinearLayout>
