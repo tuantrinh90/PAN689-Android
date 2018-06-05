@@ -77,4 +77,10 @@
     <dimen name="leagues_size_number_width">60dp</dimen>
     <dimen name="leagues_size_number_number">55dp</dimen>
     <dimen name="leagues_size_number_height">70dp</dimen>
+
+    <!--lineup-->
+    <dimen name="player_margin_large">14dp</dimen>
+    <dimen name="player_margin_normal">10dp</dimen>
+    <dimen name="player_margin_small">6dp</dimen>
+    <dimen name="player_margin_none">0dp</dimen>
 </resources>

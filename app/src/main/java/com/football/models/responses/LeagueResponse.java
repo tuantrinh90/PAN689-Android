@@ -288,48 +288,47 @@ public class LeagueResponse implements Serializable {
     public String getDescriptionText(Context context) {
         Calendar calendarCurrent = Calendar.getInstance();
         long time = 0l;
-
-        if (gameplayOption.equalsIgnoreCase(Constant.KEY_TRANSFER)) {
-            Calendar calendarTimeSetUp = getTeamSetUpCalendar();
-            if (calendarTimeSetUp != null) {
-                time = calendarTimeSetUp.getTimeInMillis() - calendarCurrent.getTimeInMillis();
-            }
-        } else {
-            Calendar calendarDraftTime = getDraftTimeCalendar();
-            if (calendarDraftTime != null) {
-                time = calendarDraftTime.getTimeInMillis() - calendarCurrent.getTimeInMillis();
-            }
-        }
-
-        if (time >= 0) {
-            String des;
-            String result;
-
+        if (gameplayOption != null) {
             if (gameplayOption.equalsIgnoreCase(Constant.KEY_TRANSFER)) {
-                des = context.getString(R.string.util_team_setup_time);
+                Calendar calendarTimeSetUp = getTeamSetUpCalendar();
+                if (calendarTimeSetUp != null) {
+                    time = calendarTimeSetUp.getTimeInMillis() - calendarCurrent.getTimeInMillis();
+                }
             } else {
-                des = context.getString(R.string.util_team_draft_time);
+                Calendar calendarDraftTime = getDraftTimeCalendar();
+                if (calendarDraftTime != null) {
+                    time = calendarDraftTime.getTimeInMillis() - calendarCurrent.getTimeInMillis();
+                }
             }
+            if (time >= 0) {
+                String des;
+                String result;
 
-            long division = time / 1000;
-            result = division + " " + context.getString(R.string.second) + " " + des;
+                if (gameplayOption.equalsIgnoreCase(Constant.KEY_TRANSFER)) {
+                    des = context.getString(R.string.util_team_setup_time);
+                } else {
+                    des = context.getString(R.string.util_team_draft_time);
+                }
 
-            if (division > 60) {
-                result = division / 60 + " " + context.getString(R.string.minute) + " " + des;
+                long division = time / 1000;
+                result = division + " " + context.getString(R.string.second) + " " + des;
+
+                if (division > 60) {
+                    result = division / 60 + " " + context.getString(R.string.minute) + " " + des;
+                }
+
+                if (division > 60 * 60) {
+                    result = division / 60 / 60 + " " + context.getString(R.string.hour) + " " + des;
+                }
+
+                if (division > 60 * 60 * 24) {
+                    result = division / 60 / 60 / 24 + " " + context.getString(R.string.day) + " " + des;
+                }
+
+                return result;
             }
-
-            if (division > 60 * 60) {
-                result = division / 60 / 60 + " " + context.getString(R.string.hour) + " " + des;
-            }
-
-            if (division > 60 * 60 * 24) {
-                result = division / 60 / 60 / 24 + " " + context.getString(R.string.day) + " " + des;
-            }
-
-            return result;
-        } else {
-            return "";
         }
+        return "";
     }
 
     public String getTradeReview() {

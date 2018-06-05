@@ -53,13 +53,12 @@ public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresente
 
                             @Override
                             public void onSuccess(UserResponse userResponse) {
-                                AppPreferences.getInstance(AppContext.getInstance()).putObject(Constant.KEY_USER, userResponse);
-                                v.goToMain();
+                                loginSuccess(userResponse);
                             }
 
                             @Override
                             public void onError(String e) {
-                                v.showMessage(e, R.string.ok, null);
+                                loginError(e);
                             }
                         }));
             }
@@ -82,13 +81,11 @@ public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresente
                     new ApiCallback<UserResponse>() {
                         @Override
                         public void onSuccess(UserResponse userResponse) {
-                            Log.e("TAG", userResponse.toString());
                             loginSuccess(userResponse);
                         }
 
                         @Override
                         public void onError(String e) {
-                            Log.e("eee", e);
                             loginError(e);
                         }
                     }));
@@ -97,6 +94,7 @@ public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresente
 
     private void loginSuccess(UserResponse response) {
         getOptView().doIfPresent(view -> {
+            AppPreferences.getInstance(AppContext.getInstance()).putObject(Constant.KEY_USER, response);
             view.goToMain();
             view.showLoading(false);
         });
@@ -105,7 +103,7 @@ public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresente
     private void loginError(String e) {
         getOptView().doIfPresent(view -> {
             view.showLoading(false);
-            view.showMessage(e);
+            view.showMessage(e, R.string.ok, null);
         });
     }
 }

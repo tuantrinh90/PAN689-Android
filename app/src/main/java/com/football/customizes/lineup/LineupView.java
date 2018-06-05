@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
 import com.bon.interfaces.Optional;
+import com.football.fantasy.R;
 import com.football.models.Player;
 import com.google.android.flexbox.AlignContent;
 import com.google.android.flexbox.AlignItems;
@@ -24,7 +25,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
     private Consumer<Integer> removeConsumer;
     private BiConsumer<Player, Integer> playerBiConsumer;
 
-    private int[] squad = new int[]{4, 6, 6, 2}; // sắp xếp đội hình theo từng hàng, mỗi phần tử tương ứng với số lượng cầu thủ tại hàng đó
+    private int[] squad = new int[]{1, 3, 5, 2}; // sắp xếp đội hình theo từng hàng, mỗi phần tử tương ứng với số lượng cầu thủ tại hàng đó
     private Player[] players;
 
     public LineupView(Context context) {
@@ -42,10 +43,10 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
 
     private void initView(Context context) {
         mContext = context;
-        setAlignContent(AlignContent.CENTER);
-        setAlignItems(AlignItems.CENTER);
+//        setAlignContent(AlignContent.SPACE_AROUND);
+//        setAlignItems(AlignItems.CENTER);
         setFlexWrap(FlexWrap.WRAP);
-        setJustifyContent(JustifyContent.CENTER);
+        setJustifyContent(JustifyContent.SPACE_EVENLY);
 
         setup();
     }
@@ -54,33 +55,56 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         this.removeAllViews();
 
         int position = 0;
-        for (int line = 0; line < LINE; line++) {
-            for (int i = 0; i < squad[line]; i++) {
+        for (int line = LINE - 1; line >= 0; line--) {
+            int playerCount = squad[line]; // số lượng cầu thủ trên 1 hàng
+            for (int i = 0; i < playerCount; i++) {
                 PlayerView view = createPlayerView(mContext);
                 Player player = null;
                 if (players != null && players.length > position) {
                     player = players[position];
                 }
                 displayPlayer(view, player, position);
-                position += 1;
+                position++;
                 view.setOnPlayerViewClickListener(this);
                 this.addView(view);
 
                 // wrap
                 LayoutParams lp = new LayoutParams(view.getLayoutParams());
-                setFlexItemAttributes(mContext, lp, line != 0 && i == 0);
+                setFlexItemAttributes(0, lp, i == 0);
                 view.setLayoutParams(lp);
             }
         }
+    }
+
+    private int getMargin(int playerCount) {
+        int margin;
+        switch (playerCount) {
+            case 2:
+            case 3:
+                margin = mContext.getResources().getDimensionPixelSize(R.dimen.player_margin_large);
+                break;
+            case 4:
+                margin = mContext.getResources().getDimensionPixelSize(R.dimen.player_margin_normal);
+                break;
+            case 5:
+                margin = mContext.getResources().getDimensionPixelSize(R.dimen.player_margin_small);
+                break;
+            case 6:
+            default:
+                margin = mContext.getResources().getDimensionPixelSize(R.dimen.player_margin_none);
+                break;
+
+        }
+
+        return margin;
     }
 
     private void displayPlayer(PlayerView view, Player player, int position) {
         view.setPlayer(player, position);
     }
 
-    private static void setFlexItemAttributes(Context context, FlexboxLayout.LayoutParams lp, boolean isWrapBefore) {
-//        int margin = context.getResources().getDimensionPixelSize(R.dimen.component_radius);
-//        lp.setMargins(margin, margin, margin, margin);
+    private static void setFlexItemAttributes(int margin, FlexboxLayout.LayoutParams lp, boolean isWrapBefore) {
+        lp.setMargins(margin, 0, margin, 0);
 
         lp.setFlexGrow(FlexboxLayout.LayoutParams.FLEX_GROW_DEFAULT);
         lp.setFlexShrink(FlexboxLayout.LayoutParams.FLEX_SHRINK_DEFAULT);
