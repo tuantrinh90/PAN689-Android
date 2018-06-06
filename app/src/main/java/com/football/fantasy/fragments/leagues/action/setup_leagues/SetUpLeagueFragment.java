@@ -469,11 +469,6 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
             result = false;
         }
 
-        // description
-        if (etDescription.isEmpty(mActivity)) {
-            result = false;
-        }
-
         return result;
     }
 

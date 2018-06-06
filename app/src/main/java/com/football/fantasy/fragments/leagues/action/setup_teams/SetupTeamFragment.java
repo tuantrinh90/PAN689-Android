@@ -144,10 +144,6 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
             result = false;
         }
 
-        if (etDescription.isEmpty(mActivity)) {
-            result = false;
-        }
-
         return result;
     }
 
