@@ -18,9 +18,9 @@ import android.view.WindowManager;
 
 import com.bon.interfaces.Optional;
 import com.bon.util.BarUtils;
-import com.bon.util.KeyboardUtils;
 import com.football.common.Keys;
 import com.football.fantasy.R;
+import com.football.utilities.KeyboardUtils;
 
 import butterknife.BindView;
 import java8.util.function.Consumer;
@@ -56,7 +56,7 @@ public class AloneFragmentActivity extends BaseAppCompatActivity {
         });
 
         // don't show keyboard
-        KeyboardUtils.dontShowKeyboardActivity(this);
+        com.bon.util.KeyboardUtils.dontShowKeyboardActivity(this);
     }
 
     @Override

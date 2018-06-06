@@ -127,7 +127,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
                             // edit
                             if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.edit))) {
                                 AloneFragmentActivity.with(LeagueDetailFragment.this)
-                                        .parameters(SetUpLeagueFragment.newBundle(league))
+                                        .parameters(SetUpLeagueFragment.newBundle(league, title, leagueType))
                                         .start(SetUpLeagueFragment.class);
                             }
 

@@ -26,7 +26,7 @@ public class ErrorHelper {
             return context.getString(R.string.some_thing_wrong);
         }
 
-        if (ConnectionHelper.isOfflineMode(code)) {
+        if (ConnectionUtils.isOfflineMode(code)) {
             return context.getString(R.string.you_are_offline);
         }
 

@@ -9,7 +9,7 @@ import com.football.models.ErrorBody;
 
 import java8.util.function.Consumer;
 
-public class ConnectionHelper {
+public class ConnectionUtils {
     public static void hasConnection(@NonNull Context context, Consumer<Boolean> consumer) {
         Optional.from(consumer).doIfPresent(c -> c.accept(NetworkUtils.isNetworkAvailable(context)));
     }
