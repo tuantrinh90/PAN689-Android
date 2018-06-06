@@ -31,7 +31,7 @@ public class InvitationResponse implements Serializable {
     }
 
     public String getCreatedAt() {
-        return createdAt;
+        return createdAt + "";
     }
 
     public void setCreatedAt(String createdAt) {
@@ -39,7 +39,7 @@ public class InvitationResponse implements Serializable {
     }
 
     public String getUpdatedAt() {
-        return updatedAt;
+        return updatedAt = "";
     }
 
     public void setUpdatedAt(String updatedAt) {
@@ -47,7 +47,7 @@ public class InvitationResponse implements Serializable {
     }
 
     public Integer getSenderId() {
-        return senderId;
+        return senderId == null ? 0 : senderId;
     }
 
     public void setSenderId(Integer senderId) {
@@ -63,7 +63,7 @@ public class InvitationResponse implements Serializable {
     }
 
     public Integer getReceiverId() {
-        return receiverId;
+        return receiverId == null ? 0 : receiverId;
     }
 
     public void setReceiverId(Integer receiverId) {
@@ -79,7 +79,7 @@ public class InvitationResponse implements Serializable {
     }
 
     public Integer getLeagueId() {
-        return leagueId;
+        return leagueId == null ? 0 : leagueId;
     }
 
     public void setLeagueId(Integer leagueId) {

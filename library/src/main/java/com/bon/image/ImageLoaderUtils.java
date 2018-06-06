@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
+import com.bon.util.StringUtils;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -142,6 +143,7 @@ public class ImageLoaderUtils {
      */
     public static void displayImage(String imageUri, ImageView imageView) {
         try {
+            if (StringUtils.isEmpty(imageUri))return;
             ImageLoader.getInstance().displayImage(imageUri, imageView);
         } catch (Exception e) {
             Logger.e(TAG, e);
@@ -168,6 +170,7 @@ public class ImageLoaderUtils {
      */
     public static void displayImage(String imageUri, ImageView imageView, ImageLoadingListener imageLoadingListener) {
         try {
+            if (StringUtils.isEmpty(imageUri))return;
             ImageLoader.getInstance().displayImage(imageUri, imageView, imageLoadingListener);
         } catch (Exception e) {
             Logger.e(TAG, e);

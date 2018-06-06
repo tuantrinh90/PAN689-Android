@@ -21,13 +21,12 @@ public class RxUtilities {
      */
     public static <T> Disposable async(@NonNull IBaseMvpView mvpView, @NonNull Observable<BaseResponse<T>> observable, ApiCallback<T> apiCallback) {
         Optional.from(apiCallback).doIfPresent(c -> c.onStart());
-        return observable.compose(mvpView.bindUntilEvent(FragmentEvent.STOP))
+        return observable.compose(mvpView.bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<BaseResponse<T>>() {
                     @Override
                     public void onNext(BaseResponse<T> response) {
-                        System.out.println("onNext");
                         Optional.from(apiCallback).doIfPresent(c -> {
                             Optional.from(response).doIfPresent(r -> {
                                 if (r.isSuccess()) {

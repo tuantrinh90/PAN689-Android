@@ -9,11 +9,15 @@ import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.bon.logger.Logger;
+import com.bon.util.DateTimeUtils;
 import com.bon.util.DialogUtils;
 import com.football.adapters.TeamAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
+import com.football.models.requests.LeagueRequest;
+import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
+import com.football.utilities.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,16 +28,21 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
     static final String TAG = TeamFragment.class.getSimpleName();
     static final String KEY_LEAGUE_ID = "LEAGUE_ID";
     static final String KEY_LEAGUE_TYPE = "league_type";
+    static final String KEY_LEAGUE = "league";
 
-    public static TeamFragment newInstance(int leagueId, String leagueType) {
+    public static TeamFragment newInstance(int leagueId, String leagueType, LeagueResponse leagueResponse) {
         TeamFragment fragment = new TeamFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(KEY_LEAGUE_ID, leagueId);
         bundle.putString(KEY_LEAGUE_TYPE, leagueType);
+        bundle.putSerializable(KEY_LEAGUE, leagueResponse);
         fragment.setArguments(bundle);
         return fragment;
     }
 
+
+    @BindView(R.id.tvTeamSetupLabel)
+    ExtTextView tvTeamSetupLabel;
     @BindView(R.id.tvTeamSetupTime)
     ExtTextView tvTeamSetupTime;
     @BindView(R.id.rvRecyclerView)
@@ -42,6 +51,7 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
     int leagueId;
     String leagueType;
 
+    LeagueResponse leagueResponse;
     TeamAdapter teamAdapter;
 
     @Override
@@ -61,11 +71,20 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
     void getDataFromBundle() {
         leagueId = getArguments().getInt(KEY_LEAGUE_ID);
         leagueType = getArguments().getString(KEY_LEAGUE_TYPE);
+        leagueResponse = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
     }
 
     void initView() {
         try {
-            teamAdapter = new TeamAdapter(mActivity, new ArrayList<>(), teamResponseDetails -> {
+            if (leagueResponse.getGameplayOption().equalsIgnoreCase(LeagueRequest.GAMEPLAY_OPTION_TRANSFER)) {
+                tvTeamSetupLabel.setText(R.string.team_setup_time);
+                tvTeamSetupTime.setText(DateTimeUtils.convertCalendarToString(leagueResponse.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
+            } else {
+                tvTeamSetupLabel.setText(R.string.start_time);
+                tvTeamSetupTime.setText(DateTimeUtils.convertCalendarToString(leagueResponse.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
+            }
+
+            teamAdapter = new TeamAdapter(mActivity, new ArrayList<>(), leagueResponse, teamResponseDetails -> {
             }, removeTeamResponse -> {
                 DialogUtils.confirmBox(mActivity,
                         getString(R.string.app_name),

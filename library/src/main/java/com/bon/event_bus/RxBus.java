@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.subjects.PublishSubject;
 
 /**
@@ -23,7 +24,8 @@ public class RxBus<T extends IEvent> {
      * @return
      */
     public <A extends IEvent> Observable<A> ofType(Class<A> clazz) {
-        return mPublishSubject.ofType(clazz);
+        return mPublishSubject.ofType(clazz)
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**

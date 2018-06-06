@@ -30,6 +30,7 @@ import com.football.fantasy.fragments.leagues.league_details.invite_friends.Invi
 import com.football.fantasy.fragments.leagues.league_details.league_info.LeagueInfoFragment;
 import com.football.fantasy.fragments.leagues.league_details.successor.SuccessorFragment;
 import com.football.fantasy.fragments.leagues.league_details.teams.TeamFragment;
+import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.LeagueResponse;
 
 import java.util.ArrayList;
@@ -84,7 +85,6 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
         getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
-        initView();
         presenter.getLeagueDetail(leagueId);
     }
 
@@ -94,24 +94,6 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
         title = bundle.getString(KEY_TITLE, "");
         leagueId = bundle.getInt(KEY_LEAGUE_ID);
         leagueType = bundle.getString(KEY_LEAGUE_TYPE, "");
-    }
-
-    void initView() {
-        try {
-            cvCarouselView.setTextAllCaps(false)
-                    .setFontPath(getString(R.string.font_display_heavy_italic))
-                    .setAdapter(mActivity, new ArrayList<Carousel>() {{
-                        add(new Carousel(getString(R.string.league_information), true));
-                        add(new Carousel(getString(R.string.teams), false));
-                        add(new Carousel(getString(R.string.invite_friend), false));
-                    }}, R.color.color_blue, R.color.color_content, position -> {
-                        cvCarouselView.setActivePosition(position);
-                        vpViewPager.setCurrentItem(position);
-                    });
-            ivMenu.setVisibility(View.GONE);
-        } catch (Exception e) {
-            Logger.e(TAG, e);
-        }
     }
 
     @NonNull
@@ -176,10 +158,28 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
     }
 
     @Override
-    public void displayLeague(LeagueResponse league) {
+    public void displayLeague(LeagueResponse l) {
         try {
+            ivMenu.setVisibility(View.GONE);
+
             // update league
-            this.league = league;
+            league = l;
+            List<Carousel> carousels = new ArrayList<>();
+            carousels.add(new Carousel(getString(R.string.league_information), true));
+            carousels.add(new Carousel(getString(R.string.teams), false));
+            // only display invite with open leagues or owner
+            if (league.getLeagueType().equalsIgnoreCase(LeagueRequest.LEAGUE_TYPE_OPEN) || league.getOwner()) {
+                carousels.add(new Carousel(getString(R.string.invite_friend), false));
+            }
+
+            // carousel view
+            cvCarouselView.setTextAllCaps(false)
+                    .setFontPath(getString(R.string.font_display_heavy_italic))
+                    .setAdapter(mActivity, carousels, R.color.color_blue, R.color.color_content, position -> {
+                        cvCarouselView.setActivePosition(position);
+                        vpViewPager.setCurrentItem(position);
+                    });
+
 
             // owner
             if (league.getOwner()) {
@@ -202,13 +202,15 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
             // load info
             Optional.from(tvTitle).doIfPresent(t -> t.setText(league.getName()));
 
+            List<BaseMvpFragment> mvpFragments = new ArrayList<>();
+            mvpFragments.add(LeagueInfoFragment.newInstance(league, leagueType).setChildFragment(true));
+            mvpFragments.add(TeamFragment.newInstance(league.getId(), leagueType, league).setChildFragment(true));
+            if (league.getLeagueType().equalsIgnoreCase(LeagueRequest.LEAGUE_TYPE_OPEN) || league.getOwner()) {
+                mvpFragments.add(InviteFriendFragment.newInstance(league.getId(), leagueType).setChildFragment(true));
+            }
+
             // adapter
-            leagueDetailViewPagerAdapter = new LeagueDetailViewPagerAdapter(getFragmentManager(),
-                    new ArrayList<BaseMvpFragment>() {{
-                        add(LeagueInfoFragment.newInstance(league, leagueType).setChildFragment(true));
-                        add(TeamFragment.newInstance(league.getId(), leagueType).setChildFragment(true));
-                        add(InviteFriendFragment.newInstance(league.getId(), leagueType).setChildFragment(true));
-                    }});
+            leagueDetailViewPagerAdapter = new LeagueDetailViewPagerAdapter(getFragmentManager(), mvpFragments);
             vpViewPager.setAdapter(leagueDetailViewPagerAdapter);
             vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override

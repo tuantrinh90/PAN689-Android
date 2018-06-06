@@ -31,7 +31,7 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
                     new ApiCallback<FormResponse>() {
                         @Override
                         public void onSuccess(FormResponse form) {
-                            v.displayBudgets(form.budgets);
+                            v.displayBudgets(form.getBudgets());
                         }
 
                         @Override

@@ -11,6 +11,7 @@ import com.bon.interfaces.Optional;
 import com.football.adapters.TeamAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
+import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
 
 import java.util.ArrayList;
@@ -20,20 +21,23 @@ import butterknife.BindView;
 
 public class TeamListFragment extends BaseMainMvpFragment<ITeamListView, ITeamListPresenter<ITeamListView>> implements ITeamListView {
 
-    private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+    static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+    static final String KEY_LEAGUE = "LEAGUE";
 
     @BindView(R.id.tvTeamSetupTime)
     ExtTextView tvTeamSetupTime;
     @BindView(R.id.rvRecyclerView)
     ExtPagingListView rvRecyclerView;
 
-    private TeamAdapter teamAdapter;
-    private int leagueId;
+    LeagueResponse leagueResponse;
+    TeamAdapter teamAdapter;
+    int leagueId;
 
-    public static TeamListFragment newInstance(Integer id) {
+    public static TeamListFragment newInstance(Integer leagueId, LeagueResponse leagueResponse) {
         TeamListFragment fragment = new TeamListFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(KEY_LEAGUE_ID, id);
+        bundle.putInt(KEY_LEAGUE_ID, leagueId);
+        bundle.putSerializable(KEY_LEAGUE, leagueResponse);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -59,11 +63,11 @@ public class TeamListFragment extends BaseMainMvpFragment<ITeamListView, ITeamLi
     private void getDataFromBundle() {
         Bundle bundle = getArguments();
         leagueId = bundle.getInt(KEY_LEAGUE_ID);
+        leagueResponse = (LeagueResponse) bundle.getSerializable(KEY_LEAGUE);
     }
 
     void initView() {
-        teamAdapter = new TeamAdapter(mActivity, new ArrayList<>(), null, null);
-        teamAdapter.setVisibleRemove(false);
+        teamAdapter = new TeamAdapter(mActivity, new ArrayList<>(), leagueResponse, null, null);
         rvRecyclerView.init(mActivity, teamAdapter)
                 .setOnExtRefreshListener(() -> {
                     Optional.from(rvRecyclerView).doIfPresent(rv -> rv.clearItems());

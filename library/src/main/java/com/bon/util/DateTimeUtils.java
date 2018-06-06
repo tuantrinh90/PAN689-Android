@@ -16,6 +16,18 @@ public class DateTimeUtils {
     private static final String TAG = DateTimeUtils.class.getSimpleName();
 
     /**
+     * @param timeInMillis
+     * @return
+     */
+    public static Calendar getCalendarNoTime(long timeInMillis) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.setTimeInMillis(timeInMillis);
+        return calendar;
+    }
+
+
+    /**
      * calendar no time
      *
      * @param year

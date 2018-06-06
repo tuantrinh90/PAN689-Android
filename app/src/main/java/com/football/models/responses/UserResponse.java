@@ -97,7 +97,7 @@ public class UserResponse implements Serializable {
     }
 
     public Integer getIsAdmin() {
-        return isAdmin;
+        return isAdmin == null ? 0 : isAdmin;
     }
 
     public void setIsAdmin(Integer isAdmin) {

@@ -13,7 +13,7 @@ public class DateResponse implements Serializable {
     private String timezone;
 
     public String getDate() {
-        return date;
+        return date + "";
     }
 
     public void setDate(String date) {
@@ -21,7 +21,7 @@ public class DateResponse implements Serializable {
     }
 
     public Integer getTimezoneType() {
-        return timezoneType;
+        return timezoneType == null ? 0 : timezoneType;
     }
 
     public void setTimezoneType(Integer timezoneType) {
@@ -29,7 +29,7 @@ public class DateResponse implements Serializable {
     }
 
     public String getTimezone() {
-        return timezone;
+        return timezone + "";
     }
 
     public void setTimezone(String timezone) {

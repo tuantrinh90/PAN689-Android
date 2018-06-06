@@ -145,7 +145,7 @@ public class LeagueResponse implements Serializable {
     }
 
     public Integer getSeasonId() {
-        return seasonId;
+        return seasonId == null ? 0 : seasonId;
     }
 
     public void setSeasonId(Integer seasonId) {
@@ -153,7 +153,7 @@ public class LeagueResponse implements Serializable {
     }
 
     public String getName() {
-        return name;
+        return name + "";
     }
 
     public void setName(String name) {
@@ -161,7 +161,7 @@ public class LeagueResponse implements Serializable {
     }
 
     public String getDescription() {
-        return description;
+        return description + "";
     }
 
     public void setDescription(String description) {
@@ -169,7 +169,7 @@ public class LeagueResponse implements Serializable {
     }
 
     public String getLogo() {
-        return logo;
+        return logo + "";
     }
 
     public void setLogo(String logo) {
@@ -238,7 +238,7 @@ public class LeagueResponse implements Serializable {
     }
 
     public Integer getRealRoundStart() {
-        return realRoundStart;
+        return realRoundStart == null ? 0 : realRoundStart;
     }
 
     public void setRealRoundStart(Integer realRoundStart) {
@@ -246,7 +246,7 @@ public class LeagueResponse implements Serializable {
     }
 
     public Integer getRealRoundEnd() {
-        return realRoundEnd;
+        return realRoundEnd == null ? 0 : realRoundEnd;
     }
 
     public void setRealRoundEnd(Integer realRoundEnd) {
@@ -254,7 +254,7 @@ public class LeagueResponse implements Serializable {
     }
 
     public Integer getBudgetId() {
-        return budgetId;
+        return budgetId == null ? 0 : budgetId;
     }
 
     public void setBudgetId(Integer budgetId) {
@@ -278,7 +278,7 @@ public class LeagueResponse implements Serializable {
     }
 
     public String getTeamSetup() {
-        return teamSetup;
+        return teamSetup + "";
     }
 
     public void setTeamSetup(String teamSetup) {
@@ -391,7 +391,7 @@ public class LeagueResponse implements Serializable {
     }
 
     public Boolean getOwner() {
-        return isOwner;
+        return isOwner == null ? false : isOwner;
     }
 
     public void setOwner(Boolean owner) {

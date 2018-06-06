@@ -29,7 +29,7 @@ public class FriendResponse implements Serializable {
     }
 
     public String getName() {
-        return name;
+        return name + "";
     }
 
     public void setName(String name) {
@@ -37,7 +37,7 @@ public class FriendResponse implements Serializable {
     }
 
     public String getEmail() {
-        return email;
+        return email + "";
     }
 
     public void setEmail(String email) {
@@ -45,7 +45,7 @@ public class FriendResponse implements Serializable {
     }
 
     public String getFirstName() {
-        return firstName;
+        return firstName + "";
     }
 
     public void setFirstName(String firstName) {
@@ -53,7 +53,7 @@ public class FriendResponse implements Serializable {
     }
 
     public String getLastName() {
-        return lastName;
+        return lastName + "";
     }
 
     public void setLastName(String lastName) {
@@ -61,7 +61,7 @@ public class FriendResponse implements Serializable {
     }
 
     public String getPhoto() {
-        return photo;
+        return photo + "";
     }
 
     public void setPhoto(String photo) {
@@ -69,7 +69,7 @@ public class FriendResponse implements Serializable {
     }
 
     public Boolean getInvited() {
-        return isInvited;
+        return isInvited == null ? false : isInvited;
     }
 
     public void setInvited(Boolean invited) {

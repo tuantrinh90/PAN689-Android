@@ -33,7 +33,6 @@ import com.football.customizes.labels.LabelView;
 import com.football.events.LeagueEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
-import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.BudgetResponse;
 import com.football.models.responses.LeagueResponse;
@@ -131,9 +130,9 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     ExtTextView tvCreateLeague;
 
     File filePath;
-    Calendar calendarDraftTime = Calendar.getInstance();
-    Calendar calendarStartTime = Calendar.getInstance();
-    Calendar calendarTeamSetupTime = Calendar.getInstance();
+    Calendar calendarDraftTime;
+    Calendar calendarStartTime;
+    Calendar calendarTeamSetupTime;
     ExtKeyValuePair keyValuePairNumberOfUser = new ExtKeyValuePair("6", "06");
 
     int leagueId;
@@ -384,8 +383,8 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     void onClickDraftTime() {
         ExtDayMonthYearHourMinuteDialogFragment.newInstance()
                 .setMinDate(AppUtilities.getMinCalendar())
-                .setMaxDate(calendarStartTime)
-                .setValueDate(calendarDraftTime)
+                .setMaxDate(AppUtilities.getMaxCalendar())
+                .setValueDate(calendarDraftTime == null ? Calendar.getInstance() : calendarDraftTime)
                 .setConditionFunction(calendar -> calendar.getTimeInMillis() >= Calendar.getInstance().getTimeInMillis())
                 .setCalendarConsumer(calendar -> {
                     calendarDraftTime = calendar;
@@ -402,10 +401,13 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
         ExtDayMonthYearHourMinuteDialogFragment.newInstance()
                 .setMinDate(AppUtilities.getMinCalendar())
                 .setMaxDate(AppUtilities.getMaxCalendar())
-                .setValueDate(calendarTeamSetupTime)
+                .setValueDate(calendarTeamSetupTime == null ? Calendar.getInstance() : calendarTeamSetupTime)
                 .setConditionFunction(calendar -> calendar.getTimeInMillis() >= Calendar.getInstance().getTimeInMillis())
                 .setCalendarConsumer(calendar -> {
                     calendarTeamSetupTime = calendar;
+                    if (calendarStartTime == null) {
+                        calendarStartTime = DateTimeUtils.getCalendarNoTime(calendarTeamSetupTime.getTimeInMillis());
+                    }
                     formatDateTime();
                 }).show(getFragmentManager(), null);
     }
@@ -415,10 +417,13 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
         ExtDayMonthYearHourMinuteDialogFragment.newInstance()
                 .setMinDate(AppUtilities.getMinCalendar())
                 .setMaxDate(AppUtilities.getMaxCalendar())
-                .setValueDate(calendarStartTime)
+                .setValueDate(calendarStartTime == null ? Calendar.getInstance() : calendarStartTime)
                 .setConditionFunction(calendar -> calendar.getTimeInMillis() >= Calendar.getInstance().getTimeInMillis())
                 .setCalendarConsumer(calendar -> {
                     calendarStartTime = calendar;
+                    if (calendarTeamSetupTime == null) {
+                        calendarTeamSetupTime = DateTimeUtils.getCalendarNoTime(calendarStartTime.getTimeInMillis());
+                    }
                     formatDateTime();
                 }).show(getFragmentManager(), null);
     }
@@ -464,13 +469,30 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
             result = false;
         }
 
-        //startAt
-        if (etStartTime.isEmpty(mActivity)) {
-            result = false;
+        if (llTransfer.isActivated()) {
+            if (etTeamSetupTime.isEmpty(mActivity)) {
+                result = false;
+            } else {
+                etTeamSetupTime.setError(null);
+                if (calendarStartTime.getTimeInMillis() < calendarTeamSetupTime.getTimeInMillis()) {
+                    etTeamSetupTime.setError(getString(R.string.league_invalid_setup_time));
+                    result = false;
+                }
+            }
+        } else {
+            if (etDraftTime.isEmpty(mActivity)) {
+                result = false;
+            }else{
+                etDraftTime.setError(null);
+                if (calendarStartTime.getTimeInMillis() < calendarDraftTime.getTimeInMillis()) {
+                    etDraftTime.setError(getString(R.string.league_invalid_start_draft_time));
+                    result = false;
+                }
+            }
         }
 
-        // description
-        if (etDescription.isEmpty(mActivity)) {
+        //startAt
+        if (etStartTime.isEmpty(mActivity)) {
             result = false;
         }
 

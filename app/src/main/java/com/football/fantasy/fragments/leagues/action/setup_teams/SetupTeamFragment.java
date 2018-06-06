@@ -15,12 +15,10 @@ import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.image.ImageFilePath;
 import com.bon.image.ImageUtils;
 import com.bon.util.StringUtils;
-import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.leagues.your_team.YourTeamFragment;
 import com.football.models.requests.TeamRequest;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
@@ -144,10 +142,6 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
             result = false;
         }
 
-        if (etDescription.isEmpty(mActivity)) {
-            result = false;
-        }
-
         return result;
     }
 
@@ -161,7 +155,7 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
 
     @Override
     public void createTeamSuccess() {
-       mActivity.finish();
+        mActivity.finish();
     }
 
     @Override
