@@ -39,9 +39,9 @@ public class BudgetOptionAdapter extends BaseRecyclerViewAdapter<BudgetResponse,
 
         holder.tvBudgetOption.setText(budgetResponse.getName());
         holder.tvBudgetOptionValue.setText(String.format(context.getString(R.string.money_prefix), String.valueOf(budgetResponse.getValueDisplay())));
-        holder.itemView.setActivated(budgetResponse.getActived());
-        holder.tvBudgetOption.setActivated(budgetResponse.getActived());
-        holder.tvBudgetOptionValue.setActivated(budgetResponse.getActived());
+        holder.itemView.setActivated(budgetResponse.getIsActivated());
+        holder.tvBudgetOption.setActivated(budgetResponse.getIsActivated());
+        holder.tvBudgetOptionValue.setActivated(budgetResponse.getIsActivated());
         holder.itemView.setOnClickListener(v -> Optional.from(consumer).doIfPresent(c -> c.accept(budgetResponse)));
     }
 

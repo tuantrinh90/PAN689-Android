@@ -15,6 +15,7 @@ import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
+import com.bon.logger.Logger;
 import com.bon.util.DialogUtils;
 import com.football.adapters.LeagueDetailViewPagerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
@@ -38,6 +39,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView, ILeagueDetailPresenter<ILeagueDetailView>> implements ILeagueDetailView {
+    static final String TAG = LeagueDetailFragment.class.getSimpleName();
     static final String KEY_TITLE = "key_title";
     static final String KEY_LEAGUE_ID = "key_league";
     static final String KEY_LEAGUE_TYPE = "key_league_type";
@@ -95,17 +97,21 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
     }
 
     void initView() {
-        cvCarouselView.setTextAllCaps(false)
-                .setFontPath(getString(R.string.font_display_heavy_italic))
-                .setAdapter(mActivity, new ArrayList<Carousel>() {{
-                    add(new Carousel(getString(R.string.league_information), true));
-                    add(new Carousel(getString(R.string.teams), false));
-                    add(new Carousel(getString(R.string.invite_friend), false));
-                }}, R.color.color_blue, R.color.color_content, position -> {
-                    cvCarouselView.setActivePosition(position);
-                    vpViewPager.setCurrentItem(position);
-                });
-        ivMenu.setVisibility(View.GONE);
+        try {
+            cvCarouselView.setTextAllCaps(false)
+                    .setFontPath(getString(R.string.font_display_heavy_italic))
+                    .setAdapter(mActivity, new ArrayList<Carousel>() {{
+                        add(new Carousel(getString(R.string.league_information), true));
+                        add(new Carousel(getString(R.string.teams), false));
+                        add(new Carousel(getString(R.string.invite_friend), false));
+                    }}, R.color.color_blue, R.color.color_content, position -> {
+                        cvCarouselView.setActivePosition(position);
+                        vpViewPager.setCurrentItem(position);
+                    });
+            ivMenu.setVisibility(View.GONE);
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
     }
 
     @NonNull
@@ -128,89 +134,101 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
 
     @OnClick(R.id.ivMenu)
     void onClickMenu() {
-        if (league == null) return;
+        try {
+            if (league == null) return;
 
-        ExtKeyValuePairDialogFragment.newInstance()
-                .setValue("")
-                .setExtKeyValuePairs(valuePairs)
-                .setOnSelectedConsumer(extKeyValuePair -> {
-                    // edit
-                    if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.edit))) {
-                        AloneFragmentActivity.with(LeagueDetailFragment.this)
-                                .parameters(SetUpLeagueFragment.newBundle(league))
-                                .start(SetUpLeagueFragment.class);
-                    }
+            ExtKeyValuePairDialogFragment.newInstance()
+                    .setValue("")
+                    .setExtKeyValuePairs(valuePairs)
+                    .setOnSelectedConsumer(extKeyValuePair -> {
+                        try {
+                            // edit
+                            if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.edit))) {
+                                AloneFragmentActivity.with(LeagueDetailFragment.this)
+                                        .parameters(SetUpLeagueFragment.newBundle(league))
+                                        .start(SetUpLeagueFragment.class);
+                            }
 
-                    // leave
-                    if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.leave))) {
-                        if (league.getOwner()) {
-                            AloneFragmentActivity.with(LeagueDetailFragment.this)
-                                    .parameters(SuccessorFragment.newBundle(leagueId))
-                                    .forResult(SuccessorFragment.REQUEST_CODE)
-                                    .start(SuccessorFragment.class);
-                        } else {
-                            showMessage(R.string.message_confirm_leave_leagues, R.string.yes, R.string.no, aVoid -> presenter.leaveLeague(leagueId), null);
+                            // leave
+                            if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.leave))) {
+                                if (league.getOwner()) {
+                                    AloneFragmentActivity.with(LeagueDetailFragment.this)
+                                            .parameters(SuccessorFragment.newBundle(leagueId))
+                                            .forResult(SuccessorFragment.REQUEST_CODE)
+                                            .start(SuccessorFragment.class);
+                                } else {
+                                    showMessage(R.string.message_confirm_leave_leagues, R.string.yes, R.string.no, aVoid -> presenter.leaveLeague(leagueId), null);
+                                }
+                            }
+
+                            // edit
+                            if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.stop_league))) {
+                                DialogUtils.confirmBox(mActivity, getString(R.string.app_name), getString(R.string.stop_league_message), getString(R.string.yes),
+                                        getString(R.string.no), (dialog, which) -> presenter.stopLeague(leagueId));
+                            }
+                        } catch (Exception e) {
+                            Logger.e(TAG, e);
                         }
-                    }
-
-                    // edit
-                    if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.stop_league))) {
-                        DialogUtils.confirmBox(mActivity, getString(R.string.app_name), getString(R.string.stop_league_message), getString(R.string.yes),
-                                getString(R.string.no), (dialog, which) -> presenter.stopLeague(leagueId));
-                    }
-                }).show(getFragmentManager(), null);
+                    }).show(getFragmentManager(), null);
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
     }
 
     @Override
     public void displayLeague(LeagueResponse league) {
-        // update league
-        this.league = league;
+        try {
+            // update league
+            this.league = league;
 
-        // owner
-        if (league.getOwner()) {
-            valuePairs.add(new ExtKeyValuePair("", getString(R.string.edit), ContextCompat.getColor(mActivity, R.color.color_blue)));
-        }
-
-        // my leagues or owner
-        if (leagueType.equalsIgnoreCase(MY_LEAGUES) || league.getOwner()) {
-            valuePairs.add(new ExtKeyValuePair("", getString(R.string.leave), ContextCompat.getColor(mActivity, R.color.color_blue)));
-        }
-
-        // only owner league has stop leagues
-        if (league.getOwner()) {
-            valuePairs.add(new ExtKeyValuePair("", getString(R.string.stop_league), ContextCompat.getColor(mActivity, R.color.color_red)));
-        }
-
-        // show/hide menu
-        ivMenu.setVisibility(valuePairs.size() > 0 ? View.VISIBLE : View.GONE);
-
-        // load info
-        Optional.from(tvTitle).doIfPresent(t -> t.setText(league.getName()));
-
-        // adapter
-        leagueDetailViewPagerAdapter = new LeagueDetailViewPagerAdapter(getFragmentManager(),
-                new ArrayList<BaseMvpFragment>() {{
-                    add(LeagueInfoFragment.newInstance(league).setChildFragment(true));
-                    add(TeamFragment.newInstance(league.getId()).setChildFragment(true));
-                    add(InviteFriendFragment.newInstance(league.getId()).setChildFragment(true));
-                }});
-        vpViewPager.setAdapter(leagueDetailViewPagerAdapter);
-        vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+            // owner
+            if (league.getOwner()) {
+                valuePairs.add(new ExtKeyValuePair("", getString(R.string.edit), ContextCompat.getColor(mActivity, R.color.color_blue)));
             }
 
-            @Override
-            public void onPageSelected(int position) {
-                cvCarouselView.setActivePosition(position);
+            // my leagues or owner
+            if (leagueType.equalsIgnoreCase(MY_LEAGUES) || league.getOwner()) {
+                valuePairs.add(new ExtKeyValuePair("", getString(R.string.leave), ContextCompat.getColor(mActivity, R.color.color_blue)));
             }
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
+            // only owner league has stop leagues
+            if (league.getOwner()) {
+                valuePairs.add(new ExtKeyValuePair("", getString(R.string.stop_league), ContextCompat.getColor(mActivity, R.color.color_red)));
             }
-        });
+
+            // show/hide menu
+            ivMenu.setVisibility(valuePairs.size() > 0 ? View.VISIBLE : View.GONE);
+
+            // load info
+            Optional.from(tvTitle).doIfPresent(t -> t.setText(league.getName()));
+
+            // adapter
+            leagueDetailViewPagerAdapter = new LeagueDetailViewPagerAdapter(getFragmentManager(),
+                    new ArrayList<BaseMvpFragment>() {{
+                        add(LeagueInfoFragment.newInstance(league, leagueType).setChildFragment(true));
+                        add(TeamFragment.newInstance(league.getId(), leagueType).setChildFragment(true));
+                        add(InviteFriendFragment.newInstance(league.getId(), leagueType).setChildFragment(true));
+                    }});
+            vpViewPager.setAdapter(leagueDetailViewPagerAdapter);
+            vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    cvCarouselView.setActivePosition(position);
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
     }
 
     @Override

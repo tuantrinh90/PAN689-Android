@@ -195,11 +195,11 @@
             android:layout_marginRight="@dimen/padding_layout" />
 
         <LinearLayout
-            android:id="@+id/draftTradeReview"
+            android:id="@+id/llTradeReview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <com.football.customizes.labels.LabelView
                 android:id="@+id/lvTradeReviewSetting"
@@ -292,13 +292,13 @@
         </RadioGroup>
 
         <LinearLayout
-            android:id="@+id/draftTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <com.football.customizes.labels.LabelView
+                android:id="@+id/lvDraftTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_layout"
@@ -317,6 +317,7 @@
                 app:editTextAppIconRight="@drawable/ic_date_range" />
 
             <com.football.customizes.labels.LabelView
+                android:id="@+id/lvTimePerDraftPick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_layout"
@@ -337,7 +338,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/transferTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">

@@ -21,6 +21,7 @@ import com.bon.customview.radiobutton.ExtRadioButton;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageFilePath;
 import com.bon.image.ImageUtils;
+import com.bon.logger.Logger;
 import com.bon.util.DateTimeUtils;
 import com.bon.util.StringUtils;
 import com.football.adapters.BudgetOptionAdapter;
@@ -29,8 +30,10 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.customizes.labels.LabelView;
+import com.football.events.LeagueEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
+import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.BudgetResponse;
 import com.football.models.responses.LeagueResponse;
@@ -49,6 +52,7 @@ import io.reactivex.observers.DisposableObserver;
 import java8.util.stream.StreamSupport;
 
 public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, ISetUpLeaguePresenter<ISetupLeagueView>> implements ISetupLeagueView {
+    static final String TAG = SetUpLeagueFragment.class.getSimpleName();
     static final String KEY_LEAGUE = "league";
 
     public static Bundle newBundle(LeagueResponse leagueResponse) {
@@ -57,16 +61,20 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
         return bundle;
     }
 
+    @BindView(R.id.tvHeader)
+    ExtTextView tvHeader;
     @BindView(R.id.etLeagueName)
     EditTextApp etLeagueName;
     @BindView(R.id.ivImagePick)
     CircleImageViewApp ivImagePick;
     @BindView(R.id.lvLeagueType)
     LabelView lvLeagueType;
+    @BindView(R.id.rgLeagueType)
+    RadioGroup rgLeagueType;
     @BindView(R.id.rbOpenLeague)
     ExtRadioButton rbOpenLeague;
-    @BindView(R.id.rbRegular)
-    ExtRadioButton rbRegular;
+    @BindView(R.id.rbPrivateLeague)
+    ExtRadioButton rbPrivateLeague;
     @BindView(R.id.lvGamePlayOption)
     LabelView lvGamePlayOption;
     @BindView(R.id.llTransfer)
@@ -77,34 +85,50 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     LabelView lvNumberOfUsers;
     @BindView(R.id.etNumberOfUser)
     EditTextApp etNumberOfUser;
-
     @BindView(R.id.lvBudgetOption)
     LabelView lvBudgetOption;
     @BindView(R.id.rvBudgetOption)
     RecyclerView rvBudgetOption;
-
+    @BindView(R.id.llTradeReview)
+    LinearLayout llTradeReview;
     @BindView(R.id.lvTradeReviewSetting)
     LabelView lvTradeReviewSetting;
     @BindView(R.id.rgTradeReviewSetting)
     RadioGroup rgTradeReviewSetting;
+    @BindView(R.id.rbNoTradeReview)
+    ExtRadioButton rbNoTradeReview;
+    @BindView(R.id.rbTradeReviewCreator)
+    ExtRadioButton rbTradeReviewCreator;
+    @BindView(R.id.rbTradeReviewUsers)
+    ExtRadioButton rbTradeReviewUsers;
     @BindView(R.id.lvScoringSystem)
     LabelView lvScoringSystem;
     @BindView(R.id.rgScoringSystem)
     RadioGroup rgScoringSystem;
+    @BindView(R.id.rbRegular)
+    ExtRadioButton rbRegular;
+    @BindView(R.id.rbPointPerStats)
+    ExtRadioButton rbPointPerStats;
+    @BindView(R.id.lvDraftTime)
+    LabelView lvDraftTime;
     @BindView(R.id.etDraftTime)
     EditTextApp etDraftTime;
+    @BindView(R.id.lvTimePerDraftPick)
+    LabelView lvTimePerDraftPick;
     @BindView(R.id.etTimePerDraftPick)
     EditTextApp etTimePerDraftPick;
+    @BindView(R.id.lvTeamSetupTime)
+    LabelView lvTeamSetupTime;
     @BindView(R.id.etTeamSetupTime)
     EditTextApp etTeamSetupTime;
+    @BindView(R.id.lvStartTime)
+    LabelView lvStartTime;
     @BindView(R.id.etStartTime)
     EditTextApp etStartTime;
     @BindView(R.id.etDescription)
     EditTextApp etDescription;
     @BindView(R.id.tvCreateLeague)
     ExtTextView tvCreateLeague;
-    @BindView(R.id.tvHeader)
-    ExtTextView tvHeader;
 
     File filePath;
     Calendar calendarDraftTime = Calendar.getInstance();
@@ -146,27 +170,39 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     }
 
     private void displayData() {
-        ivImagePick.getImageView().setImageResource(R.drawable.bg_image_pick);
+        try {
+            ivImagePick.getImageView().setImageResource(R.drawable.bg_image_pick);
 
-        // display data to views
-        if (league != null) {
-            leagueId = league.getId();
+            // display data to views
+            if (league != null) {
+                // update id
+                leagueId = league.getId();
 
-            etLeagueName.setContent(league.getName());
-            ivImagePick.setImageUri(league.getLogo());
-            rbOpenLeague.setChecked(league.getLeagueType().equals(LeagueRequest.LEAGUE_TYPE_OPEN));
+                // time
+                calendarStartTime = league.getStartAtCalendar();
+                calendarDraftTime = league.getDraftTimeCalendar();
+                calendarTeamSetupTime = league.getTeamSetUpCalendar();
 
-            if (league.getGameplayOption().equals(LeagueRequest.GAMEPLAY_OPTION_TRANSFER)) {
-                onClickTransfer();
-            } else {
-                onClickDraft();
+                // fill data
+                etLeagueName.setContent(league.getName());
+                ivImagePick.setImageUri(league.getLogo());
+                rbOpenLeague.setChecked(league.getLeagueType().equals(LeagueRequest.LEAGUE_TYPE_OPEN));
+
+                if (league.getGameplayOption().equals(LeagueRequest.GAMEPLAY_OPTION_TRANSFER)) {
+                    onClickTransfer();
+                } else {
+                    onClickDraft();
+                }
+
+                etNumberOfUser.setContent(String.format("%02d", league.getNumberOfUser()));
+                rbRegular.setChecked(league.getScoringSystem().equals(LeagueRequest.SCORING_SYSTEM_REGULAR));
+                etDescription.setContent(league.getDescription());
+
+                // display time
+                formatDateTime();
             }
-
-            etNumberOfUser.setContent(String.format("%02d", league.getNumberOfUser()));
-            rbRegular.setChecked(league.getScoringSystem().equals(LeagueRequest.SCORING_SYSTEM_REGULAR));
-            etTeamSetupTime.setContent(league.getTeamSetup());
-            etStartTime.setContent(league.getStartAt());
-            etDescription.setContent(league.getDescription());
+        } catch (Exception e) {
+            Logger.e(TAG, e);
         }
     }
 
@@ -183,16 +219,20 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     }
 
     void initBudgetOption() {
-        budgetOptionAdapter = new BudgetOptionAdapter(mActivity, budgetResponses, budgetResponse -> {
-            this.budgetResponse = budgetResponse;
-            if (budgetResponses != null && budgetResponses.size() > 0) {
-                StreamSupport.stream(budgetResponses).forEach(n -> n.setActived(n.getId() == budgetResponse.getId()));
-                budgetOptionAdapter.notifyDataSetChanged(budgetResponses);
-            }
-        });
+        try {
+            budgetOptionAdapter = new BudgetOptionAdapter(mActivity, budgetResponses, budgetResponse -> {
+                this.budgetResponse = budgetResponse;
+                if (budgetResponses != null && budgetResponses.size() > 0) {
+                    StreamSupport.stream(budgetResponses).forEach(n -> n.setIsActivated(n.getId() == budgetResponse.getId()));
+                    budgetOptionAdapter.notifyDataSetChanged(budgetResponses);
+                }
+            });
 
-        rvBudgetOption.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-        rvBudgetOption.setAdapter(budgetOptionAdapter);
+            rvBudgetOption.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
+            rvBudgetOption.setAdapter(budgetOptionAdapter);
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
     }
 
     @NonNull
@@ -218,9 +258,13 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     }
 
     void formatDateTime() {
-        etDraftTime.setContent(DateTimeUtils.convertCalendarToString(calendarDraftTime, Constant.FORMAT_DATE_TIME_SERVER));
-        etStartTime.setContent(DateTimeUtils.convertCalendarToString(calendarStartTime, Constant.FORMAT_DATE_TIME_SERVER));
-        etTeamSetupTime.setContent(DateTimeUtils.convertCalendarToString(calendarTeamSetupTime, Constant.FORMAT_DATE_TIME_SERVER));
+        try {
+            etDraftTime.setContent(DateTimeUtils.convertCalendarToString(calendarDraftTime, Constant.FORMAT_DATE_TIME));
+            etStartTime.setContent(DateTimeUtils.convertCalendarToString(calendarStartTime, Constant.FORMAT_DATE_TIME));
+            etTeamSetupTime.setContent(DateTimeUtils.convertCalendarToString(calendarTeamSetupTime, Constant.FORMAT_DATE_TIME));
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
     }
 
     private boolean isCreateMode() {
@@ -275,12 +319,30 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     void onClickTransfer() {
         llTransfer.setActivated(true);
         llDraft.setActivated(false);
+        llTradeReview.setVisibility(View.GONE);
+        lvBudgetOption.setVisibility(View.VISIBLE);
+        rvBudgetOption.setVisibility(View.VISIBLE);
+        lvDraftTime.setVisibility(View.GONE);
+        etDraftTime.setVisibility(View.GONE);
+        lvTimePerDraftPick.setVisibility(View.GONE);
+        etTimePerDraftPick.setVisibility(View.GONE);
+        lvTeamSetupTime.setVisibility(View.VISIBLE);
+        etTeamSetupTime.setVisibility(View.VISIBLE);
     }
 
     @OnClick(R.id.llDraft)
     void onClickDraft() {
         llTransfer.setActivated(false);
         llDraft.setActivated(true);
+        llTradeReview.setVisibility(View.VISIBLE);
+        lvBudgetOption.setVisibility(View.GONE);
+        rvBudgetOption.setVisibility(View.GONE);
+        lvDraftTime.setVisibility(View.VISIBLE);
+        etDraftTime.setVisibility(View.VISIBLE);
+        lvTimePerDraftPick.setVisibility(View.VISIBLE);
+        etTimePerDraftPick.setVisibility(View.VISIBLE);
+        lvTeamSetupTime.setVisibility(View.GONE);
+        etTeamSetupTime.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.lvNumberOfUsers)
@@ -327,8 +389,7 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
                 .setConditionFunction(calendar -> calendar.getTimeInMillis() >= Calendar.getInstance().getTimeInMillis())
                 .setCalendarConsumer(calendar -> {
                     calendarDraftTime = calendar;
-                    etDraftTime.setContent(DateTimeUtils.convertCalendarToString(calendarDraftTime, Constant.FORMAT_DATE_TIME_SERVER));
-
+                    formatDateTime();
                 }).show(getFragmentManager(), null);
     }
 
@@ -345,7 +406,7 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
                 .setConditionFunction(calendar -> calendar.getTimeInMillis() >= Calendar.getInstance().getTimeInMillis())
                 .setCalendarConsumer(calendar -> {
                     calendarTeamSetupTime = calendar;
-                    etTeamSetupTime.setContent(DateTimeUtils.convertCalendarToString(calendarTeamSetupTime, Constant.FORMAT_DATE_TIME_SERVER));
+                    formatDateTime();
                 }).show(getFragmentManager(), null);
     }
 
@@ -358,7 +419,7 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
                 .setConditionFunction(calendar -> calendar.getTimeInMillis() >= Calendar.getInstance().getTimeInMillis())
                 .setCalendarConsumer(calendar -> {
                     calendarStartTime = calendar;
-                    etStartTime.setContent(DateTimeUtils.convertCalendarToString(calendarStartTime, Constant.FORMAT_DATE_TIME_SERVER));
+                    formatDateTime();
                 }).show(getFragmentManager(), null);
     }
 
@@ -386,8 +447,9 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
                 LeagueRequest.TRADE_REVIEW_CREATOR : LeagueRequest.TRADE_REVIEW_MEMBER));
         leagueRequest.setBudgetId(budgetResponse == null ? 0 : budgetResponse.getId());
         leagueRequest.setScoringSystem(rbRegular.isChecked() ? LeagueRequest.SCORING_SYSTEM_REGULAR : LeagueRequest.SCORING_SYSTEM_POINTS);
-        leagueRequest.setTeamSetup(etTeamSetupTime.getContent());
-        leagueRequest.setStartAt(etStartTime.getContent());
+        leagueRequest.setTeamSetup(DateTimeUtils.convertCalendarToString(calendarTeamSetupTime, Constant.FORMAT_DATE_TIME_SERVER));
+        leagueRequest.setStartAt(DateTimeUtils.convertCalendarToString(calendarStartTime, Constant.FORMAT_DATE_TIME_SERVER));
+        leagueRequest.setDraftTime(DateTimeUtils.convertCalendarToString(calendarDraftTime, Constant.FORMAT_DATE_TIME_SERVER));
         leagueRequest.setDescription(etDescription.getContent());
         return leagueRequest;
     }
@@ -417,31 +479,36 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
 
     @Override
     public void displayBudgets(List<BudgetResponse> budgets) {
-        budgetResponses = budgets;
+        try {
+            budgetResponses = budgets;
 
-        // set default value
-        if (budgetResponses != null && budgetResponses.size() > 0) {
-            if (league != null) {
-                StreamSupport.stream(budgetResponses).forEach(n -> {
-                    if (n.getId() == league.getBudgetId()) {
-                        n.setActived(true);
-                        budgetResponse = n;
-                    } else {
-                        n.setActived(false);
-                    }
-                });
-            } else {
-                budgetResponses.get(0).setActived(true);
-                budgetResponse = budgetResponses.get(0);
+            // set default value
+            if (budgetResponses != null && budgetResponses.size() > 0) {
+                if (league != null) {
+                    StreamSupport.stream(budgetResponses).forEach(n -> {
+                        if (n.getId() == league.getBudgetId()) {
+                            n.setIsActivated(true);
+                            budgetResponse = n;
+                        } else {
+                            n.setIsActivated(false);
+                        }
+                    });
+                } else {
+                    budgetResponses.get(0).setIsActivated(true);
+                    budgetResponse = budgetResponses.get(0);
+                }
             }
-        }
 
-        // update data
-        this.budgetOptionAdapter.notifyDataSetChanged(budgetResponses);
+            // update data
+            budgetOptionAdapter.notifyDataSetChanged(budgetResponses);
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
     }
 
     @Override
     public void openCreateTeam(Integer leagueId) {
+        bus.send(new LeagueEvent());
         AloneFragmentActivity.with(this)
                 .parameters(SetupTeamFragment.newBundle(leagueId, null))
                 .start(SetupTeamFragment.class);

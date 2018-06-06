@@ -14,7 +14,7 @@ public class BudgetResponse implements Serializable {
     @JsonProperty("value")
     private Float value;
     @JsonIgnore
-    private Boolean isActived = false;
+    private Boolean isActivated = false;
 
     public Integer getId() {
         return id;
@@ -25,7 +25,7 @@ public class BudgetResponse implements Serializable {
     }
 
     public String getName() {
-        return name;
+        return name + "";
     }
 
     public void setName(String name) {
@@ -33,7 +33,7 @@ public class BudgetResponse implements Serializable {
     }
 
     public Float getValue() {
-        return value;
+        return value == null ? 0 : value;
     }
 
     public void setValue(Float value) {
@@ -42,15 +42,16 @@ public class BudgetResponse implements Serializable {
 
     @JsonIgnore
     public Float getValueDisplay() {
+        if (value == null) return 0f;
         return value / Constant.KEY_MIO;
     }
 
-    public Boolean getActived() {
-        return isActived;
+    public Boolean getIsActivated() {
+        return isActivated;
     }
 
-    public void setActived(Boolean isActived) {
-        this.isActived = isActived;
+    public void setIsActivated(Boolean isActivated) {
+        this.isActivated = isActivated;
     }
 
     @Override
@@ -59,7 +60,7 @@ public class BudgetResponse implements Serializable {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", value=" + value +
-                ", isActived=" + isActived +
+                ", isActivated=" + isActivated +
                 '}';
     }
 }

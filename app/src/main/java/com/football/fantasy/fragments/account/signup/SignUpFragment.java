@@ -56,7 +56,9 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
+
         initView();
+
         // agreed
         cbAgreed.setMovementMethod(TextViewLinkMovementMethod.newInstance(mActivity, s -> {
             String url = "https://www.google.com.vn/";
@@ -65,6 +67,7 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
             CustomTabsIntent customTabsIntent = builder.build();
             customTabsIntent.launchUrl(mActivity, Uri.parse(url));
         }));
+
         TextViewLinkMovementMethod.stripUnderlines(cbAgreed, ContextCompat.getColor(mActivity, R.color.color_blue));
         TextViewLinkMovementMethod.changeColorTextSelector(cbAgreed, ContextCompat.getColor(mActivity, R.color.color_gray_selector));
     }
@@ -76,7 +79,8 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
     @OnClick(R.id.tvRegister)
     void onClickSignUp() {
         if (isValid()) {
-            SignupRequest request = new SignupRequest(etFirstName.getContent(), etLastName.getContent(), etEmail.getContent(), etPassword.getContent(), etConfirmPassword.getContent());
+            SignupRequest request = new SignupRequest(etFirstName.getContent(), etLastName.getContent(),
+                    etEmail.getContent(), etPassword.getContent(), etConfirmPassword.getContent());
             presenter.register(request);
         }
     }
