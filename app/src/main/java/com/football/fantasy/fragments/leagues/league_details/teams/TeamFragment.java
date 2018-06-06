@@ -73,7 +73,7 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
     void initView() {
         try {
             displayTime();
-            teamAdapter = new TeamAdapter(mActivity, new ArrayList<>(), teamResponseDetails -> {
+            teamAdapter = new TeamAdapter(mActivity, new ArrayList<>(), league, teamResponseDetails -> {
             }, removeTeamResponse -> {
                 DialogUtils.confirmBox(mActivity,
                         getString(R.string.app_name),

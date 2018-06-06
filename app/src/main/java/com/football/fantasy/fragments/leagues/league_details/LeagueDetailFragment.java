@@ -204,7 +204,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
 
             List<BaseMvpFragment> mvpFragments = new ArrayList<>();
             mvpFragments.add(LeagueInfoFragment.newInstance(league, leagueType).setChildFragment(true));
-            mvpFragments.add(TeamFragment.newInstance(league.getId(), leagueType, league).setChildFragment(true));
+            mvpFragments.add(TeamFragment.newInstance(league, leagueType).setChildFragment(true));
             if (league.getLeagueType().equalsIgnoreCase(LeagueRequest.LEAGUE_TYPE_OPEN) || league.getOwner()) {
                 mvpFragments.add(InviteFriendFragment.newInstance(league.getId(), leagueType).setChildFragment(true));
             }
