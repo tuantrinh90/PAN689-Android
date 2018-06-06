@@ -54,26 +54,14 @@
                     android:layout_height="wrap_content">
 
                     <com.bon.customview.textview.ExtTextView
-                        style="@style/StyleDescriptionWhite"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_margin="10dp"
+                        style="@style/StylePlayerPosition"
                         android:background="@drawable/bg_player_position_g"
-                        android:gravity="center"
                         android:text="G"
-                        android:textAllCaps="true"
                         app:textViewFontAssetName="@string/font_display_bold" />
 
                     <com.bon.customview.textview.ExtTextView
-                        style="@style/StyleBubble"
-                        android:layout_width="30dp"
-                        android:layout_height="22dp"
-                        android:layout_gravity="end"
-                        android:background="@drawable/bg_white_gray_radius"
-                        android:gravity="center"
-                        android:padding="0dp"
-                        android:text="123"
-                        android:textAllCaps="true"
+                        style="@style/StylePlayerBubble"
+                        android:text="2"
                         app:textViewFontAssetName="@string/font_display_bold" />
 
                 </FrameLayout>
@@ -83,26 +71,14 @@
                     android:layout_height="wrap_content">
 
                     <com.bon.customview.textview.ExtTextView
-                        style="@style/StyleDescriptionWhite"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_margin="10dp"
+                        style="@style/StylePlayerPosition"
                         android:background="@drawable/bg_player_position_d"
-                        android:gravity="center"
                         android:text="D"
-                        android:textAllCaps="true"
                         app:textViewFontAssetName="@string/font_display_bold" />
 
                     <com.bon.customview.textview.ExtTextView
-                        style="@style/StyleBubble"
-                        android:layout_width="30dp"
-                        android:layout_height="22dp"
-                        android:layout_gravity="end"
-                        android:background="@drawable/bg_white_gray_radius"
-                        android:gravity="center"
-                        android:padding="0dp"
+                        style="@style/StylePlayerBubble"
                         android:text="123"
-                        android:textAllCaps="true"
                         app:textViewFontAssetName="@string/font_display_bold" />
 
                 </FrameLayout>
@@ -112,26 +88,14 @@
                     android:layout_height="wrap_content">
 
                     <com.bon.customview.textview.ExtTextView
-                        style="@style/StyleDescriptionWhite"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_margin="10dp"
+                        style="@style/StylePlayerPosition"
                         android:background="@drawable/bg_player_position_m"
-                        android:gravity="center"
                         android:text="M"
-                        android:textAllCaps="true"
                         app:textViewFontAssetName="@string/font_display_bold" />
 
                     <com.bon.customview.textview.ExtTextView
-                        style="@style/StyleBubble"
-                        android:layout_width="30dp"
-                        android:layout_height="22dp"
-                        android:layout_gravity="end"
-                        android:background="@drawable/bg_white_gray_radius"
-                        android:gravity="center"
-                        android:padding="0dp"
+                        style="@style/StylePlayerBubble"
                         android:text="123"
-                        android:textAllCaps="true"
                         app:textViewFontAssetName="@string/font_display_bold" />
 
                 </FrameLayout>
@@ -141,26 +105,14 @@
                     android:layout_height="wrap_content">
 
                     <com.bon.customview.textview.ExtTextView
-                        style="@style/StyleDescriptionWhite"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_margin="10dp"
+                        style="@style/StylePlayerPosition"
                         android:background="@drawable/bg_player_position_a"
-                        android:gravity="center"
                         android:text="A"
-                        android:textAllCaps="true"
                         app:textViewFontAssetName="@string/font_display_bold" />
 
                     <com.bon.customview.textview.ExtTextView
-                        style="@style/StyleBubble"
-                        android:layout_width="30dp"
-                        android:layout_height="22dp"
-                        android:layout_gravity="end"
-                        android:background="@drawable/bg_white_gray_radius"
-                        android:gravity="center"
-                        android:padding="0dp"
+                        style="@style/StylePlayerBubble"
                         android:text="123"
-                        android:textAllCaps="true"
                         app:textViewFontAssetName="@string/font_display_bold" />
 
                 </FrameLayout>

@@ -132,13 +132,28 @@
     </style>
 
     <!--bubble-->
-    <style name="StyleBubble" parent="StyleContent">
+    <style name="StylePlayerBubble" parent="StyleContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/player_bubble_height</item>
+        <item name="android:minWidth">@dimen/player_bubble_width</item>
         <item name="android:textSize">@dimen/font_bubble</item>
         <item name="android:textColor">@color/color_gray</item>
+        <item name="android:layout_gravity">end</item>
         <item name="android:padding">0dp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/bg_white_gray_radius</item>
     </style>
 
+    <!--player-->
+    <style name="StylePlayerPosition">
+        <item name="android:layout_width">@dimen/player_position_size</item>
+        <item name="android:layout_height">@dimen/player_position_size</item>
+        <item name="android:textSize">@dimen/font_size_content</item>
+        <item name="android:textColor">@color/color_white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:layout_margin">10dp</item>
+    </style>
 
     <!--button-->
     <style name="StyleButton">

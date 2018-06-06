@@ -74,7 +74,7 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
             rvRecyclerView.getListView().addHeaderView(svSearchView);
 
             // update hint
-            svSearchView.getSearchView().setHint(R.string.search_public_leagues);
+            svSearchView.getSearchView().setHint(R.string.search_public_players);
 
             // click button filter
             svSearchView.setFilerConsumer(v -> onClickFilter());

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="StylePlayerBubble" parent="StyleContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/player_bubble_height</item>
+        <item name="android:minWidth">@dimen/player_bubble_width</item>
+        <item name="android:textSize">@dimen/font_bubble</item>
+        <item name="android:textColor">@color/color_gray</item>
+        <item name="android:layout_gravity">end</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:paddingEnd">3dp</item>
+        <item name="android:paddingStart">3dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/bg_white_gray_radius</item>
+    </style>
+</resources>

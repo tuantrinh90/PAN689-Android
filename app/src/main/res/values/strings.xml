@@ -45,6 +45,7 @@
     <string name="open_leagues">Open Leagues</string>
     <string name="pending_invitation">Pending Invitations</string>
     <string name="search_public_leagues">Search public league</string>
+    <string name="search_public_players">Search player by name</string>
     <string name="owner">Owner</string>
     <string name="invitor">Invitor</string>
     <string name="entrants">Entrants</string>
