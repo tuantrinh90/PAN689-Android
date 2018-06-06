@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+import com.bon.logger.Logger;
 import com.football.adapters.LeagueViewPagerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
@@ -15,11 +16,8 @@ import com.football.customizes.carousels.CarouselView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_leagues.SetUpLeagueFragment;
 import com.football.fantasy.fragments.leagues.my_leagues.MyLeagueFragment;
-import com.football.fantasy.fragments.leagues.my_supper_team.MySupperTeamFragment;
 import com.football.fantasy.fragments.leagues.open_leagues.OpenLeagueFragment;
 import com.football.fantasy.fragments.leagues.pending_invitation.PendingInvitationFragment;
-import com.football.fantasy.fragments.leagues.team_squad.TeamSquadFragment;
-import com.football.fantasy.fragments.leagues.team_statistics.TeamStatisticFragment;
 
 import java.util.ArrayList;
 
@@ -27,6 +25,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class LeagueFragment extends BaseMainMvpFragment<ILeagueView, ILeaguePresenter<ILeagueView>> implements ILeagueView {
+    static final String TAG = LeagueFragment.class.getSimpleName();
+
     public static LeagueFragment newInstance() {
         return new LeagueFragment();
     }
@@ -51,39 +51,43 @@ public class LeagueFragment extends BaseMainMvpFragment<ILeagueView, ILeaguePres
     }
 
     void initView() {
-        // carousel
-        cvCarouselView.setAdapter(mActivity, new ArrayList<Carousel>() {{
-            add(new Carousel(getString(R.string.open_leagues), true));
-            add(new Carousel(getString(R.string.my_leagues), false));
-            add(new Carousel(getString(R.string.pending_invitation), false));
-        }}, R.color.color_blue, R.color.color_white, position -> {
-            cvCarouselView.setActivePosition(position);
-            vpViewPager.setCurrentItem(position);
-        });
-
-        // view pager
-        leagueViewPagerAdapter = new LeagueViewPagerAdapter(getFragmentManager(), new ArrayList<BaseMvpFragment>() {{
-            add(OpenLeagueFragment.newInstance());
-            add(MyLeagueFragment.newInstance());
-            add(PendingInvitationFragment.newInstance());
-        }});
-        vpViewPager.setAdapter(leagueViewPagerAdapter);
-        vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
+        try {
+            // carousel
+            cvCarouselView.setAdapter(mActivity, new ArrayList<Carousel>() {{
+                add(new Carousel(getString(R.string.open_leagues), true));
+                add(new Carousel(getString(R.string.my_leagues), false));
+                add(new Carousel(getString(R.string.pending_invitation), false));
+            }}, R.color.color_blue, R.color.color_white, position -> {
                 cvCarouselView.setActivePosition(position);
-            }
+                vpViewPager.setCurrentItem(position);
+            });
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
+            // view pager
+            leagueViewPagerAdapter = new LeagueViewPagerAdapter(getFragmentManager(), new ArrayList<BaseMvpFragment>() {{
+                add(OpenLeagueFragment.newInstance());
+                add(MyLeagueFragment.newInstance());
+                add(PendingInvitationFragment.newInstance());
+            }});
+            vpViewPager.setAdapter(leagueViewPagerAdapter);
+            vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
-        });
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    cvCarouselView.setActivePosition(position);
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
     }
 
     @NonNull
@@ -94,11 +98,7 @@ public class LeagueFragment extends BaseMainMvpFragment<ILeagueView, ILeaguePres
 
     @OnClick(R.id.btnAdd)
     void onClickAdd() {
-//        AloneFragmentActivity.with(this)
-//                .start(SetUpLeagueFragment.class);
-
         AloneFragmentActivity.with(this)
-                .setStatusTransluent(true)
-                .start(TeamSquadFragment.class);
+                .start(SetUpLeagueFragment.class);
     }
 }

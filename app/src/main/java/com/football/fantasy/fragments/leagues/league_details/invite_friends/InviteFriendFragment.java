@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 
 import com.bon.customview.listview.ExtPagingListView;
 import com.bon.interfaces.Optional;
+import com.bon.logger.Logger;
 import com.bon.util.SharedUtils;
 import com.bon.util.StringUtils;
 import com.football.adapters.InviteFriendAdapter;
@@ -23,12 +24,15 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView, IInviteFriendPresenter<IInviteFriendView>> implements IInviteFriendView {
+    static final String TAG = InviteFriendFragment.class.getSimpleName();
     static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+    static final String KEY_LEAGUE_TYPE ="league_type";
 
-    public static InviteFriendFragment newInstance(int leagueId) {
+    public static InviteFriendFragment newInstance(int leagueId,String leagueType) {
         InviteFriendFragment fragment = new InviteFriendFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(KEY_LEAGUE_ID, leagueId);
+        bundle.putString(KEY_LEAGUE_TYPE, leagueType);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -40,6 +44,7 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
     @BindView(R.id.llInvite)
     LinearLayout llInvite;
 
+    String leagueType;
     int leagueId;
     int page = 1;
 
@@ -63,35 +68,39 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
     }
 
     void getDataFromBundle() {
-        if (getArguments() == null) return;
         Bundle bundle = getArguments();
         leagueId = bundle.getInt(KEY_LEAGUE_ID);
+        leagueType = bundle.getString(KEY_LEAGUE_TYPE);
     }
 
     void initView() {
-        svSearch.getFilter().setVisibility(View.GONE);
-        svSearch.setSearchConsumer(query -> {
-            rvRecyclerView.setVisibility(StringUtils.isEmpty(query) ? View.GONE : View.VISIBLE);
-            llInvite.setVisibility(StringUtils.isEmpty(query) ? View.VISIBLE : View.GONE);
-            rvRecyclerView.clearItems();
-            page = 1;
-            getFriends(query);
-        });
+        try {
+            svSearch.getFilter().setVisibility(View.GONE);
+            svSearch.setSearchConsumer(query -> {
+                rvRecyclerView.setVisibility(StringUtils.isEmpty(query) ? View.GONE : View.VISIBLE);
+                llInvite.setVisibility(StringUtils.isEmpty(query) ? View.VISIBLE : View.GONE);
+                rvRecyclerView.clearItems();
+                page = 1;
+                getFriends(query);
+            });
 
-        inviteFriendAdapter = new InviteFriendAdapter(mActivity, new ArrayList<>(), detailFriend -> {
+            inviteFriendAdapter = new InviteFriendAdapter(mActivity, new ArrayList<>(), detailFriend -> {
 
-        }, inviteFriend -> presenter.inviteFriend(leagueId, inviteFriend.getId()));
-        rvRecyclerView
-                .init(mActivity, inviteFriendAdapter)
-                .setOnExtRefreshListener(() -> {
-                    Optional.from(rvRecyclerView).doIfPresent(rv -> rv.clearItems());
-                    page = 1;
-                    getFriends(svSearch.getSearchView().getText().toString());
-                })
-                .setOnExtLoadMoreListener(() -> {
-                    page++;
-                    getFriends(svSearch.getSearchView().getText().toString());
-                });
+            }, inviteFriend -> presenter.inviteFriend(leagueId, inviteFriend.getId()));
+            rvRecyclerView
+                    .init(mActivity, inviteFriendAdapter)
+                    .setOnExtRefreshListener(() -> {
+                        Optional.from(rvRecyclerView).doIfPresent(rv -> rv.clearItems());
+                        page = 1;
+                        getFriends(svSearch.getSearchView().getText().toString());
+                    })
+                    .setOnExtLoadMoreListener(() -> {
+                        page++;
+                        getFriends(svSearch.getSearchView().getText().toString());
+                    });
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
     }
 
     @NonNull
@@ -113,14 +122,18 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
 
     @Override
     public void inviteSuccess(Integer receiverId) {
-        for (FriendResponse friend : inviteFriendAdapter.getItems()) {
-            if (friend.getId().equals(receiverId)) {
-                friend.setInvited(true);
-                break;
+        try {
+            for (FriendResponse friend : inviteFriendAdapter.getItems()) {
+                if (friend.getId().equals(receiverId)) {
+                    friend.setInvited(true);
+                    break;
+                }
             }
-        }
 
-        inviteFriendAdapter.notifyDataSetChanged();
+            inviteFriendAdapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
     }
 
     @Override

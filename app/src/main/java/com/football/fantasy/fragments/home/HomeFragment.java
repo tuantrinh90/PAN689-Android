@@ -13,11 +13,13 @@ import android.widget.LinearLayout;
 
 import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
+import com.bon.logger.Logger;
 import com.bon.util.ViewUtils;
 import com.football.adapters.MyLeagueRecyclerAdapter;
 import com.football.adapters.NewsAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.events.LeagueEvent;
 import com.football.events.StopLeagueEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.activities.MainActivity;
@@ -30,10 +32,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
+import java8.util.stream.Collectors;
+import java8.util.stream.StreamSupport;
 
 public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<IHomeView>> implements IHomeView, ViewTreeObserver.OnGlobalLayoutListener {
+    private static final String TAG = HomeFragment.class.getSimpleName();
+
     public static HomeFragment newInstance() {
         return new HomeFragment();
     }
@@ -73,6 +78,7 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
         initView();
+        registerEvent();
     }
 
     void initView() {
@@ -80,66 +86,86 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
         ViewUtils.attachViewTreeObserver(llPlayerList, this);
     }
 
-    void initRecyclerView() {
-        newsAdapter = new NewsAdapter(mActivity, newsResponses, item -> {
+    void registerEvent() {
+        try {
+            // load my leagues
+            mCompositeDisposable.add(bus.ofType(LeagueEvent.class).subscribeWith(new DisposableObserver<LeagueEvent>() {
+                @Override
+                public void onNext(LeagueEvent leagueEvent) {
+                    presenter.getMyLeagues(1, ExtPagingListView.NUMBER_PER_PAGE);
+                }
 
-        });
-        rvNews.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
-        rvNews.setAdapter(newsAdapter);
+                @Override
+                public void onError(Throwable e) {
 
-        // leagueResponses
-        myLeagueRecyclerAdapter = new MyLeagueRecyclerAdapter(mActivity, leagueResponses, league -> {
-            AloneFragmentActivity.with(this)
-                    .parameters(LeagueDetailFragment.newBundle(getString(R.string.my_leagues), league.getId(), LeagueDetailFragment.MY_LEAGUES))
-                    .start(LeagueDetailFragment.class);
-        });
-        rvMyLeagues.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-        rvMyLeagues.setAdapter(myLeagueRecyclerAdapter);
+                }
 
-        // center view
-        SnapHelper gravitySnapHelper = new LinearSnapHelper();
-        gravitySnapHelper.attachToRecyclerView(rvMyLeagues);
+                @Override
+                public void onComplete() {
 
-        // load my leagues
-        presenter.getMyLeagues(1, ExtPagingListView.NUMBER_PER_PAGE);
+                }
+            }));
 
-        // load news
-        presenter.getNews(1, ExtPagingListView.NUMBER_PER_PAGE);
-
-        subscribeRxBus();
-    }
-
-    void subscribeRxBus() {
-        mCompositeDisposable.add(bus.ofType(StopLeagueEvent.class).observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableObserver<StopLeagueEvent>() {
-                    @Override
-                    public void onNext(StopLeagueEvent stopLeagueEvent) {
-                        List<LeagueResponse> leagueResponses = myLeagueRecyclerAdapter.getItems();
-                        if (leagueResponses != null && leagueResponses.size() > 0) {
-                            int index = -1;
-                            for (int i = 0; i < leagueResponses.size(); i++) {
-                                if (leagueResponses.get(i).getId() == stopLeagueEvent.getLeagueId()) {
-                                    index = i;
-                                    break;
+            // load my leagues, remove
+            mCompositeDisposable.add(bus.ofType(StopLeagueEvent.class)
+                    .subscribeWith(new DisposableObserver<StopLeagueEvent>() {
+                        @Override
+                        public void onNext(StopLeagueEvent stopLeagueEvent) {
+                            try {
+                                List<LeagueResponse> leagueResponses = myLeagueRecyclerAdapter.getItems();
+                                if (leagueResponses != null && leagueResponses.size() > 0) {
+                                    leagueResponses = StreamSupport.stream(leagueResponses).filter(n -> n.getId() != stopLeagueEvent.getLeagueId()).collect(Collectors.toList());
+                                    myLeagueRecyclerAdapter.notifyDataSetChanged(leagueResponses);
                                 }
-                            }
-
-                            if (index >= 0) {
-                                myLeagueRecyclerAdapter.notifyItemRemoved(index);
+                            } catch (Exception e) {
+                                Logger.e(TAG, e);
                             }
                         }
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
+                        @Override
+                        public void onError(Throwable e) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onComplete() {
+                        @Override
+                        public void onComplete() {
 
-                    }
-                }));
+                        }
+                    }));
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
+    }
+
+    void initRecyclerView() {
+        try {
+            newsAdapter = new NewsAdapter(mActivity, newsResponses, item -> {
+
+            });
+            rvNews.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
+            rvNews.setAdapter(newsAdapter);
+
+            // leagueResponses
+            myLeagueRecyclerAdapter = new MyLeagueRecyclerAdapter(mActivity, leagueResponses, league -> {
+                AloneFragmentActivity.with(this)
+                        .parameters(LeagueDetailFragment.newBundle(getString(R.string.my_leagues), league.getId(), LeagueDetailFragment.MY_LEAGUES))
+                        .start(LeagueDetailFragment.class);
+            });
+            rvMyLeagues.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
+            rvMyLeagues.setAdapter(myLeagueRecyclerAdapter);
+
+            // center view
+            SnapHelper gravitySnapHelper = new LinearSnapHelper();
+            gravitySnapHelper.attachToRecyclerView(rvMyLeagues);
+
+            // load my leagues
+            presenter.getMyLeagues(1, ExtPagingListView.NUMBER_PER_PAGE);
+
+            // load news
+            presenter.getNews(1, ExtPagingListView.NUMBER_PER_PAGE);
+        } catch (IllegalStateException e) {
+            Logger.e(TAG, e);
+        }
     }
 
     @NonNull
@@ -179,15 +205,23 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
 
     @Override
     public void notifyDataSetChangedNews(List<NewsResponse> its) {
-        rvNews.setVisibility(its != null && its.size() > 0 ? View.VISIBLE : View.GONE);
-        newsAdapter.notifyDataSetChanged(its);
-        tvNews.setVisibility(its != null && its.size() > 0 ? View.VISIBLE : View.GONE);
+        try {
+            rvNews.setVisibility(its != null && its.size() > 0 ? View.VISIBLE : View.GONE);
+            newsAdapter.notifyDataSetChanged(its);
+            tvNews.setVisibility(its != null && its.size() > 0 ? View.VISIBLE : View.GONE);
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
     }
 
     @Override
     public void notifyDataSetChangedLeagues(List<LeagueResponse> its) {
-        rvMyLeagues.setVisibility(its != null && its.size() > 0 ? View.VISIBLE : View.GONE);
-        myLeagueRecyclerAdapter.notifyDataSetChanged(its);
-        tvMyLeagues.setVisibility(its != null && its.size() > 0 ? View.VISIBLE : View.GONE);
+        try {
+            rvMyLeagues.setVisibility(its != null && its.size() > 0 ? View.VISIBLE : View.GONE);
+            myLeagueRecyclerAdapter.notifyDataSetChanged(its);
+            tvMyLeagues.setVisibility(its != null && its.size() > 0 ? View.VISIBLE : View.GONE);
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
     }
 }

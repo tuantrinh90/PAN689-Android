@@ -12,8 +12,9 @@ import java.io.Serializable;
 import java.util.Calendar;
 
 public class LeagueResponse implements Serializable {
-    public static final int TYPE_INCREASE = 1;
-    public static final int TYPE_DECREASE = 2;
+    public static final int WAITING_FOR_START = 1;
+    public static final int ON_GOING = 2;
+    public static final int FINISHED = 3;
 
     @JsonProperty("id")
     private Integer id;
@@ -25,7 +26,7 @@ public class LeagueResponse implements Serializable {
     private Integer userId;
     @JsonProperty("user")
     private UserResponse user;
-    @JsonProperty("gameplayOption")
+    @JsonProperty("gameplay_option")
     private String gameplayOption;
     @JsonProperty("gameplay_option_display")
     private String gameplayOptionDisplay;
@@ -37,42 +38,42 @@ public class LeagueResponse implements Serializable {
     private String description;
     @JsonProperty("logo")
     private String logo;
-    @JsonProperty("leagueType")
+    @JsonProperty("league_type")
     private String leagueType;
     @JsonProperty("league_type_display")
     private String leagueTypeDisplay;
-    @JsonProperty("numberOfUser")
+    @JsonProperty("number_of_user")
     private Integer numberOfUser;
     @JsonProperty("current_number_of_user")
     private Integer currentNumberOfUser;
-    @JsonProperty("scoringSystem")
+    @JsonProperty("scoring_system")
     private String scoringSystem;
     @JsonProperty("scoring_system_display")
     private String scoringSystemDisplay;
-    @JsonProperty("startAt")
+    @JsonProperty("start_at")
     private String startAt;
     @JsonProperty("real_round_start")
     private Integer realRoundStart;
     @JsonProperty("real_round_end")
     private Integer realRoundEnd;
-    @JsonProperty("budgetId")
+    @JsonProperty("budget_id")
     private Integer budgetId;
     @JsonProperty("budget_value")
     private Integer budgetValue;
     @JsonProperty("budget_option")
     private BudgetResponse budgetOption;
-    @JsonProperty("teamSetup")
+    @JsonProperty("team_setup")
     private String teamSetup;
-    @JsonProperty("tradeReview")
+    @JsonProperty("trade_review")
     private String tradeReview;
     @JsonProperty("trade_review_display")
     private String tradeReviewDisplay;
-    @JsonProperty("draftTime")
+    @JsonProperty("draft_time")
     private String draftTime;
-    @JsonProperty("timeToPick")
+    @JsonProperty("time_to_pick")
     private Integer timeToPick;
     @JsonProperty("status")
-    private String status;
+    private Integer status;
     @JsonProperty("status_display")
     private String statusDisplay;
     @JsonProperty("is_owner")
@@ -128,7 +129,7 @@ public class LeagueResponse implements Serializable {
     }
 
     public String getGameplayOption() {
-        return gameplayOption;
+        return gameplayOption + "";
     }
 
     public void setGameplayOption(String gameplayOption) {
@@ -136,7 +137,7 @@ public class LeagueResponse implements Serializable {
     }
 
     public String getGameplayOptionDisplay() {
-        return gameplayOptionDisplay;
+        return gameplayOptionDisplay + "";
     }
 
     public void setGameplayOptionDisplay(String gameplayOptionDisplay) {
@@ -176,7 +177,7 @@ public class LeagueResponse implements Serializable {
     }
 
     public String getLeagueType() {
-        return leagueType;
+        return leagueType + "";
     }
 
     public void setLeagueType(String leagueType) {
@@ -184,7 +185,7 @@ public class LeagueResponse implements Serializable {
     }
 
     public String getLeagueTypeDisplay() {
-        return leagueTypeDisplay;
+        return leagueTypeDisplay + "";
     }
 
     public void setLeagueTypeDisplay(String leagueTypeDisplay) {
@@ -192,7 +193,7 @@ public class LeagueResponse implements Serializable {
     }
 
     public Integer getNumberOfUser() {
-        return numberOfUser;
+        return numberOfUser == null ? 0 : numberOfUser;
     }
 
     public void setNumberOfUser(Integer numberOfUser) {
@@ -200,7 +201,7 @@ public class LeagueResponse implements Serializable {
     }
 
     public Integer getCurrentNumberOfUser() {
-        return currentNumberOfUser;
+        return currentNumberOfUser == null ? 0 : currentNumberOfUser;
     }
 
     public void setCurrentNumberOfUser(Integer currentNumberOfUser) {
@@ -208,7 +209,7 @@ public class LeagueResponse implements Serializable {
     }
 
     public String getScoringSystem() {
-        return scoringSystem;
+        return scoringSystem + "";
     }
 
     public void setScoringSystem(String scoringSystem) {
@@ -216,7 +217,7 @@ public class LeagueResponse implements Serializable {
     }
 
     public String getScoringSystemDisplay() {
-        return scoringSystemDisplay;
+        return scoringSystemDisplay + "";
     }
 
     public void setScoringSystemDisplay(String scoringSystemDisplay) {
@@ -229,6 +230,11 @@ public class LeagueResponse implements Serializable {
 
     public void setStartAt(String startAt) {
         this.startAt = startAt;
+    }
+
+    @JsonIgnore
+    public Calendar getStartAtCalendar() {
+        return DateTimeUtils.convertStringToCalendar(startAt, Constant.FORMAT_DATE_TIME_SERVER);
     }
 
     public Integer getRealRoundStart() {
@@ -256,7 +262,7 @@ public class LeagueResponse implements Serializable {
     }
 
     public Integer getBudgetValue() {
-        return budgetValue;
+        return budgetValue == null ? 0 : budgetValue;
     }
 
     public void setBudgetValue(Integer budgetValue) {
@@ -332,7 +338,7 @@ public class LeagueResponse implements Serializable {
     }
 
     public String getTradeReview() {
-        return tradeReview;
+        return tradeReview + "";
     }
 
     public void setTradeReview(String tradeReview) {
@@ -340,7 +346,7 @@ public class LeagueResponse implements Serializable {
     }
 
     public String getTradeReviewDisplay() {
-        return tradeReviewDisplay;
+        return tradeReviewDisplay + "";
     }
 
     public void setTradeReviewDisplay(String tradeReviewDisplay) {
@@ -361,23 +367,23 @@ public class LeagueResponse implements Serializable {
     }
 
     public Integer getTimeToPick() {
-        return timeToPick;
+        return timeToPick == null ? 0 : timeToPick;
     }
 
     public void setTimeToPick(Integer timeToPick) {
         this.timeToPick = timeToPick;
     }
 
-    public String getStatus() {
-        return status;
+    public Integer getStatus() {
+        return status == null ? 0 : status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
     public String getStatusDisplay() {
-        return statusDisplay;
+        return statusDisplay + "";
     }
 
     public void setStatusDisplay(String statusDisplay) {
@@ -401,7 +407,7 @@ public class LeagueResponse implements Serializable {
     }
 
     public Integer getRank() {
-        return rank;
+        return rank == null ? 0 : rank;
     }
 
     public void setRank(Integer rank) {
@@ -409,7 +415,7 @@ public class LeagueResponse implements Serializable {
     }
 
     public Integer getRankStatus() {
-        return rankStatus;
+        return rankStatus == null ? 0 : rankStatus;
     }
 
     public void setRankStatus(Integer rankStatus) {

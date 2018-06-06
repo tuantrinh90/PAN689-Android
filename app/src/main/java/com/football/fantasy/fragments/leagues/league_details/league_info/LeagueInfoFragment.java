@@ -6,21 +6,25 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.bon.customview.textview.ExtTextView;
-import com.bon.image.ImageLoaderUtils;
+import com.bon.logger.Logger;
+import com.bon.util.DateTimeUtils;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
 import com.football.fantasy.fragments.leagues.your_team.YourTeamFragment;
+import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.LeagueResponse;
+import com.football.utilities.Constant;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILeagueInfoPresenter<ILeagueInfoView>> implements ILeagueInfoView {
     static final String TAG = LeagueInfoFragment.class.getSimpleName();
-
     static final String KEY_LEAGUE = "LEAGUE";
+    static final String KEY_LEAGUE_TYPE = "league_type";
 
     @BindView(R.id.tvTeamSetupTime)
     ExtTextView tvTeamSetupTime;
@@ -44,14 +48,18 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
     ExtTextView tvDescription;
     @BindView(R.id.tvStartLeague)
     ExtTextView tvStartLeague;
+    @BindView(R.id.tvJoinLeague)
+    ExtTextView tvJoinLeague;
 
-    private LeagueResponse league;
+    String leagueType;
+    LeagueResponse league;
 
-    public static LeagueInfoFragment newInstance(LeagueResponse league) {
+    public static LeagueInfoFragment newInstance(LeagueResponse league, String leagueType) {
         LeagueInfoFragment fragment = new LeagueInfoFragment();
 
         Bundle bundle = new Bundle();
         if (league != null) bundle.putSerializable(KEY_LEAGUE, league);
+        bundle.putString(KEY_LEAGUE_TYPE, leagueType);
         fragment.setArguments(bundle);
 
         return fragment;
@@ -71,20 +79,60 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
     }
 
     void getDataFromBundle() {
-        if (getArguments() == null) return;
         if (getArguments().containsKey(KEY_LEAGUE)) {
             league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
         }
+        leagueType = getArguments().getString(KEY_LEAGUE_TYPE);
     }
 
     void displayViews() {
-        tvLeagueType.setText(league.getLeagueTypeDisplay());
-        tvMaxNumberOfTeam.setText(String.valueOf(league.getNumberOfUser()));
-        tvGamePlayOptions.setText(league.getGameplayOptionDisplay());
-        tvBudget.setText(getString(R.string.budget_value, league.getBudgetId() + "", league.getBudgetValue() + "")); // todo: chua co budget name
-        tvScoringSystem.setText(league.getScoringSystemDisplay());
-        tvDescription.setText(league.getDescription());
-        ImageLoaderUtils.displayImage(league.getLogo(), ivLeague.getImageView());
+        try {
+            tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
+            ivLeague.setImageUri(league.getLogo());
+            tvLeagueType.setText(league.getLeagueTypeDisplay());
+            tvMaxNumberOfTeam.setText(String.valueOf(league.getNumberOfUser()));
+            tvGamePlayOptions.setText(league.getGameplayOptionDisplay());
+
+            tvBudget.setText(getString(R.string.budget_value,
+                    (league.getBudgetOption() != null ? league.getBudgetOption().getName() : "") + "",
+                    (league.getBudgetOption() != null ? league.getBudgetOption().getValueDisplay() + "" : "")));
+            tvScoringSystem.setText(league.getScoringSystemDisplay());
+            tvDescription.setText(league.getDescription());
+
+            if (league.getGameplayOption().equalsIgnoreCase(LeagueRequest.GAMEPLAY_OPTION_TRANSFER)) {
+                tvTeamSetupTime.setText(R.string.team_setup_time);
+                tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
+            } else {
+                tvTeamSetupTime.setText(R.string.start_time);
+                tvTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
+            }
+
+            tvSetupTeam.setVisibility(View.GONE);
+            tvJoinLeague.setVisibility(View.GONE);
+            tvStartLeague.setVisibility(View.GONE);
+
+            if (league.getOwner()) {
+                tvSetupTeam.setVisibility(View.VISIBLE);
+                tvStartLeague.setVisibility(View.VISIBLE);
+            } else {
+                tvJoinLeague.setVisibility(View.VISIBLE);
+            }
+
+            // line up my team
+            if (league.getStatus() == LeagueResponse.WAITING_FOR_START) {
+                tvSetupTeam.setText(R.string.team_setup_time);
+            }
+
+            if (league.getStatus() == LeagueResponse.ON_GOING) {
+                tvSetupTeam.setText(R.string.lineup_my_team);
+            }
+
+            if (league.getStatus() == LeagueResponse.FINISHED) {
+                tvSetupTeam.setVisibility(View.GONE);
+            }
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
     }
 
     @NonNull
@@ -102,5 +150,12 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
 
     @OnClick(R.id.tvStartLeague)
     void onClickStartLeague() {
+    }
+
+    @OnClick(R.id.tvJoinLeague)
+    void onClickJoinLeague() {
+        getActivity().finish();
+        AloneFragmentActivity.with(this).parameters(SetupTeamFragment.newBundle(league.getId(), null))
+                .start(SetupTeamFragment.class);
     }
 }

@@ -8,6 +8,7 @@ import android.view.View;
 import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
+import com.bon.logger.Logger;
 import com.bon.util.DialogUtils;
 import com.football.adapters.TeamAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
@@ -20,12 +21,15 @@ import java.util.List;
 import butterknife.BindView;
 
 public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<ITeamView>> implements ITeamView {
+    static final String TAG = TeamFragment.class.getSimpleName();
     static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+    static final String KEY_LEAGUE_TYPE = "league_type";
 
-    public static TeamFragment newInstance(int leagueId) {
+    public static TeamFragment newInstance(int leagueId, String leagueType) {
         TeamFragment fragment = new TeamFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(KEY_LEAGUE_ID, leagueId);
+        bundle.putString(KEY_LEAGUE_TYPE, leagueType);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -36,6 +40,7 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
     ExtPagingListView rvRecyclerView;
 
     int leagueId;
+    String leagueType;
 
     TeamAdapter teamAdapter;
 
@@ -54,27 +59,31 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
     }
 
     void getDataFromBundle() {
-        if (getArguments() == null) return;
         leagueId = getArguments().getInt(KEY_LEAGUE_ID);
+        leagueType = getArguments().getString(KEY_LEAGUE_TYPE);
     }
 
     void initView() {
-        teamAdapter = new TeamAdapter(mActivity, new ArrayList<>(), teamResponseDetails -> {
-        }, removeTeamResponse -> {
-            DialogUtils.confirmBox(mActivity,
-                    getString(R.string.app_name),
-                    String.format(getString(R.string.remove_team_message), removeTeamResponse.getName()),
-                    getString(R.string.yes),
-                    getString(R.string.no), (dialogInterface, i) -> {
-                        presenter.removeTeam(leagueId, removeTeamResponse.getId());
-                    });
-        });
+        try {
+            teamAdapter = new TeamAdapter(mActivity, new ArrayList<>(), teamResponseDetails -> {
+            }, removeTeamResponse -> {
+                DialogUtils.confirmBox(mActivity,
+                        getString(R.string.app_name),
+                        String.format(getString(R.string.remove_team_message), removeTeamResponse.getName()),
+                        getString(R.string.yes),
+                        getString(R.string.no), (dialogInterface, i) -> {
+                            presenter.removeTeam(leagueId, removeTeamResponse.getId());
+                        });
+            });
 
-        rvRecyclerView.init(mActivity, teamAdapter)
-                .setOnExtRefreshListener(() -> {
-                    Optional.from(rvRecyclerView).doIfPresent(rv -> rv.clearItems());
-                    getTeams();
-                });
+            rvRecyclerView.init(mActivity, teamAdapter)
+                    .setOnExtRefreshListener(() -> {
+                        Optional.from(rvRecyclerView).doIfPresent(rv -> rv.clearItems());
+                        getTeams();
+                    });
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
     }
 
     void getTeams() {

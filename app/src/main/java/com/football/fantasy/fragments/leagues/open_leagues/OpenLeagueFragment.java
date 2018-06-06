@@ -18,6 +18,8 @@ import com.football.adapters.LeaguesAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.searchs.SearchView;
+import com.football.events.LeagueEvent;
+import com.football.events.StopLeagueEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.responses.LeagueResponse;
@@ -25,6 +27,9 @@ import com.football.models.responses.LeagueResponse;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.observers.DisposableObserver;
+import java8.util.stream.Collectors;
+import java8.util.stream.StreamSupport;
 
 public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOpenLeaguePresenter<IOpenLeagueView>> implements IOpenLeagueView {
     static final String TAG = OpenLeagueFragment.class.getSimpleName();
@@ -54,6 +59,64 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
         initView();
+        registerEvent();
+    }
+
+    void registerEvent() {
+        try {
+            // load my leagues
+            mCompositeDisposable.add(bus.ofType(LeagueEvent.class).subscribeWith(new DisposableObserver<LeagueEvent>() {
+                @Override
+                public void onNext(LeagueEvent leagueEvent) {
+                    try {
+                        page = 1;
+                        rvRecyclerView.clearItems();
+                        presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+                    } catch (Exception e) {
+                        Logger.e(TAG, e);
+                    }
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onComplete() {
+
+                }
+            }));
+
+            // load my leagues, remove
+            mCompositeDisposable.add(bus.ofType(StopLeagueEvent.class)
+                    .subscribeWith(new DisposableObserver<StopLeagueEvent>() {
+                        @Override
+                        public void onNext(StopLeagueEvent stopLeagueEvent) {
+                            try {
+                                List<LeagueResponse> leagueResponses = leaguesAdapter.getItems();
+                                if (leagueResponses != null && leagueResponses.size() > 0) {
+                                    leagueResponses = StreamSupport.stream(leagueResponses).filter(n -> n.getId() != stopLeagueEvent.getLeagueId()).collect(Collectors.toList());
+                                    rvRecyclerView.notifyDataSetChanged(leagueResponses);
+                                }
+                            } catch (Exception e) {
+                                Logger.e(TAG, e);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    }));
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
     }
 
     void initView() {
@@ -93,13 +156,21 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
             });
             rvRecyclerView.init(mActivity, leaguesAdapter)
                     .setOnExtLoadMoreListener(() -> {
-                        page++;
-                        presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+                        try {
+                            page++;
+                            presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+                        } catch (Exception e) {
+                            Logger.e(TAG, e);
+                        }
                     })
                     .setOnExtRefreshListener(() -> Optional.from(rvRecyclerView).doIfPresent(rv -> {
-                        page = 1;
-                        rv.clearItems();
-                        presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+                        try {
+                            page = 1;
+                            rv.clearItems();
+                            presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+                        } catch (Exception e) {
+                            Logger.e(TAG, e);
+                        }
                     }));
 
             // load data
@@ -111,21 +182,29 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
 
     void onClickFilter() {
         Optional.from(rvRecyclerView).doIfPresent(rv -> {
-            orderBy = orderBy.equalsIgnoreCase("desc") ? "asc" : "desc";
-            svSearchView.getFilter().animate().rotation(orderBy.equalsIgnoreCase("desc") ? 0 : 180)
-                    .setDuration(500).setInterpolator(new LinearInterpolator()).start();
-            rv.clearItems();
-            page = 1;
-            presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+            try {
+                orderBy = orderBy.equalsIgnoreCase("desc") ? "asc" : "desc";
+                svSearchView.getFilter().animate().rotation(orderBy.equalsIgnoreCase("desc") ? 0 : 180)
+                        .setDuration(500).setInterpolator(new LinearInterpolator()).start();
+                rv.clearItems();
+                page = 1;
+                presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+            } catch (Exception e) {
+                Logger.e(TAG, e);
+            }
         });
     }
 
     void onPerformSearch(String q) {
         Optional.from(rvRecyclerView).doIfPresent(rv -> {
-            query = q;
-            rv.clearItems();
-            page = 1;
-            presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+            try {
+                query = q;
+                rv.clearItems();
+                page = 1;
+                presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+            } catch (Exception e) {
+                Logger.e(TAG, e);
+            }
         });
     }
 
@@ -137,7 +216,11 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
 
     @Override
     public void notifyDataSetChangedLeagues(List<LeagueResponse> its) {
-        Optional.from(rvRecyclerView).doIfPresent(rv -> rv.addNewItems(its));
+        try {
+            Optional.from(rvRecyclerView).doIfPresent(rv -> rv.addNewItems(its));
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
     }
 
     @Override

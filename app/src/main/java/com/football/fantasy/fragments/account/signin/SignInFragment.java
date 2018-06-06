@@ -16,6 +16,7 @@ import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
 import com.football.fantasy.activities.MainActivity;
 import com.football.fantasy.fragments.account.forgot.ForgotPasswordFragment;
+import com.football.fantasy.fragments.account.signup.SignUpFragment;
 import com.football.helpers.sociallogin.facebook.FacebookHelper;
 import com.football.helpers.sociallogin.facebook.FacebookListener;
 import com.football.helpers.sociallogin.google.GoogleHelper;
@@ -33,7 +34,7 @@ import butterknife.OnClick;
  */
 public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPresenter<ISignInView>>
         implements ISignInView, FacebookListener, TwitterListener, GoogleListener {
-    static final String TAG = "SignInFragment";
+    static final String TAG = SignUpFragment.class.getSimpleName();
 
     public static SignInFragment newInstance() {
         return new SignInFragment();
