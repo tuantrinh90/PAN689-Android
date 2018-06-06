@@ -67,7 +67,7 @@ public interface IApiService {
     Observable<BaseResponse<Object>> removeTeam(@Path(ServiceConfig.KEY_LEAGUE_ID) int leagueId, @Path(ServiceConfig.KEY_TEAM_ID) int teamId);
 
     @GET(ServiceConfig.SEARCH_FRIEND)
-    Observable<BaseResponse<List<FriendResponse>>> getInviteFriends(@Query(ServiceConfig.KEY_LEAGUE_ID) int leagueId, @Query(Constant.KEY_WORD) String keyword,
+    Observable<BaseResponse<PagingResponse<FriendResponse>>> getInviteFriends(@Query(ServiceConfig.KEY_LEAGUE_ID) int leagueId, @Query(Constant.KEY_WORD) String keyword,
                                                                     @Query(Constant.KEY_PAGE) int page, @Query(Constant.KEY_PER_PAGE) int perPage);
 
     @POST(ServiceConfig.INVITE_FRIEND)
@@ -82,7 +82,7 @@ public interface IApiService {
     @GET(ServiceConfig.OPEN_LEAGUES)
     Observable<BaseResponse<PagingResponse<LeagueResponse>>> getOpenLeagues(@Query(Constant.KEY_ORDER_BY) String orderBy, @Query(Constant.KEY_PAGE) int page,
                                                                             @Query(Constant.KEY_PER_PAGE) int perPage,
-                                                                            @Query("name") String query);
+                                                                            @Query(Constant.KEY_WORD) String query);
 
     @GET(ServiceConfig.PLAYERS)
     Observable<BaseResponse<PagingResponse<PlayerResponse>>> getPlayerList(@Query(Constant.KEY_ORDER_BY) String orderBy, @Query(Constant.KEY_PAGE) int page,

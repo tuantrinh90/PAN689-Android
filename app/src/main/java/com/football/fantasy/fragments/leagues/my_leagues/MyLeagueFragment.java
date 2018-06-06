@@ -3,6 +3,7 @@ package com.football.fantasy.fragments.leagues.my_leagues;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import com.bon.customview.listview.ExtPagingListView;
@@ -59,6 +60,7 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
                 @Override
                 public void onNext(LeagueEvent leagueEvent) {
                     try {
+                        Log.e("LeagueEvent","LeagueEvent");
                         page = 1;
                         rvRecyclerView.clearItems();
                         presenter.getMyLeagues(page, ExtPagingListView.NUMBER_PER_PAGE);

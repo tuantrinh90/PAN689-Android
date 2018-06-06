@@ -87,7 +87,7 @@
     <string name="setup_team">Setup team</string>
     <string name="setup_your_team">Setup your team</string>
     <string name="team_name">Team name</string>
-    <string name="max_number_of_team">Max number of league</string>
+    <string name="max_number_of_team">Max number of teams</string>
     <string name="budget">Budget</string>
     <string name="budget_value">%s ($%s mio)</string>
     <string name="start_league">Start League</string>
@@ -140,7 +140,7 @@
     <string name="user_register_false">Sign in successfully</string>
     <string name="forgot_user_forgot_email">Forgot email</string>
     <string name="forgot_user_forgot_email_invalid">Email is not valid</string>
-    <string name="forgot_user_forgot_email_null">Email is blank</string>
+    <string name="forgot_user_forgot_email_null">The user is not valid</string>
     <string name="forgot_user_forgot_email_update">Email is updated</string>
     <string name="forgot_user_email_does_not_sent_successfully">Email is sent unsuccessfully</string>
     <string name="forgot_user_forgot_email_system">Forgot system password</string>

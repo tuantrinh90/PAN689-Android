@@ -4,13 +4,12 @@ import com.bon.share_preferences.AppPreferences;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
+import com.football.models.PagingResponse;
 import com.football.models.responses.FriendResponse;
 import com.football.models.responses.InviteResponse;
 import com.football.models.responses.UserResponse;
 import com.football.utilities.Constant;
 import com.football.utilities.RxUtilities;
-
-import java.util.List;
 
 import okhttp3.MultipartBody;
 
@@ -27,7 +26,7 @@ public class InviteFriendDataPresenter extends BaseDataPresenter<IInviteFriendVi
         getOptView().doIfPresent(v -> {
             mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().getInviteFriends(leagueId, keyword, page, perPage),
-                    new ApiCallback<List<FriendResponse>>() {
+                    new ApiCallback<PagingResponse<FriendResponse>>() {
 
                         @Override
                         public void onStart() {
@@ -40,8 +39,8 @@ public class InviteFriendDataPresenter extends BaseDataPresenter<IInviteFriendVi
                         }
 
                         @Override
-                        public void onSuccess(List<FriendResponse> friends) {
-                            v.displayFriends(friends);
+                        public void onSuccess(PagingResponse<FriendResponse> response) {
+                            v.displayFriends(response.getData());
                         }
 
                         @Override
@@ -52,6 +51,7 @@ public class InviteFriendDataPresenter extends BaseDataPresenter<IInviteFriendVi
                     }));
         });
     }
+
 
     @Override
     public void inviteFriend(int leagueId, int receiveId) {

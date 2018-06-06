@@ -102,7 +102,7 @@ public class TeamResponse implements Serializable {
     }
 
     public Integer getCurrentBudget() {
-        return currentBudget;
+        return currentBudget == null ? 0 : currentBudget;
     }
 
     public void setCurrentBudget(Integer currentBudget) {
@@ -110,7 +110,7 @@ public class TeamResponse implements Serializable {
     }
 
     public Integer getRank() {
-        return rank;
+        return rank == null ? 0 : rank;
     }
 
     public void setRank(Integer rank) {
@@ -118,7 +118,7 @@ public class TeamResponse implements Serializable {
     }
 
     public Integer getTotalPoint() {
-        return totalPoint;
+        return totalPoint == null ? 0 : totalPoint;
     }
 
     public void setTotalPoint(Integer totalPoint) {
@@ -126,7 +126,7 @@ public class TeamResponse implements Serializable {
     }
 
     public String getFormation() {
-        return formation;
+        return formation + "";
     }
 
     public void setFormation(String formation) {
@@ -134,7 +134,7 @@ public class TeamResponse implements Serializable {
     }
 
     public Integer getPickOrder() {
-        return pickOrder;
+        return pickOrder == null ? 0 : pickOrder;
     }
 
     public void setPickOrder(Integer pickOrder) {
@@ -142,7 +142,7 @@ public class TeamResponse implements Serializable {
     }
 
     public Boolean getOwner() {
-        return isOwner;
+        return isOwner == null ? false : isOwner;
     }
 
     public void setOwner(Boolean owner) {
@@ -154,7 +154,7 @@ public class TeamResponse implements Serializable {
     }
 
     public void setChecked(boolean checked) {
-        isChecked = checked;
+        this.isChecked = checked;
     }
 
     @Override

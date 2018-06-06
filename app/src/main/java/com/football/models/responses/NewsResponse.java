@@ -75,7 +75,7 @@ public class NewsResponse implements Serializable {
     }
 
     public String getTitle() {
-        return title;
+        return title + "";
     }
 
     public void setTitle(String title) {
@@ -83,7 +83,7 @@ public class NewsResponse implements Serializable {
     }
 
     public String getThumbnail() {
-        return thumbnail;
+        return thumbnail + "";
     }
 
     public void setThumbnail(String thumbnail) {
@@ -91,7 +91,7 @@ public class NewsResponse implements Serializable {
     }
 
     public String getDescription() {
-        return description;
+        return description + "";
     }
 
     public void setDescription(String description) {
@@ -107,37 +107,37 @@ public class NewsResponse implements Serializable {
     }
 
     @JsonIgnore
-    public Calendar getPublishOnCalendar(){
+    public Calendar getPublishOnCalendar() {
         return DateTimeUtils.convertStringToCalendar(publishOn, Constant.FORMAT_DATE_TIME_SERVER);
     }
 
     @JsonIgnore
-    public String getDay(){
+    public String getDay() {
         Calendar calendar = getPublishOnCalendar();
-        if (calendar==null) return "";
+        if (calendar == null) return "";
 
         return DateTimeUtils.convertCalendarToString(calendar, "dd");
     }
 
     @JsonIgnore
-    public String getMonth(){
+    public String getMonth() {
         Calendar calendar = getPublishOnCalendar();
-        if (calendar==null) return "";
+        if (calendar == null) return "";
 
         return DateTimeUtils.convertCalendarToString(calendar, "MM");
     }
 
     @JsonIgnore
-    public String getYear(){
+    public String getYear() {
         Calendar calendar = getPublishOnCalendar();
-        if (calendar==null) return "";
+        if (calendar == null) return "";
 
         return DateTimeUtils.convertCalendarToString(calendar, "yyyy");
     }
 
 
     public String getAuthor() {
-        return author;
+        return author + "";
     }
 
     public void setAuthor(String author) {

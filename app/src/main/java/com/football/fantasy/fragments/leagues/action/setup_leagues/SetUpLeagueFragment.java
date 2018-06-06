@@ -130,9 +130,9 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     ExtTextView tvCreateLeague;
 
     File filePath;
-    Calendar calendarDraftTime = Calendar.getInstance();
-    Calendar calendarStartTime = Calendar.getInstance();
-    Calendar calendarTeamSetupTime = Calendar.getInstance();
+    Calendar calendarDraftTime;
+    Calendar calendarStartTime;
+    Calendar calendarTeamSetupTime;
     ExtKeyValuePair keyValuePairNumberOfUser = new ExtKeyValuePair("6", "06");
 
     int leagueId;
@@ -385,8 +385,8 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     void onClickDraftTime() {
         ExtDayMonthYearHourMinuteDialogFragment.newInstance()
                 .setMinDate(AppUtilities.getMinCalendar())
-                .setMaxDate(calendarStartTime)
-                .setValueDate(calendarDraftTime)
+                .setMaxDate(AppUtilities.getMaxCalendar())
+                .setValueDate(calendarDraftTime == null ? Calendar.getInstance() : calendarDraftTime)
                 .setConditionFunction(calendar -> calendar.getTimeInMillis() >= Calendar.getInstance().getTimeInMillis())
                 .setCalendarConsumer(calendar -> {
                     calendarDraftTime = calendar;
@@ -403,10 +403,13 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
         ExtDayMonthYearHourMinuteDialogFragment.newInstance()
                 .setMinDate(AppUtilities.getMinCalendar())
                 .setMaxDate(AppUtilities.getMaxCalendar())
-                .setValueDate(calendarTeamSetupTime)
+                .setValueDate(calendarTeamSetupTime == null ? Calendar.getInstance() : calendarTeamSetupTime)
                 .setConditionFunction(calendar -> calendar.getTimeInMillis() >= Calendar.getInstance().getTimeInMillis())
                 .setCalendarConsumer(calendar -> {
                     calendarTeamSetupTime = calendar;
+                    if (calendarStartTime == null) {
+                        calendarStartTime = DateTimeUtils.getCalendarNoTime(calendarTeamSetupTime.getTimeInMillis());
+                    }
                     formatDateTime();
                 }).show(getFragmentManager(), null);
     }
@@ -416,10 +419,13 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
         ExtDayMonthYearHourMinuteDialogFragment.newInstance()
                 .setMinDate(AppUtilities.getMinCalendar())
                 .setMaxDate(AppUtilities.getMaxCalendar())
-                .setValueDate(calendarStartTime)
+                .setValueDate(calendarStartTime == null ? Calendar.getInstance() : calendarStartTime)
                 .setConditionFunction(calendar -> calendar.getTimeInMillis() >= Calendar.getInstance().getTimeInMillis())
                 .setCalendarConsumer(calendar -> {
                     calendarStartTime = calendar;
+                    if (calendarTeamSetupTime == null) {
+                        calendarTeamSetupTime = DateTimeUtils.getCalendarNoTime(calendarStartTime.getTimeInMillis());
+                    }
                     formatDateTime();
                 }).show(getFragmentManager(), null);
     }
@@ -463,6 +469,28 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
 
         if (etNumberOfUser.isEmpty(mActivity)) {
             result = false;
+        }
+
+        if (llTransfer.isActivated()) {
+            if (etTeamSetupTime.isEmpty(mActivity)) {
+                result = false;
+            } else {
+                etTeamSetupTime.setError(null);
+                if (calendarStartTime.getTimeInMillis() < calendarTeamSetupTime.getTimeInMillis()) {
+                    etTeamSetupTime.setError(getString(R.string.league_invalid_setup_time));
+                    result = false;
+                }
+            }
+        } else {
+            if (etDraftTime.isEmpty(mActivity)) {
+                result = false;
+            }else{
+                etDraftTime.setError(null);
+                if (calendarStartTime.getTimeInMillis() < calendarDraftTime.getTimeInMillis()) {
+                    etDraftTime.setError(getString(R.string.league_invalid_start_draft_time));
+                    result = false;
+                }
+            }
         }
 
         //startAt

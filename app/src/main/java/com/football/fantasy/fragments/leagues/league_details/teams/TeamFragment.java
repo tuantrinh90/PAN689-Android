@@ -38,10 +38,11 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
         return fragment;
     }
 
+
+    @BindView(R.id.tvTeamSetupLabel)
+    ExtTextView tvTeamSetupLabel;
     @BindView(R.id.tvTeamSetupTime)
     ExtTextView tvTeamSetupTime;
-    @BindView(R.id.tvTime)
-    ExtTextView tvTime;
     @BindView(R.id.rvRecyclerView)
     ExtPagingListView rvRecyclerView;
 
@@ -94,14 +95,14 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
     }
 
     void displayTime() {
-        tvTeamSetupTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
+        tvTeamSetupLabel.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
 
         if (league.getGameplayOption().equalsIgnoreCase(LeagueRequest.GAMEPLAY_OPTION_TRANSFER)) {
-            tvTeamSetupTime.setText(R.string.team_setup_time);
-            tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
+            tvTeamSetupLabel.setText(R.string.team_setup_time);
+            tvTeamSetupTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
         } else {
             tvTeamSetupTime.setText(R.string.start_time);
-            tvTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
+            tvTeamSetupTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
         }
     }
 

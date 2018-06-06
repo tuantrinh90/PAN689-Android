@@ -5,12 +5,12 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.bon.image.ImageLoaderUtils;
+import com.bon.util.StringUtils;
 import com.football.fantasy.R;
 
 import butterknife.BindView;
@@ -48,6 +48,7 @@ public class CircleImageViewApp extends LinearLayout {
     }
 
     public CircleImageViewApp setImageUri(String uri) {
+        if (StringUtils.isEmpty(uri)) return this;
         ImageLoaderUtils.displayImage(uri, ivImage);
         return this;
     }
