@@ -132,6 +132,8 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     EditTextApp etDescription;
     @BindView(R.id.tvCreateLeague)
     ExtTextView tvCreateLeague;
+    @BindView(R.id.vKeyBoard)
+    View vKeyBoard;
 
     File filePath;
     Calendar calendarDraftTime;
@@ -218,11 +220,16 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
         initBudgetOption();
         formatDateTime();
         setUpdateDataKeyValuePair();
+        focusDescription();
 
         if (!isCreateMode()) {
             tvCreateLeague.setText(R.string.update_league);
             tvHeader.setText(R.string.update_league);
         }
+    }
+
+    void focusDescription() {
+        etDescription.getContentView().setOnFocusChangeListener((v, hasFocus) -> vKeyBoard.setVisibility(hasFocus ? View.VISIBLE : View.GONE));
     }
 
     void initBudgetOption() {

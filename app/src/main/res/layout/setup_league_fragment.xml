@@ -416,5 +416,11 @@
                 android:textAllCaps="true"
                 app:textViewFontAssetName="@string/font_display_black" />
         </com.bon.customview.shadowlayout.ShadowLayout>
+
+        <View
+            android:id="@+id/vKeyBoard"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
     </LinearLayout>
 </com.bon.customview.scrollview.ExtScrollView>
