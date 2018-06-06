@@ -203,6 +203,8 @@
     <string name="league_details">League details</string>
     <string name="message_confirm_remove_lineup_player">message_confirm_remove_lineup_player</string>
     <string name="statistics">Statistics</string>
+    <string name="team_creation">Complete team creation</string>
+    <string name="team_budget">Budget:%s</string>
     <string name="my_supper_team">My Super Team</string>
     <string name="points">Points</string>
     <string name="team_line_up">Team Lineup</string>
