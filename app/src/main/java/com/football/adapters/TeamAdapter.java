@@ -49,7 +49,7 @@ public class TeamAdapter extends ExtBaseAdapter<TeamResponse, TeamAdapter.ViewHo
     protected void onBindViewHolder(ViewHolder holder, TeamResponse teamResponse) {
         holder.ivAvatar.setImageUri(teamResponse.getLogo());
         holder.tvTeam.setText(teamResponse.getName());
-        holder.tvDescription.setText(teamResponse.getDescription());
+        holder.tvOwner.setText(teamResponse.getUser().getName());
 
         holder.tvRemove.setVisibility(View.GONE);
         holder.ivLock.setVisibility(View.GONE);
@@ -68,8 +68,8 @@ public class TeamAdapter extends ExtBaseAdapter<TeamResponse, TeamAdapter.ViewHo
         CircleImageViewApp ivAvatar;
         @BindView(R.id.tvTeam)
         ExtTextView tvTeam;
-        @BindView(R.id.tvDescription)
-        ExtTextView tvDescription;
+        @BindView(R.id.tvOwner)
+        ExtTextView tvOwner;
         @BindView(R.id.tvRemove)
         ExtTextView tvRemove;
         @BindView(R.id.ivLock)
