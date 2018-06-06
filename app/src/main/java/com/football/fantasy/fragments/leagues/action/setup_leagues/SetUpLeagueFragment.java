@@ -33,7 +33,6 @@ import com.football.customizes.labels.LabelView;
 import com.football.events.LeagueEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
-import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.BudgetResponse;
 import com.football.models.responses.LeagueResponse;
@@ -361,8 +360,10 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
                 }})
                 .setValue(keyValuePairNumberOfUser.getKey())
                 .setOnSelectedConsumer(extKeyValuePair -> {
-                    keyValuePairNumberOfUser = extKeyValuePair;
-                    setUpdateDataKeyValuePair();
+                    if (!android.text.TextUtils.isEmpty(extKeyValuePair.getKey())) {
+                        keyValuePairNumberOfUser = extKeyValuePair;
+                        setUpdateDataKeyValuePair();
+                    }
                 })
                 .show(getFragmentManager(), null);
     }

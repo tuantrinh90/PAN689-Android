@@ -19,17 +19,18 @@ public class HomeDataPresenter extends BaseDataPresenter<IHomeView> implements I
     @Override
     public void getMyLeagues(int page, int perPage) {
         getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().getMyLeagues(page, perPage), new ApiCallback<PagingResponse<LeagueResponse>>() {
-                @Override
-                public void onSuccess(PagingResponse<LeagueResponse> leagueResponsePagingResponse) {
-                    v.notifyDataSetChangedLeagues(leagueResponsePagingResponse.getData());
-                }
+            mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().getMyLeagues(page, perPage),
+                    new ApiCallback<PagingResponse<LeagueResponse>>() {
+                        @Override
+                        public void onSuccess(PagingResponse<LeagueResponse> leagueResponsePagingResponse) {
+                            v.notifyDataSetChangedLeagues(leagueResponsePagingResponse.getData());
+                        }
 
-                @Override
-                public void onError(String error) {
-                    v.showMessage(error);
-                }
-            }));
+                        @Override
+                        public void onError(String error) {
+                            v.showMessage(error);
+                        }
+                    }));
         });
     }
 
