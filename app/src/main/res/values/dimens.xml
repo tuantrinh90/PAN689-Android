@@ -83,4 +83,5 @@
     <dimen name="player_margin_normal">10dp</dimen>
     <dimen name="player_margin_small">6dp</dimen>
     <dimen name="player_margin_none">0dp</dimen>
+    <dimen name="player_border">1dp</dimen>
 </resources>

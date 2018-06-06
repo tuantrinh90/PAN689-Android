@@ -7,7 +7,7 @@
                 android:height="@dimen/avatar_normal" />
             <solid android:color="@color/color_white" />
             <stroke
-                android:width="@dimen/avatar_border"
+                android:width="@dimen/player_border"
                 android:color="@color/color_green_button" />
         </shape>
     </item>
@@ -16,6 +16,6 @@
         android:right="@dimen/padding_status_bar">
         <bitmap
             android:gravity="center"
-            android:src="@drawable/ic_tick" />
+            android:src="@drawable/ic_add_green_g" />
     </item>
 </layer-list>

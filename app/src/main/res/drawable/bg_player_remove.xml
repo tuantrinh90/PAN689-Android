@@ -15,7 +15,9 @@
         android:left="@dimen/padding_status_bar"
         android:right="@dimen/padding_status_bar">
         <bitmap
+            android:layout_width="14dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:src="@drawable/ic_tick" />
+            android:src="@drawable/ic_remove_small" />
     </item>
 </layer-list>
