@@ -40,6 +40,7 @@ public interface ServiceConfig {
     String INVITATION_DECISION = "invitations/decision/{id}";
     String HOME_NEWS = "posts";
     String OPEN_LEAGUES = "leagues/open_league";
+    String PLAYERS = "leagues/open_league";
     String CREATE_LEAGUE = "leagues";
     String UPDATE_LEAGUE = "leagues/{" + KEY_LEAGUE_ID + "}";
     String FORM_OPTIONS = "leagues/get_form/{" + KEY_LEAGUE_ID + "}";

@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/ivPlayer"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -19,12 +19,15 @@
             android:layout_marginTop="4dp"
             android:background="@drawable/bg_player_a"
             android:clickable="true"
-            android:focusable="true" />
+            android:focusable="true"
+            android:padding="@dimen/player_border"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_player_sample" />
 
         <ImageView
             android:id="@+id/ivRemove"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_gravity="end"
             android:background="@drawable/bg_player_remove"
             android:clickable="true"

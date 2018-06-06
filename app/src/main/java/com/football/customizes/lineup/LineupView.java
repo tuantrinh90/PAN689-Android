@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 
 import com.bon.interfaces.Optional;
 import com.football.fantasy.R;
-import com.football.models.Player;
+import com.football.models.responses.PlayerResponse;
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayout;
@@ -22,10 +22,10 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
     private Context mContext;
 
     private Consumer<Integer> removeConsumer;
-    private BiConsumer<Player, Integer> playerBiConsumer;
+    private BiConsumer<PlayerResponse, Integer> playerBiConsumer;
 
     private int[] squad = new int[]{1, 3, 5, 2}; // sắp xếp đội hình theo từng hàng, mỗi phần tử tương ứng với số lượng cầu thủ tại hàng đó
-    private Player[] players;
+    private PlayerResponse[] players;
 
     public LineupView(Context context) {
         this(context, null);
@@ -58,7 +58,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
             int playerCount = squad[line]; // số lượng cầu thủ trên 1 hàng
             for (int i = 0; i < playerCount; i++) {
                 PlayerView view = createPlayerView(mContext);
-                Player player = null;
+                PlayerResponse player = null;
                 if (players != null && players.length > position) {
                     player = players[position];
                 }
@@ -98,7 +98,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         return margin;
     }
 
-    private void displayPlayer(PlayerView view, Player player, int position) {
+    private void displayPlayer(PlayerView view, PlayerResponse player, int position) {
         view.setPlayer(player, position);
     }
 
@@ -120,7 +120,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         this.removeConsumer = removeConsumer;
     }
 
-    public void setPlayerBiConsumer(BiConsumer<Player, Integer> playerBiConsumer) {
+    public void setPlayerBiConsumer(BiConsumer<PlayerResponse, Integer> playerBiConsumer) {
         this.playerBiConsumer = playerBiConsumer;
     }
 
@@ -128,7 +128,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         setup();
     }
 
-    public void setLineup(Player[] players, int[] squad) {
+    public void setLineup(PlayerResponse[] players, int[] squad) {
         setSquad(squad);
         setPlayers(players);
     }
@@ -137,11 +137,11 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         this.squad = squad;
     }
 
-    public void setPlayers(Player[] players) {
+    public void setPlayers(PlayerResponse[] players) {
         this.players = players;
     }
 
-    public void addPlayer(Player player, int line) {
+    public void addPlayer(PlayerResponse player, int line) {
         for (int i = 0; i < squad[line]; i++) {
             int position = getPosition(line, i);
             if (players != null && players.length > position && players[position] != null) {
@@ -150,13 +150,13 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         }
     }
 
-    public void setPlayer(Player player, int position) {
+    public void setPlayer(PlayerResponse player, int position) {
         this.players[position] = player;
         PlayerView view = (PlayerView) getChildAt(position);
         displayPlayer(view, player, position);
     }
 
-    public void setPlayer(Player player, int line, int positionInLine) {
+    public void setPlayer(PlayerResponse player, int line, int positionInLine) {
         int index = getPosition(line, positionInLine);
         setPlayer(player, index);
     }
@@ -180,7 +180,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
     }
 
     @Override
-    public void onPlayerClick(Player player, int position) {
+    public void onPlayerClick(PlayerResponse player, int position) {
         Optional.from(playerBiConsumer).doIfPresent(c -> c.accept(player, position));
     }
 }

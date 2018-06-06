@@ -11,25 +11,24 @@ import android.widget.TextView;
 
 import com.bon.interfaces.Optional;
 import com.football.fantasy.R;
-import com.football.models.Player;
+import com.football.models.responses.PlayerResponse;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PlayerView extends LinearLayout {
 
     @BindView(R.id.ivRemove)
     ImageView ivRemove;
     @BindView(R.id.ivPlayer)
-    CircleImageView ivPlayer;
+    ImageView ivPlayer;
     @BindView(R.id.tvContent)
     TextView tvContent;
 
     private OnPlayerViewClickListener mListener;
     private int position;
-    private Player player;
+    private PlayerResponse player;
 
     public PlayerView(Context context) {
         this(context, null);
@@ -58,11 +57,11 @@ public class PlayerView extends LinearLayout {
         }
     }
 
-    public Player getPlayer() {
+    public PlayerResponse getPlayer() {
         return player;
     }
 
-    public void setPlayer(Player player, int position) {
+    public void setPlayer(PlayerResponse player, int position) {
         this.position = position;
         this.player = player;
     }
@@ -91,6 +90,6 @@ public class PlayerView extends LinearLayout {
     public interface OnPlayerViewClickListener {
         void onRemove(int position);
 
-        void onPlayerClick(Player player, int position);
+        void onPlayerClick(PlayerResponse player, int position);
     }
 }

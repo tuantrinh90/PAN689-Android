@@ -7,6 +7,7 @@ import com.football.models.responses.FriendResponse;
 import com.football.models.responses.InviteResponse;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.NewsResponse;
+import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.StopResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.models.responses.UserResponse;
@@ -82,6 +83,12 @@ public interface IApiService {
     Observable<BaseResponse<PagingResponse<LeagueResponse>>> getOpenLeagues(@Query(Constant.KEY_ORDER_BY) String orderBy, @Query(Constant.KEY_PAGE) int page,
                                                                             @Query(Constant.KEY_PER_PAGE) int perPage,
                                                                             @Query("name") String query);
+
+    @GET(ServiceConfig.PLAYERS)
+    Observable<BaseResponse<PagingResponse<PlayerResponse>>> getPlayerList(@Query(Constant.KEY_ORDER_BY) String orderBy, @Query(Constant.KEY_PAGE) int page,
+                                                                           @Query(Constant.KEY_PER_PAGE) int perPage,
+                                                                           @Query("name") String query);
+
     @GET(ServiceConfig.FORM_OPTIONS)
     Observable<BaseResponse<FormResponse>> getFormOption(@Path(ServiceConfig.KEY_LEAGUE_ID) int leagueId);
 
