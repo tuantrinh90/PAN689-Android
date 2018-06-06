@@ -33,6 +33,8 @@ public class NewsResponse implements Serializable {
     private Integer userId;
     @JsonProperty("user")
     private UserResponse user;
+    @JsonProperty("url")
+    private String url;
 
     public Integer getId() {
         return id;
@@ -160,6 +162,14 @@ public class NewsResponse implements Serializable {
         this.user = user;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     @Override
     public String toString() {
         return "NewsResponse{" +
@@ -175,6 +185,7 @@ public class NewsResponse implements Serializable {
                 ", author='" + author + '\'' +
                 ", userId=" + userId +
                 ", user=" + user +
+                ", url='" + url + '\'' +
                 '}';
     }
 }

@@ -21,6 +21,7 @@ import com.bon.customview.radiobutton.ExtRadioButton;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageFilePath;
 import com.bon.image.ImageUtils;
+import com.bon.interfaces.Optional;
 import com.bon.logger.Logger;
 import com.bon.util.DateTimeUtils;
 import com.bon.util.StringUtils;
@@ -160,6 +161,7 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
         getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
+
         initView();
         displayData();
         loadData();
@@ -229,7 +231,13 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     }
 
     void focusDescription() {
-        etDescription.getContentView().setOnFocusChangeListener((v, hasFocus) -> vKeyBoard.setVisibility(hasFocus ? View.VISIBLE : View.GONE));
+        try {
+            etDescription.getContentView().setOnFocusChangeListener((v, hasFocus) -> {
+                Optional.from(vKeyBoard).doIfPresent(k -> k.setVisibility(hasFocus ? View.VISIBLE : View.GONE));
+            });
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
     }
 
     void initBudgetOption() {
@@ -547,11 +555,11 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
 
     @Override
     public void openCreateTeam(LeagueResponse leagueResponse) {
-        getActivity().finish();
         bus.send(new LeagueEvent());
         AloneFragmentActivity.with(this)
                 .parameters(SetupTeamFragment.newBundle(leagueResponse, null, leagueTitle, leagueType))
                 .start(SetupTeamFragment.class);
+        getActivity().finish();
     }
 
     @Override

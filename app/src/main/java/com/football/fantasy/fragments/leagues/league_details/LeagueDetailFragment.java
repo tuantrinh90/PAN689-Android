@@ -139,7 +139,8 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
                                             .forResult(SuccessorFragment.REQUEST_CODE)
                                             .start(SuccessorFragment.class);
                                 } else {
-                                    showMessage(R.string.message_confirm_leave_leagues, R.string.yes, R.string.no, aVoid -> presenter.leaveLeague(leagueId), null);
+                                    showMessage(R.string.message_confirm_leave_leagues, R.string.yes, R.string.no,
+                                            aVoid -> presenter.leaveLeague(leagueId), null);
                                 }
                             }
 
@@ -210,7 +211,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
             }
 
             // adapter
-            leagueDetailViewPagerAdapter = new LeagueDetailViewPagerAdapter(getFragmentManager(),mvpFragments);
+            leagueDetailViewPagerAdapter = new LeagueDetailViewPagerAdapter(getFragmentManager(), mvpFragments);
             leagueDetailViewPagerAdapter = new LeagueDetailViewPagerAdapter(getFragmentManager(), mvpFragments);
             vpViewPager.setAdapter(leagueDetailViewPagerAdapter);
             vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

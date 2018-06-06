@@ -14,6 +14,7 @@ import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.image.ImageFilePath;
 import com.bon.image.ImageUtils;
+import com.bon.logger.Logger;
 import com.bon.util.StringUtils;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
@@ -33,6 +34,8 @@ import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 
 public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetupTeamPresenter<ISetupTeamView>> implements ISetupTeamView {
+    static final String TAG = SetupTeamFragment.class.getSimpleName();
+
     static final String KEY_LEAGUE = "LEAGUE";
     static final String KEY_TEAM = "TEAM";
     static final String FROM_LEAGUES_TITLE = "LEAGUE_TITLE";
@@ -74,13 +77,17 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
     }
 
     void getDataFromBundle() {
-        if (getArguments() == null) return;
-        leagueResponse = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
-        if (getArguments().containsKey(KEY_TEAM)) {
-            teamResponse = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
+        try {
+            if (getArguments() == null) return;
+            leagueResponse = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
+            if (getArguments().containsKey(KEY_TEAM)) {
+                teamResponse = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
+            }
+            leagueTitle = getArguments().getString(FROM_LEAGUES_TITLE);
+            leagueType = getArguments().getString(FROM_LEAGUES_TYPE);
+        } catch (Exception e) {
+            Logger.e(TAG, e);
         }
-        leagueTitle = getArguments().getString(FROM_LEAGUES_TITLE);
-        leagueType = getArguments().getString(FROM_LEAGUES_TYPE);
     }
 
     void initView() {
@@ -158,6 +165,7 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
     @OnClick(R.id.tvCreateTeam)
     public void onCreateTeamClicked() {
         if (!isValid()) return;
+
         TeamRequest request = new TeamRequest(leagueResponse.getId(), etTeamName.getContent(),
                 etDescription.getContent(), filePath == null ? "" : filePath.getAbsolutePath());
         presenter.createTeam(request);
@@ -165,10 +173,10 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
 
     @Override
     public void createTeamSuccess() {
-        getActivity().finish();
         AloneFragmentActivity.with(this)
                 .parameters(LeagueDetailFragment.newBundle(leagueTitle, leagueResponse.getId(), leagueType))
                 .start(LeagueDetailFragment.class);
+        getActivity().finish();
     }
 
     @Override

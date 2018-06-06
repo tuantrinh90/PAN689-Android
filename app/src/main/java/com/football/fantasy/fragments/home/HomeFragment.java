@@ -1,8 +1,11 @@
 package com.football.fantasy.fragments.home;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +17,7 @@ import android.widget.LinearLayout;
 import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.logger.Logger;
+import com.bon.util.StringUtils;
 import com.bon.util.ViewUtils;
 import com.football.adapters.MyLeagueRecyclerAdapter;
 import com.football.adapters.NewsAdapter;
@@ -140,7 +144,13 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     void initRecyclerView() {
         try {
             newsAdapter = new NewsAdapter(mActivity, newsResponses, item -> {
+                String url = item.getUrl();
+                if (StringUtils.isEmpty(url)) return;
 
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                builder.setToolbarColor(ContextCompat.getColor(mActivity, R.color.colorPrimary));
+                CustomTabsIntent customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(mActivity, Uri.parse(url));
             });
             rvNews.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
             rvNews.setAdapter(newsAdapter);
