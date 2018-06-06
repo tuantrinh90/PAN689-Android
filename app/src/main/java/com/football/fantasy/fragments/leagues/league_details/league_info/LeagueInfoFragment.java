@@ -13,6 +13,7 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
+import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.fantasy.fragments.leagues.your_team.YourTeamFragment;
 import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.LeagueResponse;
@@ -115,7 +116,9 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
                 tvSetupTeam.setVisibility(View.VISIBLE);
                 tvStartLeague.setVisibility(View.VISIBLE);
             } else {
-                tvJoinLeague.setVisibility(View.VISIBLE);
+                if (!leagueType.equalsIgnoreCase(LeagueDetailFragment.MY_LEAGUES)) {
+                    tvJoinLeague.setVisibility(View.VISIBLE);
+                }
             }
 
             // line up my team
@@ -157,5 +160,6 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
         AloneFragmentActivity.with(this).parameters(SetupTeamFragment.newBundle(league, null,
                 mActivity.getTitleToolBar().getText().toString(), leagueType))
                 .start(SetupTeamFragment.class);
+        getActivity().finish();
     }
 }

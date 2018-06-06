@@ -126,7 +126,7 @@ public class NewsResponse implements Serializable {
         Calendar calendar = getPublishOnCalendar();
         if (calendar == null) return "";
 
-        return DateTimeUtils.convertCalendarToString(calendar, "MM");
+        return DateTimeUtils.convertCalendarToString(calendar, "MMM");
     }
 
     @JsonIgnore

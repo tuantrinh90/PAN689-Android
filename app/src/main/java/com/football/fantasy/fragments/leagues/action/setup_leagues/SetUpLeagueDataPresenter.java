@@ -111,6 +111,11 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
                 .addFormDataPart("trade_review", request.getTradeReview())
                 .addFormDataPart("draft_time", request.getDraftTime())
                 .addFormDataPart("time_to_pick", request.getTimeToPick());
+
+        if (request.getLeagueId() > 0) {
+            builder.addFormDataPart("_method", "PUT");
+        }
+
         if (!StringUtils.isEmpty(request.getLogo())) {
             File logo = new File(request.getLogo());
             if (logo.exists()) {

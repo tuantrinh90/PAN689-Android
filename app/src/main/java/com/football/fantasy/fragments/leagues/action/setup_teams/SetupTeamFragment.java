@@ -20,6 +20,7 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.images.CircleImageViewApp;
+import com.football.events.LeagueEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.requests.TeamRequest;
@@ -133,7 +134,6 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
                                         if (extKeyValuePair.getKey().equalsIgnoreCase(getString(R.string.gallery))) {
                                             ImageUtils.chooseImageFromGallery(SetupTeamFragment.this, getString(R.string.select_value));
                                         }
-
                                     }).show(getFragmentManager(), null);
                         } else {
                             onClickImagePick();
@@ -173,6 +173,7 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
 
     @Override
     public void createTeamSuccess() {
+        bus.send(new LeagueEvent());
         AloneFragmentActivity.with(this)
                 .parameters(LeagueDetailFragment.newBundle(leagueTitle, leagueResponse.getId(), leagueType))
                 .start(LeagueDetailFragment.class);

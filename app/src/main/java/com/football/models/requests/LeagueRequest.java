@@ -15,6 +15,7 @@ public class LeagueRequest {
     public static final String TRADE_REVIEW_CREATOR = "creator";
     public static final String TRADE_REVIEW_MEMBER = "member";
 
+    int leagueId;
     String name = "";
     String logo = "";
     String leagueType = "";
@@ -30,6 +31,14 @@ public class LeagueRequest {
     String teamSetup = "";
 
     public LeagueRequest() {
+    }
+
+    public int getLeagueId() {
+        return leagueId;
+    }
+
+    public void setLeagueId(int leagueId) {
+        this.leagueId = leagueId;
     }
 
     public String getName() {

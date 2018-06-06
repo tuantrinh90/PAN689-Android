@@ -12,8 +12,11 @@ import com.bon.logger.Logger;
 import com.bon.util.DateTimeUtils;
 import com.bon.util.DialogUtils;
 import com.football.adapters.TeamAdapter;
+import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
+import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
@@ -118,7 +121,18 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
 
     @Override
     public void displayTeams(List<TeamResponse> teams) {
-        Optional.from(rvRecyclerView).doIfPresent(rv -> rv.addNewItems(teams));
+        Optional.from(rvRecyclerView).doIfPresent(rv -> {
+            rv.clearItems();
+            rv.addNewItems(teams);
+
+            if (teams == null || teams.size() <= 0) {
+                AloneFragmentActivity.with(mActivity)
+                        .parameters(SetupTeamFragment.newBundle(league, null, mActivity.getTitleToolBar().getText().toString(),
+                                LeagueDetailFragment.MY_LEAGUES))
+                        .start(SetupTeamFragment.class);
+                getActivity().finish();
+            }
+        });
     }
 
     @Override

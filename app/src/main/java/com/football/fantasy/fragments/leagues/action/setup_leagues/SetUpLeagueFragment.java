@@ -34,6 +34,7 @@ import com.football.customizes.labels.LabelView;
 import com.football.events.LeagueEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
+import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.BudgetResponse;
 import com.football.models.responses.LeagueResponse;
@@ -354,7 +355,6 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
 
     @OnClick(R.id.llDraft)
     void onClickDraft() {
-        // version hiện tại chưa làm chế độ này
 //        llTransfer.setActivated(false);
 //        llDraft.setActivated(true);
 //        llTradeReview.setVisibility(View.VISIBLE);
@@ -468,6 +468,7 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
 
     LeagueRequest getLeagueRequest() {
         LeagueRequest leagueRequest = new LeagueRequest();
+        leagueRequest.setLeagueId(leagueResponse == null ? 0 : leagueResponse.getId());
         leagueRequest.setName(etLeagueName.getContent());
         leagueRequest.setLogo(filePath == null ? "" : filePath.getAbsolutePath());
         leagueRequest.setLeagueType(rbOpenLeague.isChecked() ? LeagueRequest.LEAGUE_TYPE_OPEN : LeagueRequest.LEAGUE_TYPE_PRIVATE);
@@ -565,7 +566,16 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
 
     @Override
     public void updateSuccess() {
-        showMessage(getString(R.string.update_success));
+        try {
+            showMessage(getString(R.string.update_success), R.string.ok, aVoid -> {
+                getActivity().finish();
+                AloneFragmentActivity.with(SetUpLeagueFragment.this)
+                        .parameters(LeagueDetailFragment.newBundle(leagueTitle, leagueId, LeagueDetailFragment.OPEN_LEAGUES))
+                        .start(LeagueDetailFragment.class);
+            });
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
     }
 
     @Override
