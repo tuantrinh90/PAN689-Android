@@ -354,17 +354,18 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
 
     @OnClick(R.id.llDraft)
     void onClickDraft() {
-        llTransfer.setActivated(false);
-        llDraft.setActivated(true);
-        llTradeReview.setVisibility(View.VISIBLE);
-        lvBudgetOption.setVisibility(View.GONE);
-        rvBudgetOption.setVisibility(View.GONE);
-        lvDraftTime.setVisibility(View.VISIBLE);
-        etDraftTime.setVisibility(View.VISIBLE);
-        lvTimePerDraftPick.setVisibility(View.VISIBLE);
-        etTimePerDraftPick.setVisibility(View.VISIBLE);
-        lvTeamSetupTime.setVisibility(View.GONE);
-        etTeamSetupTime.setVisibility(View.GONE);
+        // version hiện tại chưa làm chế độ này
+//        llTransfer.setActivated(false);
+//        llDraft.setActivated(true);
+//        llTradeReview.setVisibility(View.VISIBLE);
+//        lvBudgetOption.setVisibility(View.GONE);
+//        rvBudgetOption.setVisibility(View.GONE);
+//        lvDraftTime.setVisibility(View.VISIBLE);
+//        etDraftTime.setVisibility(View.VISIBLE);
+//        lvTimePerDraftPick.setVisibility(View.VISIBLE);
+//        etTimePerDraftPick.setVisibility(View.VISIBLE);
+//        lvTeamSetupTime.setVisibility(View.GONE);
+//        etTeamSetupTime.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.lvNumberOfUsers)
