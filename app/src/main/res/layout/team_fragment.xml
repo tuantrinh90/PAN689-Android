@@ -18,6 +18,7 @@
         android:paddingRight="@dimen/padding_layout">
 
         <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvTeamSetupTime"
             style="@style/StyleContentContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,11 +27,12 @@
             app:textViewFontAssetName="@string/font_display_bold" />
 
         <com.bon.customview.textview.ExtTextView
-            android:id="@+id/tvTeamSetupTime"
+            android:id="@+id/tvTime"
             style="@style/StyleContent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="end"
             tools:text="10/10/2018 09:10AM" />
     </TableRow>
 

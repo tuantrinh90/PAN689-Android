@@ -206,7 +206,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
             leagueDetailViewPagerAdapter = new LeagueDetailViewPagerAdapter(getFragmentManager(),
                     new ArrayList<BaseMvpFragment>() {{
                         add(LeagueInfoFragment.newInstance(league, leagueType).setChildFragment(true));
-                        add(TeamFragment.newInstance(league.getId(), leagueType).setChildFragment(true));
+                        add(TeamFragment.newInstance(league, leagueType).setChildFragment(true));
                         add(InviteFriendFragment.newInstance(league.getId(), leagueType).setChildFragment(true));
                     }});
             vpViewPager.setAdapter(leagueDetailViewPagerAdapter);
