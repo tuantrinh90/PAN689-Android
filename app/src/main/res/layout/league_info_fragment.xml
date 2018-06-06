@@ -31,9 +31,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="0dp"
+                    android:text="@string/team_setup_time"
                     app:textAllCaps="true"
-                    app:textViewFontAssetName="@string/font_display_bold"
-                    android:text="@string/team_setup_time" />
+                    app:textViewFontAssetName="@string/font_display_bold" />
 
                 <com.bon.customview.textview.ExtTextView
                     android:id="@+id/tvTime"
@@ -210,30 +210,25 @@
             android:layout_marginLeft="@dimen/padding_layout"
             android:layout_marginRight="@dimen/padding_layout" />
 
-        <TableRow
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout"
+            android:text="@string/description"
+            android:textAllCaps="true"
+            app:textViewFontAssetName="@string/font_display_bold" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvDescription"
+            style="@style/StyleContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/padding_layout"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout"
+            tools:text="@string/app_name" />
 
-            <com.bon.customview.textview.ExtTextView
-                style="@style/StyleContent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/description"
-                android:textAllCaps="true"
-                app:textViewFontAssetName="@string/font_display_bold" />
-
-            <com.bon.customview.textview.ExtTextView
-                android:id="@+id/tvDescription"
-                style="@style/StyleContent"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                tools:text="@string/app_name" />
-        </TableRow>
 
         <com.bon.customview.shadowlayout.ShadowLayout
             android:layout_width="match_parent"
@@ -253,8 +248,8 @@
             <com.bon.customview.textview.ExtTextView
                 android:id="@+id/tvJoinLeague"
                 style="@style/StyleButton"
-                android:visibility="gone"
                 android:text="@string/join_league"
+                android:visibility="gone"
                 app:textViewFontAssetName="@string/font_display_black" />
         </com.bon.customview.shadowlayout.ShadowLayout>
     </LinearLayout>

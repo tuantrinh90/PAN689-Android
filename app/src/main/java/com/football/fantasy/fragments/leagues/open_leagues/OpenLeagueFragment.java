@@ -21,6 +21,7 @@ import com.football.customizes.searchs.SearchView;
 import com.football.events.LeagueEvent;
 import com.football.events.StopLeagueEvent;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.responses.LeagueResponse;
 
@@ -152,7 +153,9 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
                         .parameters(LeagueDetailFragment.newBundle(getString(R.string.open_leagues), details.getId(), LeagueDetailFragment.OPEN_LEAGUES))
                         .start(LeagueDetailFragment.class);
             }, null, null, join -> {
-
+                AloneFragmentActivity.with(this)
+                        .parameters(SetupTeamFragment.newBundle(join, null, getString(R.string.open_leagues), LeagueDetailFragment.OPEN_LEAGUES))
+                        .start(SetupTeamFragment.class);
             });
             rvRecyclerView.init(mActivity, leaguesAdapter)
                     .setOnExtLoadMoreListener(() -> {

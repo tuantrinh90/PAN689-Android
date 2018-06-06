@@ -26,7 +26,7 @@ import java8.util.function.Consumer;
 public class LeaguesAdapter extends ExtBaseAdapter<LeagueResponse, LeaguesAdapter.ViewHolder> {
     public static final int OPEN_LEAGUES = 1, MY_LEAGUES = 2, PENDING_INVITATIONS = 3;
 
-    int leagueType = OPEN_LEAGUES;
+    int leagueType;
     Consumer<LeagueResponse> detailConsumer;
     Consumer<LeagueResponse> approveConsumer;
     Consumer<LeagueResponse> rejectConsumer;

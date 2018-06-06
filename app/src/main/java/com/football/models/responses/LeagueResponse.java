@@ -306,6 +306,7 @@ public class LeagueResponse implements Serializable {
                     time = calendarDraftTime.getTimeInMillis() - calendarCurrent.getTimeInMillis();
                 }
             }
+
             if (time >= 0) {
                 String des;
                 String result;
@@ -334,7 +335,8 @@ public class LeagueResponse implements Serializable {
                 return result;
             }
         }
-        return "";
+
+        return statusDisplay + "";
     }
 
     public String getTradeReview() {

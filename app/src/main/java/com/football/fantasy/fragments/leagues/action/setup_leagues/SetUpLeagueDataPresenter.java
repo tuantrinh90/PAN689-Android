@@ -51,7 +51,7 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
                     new ApiCallback<LeagueResponse>() {
                         @Override
                         public void onSuccess(LeagueResponse response) {
-                            v.openCreateTeam(response.getId());
+                            v.openCreateTeam(response);
                             v.showLoading(false);
                         }
 
