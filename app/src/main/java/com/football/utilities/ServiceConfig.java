@@ -47,4 +47,5 @@ public interface ServiceConfig {
     String CREATE_TEAM = "teams";
 
     String LEAVE_LEAGUES ="leagues/leave/{id}";
+    String UPLOAD = "upload";
 }

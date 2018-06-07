@@ -7,10 +7,12 @@ import com.football.listeners.ApiCallback;
 import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.FormResponse;
 import com.football.models.responses.LeagueResponse;
+import com.football.models.responses.UploadResponse;
 import com.football.utilities.RxUtilities;
 
 import java.io.File;
 
+import java8.util.function.Consumer;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -46,8 +48,61 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
     public void createLeague(LeagueRequest request) {
         getOptView().doIfPresent(v -> {
             v.showLoading(true);
+            if (hasFile(request)) {
+                upload(request, v, uploadResponse -> create(request, uploadResponse.getUrl()));
+            } else {
+                create(request, "");
+            }
+        });
+    }
+
+    @Override
+    public void updateLeague(int leagueId, LeagueRequest request) {
+        getOptView().doIfPresent(v -> {
+            v.showLoading(true);
+            if (hasFile(request)) {
+                upload(request, v, uploadResponse -> update(request, leagueId, uploadResponse.getUrl()));
+            } else {
+                update(request, leagueId, "");
+            }
+        });
+    }
+
+    private boolean hasFile(LeagueRequest request) {
+        if (!StringUtils.isEmpty(request.getLogo())) {
+            File logo = new File(request.getLogo());
+            if (logo.exists()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void upload(LeagueRequest request, ISetupLeagueView v, Consumer<UploadResponse> consumer) {
+        File logo = new File(request.getLogo());
+        mCompositeDisposable.add(RxUtilities.async(v,
+                dataModule.getApiService().upload(new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("file", logo.getName(), RequestBody.create(MediaType.parse("image/*"), logo))
+                        .build()),
+                new ApiCallback<UploadResponse>() {
+                    @Override
+                    public void onSuccess(UploadResponse response) {
+                        consumer.accept(response);
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        v.showMessage(error);
+                        v.showLoading(false);
+                    }
+                }));
+    }
+
+    private void create(LeagueRequest request, String url) {
+        getOptView().doIfPresent(v -> {
             mCompositeDisposable.add(RxUtilities.async(v,
-                    dataModule.getApiService().createLeague(createMultiPartBuilder(request).build()),
+                    dataModule.getApiService().createLeague(createMultiPartBuilder(request, url).build()),
                     new ApiCallback<LeagueResponse>() {
                         @Override
                         public void onSuccess(LeagueResponse response) {
@@ -64,12 +119,10 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
         });
     }
 
-    @Override
-    public void updateLeague(int leagueId, LeagueRequest request) {
+    private void update(LeagueRequest request, int leagueId, String url) {
         getOptView().doIfPresent(v -> {
-            v.showLoading(true);
             mCompositeDisposable.add(RxUtilities.async(v,
-                    dataModule.getApiService().updateLeague(leagueId, createMultiPartBuilder(request).build()),
+                    dataModule.getApiService().updateLeague(leagueId, createMultiPartBuilder(request, url).build()),
                     new ApiCallback<LeagueResponse>() {
                         @Override
                         public void onSuccess(LeagueResponse response) {
@@ -86,17 +139,7 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
         });
     }
 
-//    private Observable zip(Observable<BaseResponse<LeagueResponse>> observableLeague, Observable<BaseResponse<Object>> observableUpload) {
-//        return Observable.zip(
-//                observableLeague,
-//                dataModule.getApiService().updateLeague(leagueId, createMultiPartBuilder(request).build()),
-//                (response, response2) -> {
-//
-//                }
-//        );
-//    }
-
-    private MultipartBody.Builder createMultiPartBuilder(LeagueRequest request) {
+    private MultipartBody.Builder createMultiPartBuilder(LeagueRequest request, String url) {
         MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("name", request.getName())
@@ -110,31 +153,13 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
                 .addFormDataPart("team_setup", request.getTeamSetup())
                 .addFormDataPart("trade_review", request.getTradeReview())
                 .addFormDataPart("draft_time", request.getDraftTime())
-                .addFormDataPart("time_to_pick", request.getTimeToPick());
+                .addFormDataPart("time_to_pick", request.getTimeToPick())
+                .addFormDataPart("logo", url);
 
         if (request.getLeagueId() > 0) {
             builder.addFormDataPart("_method", "PUT");
         }
-
-        if (!StringUtils.isEmpty(request.getLogo())) {
-            File logo = new File(request.getLogo());
-            if (logo.exists()) {
-                builder.addFormDataPart("logo", logo.getName(), RequestBody.create(MediaType.parse("image/*"), logo));
-            }
-        }
-
         return builder;
     }
 
-//    private MultipartBody.Builder createFileMultiPartBuilder(LeagueRequest request) {
-//        MultipartBody.Builder builder = new MultipartBody.Builder()
-//                .setType(MultipartBody.FORM);
-//        if (!StringUtils.isEmpty(request.getLogo())) {
-//            File logo = new File(request.getLogo());
-//            if (logo.exists()) {
-//                builder.addFormDataPart("logo", logo.getName(), RequestBody.create(MediaType.parse("image/*"), logo));
-//            }
-//        }
-//        return builder;
-//    }
 }

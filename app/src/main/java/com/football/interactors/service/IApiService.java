@@ -10,6 +10,7 @@ import com.football.models.responses.NewsResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.StopResponse;
 import com.football.models.responses.TeamResponse;
+import com.football.models.responses.UploadResponse;
 import com.football.models.responses.UserResponse;
 import com.football.utilities.Constant;
 import com.football.utilities.ServiceConfig;
@@ -21,7 +22,6 @@ import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -68,7 +68,7 @@ public interface IApiService {
 
     @GET(ServiceConfig.SEARCH_FRIEND)
     Observable<BaseResponse<PagingResponse<FriendResponse>>> getInviteFriends(@Query(ServiceConfig.KEY_LEAGUE_ID) int leagueId, @Query(Constant.KEY_WORD) String keyword,
-                                                                    @Query(Constant.KEY_PAGE) int page, @Query(Constant.KEY_PER_PAGE) int perPage);
+                                                                              @Query(Constant.KEY_PAGE) int page, @Query(Constant.KEY_PER_PAGE) int perPage);
 
     @POST(ServiceConfig.INVITE_FRIEND)
     Observable<BaseResponse<InviteResponse>> inviteFriends(@Body RequestBody body);
@@ -91,6 +91,9 @@ public interface IApiService {
 
     @GET(ServiceConfig.FORM_OPTIONS)
     Observable<BaseResponse<FormResponse>> getFormOption(@Path(ServiceConfig.KEY_LEAGUE_ID) int leagueId);
+
+    @POST(ServiceConfig.UPLOAD)
+    Observable<BaseResponse<UploadResponse>> upload(@Body RequestBody body);
 
     @POST(ServiceConfig.CREATE_LEAGUE)
     Observable<BaseResponse<LeagueResponse>> createLeague(@Body RequestBody body);
