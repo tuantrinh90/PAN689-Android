@@ -16,7 +16,8 @@
             style="@style/StyleContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/my_supper_team"
+            android:padding="0dp"
+            android:text="@string/app_name"
             android:textAllCaps="true"
             app:textViewFontAssetName="@string/font_display_black_italic" />
 
@@ -24,11 +25,53 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
+            <com.google.android.flexbox.FlexboxLayout
                 android:id="@+id/llPosition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" />
+                android:orientation="horizontal"
+                app:showDivider="middle">
+
+                <com.bon.customview.textview.ExtTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@drawable/bg_red_radius"
+                    android:paddingBottom="@dimen/radius"
+                    android:paddingEnd="@dimen/padding_content"
+                    android:paddingStart="@dimen/padding_content"
+                    android:paddingTop="@dimen/radius"
+                    android:visibility="visible"
+                    android:text="@string/position_att"
+                    android:textColor="@color/color_white"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+
+                <com.bon.customview.textview.ExtTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@drawable/bg_red_radius"
+                    android:paddingBottom="@dimen/radius"
+                    android:paddingEnd="@dimen/padding_content"
+                    android:paddingStart="@dimen/padding_content"
+                    android:paddingTop="@dimen/radius"
+                    android:text="@string/position_mid"
+                    android:textColor="@color/color_white"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+
+                <com.bon.customview.textview.ExtTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@drawable/bg_red_radius"
+                    android:paddingBottom="@dimen/radius"
+                    android:paddingEnd="@dimen/padding_content"
+                    android:paddingStart="@dimen/padding_content"
+                    android:paddingTop="@dimen/radius"
+                    android:text="@string/entrants"
+                    android:textColor="@color/color_white"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+            </com.google.android.flexbox.FlexboxLayout>
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -127,20 +170,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_button_green"
-                android:paddingBottom="@dimen/padding_layout"
+                android:paddingBottom="@dimen/padding_small"
                 android:paddingLeft="@dimen/activity_vertical_margin"
                 android:paddingRight="@dimen/activity_vertical_margin"
-                android:paddingTop="@dimen/padding_layout">
+                android:paddingTop="@dimen/padding_content">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ic_arrow_circle_left" />
 
                 <com.bon.customview.textview.ExtTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="0dp"
                     android:text="@string/avg_5_games"
                     android:textAllCaps="true"
                     android:textColor="@color/color_white"
                     android:textSize="@dimen/font_size_description"
                     app:textViewFontAssetName="@string/font_display_bold" />
 
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="end"
+                    android:src="@drawable/ic_arrow_circle_right" />
             </FrameLayout>
         </com.bon.customview.shadowlayout.ShadowLayout>
 

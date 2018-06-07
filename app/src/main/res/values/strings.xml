@@ -234,6 +234,8 @@
     <string name="dribbles">Dribbles</string>
     <string name="balls_recovered">balls recovered</string>
     <string name="fouls_committed">Fouls committed</string>
+    <string name="position_att">Attacker</string>
+    <string name="position_mid">Midfielder</string>
 
 
 </resources>
