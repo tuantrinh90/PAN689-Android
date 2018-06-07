@@ -22,6 +22,7 @@ import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -101,7 +102,7 @@ public interface IApiService {
     @POST(ServiceConfig.CREATE_LEAGUE)
     Observable<BaseResponse<LeagueResponse>> createLeague(@Body RequestBody body);
 
-    @POST(ServiceConfig.UPDATE_LEAGUE)
+    @PUT(ServiceConfig.UPDATE_LEAGUE)
     Observable<BaseResponse<LeagueResponse>> updateLeague(@Path(ServiceConfig.KEY_LEAGUE_ID) int leagueId, @Body RequestBody body);
 
     @POST(ServiceConfig.CREATE_TEAM)

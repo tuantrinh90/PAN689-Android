@@ -3,6 +3,7 @@ package com.football.fantasy.fragments.leagues.action.setup_teams;
 import com.bon.util.StringUtils;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
+import com.football.fantasy.R;
 import com.football.listeners.ApiCallback;
 import com.football.models.requests.TeamRequest;
 import com.football.models.responses.TeamResponse;
@@ -33,6 +34,31 @@ public class SetupTeamDataPresenter extends BaseDataPresenter<ISetupTeamView> im
             } else {
                 create(request, "");
             }
+        });
+    }
+
+    @Override
+    public void invitationAccept(Integer leagueId) {
+        getOptView().doIfPresent(v -> {
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().invitationDecision(
+                            leagueId,
+                            new MultipartBody.Builder()
+                                    .setType(MultipartBody.FORM)
+                                    .addFormDataPart("status", String.valueOf(1))
+                                    .build()),
+                    new ApiCallback<Object>() {
+                        @Override
+                        public void onSuccess(Object o) {
+                            v.onInvitationAccept();
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            v.showMessage(error, R.string.ok, null);
+                        }
+                    }));
         });
     }
 

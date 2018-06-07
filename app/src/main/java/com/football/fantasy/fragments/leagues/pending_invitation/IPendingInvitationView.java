@@ -7,5 +7,8 @@ import java.util.List;
 
 public interface IPendingInvitationView extends IBaseMvpView {
     void notifyDataSetChanged(List<LeagueResponse> its);
+
     void removeItem(LeagueResponse leagueResponse);
+
+    void goCreateTeam(LeagueResponse league);
 }

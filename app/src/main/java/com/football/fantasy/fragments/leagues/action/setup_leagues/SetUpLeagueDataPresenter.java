@@ -157,7 +157,7 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
                 .addFormDataPart("logo", url);
 
         if (request.getLeagueId() > 0) {
-            builder.addFormDataPart("_method", "PUT");
+//            builder.addFormDataPart("_method", "PUT");
         }
         return builder;
     }

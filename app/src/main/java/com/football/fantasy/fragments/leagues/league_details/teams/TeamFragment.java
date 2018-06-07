@@ -131,7 +131,8 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
                                 league,
                                 null,
                                 mActivity.getTitleToolBar().getText().toString(),
-                                LeagueDetailFragment.MY_LEAGUES))
+                                LeagueDetailFragment.MY_LEAGUES,
+                                SetupTeamFragment.INVITATION_NONE))
                         .start(SetupTeamFragment.class);
                 mActivity.finish();
             }

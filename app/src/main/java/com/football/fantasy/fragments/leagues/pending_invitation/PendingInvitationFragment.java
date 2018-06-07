@@ -14,6 +14,7 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.events.LeagueEvent;
 import com.football.events.StopLeagueEvent;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.utilities.Constant;
@@ -118,7 +119,8 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
                         .parameters(LeagueDetailFragment.newBundle(getString(R.string.pending_invitation), details.getId(), LeagueDetailFragment.PENDING_LEAGUES))
                         .start(LeagueDetailFragment.class);
             }, approve -> {
-                presenter.invitationDecisions(approve, Constant.KEY_INVITATION_ACCEPT);
+//                presenter.invitationDecisions(approve, Constant.KEY_INVITATION_ACCEPT);
+                goCreateTeam(approve);
             }, reject -> {
                 presenter.invitationDecisions(reject, Constant.KEY_INVITATION_DECLINE);
             }, join -> {
@@ -182,5 +184,16 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
+    }
+
+    @Override
+    public void goCreateTeam(LeagueResponse league) {
+        AloneFragmentActivity.with(this)
+                .parameters(SetupTeamFragment.newBundle(
+                        league,
+                        null,
+                        mActivity.getTitleToolBar().getText().toString(),
+                        LeagueDetailFragment.OPEN_LEAGUES, SetupTeamFragment.INVITATION_ACCEPT))
+                .start(SetupTeamFragment.class);
     }
 }

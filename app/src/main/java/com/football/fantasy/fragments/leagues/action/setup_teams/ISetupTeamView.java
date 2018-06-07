@@ -6,4 +6,6 @@ public interface ISetupTeamView extends IBaseMvpView {
 
     void createTeamSuccess();
 
+    void onInvitationAccept();
+
 }

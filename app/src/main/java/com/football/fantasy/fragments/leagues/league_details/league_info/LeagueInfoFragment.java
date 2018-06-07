@@ -157,8 +157,13 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
 
     @OnClick(R.id.tvJoinLeague)
     void onClickJoinLeague() {
-        AloneFragmentActivity.with(this).parameters(SetupTeamFragment.newBundle(league, null,
-                mActivity.getTitleToolBar().getText().toString(), leagueType))
+        AloneFragmentActivity.with(this)
+                .parameters(SetupTeamFragment.newBundle(
+                        league,
+                        null,
+                        mActivity.getTitleToolBar().getText().toString(),
+                        leagueType,
+                        SetupTeamFragment.INVITATION_NONE))
                 .start(SetupTeamFragment.class);
         getActivity().finish();
     }
