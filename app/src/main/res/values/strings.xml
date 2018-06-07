@@ -193,7 +193,7 @@
     <string name="resend_forgot_success">@string/forgot_description_success</string>
     <string name="agreed_error">Please read and agree to the Term and Privacy policy by tapping on the checkbox</string>
     <string name="confirm_not_match">You must enter the same password twice in order to confirm it</string>
-    <string name="register_successful">You have successfully registered</string>
+    <string name="register_successful">You have successfully registered. Please check the email to activate your account!</string>
     <string name="message_confirm_leave_leagues">Are you sure you want to leave this league?</string>
 
     <!--app-->
