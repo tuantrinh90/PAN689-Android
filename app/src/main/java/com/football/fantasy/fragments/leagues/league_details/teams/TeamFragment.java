@@ -127,7 +127,10 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
 
             if (teams == null || teams.size() <= 0) {
                 AloneFragmentActivity.with(mActivity)
-                        .parameters(SetupTeamFragment.newBundle(league, null, mActivity.getTitleToolBar().getText().toString(),
+                        .parameters(SetupTeamFragment.newBundle(
+                                league,
+                                null,
+                                mActivity.getTitleToolBar().getText().toString(),
                                 LeagueDetailFragment.MY_LEAGUES))
                         .start(SetupTeamFragment.class);
                 mActivity.finish();
