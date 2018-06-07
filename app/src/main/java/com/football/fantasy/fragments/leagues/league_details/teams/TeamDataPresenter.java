@@ -64,7 +64,7 @@ public class TeamDataPresenter extends BaseDataPresenter<ITeamView> implements I
 
                         @Override
                         public void onSuccess(Object object) {
-                            v.removeSuccess(leagueId);
+                            v.removeSuccess(teamId);
                         }
 
                         @Override

@@ -136,7 +136,7 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
     }
 
     @Override
-    public void removeSuccess(int leagueId) {
+    public void removeSuccess(int teamId) {
         getTeams();
     }
 
