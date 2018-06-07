@@ -118,6 +118,7 @@ public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccesso
                         if (teamOptional.isPresent()) teamResponse = teamOptional.get();
                     }
 
+                    // leave league
                     DialogUtils.messageBox(mActivity, getString(R.string.app_name), getString(R.string.message_confirm_leave_leagues),
                             getString(R.string.ok), (dialog, which) -> presenter.leaveLeague(leagueId, teamResponse != null ? teamResponse.getId() : 0));
                     break;
@@ -138,15 +139,28 @@ public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccesso
         try {
             tvDone.setVisibility(teams == null || teams.size() <= 0 ? View.VISIBLE : View.INVISIBLE);
             Optional.from(rvRecyclerView).doIfPresent(rv -> rv.addNewItems(teams));
+            if (teams != null && teams.size() == 1 && teams.get(0).getOwner()) {
+                stopLeague();
+            }
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
+    }
+
+    private void stopLeague() {
+        DialogUtils.confirmBox(mActivity, getString(R.string.app_name), getString(R.string.stop_league_message), getString(R.string.yes),
+                getString(R.string.no), (dialog, which) -> presenter.stopLeague(leagueId));
     }
 
     @Override
     public void onLeaveLeague() {
         getActivity().setResult(Activity.RESULT_OK);
         getActivity().finish();
+    }
+
+    @Override
+    public void onStopLeague() {
+
     }
 
     @Override
@@ -159,4 +173,6 @@ public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccesso
             }
         });
     }
+
+
 }

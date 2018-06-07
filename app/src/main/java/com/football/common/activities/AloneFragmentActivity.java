@@ -127,6 +127,11 @@ public class AloneFragmentActivity extends BaseAppCompatActivity {
         return toolbar;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     /**
      * @param context
      * @return

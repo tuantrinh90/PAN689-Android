@@ -5,7 +5,10 @@ import com.football.models.responses.TeamResponse;
 
 import java.util.List;
 
-public interface ISuccessorView extends IBaseMvpView{
+public interface ISuccessorView extends IBaseMvpView {
     void displayTeams(List<TeamResponse> teams);
+
     void onLeaveLeague();
+
+    void onStopLeague();
 }

@@ -3,6 +3,7 @@ package com.football.fantasy.fragments.leagues.league_details.successor;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
+import com.football.models.responses.StopResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.utilities.RxUtilities;
 
@@ -74,6 +75,38 @@ public class SuccessorPresenter extends BaseDataPresenter<ISuccessorView> implem
                     v.showMessage(error);
                 }
             }));
+        });
+    }
+
+    @Override
+    public void stopLeague(int leagueId) {
+        getOptView().doIfPresent(v -> {
+            mCompositeDisposable.add(RxUtilities.async(v,
+                    dataModule.getApiService().stopLeague(leagueId, new MultipartBody.Builder()
+                            .setType(MultipartBody.FORM)
+                            .addFormDataPart("_method", "DELETE")
+                            .build()),
+                    new ApiCallback<StopResponse>() {
+                        @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
+
+                        @Override
+                        public void onSuccess(StopResponse response) {
+                            v.onLeaveLeague();
+                        }
+
+                        @Override
+                        public void onError(String e) {
+                            v.showMessage(e);
+                        }
+                    }));
         });
     }
 }

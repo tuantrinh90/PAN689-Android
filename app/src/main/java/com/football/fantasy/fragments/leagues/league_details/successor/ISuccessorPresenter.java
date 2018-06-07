@@ -7,4 +7,6 @@ public interface ISuccessorPresenter<V extends IBaseMvpView> extends IBaseDataPr
     void getTeams(int leagueId);
 
     void leaveLeague(int leagueId, int teamId);
+
+    void stopLeague(int leagueId);
 }
