@@ -73,6 +73,9 @@ public interface IApiService {
     @POST(ServiceConfig.INVITE_FRIEND)
     Observable<BaseResponse<InviteResponse>> inviteFriends(@Body RequestBody body);
 
+    @POST(ServiceConfig.LEAVE_LEAGUES)
+    Observable<BaseResponse<Object>> leaveLeagues(@Path("id") int leagueId, @Body RequestBody requestBody);
+
     @POST(ServiceConfig.STOP_LEAGUE)
     Observable<BaseResponse<StopResponse>> stopLeague(@Path(ServiceConfig.KEY_LEAGUE_ID) int leagueId, @Body RequestBody body);
 
@@ -104,6 +107,4 @@ public interface IApiService {
     @POST(ServiceConfig.CREATE_TEAM)
     Observable<BaseResponse<TeamResponse>> createTeam(@Body RequestBody body);
 
-    @POST(ServiceConfig.LEAVE_LEAGUES)
-    Observable<BaseResponse<Object>> leaveLeagues(@Path("id") int leagueId, @Body RequestBody requestBody);
 }

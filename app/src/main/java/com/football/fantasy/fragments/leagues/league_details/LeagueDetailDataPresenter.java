@@ -81,27 +81,29 @@ public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailVi
     @Override
     public void leaveLeague(int leagueId) {
         getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().leaveLeagues(leagueId, null), new ApiCallback<Object>() {
-                @Override
-                public void onStart() {
-                    v.showLoading(true);
-                }
+            mCompositeDisposable.add(RxUtilities.async(v,
+                    dataModule.getApiService().leaveLeagues(leagueId, null),
+                    new ApiCallback<Object>() {
+                        @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
 
-                @Override
-                public void onComplete() {
-                    v.showLoading(false);
-                }
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
 
-                @Override
-                public void onSuccess(Object o) {
-                    v.onLeaveLeague();
-                }
+                        @Override
+                        public void onSuccess(Object o) {
+                            v.onLeaveLeague();
+                        }
 
-                @Override
-                public void onError(String error) {
-                    v.showMessage(error);
-                }
-            }));
+                        @Override
+                        public void onError(String error) {
+                            v.showMessage(error);
+                        }
+                    }));
         });
     }
 }
