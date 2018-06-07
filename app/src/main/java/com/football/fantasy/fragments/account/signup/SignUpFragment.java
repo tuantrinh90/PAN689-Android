@@ -15,6 +15,7 @@ import com.bon.textstyle.TextViewLinkMovementMethod;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.fantasy.R;
+import com.football.fantasy.activities.AccountActivity;
 import com.football.models.requests.SignupRequest;
 import com.football.utilities.Constant;
 
@@ -126,5 +127,7 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
         etPassword.setContent("");
         etConfirmPassword.setContent("");
         cbAgreed.setChecked(false);
+
+        ((AccountActivity) mActivity).openSignin();
     }
 }

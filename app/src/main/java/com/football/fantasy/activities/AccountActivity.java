@@ -100,4 +100,8 @@ public class AccountActivity extends BaseAppCompatActivity {
             }
         }
     }
+
+    public void openSignin() {
+        vpViewPager.setCurrentItem(0);
+    }
 }

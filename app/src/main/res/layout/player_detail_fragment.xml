@@ -1,6 +1,532 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<com.bon.customview.scrollview.ExtScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/leagues_margin"
+        android:paddingRight="@dimen/leagues_margin">
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvHeader"
+            style="@style/StyleContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_supper_team"
+            android:textAllCaps="true"
+            app:textViewFontAssetName="@string/font_display_black_italic" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/llPosition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end">
+
+                <com.football.customizes.images.CircleImageViewApp
+                    android:id="@+id/ivAvatar"
+                    android:layout_width="@dimen/avatar_large"
+                    android:layout_height="@dimen/avatar_large" />
+
+                <com.bon.customview.textview.ExtTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@drawable/bg_red_radius"
+                    android:paddingBottom="@dimen/radius"
+                    android:paddingEnd="@dimen/padding_content"
+                    android:paddingStart="@dimen/padding_content"
+                    android:paddingTop="@dimen/radius"
+                    android:text="@string/entrants"
+                    android:textColor="@color/color_white"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.bon.customview.textview.ExtTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="250"
+                        android:textColor="@color/color_blue_start"
+                        android:textSize="@dimen/font_size_content"
+                        app:textViewFontAssetName="@string/font_display_bold" />
+
+                    <com.bon.customview.textview.ExtTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/points"
+                        android:textAllCaps="true"
+                        android:textColor="@color/color_black_selector"
+                        android:textSize="@dimen/font_size_description"
+                        app:textViewFontAssetName="@string/font_display_bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"
+                    android:orientation="vertical">
+
+                    <com.bon.customview.textview.ExtTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="250"
+                        android:textColor="@color/color_yellow_start"
+                        android:textSize="@dimen/font_size_content"
+                        app:textViewFontAssetName="@string/font_display_bold" />
+
+                    <com.bon.customview.textview.ExtTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/transfer_value"
+                        android:textAllCaps="true"
+                        android:textColor="@color/color_black_selector"
+                        android:textSize="@dimen/font_size_description"
+                        app:textViewFontAssetName="@string/font_display_bold" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </FrameLayout>
+
+
+        <com.bon.customview.shadowlayout.ShadowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_layout"
+            android:layout_marginTop="@dimen/padding_layout"
+            app:shadowLayoutCornerRadius="@dimen/component_radius"
+            app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+            app:shadowLayoutShadowColor="@color/color_shadow">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_button_green"
+                android:paddingBottom="@dimen/padding_layout"
+                android:paddingLeft="@dimen/activity_vertical_margin"
+                android:paddingRight="@dimen/activity_vertical_margin"
+                android:paddingTop="@dimen/padding_layout">
+
+                <com.bon.customview.textview.ExtTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/avg_5_games"
+                    android:textAllCaps="true"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/font_size_description"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+
+            </FrameLayout>
+        </com.bon.customview.shadowlayout.ShadowLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/fab_margin"
+            android:paddingTop="@dimen/fab_margin">
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/goals"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="5"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_regular" />
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line"
+            android:background="@color/color_gray" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/fab_margin"
+            android:paddingTop="@dimen/fab_margin">
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/assists"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="5"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_regular" />
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line"
+            android:background="@color/color_gray" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/fab_margin"
+            android:paddingTop="@dimen/fab_margin">
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/clean_sheet"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="5"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_regular" />
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line"
+            android:background="@color/color_gray" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/fab_margin"
+            android:paddingTop="@dimen/fab_margin">
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/duels_they_win"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="5"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_regular" />
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line"
+            android:background="@color/color_gray" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/fab_margin"
+            android:paddingTop="@dimen/fab_margin">
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/passes"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="5"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_regular" />
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line"
+            android:background="@color/color_gray" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/fab_margin"
+            android:paddingTop="@dimen/fab_margin">
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/shots"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="5"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_regular" />
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line"
+            android:background="@color/color_gray" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/fab_margin"
+            android:paddingTop="@dimen/fab_margin">
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/saves"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="5"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_regular" />
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line"
+            android:background="@color/color_gray" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/fab_margin"
+            android:paddingTop="@dimen/fab_margin">
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/yellow_cards"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="5"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_regular" />
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line"
+            android:background="@color/color_gray" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/fab_margin"
+            android:paddingTop="@dimen/fab_margin">
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dribbles"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="5"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_regular" />
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line"
+            android:background="@color/color_gray" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/fab_margin"
+            android:paddingTop="@dimen/fab_margin">
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/balls_recovered"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="5"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_regular" />
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line"
+            android:background="@color/color_gray" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/fab_margin"
+            android:paddingTop="@dimen/fab_margin">
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fouls_committed"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="5"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_regular" />
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line"
+            android:background="@color/color_gray" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/fab_margin"
+            android:paddingTop="@dimen/fab_margin">
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/shots"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="5"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_regular" />
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line"
+            android:background="@color/color_gray" />
+    </LinearLayout>
+
+</com.bon.customview.scrollview.ExtScrollView>

@@ -221,6 +221,19 @@
     <string name="a_z">A-Z</string>
     <string name="join_league">Join league</string>
     <string name="lineup_my_team">Lineup my team</string>
+    <string name="transfer_value">Transfer value</string>
+    <string name="avg_5_games">Avg. of last 5 games</string>
+    <string name="goals">goals</string>
+    <string name="assists">Assists</string>
+    <string name="clean_sheet">Clean sheet</string>
+    <string name="duels_they_win">Duels they win</string>
+    <string name="passes">Passes</string>
+    <string name="shots">Shots</string>
+    <string name="saves">Saves</string>
+    <string name="yellow_cards">Yellow cards</string>
+    <string name="dribbles">Dribbles</string>
+    <string name="balls_recovered">balls recovered</string>
+    <string name="fouls_committed">Fouls committed</string>
 
 
 </resources>
