@@ -123,7 +123,7 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
 
             // line up my team
             if (league.getStatus() == LeagueResponse.WAITING_FOR_START) {
-                tvSetupTeam.setText(R.string.team_setup_time);
+                tvSetupTeam.setText(R.string.setup_team);
             }
 
             if (league.getStatus() == LeagueResponse.ON_GOING) {
