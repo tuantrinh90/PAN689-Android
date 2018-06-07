@@ -33,7 +33,7 @@ import java8.util.function.Consumer;
  */
 @SuppressWarnings("ALL")
 public class ExtPagingListView<T> extends FrameLayout {
-    public static int NUMBER_PER_PAGE = 20;
+    public static int NUMBER_PER_PAGE = 5;
 
     // view
     SwipeRefreshLayout rfLayout;
