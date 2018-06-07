@@ -130,7 +130,7 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
                         .parameters(SetupTeamFragment.newBundle(league, null, mActivity.getTitleToolBar().getText().toString(),
                                 LeagueDetailFragment.MY_LEAGUES))
                         .start(SetupTeamFragment.class);
-                getActivity().finish();
+                mActivity.finish();
             }
         });
     }
