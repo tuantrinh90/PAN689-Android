@@ -29,9 +29,11 @@
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_gravity="end"
-            android:background="@drawable/bg_player_remove"
+            android:background="@drawable/bg_circle_red"
             android:clickable="true"
-            android:focusable="true" />
+            android:focusable="true"
+            android:padding="3dp"
+            android:src="@drawable/ic_remove_small" />
 
     </FrameLayout>
 
