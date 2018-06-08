@@ -3,7 +3,6 @@ package com.football.fantasy.fragments.leagues.league_details;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -33,6 +32,7 @@ import com.football.fantasy.fragments.leagues.league_details.successor.Successor
 import com.football.fantasy.fragments.leagues.league_details.teams.TeamFragment;
 import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.LeagueResponse;
+import com.football.models.responses.TeamResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,8 +71,9 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
     String title;
     int leagueId;
     String leagueType;
+    List<TeamResponse> teamResponses;
 
-    LeagueResponse league;
+    LeagueResponse leagueResponse;
     LeagueDetailViewPagerAdapter leagueDetailViewPagerAdapter;
     List<ExtKeyValuePair> valuePairs = new ArrayList<>();
 
@@ -118,7 +119,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
     @OnClick(R.id.ivMenu)
     void onClickMenu() {
         try {
-            if (league == null) return;
+            if (leagueResponse == null) return;
 
             ExtKeyValuePairDialogFragment.newInstance()
                     .setValue("")
@@ -128,15 +129,15 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
                             // edit
                             if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.edit))) {
                                 AloneFragmentActivity.with(LeagueDetailFragment.this)
-                                        .parameters(SetUpLeagueFragment.newBundle(league, title, leagueType))
+                                        .parameters(SetUpLeagueFragment.newBundle(leagueResponse, title, leagueType))
                                         .start(SetUpLeagueFragment.class);
                             }
 
                             // leave
                             if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.leave))) {
-                                if (league.getOwner()) {
+                                if (leagueResponse.getOwner() && teamResponses != null && teamResponses.size() > 0) {
                                     AloneFragmentActivity.with(LeagueDetailFragment.this)
-                                            .parameters(SuccessorFragment.newBundle(leagueId))
+                                            .parameters(SuccessorFragment.newBundle(leagueResponse))
                                             .forResult(SuccessorFragment.REQUEST_CODE)
                                             .start(SuccessorFragment.class);
                                 } else {
@@ -164,14 +165,19 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
         try {
             ivMenu.setVisibility(View.GONE);
 
-            // update league
-            league = l;
+            // update leagueResponse
+            leagueResponse = l;
             List<Carousel> carousels = new ArrayList<>();
             carousels.add(new Carousel(getString(R.string.league_information), true));
             carousels.add(new Carousel(getString(R.string.teams), false));
+
             // only display invite with open leagues or owner
-            if (league.getLeagueType().equalsIgnoreCase(LeagueRequest.LEAGUE_TYPE_OPEN) || league.getOwner()) {
+            if (leagueResponse.getOwner()) {
                 carousels.add(new Carousel(getString(R.string.invite_friend), false));
+            } else {
+                if (leagueResponse.getLeagueType().equalsIgnoreCase(LeagueRequest.LEAGUE_TYPE_OPEN) && leagueResponse.getIsJoined()) {
+                    carousels.add(new Carousel(getString(R.string.invite_friend), false));
+                }
             }
 
             // carousel view
@@ -182,19 +188,18 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
                         vpViewPager.setCurrentItem(position);
                     });
 
-
             // owner
-            if (league.getOwner()) {
+            if (leagueResponse.getOwner()) {
                 valuePairs.add(new ExtKeyValuePair("", getString(R.string.edit), ContextCompat.getColor(mActivity, R.color.color_blue)));
             }
 
             // my leagues or owner
-            if (leagueType.equalsIgnoreCase(MY_LEAGUES) || league.getOwner()) {
+            if (leagueResponse.getIsJoined() || leagueResponse.getOwner()) {
                 valuePairs.add(new ExtKeyValuePair("", getString(R.string.leave), ContextCompat.getColor(mActivity, R.color.color_blue)));
             }
 
-            // only owner league has stop leagues
-            if (league.getOwner()) {
+            // only owner leagueResponse has stop leagues
+            if (leagueResponse.getOwner()) {
                 valuePairs.add(new ExtKeyValuePair("", getString(R.string.stop_league), ContextCompat.getColor(mActivity, R.color.color_red)));
             }
 
@@ -202,13 +207,21 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
             ivMenu.setVisibility(valuePairs.size() > 0 ? View.VISIBLE : View.GONE);
 
             // load info
-            Optional.from(tvTitle).doIfPresent(t -> t.setText(league.getName()));
+            Optional.from(tvTitle).doIfPresent(t -> t.setText(leagueResponse.getName()));
 
+            // view pager
             List<BaseMvpFragment> mvpFragments = new ArrayList<>();
-            mvpFragments.add(LeagueInfoFragment.newInstance(league, leagueType).setChildFragment(true));
-            mvpFragments.add(TeamFragment.newInstance(league, leagueType).setChildFragment(true));
-            if (league.getLeagueType().equalsIgnoreCase(LeagueRequest.LEAGUE_TYPE_OPEN) || league.getOwner()) {
-                mvpFragments.add(InviteFriendFragment.newInstance(league.getId(), leagueType).setChildFragment(true));
+            mvpFragments.add(LeagueInfoFragment.newInstance(leagueResponse, leagueType).setChildFragment(true));
+            mvpFragments.add(TeamFragment.newInstance(leagueResponse, leagueType).setChildFragment(true));
+
+
+            // only display invite with open leagues or owner
+            if (leagueResponse.getOwner()) {
+                mvpFragments.add(InviteFriendFragment.newInstance(leagueResponse.getId(), leagueType).setChildFragment(true));
+            } else {
+                if (leagueResponse.getLeagueType().equalsIgnoreCase(LeagueRequest.LEAGUE_TYPE_OPEN) && leagueResponse.getIsJoined()) {
+                    mvpFragments.add(InviteFriendFragment.newInstance(leagueResponse.getId(), leagueType).setChildFragment(true));
+                }
             }
 
             // adapter

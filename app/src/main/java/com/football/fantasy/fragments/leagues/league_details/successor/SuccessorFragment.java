@@ -15,6 +15,7 @@ import com.bon.util.DialogUtils;
 import com.football.adapters.SuccessorAdapter;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.fantasy.R;
+import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
 
 import java.util.List;
@@ -26,11 +27,12 @@ import java8.util.stream.StreamSupport;
 public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccessorPresenter<ISuccessorView>> implements ISuccessorView {
     static final String TAG = SuccessorFragment.class.getSimpleName();
     public static final int REQUEST_CODE = 100;
-    static final String KEY_LEAGUE_ID = "key_leagues_id";
 
-    public static Bundle newBundle(int leagueId) {
+    static final String KEY_LEAGUE = "key_leagues";
+
+    public static Bundle newBundle(LeagueResponse leagueResponse) {
         Bundle bundle = new Bundle();
-        bundle.putInt(KEY_LEAGUE_ID, leagueId);
+        bundle.putSerializable(KEY_LEAGUE, leagueResponse);
         return bundle;
     }
 
@@ -44,8 +46,7 @@ public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccesso
     List<TeamResponse> teamResponses;
     SuccessorAdapter successorAdapter;
     TeamResponse teamResponse;
-
-    int leagueId;
+    LeagueResponse leagueResponse;
 
     @Override
     public int getResourceId() {
@@ -61,8 +62,7 @@ public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccesso
     }
 
     void getDataFromBundle() {
-        if (getArguments() == null) return;
-        leagueId = getArguments().getInt(KEY_LEAGUE_ID);
+        leagueResponse = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
     }
 
     void initView() {
@@ -89,11 +89,11 @@ public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccesso
             rvRecyclerView.init(mActivity, successorAdapter)
                     .setOnExtRefreshListener(() -> {
                         rvRecyclerView.clearItems();
-                        presenter.getTeams(leagueId);
+                        presenter.getTeams(leagueResponse.getId());
                     });
 
             // load data
-            presenter.getTeams(leagueId);
+            presenter.getTeams(leagueResponse.getId());
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
@@ -120,7 +120,7 @@ public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccesso
 
                     // leave league
                     DialogUtils.messageBox(mActivity, getString(R.string.app_name), getString(R.string.message_confirm_leave_leagues),
-                            getString(R.string.ok), (dialog, which) -> presenter.leaveLeague(leagueId, teamResponse != null ? teamResponse.getId() : 0));
+                            getString(R.string.ok), (dialog, which) -> presenter.leaveLeague(leagueResponse.getId(), teamResponse != null ? teamResponse.getId() : 0));
                     break;
             }
         } catch (Exception e) {
@@ -139,28 +139,15 @@ public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccesso
         try {
             tvDone.setVisibility(teams == null || teams.size() <= 0 ? View.VISIBLE : View.INVISIBLE);
             Optional.from(rvRecyclerView).doIfPresent(rv -> rv.addNewItems(teams));
-            if (teams != null && teams.size() == 1 && teams.get(0).getOwner()) {
-                stopLeague();
-            }
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
-    }
-
-    private void stopLeague() {
-        DialogUtils.confirmBox(mActivity, getString(R.string.app_name), getString(R.string.stop_league_message), getString(R.string.yes),
-                getString(R.string.no), (dialog, which) -> presenter.stopLeague(leagueId));
     }
 
     @Override
     public void onLeaveLeague() {
         getActivity().setResult(Activity.RESULT_OK);
         getActivity().finish();
-    }
-
-    @Override
-    public void onStopLeague() {
-
     }
 
     @Override
@@ -173,6 +160,4 @@ public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccesso
             }
         });
     }
-
-
 }

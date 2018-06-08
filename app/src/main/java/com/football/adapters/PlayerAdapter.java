@@ -25,7 +25,7 @@ public class PlayerAdapter extends ExtBaseAdapter<PlayerResponse, PlayerAdapter.
 
     @Override
     protected int getViewId() {
-        return R.layout.player_item;
+        return R.layout.player_pool_item;
     }
 
     @Override

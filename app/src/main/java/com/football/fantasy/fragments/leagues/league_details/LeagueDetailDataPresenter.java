@@ -82,7 +82,9 @@ public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailVi
     public void leaveLeague(int leagueId) {
         getOptView().doIfPresent(v -> {
             mCompositeDisposable.add(RxUtilities.async(v,
-                    dataModule.getApiService().leaveLeagues(leagueId, null),
+                    dataModule.getApiService().leaveLeagues(leagueId, new MultipartBody.Builder()
+                            .setType(MultipartBody.FORM)
+                            .addFormDataPart("team_id", "0").build()),
                     new ApiCallback<Object>() {
                         @Override
                         public void onStart() {

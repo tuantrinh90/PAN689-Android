@@ -158,8 +158,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
                                 join,
                                 null,
                                 getString(R.string.open_leagues),
-                                LeagueDetailFragment.OPEN_LEAGUES,
-                                SetupTeamFragment.INVITATION_NONE))
+                                LeagueDetailFragment.OPEN_LEAGUES))
                         .start(SetupTeamFragment.class);
             });
             rvRecyclerView.init(mActivity, leaguesAdapter)

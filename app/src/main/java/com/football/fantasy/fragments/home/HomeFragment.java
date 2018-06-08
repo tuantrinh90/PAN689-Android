@@ -29,6 +29,8 @@ import com.football.fantasy.R;
 import com.football.fantasy.activities.MainActivity;
 import com.football.fantasy.fragments.leagues.action.setup_leagues.SetUpLeagueFragment;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
+import com.football.fantasy.fragments.leagues.player_pool.PlayerPoolFragment;
+import com.football.fantasy.fragments.leagues.team_statistics.TeamStatisticFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.NewsResponse;
 
@@ -168,8 +170,8 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
             SnapHelper gravitySnapHelper = new LinearSnapHelper();
             gravitySnapHelper.attachToRecyclerView(rvMyLeagues);
 
-            // load my leagues
-            presenter.getMyLeagues(1, ExtPagingListView.NUMBER_PER_PAGE);
+            // load my leagues, only display 5 records
+            presenter.getMyLeagues(1, 5);
 
             // load news
             presenter.getNews(1, ExtPagingListView.NUMBER_PER_PAGE);
@@ -186,9 +188,13 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
 
     @OnClick(R.id.tvCreateLeagues)
     void onClickCreateLeagues() {
+//        AloneFragmentActivity.with(this)
+//                .parameters(SetUpLeagueFragment.newBundle(null, getString(R.string.home), LeagueDetailFragment.MY_LEAGUES))
+//                .start(SetUpLeagueFragment.class);
+
         AloneFragmentActivity.with(this)
-                .parameters(SetUpLeagueFragment.newBundle(null, getString(R.string.home), LeagueDetailFragment.MY_LEAGUES))
-                .start(SetUpLeagueFragment.class);
+                .start(PlayerPoolFragment.class);
+
     }
 
     @OnClick(R.id.tvJoinLeagues)

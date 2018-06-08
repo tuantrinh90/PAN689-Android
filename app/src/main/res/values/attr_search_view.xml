@@ -2,5 +2,6 @@
 <resources>
     <declare-styleable name="SearchView">
         <attr name="searchViewHint" format="reference" />
+        <attr name="searchViewVisibleFilter" format="boolean" />
     </declare-styleable>
 </resources>
