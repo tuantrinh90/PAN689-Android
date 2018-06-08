@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="StatisticView">
+        <attr name="sv_playerCount" format="integer" />
+        <attr name="sv_position" format="enum">
+            <enum name="goalkeeper" value="0" />
+            <enum name="defender" value="1" />
+            <enum name="midfielder" value="2" />
+            <enum name="attacker" value="3" />
+        </attr>
+    </declare-styleable>
+</resources>

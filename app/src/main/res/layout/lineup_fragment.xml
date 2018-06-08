@@ -18,9 +18,10 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/padding_layout"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/padding_layout"
+                android:paddingRight="@dimen/padding_layout">
 
                 <com.bon.customview.textview.ExtTextView
                     style="@style/StyleDescription"
@@ -46,76 +47,34 @@
                 android:layout_height="wrap_content"
                 android:background="@color/color_background_edit_text_focused"
                 android:paddingBottom="10dp"
+                android:paddingLeft="@dimen/padding_layout"
+                android:paddingRight="@dimen/padding_layout"
                 android:paddingTop="10dp"
                 app:justifyContent="space_evenly">
 
-                <FrameLayout
+                <com.football.customizes.lineup.StatisticView
+                    android:id="@+id/svGoalkeeper"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:sv_position="goalkeeper" />
 
-                    <com.bon.customview.textview.ExtTextView
-                        style="@style/StylePlayerPosition"
-                        android:background="@drawable/bg_player_position_g"
-                        android:text="G"
-                        app:textViewFontAssetName="@string/font_display_bold" />
-
-                    <com.bon.customview.textview.ExtTextView
-                        style="@style/StylePlayerBubble"
-                        android:text="2"
-                        app:textViewFontAssetName="@string/font_display_bold" />
-
-                </FrameLayout>
-
-                <FrameLayout
+                <com.football.customizes.lineup.StatisticView
+                    android:id="@+id/svDefender"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:sv_position="defender" />
 
-                    <com.bon.customview.textview.ExtTextView
-                        style="@style/StylePlayerPosition"
-                        android:background="@drawable/bg_player_position_d"
-                        android:text="D"
-                        app:textViewFontAssetName="@string/font_display_bold" />
-
-                    <com.bon.customview.textview.ExtTextView
-                        style="@style/StylePlayerBubble"
-                        android:text="123"
-                        app:textViewFontAssetName="@string/font_display_bold" />
-
-                </FrameLayout>
-
-                <FrameLayout
+                <com.football.customizes.lineup.StatisticView
+                    android:id="@+id/svMidfielder"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:sv_position="midfielder" />
 
-                    <com.bon.customview.textview.ExtTextView
-                        style="@style/StylePlayerPosition"
-                        android:background="@drawable/bg_player_position_m"
-                        android:text="M"
-                        app:textViewFontAssetName="@string/font_display_bold" />
-
-                    <com.bon.customview.textview.ExtTextView
-                        style="@style/StylePlayerBubble"
-                        android:text="123"
-                        app:textViewFontAssetName="@string/font_display_bold" />
-
-                </FrameLayout>
-
-                <FrameLayout
+                <com.football.customizes.lineup.StatisticView
+                    android:id="@+id/svAttacker"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <com.bon.customview.textview.ExtTextView
-                        style="@style/StylePlayerPosition"
-                        android:background="@drawable/bg_player_position_a"
-                        android:text="A"
-                        app:textViewFontAssetName="@string/font_display_bold" />
-
-                    <com.bon.customview.textview.ExtTextView
-                        style="@style/StylePlayerBubble"
-                        android:text="123"
-                        app:textViewFontAssetName="@string/font_display_bold" />
-
-                </FrameLayout>
+                    android:layout_height="wrap_content"
+                    app:sv_position="attacker" />
 
             </com.google.android.flexbox.FlexboxLayout>
 

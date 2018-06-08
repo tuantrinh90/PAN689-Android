@@ -1,10 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="@dimen/padding_layout">
+    android:orientation="vertical">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/padding_layout"
+        android:paddingRight="@dimen/padding_layout">
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/team_setup_time"
+            android:textAllCaps="true"
+            app:textViewFontAssetName="@string/font_display_bold" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvSetupTime"
+            style="@style/StyleDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            tools:text="32132" />
+    </TableRow>
+
+    <com.football.customizes.searchs.SearchView
+        android:id="@+id/svSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/padding_layout"
+        android:paddingRight="@dimen/padding_layout" />
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/player_position_margin"
+        android:paddingLeft="@dimen/padding_layout"
+        android:paddingRight="@dimen/padding_layout"
+        android:paddingTop="@dimen/player_position_margin"
+        app:alignContent="space_around"
+        app:justifyContent="space_around">
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvAll"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/player_position_size"
+            android:layout_marginBottom="@dimen/player_position_margin"
+            android:layout_marginTop="@dimen/player_position_margin"
+            android:background="@drawable/bg_white_gray_radius"
+            android:gravity="center"
+            android:paddingLeft="@dimen/padding_layout"
+            android:paddingRight="@dimen/padding_layout"
+            android:text="ALL"
+            app:textViewFontAssetName="@string/font_display_bold" />
+
+        <com.football.customizes.lineup.StatisticView
+            android:id="@+id/svGoalkeeper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:sv_position="goalkeeper" />
+
+        <com.football.customizes.lineup.StatisticView
+            android:id="@+id/svDefender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:sv_position="defender" />
+
+        <com.football.customizes.lineup.StatisticView
+            android:id="@+id/svMidfielder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:sv_position="midfielder" />
+
+        <com.football.customizes.lineup.StatisticView
+            android:id="@+id/svAttacker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:sv_position="attacker" />
+
+    </com.google.android.flexbox.FlexboxLayout>
 
     <com.bon.customview.listview.ExtPagingListView
         android:id="@+id/rvRecyclerView"

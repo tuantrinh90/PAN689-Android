@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.bon.customview.textview.ExtTextView
+        android:id="@+id/tvPosition"
+        style="@style/StylePlayerPosition"
+        android:background="@drawable/bg_player_position_g"
+        android:text="G"
+        app:textViewFontAssetName="@string/font_display_bold" />
+
+    <com.bon.customview.textview.ExtTextView
+        android:id="@+id/tvCount"
+        style="@style/StylePlayerBubble"
+        android:text="2"
+        app:textViewFontAssetName="@string/font_display_bold" />
+
+</FrameLayout>

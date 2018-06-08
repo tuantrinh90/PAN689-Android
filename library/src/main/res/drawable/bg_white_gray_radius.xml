@@ -9,6 +9,6 @@
 
     <stroke
         android:width="@dimen/size_border"
-        android:color="@color/color_border"></stroke>
+        android:color="@color/color_border" />
 
 </shape>

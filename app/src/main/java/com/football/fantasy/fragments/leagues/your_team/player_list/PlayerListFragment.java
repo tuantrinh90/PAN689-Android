@@ -31,10 +31,11 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
         return new PlayerListFragment();
     }
 
+    @BindView(R.id.svSearch)
+    SearchView svSearchView;
     @BindView(R.id.rvRecyclerView)
     ExtPagingListView rvRecyclerView;
 
-    SearchView svSearchView;
     List<PlayerResponse> playerResponses;
     PlayerAdapter playerAdapter;
 
@@ -57,21 +58,7 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
     void initView() {
         try {
             // search view
-            DisplayMetrics displayMetrics = GeneralUtils.getDisplayMetrics(mActivity);
-            int paddingLayout = getResources().getDimensionPixelSize(R.dimen.padding_layout);
-            int marginLayout = getResources().getDimensionPixelOffset(R.dimen.leagues_margin);
-
-            svSearchView = new SearchView(mActivity);
-            AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(displayMetrics.widthPixels - paddingLayout * 2,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
-            svSearchView.setPadding(marginLayout, 0, marginLayout, marginLayout);
             svSearchView.getFilter().setImageResource(R.drawable.ic_filter_list_black_24_px);
-
-            //layoutParams.gravity = Gravity.CENTER;
-            svSearchView.setLayoutParams(layoutParams);
-
-            // add search view to header
-            rvRecyclerView.getListView().addHeaderView(svSearchView);
 
             // update hint
             svSearchView.getSearchView().setHint(R.string.search_public_players);
