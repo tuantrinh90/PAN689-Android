@@ -1,85 +1,127 @@
 package com.football.models.responses;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 
 public class PlayerResponse implements Serializable {
-    String avatar;
-    String name;
-    String point;
-    String positionPrimary;
-    String positionSecond;
-    String status;
 
-    public PlayerResponse() {
+    @JsonProperty("id")
+    private Integer id;
+    @JsonProperty("created_at")
+    private String createdAt;
+    @JsonProperty("updated_at")
+    private String updatedAt;
+    @JsonProperty("real_club_id")
+    private Integer realClubId;
+    @JsonProperty("real_club")
+    private RealClub realClub;
+    @JsonProperty("name")
+    private String name;
+    @JsonProperty("nickname")
+    private String nickname;
+    @JsonProperty("photo")
+    private String photo;
+    @JsonProperty("is_injured")
+    private Boolean isInjured;
+    @JsonProperty("is_goalkeeper")
+    private Boolean isGoalkeeper;
+    @JsonProperty("is_defender")
+    private Boolean isDefender;
+    @JsonProperty("is_midfielder")
+    private Boolean isMidfielder;
+    @JsonProperty("is_attacker")
+    private Boolean isAttacker;
+    @JsonProperty("main_position")
+    private Integer mainPosition;
+    @JsonProperty("minor_position")
+    private Integer minorPosition;
+    @JsonProperty("transfer_value")
+    private Integer transferValue;
+
+    public Integer getId() {
+        return id;
     }
 
-    public PlayerResponse(String avatar, String name, String point, String positionPrimary,
-                          String positionSecond, String status) {
-        this.avatar = avatar;
-        this.name = name;
-        this.point = point;
-        this.positionPrimary = positionPrimary;
-        this.positionSecond = positionSecond;
-        this.status = status;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public String getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public Integer getRealClubId() {
+        return realClubId;
+    }
+
+    public RealClub getRealClub() {
+        return realClub;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getNickname() {
+        return nickname;
     }
 
-    public String getPoint() {
-        return point;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setPoint(String point) {
-        this.point = point;
+    public Boolean getInjured() {
+        return isInjured;
     }
 
-    public String getPositionPrimary() {
-        return positionPrimary;
+    public Boolean getGoalkeeper() {
+        return isGoalkeeper;
     }
 
-    public void setPositionPrimary(String positionPrimary) {
-        this.positionPrimary = positionPrimary;
+    public Boolean getDefender() {
+        return isDefender;
     }
 
-    public String getPositionSecond() {
-        return positionSecond;
+    public Boolean getMidfielder() {
+        return isMidfielder;
     }
 
-    public void setPositionSecond(String positionSecond) {
-        this.positionSecond = positionSecond;
+    public Boolean getAttacker() {
+        return isAttacker;
     }
 
-    public String getStatus() {
-        return status;
+    public Integer getMainPosition() {
+        return mainPosition;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public Integer getMinorPosition() {
+        return minorPosition;
     }
 
-    @Override
-    public String toString() {
-        return "PlayerResponse{" +
-                "avatar='" + avatar + '\'' +
-                ", name='" + name + '\'' +
-                ", point='" + point + '\'' +
-                ", positionPrimary='" + positionPrimary + '\'' +
-                ", positionSecond='" + positionSecond + '\'' +
-                ", status='" + status + '\'' +
-                '}';
+    public Integer getTransferValue() {
+        return transferValue;
+    }
+
+    public PlayerResponse() {
+    }
+
+    public static class RealClub {
+
+        @JsonProperty("id")
+        private Integer id;
+        @JsonProperty("name")
+        private String name;
+
+        public RealClub() {
+        }
+
+        public Integer getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
     }
 }

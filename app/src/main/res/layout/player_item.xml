@@ -14,29 +14,40 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/padding_content"
-        android:gravity="center"
         android:layout_weight="1"
+        android:gravity="center"
         android:orientation="vertical"
         android:padding="@dimen/padding_layout">
 
-        <com.bon.customview.textview.ExtTextView
-            android:id="@+id/tvDay"
-            style="@style/StyleTitleBlue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="0dp"
-            app:textViewFontAssetName="@string/font_display_heavy"
-            tools:text="@string/app_name" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivAvatar"
+            android:layout_width="@dimen/player_position_size"
+            android:layout_height="@dimen/player_position_size"
+            android:src="@drawable/ic_player_sample" />
 
-        <com.bon.customview.textview.ExtTextView
-            android:id="@+id/tvMonth"
-            style="@style/StyleDescriptionGray"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="0dp"
-            app:textViewFontAssetName="@string/font_display_heavy"
-            tools:text="@string/app_name" />
+            android:layout_height="wrap_content">
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_content"
+                android:paddingRight="@dimen/padding_content"
+                android:text="A"
+                android:textColor="@color/color_black"
+                app:textViewFontAssetName="@string/font_display_heavy" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_content"
+                android:paddingRight="@dimen/padding_content"
+                android:text="A"
+                android:textColor="@color/color_black"
+                app:textViewFontAssetName="@string/font_display_heavy" />
+
+        </LinearLayout>
     </LinearLayout>
 
     <View

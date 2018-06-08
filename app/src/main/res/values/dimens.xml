@@ -86,6 +86,6 @@
     <dimen name="player_border">1dp</dimen>
     <dimen name="player_position_size">35dp</dimen>
     <dimen name="player_position_margin">10dp</dimen>
-    <dimen name="player_bubble_width">20dp</dimen>
-    <dimen name="player_bubble_height">20dp</dimen>
+    <dimen name="player_bubble_width">24dp</dimen>
+    <dimen name="player_bubble_height">24dp</dimen>
 </resources>

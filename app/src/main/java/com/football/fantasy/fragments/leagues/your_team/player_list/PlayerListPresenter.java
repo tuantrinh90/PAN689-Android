@@ -4,7 +4,6 @@ import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
 import com.football.models.PagingResponse;
-import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.utilities.RxUtilities;
 
@@ -18,9 +17,11 @@ public class PlayerListPresenter extends BaseDataPresenter<IPlayerListView> impl
     }
 
     @Override
-    public void getPlayers(String orderBy, int page, int perPage, String query) {
+    public void getPlayers(String orderBy, int page, int perPage, String query, String mainPosition) {
         getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().getPlayerList(orderBy, page, perPage, query),
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().getPlayerList(orderBy, page, perPage, query, mainPosition),
                     new ApiCallback<PagingResponse<PlayerResponse>>() {
                         @Override
                         public void onStart() {

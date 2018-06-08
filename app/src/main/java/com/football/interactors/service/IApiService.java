@@ -90,7 +90,7 @@ public interface IApiService {
     @GET(ServiceConfig.PLAYERS)
     Observable<BaseResponse<PagingResponse<PlayerResponse>>> getPlayerList(@Query(Constant.KEY_ORDER_BY) String orderBy, @Query(Constant.KEY_PAGE) int page,
                                                                            @Query(Constant.KEY_PER_PAGE) int perPage,
-                                                                           @Query("name") String query);
+                                                                           @Query(Constant.KEY_WORD) String query, @Query(Constant.KEY_MAIN_POSITION) String mainPosition);
 
     @GET(ServiceConfig.FORM_OPTIONS)
     Observable<BaseResponse<FormResponse>> getFormOption(@Path(ServiceConfig.KEY_LEAGUE_ID) int leagueId);

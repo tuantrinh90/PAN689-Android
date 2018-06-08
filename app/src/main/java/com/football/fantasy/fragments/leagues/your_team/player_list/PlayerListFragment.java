@@ -4,16 +4,12 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
-import android.widget.AbsListView;
 
 import com.bon.customview.listview.ExtPagingListView;
 import com.bon.interfaces.Optional;
 import com.bon.logger.Logger;
-import com.bon.util.GeneralUtils;
 import com.football.adapters.PlayerAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.searchs.SearchView;
@@ -42,6 +38,7 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
     String orderBy = "desc";
     int page = 1;
     String query = "";
+    String mainPosition = "";
 
     @Override
     public int getResourceId() {
@@ -76,16 +73,16 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
             rvRecyclerView.init(mActivity, playerAdapter)
                     .setOnExtLoadMoreListener(() -> {
                         page++;
-//                        presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+                        presenter.getPlayers(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition);
                     })
                     .setOnExtRefreshListener(() -> Optional.from(rvRecyclerView).doIfPresent(rv -> {
                         page = 1;
                         rv.clearItems();
-//                        presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+                        presenter.getPlayers(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition);
                     }));
 
             // load data
-            presenter.getPlayers(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+            presenter.getPlayers(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition);
         } catch (Resources.NotFoundException e) {
             Logger.e(TAG, e);
         }
@@ -102,9 +99,8 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
             orderBy = orderBy.equalsIgnoreCase("desc") ? "asc" : "desc";
             svSearchView.getFilter().animate().rotation(orderBy.equalsIgnoreCase("desc") ? 0 : 180)
                     .setDuration(500).setInterpolator(new LinearInterpolator()).start();
-            rv.clearItems();
-            page = 1;
-            presenter.getPlayers(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+
+
         });
     }
 
@@ -113,7 +109,7 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
             query = q;
             rv.clearItems();
             page = 1;
-            presenter.getPlayers(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+            presenter.getPlayers(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition);
         });
     }
 

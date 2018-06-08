@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,8 @@ public class StatisticView extends FrameLayout {
             Position.MIDFIELDER, Position.ATTACKER})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Position {
+
+        int NONE = -1;
 
         int GOALKEEPER = 0;
 
@@ -88,6 +91,14 @@ public class StatisticView extends FrameLayout {
             case Position.ATTACKER:
                 tvPosition.setText("A");
                 tvPosition.setBackgroundResource(R.drawable.bg_player_position_a);
+                break;
+            default:
+                int height = getContext().getResources().getDimensionPixelSize(R.dimen.player_position_size);
+                tvPosition.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, height));
+                tvCount.setVisibility(INVISIBLE);
+                tvPosition.setBackgroundResource(R.drawable.bg_player_position_none);
+                tvPosition.setText("ALL");
+                tvPosition.setTextColor(ContextCompat.getColor(getContext(), R.color.color_gray));
                 break;
         }
     }

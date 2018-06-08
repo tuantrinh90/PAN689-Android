@@ -7,6 +7,7 @@
     <com.bon.customview.textview.ExtTextView
         android:id="@+id/tvPosition"
         style="@style/StylePlayerPosition"
+        android:layout_gravity="center"
         android:background="@drawable/bg_player_position_g"
         android:text="G"
         app:textViewFontAssetName="@string/font_display_bold" />

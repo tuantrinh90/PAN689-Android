@@ -3,6 +3,7 @@
     <declare-styleable name="StatisticView">
         <attr name="sv_playerCount" format="integer" />
         <attr name="sv_position" format="enum">
+            <enum name="none" value="-1" />
             <enum name="goalkeeper" value="0" />
             <enum name="defender" value="1" />
             <enum name="midfielder" value="2" />
