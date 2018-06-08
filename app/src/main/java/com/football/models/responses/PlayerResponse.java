@@ -6,6 +6,8 @@ import java.io.Serializable;
 
 public class PlayerResponse implements Serializable {
 
+    public static final int POSITION_NONE = -1;
+
     public static final int POSITION_GOALKEEPER = 0;
 
     public static final int POSITION_DEFENDER = 1;

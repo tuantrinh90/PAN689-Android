@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bon.image.ImageLoaderUtils;
 import com.bon.interfaces.Optional;
 import com.football.fantasy.R;
 import com.football.models.responses.PlayerResponse;
@@ -54,6 +55,8 @@ public class PlayerView extends LinearLayout {
             ivRemove.setVisibility(GONE);
         } else {
             ivRemove.setVisibility(VISIBLE);
+            ImageLoaderUtils.displayImage(player.getPhoto(), ivPlayer);
+            tvContent.setText(player.getName());
         }
     }
 
@@ -64,6 +67,7 @@ public class PlayerView extends LinearLayout {
     public void setPlayer(PlayerResponse player, int position) {
         this.position = position;
         this.player = player;
+        displayPlayer();
     }
 
     public void revmoePlayer() {

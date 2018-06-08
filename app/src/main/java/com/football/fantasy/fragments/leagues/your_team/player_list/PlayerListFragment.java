@@ -8,17 +8,20 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 
 import com.bon.customview.listview.ExtPagingListView;
+import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.bon.logger.Logger;
 import com.football.adapters.PlayerAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.searchs.SearchView;
+import com.football.events.PlayerEvent;
 import com.football.fantasy.R;
 import com.football.models.responses.PlayerResponse;
 
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPlayerListPresenter<IPlayerListView>> implements IPlayerListView {
     private static final String TAG = "PlayerListFragment";
@@ -33,6 +36,8 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
         return fragment;
     }
 
+    @BindView(R.id.tvSetupTime)
+    ExtTextView tvSetupTime;
     @BindView(R.id.svSearch)
     SearchView svSearchView;
     @BindView(R.id.rvRecyclerView)
@@ -42,10 +47,12 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
     PlayerAdapter playerAdapter;
 
     private int leagueId = 0;
-    String orderBy = "desc";
-    int page = 1;
-    String query = "";
-    String mainPosition = "";
+    private String orderBy = "desc";
+    private int page = 1;
+    private String query = "";
+    private String mainPosition = "";
+    private int playerPosition = -1;
+    private int lastPlayerId = -1;
 
     @Override
     public int getResourceId() {
@@ -85,11 +92,16 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
             playerAdapter = new PlayerAdapter(
                     mActivity,
                     playerResponses,
-                    details -> {
+                    player -> { // item click
 
                     },
-                    add -> {
-
+                    player -> { // add click
+                        // bắn sang màn hình LineUp
+                        bus.send(new PlayerEvent.Builder()
+                                .action(PlayerEvent.ACTION_ADD_CLICK)
+                                .position(playerPosition)
+                                .data(player)
+                                .build());
                     });
             rvRecyclerView.init(mActivity, playerAdapter)
                     .setOnExtLoadMoreListener(() -> {
@@ -148,5 +160,36 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
                 rv.stopLoading(true);
             }
         });
+    }
+
+    @OnClick({R.id.svNone, R.id.svGoalkeeper, R.id.svDefender, R.id.svMidfielder, R.id.svAttacker})
+    public void onClicked(View view) {
+        if (lastPlayerId != view.getId()) {
+            // check/uncheck view
+            if (lastPlayerId != -1) {
+                view.getRootView().findViewById(lastPlayerId).setSelected(false);
+            }
+            view.setSelected(true);
+
+            lastPlayerId = view.getId();
+
+            switch (view.getId()) {
+                case R.id.svNone:
+                    playerPosition = PlayerResponse.POSITION_NONE;
+                    break;
+                case R.id.svGoalkeeper:
+                    playerPosition = PlayerResponse.POSITION_GOALKEEPER;
+                    break;
+                case R.id.svDefender:
+                    playerPosition = PlayerResponse.POSITION_DEFENDER;
+                    break;
+                case R.id.svMidfielder:
+                    playerPosition = PlayerResponse.POSITION_MIDFIELDER;
+                    break;
+                case R.id.svAttacker:
+                    playerPosition = PlayerResponse.POSITION_ATTACKER;
+                    break;
+            }
+        }
     }
 }

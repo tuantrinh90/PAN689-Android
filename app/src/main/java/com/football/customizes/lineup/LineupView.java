@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
 import com.bon.interfaces.Optional;
-import com.football.fantasy.R;
 import com.football.models.responses.PlayerResponse;
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexWrap;
@@ -75,29 +74,6 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         }
     }
 
-    private int getMargin(int playerCount) {
-        int margin;
-        switch (playerCount) {
-            case 2:
-            case 3:
-                margin = mContext.getResources().getDimensionPixelSize(R.dimen.player_margin_large);
-                break;
-            case 4:
-                margin = mContext.getResources().getDimensionPixelSize(R.dimen.player_margin_normal);
-                break;
-            case 5:
-                margin = mContext.getResources().getDimensionPixelSize(R.dimen.player_margin_small);
-                break;
-            case 6:
-            default:
-                margin = mContext.getResources().getDimensionPixelSize(R.dimen.player_margin_none);
-                break;
-
-        }
-
-        return margin;
-    }
-
     private void displayPlayer(PlayerView view, PlayerResponse player, int position) {
         view.setPlayer(player, position);
     }
@@ -128,9 +104,10 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         setup();
     }
 
-    public void setLineup(PlayerResponse[] players, int[] squad) {
+    public void setupLineup(PlayerResponse[] players, int[] squad) {
         setSquad(squad);
         setPlayers(players);
+        setup();
     }
 
     public void setSquad(int[] squad) {
@@ -144,15 +121,16 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
     public void addPlayer(PlayerResponse player, int line) {
         for (int i = 0; i < squad[line]; i++) {
             int position = getPosition(line, i);
-            if (players != null && players.length > position && players[position] != null) {
+            if (players != null && players.length > position) {
                 setPlayer(player, position);
+                return;
             }
         }
     }
 
     public void setPlayer(PlayerResponse player, int position) {
         this.players[position] = player;
-        PlayerView view = (PlayerView) getChildAt(position);
+        PlayerView view = (PlayerView) getChildAt(position); // todo: kiểm tra lại phần này
         displayPlayer(view, player, position);
     }
 
