@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <size
+                android:width="@dimen/avatar_normal"
+                android:height="@dimen/avatar_normal" />
+            <solid android:color="@color/color_white" />
+            <stroke
+                android:width="@dimen/player_border"
+                android:color="@color/color_gray" />
+        </shape>
+    </item>
+</layer-list>

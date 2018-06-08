@@ -6,6 +6,14 @@ import java.io.Serializable;
 
 public class PlayerResponse implements Serializable {
 
+    public static final int POSITION_GOALKEEPER = 0;
+
+    public static final int POSITION_DEFENDER = 1;
+
+    public static final int POSITION_MIDFIELDER = 2;
+
+    public static final int POSITION_ATTACKER = 3;
+
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("created_at")
@@ -37,7 +45,7 @@ public class PlayerResponse implements Serializable {
     @JsonProperty("minor_position")
     private Integer minorPosition;
     @JsonProperty("transfer_value")
-    private Integer transferValue;
+    private long transferValue;
 
     public Integer getId() {
         return id;
@@ -99,8 +107,36 @@ public class PlayerResponse implements Serializable {
         return minorPosition;
     }
 
-    public Integer getTransferValue() {
+    public long getTransferValue() {
         return transferValue;
+    }
+
+    public String getTransferStringValue() {
+        return String.valueOf(transferValue / 1000000f);
+    }
+
+    public String getMainPositionString() {
+        return getPositionString(mainPosition);
+    }
+
+    public String getMinorPositionString() {
+        return getPositionString(minorPosition);
+    }
+
+    private String getPositionString(Integer position) {
+        if (position != null) {
+            switch (position) {
+                case POSITION_GOALKEEPER:
+                    return "G";
+                case POSITION_DEFENDER:
+                    return "D";
+                case POSITION_MIDFIELDER:
+                    return "M";
+                case POSITION_ATTACKER:
+                    return "A";
+            }
+        }
+        return null;
     }
 
     public PlayerResponse() {

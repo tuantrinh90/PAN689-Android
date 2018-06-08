@@ -23,8 +23,14 @@ import butterknife.BindView;
 public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPlayerListPresenter<IPlayerListView>> implements IPlayerListView {
     private static final String TAG = "PlayerListFragment";
 
-    public static PlayerListFragment newInstance() {
-        return new PlayerListFragment();
+    static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+
+    public static PlayerListFragment newInstance(Integer leagueId) {
+        PlayerListFragment fragment = new PlayerListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(KEY_LEAGUE_ID, leagueId);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @BindView(R.id.svSearch)
@@ -35,6 +41,7 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
     List<PlayerResponse> playerResponses;
     PlayerAdapter playerAdapter;
 
+    private int leagueId = 0;
     String orderBy = "desc";
     int page = 1;
     String query = "";
@@ -47,9 +54,17 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
         initView();
+    }
+
+    private void getDataFromBundle() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            leagueId = bundle.getInt(KEY_LEAGUE_ID);
+        }
     }
 
     void initView() {
@@ -67,22 +82,28 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
             svSearchView.setSearchConsumer(query -> onPerformSearch(query));
 
             // playerResponses
-            playerAdapter = new PlayerAdapter(mActivity, playerResponses, details -> {
+            playerAdapter = new PlayerAdapter(
+                    mActivity,
+                    playerResponses,
+                    details -> {
 
-            });
+                    },
+                    add -> {
+
+                    });
             rvRecyclerView.init(mActivity, playerAdapter)
                     .setOnExtLoadMoreListener(() -> {
                         page++;
-                        presenter.getPlayers(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition);
+                        presenter.getPlayers(leagueId, orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition);
                     })
                     .setOnExtRefreshListener(() -> Optional.from(rvRecyclerView).doIfPresent(rv -> {
                         page = 1;
                         rv.clearItems();
-                        presenter.getPlayers(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition);
+                        presenter.getPlayers(leagueId, orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition);
                     }));
 
             // load data
-            presenter.getPlayers(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition);
+            presenter.getPlayers(leagueId, orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition);
         } catch (Resources.NotFoundException e) {
             Logger.e(TAG, e);
         }
@@ -109,7 +130,7 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
             query = q;
             rv.clearItems();
             page = 1;
-            presenter.getPlayers(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition);
+            presenter.getPlayers(leagueId, orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition);
         });
     }
 

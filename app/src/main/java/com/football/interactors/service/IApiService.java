@@ -58,16 +58,16 @@ public interface IApiService {
     Observable<BaseResponse<PagingResponse<NewsResponse>>> getHomeNews(@Query(Constant.KEY_PAGE) int page, @Query(Constant.KEY_PER_PAGE) int perPage);
 
     @GET(ServiceConfig.LEAGUE)
-    Observable<BaseResponse<LeagueResponse>> getLeagueDetail(@Path(ServiceConfig.KEY_LEAGUE_ID) int leagueId);
+    Observable<BaseResponse<LeagueResponse>> getLeagueDetail(@Path(ServiceConfig.KEY_ID) int leagueId);
 
     @GET(ServiceConfig.TEAMS)
-    Observable<BaseResponse<List<TeamResponse>>> getTeams(@Query(ServiceConfig.KEY_LEAGUE_ID) int leagueId);
+    Observable<BaseResponse<List<TeamResponse>>> getTeams(@Query(ServiceConfig.KEY_ID) int leagueId);
 
     @POST(ServiceConfig.REMOVE_TEAM)
-    Observable<BaseResponse<Object>> removeTeam(@Path(ServiceConfig.KEY_LEAGUE_ID) int leagueId, @Path(ServiceConfig.KEY_TEAM_ID) int teamId);
+    Observable<BaseResponse<Object>> removeTeam(@Path(ServiceConfig.KEY_ID) int leagueId, @Path(ServiceConfig.KEY_TEAM_ID) int teamId);
 
     @GET(ServiceConfig.SEARCH_FRIEND)
-    Observable<BaseResponse<PagingResponse<FriendResponse>>> getInviteFriends(@Query(ServiceConfig.KEY_LEAGUE_ID) int leagueId, @Query(Constant.KEY_WORD) String keyword,
+    Observable<BaseResponse<PagingResponse<FriendResponse>>> getInviteFriends(@Query(ServiceConfig.KEY_ID) int leagueId, @Query(Constant.KEY_WORD) String keyword,
                                                                               @Query(Constant.KEY_PAGE) int page, @Query(Constant.KEY_PER_PAGE) int perPage);
 
     @POST(ServiceConfig.INVITE_FRIEND)
@@ -77,7 +77,7 @@ public interface IApiService {
     Observable<BaseResponse<Object>> leaveLeagues(@Path("id") int leagueId, @Body RequestBody requestBody);
 
     @POST(ServiceConfig.STOP_LEAGUE)
-    Observable<BaseResponse<StopResponse>> stopLeague(@Path(ServiceConfig.KEY_LEAGUE_ID) int leagueId, @Body RequestBody body);
+    Observable<BaseResponse<StopResponse>> stopLeague(@Path(ServiceConfig.KEY_ID) int leagueId, @Body RequestBody body);
 
     @GET(ServiceConfig.MY_LEAGUES)
     Observable<BaseResponse<PagingResponse<LeagueResponse>>> getMyLeagues(@Query(Constant.KEY_PAGE) int page, @Query(Constant.KEY_PER_PAGE) int perPage);
@@ -87,13 +87,14 @@ public interface IApiService {
                                                                             @Query(Constant.KEY_PER_PAGE) int perPage,
                                                                             @Query(Constant.KEY_WORD) String query);
 
-    @GET(ServiceConfig.PLAYERS)
-    Observable<BaseResponse<PagingResponse<PlayerResponse>>> getPlayerList(@Query(Constant.KEY_ORDER_BY) String orderBy, @Query(Constant.KEY_PAGE) int page,
-                                                                           @Query(Constant.KEY_PER_PAGE) int perPage,
-                                                                           @Query(Constant.KEY_WORD) String query, @Query(Constant.KEY_MAIN_POSITION) String mainPosition);
+    @GET(ServiceConfig.PLAYER_LIST)
+    Observable<BaseResponse<PagingResponse<PlayerResponse>>> getPlayerList(/*@Path(ServiceConfig.KEY_ID) int leagueId,*/
+                                                                           @Query(Constant.KEY_ORDER_BY) String orderBy, @Query(Constant.KEY_PAGE) int page,
+                                                                           @Query(Constant.KEY_PER_PAGE) int perPage, @Query(Constant.KEY_WORD) String query,
+                                                                           @Query(Constant.KEY_MAIN_POSITION) String mainPosition);
 
     @GET(ServiceConfig.FORM_OPTIONS)
-    Observable<BaseResponse<FormResponse>> getFormOption(@Path(ServiceConfig.KEY_LEAGUE_ID) int leagueId);
+    Observable<BaseResponse<FormResponse>> getFormOption(@Path(ServiceConfig.KEY_ID) int leagueId);
 
     @POST(ServiceConfig.UPLOAD)
     Observable<BaseResponse<UploadResponse>> upload(@Body RequestBody body);
@@ -102,7 +103,7 @@ public interface IApiService {
     Observable<BaseResponse<LeagueResponse>> createLeague(@Body RequestBody body);
 
     @POST(ServiceConfig.UPDATE_LEAGUE)
-    Observable<BaseResponse<LeagueResponse>> updateLeague(@Path(ServiceConfig.KEY_LEAGUE_ID) int leagueId, @Body RequestBody body);
+    Observable<BaseResponse<LeagueResponse>> updateLeague(@Path(ServiceConfig.KEY_ID) int leagueId, @Body RequestBody body);
 
     @POST(ServiceConfig.CREATE_TEAM)
     Observable<BaseResponse<TeamResponse>> createTeam(@Body RequestBody body);

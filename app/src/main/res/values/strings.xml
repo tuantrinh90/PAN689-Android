@@ -225,6 +225,7 @@
     <string name="avg_5_games">Avg. of last 5 games</string>
     <string name="goals">goals</string>
     <string name="assists">Assists</string>
+    <string name="transfer_string">€%s</string>
     <string name="clean_sheet">Clean sheet</string>
     <string name="duels_they_win">Duels they win</string>
     <string name="passes">Passes</string>

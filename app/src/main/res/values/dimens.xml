@@ -1,6 +1,7 @@
 <!--<?xml version="1.0" encoding="utf-8"?>-->
 <resources>
     <!--layout-->
+    <dimen name="padding_content_small">3dp</dimen>
     <dimen name="padding_content">6dp</dimen>
     <dimen name="padding_layout">10dp</dimen>
     <dimen name="padding_small">3dp</dimen>
@@ -84,7 +85,9 @@
     <dimen name="player_margin_small">6dp</dimen>
     <dimen name="player_margin_none">0dp</dimen>
     <dimen name="player_border">1dp</dimen>
+    <dimen name="item_border">0.5dp</dimen>
     <dimen name="player_position_size">35dp</dimen>
+    <dimen name="player_list_item_size">40dp</dimen>
     <dimen name="player_position_margin">10dp</dimen>
     <dimen name="player_bubble_width">24dp</dimen>
     <dimen name="player_bubble_height">24dp</dimen>

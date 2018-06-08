@@ -77,7 +77,7 @@ public class YourTeamFragment extends BaseMainMvpFragment<IYourTeamView, IYourTe
 
         vpViewPager.setAdapter(new YourTeamViewPagerAdapter(getFragmentManager(), new ArrayList<BaseMvpFragment>() {{
             add(LineUpFragment.newInstance().setChildFragment(true));
-            add(PlayerListFragment.newInstance().setChildFragment(true));
+            add(PlayerListFragment.newInstance(leagueId).setChildFragment(true));
             add(TeamListFragment.newInstance(leagueId, leagueResponse).setChildFragment(true));
         }}));
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

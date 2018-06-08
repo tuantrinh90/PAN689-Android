@@ -17,11 +17,11 @@ public class PlayerListPresenter extends BaseDataPresenter<IPlayerListView> impl
     }
 
     @Override
-    public void getPlayers(String orderBy, int page, int perPage, String query, String mainPosition) {
+    public void getPlayers(int leagueId, String orderBy, int page, int perPage, String query, String mainPosition) {
         getOptView().doIfPresent(v -> {
             mCompositeDisposable.add(RxUtilities.async(
                     v,
-                    dataModule.getApiService().getPlayerList(orderBy, page, perPage, query, mainPosition),
+                    dataModule.getApiService().getPlayerList(/*leagueId,*/ orderBy, page, perPage, query, mainPosition),
                     new ApiCallback<PagingResponse<PlayerResponse>>() {
                         @Override
                         public void onStart() {

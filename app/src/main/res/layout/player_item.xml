@@ -6,67 +6,133 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/padding_layout"
     android:background="@drawable/bg_white_radius_selector"
-    android:gravity="center_vertical"
+    android:baselineAligned="false"
     android:orientation="horizontal"
     android:paddingLeft="@dimen/padding_layout"
     android:paddingRight="@dimen/padding_layout">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
         android:orientation="vertical"
         android:padding="@dimen/padding_layout">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/ivAvatar"
-            android:layout_width="@dimen/player_position_size"
-            android:layout_height="@dimen/player_position_size"
+            android:layout_width="@dimen/player_list_item_size"
+            android:layout_height="@dimen/player_list_item_size"
+            android:background="@drawable/bg_player_gray"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="@dimen/player_border"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_player_sample" />
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/padding_small">
 
             <com.bon.customview.textview.ExtTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/padding_content"
-                android:paddingRight="@dimen/padding_content"
+                android:id="@+id/tvPositionPrimary"
+                style="@style/StyleDescriptionContent"
+                android:layout_width="@dimen/icon_tiny"
+                android:layout_height="@dimen/icon_tiny"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_red_radius"
+                android:gravity="center"
+                android:padding="0dp"
                 android:text="A"
-                android:textColor="@color/color_black"
-                app:textViewFontAssetName="@string/font_display_heavy" />
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/font_footer"
+                app:textAllCaps="true"
+                app:textViewFontAssetName="@string/font_display_bold" />
 
             <com.bon.customview.textview.ExtTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/padding_content"
-                android:paddingRight="@dimen/padding_content"
-                android:text="A"
-                android:textColor="@color/color_black"
-                app:textViewFontAssetName="@string/font_display_heavy" />
-
+                android:id="@+id/tvPositionSecond"
+                style="@style/StyleDescriptionContent"
+                android:layout_width="@dimen/icon_tiny"
+                android:layout_height="@dimen/icon_tiny"
+                android:layout_marginLeft="@dimen/padding_content_small"
+                android:layout_marginStart="@dimen/padding_content_small"
+                android:background="@drawable/bg_yellow_radius"
+                android:gravity="center"
+                android:padding="0dp"
+                android:text="M"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/font_footer"
+                android:visibility="visible"
+                app:textAllCaps="true"
+                app:textViewFontAssetName="@string/font_display_bold" />
         </LinearLayout>
     </LinearLayout>
 
-    <View
-        android:layout_width="@dimen/line"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/padding_layout"
-        android:layout_marginTop="@dimen/padding_layout"
-        android:background="@color/color_gray" />
-
-    <com.bon.customview.textview.ExtTextView
-        android:id="@+id/tvContent"
-        style="@style/StyleDescription"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="4"
-        android:ellipsize="end"
-        android:maxLines="3"
-        android:padding="@dimen/padding_layout"
-        android:textColor="@color/color_content"
-        app:textViewFontAssetName="@string/font_display_heavy"
-        tools:text="@string/app_name" />
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/padding_content"
+        android:layout_marginStart="@dimen/padding_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvName"
+            style="@style/StyleDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:padding="0dp"
+            android:textColor="@color/color_content"
+            android:textSize="@dimen/font_size_description"
+            app:textViewFontAssetName="@string/font_display_heavy"
+            tools:text="@string/app_name" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvClub"
+            style="@style/StyleDescriptionContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:text="@string/app_name"
+            android:textColor="@color/color_green_button"
+            android:textSize="@dimen/font_size_description" />
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleDescriptionContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:text="@string/app_name"
+            android:textSize="@dimen/font_size_description" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="end"
+        android:orientation="vertical">
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvTransferValue"
+            style="@style/StyleDescriptionContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_small"
+            android:padding="0dp"
+            android:text="100"
+            android:textSize="@dimen/font_size_description" />
+
+        <ImageView
+            android:id="@+id/ivAdd"
+            style="@style/IconSmall"
+            android:layout_marginTop="@dimen/padding_small"
+            android:background="@drawable/bg_circle_yellow"
+            android:padding="@dimen/padding_content"
+            android:src="@drawable/ic_add_white_small" />
+    </LinearLayout>
 </LinearLayout>

@@ -20,7 +20,7 @@ public interface ServiceConfig {
     String PROVIDER_GOOGLE = "google";
     String PROVIDER_TWITTER = "twitter";
 
-    String KEY_LEAGUE_ID = "league_id";
+    String KEY_ID = "id";
     String KEY_TEAM_ID = "team_id";
 
     String LOGIN = "login";
@@ -31,21 +31,21 @@ public interface ServiceConfig {
     String FORGOT_PASSWORD = "users/forgot";
     String MY_LEAGUES = "leagues/my_index";
     String PENDING_INVITATIONS = "invitations/pending_list";
-    String LEAGUE = "leagues/{" + KEY_LEAGUE_ID + "}";
+    String LEAGUE = "leagues/{" + KEY_ID + "}";
     String TEAMS = "teams";
-    String REMOVE_TEAM = "leagues/remove_team/{" + KEY_LEAGUE_ID + "}/{" + KEY_TEAM_ID + "}";
+    String REMOVE_TEAM = "leagues/remove_team/{" + KEY_ID + "}/{" + KEY_TEAM_ID + "}";
     String INVITE_FRIEND = "invitations";
     String STOP_LEAGUE = "leagues/{league_id}";
     String SEARCH_FRIEND = "invitations/search_friends";
     String INVITATION_DECISION = "invitations/decision/{id}";
     String HOME_NEWS = "posts";
     String OPEN_LEAGUES = "leagues/open_league";
-    String PLAYERS = "players";
+    String PLAYER_LIST = "players"; //     String PLAYER_LIST = "teams/player_list/{" + KEY_ID + "}";
     String CREATE_LEAGUE = "leagues";
-    String UPDATE_LEAGUE = "leagues/{" + KEY_LEAGUE_ID + "}";
-    String FORM_OPTIONS = "leagues/get_form/{" + KEY_LEAGUE_ID + "}";
+    String UPDATE_LEAGUE = "leagues/{" + KEY_ID + "}";
+    String FORM_OPTIONS = "leagues/get_form/{" + KEY_ID + "}";
     String CREATE_TEAM = "teams";
 
-    String LEAVE_LEAGUES ="leagues/leave/{id}";
+    String LEAVE_LEAGUES = "leagues/leave/{id}";
     String UPLOAD = "upload";
 }
