@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import java8.util.function.Consumer;
 
 public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<ITeamView>> implements ITeamView {
     static final String TAG = TeamFragment.class.getSimpleName();
@@ -125,14 +126,14 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
             rv.clearItems();
             rv.addNewItems(teams);
 
+            // auto create team if owner or joined
             if (teams == null || teams.size() <= 0) {
                 AloneFragmentActivity.with(mActivity)
                         .parameters(SetupTeamFragment.newBundle(
                                 league,
                                 null,
                                 mActivity.getTitleToolBar().getText().toString(),
-                                LeagueDetailFragment.MY_LEAGUES,
-                                SetupTeamFragment.INVITATION_NONE))
+                                LeagueDetailFragment.MY_LEAGUES))
                         .start(SetupTeamFragment.class);
                 mActivity.finish();
             }

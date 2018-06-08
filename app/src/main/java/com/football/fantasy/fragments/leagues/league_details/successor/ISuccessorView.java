@@ -9,6 +9,4 @@ public interface ISuccessorView extends IBaseMvpView {
     void displayTeams(List<TeamResponse> teams);
 
     void onLeaveLeague();
-
-    void onStopLeague();
 }

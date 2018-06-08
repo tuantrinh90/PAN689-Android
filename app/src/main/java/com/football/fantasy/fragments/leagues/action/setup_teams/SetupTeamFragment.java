@@ -42,18 +42,16 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
 
     static final String KEY_LEAGUE = "LEAGUE";
     static final String KEY_TEAM = "TEAM";
-    static final String KEY_INVITATION_ACCEPT = "INVITATION_ACCEPT";
     static final String FROM_LEAGUES_TITLE = "LEAGUE_TITLE";
     static final String FROM_LEAGUES_TYPE = "LEAGUE_TYPE";
 
     public static Bundle newBundle(LeagueResponse leagueResponse, TeamResponse teamResponse,
-                                   String leagueTitle, String leagueType, int invitation) {
+                                   String leagueTitle, String leagueType) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_LEAGUE, leagueResponse);
         if (teamResponse != null) bundle.putSerializable(KEY_TEAM, teamResponse);
         bundle.putString(FROM_LEAGUES_TITLE, leagueTitle);
         bundle.putString(FROM_LEAGUES_TYPE, leagueType);
-        bundle.putInt(KEY_INVITATION_ACCEPT, invitation);
         return bundle;
     }
 
@@ -66,9 +64,10 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
 
     TeamResponse teamResponse;
     LeagueResponse leagueResponse;
+
     String leagueTitle;
     String leagueType;
-    int invation; // trạng thái user vào từ MH Pending
+
     File filePath;
 
     @Override
@@ -93,7 +92,6 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
             }
             leagueTitle = getArguments().getString(FROM_LEAGUES_TITLE);
             leagueType = getArguments().getString(FROM_LEAGUES_TYPE);
-            invation = getArguments().getInt(KEY_INVITATION_ACCEPT, INVITATION_NONE);
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
@@ -182,11 +180,7 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
     @Override
     public void createTeamSuccess() {
         bus.send(new LeagueEvent());
-        if (invation == INVITATION_ACCEPT) {
-            presenter.invitationAccept(leagueResponse.getId());
-        } else {
             goLeagueDetail();
-        }
     }
 
     @Override
@@ -222,5 +216,4 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
             }
         }
     }
-
 }

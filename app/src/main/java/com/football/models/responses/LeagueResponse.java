@@ -84,6 +84,8 @@ public class LeagueResponse implements Serializable {
     private Integer rankStatus;
     @JsonProperty("invitation")
     private InvitationResponse invitation;
+    @JsonProperty("is_joined")
+    private Boolean isJoined;
 
     public LeagueResponse() {
     }
@@ -424,6 +426,14 @@ public class LeagueResponse implements Serializable {
         this.rankStatus = rankStatus;
     }
 
+    public Boolean getIsJoined() {
+        return isJoined == null ? false : isJoined;
+    }
+
+    public void setIsJoined(Boolean isJoined) {
+        this.isJoined = isJoined;
+    }
+
     @Override
     public String toString() {
         return "LeagueResponse{" +
@@ -455,12 +465,13 @@ public class LeagueResponse implements Serializable {
                 ", tradeReviewDisplay='" + tradeReviewDisplay + '\'' +
                 ", draftTime='" + draftTime + '\'' +
                 ", timeToPick=" + timeToPick +
-                ", status='" + status + '\'' +
+                ", status=" + status +
                 ", statusDisplay='" + statusDisplay + '\'' +
                 ", isOwner=" + isOwner +
                 ", rank=" + rank +
                 ", rankStatus=" + rankStatus +
                 ", invitation=" + invitation +
+                ", isJoined=" + isJoined +
                 '}';
     }
 }

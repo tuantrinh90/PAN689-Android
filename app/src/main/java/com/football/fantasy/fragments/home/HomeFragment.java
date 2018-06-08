@@ -168,8 +168,8 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
             SnapHelper gravitySnapHelper = new LinearSnapHelper();
             gravitySnapHelper.attachToRecyclerView(rvMyLeagues);
 
-            // load my leagues
-            presenter.getMyLeagues(1, ExtPagingListView.NUMBER_PER_PAGE);
+            // load my leagues, only display 5 records
+            presenter.getMyLeagues(1, 5);
 
             // load news
             presenter.getNews(1, ExtPagingListView.NUMBER_PER_PAGE);

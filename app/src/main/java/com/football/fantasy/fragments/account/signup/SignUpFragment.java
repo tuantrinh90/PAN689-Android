@@ -11,11 +11,12 @@ import android.view.View;
 
 import com.bon.customview.checkbox.ExtCheckBox;
 import com.bon.customview.textview.ExtTextView;
+import com.bon.logger.Logger;
 import com.bon.textstyle.TextViewLinkMovementMethod;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
+import com.football.events.SignInEvent;
 import com.football.fantasy.R;
-import com.football.fantasy.activities.AccountActivity;
 import com.football.models.requests.SignupRequest;
 import com.football.utilities.Constant;
 
@@ -23,6 +24,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresenter<ISignUpView>> implements ISignUpView {
+    static final String TAG = SignUpFragment.class.getSimpleName();
+
     public static SignUpFragment newInstance() {
         return new SignUpFragment();
     }
@@ -79,11 +82,11 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
 
     @OnClick(R.id.tvRegister)
     void onClickSignUp() {
-        if (isValid()) {
-            SignupRequest request = new SignupRequest(etFirstName.getContent(), etLastName.getContent(),
-                    etEmail.getContent(), etPassword.getContent(), etConfirmPassword.getContent());
-            presenter.register(request);
-        }
+        if (!isValid()) return;
+
+        SignupRequest request = new SignupRequest(etFirstName.getContent(), etLastName.getContent(),
+                etEmail.getContent(), etPassword.getContent(), etConfirmPassword.getContent());
+        presenter.register(request);
     }
 
     private boolean isValid() {
@@ -121,13 +124,16 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
 
     @Override
     public void onRegisterSuccess() {
-        etFirstName.setContent("");
-        etLastName.setContent("");
-        etEmail.setContent("");
-        etPassword.setContent("");
-        etConfirmPassword.setContent("");
-        cbAgreed.setChecked(false);
-
-        ((AccountActivity) mActivity).openSignin();
+        try {
+            etFirstName.setContent("");
+            etLastName.setContent("");
+            etEmail.setContent("");
+            etPassword.setContent("");
+            etConfirmPassword.setContent("");
+            cbAgreed.setChecked(false);
+            bus.send(new SignInEvent());
+        } catch (Exception e) {
+            Logger.e(TAG,e);
+        }
     }
 }

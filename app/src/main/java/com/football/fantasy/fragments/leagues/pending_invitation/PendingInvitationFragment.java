@@ -119,13 +119,10 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
                         .parameters(LeagueDetailFragment.newBundle(getString(R.string.pending_invitation), details.getId(), LeagueDetailFragment.PENDING_LEAGUES))
                         .start(LeagueDetailFragment.class);
             }, approve -> {
-//                presenter.invitationDecisions(approve, Constant.KEY_INVITATION_ACCEPT);
-                goCreateTeam(approve);
+                presenter.invitationDecisions(approve, Constant.KEY_INVITATION_ACCEPT);
             }, reject -> {
                 presenter.invitationDecisions(reject, Constant.KEY_INVITATION_DECLINE);
-            }, join -> {
-
-            });
+            }, null);
 
             rvRecyclerView.init(mActivity, leaguesAdapter)
                     .setOnExtRefreshListener(() -> {
@@ -187,13 +184,13 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
     }
 
     @Override
-    public void goCreateTeam(LeagueResponse league) {
+    public void goCreateTeam(LeagueResponse leagueResponse) {
         AloneFragmentActivity.with(this)
                 .parameters(SetupTeamFragment.newBundle(
-                        league,
+                        leagueResponse,
                         null,
-                        mActivity.getTitleToolBar().getText().toString(),
-                        LeagueDetailFragment.OPEN_LEAGUES, SetupTeamFragment.INVITATION_ACCEPT))
+                        getString(R.string.pending_invitation),
+                        LeagueDetailFragment.PENDING_LEAGUES))
                 .start(SetupTeamFragment.class);
     }
 }

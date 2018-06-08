@@ -112,13 +112,19 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
             tvJoinLeague.setVisibility(View.GONE);
             tvStartLeague.setVisibility(View.GONE);
 
-            if (league.getOwner()) {
+            // show button setup team
+            if (league.getOwner() || league.getIsJoined()){
                 tvSetupTeam.setVisibility(View.VISIBLE);
+            }
+
+            // show button join leagues
+            if (!league.getOwner() && !league.getIsJoined()){
+                tvJoinLeague.setVisibility(View.VISIBLE);
+            }
+
+            // show button start league for owner
+            if (league.getOwner()) {
                 tvStartLeague.setVisibility(View.VISIBLE);
-            } else {
-                if (!leagueType.equalsIgnoreCase(LeagueDetailFragment.MY_LEAGUES)) {
-                    tvJoinLeague.setVisibility(View.VISIBLE);
-                }
             }
 
             // line up my team
@@ -162,8 +168,7 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
                         league,
                         null,
                         mActivity.getTitleToolBar().getText().toString(),
-                        leagueType,
-                        SetupTeamFragment.INVITATION_NONE))
+                        leagueType ))
                 .start(SetupTeamFragment.class);
         getActivity().finish();
     }
