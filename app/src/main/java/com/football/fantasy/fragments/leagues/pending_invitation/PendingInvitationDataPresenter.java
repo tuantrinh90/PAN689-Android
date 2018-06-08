@@ -6,6 +6,7 @@ import com.football.fantasy.R;
 import com.football.listeners.ApiCallback;
 import com.football.models.PagingResponse;
 import com.football.models.responses.LeagueResponse;
+import com.football.utilities.Constant;
 import com.football.utilities.RxUtilities;
 
 import okhttp3.MultipartBody;
@@ -63,7 +64,9 @@ public class PendingInvitationDataPresenter extends BaseDataPresenter<IPendingIn
                         @Override
                         public void onSuccess(Object o) {
                             v.removeItem(leagueResponse);
-                            v.goCreateTeam(leagueResponse);
+                            if (status == Constant.KEY_INVITATION_ACCEPT) {
+                                v.goCreateTeam(leagueResponse);
+                            }
                         }
 
                         @Override
