@@ -137,7 +137,7 @@
     <string name="register_user_exist">The user already exists</string>
     <string name="register_success">Sign in successfully</string>
     <string name="user_register_exist">The user already exists</string>
-    <string name="user_register_false">Sign in successfully</string>
+    <string name="user_register_false">Sign in unsuccessfully</string>
     <string name="forgot_user_forgot_email">Forgot email</string>
     <string name="forgot_user_forgot_email_invalid">Email is not valid</string>
     <string name="forgot_user_forgot_email_null">The user is not valid</string>
@@ -236,6 +236,14 @@
     <string name="fouls_committed">Fouls committed</string>
     <string name="position_att">Attacker</string>
     <string name="position_mid">Midfielder</string>
+    <string name="player_pool">Player Pool</string>
+    <string name="current_season">Current Season</string>
+    <string name="filter">Filter</string>
+    <string name="display">Display</string>
+    <string name="sort">Sort</string>
+    <string name="name_club_position">Name/Club/Position</string>
+    <string name="value">Value</string>
+    <string name="stat_1">Stat 1</string>
 
 
 </resources>

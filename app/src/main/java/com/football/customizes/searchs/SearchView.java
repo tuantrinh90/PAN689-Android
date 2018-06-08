@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,6 +66,7 @@ public class SearchView extends LinearLayout {
         // update hint
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SearchView, 0, 0);
         etSearch.setHint(typedArray.getString(R.styleable.SearchView_searchViewHint));
+        ivFilter.setVisibility(typedArray.getBoolean(R.styleable.SearchView_searchViewVisibleFilter, true) ? VISIBLE : GONE);
         typedArray.recycle();
 
         // text changes

@@ -83,7 +83,7 @@
                 style="@style/IconLarge"
                 android:layout_margin="@dimen/padding_content"
                 android:background="@drawable/bg_circle_social"
-                android:padding="@dimen/padding_small"
+                android:padding="@dimen/padding_layout"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_facebook" />
 

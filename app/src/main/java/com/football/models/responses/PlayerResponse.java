@@ -5,22 +5,27 @@ import java.io.Serializable;
 public class PlayerResponse implements Serializable {
     String avatar;
     String name;
+    String value;
     String point;
     String positionPrimary;
     String positionSecond;
     String status;
+    String statOne;
 
     public PlayerResponse() {
     }
 
-    public PlayerResponse(String avatar, String name, String point, String positionPrimary,
-                          String positionSecond, String status) {
+    public PlayerResponse(String avatar, String name, String value, String point,
+                          String positionPrimary, String positionSecond,
+                          String status, String statOne) {
         this.avatar = avatar;
         this.name = name;
+        this.value = value;
         this.point = point;
         this.positionPrimary = positionPrimary;
         this.positionSecond = positionSecond;
         this.status = status;
+        this.statOne = statOne;
     }
 
     public String getAvatar() {
@@ -37,6 +42,14 @@ public class PlayerResponse implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public String getPoint() {
@@ -71,15 +84,26 @@ public class PlayerResponse implements Serializable {
         this.status = status;
     }
 
+    public String getStatOne() {
+        return statOne;
+    }
+
+    public void setStatOne(String statOne) {
+        this.statOne = statOne;
+    }
+
     @Override
     public String toString() {
         return "PlayerResponse{" +
                 "avatar='" + avatar + '\'' +
                 ", name='" + name + '\'' +
+                ", value='" + value + '\'' +
                 ", point='" + point + '\'' +
                 ", positionPrimary='" + positionPrimary + '\'' +
                 ", positionSecond='" + positionSecond + '\'' +
                 ", status='" + status + '\'' +
+                ", statOne='" + statOne + '\'' +
                 '}';
     }
+
 }

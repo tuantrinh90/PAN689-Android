@@ -27,6 +27,10 @@ public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticVie
     LinearLayout llPointPerPlayer;
     @BindView(R.id.ivNumber)
     ImageView ivNumber;
+    @BindView(R.id.tvRankValue)
+    ExtTextView tvRankValue;
+    @BindView(R.id.tvRankLabel)
+    ExtTextView tvRankLabel;
     @BindView(R.id.tvPoints)
     ExtTextView tvPoints;
     @BindView(R.id.tvBudget)
