@@ -89,7 +89,7 @@
     <string name="team_name">Team name</string>
     <string name="max_number_of_team">Max number of teams</string>
     <string name="budget">Budget</string>
-    <string name="budget_value">%s ($%s mio)</string>
+    <string name="budget_value">%s (€%s mio)</string>
     <string name="start_league">Start League</string>
     <string name="team_setup_time">Team setup time</string>
     <string name="remove">Remove</string>
