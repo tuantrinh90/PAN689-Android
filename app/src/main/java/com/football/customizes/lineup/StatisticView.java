@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 
 public class StatisticView extends FrameLayout {
 
+
     @IntDef({Position.GOALKEEPER, Position.DEFENDER,
             Position.MIDFIELDER, Position.ATTACKER})
     @Retention(RetentionPolicy.SOURCE)
@@ -39,10 +40,29 @@ public class StatisticView extends FrameLayout {
 
     }
 
+    @IntDef({Position.GOALKEEPER, Position.DEFENDER,
+            Position.MIDFIELDER, Position.ATTACKER})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface PositionValue {
+
+        String NONE = "";
+
+        String GOALKEEPER = "goalkeeper";
+
+        String DEFENDER = "defender";
+
+        String MIDFIELDER = "midfielder";
+
+        String ATTACKER = "attacker";
+
+    }
+
     @BindView(R.id.tvPosition)
     ExtTextView tvPosition;
     @BindView(R.id.tvCount)
     ExtTextView tvCount;
+
+    private int position;
 
     public StatisticView(@NonNull Context context) {
         this(context, null, 0);
@@ -57,6 +77,16 @@ public class StatisticView extends FrameLayout {
         initView(context, attrs);
     }
 
+    @Override
+    public void setSelected(boolean selected) {
+        if (selected) {
+            setPositionText(position);
+        } else {
+            tvPosition.setBackgroundResource(R.drawable.bg_player_position_none);
+        }
+        super.setSelected(selected);
+    }
+
     private void initView(Context context, AttributeSet attrs) {
         View view = LayoutInflater.from(context).inflate(R.layout.statistic_view, this);
         ButterKnife.bind(this, view);
@@ -65,7 +95,7 @@ public class StatisticView extends FrameLayout {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.StatisticView, 0, 0);
 
         // position
-        int position = typedArray.getInt(R.styleable.StatisticView_sv_position, Position.GOALKEEPER);
+        position = typedArray.getInt(R.styleable.StatisticView_sv_position, Position.GOALKEEPER);
         setPositionText(position);
 
         // count

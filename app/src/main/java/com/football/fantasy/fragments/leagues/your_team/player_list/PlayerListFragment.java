@@ -65,7 +65,7 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
     private String query = "";
     private String mainPosition = "";
     private int playerPosition = -1;
-    private int lastPlayerId = -1;
+    private View lastPlayerViewSelected = null;
 
     @Override
     public int getResourceId() {
@@ -89,6 +89,14 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
 
     void initView() {
         try {
+            // disable statisticView
+            svGoalkeeper.setSelected(false);
+            svDefender.setSelected(false);
+            svMidfielder.setSelected(false);
+            svAttacker.setSelected(false);
+            svNone.setSelected(true);
+            lastPlayerViewSelected = svNone;
+
             // search view
             svSearchView.getFilter().setImageResource(R.drawable.ic_filter_list_black_24_px);
 
@@ -119,16 +127,16 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
             rvRecyclerView.init(mActivity, playerAdapter)
                     .setOnExtLoadMoreListener(() -> {
                         page++;
-                        presenter.getPlayers(leagueId, orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition);
+                        getPlayers(false);
                     })
                     .setOnExtRefreshListener(() -> Optional.from(rvRecyclerView).doIfPresent(rv -> {
                         page = 1;
                         rv.clearItems();
-                        presenter.getPlayers(leagueId, orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition);
+                        getPlayers(false);
                     }));
 
             // load data
-            presenter.getPlayers(leagueId, orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition);
+            getPlayers(false);
         } catch (Resources.NotFoundException e) {
             Logger.e(TAG, e);
         }
@@ -155,13 +163,18 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
             query = q;
             rv.clearItems();
             page = 1;
-            presenter.getPlayers(leagueId, orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition);
+            getPlayers(false);
         });
     }
 
     @Override
-    public void notifyDataSetChangedPlayers(List<PlayerResponse> data) {
-        Optional.from(rvRecyclerView).doIfPresent(rv -> rv.addNewItems(data));
+    public void notifyDataSetChangedPlayers(List<PlayerResponse> data, boolean newPlayers) {
+        Optional.from(rvRecyclerView).doIfPresent(rv -> {
+            if (newPlayers) {
+                rv.clearItems();
+            }
+            rv.addNewItems(data);
+        });
     }
 
     @Override
@@ -185,32 +198,43 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
 
     @OnClick({R.id.svNone, R.id.svGoalkeeper, R.id.svDefender, R.id.svMidfielder, R.id.svAttacker})
     public void onClicked(View view) {
-        if (lastPlayerId != view.getId()) {
+        if (lastPlayerViewSelected != view) {
             // check/uncheck view
-            if (lastPlayerId != -1) {
-                view.getRootView().findViewById(lastPlayerId).setSelected(false);
+            if (lastPlayerViewSelected != null) {
+                lastPlayerViewSelected.setSelected(false);
             }
             view.setSelected(true);
 
-            lastPlayerId = view.getId();
+            lastPlayerViewSelected = view;
 
             switch (view.getId()) {
                 case R.id.svNone:
                     playerPosition = PlayerResponse.POSITION_NONE;
+                    mainPosition = StatisticView.PositionValue.NONE;
                     break;
                 case R.id.svGoalkeeper:
                     playerPosition = PlayerResponse.POSITION_GOALKEEPER;
+                    mainPosition = StatisticView.PositionValue.GOALKEEPER;
                     break;
                 case R.id.svDefender:
                     playerPosition = PlayerResponse.POSITION_DEFENDER;
+                    mainPosition = StatisticView.PositionValue.DEFENDER;
                     break;
                 case R.id.svMidfielder:
                     playerPosition = PlayerResponse.POSITION_MIDFIELDER;
+                    mainPosition = StatisticView.PositionValue.MIDFIELDER;
                     break;
                 case R.id.svAttacker:
                     playerPosition = PlayerResponse.POSITION_ATTACKER;
+                    mainPosition = StatisticView.PositionValue.ATTACKER;
                     break;
             }
+            page = 1;
+            getPlayers(true);
         }
+    }
+
+    private void getPlayers(boolean newPlayers) {
+        presenter.getPlayers(leagueId, orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition, newPlayers);
     }
 }

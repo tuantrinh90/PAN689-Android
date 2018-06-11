@@ -9,5 +9,6 @@
             <enum name="midfielder" value="2" />
             <enum name="attacker" value="3" />
         </attr>
+        <attr name="android:background" />
     </declare-styleable>
 </resources>
