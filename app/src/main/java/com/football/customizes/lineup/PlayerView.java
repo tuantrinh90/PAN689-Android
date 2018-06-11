@@ -64,8 +64,15 @@ public class PlayerView extends LinearLayout {
         return player;
     }
 
-    public void setPlayer(PlayerResponse player, int position) {
+    public void setPosition(int position) {
         this.position = position;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPlayer(PlayerResponse player) {
         this.player = player;
         displayPlayer();
     }

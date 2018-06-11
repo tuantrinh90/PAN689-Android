@@ -66,7 +66,6 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
                         public void onNext(PlayerEvent event) {
                             switch (event.getAction()) {
                                 case PlayerEvent.ACTION_ADD_CLICK:
-                                    PlayerResponse player = event.getData();
                                     insertToLineUpView(event.getData(), event.getPosition());
                                     break;
                             }
