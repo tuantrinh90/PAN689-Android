@@ -44,7 +44,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
 //        setAlignContent(AlignContent.SPACE_AROUND);
         setAlignItems(AlignItems.CENTER);
         setFlexWrap(FlexWrap.WRAP);
-        setJustifyContent(JustifyContent.SPACE_EVENLY);
+        setJustifyContent(JustifyContent.CENTER);
 
         setup();
     }

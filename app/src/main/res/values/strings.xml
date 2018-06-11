@@ -247,6 +247,8 @@
     <string name="value">Value</string>
     <string name="stat_1">Stat 1</string>
     <string name="injured">Injured</string>
+    <string name="total">Total</string>
+    <string name="team_list_label">Complete Team will be listed here and visible to all participants.</string>
 
 
 </resources>

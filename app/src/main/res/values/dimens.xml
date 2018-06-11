@@ -91,4 +91,6 @@
     <dimen name="player_position_margin">10dp</dimen>
     <dimen name="player_bubble_width">24dp</dimen>
     <dimen name="player_bubble_height">24dp</dimen>
+    <dimen name="lineup_padding">35dp</dimen>
+    <dimen name="player_padding">1dp</dimen>
 </resources>

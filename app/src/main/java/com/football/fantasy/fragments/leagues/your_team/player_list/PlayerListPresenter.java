@@ -3,6 +3,7 @@ package com.football.fantasy.fragments.leagues.your_team.player_list;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
+import com.football.models.ExtPagingResponse;
 import com.football.models.PagingResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.utilities.RxUtilities;
@@ -22,7 +23,7 @@ public class PlayerListPresenter extends BaseDataPresenter<IPlayerListView> impl
             mCompositeDisposable.add(RxUtilities.async(
                     v,
                     dataModule.getApiService().getPlayerList(/*leagueId,*/ orderBy, page, perPage, query, mainPosition),
-                    new ApiCallback<PagingResponse<PlayerResponse>>() {
+                    new ApiCallback<ExtPagingResponse<PlayerResponse>>() {
                         @Override
                         public void onStart() {
                             v.showLoadingPagingListView(true);
@@ -34,8 +35,9 @@ public class PlayerListPresenter extends BaseDataPresenter<IPlayerListView> impl
                         }
 
                         @Override
-                        public void onSuccess(PagingResponse<PlayerResponse> leagueResponsePagingResponse) {
-                            v.notifyDataSetChangedPlayers(leagueResponsePagingResponse.getData());
+                        public void onSuccess(ExtPagingResponse<PlayerResponse> response) {
+                            v.notifyDataSetChangedPlayers(response.getData());
+                            v.displayStatistic(response.getStatistic());
                         }
 
                         @Override

@@ -1,7 +1,5 @@
 package com.football.models;
 
-import android.content.Intent;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;

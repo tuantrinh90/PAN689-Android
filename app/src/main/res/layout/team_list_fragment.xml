@@ -7,31 +7,63 @@
     android:background="@color/color_white"
     android:orientation="vertical">
 
-    <TableRow
+    <com.bon.customview.textview.ExtTextView
+        style="@style/StyleContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/padding_layout"
-        android:layout_marginRight="@dimen/padding_layout"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        tools:text="@string/team_list_label" />
+
+    <TableRow
+        android:id="@+id/trEntrants"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/padding_layout"
-        android:paddingRight="@dimen/padding_layout">
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
         <com.bon.customview.textview.ExtTextView
-            style="@style/StyleContentContent"
+            style="@style/StyleDescriptionContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/team_setup_time"
-            android:textAllCaps="true"
+            android:layout_gravity="bottom"
+            android:layout_marginRight="@dimen/padding_small"
+            android:padding="0dp"
+            android:text="@string/total"
             app:textViewFontAssetName="@string/font_display_bold" />
 
         <com.bon.customview.textview.ExtTextView
-            android:id="@+id/tvTeamSetupTime"
-            style="@style/StyleContent"
-            android:layout_width="0dp"
+            android:id="@+id/tvNumber"
+            style="@style/StyleTitleWhite"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            tools:text="10/10/2018 09:10AM" />
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="@dimen/padding_small"
+            android:padding="0dp"
+            android:text="2"
+            android:textColor="@color/color_content"
+            app:textViewFontAssetName="@string/font_display_bold" />
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleTitleWhite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:padding="0dp"
+            android:text="/"
+            android:textColor="@color/color_gray" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvTotal"
+            style="@style/StyleDescriptionGray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginRight="@dimen/padding_small"
+            android:padding="0dp"
+            android:text="8"
+            app:textViewFontAssetName="@string/font_display_bold" />
     </TableRow>
 
     <com.bon.customview.listview.ExtPagingListView

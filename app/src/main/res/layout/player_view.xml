@@ -4,6 +4,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingBottom="2dp"
+    android:paddingLeft="@dimen/player_padding"
+    android:paddingRight="@dimen/player_padding"
     android:paddingTop="2dp">
 
     <FrameLayout

@@ -1,6 +1,7 @@
 package com.football.interactors.service;
 
 import com.football.models.BaseResponse;
+import com.football.models.ExtPagingResponse;
 import com.football.models.PagingResponse;
 import com.football.models.responses.FormResponse;
 import com.football.models.responses.FriendResponse;
@@ -88,10 +89,10 @@ public interface IApiService {
                                                                             @Query(Constant.KEY_WORD) String query);
 
     @GET(ServiceConfig.PLAYER_LIST)
-    Observable<BaseResponse<PagingResponse<PlayerResponse>>> getPlayerList(/*@Path(ServiceConfig.KEY_ID) int leagueId,*/
-                                                                           @Query(Constant.KEY_ORDER_BY) String orderBy, @Query(Constant.KEY_PAGE) int page,
-                                                                           @Query(Constant.KEY_PER_PAGE) int perPage, @Query(Constant.KEY_WORD) String query,
-                                                                           @Query(Constant.KEY_MAIN_POSITION) String mainPosition);
+    Observable<BaseResponse<ExtPagingResponse<PlayerResponse>>> getPlayerList(/*@Path(ServiceConfig.KEY_ID) int leagueId,*/
+            @Query(Constant.KEY_ORDER_BY) String orderBy, @Query(Constant.KEY_PAGE) int page,
+            @Query(Constant.KEY_PER_PAGE) int perPage, @Query(Constant.KEY_WORD) String query,
+            @Query(Constant.KEY_MAIN_POSITION) String mainPosition);
 
     @GET(ServiceConfig.FORM_OPTIONS)
     Observable<BaseResponse<FormResponse>> getFormOption(@Path(ServiceConfig.KEY_ID) int leagueId);

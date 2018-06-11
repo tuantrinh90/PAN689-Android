@@ -13,10 +13,12 @@ import com.bon.interfaces.Optional;
 import com.bon.logger.Logger;
 import com.football.adapters.PlayerAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.customizes.lineup.StatisticView;
 import com.football.customizes.searchs.SearchView;
 import com.football.events.PlayerEvent;
 import com.football.fantasy.R;
 import com.football.models.responses.PlayerResponse;
+import com.football.models.responses.StatisticResponse;
 
 import java.util.List;
 
@@ -28,6 +30,7 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
 
     static final String KEY_LEAGUE_ID = "LEAGUE_ID";
 
+
     public static PlayerListFragment newInstance(Integer leagueId) {
         PlayerListFragment fragment = new PlayerListFragment();
         Bundle bundle = new Bundle();
@@ -36,6 +39,16 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
         return fragment;
     }
 
+    @BindView(R.id.svNone)
+    StatisticView svNone;
+    @BindView(R.id.svGoalkeeper)
+    StatisticView svGoalkeeper;
+    @BindView(R.id.svDefender)
+    StatisticView svDefender;
+    @BindView(R.id.svMidfielder)
+    StatisticView svMidfielder;
+    @BindView(R.id.svAttacker)
+    StatisticView svAttacker;
     @BindView(R.id.tvSetupTime)
     ExtTextView tvSetupTime;
     @BindView(R.id.svSearch)
@@ -149,6 +162,14 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
     @Override
     public void notifyDataSetChangedPlayers(List<PlayerResponse> data) {
         Optional.from(rvRecyclerView).doIfPresent(rv -> rv.addNewItems(data));
+    }
+
+    @Override
+    public void displayStatistic(StatisticResponse statistic) {
+        svGoalkeeper.setCount(statistic.getGoalkeeper());
+        svDefender.setCount(statistic.getDefender());
+        svMidfielder.setCount(statistic.getMidfielder());
+        svAttacker.setCount(statistic.getAttacker());
     }
 
     @Override
