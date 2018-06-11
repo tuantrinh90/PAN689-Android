@@ -249,6 +249,20 @@
     <string name="injured">Injured</string>
     <string name="total">Total</string>
     <string name="team_list_label">Complete Team will be listed here and visible to all participants.</string>
+    <string name="filter_the_list">Filter the list</string>
+    <string name="filter_by_position">Filter by position</string>
+    <string name="filter_by_club">Filter by club</string>
+    <string name="apply_filter">Apply Filter</string>
+    <string name="all">All</string>
+    <string name="midfielder">Midfielder</string>
+    <string name="goalkeeper">Goalkeeper</string>
+    <string name="attacker">Attacker</string>
+    <string name="defender">Defender</string>
+    <string name="ascendent">Ascendent</string>
+    <string name="sort_the_table">Sort the table</string>
+    <string name="descendent">Descendent</string>
+    <string name="display_configuaration">Display Configuration</string>
+    <string name="apply_to_table">Apply to table</string>
 
 
 </resources>
