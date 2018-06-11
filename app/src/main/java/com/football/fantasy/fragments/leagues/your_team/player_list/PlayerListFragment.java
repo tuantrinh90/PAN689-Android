@@ -129,11 +129,12 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
                         page++;
                         getPlayers(false);
                     })
-                    .setOnExtRefreshListener(() -> Optional.from(rvRecyclerView).doIfPresent(rv -> {
-                        page = 1;
-                        rv.clearItems();
-                        getPlayers(false);
-                    }));
+                    .setOnExtRefreshListener(() ->
+                            Optional.from(rvRecyclerView).doIfPresent(rv -> {
+                                page = 1;
+                                rv.clearItems();
+                                getPlayers(false);
+                            }));
 
             // load data
             getPlayers(false);

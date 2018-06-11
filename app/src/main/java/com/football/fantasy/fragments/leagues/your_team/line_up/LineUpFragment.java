@@ -110,7 +110,8 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     }
 
     private void insertToLineUpView(PlayerResponse player, int position) {
-        lineupView.addPlayer(player, position == PlayerResponse.POSITION_NONE ? player.getMainPosition() : position);
+//        lineupView.addPlayer(player, position == PlayerResponse.POSITION_NONE ? player.getMainPosition() : position);
+        presenter.addPlayer(teamId, player.getId());
     }
 
     @Override
@@ -120,6 +121,11 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
 
     @Override
     public void displayLineup(LineupResponse lineup) {
+
+    }
+
+    @Override
+    public void onAddPlayer(PlayerResponse response) {
 
     }
 }

@@ -46,6 +46,7 @@ public interface ServiceConfig {
     String FORM_OPTIONS = "leagues/get_form/{" + KEY_ID + "}";
     String CREATE_TEAM = "teams";
     String LINEUP = "teams/lineup/{" + KEY_ID + "}";
+    String ADD_PLAYER = "teams/add_player";
 
     String LEAVE_LEAGUES = "leagues/leave/{id}";
     String UPLOAD = "upload";

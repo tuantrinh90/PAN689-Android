@@ -112,4 +112,7 @@ public interface IApiService {
 
     @GET(ServiceConfig.LINEUP)
     Observable<BaseResponse<LineupResponse>> getLineup(@Path(ServiceConfig.KEY_ID) int leagueId);
+
+    @POST(ServiceConfig.ADD_PLAYER)
+    Observable<BaseResponse<PlayerResponse>> addPlayer(@Body RequestBody body);
 }
