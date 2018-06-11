@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_white"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/padding_layout"
-    android:paddingRight="@dimen/padding_layout">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_layout"
+        android:layout_marginRight="@dimen/padding_layout"
         android:orientation="vertical"
         android:paddingLeft="@dimen/padding_layout"
         android:paddingRight="@dimen/padding_layout">
@@ -31,7 +31,7 @@
                 app:textViewFontAssetName="@string/font_display_black_italic" />
 
             <LinearLayout
-                android:id="@+id/llPointPerPlayer"
+                android:id="@+id/llTrade"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_background_gradient_blue_radius_component"
@@ -58,6 +58,7 @@
         <com.bon.customview.textview.ExtTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_layout"
             android:padding="0dp"
             android:text="@string/sort_by"
             app:textAllCaps="true"
@@ -66,27 +67,40 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_content"
+            android:layout_marginTop="@dimen/padding_layout"
             android:orientation="horizontal">
 
             <com.football.customizes.edittext_app.EditTextApp
+                android:id="@+id/tvSortByColumn"
                 style="@style/StyleContentBlue"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="0dp"
+                app:editTextAppEnable="false"
                 app:editTextAppHint="@string/name"
                 app:editTextAppIconRight="@drawable/ic_arrow_drop_down_black" />
 
             <com.football.customizes.edittext_app.EditTextApp
+                android:id="@+id/tvSortByValue"
                 style="@style/StyleContentBlue"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_layout"
                 android:layout_weight="1"
                 android:padding="0dp"
+                app:editTextAppEnable="false"
                 app:editTextAppHint="@string/a_z"
                 app:editTextAppIconRight="@drawable/ic_arrow_drop_down_black" />
         </TableRow>
     </LinearLayout>
+
+    <com.bon.customview.listview.ExtPagingListView
+        android:id="@+id/lvData"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/padding_layout"
+        android:layout_weight="1"
+        app:dividerColor="@null"
+        app:dividerHeight="@dimen/padding_content" />
 </LinearLayout>

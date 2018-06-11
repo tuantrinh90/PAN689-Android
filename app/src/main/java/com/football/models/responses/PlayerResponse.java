@@ -1,6 +1,8 @@
 package com.football.models.responses;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -39,6 +41,26 @@ public class PlayerResponse implements Serializable {
     private Integer minorPosition;
     @JsonProperty("transfer_value")
     private Long transferValue;
+
+    public PlayerResponse() {
+    }
+
+    public PlayerResponse(Integer id, String createdAt, String updatedAt, Integer realClubId, RealClubResponse realClub,
+                          String name, String nickname, String photo, Boolean isInjured,
+                          Integer mainPosition, Integer minorPosition, Long transferValue) {
+        this.id = id;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.realClubId = realClubId;
+        this.realClub = realClub;
+        this.name = name;
+        this.nickname = nickname;
+        this.photo = photo;
+        this.isInjured = isInjured;
+        this.mainPosition = mainPosition;
+        this.minorPosition = minorPosition;
+        this.transferValue = transferValue;
+    }
 
     public Integer getId() {
         return id;
@@ -130,6 +152,8 @@ public class PlayerResponse implements Serializable {
         return getPositionText(getMainPosition());
     }
 
+
+
     public Integer getMinorPosition() {
         return minorPosition == null ? 0 : minorPosition;
     }
@@ -172,6 +196,28 @@ public class PlayerResponse implements Serializable {
                 break;
             case POSITION_ATTACKER:
                 result = "A";
+                break;
+        }
+
+        return result;
+    }
+
+    @JsonIgnore
+    public Drawable getPositionBackground(Context context, int position) {
+        Drawable result =null;
+
+        switch (position) {
+            case POSITION_GOALKEEPER:
+                result = ContextCompat.getDrawable(context, R.drawable.bg_green_button_radius);
+                break;
+            case POSITION_DEFENDER:
+                result = ContextCompat.getDrawable(context, R.drawable.bg_green_radius);
+                break;
+            case POSITION_MIDFIELDER:
+                result =  ContextCompat.getDrawable(context, R.drawable.bg_yellow_radius);
+                break;
+            case POSITION_ATTACKER:
+                result =  ContextCompat.getDrawable(context, R.drawable.bg_red_radius);
                 break;
         }
 
