@@ -155,7 +155,6 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
             AloneFragmentActivity.with(this)
                     .parameters(SetupTeamFragment.newBundle(league, null, getString(R.string.league_information), leagueType))
                     .start(SetupTeamFragment.class);
-            getActivity().finish();
         } else {
             AloneFragmentActivity.with(this)
                     .parameters(YourTeamFragment.newBundle(league))

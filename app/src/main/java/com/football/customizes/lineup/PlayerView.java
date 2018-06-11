@@ -28,7 +28,8 @@ public class PlayerView extends LinearLayout {
     TextView tvContent;
 
     private OnPlayerViewClickListener mListener;
-    private int position;
+    private int index;
+    private int position; // vị trí: G, M, D, A
     private PlayerResponse player;
 
     public PlayerView(Context context) {
@@ -53,10 +54,27 @@ public class PlayerView extends LinearLayout {
     private void displayPlayer() {
         if (player == null) {
             ivRemove.setVisibility(GONE);
+            tvContent.setVisibility(GONE);
+            ivPlayer.setImageResource(0);
         } else {
             ivRemove.setVisibility(VISIBLE);
+            tvContent.setVisibility(VISIBLE);
             ImageLoaderUtils.displayImage(player.getPhoto(), ivPlayer);
             tvContent.setText(player.getName());
+        }
+        switch (position) {
+            case PlayerResponse.POSITION_GOALKEEPER:
+                ivPlayer.setBackgroundResource(R.drawable.bg_player_g);
+                break;
+            case PlayerResponse.POSITION_DEFENDER:
+                ivPlayer.setBackgroundResource(R.drawable.bg_player_d);
+                break;
+            case PlayerResponse.POSITION_MIDFIELDER:
+                ivPlayer.setBackgroundResource(R.drawable.bg_player_m);
+                break;
+            case PlayerResponse.POSITION_ATTACKER:
+                ivPlayer.setBackgroundResource(R.drawable.bg_player_a);
+                break;
         }
     }
 
@@ -64,12 +82,20 @@ public class PlayerView extends LinearLayout {
         return player;
     }
 
-    public void setPosition(int position) {
-        this.position = position;
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public int getIndex() {
+        return index;
     }
 
     public int getPosition() {
         return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public void setPlayer(PlayerResponse player) {
@@ -86,10 +112,10 @@ public class PlayerView extends LinearLayout {
     public void onClicked(View view) {
         switch (view.getId()) {
             case R.id.ivRemove:
-                Optional.from(mListener).doIfPresent(listener -> listener.onRemove(position));
+                Optional.from(mListener).doIfPresent(listener -> listener.onRemove(index));
                 break;
             case R.id.ivPlayer:
-                Optional.from(mListener).doIfPresent(listener -> listener.onPlayerClick(player, position));
+                Optional.from(mListener).doIfPresent(listener -> listener.onPlayerClick(player, index));
                 break;
         }
     }
