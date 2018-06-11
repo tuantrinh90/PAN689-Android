@@ -1,19 +1,18 @@
 package com.football.models.responses;
 
+import android.content.Context;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.football.fantasy.R;
 
 import java.io.Serializable;
 
 public class PlayerResponse implements Serializable {
-
     public static final int POSITION_NONE = -1;
-
     public static final int POSITION_GOALKEEPER = 0;
-
     public static final int POSITION_DEFENDER = 1;
-
     public static final int POSITION_MIDFIELDER = 2;
-
     public static final int POSITION_ATTACKER = 3;
 
     @JsonProperty("id")
@@ -25,7 +24,7 @@ public class PlayerResponse implements Serializable {
     @JsonProperty("real_club_id")
     private Integer realClubId;
     @JsonProperty("real_club")
-    private RealClub realClub;
+    private RealClubResponse realClub;
     @JsonProperty("name")
     private String name;
     @JsonProperty("nickname")
@@ -34,132 +33,166 @@ public class PlayerResponse implements Serializable {
     private String photo;
     @JsonProperty("is_injured")
     private Boolean isInjured;
-    @JsonProperty("is_goalkeeper")
-    private Boolean isGoalkeeper;
-    @JsonProperty("is_defender")
-    private Boolean isDefender;
-    @JsonProperty("is_midfielder")
-    private Boolean isMidfielder;
-    @JsonProperty("is_attacker")
-    private Boolean isAttacker;
     @JsonProperty("main_position")
     private Integer mainPosition;
     @JsonProperty("minor_position")
     private Integer minorPosition;
     @JsonProperty("transfer_value")
-    private long transferValue;
+    private Long transferValue;
 
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getCreatedAt() {
         return createdAt;
     }
 
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public String getUpdatedAt() {
         return updatedAt;
     }
 
-    public Integer getRealClubId() {
-        return realClubId;
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
-    public RealClub getRealClub() {
+    public Integer getRealClubId() {
+        return realClubId == null ? 0 : realClubId;
+    }
+
+    public void setRealClubId(Integer realClubId) {
+        this.realClubId = realClubId;
+    }
+
+    public RealClubResponse getRealClub() {
         return realClub;
+    }
+
+    public void setRealClub(RealClubResponse realClub) {
+        this.realClub = realClub;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getNickname() {
         return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getPhoto() {
         return photo;
     }
 
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
     public Boolean getInjured() {
-        return isInjured;
+        return isInjured == null ? false : isInjured;
     }
 
-    public Boolean getGoalkeeper() {
-        return isGoalkeeper;
+    public void setInjured(Boolean injured) {
+        isInjured = injured;
     }
 
-    public Boolean getDefender() {
-        return isDefender;
-    }
-
-    public Boolean getMidfielder() {
-        return isMidfielder;
-    }
-
-    public Boolean getAttacker() {
-        return isAttacker;
+    @JsonIgnore
+    public String getInjuredText(Context context){
+        return getInjured() ? context.getString(R.string.injured) : "";
     }
 
     public Integer getMainPosition() {
-        return mainPosition;
+        return mainPosition == null ? 0 : mainPosition;
+    }
+
+    public void setMainPosition(Integer mainPosition) {
+        this.mainPosition = mainPosition;
+    }
+
+    @JsonIgnore
+    public String getMainPositionText(){
+        return getPositionText(getMainPosition());
     }
 
     public Integer getMinorPosition() {
-        return minorPosition;
+        return minorPosition == null ? 0 : minorPosition;
     }
 
-    public long getTransferValue() {
-        return transferValue;
+    public void setMinorPosition(Integer minorPosition) {
+        this.minorPosition = minorPosition;
     }
 
-    public String getTransferStringValue() {
-        return String.valueOf(transferValue / 1000000f);
+    @JsonIgnore
+    public String getMinorPositionText(){
+        return getPositionText(getMinorPosition());
     }
 
-    public String getMainPositionString() {
-        return getPositionString(mainPosition);
+    public Long getTransferValue() {
+        return transferValue == null ? 0 : transferValue;
     }
 
-    public String getMinorPositionString() {
-        return getPositionString(minorPosition);
+    public void setTransferValue(Long transferValue) {
+        this.transferValue = transferValue;
     }
 
-    private String getPositionString(Integer position) {
-        if (position != null) {
-            switch (position) {
-                case POSITION_GOALKEEPER:
-                    return "G";
-                case POSITION_DEFENDER:
-                    return "D";
-                case POSITION_MIDFIELDER:
-                    return "M";
-                case POSITION_ATTACKER:
-                    return "A";
-            }
-        }
-        return null;
+    @JsonIgnore
+    public String getTransferValueDisplay() {
+        return String.valueOf(getTransferValue() / 1000000f);
     }
 
-    public PlayerResponse() {
-    }
+    @JsonIgnore
+    public String getPositionText(int position) {
+        String result = "";
 
-    public static class RealClub {
-
-        @JsonProperty("id")
-        private Integer id;
-        @JsonProperty("name")
-        private String name;
-
-        public RealClub() {
+        switch (position) {
+            case POSITION_GOALKEEPER:
+                result = "G";
+                break;
+            case POSITION_DEFENDER:
+                result = "D";
+                break;
+            case POSITION_MIDFIELDER:
+                result = "M";
+                break;
+            case POSITION_ATTACKER:
+                result = "A";
+                break;
         }
 
-        public Integer getId() {
-            return id;
-        }
+        return result;
+    }
 
-        public String getName() {
-            return name;
-        }
+    @Override
+    public String toString() {
+        return "PlayerResponse{" +
+                "id=" + id +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
+                ", realClubId=" + realClubId +
+                ", realClub=" + realClub +
+                ", name='" + name + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", photo='" + photo + '\'' +
+                ", isInjured=" + isInjured +
+                ", mainPosition=" + mainPosition +
+                ", minorPosition=" + minorPosition +
+                ", transferValue=" + transferValue +
+                '}';
     }
 }
