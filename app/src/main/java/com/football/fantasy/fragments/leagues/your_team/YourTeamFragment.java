@@ -24,12 +24,10 @@ import java.util.ArrayList;
 import butterknife.BindView;
 
 public class YourTeamFragment extends BaseMainMvpFragment<IYourTeamView, IYourTeamPresenter<IYourTeamView>> implements IYourTeamView {
-    static final String KEY_LEAGUE_ID = "LEAGUE_ID";
     static final String KEY_LEAGUE = "LEAGUE";
 
-    public static Bundle newBundle(int leagueId, LeagueResponse leagueResponse) {
+    public static Bundle newBundle(LeagueResponse leagueResponse) {
         Bundle bundle = new Bundle();
-        bundle.putInt(KEY_LEAGUE_ID, leagueId);
         bundle.putSerializable(KEY_LEAGUE, leagueResponse);
         return bundle;
     }
@@ -41,8 +39,7 @@ public class YourTeamFragment extends BaseMainMvpFragment<IYourTeamView, IYourTe
     @BindView(R.id.vpViewPager)
     ViewPager vpViewPager;
 
-    int leagueId;
-    LeagueResponse leagueResponse;
+    LeagueResponse league;
 
     @Override
     public int getResourceId() {
@@ -59,8 +56,7 @@ public class YourTeamFragment extends BaseMainMvpFragment<IYourTeamView, IYourTe
 
     private void getDataFromBundle() {
         Bundle bundle = getArguments();
-        leagueId = bundle.getInt(KEY_LEAGUE_ID);
-        leagueResponse = (LeagueResponse) bundle.getSerializable(KEY_LEAGUE);
+        league = (LeagueResponse) bundle.getSerializable(KEY_LEAGUE);
     }
 
     void initView() {
@@ -76,9 +72,9 @@ public class YourTeamFragment extends BaseMainMvpFragment<IYourTeamView, IYourTe
                 });
 
         vpViewPager.setAdapter(new YourTeamViewPagerAdapter(getFragmentManager(), new ArrayList<BaseMvpFragment>() {{
-            add(LineUpFragment.newInstance().setChildFragment(true));
-            add(PlayerListFragment.newInstance(leagueId).setChildFragment(true));
-            add(TeamListFragment.newInstance(leagueId, leagueResponse).setChildFragment(true));
+            add(LineUpFragment.newInstance(league.getTeam() == null ? 0 : league.getTeam().getId()).setChildFragment(true));
+            add(PlayerListFragment.newInstance(league.getId()).setChildFragment(true));
+            add(TeamListFragment.newInstance(league).setChildFragment(true));
         }}));
         vpViewPager.setOffscreenPageLimit(3);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

@@ -20,20 +20,17 @@ import butterknife.BindView;
 
 public class TeamListFragment extends BaseMainMvpFragment<ITeamListView, ITeamListPresenter<ITeamListView>> implements ITeamListView {
 
-    static final String KEY_LEAGUE_ID = "LEAGUE_ID";
     static final String KEY_LEAGUE = "LEAGUE";
 
     @BindView(R.id.rvRecyclerView)
     ExtPagingListView rvRecyclerView;
 
-    LeagueResponse leagueResponse;
+    LeagueResponse league;
     TeamAdapter teamAdapter;
-    int leagueId;
 
-    public static TeamListFragment newInstance(Integer leagueId, LeagueResponse leagueResponse) {
+    public static TeamListFragment newInstance(LeagueResponse leagueResponse) {
         TeamListFragment fragment = new TeamListFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(KEY_LEAGUE_ID, leagueId);
         bundle.putSerializable(KEY_LEAGUE, leagueResponse);
         fragment.setArguments(bundle);
         return fragment;
@@ -54,17 +51,16 @@ public class TeamListFragment extends BaseMainMvpFragment<ITeamListView, ITeamLi
     }
 
     private void getTeams() {
-        presenter.getTeams(leagueId);
+        presenter.getTeams(league.getId());
     }
 
     private void getDataFromBundle() {
         Bundle bundle = getArguments();
-        leagueId = bundle.getInt(KEY_LEAGUE_ID);
-        leagueResponse = (LeagueResponse) bundle.getSerializable(KEY_LEAGUE);
+        league = (LeagueResponse) bundle.getSerializable(KEY_LEAGUE);
     }
 
     void initView() {
-        teamAdapter = new TeamAdapter(mActivity, new ArrayList<>(), leagueResponse, null, null);
+        teamAdapter = new TeamAdapter(mActivity, new ArrayList<>(), league, null, null);
         rvRecyclerView.init(mActivity, teamAdapter)
                 .setOnExtRefreshListener(() -> {
                     Optional.from(rvRecyclerView).doIfPresent(rv -> rv.clearItems());

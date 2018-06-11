@@ -7,6 +7,7 @@ import com.football.models.responses.FormResponse;
 import com.football.models.responses.FriendResponse;
 import com.football.models.responses.InviteResponse;
 import com.football.models.responses.LeagueResponse;
+import com.football.models.responses.LineupResponse;
 import com.football.models.responses.NewsResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.StopResponse;
@@ -109,4 +110,6 @@ public interface IApiService {
     @POST(ServiceConfig.CREATE_TEAM)
     Observable<BaseResponse<TeamResponse>> createTeam(@Body RequestBody body);
 
+    @GET(ServiceConfig.LINEUP)
+    Observable<BaseResponse<LineupResponse>> getLineup(@Path(ServiceConfig.KEY_ID) int leagueId);
 }

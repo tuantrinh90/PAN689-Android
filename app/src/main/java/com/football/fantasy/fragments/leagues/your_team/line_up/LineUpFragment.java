@@ -11,6 +11,7 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.lineup.LineupView;
 import com.football.events.PlayerEvent;
 import com.football.fantasy.R;
+import com.football.models.responses.LineupResponse;
 import com.football.models.responses.PlayerResponse;
 
 import butterknife.BindView;
@@ -20,12 +21,21 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
 
     private static final String TAG = "LineUpFragment";
 
-    public static LineUpFragment newInstance() {
-        return new LineUpFragment();
+    static final String KEY_TEAM_ID = "TEAM_ID";
+
+
+    public static LineUpFragment newInstance(Integer teamId) {
+        LineUpFragment fragment = new LineUpFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(KEY_TEAM_ID, teamId);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @BindView(R.id.lineupView)
     LineupView lineupView;
+
+    private int teamId;
 
     @Override
     public int getResourceId() {
@@ -34,14 +44,26 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
         initView();
         registerEvent();
+
+        if (teamId > 0) {
+            presenter.getLineup(teamId);
+        }
+    }
+
+    private void getDataFromBundle() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            teamId = bundle.getInt(KEY_TEAM_ID);
+        }
     }
 
     void initView() {
-        lineupView.setupLineup(new PlayerResponse[18], new int[] {2, 6, 6, 4});
+        lineupView.setupLineup(new PlayerResponse[18], new int[]{2, 6, 6, 4});
         lineupView.setPlayerBiConsumer((player, position) -> {
             Log.d("dd", "setPlayerBiConsumer: " + position);
         });
@@ -94,5 +116,10 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     @Override
     public ILineUpPresenter<ILineUpView> createPresenter() {
         return new LineUpPresenter(getAppComponent());
+    }
+
+    @Override
+    public void displayLineup(LineupResponse lineup) {
+
     }
 }

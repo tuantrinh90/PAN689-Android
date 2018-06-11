@@ -13,7 +13,6 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
-import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.fantasy.fragments.leagues.your_team.YourTeamFragment;
 import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.LeagueResponse;
@@ -113,12 +112,12 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
             tvStartLeague.setVisibility(View.GONE);
 
             // show button setup team
-            if (league.getOwner() || league.getIsJoined()){
+            if (league.getOwner() || league.getIsJoined()) {
                 tvSetupTeam.setVisibility(View.VISIBLE);
             }
 
             // show button join leagues
-            if (!league.getOwner() && !league.getIsJoined()){
+            if (!league.getOwner() && !league.getIsJoined()) {
                 tvJoinLeague.setVisibility(View.VISIBLE);
             }
 
@@ -152,9 +151,16 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
 
     @OnClick(R.id.tvSetupTeam)
     void onClickSetupTeam() {
-        AloneFragmentActivity.with(this)
-                .parameters(YourTeamFragment.newBundle(league.getId(), league))
-                .start(YourTeamFragment.class);
+        if (league.getTeam() == null) {
+            AloneFragmentActivity.with(this)
+                    .parameters(SetupTeamFragment.newBundle(league, null, getString(R.string.league_information), leagueType))
+                    .start(SetupTeamFragment.class);
+            getActivity().finish();
+        } else {
+            AloneFragmentActivity.with(this)
+                    .parameters(YourTeamFragment.newBundle(league))
+                    .start(YourTeamFragment.class);
+        }
     }
 
     @OnClick(R.id.tvStartLeague)
@@ -168,7 +174,7 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
                         league,
                         null,
                         mActivity.getTitleToolBar().getText().toString(),
-                        leagueType ))
+                        leagueType))
                 .start(SetupTeamFragment.class);
         getActivity().finish();
     }

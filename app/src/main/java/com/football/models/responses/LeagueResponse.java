@@ -86,6 +86,8 @@ public class LeagueResponse implements Serializable {
     private InvitationResponse invitation;
     @JsonProperty("is_joined")
     private Boolean isJoined;
+    @JsonProperty("team")
+    private TeamResponse team;
 
     public LeagueResponse() {
     }
@@ -432,6 +434,14 @@ public class LeagueResponse implements Serializable {
 
     public void setIsJoined(Boolean isJoined) {
         this.isJoined = isJoined;
+    }
+
+    public TeamResponse getTeam() {
+        return team;
+    }
+
+    public void setTeam(TeamResponse team) {
+        this.team = team;
     }
 
     @Override
