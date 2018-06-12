@@ -32,4 +32,6 @@
     <color name="color_red_selector">#d2d03202</color>
     <color name="color_label">#837c86</color>
     <color name="color_background_edit_text_focused">#edeaf6</color>
+    <color name="switch_color">#c4c4c4</color>
+
 </resources>

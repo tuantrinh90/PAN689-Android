@@ -125,7 +125,8 @@
                         android:text="@string/name"
                         app:textViewFontAssetName="@string/font_display_bold" />
 
-                    <Switch
+                    <!--style="@style/SwitchCompatStyle"-->
+                    <android.support.v7.widget.SwitchCompat
                         android:id="@+id/switch_display"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
