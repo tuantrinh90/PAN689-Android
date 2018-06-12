@@ -54,7 +54,7 @@ public class PlayerAdapter extends ExtBaseAdapter<PlayerResponse, PlayerAdapter.
         ImageLoaderUtils.displayImage(data.getPhoto(), holder.ivAvatar);
         holder.tvName.setText(data.getName());
         holder.tvClub.setText(data.getRealClub().getName());
-        holder.tvTransferValue.setText(holder.itemView.getContext().getString(R.string.transfer_string, data.getTransferValueDisplay()));
+        holder.tvTransferValue.setText(holder.itemView.getContext().getString(R.string.money_prefix, data.getTransferValueDisplay()));
         setPosition(holder.tvPositionPrimary, data.getMainPosition(), data.getMainPositionText());
         setPosition(holder.tvPositionSecond, data.getMinorPosition(), data.getMinorPositionText());
         boolean checked = data.getSelected();

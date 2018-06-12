@@ -20,9 +20,9 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:scrollbars="none"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -140,8 +140,8 @@
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/bg_null_gray_selector"
                 android:padding="0dp"
-                android:visibility="gone"
                 android:text="@string/my_leagues"
+                android:visibility="gone"
                 app:textViewFontAssetName="@string/font_display_black_italic" />
 
             <android.support.v7.widget.RecyclerView
@@ -149,9 +149,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/padding_layout"
-                android:visibility="gone"
                 android:layout_marginTop="@dimen/padding_layout"
                 android:nestedScrollingEnabled="false"
+                android:visibility="gone"
                 tools:targetApi="lollipop" />
 
             <com.bon.customview.textview.ExtTextView
@@ -159,20 +159,20 @@
                 style="@style/StyleTitleWhite"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/padding_layout"
-                android:visibility="gone"
                 android:background="@drawable/bg_null_gray_selector"
                 android:padding="0dp"
                 android:text="@string/newsResponses"
+                android:visibility="gone"
                 app:textViewFontAssetName="@string/font_display_black_italic" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvNews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_marginBottom="@dimen/padding_layout"
                 android:layout_marginTop="@dimen/padding_layout"
                 android:nestedScrollingEnabled="false"
+                android:visibility="gone"
                 tools:targetApi="lollipop" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.football.fantasy.R;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 
 public class PlayerResponse implements Serializable {
     public static final int POSITION_NONE = -1;
@@ -197,7 +198,8 @@ public class PlayerResponse implements Serializable {
 
     @JsonIgnore
     public String getTransferValueDisplay() {
-        return String.valueOf(getTransferValue() / 1000000f);
+        DecimalFormat df = new DecimalFormat("#.##");
+        return df.format(getTransferValue() / 1000000f);
     }
 
     public Integer getPointLastRound() {

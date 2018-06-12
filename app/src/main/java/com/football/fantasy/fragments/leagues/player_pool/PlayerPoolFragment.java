@@ -37,6 +37,11 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     List<PlayerResponse> playerResponses;
     PlayerPoolItemAdapter playerPoolItemAdapter;
 
+    public static Bundle newBundle() {
+        Bundle bundle = new Bundle();
+        return bundle;
+    }
+
     @Override
     public int getResourceId() {
         return R.layout.player_pool_fragment;
@@ -57,13 +62,15 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
 
     void initData() {
         playerResponses = new ArrayList<>();
-        playerResponses.add(new PlayerResponse());
-        playerResponses.add(new PlayerResponse());
-        playerResponses.add(new PlayerResponse());
-        playerResponses.add(new PlayerResponse());
-
         playerPoolItemAdapter = new PlayerPoolItemAdapter(mActivity, playerResponses);
         lvData.init(mActivity, playerPoolItemAdapter);
+
+        getPlayers();
+    }
+
+    private void getPlayers() {
+        presenter.getPlayers();
+
     }
 
     @Override
@@ -81,5 +88,12 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
         super.initToolbar(supportActionBar);
         supportActionBar.setDisplayHomeAsUpEnabled(true);
         supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
+    }
+
+    @Override
+    public void displayPlayers(List<PlayerResponse> players) {
+        Optional.from(lvData).doIfPresent(rv -> {
+            rv.addNewItems(players);
+        });
     }
 }

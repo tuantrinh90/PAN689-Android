@@ -29,6 +29,7 @@ import com.football.fantasy.R;
 import com.football.fantasy.activities.MainActivity;
 import com.football.fantasy.fragments.leagues.action.setup_leagues.SetUpLeagueFragment;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
+import com.football.fantasy.fragments.leagues.player_pool.PlayerPoolFragment;
 import com.football.fantasy.fragments.leagues.player_pool.display.PlayerPoolDisplayFragment;
 import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilterFragment;
 import com.football.fantasy.fragments.leagues.player_pool.sort.PlayerPoolSortFragment;
@@ -205,6 +206,9 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
 
     @OnClick(R.id.tvPlayerList)
     void onClickPlayerList() {
+        AloneFragmentActivity.with(this)
+                .parameters(PlayerPoolFragment.newBundle())
+                .start(PlayerPoolFragment.class);
     }
 
     @OnClick(R.id.tvMyLeagues)

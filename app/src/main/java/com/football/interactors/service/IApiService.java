@@ -18,6 +18,7 @@ import com.football.utilities.Constant;
 import com.football.utilities.ServiceConfig;
 
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
@@ -26,6 +27,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  * Created by dangpp on 2/9/2018.
@@ -90,9 +92,7 @@ public interface IApiService {
                                                                             @Query(Constant.KEY_WORD) String query);
 
     @GET(ServiceConfig.PLAYER_LIST)
-    Observable<BaseResponse<ExtPagingResponse<PlayerResponse>>> getPlayerList(@Query(Constant.KEY_LEAGUE_ID) int leagueId, @Query(Constant.KEY_ORDER_BY) String orderBy,
-                                                                              @Query(Constant.KEY_PAGE) int page, @Query(Constant.KEY_PER_PAGE) int perPage,
-                                                                              @Query(Constant.KEY_WORD) String query, @Query(Constant.KEY_MAIN_POSITION) Integer mainPosition);
+    Observable<BaseResponse<ExtPagingResponse<PlayerResponse>>> getPlayerList(@QueryMap Map<String, String> queries);
 
     @GET(ServiceConfig.FORM_OPTIONS)
     Observable<BaseResponse<FormResponse>> getFormOption(@Path(ServiceConfig.KEY_ID) int leagueId);

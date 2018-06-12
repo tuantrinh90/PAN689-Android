@@ -5,7 +5,11 @@ import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
 import com.football.models.ExtPagingResponse;
 import com.football.models.responses.PlayerResponse;
+import com.football.utilities.Constant;
 import com.football.utilities.RxUtilities;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class PlayerListPresenter extends BaseDataPresenter<IPlayerListView> implements IPlayerListPresenter<IPlayerListView> {
 
@@ -19,9 +23,17 @@ public class PlayerListPresenter extends BaseDataPresenter<IPlayerListView> impl
     @Override
     public void getPlayers(int leagueId, String orderBy, int page, int perPage, String query, Integer mainPosition, boolean newPlayers) {
         getOptView().doIfPresent(v -> {
+            Map<String, String> queries = new HashMap<>();
+            queries.put(Constant.KEY_LEAGUE_ID, String.valueOf(leagueId));
+            queries.put(Constant.KEY_ORDER_BY, orderBy);
+            queries.put(Constant.KEY_PAGE, String.valueOf(page));
+            queries.put(Constant.KEY_PER_PAGE, String.valueOf(perPage));
+            queries.put(Constant.KEY_WORD, query);
+            queries.put(Constant.KEY_MAIN_POSITION, String.valueOf(mainPosition));
+
             mCompositeDisposable.add(RxUtilities.async(
                     v,
-                    dataModule.getApiService().getPlayerList(leagueId, orderBy, page, perPage, query, mainPosition),
+                    dataModule.getApiService().getPlayerList(queries),
                     new ApiCallback<ExtPagingResponse<PlayerResponse>>() {
                         @Override
                         public void onStart() {
