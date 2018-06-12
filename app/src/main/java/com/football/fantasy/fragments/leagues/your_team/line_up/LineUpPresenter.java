@@ -19,11 +19,11 @@ public class LineUpPresenter extends BaseDataPresenter<ILineUpView> implements I
     }
 
     @Override
-    public void getLineup(int leagueId) {
+    public void getLineup(int teamId) {
         getOptView().doIfPresent(v -> {
             mCompositeDisposable.add(RxUtilities.async(
                     v,
-                    dataModule.getApiService().getLineup(leagueId),
+                    dataModule.getApiService().getLineup(teamId),
                     new ApiCallback<LineupResponse>() {
                         @Override
                         public void onStart() {
@@ -37,7 +37,8 @@ public class LineUpPresenter extends BaseDataPresenter<ILineUpView> implements I
 
                         @Override
                         public void onSuccess(LineupResponse response) {
-                            v.displayLineup(response);
+                            v.displayLineupPlayers(response.getPlayers());
+                            v.displayStatistic(response.getStatistic());
                         }
 
                         @Override
@@ -49,14 +50,14 @@ public class LineUpPresenter extends BaseDataPresenter<ILineUpView> implements I
     }
 
     @Override
-    public void addPlayer(int teamId, Integer playerId) {
+    public void addPlayer(PlayerResponse player, int teamId) {
         getOptView().doIfPresent(v -> {
             mCompositeDisposable.add(RxUtilities.async(
                     v,
                     dataModule.getApiService().addPlayer(new MultipartBody.Builder()
                             .setType(MultipartBody.FORM)
                             .addFormDataPart("team_id", String.valueOf(teamId))
-                            .addFormDataPart("player_id", String.valueOf(playerId))
+                            .addFormDataPart("player_id", String.valueOf(player.getId()))
                             .build()),
                     new ApiCallback<PlayerResponse>() {
                         @Override
@@ -71,7 +72,7 @@ public class LineUpPresenter extends BaseDataPresenter<ILineUpView> implements I
 
                         @Override
                         public void onSuccess(PlayerResponse response) {
-                            v.onAddPlayer(response);
+                            v.onAddPlayer(player);
                         }
 
                         @Override

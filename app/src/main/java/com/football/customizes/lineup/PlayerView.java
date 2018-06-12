@@ -62,7 +62,7 @@ public class PlayerView extends LinearLayout {
             ImageLoaderUtils.displayImage(player.getPhoto(), ivPlayer);
             tvContent.setText(player.getName());
         }
-        switch (position) {
+        switch (3 - position) {
             case PlayerResponse.POSITION_GOALKEEPER:
                 ivPlayer.setBackgroundResource(R.drawable.bg_player_g);
                 break;

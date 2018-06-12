@@ -9,10 +9,13 @@ import com.bon.logger.Logger;
 import com.bon.util.DialogUtils;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.lineup.LineupView;
+import com.football.customizes.lineup.StatisticView;
 import com.football.events.PlayerEvent;
 import com.football.fantasy.R;
-import com.football.models.responses.LineupResponse;
 import com.football.models.responses.PlayerResponse;
+import com.football.models.responses.StatisticResponse;
+
+import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.observers.DisposableObserver;
@@ -34,6 +37,14 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
 
     @BindView(R.id.lineupView)
     LineupView lineupView;
+    @BindView(R.id.svGoalkeeper)
+    StatisticView svGoalkeeper;
+    @BindView(R.id.svDefender)
+    StatisticView svDefender;
+    @BindView(R.id.svMidfielder)
+    StatisticView svMidfielder;
+    @BindView(R.id.svAttacker)
+    StatisticView svAttacker;
 
     private int teamId;
 
@@ -50,20 +61,19 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
         initView();
         registerEvent();
 
-        if (teamId > 0) {
-            presenter.getLineup(teamId);
-        }
+        presenter.getLineup(teamId);
     }
 
     private void getDataFromBundle() {
         Bundle bundle = getArguments();
         if (bundle != null) {
             teamId = bundle.getInt(KEY_TEAM_ID);
+            teamId = 291;
         }
     }
 
     void initView() {
-        lineupView.setupLineup(new PlayerResponse[18], new int[]{2, 6, 6, 4});
+        lineupView.setupLineup(new PlayerResponse[18], new int[]{4, 6, 6, 2});
         lineupView.setPlayerBiConsumer((player, position) -> {
             Log.d("dd", "setPlayerBiConsumer: " + position);
         });
@@ -111,7 +121,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
 
     private void insertToLineUpView(PlayerResponse player, int position) {
 //        lineupView.addPlayer(player, position == PlayerResponse.POSITION_NONE ? player.getMainPosition() : position);
-        presenter.addPlayer(teamId, player.getId());
+        presenter.addPlayer(player, teamId);
     }
 
     @Override
@@ -120,12 +130,25 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     }
 
     @Override
-    public void displayLineup(LineupResponse lineup) {
+    public void displayLineupPlayers(List<PlayerResponse> players) {
+        lineupView.notifyDataSetChanged();
+        for (PlayerResponse player : players) {
+            lineupView.addPlayer(player, 3 - player.getMainPosition());
+        }
+
 
     }
 
     @Override
-    public void onAddPlayer(PlayerResponse response) {
+    public void displayStatistic(StatisticResponse statistic) {
+        svGoalkeeper.setCount(statistic.getGoalkeeper());
+        svDefender.setCount(statistic.getDefender());
+        svMidfielder.setCount(statistic.getMidfielder());
+        svAttacker.setCount(statistic.getAttacker());
+    }
 
+    @Override
+    public void onAddPlayer(PlayerResponse player) {
+        lineupView.addPlayer(player, 3 - player.getMainPosition());
     }
 }

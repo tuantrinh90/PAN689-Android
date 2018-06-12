@@ -23,8 +23,8 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
     private Consumer<Integer> removeConsumer;
     private BiConsumer<PlayerResponse, Integer> playerBiConsumer;
 
-    private int[] squad = new int[]{1, 3, 5, 2}; // sắp xếp đội hình theo từng hàng, mỗi phần tử tương ứng với số lượng cầu thủ tại hàng đó
-    private PlayerResponse[] players = new PlayerResponse[11];
+    private int[] squad = new int[]{4, 6, 6, 2}; // sắp xếp đội hình theo từng hàng, mỗi phần tử tương ứng với số lượng cầu thủ tại hàng đó
+    private PlayerResponse[] players = new PlayerResponse[18];
 
     public LineupView(Context context) {
         this(context, null);
@@ -53,7 +53,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         this.removeAllViews();
 
         int position = 0;
-        for (int line = LINE - 1; line >= 0; line--) {
+        for (int line = 0; line < LINE; line++) {
             int playerCount = squad[line]; // số lượng cầu thủ trên 1 hàng
             for (int i = 0; i < playerCount; i++) {
                 PlayerView view = createPlayerView(mContext, players.length - position - 1, line);
@@ -134,7 +134,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         }
         for (int i = 0; i < squad[line]; i++) {
             if (((PlayerView) getChildAt(index)).getPlayer() == null) {
-                return (players.length - index) - squad[3 - line];
+                return index;
             }
             index++;
         }
@@ -143,7 +143,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
 
     public void setPlayer(PlayerResponse player, int position) {
         this.players[position] = player;
-        PlayerView view = (PlayerView) getChildAt(position); // todo: kiểm tra lại phần này
+        PlayerView view = (PlayerView) getChildAt(position);
         displayPlayer(view, player);
     }
 
@@ -173,5 +173,9 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
     @Override
     public void onPlayerClick(PlayerResponse player, int position) {
         Optional.from(playerBiConsumer).doIfPresent(c -> c.accept(player, position));
+    }
+
+    public void clear() {
+        removeAllViews();
     }
 }
