@@ -55,35 +55,34 @@ public class LeaguesAdapter extends ExtBaseAdapter<LeagueResponse, LeaguesAdapte
     }
 
     @Override
-    protected void onBindViewHolder(ViewHolder holder, LeagueResponse leagueResponse) {
-        System.out.println("leagueResponse::" + leagueResponse);
-        holder.ivAvatar.setImageUri(leagueResponse.getLogo());
-        holder.tvTitle.setText(leagueResponse.getName());
-        holder.tvOwner.setText(leagueResponse.getUser().getName());
-        holder.tvEntrantNumber.setText(String.valueOf(leagueResponse.getCurrentNumberOfUser()));
-        holder.tvEntrantTotal.setText(String.valueOf(leagueResponse.getNumberOfUser()));
-        holder.tvDescription.setText(leagueResponse.getDescriptionText(context));
+    protected void onBindViewHolder(ViewHolder holder, LeagueResponse league) {
+        holder.ivAvatar.setImageUri(league.getLogo());
+        holder.tvTitle.setText(league.getName());
+        holder.tvOwner.setText(league.getOwner() ? holder.itemView.getContext().getString(R.string.me) : league.getUser().getName());
+        holder.tvEntrantNumber.setText(String.valueOf(league.getCurrentNumberOfUser()));
+        holder.tvEntrantTotal.setText(String.valueOf(league.getNumberOfUser()));
+        holder.tvDescription.setText(league.getDescriptionText(context));
 
         // hide up/down
         holder.ivUpOrDown.setVisibility(View.GONE);
         if (leagueType == MY_LEAGUES) {
-            if (leagueResponse.getRankStatus() != 0) {
+            if (league.getRankStatus() != 0) {
                 holder.ivUpOrDown.setVisibility(View.VISIBLE);
-                holder.ivUpOrDown.setBackgroundResource(leagueResponse.getRankStatus() > 0 ? R.drawable.bg_green_arrow_up_circle :
-                        (leagueResponse.getRankStatus() < 0 ? R.drawable.bg_green_arrow_down_red : 0));
-                holder.ivUpOrDown.setImageResource(leagueResponse.getRankStatus() > 0 ? R.drawable.ic_arrow_upward_white_small :
-                        (leagueResponse.getRankStatus() < 0 ? R.drawable.ic_arrow_down_white_small : 0));
+                holder.ivUpOrDown.setBackgroundResource(league.getRankStatus() > 0 ? R.drawable.bg_green_arrow_up_circle :
+                        (league.getRankStatus() < 0 ? R.drawable.bg_green_arrow_down_red : 0));
+                holder.ivUpOrDown.setImageResource(league.getRankStatus() > 0 ? R.drawable.ic_arrow_upward_white_small :
+                        (league.getRankStatus() < 0 ? R.drawable.ic_arrow_down_white_small : 0));
             }
 
-            holder.tvNumber.setText(String.valueOf(leagueResponse.getRank()));
-            holder.tvNumber.setVisibility(leagueResponse.getRank() > 3 ? View.VISIBLE : View.GONE);
-            holder.ivNumber.setVisibility(leagueResponse.getRank() <= 3 ? View.VISIBLE : View.GONE);
-            holder.ivNumber.setImageResource(leagueResponse.getRank() == 1 ? R.drawable.ic_number_one :
-                    (leagueResponse.getRank() == 2 ? R.drawable.ic_number_two : (leagueResponse.getRank() == 2 ? R.drawable.ic_number_three : 0)));
+            holder.tvNumber.setText(String.valueOf(league.getRank()));
+            holder.tvNumber.setVisibility(league.getRank() > 3 ? View.VISIBLE : View.GONE);
+            holder.ivNumber.setVisibility(league.getRank() <= 3 ? View.VISIBLE : View.GONE);
+            holder.ivNumber.setImageResource(league.getRank() == 1 ? R.drawable.ic_number_one :
+                    (league.getRank() == 2 ? R.drawable.ic_number_two : (league.getRank() == 2 ? R.drawable.ic_number_three : 0)));
         }
 
         if (leagueType == PENDING_INVITATIONS) {
-            UserResponse sender = leagueResponse.getInvitation() != null ? leagueResponse.getInvitation().getSender() : null;
+            UserResponse sender = league.getInvitation() != null ? league.getInvitation().getSender() : null;
             holder.tvInvitor.setText(sender != null ? sender.getName() : "");
         }
 
@@ -94,10 +93,10 @@ public class LeaguesAdapter extends ExtBaseAdapter<LeagueResponse, LeaguesAdapte
         holder.tvJoin.setVisibility(leagueType == OPEN_LEAGUES ? View.VISIBLE : View.GONE);
 
         // event
-        RxView.clicks(holder.itemView).subscribe(v -> Optional.from(detailConsumer).doIfPresent(c -> c.accept(leagueResponse)));
-        RxView.clicks(holder.tvJoin).subscribe(v -> Optional.from(joinConsumer).doIfPresent(c -> c.accept(leagueResponse)));
-        RxView.clicks(holder.tvCheck).subscribe(v -> Optional.from(approveConsumer).doIfPresent(c -> c.accept(leagueResponse)));
-        RxView.clicks(holder.tvClose).subscribe(v -> Optional.from(rejectConsumer).doIfPresent(c -> c.accept(leagueResponse)));
+        RxView.clicks(holder.itemView).subscribe(v -> Optional.from(detailConsumer).doIfPresent(c -> c.accept(league)));
+        RxView.clicks(holder.tvJoin).subscribe(v -> Optional.from(joinConsumer).doIfPresent(c -> c.accept(league)));
+        RxView.clicks(holder.tvCheck).subscribe(v -> Optional.from(approveConsumer).doIfPresent(c -> c.accept(league)));
+        RxView.clicks(holder.tvClose).subscribe(v -> Optional.from(rejectConsumer).doIfPresent(c -> c.accept(league)));
     }
 
     static class ViewHolder extends ExtPagingListView.ExtViewHolder {
