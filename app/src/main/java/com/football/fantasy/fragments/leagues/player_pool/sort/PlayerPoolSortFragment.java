@@ -32,6 +32,11 @@ public class PlayerPoolSortFragment extends BaseMainMvpFragment<IPlayerPoolSortV
     ExtKeyValuePair keyValuePairKey;
     ExtKeyValuePair keyValuePairValue;
 
+    public static Bundle newBundle() {
+        Bundle bundle = new Bundle();
+        return bundle;
+    }
+
     @Override
     public int getResourceId() {
         return R.layout.player_pool_sort_fragment;

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolDisplayView, IPlayerPoolDisplayPresenter<IPlayerPoolDisplayView>> implements IPlayerPoolDisplayView {
     @BindView(R.id.tvHeader)
@@ -37,6 +38,11 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolDis
 
     FilterAdapter filterPositionAdapter;
     FilterAdapter filterClubAdapter;
+
+    public static Bundle newBundle() {
+        Bundle bundle = new Bundle();
+        return bundle;
+    }
 
     @Override
     public int getResourceId() {
@@ -99,5 +105,10 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolDis
         super.initToolbar(supportActionBar);
         supportActionBar.setDisplayHomeAsUpEnabled(true);
         supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_blue);
+    }
+
+    @OnClick({R.id.tvApplyFilter})
+    public void onApplyFilter() {
+
     }
 }

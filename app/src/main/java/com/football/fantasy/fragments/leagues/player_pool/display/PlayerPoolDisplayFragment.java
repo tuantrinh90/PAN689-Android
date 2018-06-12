@@ -31,6 +31,11 @@ public class PlayerPoolDisplayFragment extends BaseMainMvpFragment<IPlayerPoolDi
     List<ExtKeyValuePair> keyValuePairs;
     FilterAdapter filterAdapter;
 
+    public static Bundle newBundle() {
+        Bundle bundle = new Bundle();
+        return bundle;
+    }
+
     @Override
     public int getResourceId() {
         return R.layout.player_pool_display_fragment;

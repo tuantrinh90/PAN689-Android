@@ -1,5 +1,6 @@
 package com.football.fantasy.fragments.leagues.player_pool;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,17 +13,28 @@ import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.football.adapters.PlayerPoolItemAdapter;
+import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.searchs.SearchView;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
+import com.football.fantasy.fragments.leagues.player_pool.display.PlayerPoolDisplayFragment;
+import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilterFragment;
+import com.football.fantasy.fragments.leagues.player_pool.sort.PlayerPoolSortFragment;
 import com.football.models.responses.PlayerResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPlayerPoolPresenter<IPlayerPoolView>> implements IPlayerPoolView {
+
+    private static final int REQUEST_FILTER = 100;
+    private static final int REQUEST_DISPLAY = 101;
+    private static final int REQUEST_SORT = 102;
+
     @BindView(R.id.ivArrowLeft)
     ImageView ivArrowLeft;
     @BindView(R.id.tvTitle)
@@ -36,6 +48,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
 
     List<PlayerResponse> playerResponses;
     PlayerPoolItemAdapter playerPoolItemAdapter;
+    private int page;
 
     public static Bundle newBundle() {
         Bundle bundle = new Bundle();
@@ -62,15 +75,28 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
 
     void initData() {
         playerResponses = new ArrayList<>();
-        playerPoolItemAdapter = new PlayerPoolItemAdapter(mActivity, playerResponses);
-        lvData.init(mActivity, playerPoolItemAdapter);
+        playerPoolItemAdapter = new PlayerPoolItemAdapter(
+                mActivity,
+                playerResponses,
+                player -> { // click event
+                    AloneFragmentActivity.with(this)
+                            .parameters(PlayerDetailFragment.newBundle(player))
+                            .start(PlayerDetailFragment.class);
+                });
+        lvData.init(mActivity, playerPoolItemAdapter)
+                .setOnExtRefreshListener(() -> {
+                    page = 1;
+                    lvData.clearItems();
+                    lvData.startLoading();
+                    getPlayers();
+                });
 
+        lvData.startLoading();
         getPlayers();
     }
 
     private void getPlayers() {
         presenter.getPlayers();
-
     }
 
     @Override
@@ -95,5 +121,45 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
         Optional.from(lvData).doIfPresent(rv -> {
             rv.addNewItems(players);
         });
+    }
+
+    @OnClick({R.id.filter, R.id.display, R.id.sort})
+    public void onSortClicked(View view) {
+        switch (view.getId()) {
+            case R.id.filter:
+                AloneFragmentActivity.with(this)
+                        .forResult(REQUEST_FILTER)
+                        .parameters(PlayerPoolFilterFragment.newBundle())
+                        .start(PlayerPoolFilterFragment.class);
+                break;
+            case R.id.display:
+                AloneFragmentActivity.with(this)
+                        .forResult(REQUEST_DISPLAY)
+                        .parameters(PlayerPoolDisplayFragment.newBundle())
+                        .start(PlayerPoolDisplayFragment.class);
+                break;
+            case R.id.sort:
+                AloneFragmentActivity.with(this)
+                        .forResult(REQUEST_SORT)
+                        .parameters(PlayerPoolSortFragment.newBundle())
+                        .start(PlayerPoolSortFragment.class);
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_FILTER:
+
+                break;
+            case REQUEST_DISPLAY:
+
+                break;
+            case REQUEST_SORT:
+
+                break;
+        }
     }
 }
