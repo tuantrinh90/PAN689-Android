@@ -35,19 +35,34 @@ public class PlayerResponse implements Serializable {
     private String photo;
     @JsonProperty("is_injured")
     private Boolean isInjured;
+    @JsonProperty("is_goalkeeper")
+    private Boolean isGoalkeeper;
+    @JsonProperty("is_defender")
+    private Boolean isDefender;
+    @JsonProperty("is_midfielder")
+    private Boolean isMidfielder;
+    @JsonProperty("is_attacker")
+    private Boolean isAttacker;
     @JsonProperty("main_position")
     private Integer mainPosition;
     @JsonProperty("minor_position")
     private Integer minorPosition;
     @JsonProperty("transfer_value")
     private Long transferValue;
+    @JsonProperty("point_last_round")
+    private Integer pointLastRound;
+    @JsonProperty("is_selected")
+    private Boolean isSelected;
 
     public PlayerResponse() {
     }
 
-    public PlayerResponse(Integer id, String createdAt, String updatedAt, Integer realClubId, RealClubResponse realClub,
-                          String name, String nickname, String photo, Boolean isInjured,
-                          Integer mainPosition, Integer minorPosition, Long transferValue) {
+    public PlayerResponse(Integer id, String createdAt, String updatedAt, Integer realClubId,
+                          RealClubResponse realClub, String name, String nickname, String photo,
+                          Boolean isInjured, Boolean isGoalkeeper, Boolean isDefender,
+                          Boolean isMidfielder, Boolean isAttacker, Integer mainPosition,
+                          Integer minorPosition, Long transferValue, Integer pointLastRound,
+                          Boolean isSelected) {
         this.id = id;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -57,9 +72,15 @@ public class PlayerResponse implements Serializable {
         this.nickname = nickname;
         this.photo = photo;
         this.isInjured = isInjured;
+        this.isGoalkeeper = isGoalkeeper;
+        this.isDefender = isDefender;
+        this.isMidfielder = isMidfielder;
+        this.isAttacker = isAttacker;
         this.mainPosition = mainPosition;
         this.minorPosition = minorPosition;
         this.transferValue = transferValue;
+        this.pointLastRound = pointLastRound;
+        this.isSelected = isSelected;
     }
 
     public Integer getId() {
@@ -135,7 +156,7 @@ public class PlayerResponse implements Serializable {
     }
 
     @JsonIgnore
-    public String getInjuredText(Context context){
+    public String getInjuredText(Context context) {
         return getInjured() ? context.getString(R.string.injured) : "";
     }
 
@@ -148,10 +169,9 @@ public class PlayerResponse implements Serializable {
     }
 
     @JsonIgnore
-    public String getMainPositionText(){
+    public String getMainPositionText() {
         return getPositionText(getMainPosition());
     }
-
 
 
     public Integer getMinorPosition() {
@@ -163,7 +183,7 @@ public class PlayerResponse implements Serializable {
     }
 
     @JsonIgnore
-    public String getMinorPositionText(){
+    public String getMinorPositionText() {
         return getPositionText(getMinorPosition());
     }
 
@@ -178,6 +198,22 @@ public class PlayerResponse implements Serializable {
     @JsonIgnore
     public String getTransferValueDisplay() {
         return String.valueOf(getTransferValue() / 1000000f);
+    }
+
+    public Integer getPointLastRound() {
+        return pointLastRound;
+    }
+
+    public void setPointLastRound(Integer pointLastRound) {
+        this.pointLastRound = pointLastRound;
+    }
+
+    public Boolean getSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(Boolean selected) {
+        isSelected = selected;
     }
 
     @JsonIgnore
@@ -204,7 +240,7 @@ public class PlayerResponse implements Serializable {
 
     @JsonIgnore
     public Drawable getPositionBackground(Context context, int position) {
-        Drawable result =null;
+        Drawable result = null;
 
         switch (position) {
             case POSITION_GOALKEEPER:
@@ -214,10 +250,10 @@ public class PlayerResponse implements Serializable {
                 result = ContextCompat.getDrawable(context, R.drawable.bg_green_radius);
                 break;
             case POSITION_MIDFIELDER:
-                result =  ContextCompat.getDrawable(context, R.drawable.bg_yellow_radius);
+                result = ContextCompat.getDrawable(context, R.drawable.bg_yellow_radius);
                 break;
             case POSITION_ATTACKER:
-                result =  ContextCompat.getDrawable(context, R.drawable.bg_red_radius);
+                result = ContextCompat.getDrawable(context, R.drawable.bg_red_radius);
                 break;
         }
 
@@ -236,9 +272,15 @@ public class PlayerResponse implements Serializable {
                 ", nickname='" + nickname + '\'' +
                 ", photo='" + photo + '\'' +
                 ", isInjured=" + isInjured +
+                ", isGoalkeeper=" + isGoalkeeper +
+                ", isDefender=" + isDefender +
+                ", isMidfielder=" + isMidfielder +
+                ", isAttacker=" + isAttacker +
                 ", mainPosition=" + mainPosition +
                 ", minorPosition=" + minorPosition +
                 ", transferValue=" + transferValue +
+                ", pointLastRound=" + pointLastRound +
+                ", isSelected=" + isSelected +
                 '}';
     }
 }

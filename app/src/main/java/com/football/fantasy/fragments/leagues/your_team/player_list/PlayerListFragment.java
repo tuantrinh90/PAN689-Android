@@ -60,10 +60,10 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
     PlayerAdapter playerAdapter;
 
     private int leagueId = 0;
-    private String orderBy = "desc";
+    private String orderBy = "{\"transfer_value\": \"desc\"}";
     private int page = 1;
     private String query = "";
-    private String mainPosition = "";
+    private Integer mainPosition = null;
     private int playerPosition = -1;
     private View lastPlayerViewSelected = null;
 
@@ -211,23 +211,23 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
             switch (view.getId()) {
                 case R.id.svNone:
                     playerPosition = PlayerResponse.POSITION_NONE;
-                    mainPosition = StatisticView.PositionValue.NONE;
+                    mainPosition = null;
                     break;
                 case R.id.svGoalkeeper:
                     playerPosition = PlayerResponse.POSITION_GOALKEEPER;
-                    mainPosition = StatisticView.PositionValue.GOALKEEPER;
+                    mainPosition = StatisticView.Position.GOALKEEPER;
                     break;
                 case R.id.svDefender:
                     playerPosition = PlayerResponse.POSITION_DEFENDER;
-                    mainPosition = StatisticView.PositionValue.DEFENDER;
+                    mainPosition = StatisticView.Position.DEFENDER;
                     break;
                 case R.id.svMidfielder:
                     playerPosition = PlayerResponse.POSITION_MIDFIELDER;
-                    mainPosition = StatisticView.PositionValue.MIDFIELDER;
+                    mainPosition = StatisticView.Position.MIDFIELDER;
                     break;
                 case R.id.svAttacker:
                     playerPosition = PlayerResponse.POSITION_ATTACKER;
-                    mainPosition = StatisticView.PositionValue.ATTACKER;
+                    mainPosition = StatisticView.Position.ATTACKER;
                     break;
             }
             page = 1;

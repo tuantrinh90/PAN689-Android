@@ -47,16 +47,17 @@ public class TeamSquadFragment extends BaseMainMvpFragment<ITeamSquadView, ITeam
 
     void initView() {
         playerResponses = new ArrayList<>();
-        playerResponses.add(new PlayerResponse(0, null, null, 0, null, "abc", "abc", "http://media.doisongvietnam.vn/u/rootimage/editor/2017/08/15/20/19/w825/2081502781555_4841.jpg",
-                true, 0, 3, 1000l));
-        playerResponses.add(new PlayerResponse(0, null, null, 0, null, "abc", "abc", "http://media.doisongvietnam.vn/u/rootimage/editor/2017/08/15/20/19/w825/2081502781555_4841.jpg",
-                true, 1, 3, 1000l));
-        playerResponses.add(new PlayerResponse(0, null, null, 0, null, "abc", "abc", "http://media.doisongvietnam.vn/u/rootimage/editor/2017/08/15/20/19/w825/2081502781555_4841.jpg",
-                true, 2, 3, 1000l));
-        playerResponses.add(new PlayerResponse(0, null, null, 0, null, "abc", "abc", "http://media.doisongvietnam.vn/u/rootimage/editor/2017/08/15/20/19/w825/2081502781555_4841.jpg",
-                true, 3, 3, 1000l));
-        playerResponses.add(new PlayerResponse(0, null, null, 0, null, "abc", "abc", "http://media.doisongvietnam.vn/u/rootimage/editor/2017/08/15/20/19/w825/2081502781555_4841.jpg",
-                true, 1, 3, 1000l));
+//        playerResponses.add(new PlayerResponse(0, null, null, 0, null, "abc", "abc", "http://media.doisongvietnam.vn/u/rootimage/editor/2017/08/15/20/19/w825/2081502781555_4841.jpg",
+//                false,false,false,false,false,
+//                true, 0, 3, 1000l));
+//        playerResponses.add(new PlayerResponse(0, null, null, 0, null, "abc", "abc", "http://media.doisongvietnam.vn/u/rootimage/editor/2017/08/15/20/19/w825/2081502781555_4841.jpg",
+//                true, 1, 3, 1000l));
+//        playerResponses.add(new PlayerResponse(0, null, null, 0, null, "abc", "abc", "http://media.doisongvietnam.vn/u/rootimage/editor/2017/08/15/20/19/w825/2081502781555_4841.jpg",
+//                true, 2, 3, 1000l));
+//        playerResponses.add(new PlayerResponse(0, null, null, 0, null, "abc", "abc", "http://media.doisongvietnam.vn/u/rootimage/editor/2017/08/15/20/19/w825/2081502781555_4841.jpg",
+//                true, 3, 3, 1000l));
+//        playerResponses.add(new PlayerResponse(0, null, null, 0, null, "abc", "abc", "http://media.doisongvietnam.vn/u/rootimage/editor/2017/08/15/20/19/w825/2081502781555_4841.jpg",
+//                true, 1, 3, 1000l));
 
         teamSquadAdapter = new TeamSquadAdapter(mActivity, playerResponses);
         lvData.init(mActivity, teamSquadAdapter);
