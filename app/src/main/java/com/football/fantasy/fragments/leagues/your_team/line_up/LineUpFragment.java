@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 
+import com.bon.customview.textview.ExtTextView;
 import com.bon.logger.Logger;
 import com.bon.util.DialogUtils;
 import com.football.common.fragments.BaseMainMvpFragment;
@@ -27,16 +28,20 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     private static final String TAG = "LineUpFragment";
 
     static final String KEY_TEAM_ID = "TEAM_ID";
+    private static final String KEY_TEAM_SETUP_TIME = "TEAM_SETUP_TIME";
 
 
-    public static LineUpFragment newInstance(Integer teamId) {
+    public static LineUpFragment newInstance(Integer teamId, String teamSetupTime) {
         LineUpFragment fragment = new LineUpFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(KEY_TEAM_ID, teamId);
+        bundle.putString(KEY_TEAM_SETUP_TIME, teamSetupTime);
         fragment.setArguments(bundle);
         return fragment;
     }
 
+    @BindView(R.id.tvSetupTime)
+    ExtTextView tvSetupTime;
     @BindView(R.id.lineupView)
     LineupView lineupView;
     @BindView(R.id.svGoalkeeper)
@@ -57,9 +62,9 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
+        getDataFromBundle();
         initView();
         registerEvent();
 
@@ -70,6 +75,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
         Bundle bundle = getArguments();
         if (bundle != null) {
             teamId = bundle.getInt(KEY_TEAM_ID);
+            tvSetupTime.setText(bundle.getString(KEY_TEAM_SETUP_TIME));
         }
     }
 

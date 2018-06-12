@@ -29,12 +29,14 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
     private static final String TAG = "PlayerListFragment";
 
     static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+    private static final String KEY_TEAM_SETUP_TIME = "TEAM_SETUP_TIME";
 
 
-    public static PlayerListFragment newInstance(Integer leagueId) {
+    public static PlayerListFragment newInstance(Integer leagueId, String teamSetupTime) {
         PlayerListFragment fragment = new PlayerListFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(KEY_LEAGUE_ID, leagueId);
+        bundle.putString(KEY_TEAM_SETUP_TIME, teamSetupTime);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -74,9 +76,9 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
+        getDataFromBundle();
         initView();
     }
 
@@ -84,6 +86,7 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
         Bundle bundle = getArguments();
         if (bundle != null) {
             leagueId = bundle.getInt(KEY_LEAGUE_ID);
+            tvSetupTime.setText(bundle.getString(KEY_TEAM_SETUP_TIME));
         }
     }
 
