@@ -126,6 +126,7 @@
                         app:textViewFontAssetName="@string/font_display_bold" />
 
                     <Switch
+                        android:id="@+id/switch_display"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/padding_content"

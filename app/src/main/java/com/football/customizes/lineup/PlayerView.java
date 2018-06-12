@@ -53,8 +53,8 @@ public class PlayerView extends LinearLayout {
 
     private void displayPlayer() {
         if (player == null) {
-            ivRemove.setVisibility(GONE);
-            tvContent.setVisibility(GONE);
+            ivRemove.setVisibility(INVISIBLE);
+            tvContent.setVisibility(INVISIBLE);
             ivPlayer.setImageResource(0);
         } else {
             ivRemove.setVisibility(VISIBLE);
@@ -75,6 +75,12 @@ public class PlayerView extends LinearLayout {
             case PlayerResponse.POSITION_ATTACKER:
                 ivPlayer.setBackgroundResource(R.drawable.bg_player_a);
                 break;
+        }
+    }
+
+    public void displayName(boolean bool) {
+        if (player != null) {
+            tvContent.setText(bool ? player.getName() : getContext().getString(R.string.money_prefix, player.getTransferValueDisplay()));
         }
     }
 

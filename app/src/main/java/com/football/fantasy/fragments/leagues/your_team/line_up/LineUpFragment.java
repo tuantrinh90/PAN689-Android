@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 
 import com.bon.logger.Logger;
 import com.bon.util.DialogUtils;
@@ -18,6 +19,7 @@ import com.football.models.responses.StatisticResponse;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnCheckedChanged;
 import io.reactivex.observers.DisposableObserver;
 
 public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPresenter<ILineUpView>> implements ILineUpView {
@@ -127,6 +129,11 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     @Override
     public ILineUpPresenter<ILineUpView> createPresenter() {
         return new LineUpPresenter(getAppComponent());
+    }
+
+    @OnCheckedChanged({R.id.switch_display})
+    public void onCheckedChanged(CompoundButton button, boolean checked) {
+        lineupView.displayByName(!checked);
     }
 
     @Override
