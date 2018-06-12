@@ -70,7 +70,6 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
         Bundle bundle = getArguments();
         if (bundle != null) {
             teamId = bundle.getInt(KEY_TEAM_ID);
-            teamId = 291;
         }
     }
 
