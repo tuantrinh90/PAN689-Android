@@ -8,11 +8,13 @@ import android.support.v7.app.ActionBar;
 import android.view.View;
 
 import com.bon.customview.textview.ExtTextView;
+import com.bon.image.ImageLoaderUtils;
 import com.bon.interfaces.Optional;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
 import com.football.models.responses.PlayerResponse;
+import com.football.utilities.AppUtilities;
 import com.google.android.flexbox.FlexboxLayout;
 
 import butterknife.BindView;
@@ -79,7 +81,20 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
         bindButterKnife(view);
         getDataFromBundle();
         initView();
+        displayPlayer();
     }
+
+    private void displayPlayer() {
+        if (player != null) {
+            tvName.setText(player.getName());
+            AppUtilities.displayPlayerPosition(tvMainPosition, player.getMainPosition(), player.getMainPositionText());
+            AppUtilities.displayPlayerPosition(tvMinorPosition, player.getMinorPosition(), player.getMinorPositionText());
+            tvPoints.setText(String.valueOf(player.getPointLastRound()));
+            tvValue.setText(getString(R.string.money_prefix, player.getTransferValueDisplay()));
+            ImageLoaderUtils.displayImage(player.getPhoto(), ivAvatar.getImageView());
+        }
+    }
+
 
     private void getDataFromBundle() {
         player = (PlayerResponse) getArguments().getSerializable(KEY_PLAYER);
