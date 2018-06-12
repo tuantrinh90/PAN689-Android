@@ -234,6 +234,8 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
                     break;
             }
             page = 1;
+            rvRecyclerView.clearItems();
+            rvRecyclerView.startLoading();
             getPlayers(true);
         }
     }

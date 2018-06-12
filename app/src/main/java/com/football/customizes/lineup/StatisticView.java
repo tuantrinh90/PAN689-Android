@@ -40,23 +40,6 @@ public class StatisticView extends FrameLayout {
 
     }
 
-    @IntDef({Position.GOALKEEPER, Position.DEFENDER,
-            Position.MIDFIELDER, Position.ATTACKER})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface PositionValue {
-
-        String NONE = "";
-
-        String GOALKEEPER = "goalkeeper";
-
-        String DEFENDER = "defender";
-
-        String MIDFIELDER = "midfielder";
-
-        String ATTACKER = "attacker";
-
-    }
-
     @BindView(R.id.tvPosition)
     ExtTextView tvPosition;
     @BindView(R.id.tvCount)
@@ -82,7 +65,7 @@ public class StatisticView extends FrameLayout {
         if (selected) {
             setPositionText(position);
         } else {
-            tvPosition.setBackgroundResource(R.drawable.bg_player_position_none);
+            tvPosition.setBackgroundResource(R.drawable.bg_player_position_disable);
         }
         super.setSelected(selected);
     }
