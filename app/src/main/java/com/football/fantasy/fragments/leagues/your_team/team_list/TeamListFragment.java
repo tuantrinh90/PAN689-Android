@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.bon.customview.listview.ExtPagingListView;
+import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.football.adapters.TeamAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
@@ -19,11 +20,11 @@ import java.util.List;
 import butterknife.BindView;
 
 public class TeamListFragment extends BaseMainMvpFragment<ITeamListView, ITeamListPresenter<ITeamListView>> implements ITeamListView {
-
     static final String KEY_LEAGUE = "LEAGUE";
 
-    @BindView(R.id.rvRecyclerView)
-    ExtPagingListView rvRecyclerView;
+    @BindView(R.id.tvNumber) ExtTextView tvNumber;
+    @BindView(R.id.tvTotal) ExtTextView tvTotal;
+    @BindView(R.id.rvRecyclerView) ExtPagingListView rvRecyclerView;
 
     LeagueResponse league;
     TeamAdapter teamAdapter;
