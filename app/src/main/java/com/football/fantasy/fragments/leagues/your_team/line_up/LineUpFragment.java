@@ -16,6 +16,7 @@ import com.football.events.PlayerEvent;
 import com.football.fantasy.R;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.StatisticResponse;
+import com.football.models.responses.TeamResponse;
 
 import java.util.List;
 
@@ -52,6 +53,8 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     StatisticView svMidfielder;
     @BindView(R.id.svAttacker)
     StatisticView svAttacker;
+    @BindView(R.id.tvBudget)
+    ExtTextView tvBudget;
 
     private int teamId;
 
@@ -81,18 +84,19 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
 
     void initView() {
         lineupView.setupLineup(new PlayerResponse[18], new int[]{4, 6, 6, 2});
-        lineupView.setPlayerBiConsumer((player, position) -> {
-            Log.d("dd", "setPlayerBiConsumer: " + position);
+        lineupView.setClickConsumer((player, position) -> {
+            Log.d("dd", "setClickConsumer: " + position);
         });
-        lineupView.setRemoveConsumer(position -> {
+        lineupView.setRemoveConsumer((player, position) -> {
             DialogUtils.messageBox(mActivity,
                     0,
                     getString(R.string.app_name),
                     getString(R.string.message_confirm_remove_lineup_player),
                     getString(R.string.ok),
                     getString(R.string.cancel),
-                    (dialog, which) -> lineupView.removePlayerView(position),
-                    (dialog, which) -> lineupView.removePlayerView(position));
+                    (dialog, which) -> presenter.removePlayer(player, teamId),
+                    (dialog, which) -> {
+                    });
         });
     }
 
@@ -142,13 +146,16 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     }
 
     @Override
+    public void displayBudget(TeamResponse team) {
+        tvBudget.setText(getString(R.string.team_budget_value, team.getCurrentBudgetValue()));
+    }
+
+    @Override
     public void displayLineupPlayers(List<PlayerResponse> players) {
         lineupView.notifyDataSetChanged();
         for (PlayerResponse player : players) {
             lineupView.addPlayer(player, 3 - player.getMainPosition());
         }
-
-
     }
 
     @Override
@@ -160,7 +167,13 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     }
 
     @Override
-    public void onAddPlayer(PlayerResponse player) {
+    public void onAddPlayer(TeamResponse team, PlayerResponse player) {
         lineupView.addPlayer(player, 3 - player.getMainPosition());
     }
+
+    @Override
+    public void onRemovePlayer(TeamResponse team, PlayerResponse player) {
+        lineupView.removePlayer(player, 3 - player.getMainPosition());
+    }
+
 }

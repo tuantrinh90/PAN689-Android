@@ -12,7 +12,6 @@ import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.flexbox.JustifyContent;
 
 import java8.util.function.BiConsumer;
-import java8.util.function.Consumer;
 
 public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerViewClickListener {
 
@@ -20,8 +19,8 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
 
     private Context mContext;
 
-    private Consumer<Integer> removeConsumer;
-    private BiConsumer<PlayerResponse, Integer> playerBiConsumer;
+    private BiConsumer<PlayerResponse, Integer> removeConsumer;
+    private BiConsumer<PlayerResponse, Integer> clickConsumer;
 
     private int[] squad = new int[]{4, 6, 6, 2}; // sắp xếp đội hình theo từng hàng, mỗi phần tử tương ứng với số lượng cầu thủ tại hàng đó
     private PlayerResponse[] players = new PlayerResponse[18];
@@ -90,12 +89,12 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         return playerView;
     }
 
-    public void setRemoveConsumer(Consumer<Integer> removeConsumer) {
+    public void setRemoveConsumer(BiConsumer<PlayerResponse, Integer> removeConsumer) {
         this.removeConsumer = removeConsumer;
     }
 
-    public void setPlayerBiConsumer(BiConsumer<PlayerResponse, Integer> playerBiConsumer) {
-        this.playerBiConsumer = playerBiConsumer;
+    public void setClickConsumer(BiConsumer<PlayerResponse, Integer> clickConsumer) {
+        this.clickConsumer = clickConsumer;
     }
 
     public void notifyDataSetChanged() {
@@ -117,19 +116,26 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
     }
 
     public void addPlayer(PlayerResponse player, int line) {
-        int position = getPosition(line);
+        int position = getPosition(null, line);
         if (position != -1) {
             setPlayer(player, position);
         }
     }
 
-    private int getPosition(int line) {
+    public void removePlayer(PlayerResponse player, int line) {
+        int position = getPosition(player, line);
+        if (position != -1) {
+            setPlayer(null, position);
+        }
+    }
+
+    private int getPosition(PlayerResponse player, int line) {
         int index = 0;
         for (int i = 0; i < line; i++) {
             index += squad[i];
         }
         for (int i = 0; i < squad[line]; i++) {
-            if (((PlayerView) getChildAt(index)).getPlayer() == null) {
+            if (((PlayerView) getChildAt(index)).getPlayer() == player) {
                 return index;
             }
             index++;
@@ -143,18 +149,14 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         displayPlayer(view, player);
     }
 
-    public void removePlayerView(int position) {
-
-    }
-
     @Override
-    public void onRemove(int position) {
-        Optional.from(removeConsumer).doIfPresent(c -> c.accept(position));
+    public void onRemove(PlayerResponse player, int position) {
+        Optional.from(removeConsumer).doIfPresent(c -> c.accept(player, position));
     }
 
     @Override
     public void onPlayerClick(PlayerResponse player, int position) {
-        Optional.from(playerBiConsumer).doIfPresent(c -> c.accept(player, position));
+        Optional.from(clickConsumer).doIfPresent(c -> c.accept(player, position));
     }
 
     public void clear() {

@@ -48,6 +48,7 @@ public interface ServiceConfig {
     String CREATE_TEAM = "teams";
     String LINEUP = "teams/lineup/{" + KEY_ID + "}";
     String ADD_PLAYER = "teams/add_player";
+    String REMOVE_PLAYER = "teams/remove_player";
     String PLAYERS_STATISTIC = "players/{id}/statistic";
 
     String LEAVE_LEAGUES = "leagues/leave/{id}";

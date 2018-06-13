@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 
 public class TeamResponse implements Serializable {
     @JsonProperty("id")
@@ -103,6 +104,11 @@ public class TeamResponse implements Serializable {
 
     public Integer getCurrentBudget() {
         return currentBudget == null ? 0 : currentBudget;
+    }
+
+    public String getCurrentBudgetValue() {
+        DecimalFormat df = new DecimalFormat("#.##");
+        return df.format(getCurrentBudget() / 1000000f);
     }
 
     public void setCurrentBudget(Integer currentBudget) {

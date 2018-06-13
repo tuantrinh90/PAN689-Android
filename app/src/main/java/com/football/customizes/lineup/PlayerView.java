@@ -118,7 +118,7 @@ public class PlayerView extends LinearLayout {
     public void onClicked(View view) {
         switch (view.getId()) {
             case R.id.ivRemove:
-                Optional.from(mListener).doIfPresent(listener -> listener.onRemove(index));
+                Optional.from(mListener).doIfPresent(listener -> listener.onRemove(player, index));
                 break;
             case R.id.ivPlayer:
                 Optional.from(mListener).doIfPresent(listener -> listener.onPlayerClick(player, index));
@@ -131,7 +131,7 @@ public class PlayerView extends LinearLayout {
     }
 
     public interface OnPlayerViewClickListener {
-        void onRemove(int position);
+        void onRemove(PlayerResponse player, int position);
 
         void onPlayerClick(PlayerResponse player, int position);
     }

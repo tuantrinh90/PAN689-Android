@@ -11,6 +11,7 @@ import com.football.models.responses.LineupResponse;
 import com.football.models.responses.NewsResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.PlayerStatisticResponse;
+import com.football.models.responses.PropsPlayerResponse;
 import com.football.models.responses.StopResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.models.responses.UploadResponse;
@@ -113,7 +114,10 @@ public interface IApiService {
     Observable<BaseResponse<LineupResponse>> getLineup(@Path(ServiceConfig.KEY_ID) int leagueId);
 
     @POST(ServiceConfig.ADD_PLAYER)
-    Observable<BaseResponse<PlayerResponse>> addPlayer(@Body RequestBody body);
+    Observable<BaseResponse<PropsPlayerResponse>> addPlayer(@Body RequestBody body);
+
+    @POST(ServiceConfig.REMOVE_PLAYER)
+    Observable<BaseResponse<PropsPlayerResponse>> removePlayer(@Body RequestBody body);
 
     @GET(ServiceConfig.PLAYERS_STATISTIC)
     Observable<BaseResponse<PlayerStatisticResponse>> getPlayerStatistic(@Path(ServiceConfig.KEY_ID) Integer playerId, @Query("filter") String filter);
