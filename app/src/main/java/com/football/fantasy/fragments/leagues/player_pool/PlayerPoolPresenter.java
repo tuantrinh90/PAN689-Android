@@ -1,5 +1,7 @@
 package com.football.fantasy.fragments.leagues.player_pool;
 
+import android.text.TextUtils;
+
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
@@ -20,15 +22,15 @@ public class PlayerPoolPresenter extends BaseDataPresenter<IPlayerPoolView> impl
     }
 
     @Override
-    public void getPlayers() {
+    public void getPlayers(String positions, String clubs) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
-//            queries.put(Constant.KEY_LEAGUE_ID, String.valueOf(leagueId));
-//            queries.put(Constant.KEY_ORDER_BY, orderBy);
-//            queries.put(Constant.KEY_PAGE, String.valueOf(page));
-//            queries.put(Constant.KEY_PER_PAGE, String.valueOf(perPage));
-//            queries.put(Constant.KEY_WORD, query);
-//            queries.put(Constant.KEY_MAIN_POSITION, String.valueOf(mainPosition));
+            if (!TextUtils.isEmpty(positions)) {
+                queries.put(Constant.KEY_MAIN_POSITION, positions);
+            }
+            if (!TextUtils.isEmpty(clubs)) {
+                queries.put(Constant.KEY_CLUBS, clubs);
+            }
 
             mCompositeDisposable.add(RxUtilities.async(
                     v,

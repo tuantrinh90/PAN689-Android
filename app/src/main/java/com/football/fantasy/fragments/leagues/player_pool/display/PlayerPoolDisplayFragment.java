@@ -13,6 +13,8 @@ import com.bon.customview.textview.ExtTextView;
 import com.football.adapters.FilterAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
+import com.football.models.responses.PlayerResponse;
+import com.football.models.responses.RealClubResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,11 +53,11 @@ public class PlayerPoolDisplayFragment extends BaseMainMvpFragment<IPlayerPoolDi
      void initView() {
          // position
          keyValuePairs = new ArrayList<>();
-         keyValuePairs.add(new ExtKeyValuePair(getString(R.string.all), getString(R.string.all)));
-         keyValuePairs.add(new ExtKeyValuePair(getString(R.string.midfielder), getString(R.string.midfielder)));
-         keyValuePairs.add(new ExtKeyValuePair(getString(R.string.goalkeeper), getString(R.string.goalkeeper)));
-         keyValuePairs.add(new ExtKeyValuePair(getString(R.string.attacker), getString(R.string.attacker)));
-         keyValuePairs.add(new ExtKeyValuePair(getString(R.string.defender), getString(R.string.defender)));
+         keyValuePairs.add(new ExtKeyValuePair(String.valueOf(PlayerResponse.POSITION_NONE), getString(R.string.all)));
+         keyValuePairs.add(new ExtKeyValuePair(String.valueOf(PlayerResponse.POSITION_MIDFIELDER), getString(R.string.midfielder)));
+         keyValuePairs.add(new ExtKeyValuePair(String.valueOf(PlayerResponse.POSITION_GOALKEEPER), getString(R.string.goalkeeper)));
+         keyValuePairs.add(new ExtKeyValuePair(String.valueOf(PlayerResponse.POSITION_ATTACKER), getString(R.string.attacker)));
+         keyValuePairs.add(new ExtKeyValuePair(String.valueOf(PlayerResponse.POSITION_DEFENDER), getString(R.string.defender)));
 
          filterAdapter = new FilterAdapter(mActivity, keyValuePairs, extKeyValuePair -> {
              extKeyValuePair.setSelected(!extKeyValuePair.isSelected());
@@ -86,5 +88,10 @@ public class PlayerPoolDisplayFragment extends BaseMainMvpFragment<IPlayerPoolDi
         super.initToolbar(supportActionBar);
         supportActionBar.setDisplayHomeAsUpEnabled(true);
         supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_blue);
+    }
+
+    @Override
+    public void displayClubs(List<RealClubResponse> clubs) {
+
     }
 }

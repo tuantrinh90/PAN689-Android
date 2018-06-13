@@ -42,6 +42,7 @@ public interface ServiceConfig {
     String HOME_NEWS = "posts";
     String OPEN_LEAGUES = "leagues/open_league";
     String PLAYER_LIST = "players"; //     String PLAYER_LIST = "teams/player_list/{" + KEY_ID + "}";
+    String REAL_CLUB = "real_clubs";
     String CREATE_LEAGUE = "leagues";
     String UPDATE_LEAGUE = "leagues/{" + KEY_ID + "}";
     String FORM_OPTIONS = "leagues/get_form/{" + KEY_ID + "}";

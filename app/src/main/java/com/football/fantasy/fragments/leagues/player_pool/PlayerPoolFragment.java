@@ -20,7 +20,6 @@ import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.fantasy.fragments.leagues.player_pool.display.PlayerPoolDisplayFragment;
 import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilterFragment;
-import com.football.fantasy.fragments.leagues.player_pool.sort.PlayerPoolSortFragment;
 import com.football.models.responses.PlayerResponse;
 
 import java.util.ArrayList;
@@ -28,6 +27,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static android.app.Activity.RESULT_OK;
 
 public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPlayerPoolPresenter<IPlayerPoolView>> implements IPlayerPoolView {
 
@@ -49,6 +50,8 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     List<PlayerResponse> playerResponses;
     PlayerPoolItemAdapter playerPoolItemAdapter;
     private int page;
+    private String filterClubs;
+    private String filterPositions;
 
     public static Bundle newBundle() {
         Bundle bundle = new Bundle();
@@ -96,7 +99,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     }
 
     private void getPlayers() {
-        presenter.getPlayers();
+        presenter.getPlayers(filterPositions, filterClubs);
     }
 
     @Override
@@ -146,7 +149,11 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_FILTER:
-
+                if (resultCode == RESULT_OK) {
+                    filterClubs = data.getStringExtra(PlayerPoolFilterFragment.KEY_POSITION);
+                    filterPositions = data.getStringExtra(PlayerPoolFilterFragment.KEY_POSITION);
+                    getPlayers();
+                }
                 break;
             case REQUEST_DISPLAY:
 
