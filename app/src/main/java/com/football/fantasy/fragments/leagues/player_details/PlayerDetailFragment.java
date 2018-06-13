@@ -5,8 +5,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.text.TextUtils;
 import android.view.View;
 
+import com.bon.customview.keyvaluepair.ExtKeyValuePair;
+import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageLoaderUtils;
 import com.bon.interfaces.Optional;
@@ -14,14 +17,20 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
 import com.football.models.responses.PlayerResponse;
+import com.football.models.responses.PlayerStatisticMetaResponse;
 import com.football.utilities.AppUtilities;
 import com.google.android.flexbox.FlexboxLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView, IPlayerDetailPresenter<IPlayerDetailView>> implements IPlayerDetailView {
 
     private static final String KEY_PLAYER = "PLAYER";
+    private static final String[] SELECTIONS = new String[]{"Total statistics", "Last round", "Avg of the season", "Avg of Last 5 rounds", "Avg of Last 3 rounds", "Points per round"};
 
     @BindView(R.id.tvName)
     ExtTextView tvName;
@@ -39,6 +48,8 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
     ExtTextView tvPoints;
     @BindView(R.id.tvValue)
     ExtTextView tvValue;
+    @BindView(R.id.tvFilter)
+    ExtTextView tvFilter;
     @BindView(R.id.tvGoals)
     ExtTextView tvGoals;
     @BindView(R.id.tvAssists)
@@ -57,12 +68,15 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
     ExtTextView tvYellowCards;
     @BindView(R.id.tvDribbles)
     ExtTextView tvDribbles;
+    @BindView(R.id.tvTurnovers)
+    ExtTextView tvTurnovers;
     @BindView(R.id.tvBallsRecovered)
     ExtTextView tvBallsRecovered;
     @BindView(R.id.tvFoulsCommitted)
     ExtTextView tvFoulsCommitted;
 
     private PlayerResponse player;
+    private ExtKeyValuePair keyValuePairKey;
 
     public static Bundle newBundle(PlayerResponse player) {
         Bundle bundle = new Bundle();
@@ -82,6 +96,8 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
         getDataFromBundle();
         initView();
         displayPlayer();
+
+        presenter.getPlayerStatistic(player.getId(), null);
     }
 
     private void displayPlayer() {
@@ -89,12 +105,12 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
             tvName.setText(player.getName());
             AppUtilities.displayPlayerPosition(tvMainPosition, player.getMainPosition(), player.getMainPositionText());
             AppUtilities.displayPlayerPosition(tvMinorPosition, player.getMinorPosition(), player.getMinorPositionText());
-            tvPoints.setText(String.valueOf(player.getPointLastRound()));
             tvValue.setText(getString(R.string.money_prefix, player.getTransferValueDisplay()));
             ImageLoaderUtils.displayImage(player.getPhoto(), ivAvatar.getImageView());
+            tvState.setVisibility(player.getInjured() ? View.VISIBLE : View.GONE);
+            tvState.setText(player.getInjuredText(getContext()));
         }
     }
-
 
     private void getDataFromBundle() {
         player = (PlayerResponse) getArguments().getSerializable(KEY_PLAYER);
@@ -120,5 +136,52 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
         super.initToolbar(supportActionBar);
         supportActionBar.setDisplayHomeAsUpEnabled(true);
         supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
+    }
+
+    @OnClick({R.id.ivArrow})
+    public void onClicked(View view) {
+        List<ExtKeyValuePair> valuePairs = new ArrayList<>();
+        valuePairs.add(new ExtKeyValuePair("[{\"property\":\"total\", \"operator\":\"eq\",\"value\":\"all\"}]", "Total statistics"));
+        valuePairs.add(new ExtKeyValuePair("[{\"property\":\"avg\", \"operator\":\"eq\",\"value\":\"1\"}]", "Last round"));
+        valuePairs.add(new ExtKeyValuePair("[{\"property\":\"avg\", \"operator\":\"eq\",\"value\":\"all\"}]", "Avg of the season"));
+        valuePairs.add(new ExtKeyValuePair("[{\"property\":\"avg\", \"operator\":\"eq\",\"value\":\"5\"}]", "Avg of Last 5 rounds"));
+        valuePairs.add(new ExtKeyValuePair("[{\"property\":\"avg\", \"operator\":\"eq\",\"value\":\"3\"}]", "Avg of Last 3 rounds"));
+        valuePairs.add(new ExtKeyValuePair("[{\"property\":\"points_per_round\", \"operator\":\"eq\",\"value\":\"all\"}]", "Points per round"));
+
+        ExtKeyValuePairDialogFragment.newInstance()
+                .setExtKeyValuePairs(valuePairs)
+                .setValue(keyValuePairKey == null ? "" : keyValuePairKey.getKey())
+                .setOnSelectedConsumer(extKeyValuePair -> {
+                    if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
+                        keyValuePairKey = extKeyValuePair;
+                        updateValue();
+                    }
+                }).show(getFragmentManager(), null);
+    }
+
+    private void updateValue() {
+        tvFilter.setText(keyValuePairKey.getValue());
+        presenter.getPlayerStatistic(player.getId(), keyValuePairKey.getKey());
+    }
+
+    @Override
+    public void displayPoints(Integer totalPoint) {
+        tvPoints.setText(String.valueOf(totalPoint));
+    }
+
+    @Override
+    public void displayStatistic(PlayerStatisticMetaResponse meta) {
+        tvGoals.setText(String.valueOf(meta.getGoals()));
+        tvAssists.setText(String.valueOf(meta.getAssists()));
+        tvCleanSheet.setText(String.valueOf(meta.getCleanSheet()));
+        tvDuelsWin.setText(String.valueOf(meta.getDuelsTheyWin()));
+        tvPasses.setText(String.valueOf(meta.getPasses()));
+        tvShots.setText(String.valueOf(meta.getShots()));
+        tvSaves.setText(String.valueOf(meta.getSaves()));
+        tvYellowCards.setText(String.valueOf(meta.getYellowCards()));
+        tvDribbles.setText(String.valueOf(meta.getDribbles()));
+        tvTurnovers.setText(String.valueOf(meta.getTurnovers()));
+        tvBallsRecovered.setText(String.valueOf(meta.getBallsRecovered()));
+        tvFoulsCommitted.setText(String.valueOf(meta.getFoulsCommitted()));
     }
 }

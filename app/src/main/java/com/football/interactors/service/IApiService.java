@@ -10,6 +10,7 @@ import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.LineupResponse;
 import com.football.models.responses.NewsResponse;
 import com.football.models.responses.PlayerResponse;
+import com.football.models.responses.PlayerStatisticResponse;
 import com.football.models.responses.StopResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.models.responses.UploadResponse;
@@ -17,7 +18,6 @@ import com.football.models.responses.UserResponse;
 import com.football.utilities.Constant;
 import com.football.utilities.ServiceConfig;
 
-import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -65,7 +65,7 @@ public interface IApiService {
     Observable<BaseResponse<LeagueResponse>> getLeagueDetail(@Path(ServiceConfig.KEY_ID) int leagueId);
 
     @GET(ServiceConfig.TEAMS)
-    Observable<BaseResponse<PagingResponse<TeamResponse>>> getTeams(@Query(ServiceConfig.KEY_ID) int leagueId);
+    Observable<BaseResponse<PagingResponse<TeamResponse>>> getTeams(@Query(ServiceConfig.KEY_LEAGUE_ID) int leagueId);
 
     @POST(ServiceConfig.REMOVE_TEAM)
     Observable<BaseResponse<Object>> removeTeam(@Path(ServiceConfig.KEY_ID) int leagueId, @Path(ServiceConfig.KEY_TEAM_ID) int teamId);
@@ -114,4 +114,7 @@ public interface IApiService {
 
     @POST(ServiceConfig.ADD_PLAYER)
     Observable<BaseResponse<PlayerResponse>> addPlayer(@Body RequestBody body);
+
+    @GET(ServiceConfig.PLAYERS_STATISTIC)
+    Observable<BaseResponse<PlayerStatisticResponse>> getPlayerStatistic(@Path(ServiceConfig.KEY_ID) Integer playerId, @Query("filter") String filter);
 }

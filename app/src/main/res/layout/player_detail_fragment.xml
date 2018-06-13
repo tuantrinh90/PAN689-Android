@@ -170,15 +170,11 @@
                 android:paddingRight="@dimen/activity_vertical_margin"
                 android:paddingTop="@dimen/padding_content">
 
-                <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/ic_arrow_circle_left" />
-
                 <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="start|center_vertical"
                     android:padding="0dp"
                     android:text="@string/avg_5_games"
                     android:textAllCaps="true"
@@ -187,9 +183,11 @@
                     app:textViewFontAssetName="@string/font_display_bold" />
 
                 <ImageView
+                    android:id="@+id/ivArrow"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_gravity="end"
+                    android:rotation="90"
                     android:src="@drawable/ic_arrow_circle_right" />
             </FrameLayout>
         </com.bon.customview.shadowlayout.ShadowLayout>
@@ -201,7 +199,6 @@
             android:paddingTop="@dimen/fab_margin">
 
             <com.bon.customview.textview.ExtTextView
-                android:id="@+id/tvGoals"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/goals"
@@ -211,6 +208,7 @@
                 app:textViewFontAssetName="@string/font_display_bold" />
 
             <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvGoals"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -234,7 +232,6 @@
             android:paddingTop="@dimen/fab_margin">
 
             <com.bon.customview.textview.ExtTextView
-                android:id="@+id/tvAssists"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/assists"
@@ -244,6 +241,7 @@
                 app:textViewFontAssetName="@string/font_display_bold" />
 
             <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvAssists"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -268,7 +266,6 @@
 
             <com.bon.customview.textview.ExtTextView
                 android:layout_width="wrap_content"
-                android:id="@+id/tvCleanSheet"
                 android:layout_height="wrap_content"
                 android:text="@string/clean_sheet"
                 android:textAllCaps="true"
@@ -277,6 +274,7 @@
                 app:textViewFontAssetName="@string/font_display_bold" />
 
             <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvCleanSheet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -301,7 +299,6 @@
 
             <com.bon.customview.textview.ExtTextView
                 android:layout_width="wrap_content"
-                android:id="@+id/tvDuelsWin"
                 android:layout_height="wrap_content"
                 android:text="@string/duels_they_win"
                 android:textAllCaps="true"
@@ -310,6 +307,7 @@
                 app:textViewFontAssetName="@string/font_display_bold" />
 
             <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvDuelsWin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -334,7 +332,6 @@
 
             <com.bon.customview.textview.ExtTextView
                 android:layout_width="wrap_content"
-                android:id="@+id/tvPasses"
                 android:layout_height="wrap_content"
                 android:text="@string/passes"
                 android:textAllCaps="true"
@@ -343,6 +340,7 @@
                 app:textViewFontAssetName="@string/font_display_bold" />
 
             <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvPasses"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -366,7 +364,6 @@
             android:paddingTop="@dimen/fab_margin">
 
             <com.bon.customview.textview.ExtTextView
-                android:id="@+id/tvShots"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/shots"
@@ -376,6 +373,7 @@
                 app:textViewFontAssetName="@string/font_display_bold" />
 
             <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvShots"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -400,7 +398,6 @@
 
             <com.bon.customview.textview.ExtTextView
                 android:layout_width="wrap_content"
-                android:id="@+id/tvSaves"
                 android:layout_height="wrap_content"
                 android:text="@string/saves"
                 android:textAllCaps="true"
@@ -409,6 +406,7 @@
                 app:textViewFontAssetName="@string/font_display_bold" />
 
             <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvSaves"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -433,7 +431,6 @@
 
             <com.bon.customview.textview.ExtTextView
                 android:layout_width="wrap_content"
-                android:id="@+id/tvYellowCards"
                 android:layout_height="wrap_content"
                 android:text="@string/yellow_cards"
                 android:textAllCaps="true"
@@ -442,6 +439,7 @@
                 app:textViewFontAssetName="@string/font_display_bold" />
 
             <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvYellowCards"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -466,7 +464,6 @@
 
             <com.bon.customview.textview.ExtTextView
                 android:layout_width="wrap_content"
-                android:id="@+id/tvDribbles"
                 android:layout_height="wrap_content"
                 android:text="@string/dribbles"
                 android:textAllCaps="true"
@@ -475,6 +472,7 @@
                 app:textViewFontAssetName="@string/font_display_bold" />
 
             <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvDribbles"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -499,7 +497,39 @@
 
             <com.bon.customview.textview.ExtTextView
                 android:layout_width="wrap_content"
-                android:id="@+id/tvBallsRecovered"
+                android:layout_height="wrap_content"
+                android:text="@string/turnovers"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvTurnovers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="5"
+                android:textAllCaps="true"
+                android:textColor="@color/color_black_selector"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_regular" />
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line"
+            android:background="@color/color_gray" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/fab_margin"
+            android:paddingTop="@dimen/fab_margin">
+
+            <com.bon.customview.textview.ExtTextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/balls_recovered"
                 android:textAllCaps="true"
@@ -508,6 +538,7 @@
                 app:textViewFontAssetName="@string/font_display_bold" />
 
             <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvBallsRecovered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -532,7 +563,6 @@
 
             <com.bon.customview.textview.ExtTextView
                 android:layout_width="wrap_content"
-                android:id="@+id/tvFoulsCommitted"
                 android:layout_height="wrap_content"
                 android:text="@string/fouls_committed"
                 android:textAllCaps="true"
@@ -541,6 +571,7 @@
                 app:textViewFontAssetName="@string/font_display_bold" />
 
             <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvFoulsCommitted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -552,42 +583,6 @@
 
         </FrameLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/line"
-            android:background="@color/color_gray" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/fab_margin"
-            android:paddingTop="@dimen/fab_margin">
-
-            <com.bon.customview.textview.ExtTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/shots"
-                android:textAllCaps="true"
-                android:textColor="@color/color_black_selector"
-                android:textSize="@dimen/font_size_description"
-                app:textViewFontAssetName="@string/font_display_bold" />
-
-            <com.bon.customview.textview.ExtTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="5"
-                android:textAllCaps="true"
-                android:textColor="@color/color_black_selector"
-                android:textSize="@dimen/font_size_description"
-                app:textViewFontAssetName="@string/font_display_regular" />
-
-        </FrameLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/line"
-            android:background="@color/color_gray" />
     </LinearLayout>
 
 </com.bon.customview.scrollview.ExtScrollView>

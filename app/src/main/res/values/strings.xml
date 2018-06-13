@@ -234,6 +234,7 @@
     <string name="saves">Saves</string>
     <string name="yellow_cards">Yellow cards</string>
     <string name="dribbles">Dribbles</string>
+    <string name="turnovers">Turnovers</string>
     <string name="balls_recovered">balls recovered</string>
     <string name="fouls_committed">Fouls committed</string>
     <string name="position_att">Attacker</string>

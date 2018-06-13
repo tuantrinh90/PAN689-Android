@@ -4,4 +4,7 @@ import com.football.common.presenters.IBaseDataPresenter;
 import com.football.common.views.IBaseMvpView;
 
 public interface IPlayerDetailPresenter<V extends IBaseMvpView> extends IBaseDataPresenter<V> {
+
+    void getPlayerStatistic(Integer playerId, String filter);
+
 }

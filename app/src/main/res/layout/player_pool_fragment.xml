@@ -127,29 +127,6 @@
                     app:textViewFontAssetName="@string/font_display_bold" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/sort"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_white_component_radius"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/padding_content"
-                android:paddingRight="@dimen/padding_content">
-
-                <ImageView
-                    style="@style/IconTiny"
-                    android:padding="@dimen/padding_small"
-                    android:src="@drawable/ic_baseline_sort" />
-
-                <com.bon.customview.textview.ExtTextView
-                    style="@style/StyleDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sort"
-                    android:textColor="@color/color_blue"
-                    app:textViewFontAssetName="@string/font_display_bold" />
-            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

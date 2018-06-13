@@ -22,6 +22,7 @@ public interface ServiceConfig {
 
     String KEY_ID = "id";
     String KEY_TEAM_ID = "team_id";
+    String KEY_LEAGUE_ID = "league_id";
 
     String LOGIN = "login";
     String LOGIN_SOCIAL = "auth/social";
@@ -47,6 +48,7 @@ public interface ServiceConfig {
     String CREATE_TEAM = "teams";
     String LINEUP = "teams/lineup/{" + KEY_ID + "}";
     String ADD_PLAYER = "teams/add_player";
+    String PLAYERS_STATISTIC = "players/{id}/statistic";
 
     String LEAVE_LEAGUES = "leagues/leave/{id}";
     String UPLOAD = "upload";

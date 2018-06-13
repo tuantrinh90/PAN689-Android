@@ -123,7 +123,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
         });
     }
 
-    @OnClick({R.id.filter, R.id.display, R.id.sort})
+    @OnClick({R.id.filter, R.id.display})
     public void onSortClicked(View view) {
         switch (view.getId()) {
             case R.id.filter:
@@ -137,12 +137,6 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                         .forResult(REQUEST_DISPLAY)
                         .parameters(PlayerPoolDisplayFragment.newBundle())
                         .start(PlayerPoolDisplayFragment.class);
-                break;
-            case R.id.sort:
-                AloneFragmentActivity.with(this)
-                        .forResult(REQUEST_SORT)
-                        .parameters(PlayerPoolSortFragment.newBundle())
-                        .start(PlayerPoolSortFragment.class);
                 break;
         }
     }
