@@ -27,7 +27,7 @@ public class PlayerStatisticResponse implements Serializable {
     @JsonProperty("meta")
     private PlayerStatisticMetaResponse meta;
     @JsonProperty("metas")
-    private List<PlayerStatisticMetaResponse> metas;
+    private List<PlayerRoundPointResponse> metas;
 
     public Integer getId() {
         return id;
@@ -69,7 +69,7 @@ public class PlayerStatisticResponse implements Serializable {
         return meta;
     }
 
-    public List<PlayerStatisticMetaResponse> getMetas() {
+    public List<PlayerRoundPointResponse> getMetas() {
         return metas;
     }
 }

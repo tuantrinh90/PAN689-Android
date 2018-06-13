@@ -48,6 +48,9 @@ public class PlayerDetailPresenter extends BaseDataPresenter<IPlayerDetailView> 
 
                             if (response.getMeta() != null) {
                                 v.displayStatistic(response.getMeta());
+
+                            } else {
+                                v.displayStatistics(response.getMetas());
                             }
                         }
 

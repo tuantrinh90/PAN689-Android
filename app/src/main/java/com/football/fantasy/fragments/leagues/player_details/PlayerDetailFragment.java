@@ -10,13 +10,16 @@ import android.view.View;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
+import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageLoaderUtils;
 import com.bon.interfaces.Optional;
+import com.football.adapters.PlayerStatisticAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
 import com.football.models.responses.PlayerResponse;
+import com.football.models.responses.PlayerRoundPointResponse;
 import com.football.models.responses.PlayerStatisticMetaResponse;
 import com.football.utilities.AppUtilities;
 import com.google.android.flexbox.FlexboxLayout;
@@ -30,7 +33,6 @@ import butterknife.OnClick;
 public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView, IPlayerDetailPresenter<IPlayerDetailView>> implements IPlayerDetailView {
 
     private static final String KEY_PLAYER = "PLAYER";
-    private static final String[] SELECTIONS = new String[]{"Total statistics", "Last round", "Avg of the season", "Avg of Last 5 rounds", "Avg of Last 3 rounds", "Points per round"};
 
     @BindView(R.id.tvName)
     ExtTextView tvName;
@@ -75,8 +77,15 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
     @BindView(R.id.tvFoulsCommitted)
     ExtTextView tvFoulsCommitted;
 
+    @BindView(R.id.llStatistic)
+    View statisticGroup;
+    @BindView(R.id.llStatisticList)
+    View statisticListGroup;
+    @BindView(R.id.rvStatistics)
+    ExtPagingListView rvStatistics;
+
     private PlayerResponse player;
-    private ExtKeyValuePair keyValuePairKey;
+    private ExtKeyValuePair keyValuePairKey = new ExtKeyValuePair("[{\"property\":\"total\", \"operator\":\"eq\",\"value\":\"all\"}]", "Total statistics");
 
     public static Bundle newBundle(PlayerResponse player) {
         Bundle bundle = new Bundle();
@@ -96,8 +105,22 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
         getDataFromBundle();
         initView();
         displayPlayer();
+        initRecyclerView();
 
         presenter.getPlayerStatistic(player.getId(), null);
+    }
+
+    private void initRecyclerView() {
+        PlayerStatisticAdapter mAdapter = new PlayerStatisticAdapter(
+                mActivity,
+                new ArrayList<>());
+        rvStatistics.init(mActivity, mAdapter)
+                .setOnExtRefreshListener(() -> {
+//                    page = 1;
+                    rvStatistics.clearItems();
+                    rvStatistics.startLoading();
+                    updateValue();
+                });
     }
 
     private void displayPlayer() {
@@ -119,6 +142,8 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
     void initView() {
         Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.colorPrimary)));
         Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white)));
+
+        tvFilter.setText(keyValuePairKey.getValue());
     }
 
     @Override
@@ -128,7 +153,7 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
 
     @Override
     public int getTitleId() {
-        return R.string.league_details;
+        return R.string.player_pool;
     }
 
     @Override
@@ -171,6 +196,9 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
 
     @Override
     public void displayStatistic(PlayerStatisticMetaResponse meta) {
+        statisticGroup.setVisibility(View.VISIBLE);
+        statisticListGroup.setVisibility(View.GONE);
+
         tvGoals.setText(String.valueOf(meta.getGoals()));
         tvAssists.setText(String.valueOf(meta.getAssists()));
         tvCleanSheet.setText(String.valueOf(meta.getCleanSheet()));
@@ -183,5 +211,13 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
         tvTurnovers.setText(String.valueOf(meta.getTurnovers()));
         tvBallsRecovered.setText(String.valueOf(meta.getBallsRecovered()));
         tvFoulsCommitted.setText(String.valueOf(meta.getFoulsCommitted()));
+    }
+
+    @Override
+    public void displayStatistics(List<PlayerRoundPointResponse> metas) {
+        statisticGroup.setVisibility(View.GONE);
+        statisticListGroup.setVisibility(View.VISIBLE);
+
+        Optional.from(rvStatistics).doIfPresent(rv -> rv.addNewItems(metas));
     }
 }
