@@ -3,6 +3,7 @@ package com.football.fantasy.fragments.leagues.your_team.team_list;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
+import com.football.models.PagingResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.utilities.RxUtilities;
 
@@ -22,7 +23,7 @@ public class TeamListPresenter extends BaseDataPresenter<ITeamListView> implemen
         getOptView().doIfPresent(v -> {
             mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().getTeams(leagueId),
-                    new ApiCallback<List<TeamResponse>>() {
+                    new ApiCallback<PagingResponse<TeamResponse>>() {
                         @Override
                         public void onStart() {
                             v.showLoadingPagingListView(true);
@@ -34,8 +35,8 @@ public class TeamListPresenter extends BaseDataPresenter<ITeamListView> implemen
                         }
 
                         @Override
-                        public void onSuccess(List<TeamResponse> teams) {
-                            v.displayTeams(teams);
+                        public void onSuccess(PagingResponse<TeamResponse> response) {
+                            v.displayTeams(response.getData());
                         }
 
                         @Override

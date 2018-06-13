@@ -46,23 +46,23 @@ public class TeamAdapter extends ExtBaseAdapter<TeamResponse, TeamAdapter.ViewHo
     }
 
     @Override
-    protected void onBindViewHolder(ViewHolder holder, TeamResponse teamResponse) {
-        holder.ivAvatar.setImageUri(teamResponse.getLogo());
-        holder.tvTeam.setText(teamResponse.getName());
-        holder.tvOwner.setText(teamResponse.getUser().getName());
+    protected void onBindViewHolder(ViewHolder holder, TeamResponse data) {
+        holder.ivAvatar.setImageUri(data.getLogo());
+        holder.tvTeam.setText(data.getName());
+        holder.tvOwner.setText(data.getUser() == null ? "" : data.getUser().getName());
 
         holder.tvRemove.setVisibility(View.GONE);
         holder.ivLock.setVisibility(View.GONE);
 
         if (leagueResponse.getOwner()) {
-            holder.tvRemove.setVisibility(teamResponse.getOwner() ? View.GONE : View.VISIBLE);
+            holder.tvRemove.setVisibility(data.getOwner() ? View.GONE : View.VISIBLE);
         }
 
-        holder.ivLock.setVisibility(teamResponse.getOwner() ? View.VISIBLE : View.GONE);
+        holder.ivLock.setVisibility(data.getOwner() ? View.VISIBLE : View.GONE);
 
         // click
-        RxView.clicks(holder.itemView).subscribe(o -> Optional.from(detailConsumer).doIfPresent(t -> t.accept(teamResponse)));
-        RxView.clicks(holder.tvRemove).subscribe(o -> Optional.from(teamConsumer).doIfPresent(t -> t.accept(teamResponse)));
+        RxView.clicks(holder.itemView).subscribe(o -> Optional.from(detailConsumer).doIfPresent(t -> t.accept(data)));
+        RxView.clicks(holder.tvRemove).subscribe(o -> Optional.from(teamConsumer).doIfPresent(t -> t.accept(data)));
     }
 
     class ViewHolder extends ExtPagingListView.ExtViewHolder {
