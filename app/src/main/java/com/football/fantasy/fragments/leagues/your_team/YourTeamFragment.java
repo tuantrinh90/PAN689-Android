@@ -72,7 +72,7 @@ public class YourTeamFragment extends BaseMainMvpFragment<IYourTeamView, IYourTe
                 });
 
         vpViewPager.setAdapter(new YourTeamViewPagerAdapter(getFragmentManager(), new ArrayList<BaseMvpFragment>() {{
-            add(LineUpFragment.newInstance(
+            add(LineUpFragment.newInstance(league.getId(),
                     league.getTeam() == null ? 0 : league.getTeam().getId(),
                     league.getTeamSetup()
             ).setChildFragment(true));
