@@ -9,8 +9,10 @@ import com.football.models.requests.TeamRequest;
 import com.football.models.responses.TeamResponse;
 import com.football.models.responses.UploadResponse;
 import com.football.utilities.RxUtilities;
+import com.football.utilities.compressor.Compressor;
 
 import java.io.File;
+import java.io.IOException;
 
 import java8.util.function.Consumer;
 import okhttp3.MediaType;
@@ -30,7 +32,7 @@ public class SetupTeamDataPresenter extends BaseDataPresenter<ISetupTeamView> im
         getOptView().doIfPresent(v -> {
             v.showLoading(true);
             if (hasFile(request)) {
-                upload(request, v, uploadResponse -> create(request, uploadResponse.getUrl()));
+                upload(request, uploadResponse -> create(request, uploadResponse.getUrl()));
             } else {
                 create(request, "");
             }
@@ -72,25 +74,35 @@ public class SetupTeamDataPresenter extends BaseDataPresenter<ISetupTeamView> im
         return false;
     }
 
-    private void upload(TeamRequest request, ISetupTeamView v, Consumer<UploadResponse> consumer) {
-        File logo = new File(request.getLogo());
-        mCompositeDisposable.add(RxUtilities.async(v,
-                dataModule.getApiService().upload(new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart("file", logo.getName(), RequestBody.create(MediaType.parse("image/*"), logo))
-                        .build()),
-                new ApiCallback<UploadResponse>() {
-                    @Override
-                    public void onSuccess(UploadResponse response) {
-                        consumer.accept(response);
-                    }
+    private void upload(TeamRequest request, Consumer<UploadResponse> consumer) {
+        getOptView().doIfPresent(v -> {
+            File logo = null;
+            try {
+                logo = new Compressor(v.getAppActivity().getAppContext())
+                        .compressToFile(new File(request.getLogo()));
+            } catch (IOException e) {
+                logo = new File(request.getLogo());
+                e.printStackTrace();
+            }
 
-                    @Override
-                    public void onError(String error) {
-                        v.showMessage(error);
-                        v.showLoading(false);
-                    }
-                }));
+            mCompositeDisposable.add(RxUtilities.async(v,
+                    dataModule.getApiService().upload(new MultipartBody.Builder()
+                            .setType(MultipartBody.FORM)
+                            .addFormDataPart("file", logo.getName(), RequestBody.create(MediaType.parse("image/*"), logo))
+                            .build()),
+                    new ApiCallback<UploadResponse>() {
+                        @Override
+                        public void onSuccess(UploadResponse response) {
+                            consumer.accept(response);
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            v.showMessage(error);
+                            v.showLoading(false);
+                        }
+                    }));
+        });
     }
 
     private void create(TeamRequest request, String url) {

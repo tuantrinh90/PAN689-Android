@@ -1,5 +1,8 @@
 package com.football.fantasy.fragments.leagues.action.setup_leagues;
 
+import android.graphics.Bitmap;
+import android.os.Environment;
+
 import com.bon.util.StringUtils;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
@@ -9,8 +12,10 @@ import com.football.models.responses.FormResponse;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.UploadResponse;
 import com.football.utilities.RxUtilities;
+import com.football.utilities.compressor.Compressor;
 
 import java.io.File;
+import java.io.IOException;
 
 import java8.util.function.Consumer;
 import okhttp3.MediaType;
@@ -49,7 +54,7 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
         getOptView().doIfPresent(v -> {
             v.showLoading(true);
             if (hasFile(request)) {
-                upload(request, v, uploadResponse -> create(request, uploadResponse.getUrl()));
+                upload(request, uploadResponse -> create(request, uploadResponse.getUrl()));
             } else {
                 create(request, "");
             }
@@ -61,7 +66,7 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
         getOptView().doIfPresent(v -> {
             v.showLoading(true);
             if (hasFile(request)) {
-                upload(request, v, uploadResponse -> update(request, leagueId, uploadResponse.getUrl()));
+                upload(request, uploadResponse -> update(request, leagueId, uploadResponse.getUrl()));
             } else {
                 update(request, leagueId, "");
             }
@@ -78,25 +83,34 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
         return false;
     }
 
-    private void upload(LeagueRequest request, ISetupLeagueView v, Consumer<UploadResponse> consumer) {
-        File logo = new File(request.getLogo());
-        mCompositeDisposable.add(RxUtilities.async(v,
-                dataModule.getApiService().upload(new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart("file", logo.getName(), RequestBody.create(MediaType.parse("image/*"), logo))
-                        .build()),
-                new ApiCallback<UploadResponse>() {
-                    @Override
-                    public void onSuccess(UploadResponse response) {
-                        consumer.accept(response);
-                    }
+    private void upload(LeagueRequest request, Consumer<UploadResponse> consumer) {
+        getOptView().doIfPresent(v -> {
+            File logo;
+            try {
+                logo = new Compressor(v.getAppActivity().getAppContext())
+                        .compressToFile(new File(request.getLogo()));
+            } catch (IOException e) {
+                logo = new File(request.getLogo());
+                e.printStackTrace();
+            }
+            mCompositeDisposable.add(RxUtilities.async(v,
+                    dataModule.getApiService().upload(new MultipartBody.Builder()
+                            .setType(MultipartBody.FORM)
+                            .addFormDataPart("file", logo.getName(), RequestBody.create(MediaType.parse("image/*"), logo))
+                            .build()),
+                    new ApiCallback<UploadResponse>() {
+                        @Override
+                        public void onSuccess(UploadResponse response) {
+                            consumer.accept(response);
+                        }
 
-                    @Override
-                    public void onError(String error) {
-                        v.showMessage(error);
-                        v.showLoading(false);
-                    }
-                }));
+                        @Override
+                        public void onError(String error) {
+                            v.showMessage(error);
+                            v.showLoading(false);
+                        }
+                    }));
+        });
     }
 
     private void create(LeagueRequest request, String url) {
