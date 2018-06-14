@@ -10,11 +10,13 @@ public class PlayerQueryEvent implements IEvent {
     private int tag;
     private String position;
     private String club;
+    private String display;
 
     private PlayerQueryEvent(Builder builder) {
         tag = builder.tag;
         position = builder.position;
         club = builder.club;
+        display = builder.display;
     }
 
     public int getTag() {
@@ -29,10 +31,15 @@ public class PlayerQueryEvent implements IEvent {
         return club;
     }
 
+    public String getDisplay() {
+        return display;
+    }
+
     public static final class Builder {
         private int tag;
         private String position;
         private String club;
+        private String display;
 
         public Builder() {
         }
@@ -49,6 +56,11 @@ public class PlayerQueryEvent implements IEvent {
 
         public Builder club(String val) {
             club = val;
+            return this;
+        }
+
+        public Builder display(String val) {
+            display = val;
             return this;
         }
 

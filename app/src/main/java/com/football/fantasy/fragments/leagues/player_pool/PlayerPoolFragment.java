@@ -1,6 +1,5 @@
 package com.football.fantasy.fragments.leagues.player_pool;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,8 +29,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 
-import static android.app.Activity.RESULT_OK;
-
 public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPlayerPoolPresenter<IPlayerPoolView>> implements IPlayerPoolView {
 
     private static final int REQUEST_FILTER = 100;
@@ -54,6 +51,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     private int page;
     private String filterClubs = "";
     private String filterPositions = "";
+    private String filterDisplays = PlayerPoolDisplayFragment.DISPLAY_DEFAULT;
 
     public static Bundle newBundle() {
         Bundle bundle = new Bundle();
@@ -84,6 +82,8 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                             if (event.getTag() == PlayerQueryEvent.TAG_FILTER) {
                                 filterClubs = event.getClub();
                                 filterPositions = event.getPosition();
+                            } else if (event.getTag() == PlayerQueryEvent.TAG_DISPLAY) {
+                                filterDisplays = event.getDisplay();
                             }
 
                             // get items
@@ -138,7 +138,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     }
 
     private void getPlayers() {
-        presenter.getPlayers(filterPositions, filterClubs);
+        presenter.getPlayers(filterPositions, filterClubs, filterDisplays);
     }
 
     @Override
@@ -177,7 +177,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
             case R.id.display:
                 AloneFragmentActivity.with(this)
                         .forResult(REQUEST_DISPLAY)
-                        .parameters(PlayerPoolDisplayFragment.newBundle())
+                        .parameters(PlayerPoolDisplayFragment.newBundle(filterDisplays))
                         .start(PlayerPoolDisplayFragment.class);
                 break;
         }
