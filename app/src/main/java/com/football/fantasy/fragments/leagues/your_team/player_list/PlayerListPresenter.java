@@ -27,10 +27,12 @@ public class PlayerListPresenter extends BaseDataPresenter<IPlayerListView> impl
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
             queries.put(Constant.KEY_LEAGUE_ID, String.valueOf(leagueId));
-            queries.put(Constant.KEY_MAIN_POSITION, String.valueOf(mainPosition));
             queries.put(Constant.KEY_PAGE, String.valueOf(page));
             queries.put(Constant.KEY_PER_PAGE, String.valueOf(perPage));
 
+            if (mainPosition != null) {
+                queries.put(Constant.KEY_MAIN_POSITION, String.valueOf(mainPosition));
+            }
             if (!TextUtils.isEmpty(orderBy)) {
                 queries.put(Constant.KEY_ORDER_BY, orderBy);
             }

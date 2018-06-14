@@ -32,7 +32,6 @@ import com.football.fantasy.fragments.leagues.league_details.successor.Successor
 import com.football.fantasy.fragments.leagues.league_details.teams.TeamFragment;
 import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.LeagueResponse;
-import com.football.models.responses.TeamResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +70,6 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
     String title;
     int leagueId;
     String leagueType;
-    List<TeamResponse> teamResponses;
 
     LeagueResponse leagueResponse;
     LeagueDetailViewPagerAdapter leagueDetailViewPagerAdapter;
@@ -135,7 +133,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
 
                             // leave
                             if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.leave))) {
-                                if (leagueResponse.getOwner() && teamResponses != null && teamResponses.size() > 0) {
+                                if (leagueResponse.getOwner() && leagueDetailViewPagerAdapter.getCount() > 0) {
                                     AloneFragmentActivity.with(LeagueDetailFragment.this)
                                             .parameters(SuccessorFragment.newBundle(leagueResponse))
                                             .forResult(SuccessorFragment.REQUEST_CODE)

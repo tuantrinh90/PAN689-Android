@@ -23,6 +23,8 @@ import butterknife.BindView;
 
 public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, IPlayerPopupPresenter<IPlayerPopupView>> implements IPlayerPopupView {
 
+    private static final String ORDER_BY_DEFAULT = "{\"transfer_value\": \"desc\"}";
+    private static final String ORDER_BY_ASC = "{\"transfer_value\": \"asc\"}";
     private static final String KEY_POSITION = "POSITION";
     private static final String KEY_INDEX = "INDEX";
     private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
@@ -36,7 +38,7 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
     PlayerAdapter playerAdapter;
 
     private int leagueId = 0;
-    private String orderBy = "{\"transfer_value\": \"desc\"}";
+    private String orderBy = ORDER_BY_DEFAULT;
     private int page = 1;
     private String query = "";
     private Integer mainPosition = null;
@@ -146,8 +148,8 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
 
     void onClickFilter() {
         Optional.from(rvRecyclerView).doIfPresent(rv -> {
-            orderBy = orderBy.equalsIgnoreCase("desc") ? "asc" : "desc";
-            svSearchView.getFilter().animate().rotation(orderBy.equalsIgnoreCase("desc") ? 0 : 180)
+            orderBy = orderBy.equalsIgnoreCase(ORDER_BY_DEFAULT) ? ORDER_BY_ASC : ORDER_BY_DEFAULT;
+            svSearchView.getFilter().animate().rotation(orderBy.equalsIgnoreCase(ORDER_BY_DEFAULT) ? 0 : 180)
                     .setDuration(500).setInterpolator(new LinearInterpolator()).start();
         });
     }
