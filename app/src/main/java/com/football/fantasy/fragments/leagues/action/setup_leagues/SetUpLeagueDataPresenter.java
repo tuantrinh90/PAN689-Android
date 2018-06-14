@@ -1,8 +1,5 @@
 package com.football.fantasy.fragments.leagues.action.setup_leagues;
 
-import android.graphics.Bitmap;
-import android.os.Environment;
-
 import com.bon.util.StringUtils;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
