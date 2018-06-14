@@ -30,10 +30,6 @@ import com.football.fantasy.activities.MainActivity;
 import com.football.fantasy.fragments.leagues.action.setup_leagues.SetUpLeagueFragment;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.fantasy.fragments.leagues.player_pool.PlayerPoolFragment;
-import com.football.fantasy.fragments.leagues.player_pool.display.PlayerPoolDisplayFragment;
-import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilterFragment;
-import com.football.fantasy.fragments.leagues.player_pool.sort.PlayerPoolSortFragment;
-import com.football.fantasy.fragments.leagues.team_squad.TeamSquadFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.NewsResponse;
 
@@ -191,12 +187,9 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
 
     @OnClick(R.id.tvCreateLeagues)
     void onClickCreateLeagues() {
-//        AloneFragmentActivity.with(this)
-//                .parameters(SetUpLeagueFragment.newBundle(null, getString(R.string.home), LeagueDetailFragment.MY_LEAGUES))
-//                .start(SetUpLeagueFragment.class);
-
         AloneFragmentActivity.with(this)
-                .start(PlayerPoolDisplayFragment.class);
+                .parameters(SetUpLeagueFragment.newBundle(null, getString(R.string.home), LeagueDetailFragment.MY_LEAGUES))
+                .start(SetUpLeagueFragment.class);
     }
 
     @OnClick(R.id.tvJoinLeagues)

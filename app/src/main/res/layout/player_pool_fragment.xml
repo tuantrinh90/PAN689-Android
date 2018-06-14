@@ -33,30 +33,26 @@
             android:orientation="horizontal"
             android:padding="@dimen/padding_small">
 
-            <ImageView
-                android:id="@+id/ivArrowLeft"
-                style="@style/IconMedium"
-                android:background="@drawable/bg_circle_white"
-                android:padding="@dimen/padding_content"
-                android:src="@drawable/ic_arrow_left" />
-
             <com.bon.customview.textview.ExtTextView
                 android:id="@+id/tvTitle"
                 style="@style/StyleContentWhite"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:gravity="start"
                 android:padding="@dimen/padding_small"
+                android:paddingEnd="@dimen/padding_layout"
+                android:paddingStart="@dimen/padding_layout"
                 android:text="@string/current_season"
                 app:textAllCaps="true"
                 app:textViewFontAssetName="@string/font_display_black" />
 
             <ImageView
-                android:id="@+id/ivArrowRight"
+                android:id="@+id/ivArrow"
                 style="@style/IconMedium"
                 android:background="@drawable/bg_circle_white"
                 android:padding="@dimen/padding_content"
+                android:rotation="90"
                 android:src="@drawable/ic_arrow_right" />
         </LinearLayout>
 
@@ -100,12 +96,14 @@
                     app:textViewFontAssetName="@string/font_display_bold" />
             </LinearLayout>
 
+            <View
+                android:layout_width="@dimen/padding_layout"
+                android:layout_height="1dp" />
+
             <LinearLayout
                 android:id="@+id/display"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_layout"
-                android:layout_marginRight="@dimen/padding_layout"
                 android:layout_weight="1"
                 android:background="@drawable/bg_white_component_radius"
                 android:gravity="center"

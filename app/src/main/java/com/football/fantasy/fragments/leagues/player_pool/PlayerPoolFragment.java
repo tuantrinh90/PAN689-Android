@@ -5,9 +5,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bon.customview.keyvaluepair.ExtKeyValuePair;
+import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
@@ -35,12 +38,10 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     private static final int REQUEST_DISPLAY = 101;
     private static final int REQUEST_SORT = 102;
 
-    @BindView(R.id.ivArrowLeft)
-    ImageView ivArrowLeft;
+    private static final ExtKeyValuePair KEY_VALUE_DEFAULT = new ExtKeyValuePair("1", "Current season");
+
     @BindView(R.id.tvTitle)
     ExtTextView tvTitle;
-    @BindView(R.id.ivArrowRight)
-    ImageView ivArrowRight;
     @BindView(R.id.svSearch)
     SearchView svSearch;
     @BindView(R.id.lvData)
@@ -52,6 +53,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     private String filterClubs = "";
     private String filterPositions = "";
     private String filterDisplays = PlayerPoolDisplayFragment.DISPLAY_DEFAULT;
+    private ExtKeyValuePair keyValuePairKey = KEY_VALUE_DEFAULT;
 
     public static Bundle newBundle() {
         Bundle bundle = new Bundle();
@@ -165,9 +167,12 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
         });
     }
 
-    @OnClick({R.id.filter, R.id.display})
+    @OnClick({R.id.ivArrow, R.id.filter, R.id.display})
     public void onSortClicked(View view) {
         switch (view.getId()) {
+            case R.id.ivArrow:
+                displaySelectDialog();
+                break;
             case R.id.filter:
                 AloneFragmentActivity.with(this)
                         .forResult(REQUEST_FILTER)
@@ -181,6 +186,28 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                         .start(PlayerPoolDisplayFragment.class);
                 break;
         }
+    }
+
+    private void displaySelectDialog() {
+        List<ExtKeyValuePair> valuePairs = new ArrayList<>();
+        valuePairs.add(KEY_VALUE_DEFAULT);
+        valuePairs.add(new ExtKeyValuePair("2", "Last Season"));
+        valuePairs.add(new ExtKeyValuePair("3", "Avg 3 seasons"));
+        valuePairs.add(new ExtKeyValuePair("4", "Avg 5 seasons"));
+
+        ExtKeyValuePairDialogFragment.newInstance()
+                .setExtKeyValuePairs(valuePairs)
+                .setValue(keyValuePairKey == null ? "" : keyValuePairKey.getKey())
+                .setOnSelectedConsumer(extKeyValuePair -> {
+                    if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
+                        keyValuePairKey = extKeyValuePair;
+                        updateValue();
+                    }
+                }).show(getFragmentManager(), null);
+    }
+
+    private void updateValue() {
+        tvTitle.setText(keyValuePairKey.getValue());
     }
 
 }
