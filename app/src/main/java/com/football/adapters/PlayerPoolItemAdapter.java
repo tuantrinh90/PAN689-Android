@@ -52,6 +52,7 @@ public class PlayerPoolItemAdapter extends ExtBaseAdapter<PlayerResponse, Player
         holder.tvName.setText(data.getName());
         holder.tvClub.setText(data.getRealClub().getName());
         holder.tvValue.setText(holder.itemView.getContext().getString(R.string.money_prefix, data.getTransferValueDisplay()));
+        holder.tvPoint.setText(String.valueOf(data.getPointLastRound()));
         AppUtilities.displayPlayerPosition(holder.tvPositionPrimary, data.getMainPosition(), data.getMainPositionText());
         AppUtilities.displayPlayerPosition(holder.tvPositionSecond, data.getMinorPosition(), data.getMinorPositionText());
         boolean checked = data.getSelected();

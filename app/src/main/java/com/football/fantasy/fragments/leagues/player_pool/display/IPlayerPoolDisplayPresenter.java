@@ -5,6 +5,4 @@ import com.football.common.views.IBaseMvpView;
 
 public interface IPlayerPoolDisplayPresenter<V extends IBaseMvpView> extends IBaseDataPresenter<V> {
 
-    void getRealClubs();
-
 }

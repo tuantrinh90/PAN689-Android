@@ -15,9 +15,6 @@ import com.football.adapters.FilterAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.events.PlayerQueryEvent;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.leagues.player_pool.display.IPlayerPoolDisplayPresenter;
-import com.football.fantasy.fragments.leagues.player_pool.display.IPlayerPoolDisplayView;
-import com.football.fantasy.fragments.leagues.player_pool.display.PlayerPoolDisplayPresenter;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.RealClubResponse;
 
@@ -28,7 +25,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolDisplayView, IPlayerPoolDisplayPresenter<IPlayerPoolDisplayView>> implements IPlayerPoolDisplayView {
+public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolFilterView, IPlayerPoolFilterPresenter<IPlayerPoolFilterView>> implements IPlayerPoolFilterView {
 
     public static final String KEY_POSITION = "POSITION";
     public static final String KEY_CLUB = "CLUB";
@@ -105,8 +102,8 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolDis
     }
 
     @Override
-    public IPlayerPoolDisplayPresenter<IPlayerPoolDisplayView> createPresenter() {
-        return new PlayerPoolDisplayPresenter(getAppComponent());
+    public IPlayerPoolFilterPresenter<IPlayerPoolFilterView> createPresenter() {
+        return new PlayerPoolFilterPresenter(getAppComponent());
     }
 
     @Override

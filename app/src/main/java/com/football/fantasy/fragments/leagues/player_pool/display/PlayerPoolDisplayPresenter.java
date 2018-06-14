@@ -20,33 +20,5 @@ public class PlayerPoolDisplayPresenter extends BaseDataPresenter<IPlayerPoolDis
         super(appComponent);
     }
 
-    @Override
-    public void getRealClubs() {
-        getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(
-                    v,
-                    dataModule.getApiService().getRealClubs(),
-                    new ApiCallback<PagingResponse<RealClubResponse>>() {
-                        @Override
-                        public void onStart() {
-                            v.showLoading(true);
-                        }
 
-                        @Override
-                        public void onComplete() {
-                            v.showLoading(false);
-                        }
-
-                        @Override
-                        public void onSuccess(PagingResponse<RealClubResponse> response) {
-                            v.displayClubs(response.getData());
-                        }
-
-                        @Override
-                        public void onError(String error) {
-                            v.showMessage(error);
-                        }
-                    }));
-        });
-    }
 }

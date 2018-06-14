@@ -20,7 +20,8 @@ import butterknife.ButterKnife;
 import java8.util.function.Consumer;
 
 public class FilterAdapter extends BaseRecyclerViewAdapter<ExtKeyValuePair, FilterAdapter.ViewHolder> {
-    Consumer<ExtKeyValuePair> valuePairConsumer;
+    private Consumer<ExtKeyValuePair> valuePairConsumer;
+    private int checkCount = 0;
 
     public FilterAdapter(Context context, List<ExtKeyValuePair> its, Consumer<ExtKeyValuePair> valuePairConsumer) {
         super(context, its);
