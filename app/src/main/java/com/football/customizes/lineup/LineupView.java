@@ -163,6 +163,13 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         removeAllViews();
     }
 
+    public boolean isSetupComplete() {
+        for (PlayerResponse player : players) {
+            if (player == null) return false;
+        }
+        return true;
+    }
+
     public void displayByName(boolean bool) {
         for (int i = 0; i < getChildCount(); i++) {
             ((PlayerView) getChildAt(i)).displayName(bool);

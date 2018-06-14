@@ -23,6 +23,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 
 public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPresenter<ILineUpView>> implements ILineUpView {
@@ -58,6 +59,8 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     StatisticView svAttacker;
     @BindView(R.id.tvBudget)
     ExtTextView tvBudget;
+    @BindView(R.id.tvComplete)
+    ExtTextView tvComplete;
 
     private int leagueId;
     private int teamId;
@@ -88,10 +91,13 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     }
 
     void initView() {
+        enableCompleteButton(false);
+
+        // setup lineupView
         lineupView.setupLineup(new PlayerResponse[18], new int[]{4, 6, 6, 2});
         lineupView.setClickConsumer((position, index) -> {
             AloneFragmentActivity.with(this)
-                    .parameters(PlayerPopupFragment.newBundle(position, index, leagueId))
+                    .parameters(PlayerPopupFragment.newBundle(3 - position, index, leagueId))
                     .start(PlayerPopupFragment.class);
         });
         lineupView.setRemoveConsumer((player, position) -> {
@@ -105,6 +111,12 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
                     (dialog, which) -> {
                     });
         });
+    }
+
+    private void enableCompleteButton(boolean enable) {
+        // disable button complete
+        tvComplete.setEnabled(enable);
+        tvComplete.setBackgroundResource(enable ? R.drawable.bg_button_yellow : R.drawable.bg_button_gray);
     }
 
     void registerEvent() {
@@ -146,6 +158,11 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
         return new LineUpPresenter(getAppComponent());
     }
 
+    @OnClick(R.id.tvComplete)
+    public void onCompleteClicked() {
+        getActivity().finish();
+    }
+
     @OnCheckedChanged({R.id.switch_display})
     public void onCheckedChanged(CompoundButton button, boolean checked) {
         lineupView.displayByName(!checked);
@@ -175,11 +192,16 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     @Override
     public void onAddPlayer(TeamResponse team, PlayerResponse player) {
         lineupView.addPlayer(player, 3 - player.getMainPosition());
+
+        if (lineupView.isSetupComplete()) {
+            enableCompleteButton(true);
+        }
     }
 
     @Override
     public void onRemovePlayer(TeamResponse team, PlayerResponse player) {
         lineupView.removePlayer(player, 3 - player.getMainPosition());
+        enableCompleteButton(false);
     }
 
 }

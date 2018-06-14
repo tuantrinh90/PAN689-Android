@@ -184,8 +184,9 @@
                 app:shadowLayoutShadowColor="@color/color_shadow">
 
                 <com.bon.customview.textview.ExtTextView
-                    android:id="@+id/tvCreateTeam"
+                    android:id="@+id/tvComplete"
                     style="@style/StyleButton"
+                    android:enabled="false"
                     android:text="@string/team_creation"
                     android:textAllCaps="true"
                     app:textViewFontAssetName="@string/font_display_black" />
