@@ -266,4 +266,5 @@
     <string name="display_configuaration">Display Configuration</string>
     <string name="apply_to_table">Apply to table</string>
     <string name="me">Me</string>
+    <string name="point_last_round">%d points last round</string>
 </resources>

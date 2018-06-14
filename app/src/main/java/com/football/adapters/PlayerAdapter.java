@@ -50,6 +50,7 @@ public class PlayerAdapter extends ExtBaseAdapter<PlayerResponse, PlayerAdapter.
         holder.tvName.setText(data.getName());
         holder.tvClub.setText(data.getRealClub().getName());
         holder.tvTransferValue.setText(holder.itemView.getContext().getString(R.string.money_prefix, data.getTransferValueDisplay()));
+        holder.tvPoints.setText(holder.itemView.getContext().getString(R.string.point_last_round, data.getPointLastRound()));
         AppUtilities.displayPlayerPosition(holder.tvPositionPrimary, data.getMainPosition(), data.getMainPositionText());
         AppUtilities.displayPlayerPosition(holder.tvPositionSecond, data.getMinorPosition(), data.getMinorPositionText());
         boolean checked = data.getSelected();
@@ -82,6 +83,8 @@ public class PlayerAdapter extends ExtBaseAdapter<PlayerResponse, PlayerAdapter.
         ExtTextView tvName;
         @BindView(R.id.tvClub)
         ExtTextView tvClub;
+        @BindView(R.id.tvPoints)
+        ExtTextView tvPoints;
         @BindView(R.id.tvTransferValue)
         ExtTextView tvTransferValue;
         @BindView(R.id.ivAdd)

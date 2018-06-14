@@ -101,6 +101,7 @@
             android:textSize="@dimen/font_size_description" />
 
         <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvPoints"
             style="@style/StyleDescriptionContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
