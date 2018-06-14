@@ -7,6 +7,7 @@ import android.widget.CompoundButton;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.logger.Logger;
+import com.bon.util.DateTimeUtils;
 import com.bon.util.DialogUtils;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
@@ -15,9 +16,11 @@ import com.football.customizes.lineup.StatisticView;
 import com.football.events.PlayerEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.your_team.players_popup.PlayerPopupFragment;
+import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.StatisticResponse;
 import com.football.models.responses.TeamResponse;
+import com.football.utilities.Constant;
 
 import java.util.List;
 
@@ -31,16 +34,14 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     private static final String TAG = "LineUpFragment";
 
     static final String KEY_TEAM_ID = "TEAM_ID";
-    private static final String KEY_TEAM_SETUP_TIME = "TEAM_SETUP_TIME";
-    private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+    private static final String KEY_LEAGUE = "LEAGUE_ID";
 
 
-    public static LineUpFragment newInstance(Integer leagueId, Integer teamId, String teamSetupTime) {
+    public static LineUpFragment newInstance(LeagueResponse league, Integer teamId) {
         LineUpFragment fragment = new LineUpFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(KEY_LEAGUE_ID, leagueId);
+        bundle.putSerializable(KEY_LEAGUE, league);
         bundle.putInt(KEY_TEAM_ID, teamId);
-        bundle.putString(KEY_TEAM_SETUP_TIME, teamSetupTime);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -62,7 +63,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     @BindView(R.id.tvComplete)
     ExtTextView tvComplete;
 
-    private int leagueId;
+    private LeagueResponse league;
     private int teamId;
 
     @Override
@@ -79,24 +80,25 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
         registerEvent();
 
         presenter.getLineup(teamId);
+
     }
 
     private void getDataFromBundle() {
         Bundle bundle = getArguments();
         if (bundle != null) {
-            leagueId = bundle.getInt(KEY_LEAGUE_ID);
+            league = (LeagueResponse) bundle.getSerializable(KEY_LEAGUE);
             teamId = bundle.getInt(KEY_TEAM_ID);
-            tvSetupTime.setText(bundle.getString(KEY_TEAM_SETUP_TIME));
         }
     }
 
     void initView() {
+        tvSetupTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
 
         // setup lineupView
         lineupView.setupLineup(new PlayerResponse[18], new int[]{4, 6, 6, 2});
         lineupView.setClickConsumer((position, index) -> {
             AloneFragmentActivity.with(this)
-                    .parameters(PlayerPopupFragment.newBundle(3 - position, index, leagueId))
+                    .parameters(PlayerPopupFragment.newBundle(3 - position, index, league.getId()))
                     .start(PlayerPopupFragment.class);
         });
         lineupView.setRemoveConsumer((player, position) -> {

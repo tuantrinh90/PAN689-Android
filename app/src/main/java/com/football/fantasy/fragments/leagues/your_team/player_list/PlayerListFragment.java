@@ -11,6 +11,7 @@ import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.bon.logger.Logger;
+import com.bon.util.DateTimeUtils;
 import com.football.adapters.PlayerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
@@ -19,8 +20,10 @@ import com.football.customizes.searchs.SearchView;
 import com.football.events.PlayerEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
+import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.StatisticResponse;
+import com.football.utilities.Constant;
 
 import java.util.List;
 
@@ -30,15 +33,17 @@ import butterknife.OnClick;
 public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPlayerListPresenter<IPlayerListView>> implements IPlayerListView {
     private static final String TAG = "PlayerListFragment";
 
-    static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+    private static final String ORDER_BY_DEFAULT = "{\"transfer_value\": \"desc\"}";
+    private static final String ORDER_BY_ASC = "{\"transfer_value\": \"asc\"}";
+
+    static final String KEY_LEAGUE = "LEAGUE";
     private static final String KEY_TEAM_SETUP_TIME = "TEAM_SETUP_TIME";
 
 
-    public static PlayerListFragment newInstance(Integer leagueId, String teamSetupTime) {
+    public static PlayerListFragment newInstance(LeagueResponse league) {
         PlayerListFragment fragment = new PlayerListFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(KEY_LEAGUE_ID, leagueId);
-        bundle.putString(KEY_TEAM_SETUP_TIME, teamSetupTime);
+        bundle.putSerializable(KEY_LEAGUE, league);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -63,8 +68,8 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
     List<PlayerResponse> playerResponses;
     PlayerAdapter playerAdapter;
 
-    private int leagueId = 0;
-    private String orderBy = "{\"transfer_value\": \"desc\"}";
+    private LeagueResponse league;
+    private String orderBy = ORDER_BY_DEFAULT;
     private int page = 1;
     private String query = "";
     private Integer mainPosition = null;
@@ -87,12 +92,14 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
     private void getDataFromBundle() {
         Bundle bundle = getArguments();
         if (bundle != null) {
-            leagueId = bundle.getInt(KEY_LEAGUE_ID);
+            league = (LeagueResponse) bundle.getSerializable(KEY_LEAGUE);
             tvSetupTime.setText(bundle.getString(KEY_TEAM_SETUP_TIME));
         }
     }
 
     void initView() {
+        tvSetupTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
+
         try {
             // disable statisticView
             svGoalkeeper.setSelected(false);
@@ -160,11 +167,9 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
 
     void onClickFilter() {
         Optional.from(rvRecyclerView).doIfPresent(rv -> {
-            orderBy = orderBy.equalsIgnoreCase("desc") ? "asc" : "desc";
-            svSearchView.getFilter().animate().rotation(orderBy.equalsIgnoreCase("desc") ? 0 : 180)
+            orderBy = orderBy.equalsIgnoreCase(ORDER_BY_DEFAULT) ? ORDER_BY_ASC : ORDER_BY_DEFAULT;
+            svSearchView.getFilter().animate().rotation(orderBy.equalsIgnoreCase(ORDER_BY_DEFAULT) ? 0 : 180)
                     .setDuration(500).setInterpolator(new LinearInterpolator()).start();
-
-
         });
     }
 
@@ -247,6 +252,6 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
     }
 
     private void getPlayers(boolean newPlayers) {
-        presenter.getPlayers(leagueId, orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition, newPlayers);
+        presenter.getPlayers(league.getId(), orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition, newPlayers);
     }
 }

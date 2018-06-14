@@ -72,14 +72,10 @@ public class YourTeamFragment extends BaseMainMvpFragment<IYourTeamView, IYourTe
                 });
 
         vpViewPager.setAdapter(new YourTeamViewPagerAdapter(getFragmentManager(), new ArrayList<BaseMvpFragment>() {{
-            add(LineUpFragment.newInstance(league.getId(),
-                    league.getTeam() == null ? 0 : league.getTeam().getId(),
-                    league.getTeamSetup()
+            add(LineUpFragment.newInstance(league,
+                    league.getTeam() == null ? 0 : league.getTeam().getId()
             ).setChildFragment(true));
-            add(PlayerListFragment.newInstance(
-                    league.getId(),
-                    league.getTeamSetup()
-            ).setChildFragment(true));
+            add(PlayerListFragment.newInstance(league).setChildFragment(true));
             add(TeamListFragment.newInstance(league).setChildFragment(true));
         }}));
         vpViewPager.setOffscreenPageLimit(3);
