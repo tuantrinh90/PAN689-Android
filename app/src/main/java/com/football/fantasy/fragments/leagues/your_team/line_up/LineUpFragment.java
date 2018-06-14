@@ -127,7 +127,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
                         public void onNext(PlayerEvent event) {
                             switch (event.getAction()) {
                                 case PlayerEvent.ACTION_ADD_CLICK:
-                                    insertToLineUpView(event.getData(), event.getPosition());
+                                    insertToLineUpView(event.getData(), event.getPosition(), event.getIndex());
                                     break;
                             }
                         }
@@ -148,8 +148,8 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
         }
     }
 
-    private void insertToLineUpView(PlayerResponse player, int position) {
-        presenter.addPlayer(player, teamId);
+    private void insertToLineUpView(PlayerResponse player, int position, int index) {
+        presenter.addPlayer(player, teamId, index);
     }
 
     @Override
@@ -176,7 +176,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     public void displayLineupPlayers(List<PlayerResponse> players) {
         lineupView.notifyDataSetChanged();
         for (PlayerResponse player : players) {
-            lineupView.addPlayer(player, 3 - player.getMainPosition());
+            lineupView.addPlayer(player, 3 - player.getMainPosition(), -1);
         }
         enableCompleteButton(lineupView.isSetupComplete());
     }
@@ -190,8 +190,9 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     }
 
     @Override
-    public void onAddPlayer(TeamResponse team, PlayerResponse player) {
-        lineupView.addPlayer(player, 3 - player.getMainPosition());
+    public void onAddPlayer(TeamResponse team, PlayerResponse player, int order) {
+//        lineupView.addPlayer(player, 3 - player.getMainPosition(), team.getPickOrder()); // todo: fix late
+        lineupView.addPlayer(player, 3 - player.getMainPosition(), order);
 
         if (lineupView.isSetupComplete()) {
             enableCompleteButton(true);

@@ -171,9 +171,7 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/padding_layout"
-                android:paddingRight="@dimen/padding_layout">
+                android:orientation="horizontal">
 
                 <com.bon.customview.textview.ExtTextView
                     style="@style/StyleDescriptionContent"
@@ -182,34 +180,75 @@
                     android:layout_weight="3"
                     android:padding="0dp"
                     android:text="@string/name_club_position"
+                    android:textSize="@dimen/font_size_description"
                     app:textViewFontAssetName="@string/font_display_bold" />
 
-                <com.bon.customview.textview.ExtTextView
-                    style="@style/StyleDescriptionContent"
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:padding="0dp"
-                    android:text="@string/value"
-                    app:textViewFontAssetName="@string/font_display_bold" />
+                    android:gravity="center_vertical">
 
-                <com.bon.customview.textview.ExtTextView
-                    style="@style/StyleDescriptionContent"
+                    <com.bon.customview.textview.ExtTextView
+                        style="@style/StyleDescriptionContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="0dp"
+                        android:text="@string/value"
+                        android:textSize="@dimen/font_size_description"
+                        app:textViewFontAssetName="@string/font_display_bold" />
+
+                    <ImageView
+                        android:id="@+id/ivSort1"
+                        android:layout_width="@dimen/font_size_description"
+                        android:layout_height="@dimen/font_size_description"
+                        android:src="@drawable/ic_arrow_drop_down_black" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:padding="0dp"
-                    android:text="@string/point"
-                    app:textViewFontAssetName="@string/font_display_bold" />
+                    android:gravity="center_vertical">
 
-                <com.bon.customview.textview.ExtTextView
-                    style="@style/StyleDescriptionContent"
+                    <com.bon.customview.textview.ExtTextView
+                        style="@style/StyleDescriptionContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="0dp"
+                        android:text="@string/point"
+                        android:textSize="@dimen/font_size_description"
+                        app:textViewFontAssetName="@string/font_display_bold" />
+
+                    <ImageView
+                        android:id="@+id/ivSort2"
+                        android:layout_width="@dimen/font_size_description"
+                        android:layout_height="@dimen/font_size_description"
+                        android:src="@drawable/ic_arrow_drop_down_black" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:padding="0dp"
-                    android:text="@string/stat_1"
-                    app:textViewFontAssetName="@string/font_display_bold" />
+                    android:gravity="center_vertical">
+
+                    <com.bon.customview.textview.ExtTextView
+                        style="@style/StyleDescriptionContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="0dp"
+                        android:text="@string/stat_1"
+                        android:textSize="@dimen/font_size_description"
+                        app:textViewFontAssetName="@string/font_display_bold" />
+
+                    <ImageView
+                        android:id="@+id/ivSort3"
+                        android:layout_width="@dimen/font_size_description"
+                        android:layout_height="@dimen/font_size_description"
+                        android:src="@drawable/ic_arrow_drop_down_black" />
+                </LinearLayout>
             </TableRow>
         </TableRow>
 

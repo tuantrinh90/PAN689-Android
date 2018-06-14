@@ -52,7 +52,7 @@ public class LineUpPresenter extends BaseDataPresenter<ILineUpView> implements I
     }
 
     @Override
-    public void addPlayer(PlayerResponse player, int teamId) {
+    public void addPlayer(PlayerResponse player, int teamId, int order) {
         getOptView().doIfPresent(v -> {
             mCompositeDisposable.add(RxUtilities.async(
                     v,
@@ -60,6 +60,7 @@ public class LineUpPresenter extends BaseDataPresenter<ILineUpView> implements I
                             .setType(MultipartBody.FORM)
                             .addFormDataPart("team_id", String.valueOf(teamId))
                             .addFormDataPart("player_id", String.valueOf(player.getId()))
+                            .addFormDataPart("order", String.valueOf(order))
                             .build()),
                     new ApiCallback<PropsPlayerResponse>() {
                         @Override
@@ -75,7 +76,7 @@ public class LineUpPresenter extends BaseDataPresenter<ILineUpView> implements I
                         @Override
                         public void onSuccess(PropsPlayerResponse response) {
                             v.displayBudget(response.getTeam());
-                            v.onAddPlayer(response.getTeam(), player);
+                            v.onAddPlayer(response.getTeam(), player, order);
                         }
 
                         @Override

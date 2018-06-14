@@ -40,6 +40,7 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
     private int page = 1;
     private String query = "";
     private Integer mainPosition = null;
+    private int index;
 
     public static PlayerPopupFragment newInstance() {
         return new PlayerPopupFragment();
@@ -69,6 +70,7 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
     private void getDataFromBundle() {
         Bundle bundle = getArguments();
         if (bundle != null) {
+            index = bundle.getInt(KEY_INDEX);
             leagueId = bundle.getInt(KEY_LEAGUE_ID);
             mainPosition = bundle.getInt(KEY_POSITION);
 
@@ -119,6 +121,7 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
                         bus.send(new PlayerEvent.Builder()
                                 .action(PlayerEvent.ACTION_ADD_CLICK)
                                 .position(mainPosition)
+                                .index(index)
                                 .data(player)
                                 .build());
                     });

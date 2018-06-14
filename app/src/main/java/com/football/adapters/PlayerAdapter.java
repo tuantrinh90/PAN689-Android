@@ -1,10 +1,8 @@
 package com.football.adapters;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bon.customview.listview.ExtBaseAdapter;
 import com.bon.customview.listview.ExtPagingListView;
@@ -16,9 +14,7 @@ import com.football.models.responses.PlayerResponse;
 import com.football.utilities.AppUtilities;
 import com.jakewharton.rxbinding2.view.RxView;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,8 +26,6 @@ public class PlayerAdapter extends ExtBaseAdapter<PlayerResponse, PlayerAdapter.
     private CompositeDisposable mDisposable = new CompositeDisposable();
     private Consumer<PlayerResponse> responseConsumer;
     private Consumer<PlayerResponse> addConsumer;
-
-    private Set<Integer> checkedList = new HashSet<>();
 
     public PlayerAdapter(Context context, List<PlayerResponse> playerResponses,
                          Consumer<PlayerResponse> responseConsumer, Consumer<PlayerResponse> addConsumer) {
@@ -64,8 +58,7 @@ public class PlayerAdapter extends ExtBaseAdapter<PlayerResponse, PlayerAdapter.
 
         mDisposable.add(RxView.clicks(holder.ivAdd).subscribe(o -> {
             Optional.from(addConsumer).doIfPresent(d -> {
-                if (!isChecked(data.getId())) {
-                    checkedList.add(data.getId());
+                if (!checked) {
                     d.accept(data);
                     holder.ivAdd.setImageResource(R.drawable.ic_tick);
                     holder.ivAdd.setBackgroundResource(R.drawable.bg_circle_white_border);
@@ -75,10 +68,6 @@ public class PlayerAdapter extends ExtBaseAdapter<PlayerResponse, PlayerAdapter.
         mDisposable.add(RxView.clicks(holder.itemView).subscribe(o ->
                 Optional.from(responseConsumer).doIfPresent(d ->
                         d.accept(data))));
-    }
-
-    private boolean isChecked(int playerId) {
-        return checkedList.contains(playerId);
     }
 
     static class ViewHolder extends ExtPagingListView.ExtViewHolder {

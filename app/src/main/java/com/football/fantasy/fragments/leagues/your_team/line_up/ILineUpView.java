@@ -15,7 +15,7 @@ public interface ILineUpView extends IBaseMvpView {
 
     void displayStatistic(StatisticResponse statistic);
 
-    void onAddPlayer(TeamResponse team, PlayerResponse player);
+    void onAddPlayer(TeamResponse team, PlayerResponse player, int order);
 
     void onRemovePlayer(TeamResponse team, PlayerResponse player);
 

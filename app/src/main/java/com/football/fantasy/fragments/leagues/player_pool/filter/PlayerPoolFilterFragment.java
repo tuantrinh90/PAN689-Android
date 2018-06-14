@@ -77,15 +77,13 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolFil
     void initView() {
         // position
         keyValuePairPositions = new ArrayList<>();
-        String all = String.valueOf(PlayerResponse.POSITION_NONE);
         String midfielder = String.valueOf(PlayerResponse.POSITION_MIDFIELDER);
         String goalkeeper = String.valueOf(PlayerResponse.POSITION_GOALKEEPER);
         String attacker = String.valueOf(PlayerResponse.POSITION_ATTACKER);
         String defender = String.valueOf(PlayerResponse.POSITION_DEFENDER);
 
-        boolean allCheck = filterPositions.isEmpty() || filterPositions.contains(all);
+        boolean allCheck = filterPositions.isEmpty();
 
-        keyValuePairPositions.add(new ExtKeyValuePair(all, getString(R.string.all), allCheck));
         keyValuePairPositions.add(new ExtKeyValuePair(midfielder, getString(R.string.midfielder), allCheck || filterPositions.contains(midfielder)));
         keyValuePairPositions.add(new ExtKeyValuePair(goalkeeper, getString(R.string.goalkeeper), allCheck || filterPositions.contains(goalkeeper)));
         keyValuePairPositions.add(new ExtKeyValuePair(attacker, getString(R.string.attacker), allCheck || filterPositions.contains(attacker)));

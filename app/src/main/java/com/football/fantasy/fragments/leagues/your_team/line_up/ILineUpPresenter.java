@@ -8,7 +8,7 @@ public interface ILineUpPresenter<V extends IBaseMvpView> extends IBaseDataPrese
 
     void getLineup(int teamId);
 
-    void addPlayer(PlayerResponse player, int teamId);
+    void addPlayer(PlayerResponse player, int teamId, int order);
 
     void removePlayer(PlayerResponse player, int teamId);
 }

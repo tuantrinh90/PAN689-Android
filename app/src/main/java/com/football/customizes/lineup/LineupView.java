@@ -55,7 +55,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         for (int line = 0; line < LINE; line++) {
             int playerCount = squad[line]; // số lượng cầu thủ trên 1 hàng
             for (int i = 0; i < playerCount; i++) {
-                PlayerView view = createPlayerView(mContext, players.length - position - 1, line);
+                PlayerView view = createPlayerView(mContext, i, line);
                 displayPlayer(view, null);
                 position++;
                 view.setOnPlayerViewClickListener(this);
@@ -115,21 +115,22 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         this.players = players;
     }
 
-    public void addPlayer(PlayerResponse player, int line) {
-        int position = getPosition(null, line);
+    public void addPlayer(PlayerResponse player, int line, Integer pickOrder) {
+//        int position = pickOrder != -1 ? pickOrder : getPosition(null, line, pickOrder);
+        int position = getPosition(null, line, pickOrder);
         if (position != -1) {
             setPlayer(player, position);
         }
     }
 
     public void removePlayer(PlayerResponse player, int line) {
-        int position = getPosition(player, line);
+        int position = getPosition(player, line, -1);
         if (position != -1) {
             setPlayer(null, position);
         }
     }
 
-    private int getPosition(PlayerResponse player, int line) {
+    private int getPosition(PlayerResponse player, int line, Integer pickOrder) {
         int index = 0;
         for (int i = 0; i < line; i++) {
             index += squad[i];

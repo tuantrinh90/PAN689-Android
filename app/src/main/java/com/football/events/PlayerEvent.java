@@ -10,11 +10,13 @@ public class PlayerEvent implements IEvent {
     private int action;
     private int position;
     private PlayerResponse data;
+    private int index;
 
     private PlayerEvent(Builder builder) {
         action = builder.action;
         position = builder.position;
         data = builder.data;
+        index = builder.index;
     }
 
     public int getAction() {
@@ -29,11 +31,15 @@ public class PlayerEvent implements IEvent {
         return data;
     }
 
+    public int getIndex() {
+        return index;
+    }
 
     public static final class Builder {
         private int action;
         private int position;
         private PlayerResponse data;
+        private int index;
 
         public Builder() {
         }
@@ -50,6 +56,10 @@ public class PlayerEvent implements IEvent {
 
         public Builder data(PlayerResponse val) {
             data = val;
+            return this;
+        }
+        public Builder index(int val) {
+            index = val;
             return this;
         }
 
