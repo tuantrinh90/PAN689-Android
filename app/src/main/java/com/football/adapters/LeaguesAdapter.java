@@ -58,7 +58,11 @@ public class LeaguesAdapter extends ExtBaseAdapter<LeagueResponse, LeaguesAdapte
     protected void onBindViewHolder(ViewHolder holder, LeagueResponse league) {
         holder.ivAvatar.setImageUri(league.getLogo());
         holder.tvTitle.setText(league.getName());
-        holder.tvOwner.setText(league.getOwner() ? holder.itemView.getContext().getString(R.string.me) : league.getUser().getName());
+        try {
+            holder.tvOwner.setText(league.getOwner() ? holder.itemView.getContext().getString(R.string.me) : league.getUser().getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         holder.tvEntrantNumber.setText(String.valueOf(league.getCurrentNumberOfUser()));
         holder.tvEntrantTotal.setText(String.valueOf(league.getNumberOfUser()));
         holder.tvDescription.setText(league.getDescriptionText(context));
