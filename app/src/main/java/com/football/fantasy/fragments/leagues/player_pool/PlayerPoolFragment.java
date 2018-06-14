@@ -16,6 +16,7 @@ import com.football.adapters.PlayerPoolItemAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.searchs.SearchView;
+import com.football.events.PlayerQueryEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.fantasy.fragments.leagues.player_pool.display.PlayerPoolDisplayFragment;
@@ -27,6 +28,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.observers.DisposableObserver;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -50,8 +52,8 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     List<PlayerResponse> playerResponses;
     PlayerPoolItemAdapter playerPoolItemAdapter;
     private int page;
-    private String filterClubs;
-    private String filterPositions;
+    private String filterClubs = "";
+    private String filterPositions = "";
 
     public static Bundle newBundle() {
         Bundle bundle = new Bundle();
@@ -69,6 +71,41 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
         bindButterKnife(view);
         initView();
         initData();
+        registerBus();
+    }
+
+    private void registerBus() {
+        try {
+            // action add click on PlayerList
+            mCompositeDisposable.add(bus.ofType(PlayerQueryEvent.class)
+                    .subscribeWith(new DisposableObserver<PlayerQueryEvent>() {
+                        @Override
+                        public void onNext(PlayerQueryEvent event) {
+                            if (event.getTag() == PlayerQueryEvent.TAG_FILTER) {
+                                filterClubs = event.getClub();
+                                filterPositions = event.getPosition();
+                            }
+
+                            // get items
+                            lvData.clearItems();
+                            lvData.startLoading();
+                            getPlayers();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    }));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     void initView() {
@@ -134,7 +171,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
             case R.id.filter:
                 AloneFragmentActivity.with(this)
                         .forResult(REQUEST_FILTER)
-                        .parameters(PlayerPoolFilterFragment.newBundle())
+                        .parameters(PlayerPoolFilterFragment.newBundle(filterPositions, filterClubs))
                         .start(PlayerPoolFilterFragment.class);
                 break;
             case R.id.display:
@@ -146,23 +183,4 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_FILTER:
-                if (resultCode == RESULT_OK) {
-                    filterClubs = data.getStringExtra(PlayerPoolFilterFragment.KEY_POSITION);
-                    filterPositions = data.getStringExtra(PlayerPoolFilterFragment.KEY_POSITION);
-                    getPlayers();
-                }
-                break;
-            case REQUEST_DISPLAY:
-
-                break;
-            case REQUEST_SORT:
-
-                break;
-        }
-    }
 }

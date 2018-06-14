@@ -1,7 +1,5 @@
 package com.football.fantasy.fragments.leagues.player_pool.filter;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +13,7 @@ import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.textview.ExtTextView;
 import com.football.adapters.FilterAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.events.PlayerQueryEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_pool.display.IPlayerPoolDisplayPresenter;
 import com.football.fantasy.fragments.leagues.player_pool.display.IPlayerPoolDisplayView;
@@ -23,6 +22,7 @@ import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.RealClubResponse;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -45,11 +45,16 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolDis
     List<ExtKeyValuePair> keyValuePairPositions;
     List<ExtKeyValuePair> keyValuePairClubs;
 
+    private String filterPositions;
+    private String filterClubs;
+
     FilterAdapter filterPositionAdapter;
     FilterAdapter filterClubAdapter;
 
-    public static Bundle newBundle() {
+    public static Bundle newBundle(String filterPositions, String filterClubs) {
         Bundle bundle = new Bundle();
+        bundle.putString(KEY_POSITION, filterPositions);
+        bundle.putString(KEY_CLUB, filterClubs);
         return bundle;
     }
 
@@ -62,19 +67,32 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolDis
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
+        getDataFromBundle();
         initView();
-
         presenter.getRealClubs();
+    }
+
+    private void getDataFromBundle() {
+        filterPositions = getArguments().getString(KEY_POSITION);
+        filterClubs = getArguments().getString(KEY_CLUB);
     }
 
     void initView() {
         // position
         keyValuePairPositions = new ArrayList<>();
-        keyValuePairPositions.add(new ExtKeyValuePair(String.valueOf(PlayerResponse.POSITION_NONE), getString(R.string.all)));
-        keyValuePairPositions.add(new ExtKeyValuePair(String.valueOf(PlayerResponse.POSITION_MIDFIELDER), getString(R.string.midfielder)));
-        keyValuePairPositions.add(new ExtKeyValuePair(String.valueOf(PlayerResponse.POSITION_GOALKEEPER), getString(R.string.goalkeeper)));
-        keyValuePairPositions.add(new ExtKeyValuePair(String.valueOf(PlayerResponse.POSITION_ATTACKER), getString(R.string.attacker)));
-        keyValuePairPositions.add(new ExtKeyValuePair(String.valueOf(PlayerResponse.POSITION_DEFENDER), getString(R.string.defender)));
+        String all = String.valueOf(PlayerResponse.POSITION_NONE);
+        String midfielder = String.valueOf(PlayerResponse.POSITION_MIDFIELDER);
+        String goalkeeper = String.valueOf(PlayerResponse.POSITION_GOALKEEPER);
+        String attacker = String.valueOf(PlayerResponse.POSITION_ATTACKER);
+        String defender = String.valueOf(PlayerResponse.POSITION_DEFENDER);
+
+        boolean allCheck = filterPositions.isEmpty() || filterPositions.contains(all);
+
+        keyValuePairPositions.add(new ExtKeyValuePair(all, getString(R.string.all), allCheck));
+        keyValuePairPositions.add(new ExtKeyValuePair(midfielder, getString(R.string.midfielder), allCheck || filterPositions.contains(midfielder)));
+        keyValuePairPositions.add(new ExtKeyValuePair(goalkeeper, getString(R.string.goalkeeper), allCheck || filterPositions.contains(goalkeeper)));
+        keyValuePairPositions.add(new ExtKeyValuePair(attacker, getString(R.string.attacker), allCheck || filterPositions.contains(attacker)));
+        keyValuePairPositions.add(new ExtKeyValuePair(defender, getString(R.string.defender), allCheck || filterPositions.contains(defender)));
 
         filterPositionAdapter = new FilterAdapter(mActivity, keyValuePairPositions, extKeyValuePair -> {
             extKeyValuePair.setSelected(!extKeyValuePair.isSelected());
@@ -111,7 +129,9 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolDis
                 positionsBuilder.append(key.getKey()).append(",");
             }
         }
-        String positions = TextUtils.isEmpty(positionsBuilder) ? "" : positionsBuilder.substring(0, positionsBuilder.lastIndexOf(","));
+        String positions =
+                TextUtils.isEmpty(positionsBuilder) || positionsBuilder.toString().contains(String.valueOf(PlayerResponse.POSITION_NONE)) ?
+                        "" : positionsBuilder.substring(0, positionsBuilder.lastIndexOf(","));
 
         StringBuilder clubsBuilder = new StringBuilder();
         for (ExtKeyValuePair key : keyValuePairClubs) {
@@ -121,20 +141,24 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolDis
         }
         String clubs = TextUtils.isEmpty(clubsBuilder) ? "" : clubsBuilder.substring(0, clubsBuilder.lastIndexOf(","));
 
-        Intent intent = new Intent();
-        intent.putExtra(KEY_POSITION, positions);
-        intent.putExtra(KEY_CLUB, clubs);
-        getActivity().setResult(Activity.RESULT_OK, intent);
-        getActivity().finish(); // TODO: 6/13/2018 chưa bắn đc về
+        // bắn sang màn hình playerPoolFragment
+        bus.send(new PlayerQueryEvent.Builder()
+                .tag(PlayerQueryEvent.TAG_FILTER)
+                .position(positions)
+                .club(clubs)
+                .build());
+
+        getActivity().finish();
     }
 
     @Override
     public void displayClubs(List<RealClubResponse> clubs) {
 
+        List<String> filter = Arrays.asList(filterClubs.split(","));
         // clubs
         keyValuePairClubs = new ArrayList<>();
         for (RealClubResponse club : clubs) {
-            keyValuePairClubs.add(new ExtKeyValuePair(String.valueOf(club.getId()), club.getName()));
+            keyValuePairClubs.add(new ExtKeyValuePair(String.valueOf(club.getId()), club.getName(), filter.contains(club.getId().toString())));
         }
 
         filterClubAdapter = new FilterAdapter(mActivity, keyValuePairClubs, extKeyValuePair -> {

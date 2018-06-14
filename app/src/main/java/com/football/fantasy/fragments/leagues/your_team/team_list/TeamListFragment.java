@@ -22,9 +22,12 @@ import butterknife.BindView;
 public class TeamListFragment extends BaseMainMvpFragment<ITeamListView, ITeamListPresenter<ITeamListView>> implements ITeamListView {
     static final String KEY_LEAGUE = "LEAGUE";
 
-    @BindView(R.id.tvNumber) ExtTextView tvNumber;
-    @BindView(R.id.tvTotal) ExtTextView tvTotal;
-    @BindView(R.id.rvRecyclerView) ExtPagingListView rvRecyclerView;
+    @BindView(R.id.tvNumber)
+    ExtTextView tvNumber;
+    @BindView(R.id.tvTotal)
+    ExtTextView tvTotal;
+    @BindView(R.id.rvRecyclerView)
+    ExtPagingListView rvRecyclerView;
 
     LeagueResponse league;
     TeamAdapter teamAdapter;
@@ -61,7 +64,14 @@ public class TeamListFragment extends BaseMainMvpFragment<ITeamListView, ITeamLi
     }
 
     void initView() {
-        teamAdapter = new TeamAdapter(mActivity, new ArrayList<>(), league, null, null);
+        teamAdapter = new TeamAdapter(
+                mActivity,
+                new ArrayList<>(),
+                league,
+                team -> { // handle click
+                    
+                },
+                null);
         rvRecyclerView.init(mActivity, teamAdapter)
                 .setOnExtRefreshListener(() -> {
                     Optional.from(rvRecyclerView).doIfPresent(rv -> rv.clearItems());
