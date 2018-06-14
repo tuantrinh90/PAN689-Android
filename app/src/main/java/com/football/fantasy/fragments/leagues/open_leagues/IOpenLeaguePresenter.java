@@ -5,4 +5,7 @@ import com.football.common.views.IBaseMvpView;
 
 public interface IOpenLeaguePresenter<V extends IBaseMvpView> extends IBaseDataPresenter<V> {
     void getOpenLeagues(String orderBy, int page, int perPage, String query);
+
+    void join(Integer leagueId);
+
 }

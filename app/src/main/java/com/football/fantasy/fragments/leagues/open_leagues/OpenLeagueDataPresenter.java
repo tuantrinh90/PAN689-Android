@@ -43,4 +43,35 @@ public class OpenLeagueDataPresenter extends BaseDataPresenter<IOpenLeagueView> 
                     }));
         });
     }
+
+    @Override
+    public void join(Integer leagueId) {
+        getOptView().doIfPresent(v -> {
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().join(leagueId),
+                    new ApiCallback<LeagueResponse>() {
+                        @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
+
+                        @Override
+                        public void onSuccess(LeagueResponse response) {
+                            v.refreshData(response.getId());
+                            v.onJoinSuccessful(response);
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            v.showMessage(error);
+                        }
+                    }));
+        });
+    }
 }

@@ -93,6 +93,9 @@ public interface IApiService {
                                                                             @Query(Constant.KEY_PER_PAGE) int perPage,
                                                                             @Query(Constant.KEY_WORD) String query);
 
+    @GET(ServiceConfig.JOINT)
+    Observable<BaseResponse<LeagueResponse>> join(@Path(ServiceConfig.KEY_ID) Integer leagueId);
+
     @GET(ServiceConfig.PLAYER_LIST)
     Observable<BaseResponse<ExtPagingResponse<PlayerResponse>>> getPlayerList(@QueryMap Map<String, String> queries);
 

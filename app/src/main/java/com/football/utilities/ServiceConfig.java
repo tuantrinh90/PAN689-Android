@@ -41,6 +41,7 @@ public interface ServiceConfig {
     String INVITATION_DECISION = "invitations/decision/{id}";
     String HOME_NEWS = "posts";
     String OPEN_LEAGUES = "leagues/open_league";
+    String JOINT = "leagues/join/{id}";
     String PLAYER_LIST = "players"; //     String PLAYER_LIST = "teams/player_list/{" + KEY_ID + "}";
     String REAL_CLUB = "real_clubs";
     String CREATE_LEAGUE = "leagues";

@@ -180,7 +180,7 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
     @Override
     public void createTeamSuccess() {
         bus.send(new LeagueEvent());
-            goLeagueDetail();
+        goLeagueDetail();
     }
 
     @Override

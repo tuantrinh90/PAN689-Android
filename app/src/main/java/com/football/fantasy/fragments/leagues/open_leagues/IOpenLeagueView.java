@@ -7,4 +7,9 @@ import java.util.List;
 
 public interface IOpenLeagueView extends IBaseMvpView {
     void notifyDataSetChangedLeagues(List<LeagueResponse> its);
+
+    void refreshData(Integer leagueId);
+
+    void onJoinSuccessful(LeagueResponse response);
+
 }

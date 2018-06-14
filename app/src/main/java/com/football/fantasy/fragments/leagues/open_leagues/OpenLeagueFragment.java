@@ -153,13 +153,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
                         .parameters(LeagueDetailFragment.newBundle(getString(R.string.open_leagues), details.getId(), LeagueDetailFragment.OPEN_LEAGUES))
                         .start(LeagueDetailFragment.class);
             }, null, null, join -> {
-                AloneFragmentActivity.with(this)
-                        .parameters(SetupTeamFragment.newBundle(
-                                join,
-                                null,
-                                getString(R.string.open_leagues),
-                                LeagueDetailFragment.OPEN_LEAGUES))
-                        .start(SetupTeamFragment.class);
+                presenter.join(join.getId());
             });
             rvRecyclerView.init(mActivity, leaguesAdapter)
                     .setOnExtLoadMoreListener(() -> {
@@ -171,18 +165,22 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
                         }
                     })
                     .setOnExtRefreshListener(() -> Optional.from(rvRecyclerView).doIfPresent(rv -> {
-                        try {
-                            page = 1;
-                            rv.clearItems();
-                            presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
-                        } catch (Exception e) {
-                            Logger.e(TAG, e);
-                        }
+                        refresh();
                     }));
 
             // load data
             presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
         } catch (Resources.NotFoundException e) {
+            Logger.e(TAG, e);
+        }
+    }
+
+    private void refresh() {
+        try {
+            page = 1;
+            rvRecyclerView.clearItems();
+            presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+        } catch (Exception e) {
             Logger.e(TAG, e);
         }
     }
@@ -228,6 +226,25 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
+    }
+
+    @Override
+    public void refreshData(Integer leagueId) {
+        refresh();
+    }
+
+    @Override
+    public void onJoinSuccessful(LeagueResponse response) {
+        // refresh my league
+        bus.send(new LeagueEvent());
+
+        AloneFragmentActivity.with(this)
+                .parameters(SetupTeamFragment.newBundle(
+                        response,
+                        null,
+                        getString(R.string.open_leagues),
+                        LeagueDetailFragment.OPEN_LEAGUES))
+                .start(SetupTeamFragment.class);
     }
 
     @Override
