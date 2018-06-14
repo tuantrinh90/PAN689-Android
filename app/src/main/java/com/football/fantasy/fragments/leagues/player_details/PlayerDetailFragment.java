@@ -33,6 +33,7 @@ import butterknife.OnClick;
 public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView, IPlayerDetailPresenter<IPlayerDetailView>> implements IPlayerDetailView {
 
     private static final String KEY_PLAYER = "PLAYER";
+    private static final String KEY_TITLE = "TITLE";
 
     @BindView(R.id.tvName)
     ExtTextView tvName;
@@ -85,11 +86,13 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
     ExtPagingListView rvStatistics;
 
     private PlayerResponse player;
+    private String title;
     private ExtKeyValuePair keyValuePairKey = new ExtKeyValuePair("[{\"property\":\"total\", \"operator\":\"eq\",\"value\":\"all\"}]", "Total statistics");
 
-    public static Bundle newBundle(PlayerResponse player) {
+    public static Bundle newBundle(PlayerResponse player, String title) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_PLAYER, player);
+        bundle.putString(KEY_TITLE, title);
         return bundle;
     }
 
@@ -100,9 +103,9 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
-        getDataFromBundle();
         initView();
         displayPlayer();
         initRecyclerView();
@@ -137,6 +140,7 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
 
     private void getDataFromBundle() {
         player = (PlayerResponse) getArguments().getSerializable(KEY_PLAYER);
+        title  = getArguments().getString(KEY_TITLE);
     }
 
     void initView() {
@@ -152,8 +156,8 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
     }
 
     @Override
-    public int getTitleId() {
-        return R.string.player_pool;
+    public String getTitleString() {
+        return title;
     }
 
     @Override

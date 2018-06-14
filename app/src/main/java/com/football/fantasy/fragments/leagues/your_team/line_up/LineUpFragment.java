@@ -91,7 +91,6 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     }
 
     void initView() {
-        enableCompleteButton(false);
 
         // setup lineupView
         lineupView.setupLineup(new PlayerResponse[18], new int[]{4, 6, 6, 2});
@@ -179,6 +178,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
         for (PlayerResponse player : players) {
             lineupView.addPlayer(player, 3 - player.getMainPosition());
         }
+        enableCompleteButton(lineupView.isSetupComplete());
     }
 
     @Override

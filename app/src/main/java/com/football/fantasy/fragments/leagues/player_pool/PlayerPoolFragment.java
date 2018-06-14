@@ -83,7 +83,9 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                 playerResponses,
                 player -> { // click event
                     AloneFragmentActivity.with(this)
-                            .parameters(PlayerDetailFragment.newBundle(player))
+                            .parameters(PlayerDetailFragment.newBundle(
+                                    player,
+                                    getString(R.string.player_pool)))
                             .start(PlayerDetailFragment.class);
                 });
         lvData.init(mActivity, playerPoolItemAdapter)

@@ -12,11 +12,13 @@ import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.bon.logger.Logger;
 import com.football.adapters.PlayerAdapter;
+import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.lineup.StatisticView;
 import com.football.customizes.searchs.SearchView;
 import com.football.events.PlayerEvent;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.StatisticResponse;
 
@@ -117,7 +119,11 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
                     mActivity,
                     playerResponses,
                     player -> { // item click
-
+                        AloneFragmentActivity.with(this)
+                                .parameters(PlayerDetailFragment.newBundle(
+                                        player,
+                                        getString(R.string.player_list)))
+                                .start(PlayerDetailFragment.class);
                     },
                     player -> { // add click
                         // bắn sang màn hình LineUp
