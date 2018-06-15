@@ -101,7 +101,7 @@
     <string name="gallery">Gallery</string>
     <string name="remove_team">Remove Team</string>
     <string name="remove_team_message">You are about to remove %s from this League. Are you sure you want to do this?</string>
-    <string name="money_prefix">€%s mio</string>
+    <string name="money_prefix">€%s</string>
     <string name="edit">Edit</string>
     <string name="leave">Leave</string>
     <string name="stop_league">Stop League</string>

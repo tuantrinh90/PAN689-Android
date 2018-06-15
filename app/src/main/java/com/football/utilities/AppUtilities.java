@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.football.fantasy.R;
 import com.football.models.responses.PlayerResponse;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 
 public class AppUtilities {
@@ -49,5 +50,15 @@ public class AppUtilities {
                     break;
             }
         }
+    }
+
+    public static String getMoney(Long value) {
+        float oneMio = 1000000f;
+        float oneK = 1000f;
+        DecimalFormat df = new DecimalFormat("###,###.##");
+        if (Math.abs(value) >= oneMio) {
+            return df.format(value / oneMio) + " mio";
+        }
+        return df.format(value / oneK) + "k";
     }
 }

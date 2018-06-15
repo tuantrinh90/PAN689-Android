@@ -171,7 +171,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
 
     @Override
     public void displayBudget(TeamResponse team) {
-        tvBudget.setText(getString(R.string.team_budget_value, team.getCurrentBudgetValue()));
+        tvBudget.setText(getString(R.string.money_prefix, team.getCurrentBudgetValue()));
     }
 
     @Override

@@ -2,9 +2,9 @@ package com.football.models.responses;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.football.utilities.AppUtilities;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
 
 public class TeamResponse implements Serializable {
     @JsonProperty("id")
@@ -24,7 +24,7 @@ public class TeamResponse implements Serializable {
     @JsonProperty("logo")
     private String logo;
     @JsonProperty("current_budget")
-    private Integer currentBudget;
+    private Long currentBudget;
     @JsonProperty("rank")
     private Integer rank;
     @JsonProperty("total_point")
@@ -102,16 +102,15 @@ public class TeamResponse implements Serializable {
         this.logo = logo;
     }
 
-    public Integer getCurrentBudget() {
+    public Long getCurrentBudget() {
         return currentBudget == null ? 0 : currentBudget;
     }
 
     public String getCurrentBudgetValue() {
-        DecimalFormat df = new DecimalFormat("#.##");
-        return df.format(getCurrentBudget() / 1000000f);
+        return AppUtilities.getMoney(getCurrentBudget());
     }
 
-    public void setCurrentBudget(Integer currentBudget) {
+    public void setCurrentBudget(Long currentBudget) {
         this.currentBudget = currentBudget;
     }
 

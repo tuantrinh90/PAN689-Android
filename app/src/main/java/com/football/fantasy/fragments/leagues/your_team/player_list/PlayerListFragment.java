@@ -18,8 +18,10 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.lineup.StatisticView;
 import com.football.customizes.searchs.SearchView;
 import com.football.events.PlayerEvent;
+import com.football.events.PlayerQueryEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
+import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilterFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.StatisticResponse;
@@ -29,6 +31,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.observers.DisposableObserver;
 
 public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPlayerListPresenter<IPlayerListView>> implements IPlayerListView {
     private static final String TAG = "PlayerListFragment";
@@ -76,6 +79,9 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
     private int playerPosition = -1;
     private View lastPlayerViewSelected = null;
 
+    private String filterClubs = "";
+    private String filterPositions = "";
+
     @Override
     public int getResourceId() {
         return R.layout.player_list_fragment;
@@ -87,6 +93,7 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
         bindButterKnife(view);
         getDataFromBundle();
         initView();
+        registerBus();
     }
 
     private void getDataFromBundle() {
@@ -165,11 +172,49 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
         return new PlayerListPresenter(getAppComponent());
     }
 
+    private void registerBus() {
+        try {
+            // action add click on PlayerList
+            mCompositeDisposable.add(bus.ofType(PlayerQueryEvent.class)
+                    .subscribeWith(new DisposableObserver<PlayerQueryEvent>() {
+                        @Override
+                        public void onNext(PlayerQueryEvent event) {
+                            if (event.getTag() == PlayerQueryEvent.TAG_FILTER) {
+                                filterClubs = event.getClub();
+                                filterPositions = event.getPosition();
+
+                                // get items
+                                rvRecyclerView.clearItems();
+                                rvRecyclerView.startLoading();
+                                getPlayers(true);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    }));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     void onClickFilter() {
         Optional.from(rvRecyclerView).doIfPresent(rv -> {
             orderBy = orderBy.equalsIgnoreCase(ORDER_BY_DEFAULT) ? ORDER_BY_ASC : ORDER_BY_DEFAULT;
             svSearchView.getFilter().animate().rotation(orderBy.equalsIgnoreCase(ORDER_BY_DEFAULT) ? 0 : 180)
                     .setDuration(500).setInterpolator(new LinearInterpolator()).start();
+
+            AloneFragmentActivity.with(this)
+                    .parameters(PlayerPoolFilterFragment.newBundle(filterPositions, filterClubs))
+                    .start(PlayerPoolFilterFragment.class);
         });
     }
 

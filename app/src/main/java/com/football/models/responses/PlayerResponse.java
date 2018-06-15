@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.football.fantasy.R;
+import com.football.utilities.AppUtilities;
 
 import java.io.Serializable;
 import java.lang.annotation.Retention;
@@ -252,8 +253,7 @@ public class PlayerResponse implements Serializable {
 
     @JsonIgnore
     public String getTransferValueDisplay() {
-        DecimalFormat df = new DecimalFormat("#.##");
-        return df.format(getTransferValue() / 1000000f);
+        return AppUtilities.getMoney(getTransferValue());
     }
 
     public Integer getPointLastRound() {
