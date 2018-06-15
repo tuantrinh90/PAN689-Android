@@ -32,6 +32,10 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 
+import static com.football.models.responses.PlayerResponse.Options.GOALS;
+import static com.football.models.responses.PlayerResponse.Options.POINT;
+import static com.football.models.responses.PlayerResponse.Options.TRANSFER_VALUE;
+
 public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPlayerPoolPresenter<IPlayerPoolView>> implements IPlayerPoolView {
 
     private static final int REQUEST_FILTER = 100;
@@ -46,14 +50,27 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     SearchView svSearch;
     @BindView(R.id.lvData)
     ExtPagingListView lvData;
+    @BindView(R.id.tvOption1)
+    ExtTextView tvOption1;
+    @BindView(R.id.tvOption2)
+    ExtTextView tvOption2;
+    @BindView(R.id.tvOption3)
+    ExtTextView tvOption3;
+    @BindView(R.id.ivSort1)
+    ImageView ivSort1;
+    @BindView(R.id.ivSort2)
+    ImageView ivSort2;
+    @BindView(R.id.ivSort3)
+    ImageView ivSort3;
 
     List<PlayerResponse> playerResponses;
     PlayerPoolItemAdapter playerPoolItemAdapter;
     private int page;
     private String filterClubs = "";
     private String filterPositions = "";
-    private String filterDisplays = PlayerPoolDisplayFragment.DISPLAY_DEFAULT;
-    private ExtKeyValuePair keyValuePairKey = KEY_VALUE_DEFAULT;
+    private boolean[] sorts = new boolean[]{true, true, true}; // false: asc, true: desc
+    private List<ExtKeyValuePair> displayPairs = new ArrayList<>();
+    private ExtKeyValuePair seasonPair = KEY_VALUE_DEFAULT;
 
     public static Bundle newBundle() {
         Bundle bundle = new Bundle();
@@ -84,14 +101,18 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                             if (event.getTag() == PlayerQueryEvent.TAG_FILTER) {
                                 filterClubs = event.getClub();
                                 filterPositions = event.getPosition();
+
+                                // get items
+                                lvData.clearItems();
+                                lvData.startLoading();
+                                getPlayers();
                             } else if (event.getTag() == PlayerQueryEvent.TAG_DISPLAY) {
-                                filterDisplays = event.getDisplay();
+                                displayPairs = event.getDisplays();
+
+                                displayDisplay();
+                                playerPoolItemAdapter.notifyDataSetChanged();
                             }
 
-                            // get items
-                            lvData.clearItems();
-                            lvData.startLoading();
-                            getPlayers();
                         }
 
                         @Override
@@ -110,12 +131,34 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
         }
     }
 
+    private void displayDisplay() {
+        playerPoolItemAdapter.setOptions(
+                displayPairs.size() > 0 ? displayPairs.get(0).getKey() : "",
+                displayPairs.size() > 1 ? displayPairs.get(1).getKey() : "",
+                displayPairs.size() > 2 ? displayPairs.get(2).getKey() : "");
+        if (displayPairs.size() > 0) {
+            tvOption1.setText(displayPairs.get(0).getValue());
+        }
+        if (displayPairs.size() > 1) {
+            tvOption2.setText(displayPairs.get(1).getValue());
+        }
+        if (displayPairs.size() > 2) {
+            tvOption3.setText(displayPairs.get(2).getValue());
+        }
+    }
+
     void initView() {
         Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.colorPrimary)));
         Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white)));
     }
 
     void initData() {
+
+        // display default
+        displayPairs.add(PlayerPoolDisplayFragment.OPTION_DISPLAY_DEFAULT_1);
+        displayPairs.add(PlayerPoolDisplayFragment.OPTION_DISPLAY_DEFAULT_2);
+        displayPairs.add(PlayerPoolDisplayFragment.OPTION_DISPLAY_DEFAULT_3);
+
         playerResponses = new ArrayList<>();
         playerPoolItemAdapter = new PlayerPoolItemAdapter(
                 mActivity,
@@ -127,6 +170,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                                     getString(R.string.player_pool)))
                             .start(PlayerDetailFragment.class);
                 });
+        playerPoolItemAdapter.setOptions(TRANSFER_VALUE, POINT, GOALS);
         lvData.init(mActivity, playerPoolItemAdapter)
                 .setOnExtRefreshListener(() -> {
                     page = 1;
@@ -140,7 +184,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     }
 
     private void getPlayers() {
-        presenter.getPlayers(filterPositions, filterClubs, filterDisplays);
+        presenter.getPlayers(filterPositions, filterClubs, displayPairs, sorts);
     }
 
     @Override
@@ -167,7 +211,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
         });
     }
 
-    @OnClick({R.id.ivArrow, R.id.filter, R.id.display})
+    @OnClick({R.id.ivArrow, R.id.filter, R.id.display, R.id.option1, R.id.option2, R.id.option3})
     public void onSortClicked(View view) {
         switch (view.getId()) {
             case R.id.ivArrow:
@@ -180,12 +224,43 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                         .start(PlayerPoolFilterFragment.class);
                 break;
             case R.id.display:
+                StringBuilder displays = new StringBuilder();
+                for (ExtKeyValuePair paire : displayPairs) {
+                    displays.append(paire.getKey()).append(",");
+                }
                 AloneFragmentActivity.with(this)
                         .forResult(REQUEST_DISPLAY)
-                        .parameters(PlayerPoolDisplayFragment.newBundle(filterDisplays))
+                        .parameters(PlayerPoolDisplayFragment.newBundle(displays.toString()))
                         .start(PlayerPoolDisplayFragment.class);
                 break;
+
+            case R.id.option1:
+                toggleSort(0);
+                ivSort1.setImageResource(getArrowResource(sorts[0]));
+                break;
+
+            case R.id.option2:
+                toggleSort(1);
+                ivSort2.setImageResource(getArrowResource(sorts[1]));
+                break;
+
+            case R.id.option3:
+                toggleSort(2);
+                ivSort3.setImageResource(getArrowResource(sorts[2]));
+                break;
         }
+    }
+
+    private int getArrowResource(boolean desc) {
+        return desc ? R.drawable.ic_arrow_drop_down_black : R.drawable.ic_arrow_downward_white_small;
+    }
+
+    private void toggleSort(int index) {
+        page = 1;
+        lvData.clearItems();
+        lvData.startLoading();
+        sorts[index] = !sorts[index];
+        getPlayers();
     }
 
     private void displaySelectDialog() {
@@ -197,17 +272,16 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
 
         ExtKeyValuePairDialogFragment.newInstance()
                 .setExtKeyValuePairs(valuePairs)
-                .setValue(keyValuePairKey == null ? "" : keyValuePairKey.getKey())
+                .setValue(seasonPair == null ? "" : seasonPair.getKey())
                 .setOnSelectedConsumer(extKeyValuePair -> {
                     if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
-                        keyValuePairKey = extKeyValuePair;
+                        seasonPair = extKeyValuePair;
                         updateValue();
                     }
                 }).show(getFragmentManager(), null);
     }
 
     private void updateValue() {
-        tvTitle.setText(keyValuePairKey.getValue());
+        tvTitle.setText(seasonPair.getValue());
     }
-
 }

@@ -182,12 +182,16 @@
                     app:textViewFontAssetName="@string/font_display_bold" />
 
                 <LinearLayout
+                    android:id="@+id/option1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:gravity="center_vertical">
 
                     <com.bon.customview.textview.ExtTextView
+                        android:id="@+id/tvOption1"
                         style="@style/StyleDescriptionContent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -205,12 +209,16 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/option2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:gravity="center_vertical">
 
                     <com.bon.customview.textview.ExtTextView
+                        android:id="@+id/tvOption2"
                         style="@style/StyleDescriptionContent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -227,12 +235,16 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/option3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:gravity="center_vertical">
 
                     <com.bon.customview.textview.ExtTextView
+                        android:id="@+id/tvOption3"
                         style="@style/StyleDescriptionContent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

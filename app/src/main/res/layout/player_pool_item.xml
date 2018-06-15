@@ -90,7 +90,7 @@
                 android:orientation="vertical">
 
                 <com.bon.customview.textview.ExtTextView
-                    android:id="@+id/tvValue"
+                    android:id="@+id/tvOption1"
                     style="@style/StyleDescriptionContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
                 android:orientation="vertical">
 
                 <com.bon.customview.textview.ExtTextView
-                    android:id="@+id/tvPoint"
+                    android:id="@+id/tvOption2"
                     style="@style/StyleDescriptionContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
                 android:orientation="vertical">
 
                 <com.bon.customview.textview.ExtTextView
-                    android:id="@+id/tvStatOne"
+                    android:id="@+id/tvOption3"
                     style="@style/StyleDescriptionContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

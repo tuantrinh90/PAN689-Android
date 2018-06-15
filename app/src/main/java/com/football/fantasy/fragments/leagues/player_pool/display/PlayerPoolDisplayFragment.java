@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
@@ -22,9 +21,26 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.football.models.responses.PlayerResponse.Options.ASSISTS;
+import static com.football.models.responses.PlayerResponse.Options.BALLS_RECOVERED;
+import static com.football.models.responses.PlayerResponse.Options.CLEAN_SHEET;
+import static com.football.models.responses.PlayerResponse.Options.DRIBBLES;
+import static com.football.models.responses.PlayerResponse.Options.DUELS_THEY_WIN;
+import static com.football.models.responses.PlayerResponse.Options.FOULS_COMMITTED;
+import static com.football.models.responses.PlayerResponse.Options.GOALS;
+import static com.football.models.responses.PlayerResponse.Options.PASSES;
+import static com.football.models.responses.PlayerResponse.Options.POINT;
+import static com.football.models.responses.PlayerResponse.Options.SAVES;
+import static com.football.models.responses.PlayerResponse.Options.SHOTS;
+import static com.football.models.responses.PlayerResponse.Options.TRANSFER_VALUE;
+import static com.football.models.responses.PlayerResponse.Options.TURNOVERS;
+import static com.football.models.responses.PlayerResponse.Options.YELLOW_CARDS;
+
 public class PlayerPoolDisplayFragment extends BaseMainMvpFragment<IPlayerPoolDisplayView, IPlayerPoolDisplayPresenter<IPlayerPoolDisplayView>> implements IPlayerPoolDisplayView {
 
-    public static final String DISPLAY_DEFAULT = "transfer_value,point,goals";
+    public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_1 = new ExtKeyValuePair(TRANSFER_VALUE, "Value");
+    public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_2 = new ExtKeyValuePair(POINT, "Point");
+    public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_3 = new ExtKeyValuePair(GOALS, "Stat 1");
 
     private static final String KEY_DISPLAY = "DISPLAY";
 
@@ -64,39 +80,23 @@ public class PlayerPoolDisplayFragment extends BaseMainMvpFragment<IPlayerPoolDi
         filterDisplays = getArguments().getString(KEY_DISPLAY);
     }
 
-    /**
-     * transfer_value: Value
-     * point: Point
-     * goals: Stat 1
-     * assists: Stat 2
-     * clean_sheet: Stat 3
-     * duels_they_win: Stat 4
-     * passes: Stat 5
-     * shots: Stat 6
-     * saves: Stat 7
-     * yellow_cards: Stat 8
-     * dribbles: Stat 9
-     * turnovers: Stat 10
-     * balls_recovered: Stat 11
-     * fouls_committed: Stat 12
-     */
     void initView() {
         // display
         keyValuePairs = new ArrayList<>();
-        keyValuePairs.add(new ExtKeyValuePair("transfer_value", "Value", filterDisplays.contains("transfer_value")));
-        keyValuePairs.add(new ExtKeyValuePair("point", "Point", filterDisplays.contains("point")));
-        keyValuePairs.add(new ExtKeyValuePair("goals", "Stat 1", filterDisplays.contains("goals")));
-        keyValuePairs.add(new ExtKeyValuePair("assists", "Stat 2", filterDisplays.contains("assists")));
-        keyValuePairs.add(new ExtKeyValuePair("clean_sheet", "Stat 3", filterDisplays.contains("clean_sheet")));
-        keyValuePairs.add(new ExtKeyValuePair("duels_they_win", "Stat 4", filterDisplays.contains("duels_they_win")));
-        keyValuePairs.add(new ExtKeyValuePair("passes", "Stat 5", filterDisplays.contains("passes")));
-        keyValuePairs.add(new ExtKeyValuePair("shots", "Stat 6", filterDisplays.contains("shots")));
-        keyValuePairs.add(new ExtKeyValuePair("saves", "Stat 7", filterDisplays.contains("saves")));
-        keyValuePairs.add(new ExtKeyValuePair("yellow_cards", "Stat 8", filterDisplays.contains("yellow_cards")));
-        keyValuePairs.add(new ExtKeyValuePair("dribbles", "Stat 9", filterDisplays.contains("dribbles")));
-        keyValuePairs.add(new ExtKeyValuePair("turnovers", "Stat 10", filterDisplays.contains("turnovers")));
-        keyValuePairs.add(new ExtKeyValuePair("balls_recovered", "Stat 11", filterDisplays.contains("balls_recovered")));
-        keyValuePairs.add(new ExtKeyValuePair("fouls_committed", "Stat 12", filterDisplays.contains("fouls_committed")));
+        keyValuePairs.add(new ExtKeyValuePair(TRANSFER_VALUE, "Value", filterDisplays.contains(TRANSFER_VALUE)));
+        keyValuePairs.add(new ExtKeyValuePair(POINT, "Point", filterDisplays.contains(POINT)));
+        keyValuePairs.add(new ExtKeyValuePair(GOALS, "Stat 1", filterDisplays.contains(GOALS)));
+        keyValuePairs.add(new ExtKeyValuePair(ASSISTS, "Stat 2", filterDisplays.contains(ASSISTS)));
+        keyValuePairs.add(new ExtKeyValuePair(CLEAN_SHEET, "Stat 3", filterDisplays.contains(CLEAN_SHEET)));
+        keyValuePairs.add(new ExtKeyValuePair(DUELS_THEY_WIN, "Stat 4", filterDisplays.contains(DUELS_THEY_WIN)));
+        keyValuePairs.add(new ExtKeyValuePair(PASSES, "Stat 5", filterDisplays.contains(PASSES)));
+        keyValuePairs.add(new ExtKeyValuePair(SHOTS, "Stat 6", filterDisplays.contains(SHOTS)));
+        keyValuePairs.add(new ExtKeyValuePair(SAVES, "Stat 7", filterDisplays.contains(SAVES)));
+        keyValuePairs.add(new ExtKeyValuePair(YELLOW_CARDS, "Stat 8", filterDisplays.contains(YELLOW_CARDS)));
+        keyValuePairs.add(new ExtKeyValuePair(DRIBBLES, "Stat 9", filterDisplays.contains(DRIBBLES)));
+        keyValuePairs.add(new ExtKeyValuePair(TURNOVERS, "Stat 10", filterDisplays.contains(TURNOVERS)));
+        keyValuePairs.add(new ExtKeyValuePair(BALLS_RECOVERED, "Stat 11", filterDisplays.contains(BALLS_RECOVERED)));
+        keyValuePairs.add(new ExtKeyValuePair(FOULS_COMMITTED, "Stat 12", filterDisplays.contains(FOULS_COMMITTED)));
 
         for (ExtKeyValuePair pair : keyValuePairs) {
             if (pair.isSelected()) checkCount++;
@@ -124,26 +124,6 @@ public class PlayerPoolDisplayFragment extends BaseMainMvpFragment<IPlayerPoolDi
         return new PlayerPoolDisplayPresenter(getAppComponent());
     }
 
-    @OnClick(R.id.tvApplyToTable)
-    void onClickApplyToTable() {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (ExtKeyValuePair valuePair : keyValuePairs) {
-            if (valuePair.isSelected()) {
-                stringBuilder.append(valuePair.getKey()).append(",");
-            }
-        }
-        String displays = TextUtils.isEmpty(stringBuilder) ? "" : stringBuilder.substring(0, stringBuilder.lastIndexOf(","));
-
-        // bắn sang màn hình playerPoolFragment
-        bus.send(new PlayerQueryEvent.Builder()
-                .tag(PlayerQueryEvent.TAG_DISPLAY)
-                .display(displays)
-                .build());
-
-        getActivity().finish();
-
-    }
-
     @Override
     public int getTitleId() {
         return R.string.player_list;
@@ -154,5 +134,24 @@ public class PlayerPoolDisplayFragment extends BaseMainMvpFragment<IPlayerPoolDi
         super.initToolbar(supportActionBar);
         supportActionBar.setDisplayHomeAsUpEnabled(true);
         supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_blue);
+    }
+
+    @OnClick(R.id.tvApplyToTable)
+    void onClickApplyToTable() {
+        List<ExtKeyValuePair> displays = new ArrayList<>();
+
+        for (ExtKeyValuePair valuePair : keyValuePairs) {
+            if (valuePair.isSelected()) {
+                displays.add(valuePair);
+            }
+        }
+        // bắn sang màn hình playerPoolFragment
+        bus.send(new PlayerQueryEvent.Builder()
+                .tag(PlayerQueryEvent.TAG_DISPLAY)
+                .displays(displays)
+                .build());
+
+        getActivity().finish();
+
     }
 }
