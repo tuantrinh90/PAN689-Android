@@ -64,12 +64,15 @@ public class TeamListFragment extends BaseMainMvpFragment<ITeamListView, ITeamLi
     }
 
     void initView() {
+        tvNumber.setText(String.valueOf(league.getCurrentNumberOfUser()));
+        tvTotal.setText(String.valueOf(league.getNumberOfUser()));
+
         teamAdapter = new TeamAdapter(
                 mActivity,
                 new ArrayList<>(),
                 league,
                 team -> { // handle click
-                    
+
                 },
                 null);
         rvRecyclerView.init(mActivity, teamAdapter)
