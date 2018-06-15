@@ -75,7 +75,6 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
             index = bundle.getInt(KEY_INDEX);
             leagueId = bundle.getInt(KEY_LEAGUE_ID);
             mainPosition = bundle.getInt(KEY_POSITION);
-
         }
     }
 
@@ -126,6 +125,8 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
                                 .index(index)
                                 .data(player)
                                 .build());
+
+                        getActivity().finish();
                     });
             rvRecyclerView.init(mActivity, playerAdapter)
                     .setOnExtLoadMoreListener(() -> {

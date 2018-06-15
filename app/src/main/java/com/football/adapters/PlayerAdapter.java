@@ -1,6 +1,7 @@
 package com.football.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -22,6 +23,8 @@ import io.reactivex.disposables.CompositeDisposable;
 import java8.util.function.Consumer;
 
 public class PlayerAdapter extends ExtBaseAdapter<PlayerResponse, PlayerAdapter.ViewHolder> {
+
+    private static final String TAG = "PlayerAdapter";
 
     private CompositeDisposable mDisposable = new CompositeDisposable();
     private Consumer<PlayerResponse> responseConsumer;
@@ -59,10 +62,12 @@ public class PlayerAdapter extends ExtBaseAdapter<PlayerResponse, PlayerAdapter.
 
         mDisposable.add(RxView.clicks(holder.ivAdd).subscribe(o -> {
             Optional.from(addConsumer).doIfPresent(d -> {
-                if (!checked) {
+                if (!data.getSelected()) {
                     d.accept(data);
+                    data.setSelected(true);
                     holder.ivAdd.setImageResource(R.drawable.ic_tick);
                     holder.ivAdd.setBackgroundResource(R.drawable.bg_circle_white_border);
+                    Log.d(TAG, "onBindViewHolder.checked: " + data.getName());
                 }
             });
         }));

@@ -20,7 +20,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
     private Context mContext;
 
     private BiConsumer<PlayerResponse, Integer> removeConsumer;
-    private BiConsumer<Integer, Integer> clickConsumer;
+    private BiConsumer<Integer, Integer> addClick;
 
     private int[] squad = new int[]{4, 6, 6, 2}; // sắp xếp đội hình theo từng hàng, mỗi phần tử tương ứng với số lượng cầu thủ tại hàng đó
     private PlayerResponse[] players = new PlayerResponse[18];
@@ -93,8 +93,8 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         this.removeConsumer = removeConsumer;
     }
 
-    public void setClickConsumer(BiConsumer<Integer, Integer> clickConsumer) {
-        this.clickConsumer = clickConsumer;
+    public void setAddClick(BiConsumer<Integer, Integer> addClick) {
+        this.addClick = addClick;
     }
 
     public void notifyDataSetChanged() {
@@ -157,7 +157,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
 
     @Override
     public void onPlayerClick(int position, int index) {
-        Optional.from(clickConsumer).doIfPresent(c -> c.accept(position, index));
+        Optional.from(addClick).doIfPresent(c -> c.accept(position, index));
     }
 
     public void clear() {

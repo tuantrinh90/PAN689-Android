@@ -31,6 +31,7 @@ public class PlayerView extends LinearLayout {
     private int index;
     private int position; // vị trí: G, M, D, A
     private PlayerResponse player;
+    private boolean named = true;
 
     public PlayerView(Context context) {
         this(context, null);
@@ -60,7 +61,7 @@ public class PlayerView extends LinearLayout {
             ivRemove.setVisibility(VISIBLE);
             tvContent.setVisibility(VISIBLE);
             ImageLoaderUtils.displayImage(player.getPhoto(), ivPlayer);
-            tvContent.setText(player.getName());
+            tvContent.setText(named ? player.getName() : getContext().getString(R.string.money_prefix, player.getTransferValueDisplay()));
         }
         switch (3 - position) {
             case PlayerResponse.POSITION_GOALKEEPER:
@@ -79,6 +80,7 @@ public class PlayerView extends LinearLayout {
     }
 
     public void displayName(boolean bool) {
+        named = bool;
         if (player != null) {
             tvContent.setText(bool ? player.getName() : getContext().getString(R.string.money_prefix, player.getTransferValueDisplay()));
         }

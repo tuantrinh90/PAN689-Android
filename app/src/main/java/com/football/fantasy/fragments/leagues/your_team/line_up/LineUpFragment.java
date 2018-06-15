@@ -96,7 +96,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
 
         // setup lineupView
         lineupView.setupLineup(new PlayerResponse[18], new int[]{4, 6, 6, 2});
-        lineupView.setClickConsumer((position, index) -> {
+        lineupView.setAddClick((position, index) -> {
             AloneFragmentActivity.with(this)
                     .parameters(PlayerPopupFragment.newBundle(3 - position, index, league.getId()))
                     .start(PlayerPopupFragment.class);
