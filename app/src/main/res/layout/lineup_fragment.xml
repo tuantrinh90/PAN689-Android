@@ -166,7 +166,6 @@
                         android:layout_height="wrap_content"
                         android:padding="0dp"
                         android:text="@string/team_budget_value"
-                        android:textAllCaps="true"
                         app:textViewFontAssetName="@string/font_display_bold" />
 
                 </LinearLayout>

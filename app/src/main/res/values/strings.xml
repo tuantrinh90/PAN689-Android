@@ -207,7 +207,7 @@
     <string name="statistics">Statistics</string>
     <string name="team_creation">Complete team creation</string>
     <string name="team_budget">Budget:</string>
-    <string name="team_budget_value">€%s</string>
+    <string name="team_budget_value">€%s mio</string>
     <string name="my_supper_team">My Super Team</string>
     <string name="points">Points</string>
     <string name="team_line_up">Team Lineup</string>
