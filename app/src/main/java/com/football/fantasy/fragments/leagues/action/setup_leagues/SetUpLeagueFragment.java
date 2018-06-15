@@ -198,7 +198,7 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
                 // fill data
                 etLeagueName.setContent(leagueResponse.getName());
                 ivImagePick.setImageUri(leagueResponse.getLogo());
-                rbOpenLeague.setChecked(leagueResponse.getLeagueType().equals(LeagueRequest.LEAGUE_TYPE_OPEN));
+                rgLeagueType.check(leagueResponse.getLeagueType().equals(LeagueRequest.LEAGUE_TYPE_OPEN) ? R.id.rbOpenLeague : R.id.rbPrivateLeague);
 
                 if (leagueResponse.getGameplayOption().equals(LeagueRequest.GAMEPLAY_OPTION_TRANSFER)) {
                     onClickTransfer();
