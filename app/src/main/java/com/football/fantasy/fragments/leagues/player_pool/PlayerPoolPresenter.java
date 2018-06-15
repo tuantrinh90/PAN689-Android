@@ -27,9 +27,11 @@ public class PlayerPoolPresenter extends BaseDataPresenter<IPlayerPoolView> impl
     }
 
     @Override
-    public void getPlayers(String positions, String clubs, List<ExtKeyValuePair> displayPairs, boolean[] sorts) {
+    public void getPlayers(String positions, String clubs, List<ExtKeyValuePair> displayPairs, boolean[] sorts, int page) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
+            queries.put(Constant.KEY_PAGE, String.valueOf(page));
+            queries.put(Constant.KEY_PER_PAGE, String.valueOf(20));
             if (!TextUtils.isEmpty(positions)) {
                 queries.put(Constant.KEY_MAIN_POSITION, positions);
             }

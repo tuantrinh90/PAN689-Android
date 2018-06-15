@@ -7,6 +7,6 @@ import com.football.common.views.IBaseMvpView;
 import java.util.List;
 
 public interface IPlayerPoolPresenter<V extends IBaseMvpView> extends IBaseDataPresenter<V> {
-    void getPlayers(String positions, String clubs, List<ExtKeyValuePair> displayPairs, boolean[] sorts);
+    void getPlayers(String positions, String clubs, List<ExtKeyValuePair> displayPairs, boolean[] sorts, int page);
 
 }

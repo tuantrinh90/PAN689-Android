@@ -65,7 +65,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
 
     List<PlayerResponse> playerResponses;
     PlayerPoolItemAdapter playerPoolItemAdapter;
-    private int page;
+    private int page = 1;
     private String filterClubs = "";
     private String filterPositions = "";
     private boolean[] sorts = new boolean[]{true, true, true}; // false: asc, true: desc
@@ -177,6 +177,10 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                     lvData.clearItems();
                     lvData.startLoading();
                     getPlayers();
+                })
+                .setOnExtLoadMoreListener(() -> {
+                    page++;
+                    getPlayers();
                 });
 
         lvData.startLoading();
@@ -184,7 +188,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     }
 
     private void getPlayers() {
-        presenter.getPlayers(filterPositions, filterClubs, displayPairs, sorts);
+        presenter.getPlayers(filterPositions, filterClubs, displayPairs, sorts, page);
     }
 
     @Override
@@ -283,5 +287,16 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
 
     private void updateValue() {
         tvTitle.setText(seasonPair.getValue());
+    }
+
+    @Override
+    public void showLoadingPagingListView(boolean isLoading) {
+        Optional.from(lvData).doIfPresent(l -> {
+            if (isLoading) {
+                l.startLoading(true);
+            } else {
+                l.stopLoading(true);
+            }
+        });
     }
 }
