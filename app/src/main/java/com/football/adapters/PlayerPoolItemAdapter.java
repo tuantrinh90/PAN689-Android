@@ -1,7 +1,6 @@
 package com.football.adapters;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -24,6 +23,7 @@ import java8.util.function.Consumer;
 public class PlayerPoolItemAdapter extends ExtBaseAdapter<PlayerResponse, PlayerPoolItemAdapter.ViewHolder> {
 
     private final Consumer<PlayerResponse> clickConsumer;
+
     private CompositeDisposable mDisposable;
     private String option1;
     private String option2;
@@ -55,14 +55,11 @@ public class PlayerPoolItemAdapter extends ExtBaseAdapter<PlayerResponse, Player
 //        ImageLoaderUtils.displayImage(data.getPhoto(), holder.ivAvatar);
         holder.tvName.setText(data.getName());
         holder.tvClub.setText(data.getRealClub().getName());
-        holder.tvOption1.setText(getOptionValue(holder.itemView.getContext(), data, option1));
-        holder.tvOption2.setText(getOptionValue(holder.itemView.getContext(), data, option2));
-        holder.tvOption3.setText(getOptionValue(holder.itemView.getContext(), data, option3));
+        holder.tvOption1.setText(getOptionValue(holder.itemView.getContext(), data, option1, holder.ivOption1));
+        holder.tvOption2.setText(getOptionValue(holder.itemView.getContext(), data, option2, holder.ivOption2));
+        holder.tvOption3.setText(getOptionValue(holder.itemView.getContext(), data, option3, holder.ivOption3));
         AppUtilities.displayPlayerPosition(holder.tvPositionPrimary, data.getMainPosition(), data.getMainPositionText());
         AppUtilities.displayPlayerPosition(holder.tvPositionSecond, data.getMinorPosition(), data.getMinorPositionText());
-        boolean checked = data.getSelected();
-        holder.ivAdd.setImageResource(checked ? R.drawable.ic_tick : R.drawable.ic_add_white_small);
-        holder.ivAdd.setBackgroundResource(checked ? R.drawable.bg_circle_white_border : R.drawable.bg_circle_yellow);
 
         mDisposable.add(RxView.clicks(holder.itemView).subscribe(o ->
                 Optional.from(clickConsumer).doIfPresent(d ->
@@ -70,22 +67,17 @@ public class PlayerPoolItemAdapter extends ExtBaseAdapter<PlayerResponse, Player
     }
 
     public void setOptions(String option1, String option2, String option3) {
-        if (!TextUtils.isEmpty(option1)) {
-            this.option1 = option1;
-        }
-        if (!TextUtils.isEmpty(option2)) {
-            this.option2 = option2;
-        }
-        if (!TextUtils.isEmpty(option3)) {
-            this.option3 = option3;
-        }
+        this.option1 = option1;
+        this.option2 = option2;
+        this.option3 = option3;
     }
 
     /**
      * GOALS, ASSISTS, CLEAN_SHEET, DUELS_THEY_WIN, PASSES, SHOTS,
      * SAVES, YELLOW_CARDS, DRIBBLES, TURNOVERS, BALLS_RECOVERED, FOULS_COMMITTED
      */
-    private String getOptionValue(Context context, PlayerResponse data, String option) {
+    private String getOptionValue(Context context, PlayerResponse data, String option, ImageView ivOption) {
+        ivOption.setVisibility(View.INVISIBLE);
         String value = "";
         switch (option) {
             case PlayerResponse.Options.TRANSFER_VALUE:
@@ -93,6 +85,8 @@ public class PlayerPoolItemAdapter extends ExtBaseAdapter<PlayerResponse, Player
                 break;
             case PlayerResponse.Options.POINT:
                 value = String.valueOf(data.getPoint());
+                ivOption.setVisibility(View.VISIBLE);
+                // set ivOption up or down here
                 break;
             case PlayerResponse.Options.GOALS:
                 value = String.valueOf(data.getGoals());
@@ -147,12 +141,14 @@ public class PlayerPoolItemAdapter extends ExtBaseAdapter<PlayerResponse, Player
         ExtTextView tvOption1;
         @BindView(R.id.tvOption2)
         ExtTextView tvOption2;
-        @BindView(R.id.ivChange)
-        ImageView ivChange;
         @BindView(R.id.tvOption3)
         ExtTextView tvOption3;
-        @BindView(R.id.ivAdd)
-        ImageView ivAdd;
+        @BindView(R.id.ivOption1)
+        ImageView ivOption1;
+        @BindView(R.id.ivOption2)
+        ImageView ivOption2;
+        @BindView(R.id.ivOption3)
+        ImageView ivOption3;
 
         public ViewHolder(View itemView) {
             super(itemView);

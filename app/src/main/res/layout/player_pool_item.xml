@@ -98,6 +98,15 @@
                     android:padding="0dp"
                     android:text="100"
                     android:textSize="@dimen/font_size_description" />
+
+                <ImageView
+                    android:id="@+id/ivOption1"
+                    style="@style/IconTiny"
+                    android:layout_marginTop="@dimen/padding_small"
+                    android:background="@drawable/bg_circle_green"
+                    android:padding="@dimen/padding_small"
+                    android:src="@drawable/ic_arrow_upward_white_small"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
@@ -118,12 +127,13 @@
                     android:textSize="@dimen/font_size_description" />
 
                 <ImageView
-                    android:layout_marginTop="@dimen/padding_small"
-                    android:id="@+id/ivChange"
+                    android:id="@+id/ivOption2"
                     style="@style/IconTiny"
+                    android:layout_marginTop="@dimen/padding_small"
                     android:background="@drawable/bg_circle_green"
                     android:padding="@dimen/padding_small"
-                    android:src="@drawable/ic_arrow_upward_white_small" />
+                    android:src="@drawable/ic_arrow_upward_white_small"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
@@ -144,18 +154,19 @@
                     android:textSize="@dimen/font_size_description" />
 
                 <ImageView
+                    android:id="@+id/ivOption3"
+                    style="@style/IconTiny"
                     android:layout_marginTop="@dimen/padding_small"
-                    android:id="@+id/ivAdd"
-                    style="@style/IconSmall"
-                    android:background="@drawable/bg_circle_yellow"
-                    android:padding="@dimen/padding_content"
-                    android:src="@drawable/ic_add_white_small" />
+                    android:background="@drawable/bg_circle_green"
+                    android:padding="@dimen/padding_small"
+                    android:src="@drawable/ic_arrow_upward_white_small"
+                    android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>
 
         <View
             style="@style/Line"
-            android:layout_marginTop="@dimen/padding_content"
-            android:layout_marginBottom="@dimen/padding_content"/>
+            android:layout_marginBottom="@dimen/padding_content"
+            android:layout_marginTop="@dimen/padding_content" />
     </LinearLayout>
 </LinearLayout>

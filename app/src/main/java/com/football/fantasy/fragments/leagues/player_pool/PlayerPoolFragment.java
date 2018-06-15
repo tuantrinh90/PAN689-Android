@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
@@ -62,6 +63,12 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     ImageView ivSort2;
     @BindView(R.id.ivSort3)
     ImageView ivSort3;
+    @BindView(R.id.option1)
+    LinearLayout option1;
+    @BindView(R.id.option2)
+    LinearLayout option2;
+    @BindView(R.id.option3)
+    LinearLayout option3;
 
     List<PlayerResponse> playerResponses;
     PlayerPoolItemAdapter playerPoolItemAdapter;
@@ -139,12 +146,17 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
         if (displayPairs.size() > 0) {
             tvOption1.setText(displayPairs.get(0).getValue());
         }
+        option1.setVisibility(displayPairs.size() > 0 ? View.VISIBLE : View.INVISIBLE);
+
         if (displayPairs.size() > 1) {
             tvOption2.setText(displayPairs.get(1).getValue());
         }
+        option2.setVisibility(displayPairs.size() > 1 ? View.VISIBLE : View.INVISIBLE);
+
         if (displayPairs.size() > 2) {
             tvOption3.setText(displayPairs.get(2).getValue());
         }
+        option3.setVisibility(displayPairs.size() > 2 ? View.VISIBLE : View.INVISIBLE);
     }
 
     void initView() {
