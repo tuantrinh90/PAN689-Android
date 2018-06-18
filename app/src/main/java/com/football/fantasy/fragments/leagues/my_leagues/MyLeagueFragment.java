@@ -63,7 +63,7 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
                         Log.e("LeagueEvent","LeagueEvent");
                         page = 1;
                         rvRecyclerView.clearItems();
-                        presenter.getMyLeagues(page, ExtPagingListView.NUMBER_PER_PAGE);
+                        getMyLeagues();
                     } catch (Exception e) {
                         Logger.e(TAG, e);
                     }
@@ -111,6 +111,11 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
         }
     }
 
+    private void getMyLeagues() {
+        rvRecyclerView.setMessage(getString(R.string.loading));
+        presenter.getMyLeagues(page, ExtPagingListView.NUMBER_PER_PAGE);
+    }
+
     void initView() {
         try {
             // leagueResponses
@@ -124,7 +129,7 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
                         try {
                             page = 1;
                             rvRecyclerView.clearItems();
-                            presenter.getMyLeagues(page, ExtPagingListView.NUMBER_PER_PAGE);
+                            getMyLeagues();
                         } catch (Exception e) {
                             Logger.e(TAG, e);
                         }
@@ -132,14 +137,14 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
                     .setOnExtLoadMoreListener(() -> {
                         try {
                             page++;
-                            presenter.getMyLeagues(page, ExtPagingListView.NUMBER_PER_PAGE);
+                            getMyLeagues();
                         } catch (Exception e) {
                             Logger.e(TAG, e);
                         }
                     });
 
             // load data
-            presenter.getMyLeagues(page, ExtPagingListView.NUMBER_PER_PAGE);
+            getMyLeagues();
         } catch (Exception e) {
             Logger.e(TAG, e);
         }

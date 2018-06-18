@@ -309,6 +309,7 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
     }
 
     private void getPlayers(boolean newPlayers) {
+        rvRecyclerView.setMessage(getString(R.string.loading));
         presenter.getPlayers(league.getId(), sortDesc, page, ExtPagingListView.NUMBER_PER_PAGE, query, filterPositions, filterClubs, newPlayers);
     }
 }

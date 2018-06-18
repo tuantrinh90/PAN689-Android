@@ -63,7 +63,7 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
                     try {
                         page = 1;
                         rvRecyclerView.clearItems();
-                        presenter.getPendingInvitations(page, ExtPagingListView.NUMBER_PER_PAGE);
+                        getPendingList();
                     } catch (Exception e) {
                         Logger.e(TAG, e);
                     }
@@ -129,7 +129,7 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
                         try {
                             rvRecyclerView.clearItems();
                             page = 1;
-                            presenter.getPendingInvitations(page, ExtPagingListView.NUMBER_PER_PAGE);
+                            getPendingList();
                         } catch (Exception e) {
                             Logger.e(TAG, e);
                         }
@@ -137,15 +137,20 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
                     .setOnExtLoadMoreListener(() -> {
                         try {
                             page++;
-                            presenter.getPendingInvitations(page, ExtPagingListView.NUMBER_PER_PAGE);
+                            getPendingList();
                         } catch (Exception e) {
                             Logger.e(TAG, e);
                         }
                     });
-            presenter.getPendingInvitations(page, ExtPagingListView.NUMBER_PER_PAGE);
+            getPendingList();
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
+    }
+
+    private void getPendingList() {
+        rvRecyclerView.setMessage(getString(R.string.loading));
+        presenter.getPendingInvitations(page, ExtPagingListView.NUMBER_PER_PAGE);
     }
 
     @NonNull

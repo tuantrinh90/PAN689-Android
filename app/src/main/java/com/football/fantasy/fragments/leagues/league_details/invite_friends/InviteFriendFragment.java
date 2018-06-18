@@ -64,6 +64,7 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
     }
 
     void getFriends(String keyword) {
+        rvRecyclerView.setMessage(getString(R.string.loading));
         presenter.getInviteFriends(leagueId, keyword, page, ExtPagingListView.NUMBER_PER_PAGE);
     }
 

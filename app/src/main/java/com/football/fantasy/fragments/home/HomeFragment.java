@@ -73,6 +73,8 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     MyLeagueRecyclerAdapter myLeagueRecyclerAdapter;
     List<LeagueResponse> leagueResponses;
 
+    private int page = 1;
+
     @Override
     public int getResourceId() {
         return R.layout.home_fragment;
@@ -97,7 +99,8 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
             mCompositeDisposable.add(bus.ofType(LeagueEvent.class).subscribeWith(new DisposableObserver<LeagueEvent>() {
                 @Override
                 public void onNext(LeagueEvent leagueEvent) {
-                    presenter.getMyLeagues(1, ExtPagingListView.NUMBER_PER_PAGE);
+                    page = 1;
+                    getMyLeagues();
                 }
 
                 @Override
@@ -142,6 +145,10 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
         }
     }
 
+    private void getMyLeagues() {
+        presenter.getMyLeagues(1, ExtPagingListView.NUMBER_PER_PAGE);
+    }
+
     void initRecyclerView() {
         try {
             newsAdapter = new NewsAdapter(mActivity, newsResponses, item -> {
@@ -173,10 +180,14 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
             presenter.getMyLeagues(1, 5);
 
             // load news
-            presenter.getNews(1, ExtPagingListView.NUMBER_PER_PAGE);
+            loadNews();
         } catch (IllegalStateException e) {
             Logger.e(TAG, e);
         }
+    }
+
+    private void loadNews() {
+        presenter.getNews(1, ExtPagingListView.NUMBER_PER_PAGE);
     }
 
     @NonNull

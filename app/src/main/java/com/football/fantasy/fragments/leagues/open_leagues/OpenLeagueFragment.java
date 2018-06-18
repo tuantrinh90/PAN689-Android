@@ -180,6 +180,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
     }
 
     private void getOpenLeagues() {
+        rvRecyclerView.setMessage(getString(R.string.loading));
         presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, numberOfUser);
     }
 

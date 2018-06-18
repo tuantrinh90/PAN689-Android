@@ -89,14 +89,19 @@ public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccesso
             rvRecyclerView.init(mActivity, successorAdapter)
                     .setOnExtRefreshListener(() -> {
                         rvRecyclerView.clearItems();
-                        presenter.getTeams(league.getId(), league.getOwner() ? league.getTeam().getId() : -1);
+                        getTeams();
                     });
 
             // load data
-            presenter.getTeams(league.getId(), league.getOwner() ? league.getTeam().getId() : -1);
+            getTeams();
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
+    }
+
+    private void getTeams() {
+        rvRecyclerView.setMessage(getString(R.string.loading));
+        presenter.getTeams(league.getId(), league.getOwner() ? league.getTeam().getId() : -1);
     }
 
     @Override

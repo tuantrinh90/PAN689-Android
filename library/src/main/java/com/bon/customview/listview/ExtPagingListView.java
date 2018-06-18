@@ -103,6 +103,7 @@ public class ExtPagingListView<T> extends FrameLayout {
 
             //data not found
             tvMessage = view.findViewById(R.id.tv_message);
+            tvMessage.setVisibility(GONE);
 
             //attribute config
             TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ExtPagingListView, 0, 0);

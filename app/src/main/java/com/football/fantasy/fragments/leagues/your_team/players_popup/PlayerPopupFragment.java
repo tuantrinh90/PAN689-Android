@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
 
 import com.bon.customview.listview.ExtPagingListView;
 import com.bon.interfaces.Optional;
@@ -138,6 +137,7 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
                             Optional.from(rvRecyclerView).doIfPresent(rv -> {
                                 page = 1;
                                 rv.clearItems();
+                                rv.setMessage(getString(R.string.loading));
                                 getPlayers();
                             }));
 
@@ -146,14 +146,6 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
         } catch (Resources.NotFoundException e) {
             e.printStackTrace();
         }
-    }
-
-    void onClickFilter() {
-        Optional.from(rvRecyclerView).doIfPresent(rv -> {
-            orderBy = orderBy.equalsIgnoreCase(ORDER_BY_DEFAULT) ? ORDER_BY_ASC : ORDER_BY_DEFAULT;
-            svSearchView.getFilter().animate().rotation(orderBy.equalsIgnoreCase(ORDER_BY_DEFAULT) ? 0 : 180)
-                    .setDuration(500).setInterpolator(new LinearInterpolator()).start();
-        });
     }
 
     void onPerformSearch(String q) {
@@ -166,6 +158,7 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
     }
 
     private void getPlayers() {
+        rvRecyclerView.setMessage(getString(R.string.loading));
         presenter.getPlayers(leagueId, orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition);
     }
 

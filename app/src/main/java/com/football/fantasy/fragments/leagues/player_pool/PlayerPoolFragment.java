@@ -208,6 +208,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
         if (currentSeason == null) {
             showMessage(getString(R.string.message_season_not_found));
         } else {
+            lvData.setMessage(getString(R.string.loading));
             presenter.getPlayers(currentSeason.getKey(), filterPositions, filterClubs, displayPairs, sorts, page);
         }
     }
