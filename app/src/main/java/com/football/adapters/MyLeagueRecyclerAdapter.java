@@ -16,6 +16,7 @@ import com.football.common.adapters.BaseRecyclerViewAdapter;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
 import com.football.models.responses.LeagueResponse;
+import com.football.utilities.AppUtilities;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;
@@ -45,7 +46,7 @@ public class MyLeagueRecyclerAdapter extends BaseRecyclerViewAdapter<LeagueRespo
 
         holder.ivAvatar.setImageUri(league.getLogo());
         holder.tvTitle.setText(league.getName());
-        holder.tvDescription.setText(holder.itemView.getContext().getString(R.string.me));
+        holder.tvDescription.setText(AppUtilities.getNameOrMe(holder.itemView.getContext(), league));
         holder.tvRankNumber.setText(String.valueOf(league.getRank()));
         holder.tvRankTotal.setText(String.valueOf(league.getNumberOfUser()));
         holder.ivArrowUp.setImageResource(league.getRankStatus() > 0 ? R.drawable.ic_arrow_upward_green
