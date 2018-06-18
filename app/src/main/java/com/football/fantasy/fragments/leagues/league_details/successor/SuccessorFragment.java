@@ -46,7 +46,7 @@ public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccesso
     List<TeamResponse> teamResponses;
     SuccessorAdapter successorAdapter;
     TeamResponse teamResponse;
-    LeagueResponse leagueResponse;
+    LeagueResponse league;
 
     @Override
     public int getResourceId() {
@@ -62,7 +62,7 @@ public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccesso
     }
 
     void getDataFromBundle() {
-        leagueResponse = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
+        league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
     }
 
     void initView() {
@@ -89,11 +89,11 @@ public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccesso
             rvRecyclerView.init(mActivity, successorAdapter)
                     .setOnExtRefreshListener(() -> {
                         rvRecyclerView.clearItems();
-                        presenter.getTeams(leagueResponse.getId());
+                        presenter.getTeams(league.getId(), league.getOwner() ? league.getTeam().getId() : -1);
                     });
 
             // load data
-            presenter.getTeams(leagueResponse.getId());
+            presenter.getTeams(league.getId(), league.getOwner() ? league.getTeam().getId() : -1);
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
@@ -120,7 +120,7 @@ public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccesso
 
                     // leave league
                     DialogUtils.messageBox(mActivity, getString(R.string.app_name), getString(R.string.message_confirm_leave_leagues),
-                            getString(R.string.ok), (dialog, which) -> presenter.leaveLeague(leagueResponse.getId(), teamResponse != null ? teamResponse.getId() : 0));
+                            getString(R.string.ok), (dialog, which) -> presenter.leaveLeague(league.getId(), teamResponse != null ? teamResponse.getId() : 0));
                     break;
             }
         } catch (Exception e) {

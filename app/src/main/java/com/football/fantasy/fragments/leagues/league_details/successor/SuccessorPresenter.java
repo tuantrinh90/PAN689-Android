@@ -10,6 +10,8 @@ import com.football.utilities.RxUtilities;
 
 import java.util.List;
 
+import java8.util.stream.Collectors;
+import java8.util.stream.StreamSupport;
 import okhttp3.MultipartBody;
 
 public class SuccessorPresenter extends BaseDataPresenter<ISuccessorView> implements ISuccessorPresenter<ISuccessorView> {
@@ -21,7 +23,7 @@ public class SuccessorPresenter extends BaseDataPresenter<ISuccessorView> implem
     }
 
     @Override
-    public void getTeams(int leagueId) {
+    public void getTeams(int leagueId, int teamId) {
         getOptView().doIfPresent(v -> {
             mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().getTeams(leagueId),
@@ -38,7 +40,8 @@ public class SuccessorPresenter extends BaseDataPresenter<ISuccessorView> implem
 
                         @Override
                         public void onSuccess(PagingResponse<TeamResponse> response) {
-                            v.displayTeams(response.getData());
+                            List<TeamResponse> teams = StreamSupport.stream(response.getData()).filter(team -> team.getId() != teamId).collect(Collectors.toList());
+                            v.displayTeams(teams);
                         }
 
                         @Override
