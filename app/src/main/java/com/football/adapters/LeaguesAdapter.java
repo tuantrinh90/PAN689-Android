@@ -26,11 +26,11 @@ import java8.util.function.Consumer;
 public class LeaguesAdapter extends ExtBaseAdapter<LeagueResponse, LeaguesAdapter.ViewHolder> {
     public static final int OPEN_LEAGUES = 1, MY_LEAGUES = 2, PENDING_INVITATIONS = 3;
 
-    int leagueType;
-    Consumer<LeagueResponse> detailConsumer;
-    Consumer<LeagueResponse> approveConsumer;
-    Consumer<LeagueResponse> rejectConsumer;
-    Consumer<LeagueResponse> joinConsumer;
+    private int leagueType;
+    private Consumer<LeagueResponse> detailConsumer;
+    private Consumer<LeagueResponse> approveConsumer;
+    private Consumer<LeagueResponse> rejectConsumer;
+    private Consumer<LeagueResponse> joinConsumer;
 
     public LeaguesAdapter(Context context, int leagueType, List<LeagueResponse> leagueResponses, Consumer<LeagueResponse> detailConsumer,
                           Consumer<LeagueResponse> approveConsumer,
@@ -94,7 +94,7 @@ public class LeaguesAdapter extends ExtBaseAdapter<LeagueResponse, LeaguesAdapte
         holder.llNumber.setVisibility(leagueType == MY_LEAGUES ? View.VISIBLE : View.GONE);
         holder.trInvitor.setVisibility(leagueType == PENDING_INVITATIONS ? View.VISIBLE : View.GONE);
         holder.llBottomAction.setVisibility(leagueType == PENDING_INVITATIONS ? View.VISIBLE : View.GONE);
-        holder.tvJoin.setVisibility(leagueType == OPEN_LEAGUES ? View.VISIBLE : View.GONE);
+        holder.tvJoin.setVisibility(leagueType == OPEN_LEAGUES && league.getCurrentNumberOfUser() < league.getNumberOfUser() ? View.VISIBLE : View.GONE);
 
         // event
         RxView.clicks(holder.itemView).subscribe(v -> Optional.from(detailConsumer).doIfPresent(c -> c.accept(league)));
