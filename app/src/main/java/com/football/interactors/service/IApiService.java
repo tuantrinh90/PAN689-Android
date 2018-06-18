@@ -13,6 +13,7 @@ import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.PlayerStatisticResponse;
 import com.football.models.responses.PropsPlayerResponse;
 import com.football.models.responses.RealClubResponse;
+import com.football.models.responses.SeasonResponse;
 import com.football.models.responses.StopResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.models.responses.UploadResponse;
@@ -101,6 +102,10 @@ public interface IApiService {
 
     @GET(ServiceConfig.REAL_CLUB)
     Observable<BaseResponse<PagingResponse<RealClubResponse>>> getRealClubs();
+
+
+    @GET(ServiceConfig.SEASONS)
+    Observable<BaseResponse<PagingResponse<SeasonResponse>>> getSeasons();
 
     @GET(ServiceConfig.FORM_OPTIONS)
     Observable<BaseResponse<FormResponse>> getFormOption(@Path(ServiceConfig.KEY_ID) int leagueId);

@@ -267,4 +267,5 @@
     <string name="apply_to_table">Apply to table</string>
     <string name="me">Me</string>
     <string name="point_last_round">%d points last round</string>
+    <string name="message_season_not_found">Season not found</string>
 </resources>

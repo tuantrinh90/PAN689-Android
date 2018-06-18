@@ -25,6 +25,7 @@ import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragmen
 import com.football.fantasy.fragments.leagues.player_pool.display.PlayerPoolDisplayFragment;
 import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilterFragment;
 import com.football.models.responses.PlayerResponse;
+import com.football.models.responses.SeasonResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +44,8 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     private static final int REQUEST_DISPLAY = 101;
     private static final int REQUEST_SORT = 102;
 
-    private static final ExtKeyValuePair KEY_VALUE_DEFAULT = new ExtKeyValuePair("1", "Current season");
-
-    @BindView(R.id.tvTitle)
-    ExtTextView tvTitle;
+    @BindView(R.id.tvSeason)
+    ExtTextView tvSeason;
     @BindView(R.id.svSearch)
     SearchView svSearch;
     @BindView(R.id.lvData)
@@ -77,7 +76,8 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     private String filterPositions = "";
     private boolean[] sorts = new boolean[]{true, true, true}; // false: asc, true: desc
     private List<ExtKeyValuePair> displayPairs = new ArrayList<>();
-    private ExtKeyValuePair seasonPair = KEY_VALUE_DEFAULT;
+    private ExtKeyValuePair currentSeason;
+    private List<SeasonResponse> seasons;
 
     public static Bundle newBundle() {
         Bundle bundle = new Bundle();
@@ -185,10 +185,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
         playerPoolItemAdapter.setOptions(TRANSFER_VALUE, POINT, GOALS);
         lvData.init(mActivity, playerPoolItemAdapter)
                 .setOnExtRefreshListener(() -> {
-                    page = 1;
-                    lvData.clearItems();
-                    lvData.startLoading();
-                    getPlayers();
+                    refreshData();
                 })
                 .setOnExtLoadMoreListener(() -> {
                     page++;
@@ -196,11 +193,23 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                 });
 
         lvData.startLoading();
+
+        presenter.getSeasons();
+    }
+
+    private void refreshData() {
+        page = 1;
+        lvData.clearItems();
+        lvData.startLoading();
         getPlayers();
     }
 
     private void getPlayers() {
-        presenter.getPlayers(filterPositions, filterClubs, displayPairs, sorts, page);
+        if (currentSeason == null) {
+            showMessage(getString(R.string.message_season_not_found));
+        } else {
+            presenter.getPlayers(currentSeason.getKey(), filterPositions, filterClubs, displayPairs, sorts, page);
+        }
     }
 
     @Override
@@ -225,6 +234,14 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
         Optional.from(lvData).doIfPresent(rv -> {
             rv.addNewItems(players);
         });
+    }
+
+    @Override
+    public void displaySeasons(List<SeasonResponse> seasons) {
+        this.seasons = seasons;
+        currentSeason = new ExtKeyValuePair(String.valueOf(seasons.get(0).getId()), seasons.get(0).getName());
+        updateValue();
+        getPlayers();
     }
 
     @OnClick({R.id.ivArrow, R.id.filter, R.id.display, R.id.option1, R.id.option2, R.id.option3})
@@ -280,25 +297,29 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     }
 
     private void displaySelectDialog() {
-        List<ExtKeyValuePair> valuePairs = new ArrayList<>();
-        valuePairs.add(KEY_VALUE_DEFAULT);
-        valuePairs.add(new ExtKeyValuePair("2", "Last Season"));
-        valuePairs.add(new ExtKeyValuePair("3", "Avg 3 seasons"));
-        valuePairs.add(new ExtKeyValuePair("4", "Avg 5 seasons"));
+        if (seasons == null || seasons.isEmpty()) {
+            showMessage(getString(R.string.message_season_not_found));
+        } else {
+            List<ExtKeyValuePair> valuePairs = new ArrayList<>();
+            for (SeasonResponse season : seasons) {
+                valuePairs.add(new ExtKeyValuePair(String.valueOf(season.getId()), season.getName()));
+            }
 
-        ExtKeyValuePairDialogFragment.newInstance()
-                .setExtKeyValuePairs(valuePairs)
-                .setValue(seasonPair == null ? "" : seasonPair.getKey())
-                .setOnSelectedConsumer(extKeyValuePair -> {
-                    if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
-                        seasonPair = extKeyValuePair;
-                        updateValue();
-                    }
-                }).show(getFragmentManager(), null);
+            ExtKeyValuePairDialogFragment.newInstance()
+                    .setExtKeyValuePairs(valuePairs)
+                    .setValue(currentSeason == null ? valuePairs.get(0).getKey() : currentSeason.getKey())
+                    .setOnSelectedConsumer(extKeyValuePair -> {
+                        if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
+                            currentSeason = extKeyValuePair;
+                            updateValue();
+                            refreshData();
+                        }
+                    }).show(getFragmentManager(), null);
+        }
     }
 
     private void updateValue() {
-        tvTitle.setText(seasonPair.getValue());
+        tvSeason.setText(currentSeason.getValue());
     }
 
     @Override

@@ -34,7 +34,7 @@
             android:padding="@dimen/padding_small">
 
             <com.bon.customview.textview.ExtTextView
-                android:id="@+id/tvTitle"
+                android:id="@+id/tvSeason"
                 style="@style/StyleContentWhite"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

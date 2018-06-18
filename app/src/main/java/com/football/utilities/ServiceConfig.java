@@ -44,6 +44,7 @@ public interface ServiceConfig {
     String JOINT = "leagues/join/{id}";
     String PLAYER_LIST = "players"; //     String PLAYER_LIST = "teams/player_list/{" + KEY_ID + "}";
     String REAL_CLUB = "real_clubs";
+    String SEASONS = "seasons";
     String CREATE_LEAGUE = "leagues";
     String UPDATE_LEAGUE = "leagues/{" + KEY_ID + "}";
     String FORM_OPTIONS = "leagues/get_form/{" + KEY_ID + "}";

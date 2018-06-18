@@ -17,6 +17,7 @@ public interface Constant {
     String KEY_WORD = "keyword";
     String KEY_MAIN_POSITION = "main_position";
     String KEY_CLUBS = "real_club_id";
+    String KEY_SEASON = "season_id";
     int KEY_INVITATION_DECLINE = -1;
     int KEY_INVITATION_ACCEPT = 1;
     int MIN_PASSWORD = 6;

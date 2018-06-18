@@ -7,7 +7,9 @@ import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
 import com.football.models.ExtPagingResponse;
+import com.football.models.PagingResponse;
 import com.football.models.responses.PlayerResponse;
+import com.football.models.responses.SeasonResponse;
 import com.football.utilities.Constant;
 import com.football.utilities.RxUtilities;
 
@@ -27,9 +29,10 @@ public class PlayerPoolPresenter extends BaseDataPresenter<IPlayerPoolView> impl
     }
 
     @Override
-    public void getPlayers(String positions, String clubs, List<ExtKeyValuePair> displayPairs, boolean[] sorts, int page) {
+    public void getPlayers(String seasonId, String positions, String clubs, List<ExtKeyValuePair> displayPairs, boolean[] sorts, int page) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
+            queries.put(Constant.KEY_SEASON, seasonId);
             queries.put(Constant.KEY_PAGE, String.valueOf(page));
             queries.put(Constant.KEY_PER_PAGE, String.valueOf(20));
             if (!TextUtils.isEmpty(positions)) {
@@ -66,6 +69,36 @@ public class PlayerPoolPresenter extends BaseDataPresenter<IPlayerPoolView> impl
                         @Override
                         public void onSuccess(ExtPagingResponse<PlayerResponse> response) {
                             v.displayPlayers(response.getData());
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            v.showMessage(error);
+                        }
+                    }));
+        });
+    }
+
+    @Override
+    public void getSeasons() {
+        getOptView().doIfPresent(v -> {
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().getSeasons(),
+                    new ApiCallback<PagingResponse<SeasonResponse>>() {
+                        @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
+
+                        @Override
+                        public void onSuccess(PagingResponse<SeasonResponse> response) {
+                            v.displaySeasons(response.getData());
                         }
 
                         @Override
