@@ -26,6 +26,7 @@ import com.football.fantasy.fragments.leagues.player_pool.display.PlayerPoolDisp
 import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilterFragment;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.SeasonResponse;
+import com.football.utilities.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,6 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
 
     private static final int REQUEST_FILTER = 100;
     private static final int REQUEST_DISPLAY = 101;
-    private static final int REQUEST_SORT = 102;
 
     @BindView(R.id.tvSeason)
     ExtTextView tvSeason;
@@ -74,7 +74,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     private int page = 1;
     private String filterClubs = "";
     private String filterPositions = "";
-    private boolean[] sorts = new boolean[]{true, true, true}; // false: asc, true: desc
+    private int[] sorts = new int[]{Constant.SORT_NONE, Constant.SORT_NONE, Constant.SORT_NONE}; // -1: NONE, 0: desc, 1: asc
     private List<ExtKeyValuePair> displayPairs = new ArrayList<>();
     private ExtKeyValuePair currentSeason;
     private List<SeasonResponse> seasons;
@@ -258,8 +258,8 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                 break;
             case R.id.display:
                 StringBuilder displays = new StringBuilder();
-                for (ExtKeyValuePair paire : displayPairs) {
-                    displays.append(paire.getKey()).append(",");
+                for (ExtKeyValuePair pair : displayPairs) {
+                    displays.append(pair.getKey()).append(",");
                 }
                 AloneFragmentActivity.with(this)
                         .forResult(REQUEST_DISPLAY)
@@ -284,16 +284,36 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
         }
     }
 
-    private int getArrowResource(boolean desc) {
-        return desc ? R.drawable.ic_sort_desc : R.drawable.ic_sort_asc;
-    }
-
     private void toggleSort(int index) {
         page = 1;
         lvData.clearItems();
         lvData.startLoading();
-        sorts[index] = !sorts[index];
+        switch (sorts[index]) {
+            case Constant.SORT_NONE:
+                sorts[index] = Constant.SORT_DESC;
+                break;
+            case Constant.SORT_DESC:
+                sorts[index] = Constant.SORT_ASC;
+                break;
+            case Constant.SORT_ASC:
+                sorts[index] = Constant.SORT_DESC;
+                break;
+        }
         getPlayers();
+    }
+
+    private int getArrowResource(int state) {
+        switch (state) {
+            case Constant.SORT_NONE:
+                return R.drawable.ic_sort_none;
+
+            case Constant.SORT_DESC:
+                return R.drawable.ic_sort_desc;
+
+            case Constant.SORT_ASC:
+                return R.drawable.ic_sort_asc;
+        }
+        return R.drawable.ic_sort_none;
     }
 
     private void displaySelectDialog() {

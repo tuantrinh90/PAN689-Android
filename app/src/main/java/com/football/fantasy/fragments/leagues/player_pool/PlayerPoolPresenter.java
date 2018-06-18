@@ -13,6 +13,7 @@ import com.football.models.responses.SeasonResponse;
 import com.football.utilities.Constant;
 import com.football.utilities.RxUtilities;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,7 +30,7 @@ public class PlayerPoolPresenter extends BaseDataPresenter<IPlayerPoolView> impl
     }
 
     @Override
-    public void getPlayers(String seasonId, String positions, String clubs, List<ExtKeyValuePair> displayPairs, boolean[] sorts, int page) {
+    public void getPlayers(String seasonId, String positions, String clubs, List<ExtKeyValuePair> displayPairs, int[] sorts, int page) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
             queries.put(Constant.KEY_SEASON, seasonId);
@@ -41,15 +42,22 @@ public class PlayerPoolPresenter extends BaseDataPresenter<IPlayerPoolView> impl
             if (!TextUtils.isEmpty(clubs)) {
                 queries.put(Constant.KEY_CLUBS, clubs);
             }
-            JSONObject sort = new JSONObject();
+            JSONArray sort = new JSONArray();
             for (int i = 0, size = displayPairs.size(); i < size; i++) {
+                JSONObject sortObj = new JSONObject();
                 ExtKeyValuePair pair = displayPairs.get(i);
                 try {
-                    sort.put(pair.getKey(), sorts[i] ? "desc" : "asc");
+                    if (sorts[i] != Constant.SORT_NONE) {
+                        sortObj.put("property", pair.getKey());
+                        sortObj.put("direction", sorts[i] == Constant.SORT_DESC ? "desc" : "asc");
+                        sort.put(sortObj);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                queries.put(Constant.KEY_ORDER_BY, sort.toString());
+                if (sort.length() > 0) {
+                    queries.put(Constant.KEY_ORDER_BY, sort.toString());
+                }
             }
 
             mCompositeDisposable.add(RxUtilities.async(

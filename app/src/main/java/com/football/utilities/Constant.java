@@ -9,7 +9,7 @@ public interface Constant {
     String KEY_USER = "key_user";
     float KEY_MIO = 1000000f;
     String KEY_LEAGUE_ID = "league_id";
-    String KEY_ORDER_BY = "order";
+    String KEY_ORDER_BY = "sort";
     String KEY_PAGE = "page";
     String KEY_PER_PAGE = "per_page";
     String KEY_TRANSFER = "transfer";
@@ -21,4 +21,8 @@ public interface Constant {
     int KEY_INVITATION_DECLINE = -1;
     int KEY_INVITATION_ACCEPT = 1;
     int MIN_PASSWORD = 6;
+
+    int SORT_NONE = -1;
+    int SORT_DESC = 0;
+    int SORT_ASC = 1;
 }

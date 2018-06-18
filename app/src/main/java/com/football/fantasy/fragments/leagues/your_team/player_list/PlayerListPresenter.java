@@ -10,6 +10,7 @@ import com.football.models.responses.PlayerResponse;
 import com.football.utilities.Constant;
 import com.football.utilities.RxUtilities;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,9 +43,12 @@ public class PlayerListPresenter extends BaseDataPresenter<IPlayerListView> impl
             }
 
             // sort
-            JSONObject sort = new JSONObject();
+            JSONArray sort = new JSONArray();
             try {
-                sort.put("transfer_value", valueSortDesc ? "desc" : "asc");
+                JSONObject transfer = new JSONObject();
+                transfer.put("property", "transfer_value");
+                transfer.put("direction", valueSortDesc ? "desc" : "asc");
+                sort.put(transfer);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
