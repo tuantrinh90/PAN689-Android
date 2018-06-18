@@ -91,9 +91,7 @@ public interface IApiService {
     Observable<BaseResponse<PagingResponse<LeagueResponse>>> getMyLeagues(@Query(Constant.KEY_PAGE) int page, @Query(Constant.KEY_PER_PAGE) int perPage);
 
     @GET(ServiceConfig.OPEN_LEAGUES)
-    Observable<BaseResponse<PagingResponse<LeagueResponse>>> getOpenLeagues(@Query(Constant.KEY_ORDER_BY) String orderBy, @Query(Constant.KEY_PAGE) int page,
-                                                                            @Query(Constant.KEY_PER_PAGE) int perPage,
-                                                                            @Query(Constant.KEY_WORD) String query);
+    Observable<BaseResponse<PagingResponse<LeagueResponse>>> getOpenLeagues(@QueryMap Map<String, String> queries);
 
     @GET(ServiceConfig.JOINT)
     Observable<BaseResponse<LeagueResponse>> join(@Path(ServiceConfig.KEY_ID) Integer leagueId);

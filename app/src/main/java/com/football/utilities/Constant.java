@@ -15,6 +15,7 @@ public interface Constant {
     String KEY_TRANSFER = "transfer";
     String KEY_DRAFT = "draft";
     String KEY_WORD = "keyword";
+    String NUMBER_OF_USER = "number_of_user";
     String KEY_MAIN_POSITION = "main_position";
     String KEY_CLUBS = "real_club_id";
     String KEY_SEASON = "season_id";

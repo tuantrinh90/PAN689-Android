@@ -4,12 +4,14 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
 import android.widget.AbsListView;
 
+import com.bon.customview.keyvaluepair.ExtKeyValuePair;
+import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.listview.ExtPagingListView;
 import com.bon.interfaces.Optional;
 import com.bon.logger.Logger;
@@ -25,6 +27,7 @@ import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragme
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.responses.LeagueResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -49,6 +52,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
     String orderBy = "desc";
     int page = 1;
     String query = "";
+    String numberOfUser = "";
 
     @Override
     public int getResourceId() {
@@ -72,7 +76,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
                     try {
                         page = 1;
                         rvRecyclerView.clearItems();
-                        presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+                        getOpenLeagues();
                     } catch (Exception e) {
                         Logger.e(TAG, e);
                     }
@@ -159,7 +163,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
                     .setOnExtLoadMoreListener(() -> {
                         try {
                             page++;
-                            presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+                            getOpenLeagues();
                         } catch (Exception e) {
                             Logger.e(TAG, e);
                         }
@@ -169,17 +173,21 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
                     }));
 
             // load data
-            presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+            getOpenLeagues();
         } catch (Resources.NotFoundException e) {
             Logger.e(TAG, e);
         }
+    }
+
+    private void getOpenLeagues() {
+        presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, numberOfUser);
     }
 
     private void refresh() {
         try {
             page = 1;
             rvRecyclerView.clearItems();
-            presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+            getOpenLeagues();
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
@@ -187,16 +195,22 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
 
     void onClickFilter() {
         Optional.from(rvRecyclerView).doIfPresent(rv -> {
-            try {
-                orderBy = orderBy.equalsIgnoreCase("desc") ? "asc" : "desc";
-                svSearchView.getFilter().animate().rotation(orderBy.equalsIgnoreCase("desc") ? 0 : 180)
-                        .setDuration(500).setInterpolator(new LinearInterpolator()).start();
-                rv.clearItems();
-                page = 1;
-                presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
-            } catch (Exception e) {
-                Logger.e(TAG, e);
-            }
+            List<ExtKeyValuePair> valuePairs = new ArrayList<>();
+            valuePairs.add(new ExtKeyValuePair("4", "4"));
+            valuePairs.add(new ExtKeyValuePair("6", "6"));
+            valuePairs.add(new ExtKeyValuePair("8", "8"));
+            valuePairs.add(new ExtKeyValuePair("10", "10"));
+            valuePairs.add(new ExtKeyValuePair("12", "12"));
+
+            ExtKeyValuePairDialogFragment.newInstance()
+                    .setValue(numberOfUser)
+                    .setExtKeyValuePairs(valuePairs)
+                    .setOnSelectedConsumer(extKeyValuePair -> {
+                        if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
+                            numberOfUser = extKeyValuePair.getKey();
+                            refresh();
+                        }
+                    }).show(getFragmentManager(), null);
         });
     }
 
@@ -206,7 +220,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
                 query = q;
                 rv.clearItems();
                 page = 1;
-                presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query);
+                getOpenLeagues();
             } catch (Exception e) {
                 Logger.e(TAG, e);
             }
