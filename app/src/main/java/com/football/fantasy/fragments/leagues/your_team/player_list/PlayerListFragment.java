@@ -36,8 +36,6 @@ import io.reactivex.observers.DisposableObserver;
 public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPlayerListPresenter<IPlayerListView>> implements IPlayerListView {
     private static final String TAG = "PlayerListFragment";
 
-    private static final String ORDER_BY_ASC = "{\"transfer_value\": \"asc\"}";
-
     static final String KEY_LEAGUE = "LEAGUE";
     private static final String KEY_TEAM_SETUP_TIME = "TEAM_SETUP_TIME";
 
@@ -75,13 +73,12 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
     private LeagueResponse league;
     private int page = 1;
     private String query = "";
-    private Integer mainPosition = null;
     private int playerPosition = -1;
     private View lastPlayerViewSelected = null;
 
-    private String filterClubs = "";
-    private String filterPositions = "";
     private boolean sortDesc = true;
+    private String filterPositions = null;
+    private String filterClubs = "";
 
     @Override
     public int getResourceId() {
@@ -271,23 +268,23 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
             switch (view.getId()) {
                 case R.id.svNone:
                     playerPosition = PlayerResponse.POSITION_NONE;
-                    mainPosition = null;
+                    filterPositions = null;
                     break;
                 case R.id.svGoalkeeper:
                     playerPosition = PlayerResponse.POSITION_GOALKEEPER;
-                    mainPosition = StatisticView.Position.GOALKEEPER;
+                    filterPositions = String.valueOf(StatisticView.Position.GOALKEEPER);
                     break;
                 case R.id.svDefender:
                     playerPosition = PlayerResponse.POSITION_DEFENDER;
-                    mainPosition = StatisticView.Position.DEFENDER;
+                    filterPositions = String.valueOf(StatisticView.Position.DEFENDER);
                     break;
                 case R.id.svMidfielder:
                     playerPosition = PlayerResponse.POSITION_MIDFIELDER;
-                    mainPosition = StatisticView.Position.MIDFIELDER;
+                    filterPositions = String.valueOf(StatisticView.Position.MIDFIELDER);
                     break;
                 case R.id.svAttacker:
                     playerPosition = PlayerResponse.POSITION_ATTACKER;
-                    mainPosition = StatisticView.Position.ATTACKER;
+                    filterPositions = String.valueOf(StatisticView.Position.ATTACKER);
                     break;
             }
             page = 1;
@@ -312,6 +309,6 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
     }
 
     private void getPlayers(boolean newPlayers) {
-        presenter.getPlayers(league.getId(), sortDesc, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition, newPlayers);
+        presenter.getPlayers(league.getId(), sortDesc, page, ExtPagingListView.NUMBER_PER_PAGE, query, filterPositions, filterClubs, newPlayers);
     }
 }

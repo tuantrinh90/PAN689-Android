@@ -82,7 +82,7 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolFil
         String attacker = String.valueOf(PlayerResponse.POSITION_ATTACKER);
         String defender = String.valueOf(PlayerResponse.POSITION_DEFENDER);
 
-        boolean allCheck = filterPositions.isEmpty();
+        boolean allCheck = TextUtils.isEmpty(filterPositions);
 
         keyValuePairPositions.add(new ExtKeyValuePair(midfielder, getString(R.string.midfielder), allCheck || filterPositions.contains(midfielder)));
         keyValuePairPositions.add(new ExtKeyValuePair(goalkeeper, getString(R.string.goalkeeper), allCheck || filterPositions.contains(goalkeeper)));
@@ -148,8 +148,13 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolFil
 
     @Override
     public void displayClubs(List<RealClubResponse> clubs) {
+        List<String> filter;
+        if (!TextUtils.isEmpty(filterClubs)) {
+            filter = Arrays.asList(filterClubs.split(","));
+        } else {
+            filter = new ArrayList<>();
+        }
 
-        List<String> filter = Arrays.asList(filterClubs.split(","));
         // clubs
         keyValuePairClubs = new ArrayList<>();
         for (RealClubResponse club : clubs) {

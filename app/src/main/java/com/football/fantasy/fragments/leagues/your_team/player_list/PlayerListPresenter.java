@@ -26,15 +26,19 @@ public class PlayerListPresenter extends BaseDataPresenter<IPlayerListView> impl
     }
 
     @Override
-    public void getPlayers(int leagueId, boolean valueSortDesc, int page, int perPage, String query, Integer mainPosition, boolean newPlayers) {
+    public void getPlayers(int leagueId, boolean valueSortDesc, int page, int perPage, String query, String filterPositions, String filterClubs, boolean newPlayers) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
             queries.put(Constant.KEY_LEAGUE_ID, String.valueOf(leagueId));
             queries.put(Constant.KEY_PAGE, String.valueOf(page));
             queries.put(Constant.KEY_PER_PAGE, String.valueOf(perPage));
 
-            if (mainPosition != null) {
-                queries.put(Constant.KEY_MAIN_POSITION, String.valueOf(mainPosition));
+            if (!TextUtils.isEmpty(filterPositions)) {
+                queries.put(Constant.KEY_MAIN_POSITION, String.valueOf(filterPositions));
+            }
+
+            if (!TextUtils.isEmpty(filterClubs)) {
+                queries.put(Constant.KEY_CLUBS, String.valueOf(filterPositions));
             }
 
             // sort

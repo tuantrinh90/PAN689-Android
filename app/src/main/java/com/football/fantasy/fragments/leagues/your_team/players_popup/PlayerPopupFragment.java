@@ -98,14 +98,15 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
 
     void initView() {
         try {
-            // search view
-            svSearchView.getFilter().setImageResource(R.drawable.ic_filter_list_black_24_px);
+//            // search view
+//            svSearchView.getFilter().setImageResource(R.drawable.ic_filter_list_black_24_px);
+            svSearchView.getFilter().setVisibility(View.GONE);
 
             // update hint
             svSearchView.getSearchView().setHint(R.string.search_public_players);
 
-            // click button filter
-            svSearchView.setFilerConsumer(v -> onClickFilter());
+//            // click button filter
+//            svSearchView.setFilerConsumer(v -> onClickFilter());
 
             // search view
             svSearchView.setSearchConsumer(query -> onPerformSearch(query));
