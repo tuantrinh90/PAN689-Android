@@ -139,7 +139,8 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
                     if (StreamSupport
                             .stream(teams)
                             .filter(n ->
-                                    n.getUser() != null && n.getUser().getId().equals(userResponse.getId()))
+                                    n.getUser() != null && n.getUser().getId().equals(userResponse.getId())
+                            )
                             .count() <= 0) {
                         createTeam();
                     }

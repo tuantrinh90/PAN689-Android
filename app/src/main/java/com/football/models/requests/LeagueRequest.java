@@ -5,15 +5,14 @@ public class LeagueRequest {
     public static final String LEAGUE_TYPE_PRIVATE = "private";
 
     public static final String SCORING_SYSTEM_REGULAR = "regular";
-    public static final String SCORING_SYSTEM_POINTS = "points";
+    public static final String SCORING_SYSTEM_POINTS = "per_stats";
 
     public static final String GAMEPLAY_OPTION_TRANSFER = "transfer";
     public static final String GAMEPLAY_OPTION_DRAFT = "draft";
 
-    // TODO: change value
-    public static final String TRADE_REVIEW_NO_REVIEW = "no_review";
+    public static final String TRADE_REVIEW_NO_REVIEW = "no";
     public static final String TRADE_REVIEW_CREATOR = "creator";
-    public static final String TRADE_REVIEW_MEMBER = "member";
+    public static final String TRADE_REVIEW_MEMBER = "members";
 
     int leagueId;
     String name = "";
