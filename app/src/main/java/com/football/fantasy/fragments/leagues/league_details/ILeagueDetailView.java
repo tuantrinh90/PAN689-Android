@@ -8,5 +8,4 @@ public interface ILeagueDetailView extends IBaseMvpView {
 
     void stopLeagueSuccess();
 
-    void onLeaveLeague();
 }

@@ -26,6 +26,7 @@ import java.util.Map;
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -81,10 +82,10 @@ public interface IApiService {
     Observable<BaseResponse<InviteResponse>> inviteFriends(@Body RequestBody body);
 
     @POST(ServiceConfig.LEAVE_LEAGUES)
-    Observable<BaseResponse<Object>> leaveLeagues(@Path("id") int leagueId, @Body RequestBody requestBody);
+    Observable<BaseResponse<Object>> leaveLeague(@Path(ServiceConfig.KEY_ID) int leagueId, @Body RequestBody requestBody);
 
-    @POST(ServiceConfig.STOP_LEAGUE)
-    Observable<BaseResponse<StopResponse>> stopLeague(@Path(ServiceConfig.KEY_ID) int leagueId, @Body RequestBody body);
+    @DELETE(ServiceConfig.STOP_LEAGUE)
+    Observable<BaseResponse<StopResponse>> stopLeague(@Path(ServiceConfig.KEY_ID) int leagueId);
 
     @GET(ServiceConfig.MY_LEAGUES)
     Observable<BaseResponse<PagingResponse<LeagueResponse>>> getMyLeagues(@Query(Constant.KEY_PAGE) int page, @Query(Constant.KEY_PER_PAGE) int perPage);

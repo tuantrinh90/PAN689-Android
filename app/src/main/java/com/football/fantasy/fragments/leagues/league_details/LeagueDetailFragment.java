@@ -140,7 +140,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
                                             .start(SuccessorFragment.class);
                                 } else {
                                     showMessage(R.string.message_confirm_leave_leagues, R.string.yes, R.string.no,
-                                            aVoid -> presenter.leaveLeague(leagueId), null);
+                                            aVoid -> presenter.stopLeague(leagueId), null);
                                 }
                             }
 
@@ -249,12 +249,6 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
 
     @Override
     public void stopLeagueSuccess() {
-        bus.send(new StopLeagueEvent(leagueId));
-        getActivity().finish();
-    }
-
-    @Override
-    public void onLeaveLeague() {
         bus.send(new StopLeagueEvent(leagueId));
         getActivity().finish();
     }

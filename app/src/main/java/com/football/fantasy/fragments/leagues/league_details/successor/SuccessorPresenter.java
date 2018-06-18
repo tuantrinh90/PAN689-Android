@@ -56,7 +56,7 @@ public class SuccessorPresenter extends BaseDataPresenter<ISuccessorView> implem
     @Override
     public void leaveLeague(int leagueId, int teamId) {
         getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().leaveLeagues(leagueId, new MultipartBody.Builder()
+            mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().leaveLeague(leagueId, new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .addFormDataPart("team_id", String.valueOf(teamId)).build()), new ApiCallback<Object>() {
                 @Override
@@ -86,10 +86,7 @@ public class SuccessorPresenter extends BaseDataPresenter<ISuccessorView> implem
     public void stopLeague(int leagueId) {
         getOptView().doIfPresent(v -> {
             mCompositeDisposable.add(RxUtilities.async(v,
-                    dataModule.getApiService().stopLeague(leagueId, new MultipartBody.Builder()
-                            .setType(MultipartBody.FORM)
-                            .addFormDataPart("_method", "DELETE")
-                            .build()),
+                    dataModule.getApiService().stopLeague(leagueId),
                     new ApiCallback<StopResponse>() {
                         @Override
                         public void onStart() {

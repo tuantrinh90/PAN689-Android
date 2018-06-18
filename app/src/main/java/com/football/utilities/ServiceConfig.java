@@ -36,7 +36,7 @@ public interface ServiceConfig {
     String TEAMS = "teams";
     String REMOVE_TEAM = "leagues/remove_team/{" + KEY_ID + "}/{" + KEY_TEAM_ID + "}";
     String INVITE_FRIEND = "invitations";
-    String STOP_LEAGUE = "leagues/{league_id}";
+    String STOP_LEAGUE = "leagues/{id}";
     String SEARCH_FRIEND = "invitations/search_friends";
     String INVITATION_DECISION = "invitations/decision/{id}";
     String HOME_NEWS = "posts";
