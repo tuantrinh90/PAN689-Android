@@ -10,7 +10,10 @@ import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class AppUtilities {
     /**
@@ -66,5 +69,16 @@ public class AppUtilities {
 
     public static String getNameOrMe(Context context, LeagueResponse league) {
         return league.getOwner() ? context.getResources().getString(R.string.me) : league.getUser().getName();
+    }
+
+    public static long getTimestamp(String date) {
+        try {
+            SimpleDateFormat df = new SimpleDateFormat(Constant.FORMAT_DATE_TIME_SERVER);
+            Date parsedDate = df.parse(date);
+            return parsedDate.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

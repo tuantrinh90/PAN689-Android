@@ -16,6 +16,7 @@ import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragme
 import com.football.fantasy.fragments.leagues.your_team.YourTeamFragment;
 import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.LeagueResponse;
+import com.football.utilities.AppUtilities;
 import com.football.utilities.Constant;
 
 import butterknife.BindView;
@@ -128,14 +129,16 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
 
             // line up my team
             if (league.getStatus() == LeagueResponse.WAITING_FOR_START) {
-                tvSetupTeam.setText(R.string.setup_team);
-            }
+                if (System.currentTimeMillis() < AppUtilities.getTimestamp(league.getTeamSetup())) {
+                    tvSetupTeam.setText(R.string.setup_team);
+                } else {
+                    tvSetupTeam.setText(R.string.start_time);
+                }
 
-            if (league.getStatus() == LeagueResponse.ON_GOING) {
+            } else if (league.getStatus() == LeagueResponse.ON_GOING) {
                 tvSetupTeam.setText(R.string.lineup_my_team);
-            }
 
-            if (league.getStatus() == LeagueResponse.FINISHED) {
+            } else if (league.getStatus() == LeagueResponse.FINISHED) {
                 tvSetupTeam.setVisibility(View.GONE);
             }
         } catch (Exception e) {
