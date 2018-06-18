@@ -15,6 +15,7 @@ import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.UserResponse;
+import com.football.utilities.AppUtilities;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;
@@ -59,7 +60,7 @@ public class LeaguesAdapter extends ExtBaseAdapter<LeagueResponse, LeaguesAdapte
         holder.ivAvatar.setImageUri(league.getLogo());
         holder.tvTitle.setText(league.getName());
         try {
-            holder.tvOwner.setText(league.getOwner() ? holder.itemView.getContext().getString(R.string.me) : league.getUser().getName());
+            holder.tvOwner.setText(AppUtilities.getNameOrMe(holder.itemView.getContext(), league));
         } catch (Exception e) {
             e.printStackTrace();
         }

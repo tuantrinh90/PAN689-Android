@@ -40,17 +40,17 @@ public class MyLeagueRecyclerAdapter extends BaseRecyclerViewAdapter<LeagueRespo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        LeagueResponse leagueResponse = getItem(position);
-        assert leagueResponse != null;
+        LeagueResponse league = getItem(position);
+        assert league != null;
 
-        holder.ivAvatar.setImageUri(leagueResponse.getLogo());
-        holder.tvTitle.setText(leagueResponse.getName());
-        holder.tvDescription.setText(leagueResponse.getUser().getName());
-        holder.tvRankNumber.setText(String.valueOf(leagueResponse.getRank()));
-        holder.tvRankTotal.setText(String.valueOf(leagueResponse.getNumberOfUser()));
-        holder.ivArrowUp.setImageResource(leagueResponse.getRankStatus() > 0 ? R.drawable.ic_arrow_upward_green
-                : (leagueResponse.getRankStatus() < 0 ? R.drawable.ic_arrow_upward_green_down : 0));
-        RxView.clicks(holder.itemView).subscribe(v -> Optional.from(leagueConsumer).doIfPresent(c -> c.accept(leagueResponse)));
+        holder.ivAvatar.setImageUri(league.getLogo());
+        holder.tvTitle.setText(league.getName());
+        holder.tvDescription.setText(holder.itemView.getContext().getString(R.string.me));
+        holder.tvRankNumber.setText(String.valueOf(league.getRank()));
+        holder.tvRankTotal.setText(String.valueOf(league.getNumberOfUser()));
+        holder.ivArrowUp.setImageResource(league.getRankStatus() > 0 ? R.drawable.ic_arrow_upward_green
+                : (league.getRankStatus() < 0 ? R.drawable.ic_arrow_upward_green_down : 0));
+        RxView.clicks(holder.itemView).subscribe(v -> Optional.from(leagueConsumer).doIfPresent(c -> c.accept(league)));
 
         // update layout
         DisplayMetrics displayMetrics = GeneralUtils.getDisplayMetrics(context);

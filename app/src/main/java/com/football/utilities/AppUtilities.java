@@ -1,10 +1,12 @@
 package com.football.utilities;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.football.fantasy.R;
+import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
 
 import java.text.DecimalFormat;
@@ -60,5 +62,9 @@ public class AppUtilities {
             return df.format(value / oneMio) + " mio";
         }
         return df.format(value / oneK) + "k";
+    }
+
+    public static String getNameOrMe(Context context, LeagueResponse league) {
+        return league.getOwner() ? context.getResources().getString(R.string.me) : league.getUser().getName();
     }
 }
