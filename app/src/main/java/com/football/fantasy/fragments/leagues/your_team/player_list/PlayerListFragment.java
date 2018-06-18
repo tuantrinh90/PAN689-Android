@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
 import com.bon.customview.listview.ExtPagingListView;
@@ -301,7 +300,7 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
     @OnClick(R.id.sortValue)
     public void onSortClick() {
         toggleSort();
-        ivSortValue.setImageResource(sortDesc ? R.drawable.ic_arrow_drop_down_black : R.drawable.ic_arrow_downward_white_small);
+        ivSortValue.setImageResource(sortDesc ? R.drawable.ic_sort_desc : R.drawable.ic_sort_asc);
     }
 
     private void toggleSort() {

@@ -202,9 +202,9 @@
 
                     <ImageView
                         android:id="@+id/ivSort1"
-                        android:layout_width="@dimen/font_size_description"
-                        android:layout_height="@dimen/font_size_description"
-                        android:src="@drawable/ic_arrow_drop_down_black" />
+                        android:layout_width="@dimen/fab_margin"
+                        android:layout_height="@dimen/fab_margin"
+                        android:src="@drawable/ic_sort_none" />
 
                 </LinearLayout>
 
@@ -229,9 +229,9 @@
 
                     <ImageView
                         android:id="@+id/ivSort2"
-                        android:layout_width="@dimen/font_size_description"
-                        android:layout_height="@dimen/font_size_description"
-                        android:src="@drawable/ic_arrow_drop_down_black" />
+                        android:layout_width="@dimen/fab_margin"
+                        android:layout_height="@dimen/fab_margin"
+                        android:src="@drawable/ic_sort_none" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -255,9 +255,9 @@
 
                     <ImageView
                         android:id="@+id/ivSort3"
-                        android:layout_width="@dimen/font_size_description"
-                        android:layout_height="@dimen/font_size_description"
-                        android:src="@drawable/ic_arrow_drop_down_black" />
+                        android:layout_width="@dimen/fab_margin"
+                        android:layout_height="@dimen/fab_margin"
+                        android:src="@drawable/ic_sort_none" />
                 </LinearLayout>
             </TableRow>
         </TableRow>

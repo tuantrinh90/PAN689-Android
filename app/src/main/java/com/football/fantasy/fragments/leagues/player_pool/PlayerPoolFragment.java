@@ -285,7 +285,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     }
 
     private int getArrowResource(boolean desc) {
-        return desc ? R.drawable.ic_arrow_drop_down_black : R.drawable.ic_arrow_downward_white_small;
+        return desc ? R.drawable.ic_sort_desc : R.drawable.ic_sort_asc;
     }
 
     private void toggleSort(int index) {

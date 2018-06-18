@@ -126,9 +126,9 @@
 
                 <ImageView
                     android:id="@+id/ivSortValue"
-                    android:layout_width="@dimen/font_size_description"
-                    android:layout_height="@dimen/font_size_description"
-                    android:src="@drawable/ic_arrow_drop_down_black" />
+                    android:layout_width="@dimen/fab_margin"
+                    android:layout_height="@dimen/fab_margin"
+                    android:src="@drawable/ic_sort_none" />
 
             </LinearLayout>
         </TableRow>
