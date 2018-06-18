@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
 
 import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
@@ -36,7 +37,6 @@ import io.reactivex.observers.DisposableObserver;
 public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPlayerListPresenter<IPlayerListView>> implements IPlayerListView {
     private static final String TAG = "PlayerListFragment";
 
-    private static final String ORDER_BY_DEFAULT = "{\"transfer_value\": \"desc\"}";
     private static final String ORDER_BY_ASC = "{\"transfer_value\": \"asc\"}";
 
     static final String KEY_LEAGUE = "LEAGUE";
@@ -65,6 +65,8 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
     ExtTextView tvSetupTime;
     @BindView(R.id.svSearch)
     SearchView svSearchView;
+    @BindView(R.id.ivSortValue)
+    ImageView ivSortValue;
     @BindView(R.id.rvRecyclerView)
     ExtPagingListView rvRecyclerView;
 
@@ -72,7 +74,6 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
     PlayerAdapter playerAdapter;
 
     private LeagueResponse league;
-    private String orderBy = ORDER_BY_DEFAULT;
     private int page = 1;
     private String query = "";
     private Integer mainPosition = null;
@@ -81,6 +82,7 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
 
     private String filterClubs = "";
     private String filterPositions = "";
+    private boolean sortDesc = true;
 
     @Override
     public int getResourceId() {
@@ -208,9 +210,9 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
 
     void onClickFilter() {
         Optional.from(rvRecyclerView).doIfPresent(rv -> {
-            orderBy = orderBy.equalsIgnoreCase(ORDER_BY_DEFAULT) ? ORDER_BY_ASC : ORDER_BY_DEFAULT;
-            svSearchView.getFilter().animate().rotation(orderBy.equalsIgnoreCase(ORDER_BY_DEFAULT) ? 0 : 180)
-                    .setDuration(500).setInterpolator(new LinearInterpolator()).start();
+//            orderBy = orderBy.equalsIgnoreCase(ORDER_BY_DEFAULT) ? ORDER_BY_ASC : ORDER_BY_DEFAULT;
+//            svSearchView.getFilter().animate().rotation(orderBy.equalsIgnoreCase(ORDER_BY_DEFAULT) ? 0 : 180)
+//                    .setDuration(500).setInterpolator(new LinearInterpolator()).start();
 
             AloneFragmentActivity.with(this)
                     .parameters(PlayerPoolFilterFragment.newBundle(filterPositions, filterClubs))
@@ -296,7 +298,21 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
         }
     }
 
+    @OnClick(R.id.sortValue)
+    public void onSortClick() {
+        toggleSort();
+        ivSortValue.setImageResource(sortDesc ? R.drawable.ic_arrow_drop_down_black : R.drawable.ic_arrow_downward_white_small);
+    }
+
+    private void toggleSort() {
+        page = 1;
+        rvRecyclerView.clearItems();
+        rvRecyclerView.startLoading();
+        sortDesc = !sortDesc;
+        getPlayers(true);
+    }
+
     private void getPlayers(boolean newPlayers) {
-        presenter.getPlayers(league.getId(), orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition, newPlayers);
+        presenter.getPlayers(league.getId(), sortDesc, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition, newPlayers);
     }
 }

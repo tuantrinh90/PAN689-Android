@@ -4,18 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/padding_layout"
     android:background="@drawable/bg_white_radius_selector"
     android:baselineAligned="false"
     android:orientation="horizontal"
-    android:paddingLeft="@dimen/padding_layout"
-    android:paddingRight="@dimen/padding_layout">
+    android:padding="@dimen/padding_layout">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/padding_layout">
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/ivAvatar"

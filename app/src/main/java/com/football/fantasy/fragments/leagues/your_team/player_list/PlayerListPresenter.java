@@ -10,6 +10,9 @@ import com.football.models.responses.PlayerResponse;
 import com.football.utilities.Constant;
 import com.football.utilities.RxUtilities;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +26,7 @@ public class PlayerListPresenter extends BaseDataPresenter<IPlayerListView> impl
     }
 
     @Override
-    public void getPlayers(int leagueId, String orderBy, int page, int perPage, String query, Integer mainPosition, boolean newPlayers) {
+    public void getPlayers(int leagueId, boolean valueSortDesc, int page, int perPage, String query, Integer mainPosition, boolean newPlayers) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
             queries.put(Constant.KEY_LEAGUE_ID, String.valueOf(leagueId));
@@ -33,9 +36,16 @@ public class PlayerListPresenter extends BaseDataPresenter<IPlayerListView> impl
             if (mainPosition != null) {
                 queries.put(Constant.KEY_MAIN_POSITION, String.valueOf(mainPosition));
             }
-            if (!TextUtils.isEmpty(orderBy)) {
-                queries.put(Constant.KEY_ORDER_BY, orderBy);
+
+            // sort
+            JSONObject sort = new JSONObject();
+            try {
+                sort.put("transfer_value", valueSortDesc ? "desc" : "asc");
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+            queries.put(Constant.KEY_ORDER_BY, sort.toString());
+
             if (!TextUtils.isEmpty(query)) {
                 queries.put(Constant.KEY_WORD, query);
             }
