@@ -14,20 +14,20 @@ public class LeagueRequest {
     public static final String TRADE_REVIEW_CREATOR = "creator";
     public static final String TRADE_REVIEW_MEMBER = "members";
 
-    int leagueId;
-    String name = "";
-    String logo = "";
-    String leagueType = "";
-    String gameplayOption = "";
-    int numberOfUser;
-    int budgetId;
-    String tradeReview = "";
-    String scoringSystem = "";
-    String draftTime = "";
-    String timeToPick = "";
-    String startAt = "";
-    String description = "";
-    String teamSetup = "";
+    private int leagueId;
+    private String name = "";
+    private String logo = "";
+    private String leagueType = "";
+    private String gameplayOption = "";
+    private int numberOfUser;
+    private int budgetId;
+    private String tradeReview = "";
+    private String scoringSystem = "";
+    private String draftTime = "";
+    private String timeToPick = "";
+    private String startAt = "";
+    private String description = "";
+    private String teamSetup = "";
 
     public LeagueRequest() {
     }
