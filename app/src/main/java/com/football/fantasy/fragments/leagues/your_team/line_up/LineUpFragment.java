@@ -20,6 +20,7 @@ import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.StatisticResponse;
 import com.football.models.responses.TeamResponse;
+import com.football.utilities.AppUtilities;
 import com.football.utilities.Constant;
 
 import java.util.List;
@@ -46,8 +47,10 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
         return fragment;
     }
 
-    @BindView(R.id.tvSetupTime)
-    ExtTextView tvSetupTime;
+    @BindView(R.id.tvTeamSetupTime)
+    ExtTextView tvTeamSetupTime;
+    @BindView(R.id.tvTime)
+    ExtTextView tvTime;
     @BindView(R.id.lineupView)
     LineupView lineupView;
     @BindView(R.id.svGoalkeeper)
@@ -92,7 +95,16 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     }
 
     void initView() {
-        tvSetupTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
+        if (System.currentTimeMillis() < AppUtilities.getTimestamp(league.getTeamSetup())) {
+            lineupView.setEditable(true);
+            tvTeamSetupTime.setText(R.string.team_setup_time);
+            tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
+
+        } else {
+            lineupView.setEditable(false);
+            tvTeamSetupTime.setText(R.string.start_time);
+            tvTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
+        }
 
         // setup lineupView
         lineupView.setupLineup(new PlayerResponse[18], new int[]{4, 6, 6, 2});

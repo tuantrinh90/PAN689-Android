@@ -14,11 +14,11 @@
 
         <ImageView
             android:id="@+id/ivPlayer"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginTop="4dp"
+            android:layout_width="@dimen/avatar_player_size"
+            android:layout_height="@dimen/avatar_player_size"
+            android:layout_marginLeft="@dimen/margin_player_size"
+            android:layout_marginRight="@dimen/margin_player_size"
+            android:layout_marginTop="@dimen/margin_player_size"
             android:background="@drawable/bg_player_a"
             android:clickable="true"
             android:focusable="true"
@@ -28,8 +28,8 @@
 
         <ImageView
             android:id="@+id/ivRemove"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="@dimen/remove_player_size"
+            android:layout_height="@dimen/remove_player_size"
             android:layout_gravity="end"
             android:background="@drawable/bg_circle_red"
             android:clickable="true"

@@ -32,6 +32,7 @@ public class PlayerView extends LinearLayout {
     private int position; // vị trí: G, M, D, A
     private PlayerResponse player;
     private boolean named = true;
+    private boolean editable;
 
     public PlayerView(Context context) {
         this(context, null);
@@ -111,19 +112,16 @@ public class PlayerView extends LinearLayout {
         displayPlayer();
     }
 
-    public void revmoePlayer() {
-        player = null;
-        displayPlayer();
-    }
-
     @OnClick({R.id.ivRemove, R.id.ivPlayer})
     public void onClicked(View view) {
         switch (view.getId()) {
             case R.id.ivRemove:
-                Optional.from(mListener).doIfPresent(listener -> listener.onRemove(player, index));
+                if (editable) {
+                    Optional.from(mListener).doIfPresent(listener -> listener.onRemove(player, index));
+                }
                 break;
             case R.id.ivPlayer:
-                if (player == null) {
+                if (player == null && editable) {
                     Optional.from(mListener).doIfPresent(listener -> listener.onPlayerClick(position, index));
                 }
                 break;
@@ -132,6 +130,11 @@ public class PlayerView extends LinearLayout {
 
     public void setOnPlayerViewClickListener(OnPlayerViewClickListener listener) {
         this.mListener = listener;
+    }
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+        ivRemove.setVisibility(editable ? VISIBLE : GONE);
     }
 
     public interface OnPlayerViewClickListener {

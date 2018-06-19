@@ -24,6 +24,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
 
     private int[] squad = new int[]{4, 6, 6, 2}; // sắp xếp đội hình theo từng hàng, mỗi phần tử tương ứng với số lượng cầu thủ tại hàng đó
     private PlayerResponse[] players = new PlayerResponse[18];
+    private boolean editable = true; // có thể remove player
 
     public LineupView(Context context) {
         this(context, null);
@@ -86,6 +87,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         PlayerView playerView = new PlayerView(context);
         playerView.setIndex(i);
         playerView.setPosition(line);
+        playerView.setEditable(editable);
         return playerView;
     }
 
@@ -175,5 +177,9 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         for (int i = 0; i < getChildCount(); i++) {
             ((PlayerView) getChildAt(i)).displayName(bool);
         }
+    }
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
     }
 }

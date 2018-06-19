@@ -15,6 +15,12 @@
     <dimen name="avatar_border">2dp</dimen>
     <dimen name="avatar_padding">3dp</dimen>
 
+    <!--lineup-->
+    <dimen name="avatar_player_size">45dp</dimen>
+    <dimen name="remove_player_size">16dp</dimen>
+    <dimen name="margin_player_size">4dp</dimen>
+
+
     <!--icon-->
     <dimen name="icon_tiny">18dp</dimen>
     <dimen name="icon_small">25dp</dimen>

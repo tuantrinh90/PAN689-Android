@@ -100,14 +100,6 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
             tvScoringSystem.setText(league.getScoringSystemDisplay());
             tvDescription.setText(league.getDescription());
 
-            if (league.getGameplayOption().equalsIgnoreCase(LeagueRequest.GAMEPLAY_OPTION_TRANSFER)) {
-                tvTeamSetupTime.setText(R.string.team_setup_time);
-                tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
-            } else {
-                tvTeamSetupTime.setText(R.string.start_time);
-                tvTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
-            }
-
             tvSetupTeam.setVisibility(View.GONE);
             tvJoinLeague.setVisibility(View.GONE);
             tvStartLeague.setVisibility(View.GONE);
@@ -130,9 +122,11 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
             // line up my team
             if (league.getStatus() == LeagueResponse.WAITING_FOR_START) {
                 if (System.currentTimeMillis() < AppUtilities.getTimestamp(league.getTeamSetup())) {
-                    tvSetupTeam.setText(R.string.setup_team);
+                    tvTeamSetupTime.setText(R.string.team_setup_time);
+                    tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
                 } else {
-                    tvSetupTeam.setText(R.string.start_time);
+                    tvTeamSetupTime.setText(R.string.start_time);
+                    tvTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
                 }
 
             } else if (league.getStatus() == LeagueResponse.ON_GOING) {
