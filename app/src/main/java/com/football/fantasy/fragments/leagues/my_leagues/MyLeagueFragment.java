@@ -3,6 +3,7 @@ package com.football.fantasy.fragments.leagues.my_leagues;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 
@@ -60,7 +61,7 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
                 @Override
                 public void onNext(LeagueEvent leagueEvent) {
                     try {
-                        Log.e("LeagueEvent","LeagueEvent");
+                        Log.e("LeagueEvent", "LeagueEvent");
                         page = 1;
                         rvRecyclerView.clearItems();
                         getMyLeagues();
@@ -117,6 +118,9 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
     }
 
     void initView() {
+        Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.colorPrimary)));
+        Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white)));
+
         try {
             // leagueResponses
             leaguesAdapter = new LeaguesAdapter(mActivity, LeaguesAdapter.MY_LEAGUES, leagueResponses, details -> {

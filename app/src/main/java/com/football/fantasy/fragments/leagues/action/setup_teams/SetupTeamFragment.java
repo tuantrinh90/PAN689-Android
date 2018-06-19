@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.image.ImageFilePath;
 import com.bon.image.ImageUtils;
+import com.bon.interfaces.Optional;
 import com.bon.logger.Logger;
 import com.bon.util.StringUtils;
 import com.football.common.activities.AloneFragmentActivity;
@@ -98,6 +100,9 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
     }
 
     void initView() {
+        Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.colorPrimary)));
+        Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white)));
+
         ivImagePick.getImageView().setImageResource(R.drawable.bg_image_pick);
     }
 

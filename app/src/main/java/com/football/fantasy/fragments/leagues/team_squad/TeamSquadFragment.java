@@ -3,6 +3,7 @@ package com.football.fantasy.fragments.leagues.team_squad;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.View;
@@ -73,6 +74,18 @@ public class TeamSquadFragment extends BaseMainMvpFragment<ITeamSquadView, ITeam
         getTeamSquad();
     }
 
+    @Override
+    public String getTitleString() {
+        return title;
+    }
+
+    @Override
+    public void initToolbar(@NonNull ActionBar supportActionBar) {
+        super.initToolbar(supportActionBar);
+        supportActionBar.setDisplayHomeAsUpEnabled(true);
+        supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_blue);
+    }
+
     private void initData() {
         properties = new ArrayList<>();
         properties.add(new ExtKeyValuePair("name", "Name"));
@@ -94,6 +107,8 @@ public class TeamSquadFragment extends BaseMainMvpFragment<ITeamSquadView, ITeam
     }
 
     void initView() {
+        Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.colorPrimary)));
+        Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white)));
 
         teamSquadAdapter = new TeamSquadAdapter(mActivity, new ArrayList<>());
         lvData.init(mActivity, teamSquadAdapter)
@@ -118,23 +133,6 @@ public class TeamSquadFragment extends BaseMainMvpFragment<ITeamSquadView, ITeam
     @Override
     public ITeamSquadPresenter<ITeamSquadView> createPresenter() {
         return new TeamSquadPresenter(getAppComponent());
-    }
-
-    @Override
-    public String getTitleString() {
-        return title;
-    }
-
-    @Override
-    public int getTitleId() {
-        return R.string.league_details;
-    }
-
-    @Override
-    public void initToolbar(@NonNull ActionBar supportActionBar) {
-        super.initToolbar(supportActionBar);
-        supportActionBar.setDisplayHomeAsUpEnabled(true);
-        supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_blue);
     }
 
     @OnClick(R.id.llTrade)
