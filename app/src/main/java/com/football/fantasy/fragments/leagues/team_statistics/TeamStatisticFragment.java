@@ -15,18 +15,22 @@ import com.bon.interfaces.Optional;
 import com.football.adapters.TeamStatisticAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
+import com.football.models.responses.TeamResponse;
 import com.football.models.responses.TeamStatisticResponse;
+import com.football.utilities.AppUtilities;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 
 public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticView, ITeamStatisticPresenter<ITeamStatisticView>> implements ITeamStatisticView {
+
+    private static final String KEY_TEAM = "TEAM";
+
     @BindView(R.id.llPointPerPlayer)
     LinearLayout llPointPerPlayer;
-    @BindView(R.id.ivNumber)
-    ImageView ivNumber;
+    @BindView(R.id.ivRank)
+    ImageView ivRank;
     @BindView(R.id.tvRankValue)
     ExtTextView tvRankValue;
     @BindView(R.id.tvRankLabel)
@@ -38,8 +42,15 @@ public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticVie
     @BindView(R.id.lvData)
     ExtPagingListView lvData;
 
-    List<TeamStatisticResponse> teamStatisticResponses;
+    private TeamResponse team;
     TeamStatisticAdapter teamStatisticAdapter;
+
+
+    public static Bundle newBundle(TeamResponse team) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(KEY_TEAM, team);
+        return bundle;
+    }
 
     @Override
     public int getResourceId() {
@@ -50,8 +61,15 @@ public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticVie
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
+        getDataFromBundle();
         initView();
         initData();
+
+        getTeamStatistic();
+    }
+
+    private void getDataFromBundle() {
+        team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
     }
 
     void initView() {
@@ -60,14 +78,14 @@ public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticVie
     }
 
     void initData() {
-        teamStatisticResponses = new ArrayList<TeamStatisticResponse>() {{
-            add(new TeamStatisticResponse("01", "200", "20", false));
-            add(new TeamStatisticResponse("02", "200", "20", true));
-            add(new TeamStatisticResponse("03", "200", "20", false));
-            add(new TeamStatisticResponse("04", "200", "20", true));
-        }};
-        teamStatisticAdapter = new TeamStatisticAdapter(mActivity, teamStatisticResponses);
+        teamStatisticAdapter = new TeamStatisticAdapter(mActivity, new ArrayList<>());
         lvData.init(mActivity, teamStatisticAdapter);
+    }
+
+    private void getTeamStatistic() {
+        lvData.startLoading();
+        presenter.getTeamStatistic(team.getId());
+
     }
 
     @Override
@@ -85,5 +103,36 @@ public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticVie
         super.initToolbar(supportActionBar);
         supportActionBar.setDisplayHomeAsUpEnabled(true);
         supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
+    }
+
+    @Override
+    public void displayTeamStatistic(TeamStatisticResponse teamStatistic) {
+        Optional.from(lvData).doIfPresent(rv -> rv.addNewItems(teamStatistic.getRounds()));
+        lvData.stopLoading();
+
+        tvPoints.setText(AppUtilities.convertNumber(Long.valueOf(teamStatistic.getTotalPoint())));
+        tvBudget.setText(getString(R.string.money_prefix, AppUtilities.getMoney(teamStatistic.getCurrentBudget())));
+
+        tvRankLabel.setVisibility(View.GONE);
+        tvRankValue.setVisibility(View.GONE);
+        switch (team.getRank()) {
+            case 1:
+                ivRank.setImageResource(R.drawable.ic_number_one);
+                break;
+
+            case 2:
+                ivRank.setImageResource(R.drawable.ic_number_two);
+                break;
+
+            case 3:
+                ivRank.setImageResource(R.drawable.ic_number_three);
+                break;
+
+            default:
+                tvRankValue.setText(String.valueOf(team.getRank()));
+                ivRank.setVisibility(View.GONE);
+                tvRankLabel.setVisibility(View.VISIBLE);
+                tvRankValue.setVisibility(View.VISIBLE);
+        }
     }
 }

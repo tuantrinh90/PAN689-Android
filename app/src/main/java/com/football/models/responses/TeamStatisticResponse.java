@@ -1,62 +1,45 @@
 package com.football.models.responses;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
+import java.util.List;
 
 public class TeamStatisticResponse implements Serializable {
-    String round;
-    String point;
-    String change;
-    boolean isIncrease;
+    @JsonProperty("id")
+    private Integer id;
+    @JsonProperty("name")
+    private String name;
+    @JsonProperty("total_point")
+    private Integer totalPoint;
+    @JsonProperty("current_budget")
+    private Long currentBudget;
+    @JsonProperty("league")
+    private LeagueResponse league;
+    @JsonProperty("rounds")
+    private List<RoundResponse> rounds;
 
-    public TeamStatisticResponse() {
+    public Integer getId() {
+        return id;
     }
 
-    public TeamStatisticResponse(String round, String point, String change, boolean isIncrease) {
-        this.round = round;
-        this.point = point;
-        this.change = change;
-        this.isIncrease = isIncrease;
+    public String getName() {
+        return name;
     }
 
-    public String getRound() {
-        return round;
+    public Integer getTotalPoint() {
+        return totalPoint;
     }
 
-    public void setRound(String round) {
-        this.round = round;
+    public Long getCurrentBudget() {
+        return currentBudget;
     }
 
-    public String getPoint() {
-        return point;
+    public LeagueResponse getLeague() {
+        return league;
     }
 
-    public void setPoint(String point) {
-        this.point = point;
-    }
-
-    public String getChange() {
-        return change;
-    }
-
-    public void setChange(String change) {
-        this.change = change;
-    }
-
-    public boolean isIncrease() {
-        return isIncrease;
-    }
-
-    public void setIncrease(boolean increase) {
-        isIncrease = increase;
-    }
-
-    @Override
-    public String toString() {
-        return "TeamStatisticResponse{" +
-                "round='" + round + '\'' +
-                ", point='" + point + '\'' +
-                ", change='" + change + '\'' +
-                ", isIncrease=" + isIncrease +
-                '}';
+    public List<RoundResponse> getRounds() {
+        return rounds;
     }
 }

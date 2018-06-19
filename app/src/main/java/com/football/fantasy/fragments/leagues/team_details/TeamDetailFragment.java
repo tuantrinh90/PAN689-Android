@@ -10,13 +10,16 @@ import android.widget.LinearLayout;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageLoaderUtils;
+import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.team_statistics.TeamStatisticFragment;
 import com.football.models.responses.TeamResponse;
 import com.football.utilities.AppUtilities;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITeamDetailPresenter<ITeamDetailView>> implements ITeamDetailView {
 
@@ -50,6 +53,7 @@ public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITe
     LinearLayout llStatistics;
 
     private int teamId;
+    private TeamResponse team;
 
     public static Bundle newBundle(int teamId) {
         Bundle bundle = new Bundle();
@@ -96,12 +100,31 @@ public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITe
 
     @Override
     public void displayTeamDetails(TeamResponse team) {
+        this.team = team;
+
         tvHeader.setText(team.getName());
         tvName.setText(team.getUser().getName());
-        ImageLoaderUtils.displayImage(team.getUser().getPhoto(), ivAvatar.getImageView());
+        ImageLoaderUtils.displayImage(team.getLogo(), ivAvatar.getImageView());
         tvRank.setText(String.valueOf(team.getRank()));
         tvPoints.setText(AppUtilities.convertNumber(Long.valueOf(team.getTotalPoint())));
         tvBudget.setText(getString(R.string.money_prefix, AppUtilities.getMoney(team.getCurrentBudget())));
         tvDescription.setText(team.getDescription());
+    }
+
+    @OnClick({R.id.llTeamLineUp, R.id.llTransfer, R.id.llTeamSquad, R.id.llStatistics})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.llTeamLineUp:
+                break;
+            case R.id.llTransfer:
+                break;
+            case R.id.llTeamSquad:
+                break;
+            case R.id.llStatistics:
+                AloneFragmentActivity.with(this)
+                        .parameters(TeamStatisticFragment.newBundle(team))
+                        .start(TeamStatisticFragment.class);
+                break;
+        }
     }
 }

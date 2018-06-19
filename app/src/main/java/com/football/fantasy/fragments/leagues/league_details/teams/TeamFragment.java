@@ -18,6 +18,7 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
+import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
 import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
@@ -79,16 +80,24 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
     void initView() {
         try {
             displayTime();
-            teamAdapter = new TeamAdapter(mActivity, new ArrayList<>(), leagueResponse, teamResponseDetails -> {
-            }, removeTeamResponse -> {
-                DialogUtils.confirmBox(mActivity,
-                        getString(R.string.app_name),
-                        String.format(getString(R.string.remove_team_message), removeTeamResponse.getName()),
-                        getString(R.string.yes),
-                        getString(R.string.no), (dialogInterface, i) -> {
-                            presenter.removeTeam(leagueResponse.getId(), removeTeamResponse.getId());
-                        });
-            });
+            teamAdapter = new TeamAdapter(
+                    mActivity,
+                    new ArrayList<>(),
+                    leagueResponse,
+                    team -> {
+                        AloneFragmentActivity.with(this)
+                                .parameters(TeamDetailFragment.newBundle(team.getId()))
+                                .start(TeamDetailFragment.class);
+                    },
+                    removeTeamResponse -> {
+                        DialogUtils.confirmBox(mActivity,
+                                getString(R.string.app_name),
+                                String.format(getString(R.string.remove_team_message), removeTeamResponse.getName()),
+                                getString(R.string.yes),
+                                getString(R.string.no), (dialogInterface, i) -> {
+                                    presenter.removeTeam(leagueResponse.getId(), removeTeamResponse.getId());
+                                });
+                    });
 
             rvRecyclerView.init(mActivity, teamAdapter)
                     .setOnExtRefreshListener(() -> {
