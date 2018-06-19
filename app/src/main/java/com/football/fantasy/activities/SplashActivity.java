@@ -1,14 +1,18 @@
 package com.football.fantasy.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
-import com.football.common.activities.AloneFragmentActivity;
+import com.bon.share_preferences.AppPreferences;
 import com.football.common.activities.BaseAppCompatActivity;
-import com.football.fantasy.fragments.account.signin.SignInFragment;
+import com.football.fantasy.R;
+import com.football.models.responses.UserResponse;
+import com.football.utilities.Constant;
 
 
 /**
@@ -19,15 +23,18 @@ public class SplashActivity extends BaseAppCompatActivity {
 
     @Override
     protected int getContentViewId() {
-        return 0;
+        return R.layout.splash_activity;
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AloneFragmentActivity.with(this)
-                .parameters(new Bundle())
-                .start(SignInFragment.class);
+
+        new Handler().postDelayed(() -> {
+            UserResponse user = AppPreferences.getInstance(this).getObject(Constant.KEY_USER, UserResponse.class);
+            startActivity(new Intent(this, user == null ? AccountActivity.class : MainActivity.class));
+            finish();
+        }, 2000);
     }
 
     @Override
@@ -44,4 +51,5 @@ public class SplashActivity extends BaseAppCompatActivity {
     public Toolbar getToolBar() {
         return null;
     }
+
 }
