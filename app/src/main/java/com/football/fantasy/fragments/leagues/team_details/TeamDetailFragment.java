@@ -1,4 +1,4 @@
-package com.football.fantasy.fragments.leagues.my_supper_team;
+package com.football.fantasy.fragments.leagues.team_details;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,13 +9,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bon.customview.textview.ExtTextView;
+import com.bon.image.ImageLoaderUtils;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
+import com.football.models.responses.TeamResponse;
+import com.football.utilities.AppUtilities;
 
 import butterknife.BindView;
 
-public class MySupperTeamFragment extends BaseMainMvpFragment<IMySupperTeamView, IMySupperTeamPresenter<IMySupperTeamView>> implements IMySupperTeamView {
+public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITeamDetailPresenter<ITeamDetailView>> implements ITeamDetailView {
+
+    private static final String KEY_TEAM_ID = "TEAM_ID";
+
     @BindView(R.id.tvHeader)
     ExtTextView tvHeader;
     @BindView(R.id.ivEdit)
@@ -32,6 +38,8 @@ public class MySupperTeamFragment extends BaseMainMvpFragment<IMySupperTeamView,
     ExtTextView tvPoints;
     @BindView(R.id.tvBudget)
     ExtTextView tvBudget;
+    @BindView(R.id.tvDescription)
+    ExtTextView tvDescription;
     @BindView(R.id.llTeamLineUp)
     LinearLayout llTeamLineUp;
     @BindView(R.id.llTransfer)
@@ -41,20 +49,37 @@ public class MySupperTeamFragment extends BaseMainMvpFragment<IMySupperTeamView,
     @BindView(R.id.llStatistics)
     LinearLayout llStatistics;
 
+    private int teamId;
+
+    public static Bundle newBundle(int teamId) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(KEY_TEAM_ID, teamId);
+        return bundle;
+    }
+
     @Override
     public int getResourceId() {
-        return R.layout.my_supper_team_fragment;
+        return R.layout.team_detail_fragment;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
+        getDataFromBundle();
+
+        presenter.getTeamDetails(teamId);
     }
 
+    private void getDataFromBundle() {
+        assert getArguments() != null;
+        teamId = getArguments().getInt(KEY_TEAM_ID);
+    }
+
+    @NonNull
     @Override
-    public IMySupperTeamPresenter<IMySupperTeamView> createPresenter() {
-        return new MySupperTeamPresenter(getAppComponent());
+    public ITeamDetailPresenter<ITeamDetailView> createPresenter() {
+        return new TeamDetailPresenter(getAppComponent());
     }
 
     @Override
@@ -67,5 +92,16 @@ public class MySupperTeamFragment extends BaseMainMvpFragment<IMySupperTeamView,
         super.initToolbar(supportActionBar);
         supportActionBar.setDisplayHomeAsUpEnabled(true);
         supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_blue);
+    }
+
+    @Override
+    public void displayTeamDetails(TeamResponse team) {
+        tvHeader.setText(team.getName());
+        tvName.setText(team.getUser().getName());
+        ImageLoaderUtils.displayImage(team.getUser().getPhoto(), ivAvatar.getImageView());
+        tvRank.setText(String.valueOf(team.getRank()));
+        tvPoints.setText(AppUtilities.convertNumber(Long.valueOf(team.getTotalPoint())));
+        tvBudget.setText(getString(R.string.money_prefix, AppUtilities.getMoney(team.getCurrentBudget())));
+        tvDescription.setText(team.getDescription());
     }
 }

@@ -9,8 +9,11 @@ import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.football.adapters.TeamAdapter;
+import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
+import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
 
@@ -72,7 +75,9 @@ public class TeamListFragment extends BaseMainMvpFragment<ITeamListView, ITeamLi
                 new ArrayList<>(),
                 league,
                 team -> { // handle click
-
+                    AloneFragmentActivity.with(this)
+                            .parameters(TeamDetailFragment.newBundle(team.getId()))
+                            .start(TeamDetailFragment.class);
                 },
                 null);
         rvRecyclerView.init(mActivity, teamAdapter)

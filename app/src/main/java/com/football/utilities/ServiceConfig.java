@@ -32,8 +32,9 @@ public interface ServiceConfig {
     String FORGOT_PASSWORD = "users/forgot";
     String MY_LEAGUES = "leagues/my_index";
     String PENDING_INVITATIONS = "invitations/pending_list";
-    String LEAGUE = "leagues/{" + KEY_ID + "}";
+    String LEAGUE = "leagues/{id}";
     String TEAMS = "teams";
+    String TEAM_DETAILS = "teams/{id}";
     String REMOVE_TEAM = "leagues/remove_team/{" + KEY_ID + "}/{" + KEY_TEAM_ID + "}";
     String INVITE_FRIEND = "invitations";
     String STOP_LEAGUE = "leagues/{id}";

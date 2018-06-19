@@ -71,6 +71,9 @@ public interface IApiService {
     @GET(ServiceConfig.TEAMS)
     Observable<BaseResponse<PagingResponse<TeamResponse>>> getTeams(@Query(ServiceConfig.KEY_LEAGUE_ID) int leagueId);
 
+    @GET(ServiceConfig.TEAM_DETAILS)
+    Observable<BaseResponse<TeamResponse>> getTeamDetails(@Path(ServiceConfig.KEY_ID) int teamId);
+
     @POST(ServiceConfig.REMOVE_TEAM)
     Observable<BaseResponse<Object>> removeTeam(@Path(ServiceConfig.KEY_ID) int leagueId, @Path(ServiceConfig.KEY_TEAM_ID) int teamId);
 

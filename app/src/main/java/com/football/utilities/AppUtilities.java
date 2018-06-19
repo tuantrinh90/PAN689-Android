@@ -67,6 +67,11 @@ public class AppUtilities {
         return df.format(value / oneK) + "k";
     }
 
+    public static String convertNumber(Long value) {
+        DecimalFormat df = new DecimalFormat("###,###.##");
+        return df.format(value);
+    }
+
     public static String getNameOrMe(Context context, LeagueResponse league) {
         return league.getOwner() ? context.getResources().getString(R.string.me) : league.getUser().getName();
     }
