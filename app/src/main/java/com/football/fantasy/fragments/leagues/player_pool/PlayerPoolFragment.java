@@ -37,7 +37,7 @@ import io.reactivex.observers.DisposableObserver;
 
 import static com.football.models.responses.PlayerResponse.Options.GOALS;
 import static com.football.models.responses.PlayerResponse.Options.POINT;
-import static com.football.models.responses.PlayerResponse.Options.TRANSFER_VALUE;
+import static com.football.models.responses.PlayerResponse.Options.VALUE;
 
 public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPlayerPoolPresenter<IPlayerPoolView>> implements IPlayerPoolView {
 
@@ -182,7 +182,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                                     getString(R.string.player_pool)))
                             .start(PlayerDetailFragment.class);
                 });
-        playerPoolItemAdapter.setOptions(TRANSFER_VALUE, POINT, GOALS);
+        playerPoolItemAdapter.setOptions(VALUE, POINT, GOALS);
         lvData.init(mActivity, playerPoolItemAdapter)
                 .setOnExtRefreshListener(() -> {
                     refreshData();

@@ -16,6 +16,7 @@ import com.football.models.responses.RealClubResponse;
 import com.football.models.responses.SeasonResponse;
 import com.football.models.responses.StopResponse;
 import com.football.models.responses.TeamResponse;
+import com.football.models.responses.TeamSquadResponse;
 import com.football.models.responses.TeamStatisticResponse;
 import com.football.models.responses.UploadResponse;
 import com.football.models.responses.UserResponse;
@@ -74,6 +75,9 @@ public interface IApiService {
 
     @GET(ServiceConfig.TEAM_DETAILS)
     Observable<BaseResponse<TeamResponse>> getTeamDetails(@Path(ServiceConfig.KEY_ID) int teamId);
+
+    @GET(ServiceConfig.TEAM_SQUAD)
+    Observable<BaseResponse<TeamSquadResponse>> getTeamSquad(@Path(ServiceConfig.KEY_ID) int teamId, @QueryMap Map<String, String> queries);
 
     @GET(ServiceConfig.TEAM_STATISTIC)
     Observable<BaseResponse<TeamStatisticResponse>> getTeamStatistic(@Path(ServiceConfig.KEY_ID) int teamId);

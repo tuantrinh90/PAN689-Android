@@ -80,7 +80,7 @@ public class PlayerPoolItemAdapter extends ExtBaseAdapter<PlayerResponse, Player
         ivOption.setVisibility(View.INVISIBLE);
         String value = "";
         switch (option) {
-            case PlayerResponse.Options.TRANSFER_VALUE:
+            case PlayerResponse.Options.VALUE:
                 value = context.getString(R.string.money_prefix, data.getTransferValueDisplay());
                 break;
             case PlayerResponse.Options.POINT:

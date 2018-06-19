@@ -46,7 +46,7 @@ public class PlayerListPresenter extends BaseDataPresenter<IPlayerListView> impl
             JSONArray sort = new JSONArray();
             try {
                 JSONObject transfer = new JSONObject();
-                transfer.put("property", "transfer_value");
+                transfer.put("property", PlayerResponse.Options.VALUE);
                 transfer.put("direction", valueSortDesc ? "desc" : "asc");
                 sort.put(transfer);
             } catch (JSONException e) {

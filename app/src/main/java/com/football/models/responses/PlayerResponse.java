@@ -13,7 +13,6 @@ import com.football.utilities.AppUtilities;
 import java.io.Serializable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.text.DecimalFormat;
 
 import static com.football.models.responses.PlayerResponse.Options.ASSISTS;
 import static com.football.models.responses.PlayerResponse.Options.BALLS_RECOVERED;
@@ -26,7 +25,7 @@ import static com.football.models.responses.PlayerResponse.Options.PASSES;
 import static com.football.models.responses.PlayerResponse.Options.POINT;
 import static com.football.models.responses.PlayerResponse.Options.SAVES;
 import static com.football.models.responses.PlayerResponse.Options.SHOTS;
-import static com.football.models.responses.PlayerResponse.Options.TRANSFER_VALUE;
+import static com.football.models.responses.PlayerResponse.Options.VALUE;
 import static com.football.models.responses.PlayerResponse.Options.TURNOVERS;
 import static com.football.models.responses.PlayerResponse.Options.YELLOW_CARDS;
 
@@ -47,11 +46,11 @@ public class PlayerResponse implements Serializable {
      * balls_recovered: Stat 11
      * fouls_committed: Stat 12
      */
-    @StringDef({TRANSFER_VALUE, POINT, GOALS, ASSISTS, CLEAN_SHEET, DUELS_THEY_WIN, PASSES, SHOTS,
+    @StringDef({VALUE, POINT, GOALS, ASSISTS, CLEAN_SHEET, DUELS_THEY_WIN, PASSES, SHOTS,
             SAVES, YELLOW_CARDS, DRIBBLES, TURNOVERS, BALLS_RECOVERED, FOULS_COMMITTED})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Options {
-        String TRANSFER_VALUE = "transfer_value";
+        String VALUE = "value";
         String POINT = "point";
         String GOALS = "goals";
         String ASSISTS = "assists";

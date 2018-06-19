@@ -32,13 +32,13 @@ import static com.football.models.responses.PlayerResponse.Options.PASSES;
 import static com.football.models.responses.PlayerResponse.Options.POINT;
 import static com.football.models.responses.PlayerResponse.Options.SAVES;
 import static com.football.models.responses.PlayerResponse.Options.SHOTS;
-import static com.football.models.responses.PlayerResponse.Options.TRANSFER_VALUE;
+import static com.football.models.responses.PlayerResponse.Options.VALUE;
 import static com.football.models.responses.PlayerResponse.Options.TURNOVERS;
 import static com.football.models.responses.PlayerResponse.Options.YELLOW_CARDS;
 
 public class PlayerPoolDisplayFragment extends BaseMainMvpFragment<IPlayerPoolDisplayView, IPlayerPoolDisplayPresenter<IPlayerPoolDisplayView>> implements IPlayerPoolDisplayView {
 
-    public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_1 = new ExtKeyValuePair(TRANSFER_VALUE, "Value", true); // selected = sort by desc
+    public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_1 = new ExtKeyValuePair(VALUE, "Value", true); // selected = sort by desc
     public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_2 = new ExtKeyValuePair(POINT, "Point", true);
     public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_3 = new ExtKeyValuePair(GOALS, "Stat 1", true);
 
@@ -83,7 +83,7 @@ public class PlayerPoolDisplayFragment extends BaseMainMvpFragment<IPlayerPoolDi
     void initView() {
         // display
         keyValuePairs = new ArrayList<>();
-        keyValuePairs.add(new ExtKeyValuePair(TRANSFER_VALUE, "Value", filterDisplays.contains(TRANSFER_VALUE)));
+        keyValuePairs.add(new ExtKeyValuePair(VALUE, "Value", filterDisplays.contains(VALUE)));
         keyValuePairs.add(new ExtKeyValuePair(POINT, "Point", filterDisplays.contains(POINT)));
         keyValuePairs.add(new ExtKeyValuePair(GOALS, "Stat 1", filterDisplays.contains(GOALS)));
         keyValuePairs.add(new ExtKeyValuePair(ASSISTS, "Stat 2", filterDisplays.contains(ASSISTS)));

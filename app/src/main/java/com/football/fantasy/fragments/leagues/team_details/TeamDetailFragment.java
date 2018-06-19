@@ -14,6 +14,7 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.team_squad.TeamSquadFragment;
 import com.football.fantasy.fragments.leagues.team_statistics.TeamStatisticFragment;
 import com.football.models.responses.TeamResponse;
 import com.football.utilities.AppUtilities;
@@ -119,6 +120,9 @@ public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITe
             case R.id.llTransfer:
                 break;
             case R.id.llTeamSquad:
+                AloneFragmentActivity.with(this)
+                        .parameters(TeamSquadFragment.newBundle(team, team.getName()))
+                        .start(TeamSquadFragment.class);
                 break;
             case R.id.llStatistics:
                 AloneFragmentActivity.with(this)
