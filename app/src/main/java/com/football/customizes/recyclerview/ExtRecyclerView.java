@@ -11,7 +11,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -32,17 +31,17 @@ public class ExtRecyclerView<T> extends FrameLayout {
     // view
     SwipeRefreshLayout rfLayout;
     RecyclerView recyclerView;
-    View vLoading;
     ExtTextView tvMessage;
 
     private Context context;
     private DefaultAdapter<T> mAdapter;
     private EndlessScrollListener endlessScrollListener;
 
+    private int loadingLayout;
+
     // listener
     ExtLoadMoreListener onExtLoadMoreListener = null;
     ExtRefreshListener onExtRefreshListener = null;
-
 
     public ExtRecyclerView(@NonNull Context context) {
         this(context, null, 0);
@@ -113,22 +112,11 @@ public class ExtRecyclerView<T> extends FrameLayout {
         }
     }
 
-    public ExtRecyclerView init(Context context, DefaultAdapter<T> adapter) {
-        return init(context, adapter, null);
-    }
-
-    public ExtRecyclerView init(Context context, DefaultAdapter<T> adapter, final View loadingView) {
+    public ExtRecyclerView init(DefaultAdapter<T> adapter) {
         try {
             this.mAdapter = adapter;
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false));
             recyclerView.setAdapter(mAdapter);
-
-            // loading view
-            if (loadingView != null) {
-                vLoading = loadingView;
-            } else {
-                vLoading = LayoutInflater.from(context).inflate(R.layout.paging_item_loading, null);
-            }
 
             endlessScrollListener = new EndlessScrollListener(recyclerView.getLayoutManager()) {
                 @Override
@@ -149,6 +137,25 @@ public class ExtRecyclerView<T> extends FrameLayout {
         return this;
     }
 
+    public ExtRecyclerView loadMoreListener(ExtLoadMoreListener onExtLoadMoreListener) {
+        this.onExtLoadMoreListener = onExtLoadMoreListener;
+        return this;
+    }
+
+    public ExtRecyclerView refreshListener(ExtRefreshListener onExtRefreshListener) {
+        this.onExtRefreshListener = onExtRefreshListener;
+        return this;
+    }
+
+    public ExtRecyclerView loadingLayout(@LayoutRes int loadingLayout) {
+        this.mAdapter.setLoadingLayout(loadingLayout);
+        return this;
+    }
+
+    public void build() {
+
+    }
+
     public void displayMessage() {
         try {
             tvMessage.setVisibility(mAdapter == null || mAdapter.getItemCount() <= 0 ? VISIBLE : GONE);
@@ -159,21 +166,6 @@ public class ExtRecyclerView<T> extends FrameLayout {
 
     public void removeLoading() {
         mAdapter.removeLoading();
-    }
-
-    public ExtRecyclerView setOnExtLoadMoreListener(ExtLoadMoreListener onExtLoadMoreListener) {
-        this.onExtLoadMoreListener = onExtLoadMoreListener;
-        return this;
-    }
-
-    public ExtRecyclerView setOnExtRefreshListener(ExtRefreshListener onExtRefreshListener) {
-        this.onExtRefreshListener = onExtRefreshListener;
-        return this;
-    }
-
-    public ExtRecyclerView setLoadingLayout(@LayoutRes int loadingLayout) {
-        this.mAdapter.setLoadingLayout(loadingLayout);
-        return this;
     }
 
     public void clear() {
@@ -189,12 +181,41 @@ public class ExtRecyclerView<T> extends FrameLayout {
         rfLayout.setRefreshing(false);
     }
 
+    public void setDataSet(List<T> dataSet) {
+        mAdapter.setDataSet(dataSet);
+    }
+
+    public T getItem(int position) {
+        return mAdapter.getItem(position);
+    }
+
+    public void addItem(T item) {
+        mAdapter.addItem(item);
+
+    }
+
+    public void addItem(int index, T item) {
+        mAdapter.addItem(index, item);
+    }
+
     public void addItems(List<T> items) {
         mAdapter.addItems(items);
         displayMessage();
         if (onExtLoadMoreListener != null) {
             removeLoading();
         }
+    }
+
+    public void update(int index, T item) {
+        mAdapter.update(index, item);
+    }
+
+    public void removeItem(T item) {
+        mAdapter.removeItem(item);
+    }
+
+    public void removeItem(int indexOfItem) {
+        mAdapter.removeItem(indexOfItem);
     }
 
     public DefaultAdapter<T> getAdapter() {

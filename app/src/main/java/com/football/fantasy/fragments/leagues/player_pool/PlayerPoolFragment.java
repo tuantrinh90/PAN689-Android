@@ -71,7 +71,6 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     @BindView(R.id.option3)
     LinearLayout option3;
 
-    List<PlayerResponse> playerResponses;
     private int page = 1;
     private String filterClubs = "";
     private String filterPositions = "";
@@ -172,10 +171,9 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
         displayPairs.add(PlayerPoolDisplayFragment.OPTION_DISPLAY_DEFAULT_2);
         displayPairs.add(PlayerPoolDisplayFragment.OPTION_DISPLAY_DEFAULT_3);
 
-        playerResponses = new ArrayList<>();
         PlayerPoolAdapter adapter;
         adapter = new PlayerPoolAdapter(
-                playerResponses,
+                new ArrayList<>(),
                 player -> { // click event
                     AloneFragmentActivity.with(this)
                             .parameters(PlayerDetailFragment.newBundle(
@@ -185,14 +183,16 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                 });
         adapter.setOptions(VALUE, POINT, GOALS);
 
-        rvPlayer.init(mActivity, adapter)
-                .setOnExtRefreshListener(() -> {
+        rvPlayer.init(adapter)
+                .loadingLayout(0)
+                .refreshListener(() -> {
                     refreshData();
                 })
-                .setOnExtLoadMoreListener(() -> {
+                .loadMoreListener(() -> {
                     page++;
                     getPlayers();
-                });
+                })
+                .build();
 
         presenter.getSeasons();
     }
@@ -242,6 +242,8 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
         this.seasons = seasons;
         currentSeason = new ExtKeyValuePair(String.valueOf(seasons.get(0).getId()), seasons.get(0).getName());
         updateValue();
+
+        rvPlayer.startLoading();
         getPlayers();
     }
 
