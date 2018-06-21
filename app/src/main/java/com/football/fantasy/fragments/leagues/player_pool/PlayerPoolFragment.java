@@ -253,7 +253,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
             case R.id.filter:
                 AloneFragmentActivity.with(this)
                         .forResult(REQUEST_FILTER)
-                        .parameters(PlayerPoolFilterFragment.newBundle(filterPositions, filterClubs))
+                        .parameters(PlayerPoolFilterFragment.newBundle(filterPositions, filterClubs, false))
                         .start(PlayerPoolFilterFragment.class);
                 break;
             case R.id.display:

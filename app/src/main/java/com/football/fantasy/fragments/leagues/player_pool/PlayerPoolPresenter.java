@@ -56,7 +56,7 @@ public class PlayerPoolPresenter extends BaseDataPresenter<IPlayerPoolView> impl
                     e.printStackTrace();
                 }
                 if (sort.length() > 0) {
-                    queries.put(Constant.KEY_ORDER_BY, sort.toString());
+                    queries.put(Constant.KEY_SORT, sort.toString());
                 }
             }
 

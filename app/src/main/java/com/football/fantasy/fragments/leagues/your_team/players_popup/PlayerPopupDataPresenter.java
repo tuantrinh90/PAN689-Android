@@ -10,6 +10,10 @@ import com.football.models.responses.PlayerResponse;
 import com.football.utilities.Constant;
 import com.football.utilities.RxUtilities;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +26,7 @@ public class PlayerPopupDataPresenter extends BaseDataPresenter<IPlayerPopupView
     }
 
     @Override
-    public void getPlayers(int leagueId, String orderBy, int page, int numberPerPage, String query, Integer mainPosition) {
+    public void getPlayers(int leagueId, int valueDirection, int page, int numberPerPage, String query, Integer mainPosition) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
             queries.put(Constant.KEY_LEAGUE_ID, String.valueOf(leagueId));
@@ -30,8 +34,18 @@ public class PlayerPopupDataPresenter extends BaseDataPresenter<IPlayerPopupView
             queries.put(Constant.KEY_PAGE, String.valueOf(page));
             queries.put(Constant.KEY_PER_PAGE, String.valueOf(numberPerPage));
 
-            if (!TextUtils.isEmpty(orderBy)) {
-                queries.put(Constant.KEY_ORDER_BY, orderBy);
+            if (valueDirection != Constant.SORT_NONE) {
+                JSONArray sorts = new JSONArray();
+                try {
+                    JSONObject value = new JSONObject();
+                    value.put("property", "value");
+                    value.put("direction", valueDirection == Constant.SORT_ASC ? "asc" : "desc");
+                    sorts.put(value);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                queries.put(Constant.KEY_SORT, sorts.toString());
             }
             if (!TextUtils.isEmpty(query)) {
                 queries.put(Constant.KEY_WORD, query);

@@ -26,7 +26,7 @@ public class OpenLeagueDataPresenter extends BaseDataPresenter<IOpenLeagueView> 
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
             if (!TextUtils.isEmpty(orderBy)) {
-                queries.put(Constant.KEY_ORDER_BY, orderBy);
+                queries.put(Constant.KEY_SORT, orderBy);
             }
             queries.put(Constant.KEY_PAGE, String.valueOf(page));
             queries.put(Constant.KEY_PER_PAGE, String.valueOf(perPage));

@@ -52,7 +52,7 @@ public class PlayerListPresenter extends BaseDataPresenter<IPlayerListView> impl
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            queries.put(Constant.KEY_ORDER_BY, sort.toString());
+            queries.put(Constant.KEY_SORT, sort.toString());
 
             if (!TextUtils.isEmpty(query)) {
                 queries.put(Constant.KEY_WORD, query);

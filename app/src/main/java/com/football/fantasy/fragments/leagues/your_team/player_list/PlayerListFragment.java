@@ -205,7 +205,7 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
 
     void onClickFilter() {
         AloneFragmentActivity.with(this)
-                .parameters(PlayerPoolFilterFragment.newBundle(filterPositions, filterClubs))
+                .parameters(PlayerPoolFilterFragment.newBundle(filterPositions, filterClubs, false))
                 .start(PlayerPoolFilterFragment.class);
     }
 

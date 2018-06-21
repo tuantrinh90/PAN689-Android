@@ -12,6 +12,59 @@
         android:paddingLeft="@dimen/padding_layout"
         android:paddingRight="@dimen/padding_layout" />
 
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_layout"
+        android:background="@color/color_background_edit_text_focused"
+        android:paddingBottom="@dimen/padding_content"
+        android:paddingLeft="@dimen/padding_layout"
+        android:paddingRight="@dimen/padding_layout"
+        android:paddingTop="@dimen/padding_content"
+        app:layout_collapseMode="pin">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.bon.customview.textview.ExtTextView
+                style="@style/StyleDescriptionContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:padding="0dp"
+                android:text="@string/name_club_position"
+                android:textSize="@dimen/font_size_description"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <LinearLayout
+                android:id="@+id/sortValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical">
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleDescriptionContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="@string/value"
+                    android:textSize="@dimen/font_size_description"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+
+                <ImageView
+                    android:id="@+id/ivSortValue"
+                    android:layout_width="@dimen/fab_margin"
+                    android:layout_height="@dimen/fab_margin"
+                    android:src="@drawable/ic_sort_none" />
+
+            </LinearLayout>
+        </TableRow>
+    </TableRow>
+
     <com.football.customizes.recyclerview.ExtRecyclerView
         android:id="@+id/rvPlayer"
         android:layout_width="match_parent"

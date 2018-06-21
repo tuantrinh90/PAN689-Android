@@ -29,6 +29,7 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolFil
 
     public static final String KEY_POSITION = "POSITION";
     public static final String KEY_CLUB = "CLUB";
+    private static final String KEY_ONLY_CLUB = "ONLY_CLUB";
 
     @BindView(R.id.tvHeader)
     ExtTextView tvHeader;
@@ -44,14 +45,16 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolFil
 
     private String filterPositions;
     private String filterClubs;
+    private boolean onlyClubs;
 
     FilterAdapter filterPositionAdapter;
     FilterAdapter filterClubAdapter;
 
-    public static Bundle newBundle(String filterPositions, String filterClubs) {
+    public static Bundle newBundle(String filterPositions, String filterClubs, boolean onlyClub) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_POSITION, filterPositions);
         bundle.putString(KEY_CLUB, filterClubs);
+        bundle.putBoolean(KEY_ONLY_CLUB, onlyClub);
         return bundle;
     }
 
@@ -65,16 +68,17 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolFil
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
         getDataFromBundle();
-        initView();
+        initFilter();
         presenter.getRealClubs();
     }
 
     private void getDataFromBundle() {
         filterPositions = getArguments().getString(KEY_POSITION);
         filterClubs = getArguments().getString(KEY_CLUB);
+        onlyClubs = getArguments().getBoolean(KEY_ONLY_CLUB);
     }
 
-    void initView() {
+    void initFilter() {
         // position
         keyValuePairPositions = new ArrayList<>();
         String midfielder = String.valueOf(PlayerResponse.POSITION_MIDFIELDER);
@@ -90,8 +94,10 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolFil
         keyValuePairPositions.add(new ExtKeyValuePair(defender, getString(R.string.defender), allCheck || filterPositions.contains(defender)));
 
         filterPositionAdapter = new FilterAdapter(mActivity, keyValuePairPositions, extKeyValuePair -> {
-            extKeyValuePair.setSelected(!extKeyValuePair.isSelected());
-            filterPositionAdapter.notifyDataSetChanged(keyValuePairPositions);
+            if (!onlyClubs) {
+                extKeyValuePair.setSelected(!extKeyValuePair.isSelected());
+                filterPositionAdapter.notifyDataSetChanged(keyValuePairPositions);
+            }
         });
 
         rvFilterByPosition.setLayoutManager(new GridLayoutManager(mActivity, 2));
@@ -142,6 +148,8 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolFil
                 .position(positions)
                 .club(clubs)
                 .build());
+
+        // TODO: 6/21/2018 send to popup by tag, cần truyền vào source để bắn ngược về
 
         getActivity().finish();
     }

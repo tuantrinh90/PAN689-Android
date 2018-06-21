@@ -1,11 +1,13 @@
 package com.football.fantasy.fragments.leagues.your_team.players_popup;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.bon.customview.listview.ExtPagingListView;
 import com.football.adapters.PlayerAdapter;
@@ -16,34 +18,39 @@ import com.football.customizes.searchs.SearchView;
 import com.football.events.PlayerEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
+import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilterFragment;
 import com.football.models.responses.PlayerResponse;
+import com.football.utilities.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, IPlayerPopupPresenter<IPlayerPopupView>> implements IPlayerPopupView {
 
-    private static final String ORDER_BY_DEFAULT = "{\"transfer_value\": \"desc\"}";
-    private static final String ORDER_BY_ASC = "{\"transfer_value\": \"asc\"}";
     private static final String KEY_POSITION = "POSITION";
     private static final String KEY_INDEX = "INDEX";
     private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
 
     @BindView(R.id.svSearch)
     SearchView svSearchView;
+    @BindView(R.id.ivSortValue)
+    ImageView ivSortValue;
     @BindView(R.id.rvPlayer)
     ExtRecyclerView<PlayerResponse> rvPlayer;
 
     PlayerAdapter playerAdapter;
 
     private int leagueId = 0;
-    private String orderBy = ORDER_BY_DEFAULT;
     private int page = 1;
     private String query = "";
     private Integer mainPosition = null;
     private int index;
+
+    private int valueDirection = Constant.SORT_NONE;
+    private String filterClubs = "";
 
     public static PlayerPopupFragment newInstance() {
         return new PlayerPopupFragment();
@@ -99,8 +106,14 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
 
     void initView() {
         try {
-//            // search view
-            svSearchView.getFilter().setVisibility(View.GONE);
+            // search view
+            svSearchView.getFilter().setImageResource(R.drawable.ic_filter_list_black_24_px);
+            svSearchView.setFilerConsumer(aVoid -> {
+                AloneFragmentActivity.with(this)
+                        .forResult(100)
+                        .parameters(PlayerPoolFilterFragment.newBundle(String.valueOf(mainPosition), filterClubs, true))
+                        .start(PlayerPoolFilterFragment.class);
+            });
 
             // update hint
             svSearchView.getSearchView().setHint(R.string.search_public_players);
@@ -157,11 +170,61 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
     }
 
     private void getPlayers() {
-        presenter.getPlayers(leagueId, orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition);
+        presenter.getPlayers(leagueId, valueDirection, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition);
+    }
+
+    @OnClick(R.id.sortValue)
+    public void onSortClick() {
+        toggleSort();
+        ivSortValue.setImageResource(getArrowResource(valueDirection));
+    }
+
+    private void toggleSort() {
+        page = 1;
+        rvPlayer.clear();
+        rvPlayer.startLoading();
+        switch (valueDirection) {
+            case Constant.SORT_NONE:
+                valueDirection = Constant.SORT_DESC;
+                break;
+            case Constant.SORT_DESC:
+                valueDirection = Constant.SORT_ASC;
+                break;
+            case Constant.SORT_ASC:
+                valueDirection = Constant.SORT_DESC;
+                break;
+        }
+
+        refresh();
+    }
+
+    private int getArrowResource(int state) {
+        switch (state) {
+            case Constant.SORT_NONE:
+                return R.drawable.ic_sort_none;
+
+            case Constant.SORT_DESC:
+                return R.drawable.ic_sort_desc;
+
+            case Constant.SORT_ASC:
+                return R.drawable.ic_sort_asc;
+        }
+        return R.drawable.ic_sort_none;
+    }
+
+    private void refresh() {
+        rvPlayer.clear();
+        rvPlayer.startLoading();
+        getPlayers();
     }
 
     @Override
     public void displayPlayers(List<PlayerResponse> data) {
         rvPlayer.addItems(data);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
