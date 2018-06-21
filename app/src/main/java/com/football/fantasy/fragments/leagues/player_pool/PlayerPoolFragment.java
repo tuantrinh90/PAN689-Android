@@ -12,12 +12,12 @@ import android.widget.LinearLayout;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
-import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
-import com.football.adapters.PlayerPoolItemAdapter;
+import com.football.adapters.PlayerPoolAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.customizes.searchs.SearchView;
 import com.football.events.PlayerQueryEvent;
 import com.football.fantasy.R;
@@ -48,8 +48,10 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     ExtTextView tvSeason;
     @BindView(R.id.svSearch)
     SearchView svSearch;
-    @BindView(R.id.lvData)
-    ExtPagingListView lvData;
+    //    @BindView(R.id.lvData)
+//    ExtPagingListView lvData;
+    @BindView(R.id.rvPlayer)
+    ExtRecyclerView<PlayerResponse> rvPlayer;
     @BindView(R.id.tvOption1)
     ExtTextView tvOption1;
     @BindView(R.id.tvOption2)
@@ -70,7 +72,6 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     LinearLayout option3;
 
     List<PlayerResponse> playerResponses;
-    PlayerPoolItemAdapter playerPoolItemAdapter;
     private int page = 1;
     private String filterClubs = "";
     private String filterPositions = "";
@@ -110,14 +111,13 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                                 filterPositions = event.getPosition();
 
                                 // get items
-                                lvData.clearItems();
-                                lvData.startLoading();
+                                rvPlayer.clear();
+                                rvPlayer.startLoading();
                                 getPlayers();
                             } else if (event.getTag() == PlayerQueryEvent.TAG_DISPLAY) {
                                 displayPairs = event.getDisplays();
 
                                 displayDisplay();
-                                playerPoolItemAdapter.notifyDataSetChanged();
                             }
 
                         }
@@ -139,7 +139,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     }
 
     private void displayDisplay() {
-        playerPoolItemAdapter.setOptions(
+        ((PlayerPoolAdapter) rvPlayer.getAdapter()).setOptions(
                 displayPairs.size() > 0 ? displayPairs.get(0).getKey() : "",
                 displayPairs.size() > 1 ? displayPairs.get(1).getKey() : "",
                 displayPairs.size() > 2 ? displayPairs.get(2).getKey() : "");
@@ -157,6 +157,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
             tvOption3.setText(displayPairs.get(2).getValue());
         }
         option3.setVisibility(displayPairs.size() > 2 ? View.VISIBLE : View.INVISIBLE);
+        rvPlayer.notifyDataSetChanged();
     }
 
     void initView() {
@@ -172,8 +173,8 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
         displayPairs.add(PlayerPoolDisplayFragment.OPTION_DISPLAY_DEFAULT_3);
 
         playerResponses = new ArrayList<>();
-        playerPoolItemAdapter = new PlayerPoolItemAdapter(
-                mActivity,
+        PlayerPoolAdapter adapter;
+        adapter = new PlayerPoolAdapter(
                 playerResponses,
                 player -> { // click event
                     AloneFragmentActivity.with(this)
@@ -182,8 +183,9 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                                     getString(R.string.player_pool)))
                             .start(PlayerDetailFragment.class);
                 });
-        playerPoolItemAdapter.setOptions(VALUE, POINT, GOALS);
-        lvData.init(mActivity, playerPoolItemAdapter)
+        adapter.setOptions(VALUE, POINT, GOALS);
+
+        rvPlayer.init(mActivity, adapter)
                 .setOnExtRefreshListener(() -> {
                     refreshData();
                 })
@@ -192,23 +194,22 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                     getPlayers();
                 });
 
-        lvData.startLoading();
-
         presenter.getSeasons();
     }
 
     private void refreshData() {
         page = 1;
-        lvData.clearItems();
-        lvData.startLoading();
+        rvPlayer.clear();
+        rvPlayer.startLoading();
         getPlayers();
     }
 
     private void getPlayers() {
         if (currentSeason == null) {
             showMessage(getString(R.string.message_season_not_found));
+            rvPlayer.startLoading();
         } else {
-            lvData.setMessage(getString(R.string.loading));
+//            lvData.setMessage(getString(R.string.loading));
             presenter.getPlayers(currentSeason.getKey(), filterPositions, filterClubs, displayPairs, sorts, page);
         }
     }
@@ -232,9 +233,8 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
 
     @Override
     public void displayPlayers(List<PlayerResponse> players) {
-        Optional.from(lvData).doIfPresent(rv -> {
-            rv.addNewItems(players);
-        });
+        rvPlayer.addItems(players);
+        rvPlayer.stopLoading();
     }
 
     @Override
@@ -287,8 +287,8 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
 
     private void toggleSort(int index) {
         page = 1;
-        lvData.clearItems();
-        lvData.startLoading();
+        rvPlayer.startLoading();
+        rvPlayer.clear();
         switch (sorts[index]) {
             case Constant.SORT_NONE:
                 sorts[index] = Constant.SORT_DESC;
@@ -345,12 +345,12 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
 
     @Override
     public void showLoadingPagingListView(boolean isLoading) {
-        Optional.from(lvData).doIfPresent(l -> {
-            if (isLoading) {
-                l.startLoading(true);
-            } else {
-                l.stopLoading(true);
-            }
-        });
+//        Optional.from(lvData).doIfPresent(l -> {
+//            if (isLoading) {
+//                l.startLoading(true);
+//            } else {
+//                l.stopLoading(true);
+//            }
+//        });
     }
 }
