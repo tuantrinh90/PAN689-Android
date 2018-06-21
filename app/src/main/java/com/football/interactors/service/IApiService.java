@@ -15,6 +15,8 @@ import com.football.models.responses.PropsPlayerResponse;
 import com.football.models.responses.RealClubResponse;
 import com.football.models.responses.SeasonResponse;
 import com.football.models.responses.StopResponse;
+import com.football.models.responses.TeamLineupResponse;
+import com.football.models.responses.TeamPitchViewResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.models.responses.TeamSquadResponse;
 import com.football.models.responses.TeamStatisticResponse;
@@ -82,6 +84,12 @@ public interface IApiService {
     @GET(ServiceConfig.TEAM_STATISTIC)
     Observable<BaseResponse<TeamStatisticResponse>> getTeamStatistic(@Path(ServiceConfig.KEY_ID) int teamId);
 
+    @GET(ServiceConfig.TEAM_LINEUP)
+    Observable<BaseResponse<TeamLineupResponse>> getTeamLineup(@Path(ServiceConfig.KEY_ID) int teamId);
+
+    @GET(ServiceConfig.TEAM_PITCH_VIEW)
+    Observable<BaseResponse<TeamPitchViewResponse>> getPitchView(@Path(ServiceConfig.KEY_ID) int teamId, @QueryMap Map<String, String> queries);
+
     @POST(ServiceConfig.REMOVE_TEAM)
     Observable<BaseResponse<Object>> removeTeam(@Path(ServiceConfig.KEY_ID) int leagueId, @Path(ServiceConfig.KEY_TEAM_ID) int teamId);
 
@@ -143,4 +151,5 @@ public interface IApiService {
 
     @GET(ServiceConfig.PLAYERS_STATISTIC)
     Observable<BaseResponse<PlayerStatisticResponse>> getPlayerStatistic(@Path(ServiceConfig.KEY_ID) Integer playerId, @Query("filter") String filter);
+
 }

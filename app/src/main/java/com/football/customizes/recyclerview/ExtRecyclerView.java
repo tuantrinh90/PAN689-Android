@@ -44,6 +44,7 @@ public class ExtRecyclerView<T> extends FrameLayout {
     private ExtLoadMoreListener onExtLoadMoreListener = null;
     private ExtRefreshListener onExtRefreshListener = null;
     private RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false);
+    private boolean autoMeasureEnable;
 
     public ExtRecyclerView(@NonNull Context context) {
         this(context, null, 0);
@@ -119,6 +120,11 @@ public class ExtRecyclerView<T> extends FrameLayout {
         return this;
     }
 
+    public ExtRecyclerView autoMeasureEnable(boolean enable) {
+        this.autoMeasureEnable = enable;
+        return this;
+    }
+
     public ExtRecyclerView layoutManager(RecyclerView.LayoutManager layoutManager) {
         this.layoutManager = layoutManager;
         return this;
@@ -140,9 +146,11 @@ public class ExtRecyclerView<T> extends FrameLayout {
     }
 
     public void build() {
+        layoutManager.setAutoMeasureEnabled(autoMeasureEnable);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setLoadingLayout(loadingLayout);
+
 
         endlessScrollListener = new EndlessScrollListener(recyclerView.getLayoutManager()) {
             @Override

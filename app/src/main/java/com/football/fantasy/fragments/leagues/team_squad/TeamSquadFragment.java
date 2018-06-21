@@ -107,9 +107,6 @@ public class TeamSquadFragment extends BaseMainMvpFragment<ITeamSquadView, ITeam
     }
 
     void initView() {
-        Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.colorPrimary)));
-        Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white)));
-
         teamSquadAdapter = new TeamSquadAdapter(mActivity, new ArrayList<>());
         lvData.init(mActivity, teamSquadAdapter)
                 .setOnExtRefreshListener(() -> {
