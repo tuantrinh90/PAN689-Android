@@ -6,8 +6,8 @@
     android:orientation="vertical"
     android:padding="@dimen/padding_layout">
 
-    <com.bon.customview.listview.ExtPagingListView
-        android:id="@+id/rvRecyclerView"
+    <com.football.customizes.recyclerview.ExtRecyclerView
+        android:id="@+id/rv_league"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/padding_layout"

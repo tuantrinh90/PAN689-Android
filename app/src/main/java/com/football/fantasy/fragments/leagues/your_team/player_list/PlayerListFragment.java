@@ -223,7 +223,6 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
             rvPlayer.clear();
         }
         rvPlayer.addItems(data);
-        rvPlayer.stopLoading();
     }
 
     @Override

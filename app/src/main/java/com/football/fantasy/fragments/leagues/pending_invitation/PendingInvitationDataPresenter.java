@@ -37,12 +37,12 @@ public class PendingInvitationDataPresenter extends BaseDataPresenter<IPendingIn
 
                         @Override
                         public void onSuccess(PagingResponse<LeagueResponse> pagingResponse) {
-                            v.notifyDataSetChanged(pagingResponse.getData());
+                            v.displayLeagues(pagingResponse.getData());
                         }
 
                         @Override
                         public void onError(String error) {
-                            v.notifyDataSetChanged(null);
+                            v.displayLeagues(null);
                             v.showMessage(error, R.string.ok, null);
                         }
                     }));

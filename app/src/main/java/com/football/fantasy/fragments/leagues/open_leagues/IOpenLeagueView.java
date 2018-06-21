@@ -6,7 +6,7 @@ import com.football.models.responses.LeagueResponse;
 import java.util.List;
 
 public interface IOpenLeagueView extends IBaseMvpView {
-    void notifyDataSetChangedLeagues(List<LeagueResponse> its);
+    void displayLeagues(List<LeagueResponse> its);
 
     void refreshData(Integer leagueId);
 

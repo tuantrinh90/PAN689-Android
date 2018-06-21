@@ -1,17 +1,17 @@
 package com.football.adapters;
 
-import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
 
-import com.bon.customview.listview.ExtBaseAdapter;
-import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.football.customizes.images.CircleImageViewApp;
+import com.football.customizes.recyclerview.DefaultAdapter;
+import com.football.customizes.recyclerview.DefaultHolder;
 import com.football.fantasy.R;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.UserResponse;
@@ -21,42 +21,43 @@ import com.jakewharton.rxbinding2.view.RxView;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import java8.util.function.Consumer;
 
-public class LeaguesAdapter extends ExtBaseAdapter<LeagueResponse, LeaguesAdapter.ViewHolder> {
+public class LeaguesAdapter extends DefaultAdapter<LeagueResponse> {
     public static final int OPEN_LEAGUES = 1, MY_LEAGUES = 2, PENDING_INVITATIONS = 3;
 
     private int leagueType;
-    private Consumer<LeagueResponse> detailConsumer;
-    private Consumer<LeagueResponse> approveConsumer;
-    private Consumer<LeagueResponse> rejectConsumer;
-    private Consumer<LeagueResponse> joinConsumer;
+    private Consumer<LeagueResponse> clickCallback;
+    private Consumer<LeagueResponse> approveCallback;
+    private Consumer<LeagueResponse> rejectCallback;
+    private Consumer<LeagueResponse> joinCallback;
 
-    public LeaguesAdapter(Context context, int leagueType, List<LeagueResponse> leagueResponses, Consumer<LeagueResponse> detailConsumer,
-                          Consumer<LeagueResponse> approveConsumer,
-                          Consumer<LeagueResponse> rejectConsumer,
-                          Consumer<LeagueResponse> joinConsumer) {
-        super(context, leagueResponses);
+    public LeaguesAdapter(int leagueType, List<LeagueResponse> leagueResponses, Consumer<LeagueResponse> clickCallback,
+                          Consumer<LeagueResponse> approveCallback,
+                          Consumer<LeagueResponse> rejectCallback,
+                          Consumer<LeagueResponse> joinCallback) {
+        super(leagueResponses);
         this.leagueType = leagueType;
-        this.detailConsumer = detailConsumer;
-        this.approveConsumer = approveConsumer;
-        this.rejectConsumer = rejectConsumer;
-        this.joinConsumer = joinConsumer;
+        this.clickCallback = clickCallback;
+        this.approveCallback = approveCallback;
+        this.rejectCallback = rejectCallback;
+        this.joinCallback = joinCallback;
     }
 
     @Override
-    protected int getViewId() {
+    protected int getLayoutId(int viewType) {
         return R.layout.league_item;
     }
 
     @Override
-    protected ViewHolder onCreateViewHolder(View view) {
-        return new ViewHolder(view);
+    protected DefaultHolder onCreateHolder(View v, int viewType) {
+        return new ViewHolder(v);
     }
 
     @Override
-    protected void onBindViewHolder(ViewHolder holder, LeagueResponse league) {
+    protected void onBindViewHolder(@NonNull DefaultHolder defaultHolder, LeagueResponse league, int position) {
+        ViewHolder holder = (ViewHolder) defaultHolder;
+
         holder.ivAvatar.setImageUri(league.getLogo());
         holder.tvTitle.setText(league.getName());
         try {
@@ -66,7 +67,7 @@ public class LeaguesAdapter extends ExtBaseAdapter<LeagueResponse, LeaguesAdapte
         }
         holder.tvEntrantNumber.setText(String.valueOf(league.getCurrentNumberOfUser()));
         holder.tvEntrantTotal.setText(String.valueOf(league.getNumberOfUser()));
-        holder.tvDescription.setText(league.getDescriptionText(context));
+        holder.tvDescription.setText(league.getDescriptionText(holder.itemView.getContext()));
 
         // hide up/down
         holder.ivUpOrDown.setVisibility(View.GONE);
@@ -98,13 +99,13 @@ public class LeaguesAdapter extends ExtBaseAdapter<LeagueResponse, LeaguesAdapte
         holder.tvJoin.setVisibility(leagueType == OPEN_LEAGUES && league.getCurrentNumberOfUser() < league.getNumberOfUser() ? View.VISIBLE : View.GONE);
 
         // event
-        RxView.clicks(holder.itemView).subscribe(v -> Optional.from(detailConsumer).doIfPresent(c -> c.accept(league)));
-        RxView.clicks(holder.tvJoin).subscribe(v -> Optional.from(joinConsumer).doIfPresent(c -> c.accept(league)));
-        RxView.clicks(holder.tvCheck).subscribe(v -> Optional.from(approveConsumer).doIfPresent(c -> c.accept(league)));
-        RxView.clicks(holder.tvClose).subscribe(v -> Optional.from(rejectConsumer).doIfPresent(c -> c.accept(league)));
+        RxView.clicks(holder.itemView).subscribe(v -> Optional.from(clickCallback).doIfPresent(c -> c.accept(league)));
+        RxView.clicks(holder.tvJoin).subscribe(v -> Optional.from(joinCallback).doIfPresent(c -> c.accept(league)));
+        RxView.clicks(holder.tvCheck).subscribe(v -> Optional.from(approveCallback).doIfPresent(c -> c.accept(league)));
+        RxView.clicks(holder.tvClose).subscribe(v -> Optional.from(rejectCallback).doIfPresent(c -> c.accept(league)));
     }
 
-    static class ViewHolder extends ExtPagingListView.ExtViewHolder {
+    static class ViewHolder extends DefaultHolder {
         @BindView(R.id.ivAvatar)
         CircleImageViewApp ivAvatar;
         @BindView(R.id.tvTitle)
@@ -142,7 +143,6 @@ public class LeaguesAdapter extends ExtBaseAdapter<LeagueResponse, LeaguesAdapte
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
         }
     }
 }

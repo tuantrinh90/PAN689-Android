@@ -51,12 +51,12 @@ public class OpenLeagueDataPresenter extends BaseDataPresenter<IOpenLeagueView> 
 
                         @Override
                         public void onSuccess(PagingResponse<LeagueResponse> leagueResponsePagingResponse) {
-                            v.notifyDataSetChangedLeagues(leagueResponsePagingResponse.getData());
+                            v.displayLeagues(leagueResponsePagingResponse.getData());
                         }
 
                         @Override
                         public void onError(String error) {
-                            v.notifyDataSetChangedLeagues(null);
+                            v.displayLeagues(null);
                             v.showMessage(error);
                         }
                     }));

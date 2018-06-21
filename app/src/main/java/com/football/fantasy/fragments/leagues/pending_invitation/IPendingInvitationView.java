@@ -6,7 +6,7 @@ import com.football.models.responses.LeagueResponse;
 import java.util.List;
 
 public interface IPendingInvitationView extends IBaseMvpView {
-    void notifyDataSetChanged(List<LeagueResponse> its);
+    void displayLeagues(List<LeagueResponse> its);
 
     void removeItem(LeagueResponse leagueResponse);
 

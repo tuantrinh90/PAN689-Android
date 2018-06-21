@@ -48,8 +48,6 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     ExtTextView tvSeason;
     @BindView(R.id.svSearch)
     SearchView svSearch;
-    //    @BindView(R.id.lvData)
-//    ExtPagingListView lvData;
     @BindView(R.id.rvPlayer)
     ExtRecyclerView<PlayerResponse> rvPlayer;
     @BindView(R.id.tvOption1)
@@ -234,7 +232,6 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     @Override
     public void displayPlayers(List<PlayerResponse> players) {
         rvPlayer.addItems(players);
-        rvPlayer.stopLoading();
     }
 
     @Override

@@ -6,11 +6,11 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.bon.customview.listview.ExtPagingListView;
-import com.bon.interfaces.Optional;
 import com.bon.logger.Logger;
 import com.football.adapters.LeaguesAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.events.LeagueEvent;
 import com.football.events.StopLeagueEvent;
 import com.football.fantasy.R;
@@ -19,6 +19,7 @@ import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragmen
 import com.football.models.responses.LeagueResponse;
 import com.football.utilities.Constant;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -33,13 +34,12 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
         return new PendingInvitationFragment();
     }
 
-    @BindView(R.id.rvRecyclerView)
-    ExtPagingListView rvRecyclerView;
+    @BindView(R.id.rv_pending)
+    ExtRecyclerView<LeagueResponse> rvLeague;
 
     private boolean initialized = false;
 
-    List<LeagueResponse> leagueResponses;
-    LeaguesAdapter leaguesAdapter;
+    LeaguesAdapter mAdapter;
 
     int page = 1;
 
@@ -72,7 +72,8 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
                 public void onNext(LeagueEvent leagueEvent) {
                     try {
                         page = 1;
-                        rvRecyclerView.clearItems();
+                        rvLeague.clear();
+                        rvLeague.startLoading();
                         getPendingList();
                     } catch (Exception e) {
                         Logger.e(TAG, e);
@@ -96,10 +97,11 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
                         @Override
                         public void onNext(StopLeagueEvent stopLeagueEvent) {
                             try {
-                                List<LeagueResponse> leagueResponses = leaguesAdapter.getItems();
-                                if (leagueResponses != null && leagueResponses.size() > 0) {
-                                    leagueResponses = StreamSupport.stream(leagueResponses).filter(n -> n.getId() != stopLeagueEvent.getLeagueId()).collect(Collectors.toList());
-                                    rvRecyclerView.notifyDataSetChanged(leagueResponses);
+                                List<LeagueResponse> leagues = mAdapter.getDataSet();
+                                if (leagues != null && leagues.size() > 0) {
+                                    leagues = StreamSupport.stream(leagues).filter(n -> n.getId() != stopLeagueEvent.getLeagueId()).collect(Collectors.toList());
+                                    rvLeague.clear();
+                                    rvLeague.addItems(leagues);
                                 }
                             } catch (Exception e) {
                                 Logger.e(TAG, e);
@@ -124,34 +126,36 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
     void initView() {
         try {
             // leagueResponses
-            leaguesAdapter = new LeaguesAdapter(mActivity, LeaguesAdapter.PENDING_INVITATIONS, leagueResponses, details -> {
-                AloneFragmentActivity.with(this)
-                        .parameters(LeagueDetailFragment.newBundle(getString(R.string.pending_invitation), details.getId(), LeagueDetailFragment.PENDING_LEAGUES))
-                        .start(LeagueDetailFragment.class);
-            }, approve -> {
-                presenter.invitationDecisions(approve, Constant.KEY_INVITATION_ACCEPT);
-            }, reject -> {
-                presenter.invitationDecisions(reject, Constant.KEY_INVITATION_DECLINE);
-            }, null);
+            mAdapter = new LeaguesAdapter(
+                    LeaguesAdapter.PENDING_INVITATIONS,
+                    new ArrayList<>(),
+                    details -> {
+                        AloneFragmentActivity.with(this)
+                                .parameters(LeagueDetailFragment.newBundle(getString(R.string.pending_invitation), details.getId(), LeagueDetailFragment.PENDING_LEAGUES))
+                                .start(LeagueDetailFragment.class);
+                    },
+                    approve -> {
+                        presenter.invitationDecisions(approve, Constant.KEY_INVITATION_ACCEPT);
+                    },
+                    reject -> {
+                        presenter.invitationDecisions(reject, Constant.KEY_INVITATION_DECLINE);
+                    },
+                    null);
 
-            rvRecyclerView.init(mActivity, leaguesAdapter)
-                    .setOnExtRefreshListener(() -> {
-                        try {
-                            rvRecyclerView.clearItems();
-                            page = 1;
-                            getPendingList();
-                        } catch (Exception e) {
-                            Logger.e(TAG, e);
-                        }
+            rvLeague.
+                    adapter(mAdapter)
+                    .refreshListener(() -> {
+                        rvLeague.clear();
+                        rvLeague.startLoading();
+                        page = 1;
+                        getPendingList();
                     })
-                    .setOnExtLoadMoreListener(() -> {
-                        try {
-                            page++;
-                            getPendingList();
-                        } catch (Exception e) {
-                            Logger.e(TAG, e);
-                        }
-                    });
+                    .loadMoreListener(() -> {
+                        page++;
+                        getPendingList();
+                    })
+                    .build();
+            rvLeague.startLoading();
             getPendingList();
         } catch (Exception e) {
             Logger.e(TAG, e);
@@ -159,7 +163,6 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
     }
 
     private void getPendingList() {
-        rvRecyclerView.setMessage(getString(R.string.loading));
         presenter.getPendingInvitations(page, ExtPagingListView.NUMBER_PER_PAGE);
     }
 
@@ -171,31 +174,16 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
 
     @Override
     public void showLoadingPagingListView(boolean isLoading) {
-        Optional.from(rvRecyclerView).doIfPresent(rv -> {
-            if (isLoading) {
-                rv.startLoading(true);
-            } else {
-                rv.stopLoading(true);
-            }
-        });
     }
 
     @Override
-    public void notifyDataSetChanged(List<LeagueResponse> its) {
-        try {
-            Optional.from(rvRecyclerView).doIfPresent(rv -> rv.addNewItems(its));
-        } catch (Exception e) {
-            Logger.e(TAG, e);
-        }
+    public void displayLeagues(List<LeagueResponse> its) {
+        rvLeague.addItems(its);
     }
 
     @Override
-    public void removeItem(LeagueResponse leagueResponse) {
-        try {
-            Optional.from(rvRecyclerView).doIfPresent(rv -> rv.removeItem(leagueResponse));
-        } catch (Exception e) {
-            Logger.e(TAG, e);
-        }
+    public void removeItem(LeagueResponse league) {
+        rvLeague.removeItem(league);
     }
 
     @Override

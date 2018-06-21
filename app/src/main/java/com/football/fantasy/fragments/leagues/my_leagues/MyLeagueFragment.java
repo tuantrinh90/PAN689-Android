@@ -13,12 +13,14 @@ import com.bon.logger.Logger;
 import com.football.adapters.LeaguesAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.events.LeagueEvent;
 import com.football.events.StopLeagueEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.responses.LeagueResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -33,13 +35,12 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
         return new MyLeagueFragment();
     }
 
-    @BindView(R.id.rvRecyclerView)
-    ExtPagingListView rvRecyclerView;
+    @BindView(R.id.rv_league)
+    ExtRecyclerView<LeagueResponse> rvLeague;
 
     private boolean initialized = false;
 
-    List<LeagueResponse> leagueResponses;
-    LeaguesAdapter leaguesAdapter;
+    LeaguesAdapter mAdapter;
 
     int page = 1;
 
@@ -73,7 +74,8 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
                     try {
                         Log.e("LeagueEvent", "LeagueEvent");
                         page = 1;
-                        rvRecyclerView.clearItems();
+                        rvLeague.clear();
+                        rvLeague.startLoading();
                         getMyLeagues();
                     } catch (Exception e) {
                         Logger.e(TAG, e);
@@ -97,10 +99,11 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
                         @Override
                         public void onNext(StopLeagueEvent stopLeagueEvent) {
                             try {
-                                List<LeagueResponse> leagueResponses = leaguesAdapter.getItems();
-                                if (leagueResponses != null && leagueResponses.size() > 0) {
-                                    leagueResponses = StreamSupport.stream(leagueResponses).filter(n -> n.getId() != stopLeagueEvent.getLeagueId()).collect(Collectors.toList());
-                                    rvRecyclerView.notifyDataSetChanged(leagueResponses);
+                                List<LeagueResponse> leagues = mAdapter.getDataSet();
+                                if (leagues != null && leagues.size() > 0) {
+                                    leagues = StreamSupport.stream(leagues).filter(n -> n.getId() != stopLeagueEvent.getLeagueId()).collect(Collectors.toList());
+                                    rvLeague.clear();
+                                    rvLeague.addItems(leagues);
                                 }
                             } catch (Exception e) {
                                 Logger.e(TAG, e);
@@ -123,7 +126,6 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
     }
 
     private void getMyLeagues() {
-        rvRecyclerView.setMessage(getString(R.string.loading));
         presenter.getMyLeagues(page, ExtPagingListView.NUMBER_PER_PAGE);
     }
 
@@ -133,31 +135,32 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
 
         try {
             // leagueResponses
-            leaguesAdapter = new LeaguesAdapter(mActivity, LeaguesAdapter.MY_LEAGUES, leagueResponses, details -> {
-                AloneFragmentActivity.with(this)
-                        .parameters(LeagueDetailFragment.newBundle(getString(R.string.my_leagues), details.getId(), LeagueDetailFragment.MY_LEAGUES))
-                        .start(LeagueDetailFragment.class);
-            }, null, null, null);
-            rvRecyclerView.init(mActivity, leaguesAdapter)
-                    .setOnExtRefreshListener(() -> {
-                        try {
-                            page = 1;
-                            rvRecyclerView.clearItems();
-                            getMyLeagues();
-                        } catch (Exception e) {
-                            Logger.e(TAG, e);
-                        }
+            mAdapter = new LeaguesAdapter(
+                    LeaguesAdapter.MY_LEAGUES,
+                    new ArrayList<>(),
+                    details -> {
+                        AloneFragmentActivity.with(this)
+                                .parameters(LeagueDetailFragment.newBundle(getString(R.string.my_leagues), details.getId(), LeagueDetailFragment.MY_LEAGUES))
+                                .start(LeagueDetailFragment.class);
+                    },
+                    null,
+                    null,
+                    null);
+            rvLeague.
+                    adapter(mAdapter)
+                    .refreshListener(() -> {
+                        rvLeague.clear();
+                        rvLeague.startLoading();
+                        page = 1;
+                        getMyLeagues();
                     })
-                    .setOnExtLoadMoreListener(() -> {
-                        try {
-                            page++;
-                            getMyLeagues();
-                        } catch (Exception e) {
-                            Logger.e(TAG, e);
-                        }
-                    });
-
+                    .loadMoreListener(() -> {
+                        page++;
+                        getMyLeagues();
+                    })
+                    .build();
             // load data
+            rvLeague.startLoading();
             getMyLeagues();
         } catch (Exception e) {
             Logger.e(TAG, e);
@@ -171,18 +174,11 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
     }
 
     @Override
-    public void notifyDataSetChangedLeagues(List<LeagueResponse> its) {
-        Optional.from(rvRecyclerView).doIfPresent(rv -> rv.addNewItems(its));
+    public void displayLeagues(List<LeagueResponse> its) {
+        rvLeague.addItems(its);
     }
 
     @Override
     public void showLoadingPagingListView(boolean isLoading) {
-        Optional.from(rvRecyclerView).doIfPresent(rv -> {
-            if (isLoading) {
-                rv.startLoading(true);
-            } else {
-                rv.stopLoading(true);
-            }
-        });
     }
 }
