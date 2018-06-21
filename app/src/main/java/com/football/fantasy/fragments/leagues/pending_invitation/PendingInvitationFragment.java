@@ -36,6 +36,8 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
     @BindView(R.id.rvRecyclerView)
     ExtPagingListView rvRecyclerView;
 
+    private boolean initialized = false;
+
     List<LeagueResponse> leagueResponses;
     LeaguesAdapter leaguesAdapter;
 
@@ -50,8 +52,16 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
-        initView();
-        registerEvent();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && !initialized) {
+            initialized = true;
+            initView();
+            registerEvent();
+        }
     }
 
     void registerEvent() {

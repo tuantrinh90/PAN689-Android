@@ -37,6 +37,7 @@ public class LeagueFragment extends BaseMainMvpFragment<ILeagueView, ILeaguePres
     @BindView(R.id.vpViewPager)
     ViewPager vpViewPager;
 
+    private boolean initialized = false;
     LeagueViewPagerAdapter leagueViewPagerAdapter;
 
     @Override
@@ -48,7 +49,15 @@ public class LeagueFragment extends BaseMainMvpFragment<ILeagueView, ILeaguePres
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
-        initView();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && !initialized) {
+            initialized = true;
+            initView();
+        }
     }
 
     void initView() {
@@ -69,6 +78,7 @@ public class LeagueFragment extends BaseMainMvpFragment<ILeagueView, ILeaguePres
                 add(MyLeagueFragment.newInstance());
                 add(PendingInvitationFragment.newInstance());
             }});
+            vpViewPager.setOffscreenPageLimit(3);
             vpViewPager.setAdapter(leagueViewPagerAdapter);
             vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override

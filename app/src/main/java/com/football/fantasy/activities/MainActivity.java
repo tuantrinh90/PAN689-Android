@@ -3,13 +3,14 @@ package com.football.fantasy.activities;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
 import com.bon.util.ActivityUtils;
 import com.bon.util.DialogUtils;
+import com.football.adapters.PagerAdapter;
 import com.football.common.activities.BaseAppCompatActivity;
-import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.footers.FooterItem;
 import com.football.events.UnauthorizedEvent;
 import com.football.fantasy.R;
@@ -18,14 +19,12 @@ import com.football.fantasy.fragments.leagues.LeagueFragment;
 import com.football.fantasy.fragments.match_up.MatchUpFragment;
 import com.football.fantasy.fragments.more.MoreFragment;
 import com.football.fantasy.fragments.notification.NotificationFragment;
-import com.football.utilities.FragmentUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 
 public class MainActivity extends BaseAppCompatActivity {
-    static final String TAG = MainActivity.class.getSimpleName();
 
     public static final int HOME = 0;
     public static final int LEAGUES = 1;
@@ -48,9 +47,11 @@ public class MainActivity extends BaseAppCompatActivity {
     @BindView(R.id.footerMore)
     FooterItem footerMore;
 
+    @BindView(R.id.viewpager)
+    ViewPager viewPager;
+
     // current tab
     int currentTab = HOME;
-    BaseMvpFragment fragment = null;
 
     @Override
     protected int getContentViewId() {
@@ -61,8 +62,36 @@ public class MainActivity extends BaseAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setSupportActionBar(toolbar);
+        initViewPager();
         initFragmentDefault();
         initRxBus();
+    }
+
+    private void initViewPager() {
+        PagerAdapter mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        mPagerAdapter.addFragment(HomeFragment.newInstance());
+        mPagerAdapter.addFragment(LeagueFragment.newInstance());
+        mPagerAdapter.addFragment(MatchUpFragment.newInstance());
+        mPagerAdapter.addFragment(NotificationFragment.newInstance());
+        mPagerAdapter.addFragment(MoreFragment.newInstance());
+        viewPager.setAdapter(mPagerAdapter);
+        viewPager.setOffscreenPageLimit(5);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                onClickFooter(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     void initRxBus() {
@@ -112,7 +141,7 @@ public class MainActivity extends BaseAppCompatActivity {
 
     @Override
     public void initFragmentDefault() {
-        onClickFooter(currentTab);
+        footerHome.setActiveMode(this, true);
     }
 
     @OnClick(R.id.footerHome)
@@ -142,13 +171,8 @@ public class MainActivity extends BaseAppCompatActivity {
 
     public void onClickFooter(int tabActive) {
         // does not click current tab
-        if (fragment != null) {
-            if (tabActive == HOME && fragment instanceof HomeFragment) return;
-            if (tabActive == LEAGUES && fragment instanceof LeagueFragment) return;
-            if (tabActive == MATCH_UP && fragment instanceof MatchUpFragment) return;
-            if (tabActive == NOTIFICATION && fragment instanceof NotificationFragment) return;
-            if (tabActive == MORE && fragment instanceof MoreFragment) return;
-        }
+        if (tabActive == currentTab) return;
+        currentTab = tabActive;
 
         // clear state
         footerHome.setActiveMode(this, tabActive == HOME);
@@ -158,26 +182,6 @@ public class MainActivity extends BaseAppCompatActivity {
         footerMore.setActiveMode(this, tabActive == MORE);
 
         // active tab
-        switch (tabActive) {
-            case HOME:
-                fragment = HomeFragment.newInstance();
-                break;
-            case LEAGUES:
-                fragment = LeagueFragment.newInstance();
-                break;
-            case MATCH_UP:
-                fragment = MatchUpFragment.newInstance();
-                break;
-            case NOTIFICATION:
-                fragment = NotificationFragment.newInstance();
-                break;
-            case MORE:
-                fragment = MoreFragment.newInstance();
-                break;
-        }
-
-        // current tab
-        FragmentUtils.replaceFragment(this, fragment);
-        fragments.clear();
+        viewPager.setCurrentItem(currentTab);
     }
 }
