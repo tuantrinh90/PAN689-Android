@@ -14,8 +14,7 @@ import java.util.List;
  * Created by toannx
  */
 
-public abstract class DefaultAdapter<T> extends RecyclerView.Adapter<DefaultHolder<T>>
-        implements DefaultHolder.OnHolderClickListener {
+public abstract class DefaultAdapter<T> extends RecyclerView.Adapter<DefaultHolder> {
 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_LOADING = 1;
@@ -27,9 +26,11 @@ public abstract class DefaultAdapter<T> extends RecyclerView.Adapter<DefaultHold
         this.mDataSet = dataSet;
     }
 
-    protected abstract DefaultHolder<T> onCreateHolder(View v, int viewType);
-
     protected abstract int getLayoutId(int viewType);
+
+    protected abstract DefaultHolder onCreateHolder(View v, int viewType);
+
+    protected abstract void onBindViewHolder(@NonNull DefaultHolder holder, T data, int position);
 
     @Override
     public int getItemViewType(int position) {
@@ -38,20 +39,19 @@ public abstract class DefaultAdapter<T> extends RecyclerView.Adapter<DefaultHold
 
     @NonNull
     @Override
-    public DefaultHolder<T> onCreateViewHolder(@NonNull ViewGroup parent, final int viewType) {
+    public DefaultHolder onCreateViewHolder(@NonNull ViewGroup parent, final int viewType) {
         if (viewType == TYPE_ITEM) {
             View view = LayoutInflater.from(parent.getContext()).inflate(getLayoutId(viewType), parent, false);
             return onCreateHolder(view, viewType);
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(loadingId == 0 ? R.layout.paging_item_loading : loadingId, parent, false);
-            return new LoadingHolder<>(view);
+            return new LoadingHolder(view);
         }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DefaultHolder<T> holder, int position) {
-        holder.setOnHolderClickListener(this);
-        holder.bind(getItem(position), position);
+    public void onBindViewHolder(@NonNull DefaultHolder holder, int position) {
+        onBindViewHolder(holder, getItem(position), position);
     }
 
     @Override
@@ -125,16 +125,12 @@ public abstract class DefaultAdapter<T> extends RecyclerView.Adapter<DefaultHold
         removeItem(null);
     }
 
-    static class LoadingHolder<T> extends DefaultHolder<T> {
+    static class LoadingHolder extends DefaultHolder {
 
         public LoadingHolder(View itemView) {
             super(itemView);
         }
 
-        @Override
-        public void bind(T data, int position) {
-
-        }
     }
 }
 

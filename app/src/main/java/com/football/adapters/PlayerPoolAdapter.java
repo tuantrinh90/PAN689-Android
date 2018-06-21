@@ -1,6 +1,7 @@
 package com.football.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -35,7 +36,7 @@ public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
     }
 
     @Override
-    protected DefaultHolder<PlayerResponse> onCreateHolder(View v, int viewType) {
+    protected DefaultHolder onCreateHolder(View v, int viewType) {
         return new PlayerHolder(v);
     }
 
@@ -45,25 +46,21 @@ public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
     }
 
     @Override
-    public void onBindViewHolder(DefaultHolder<PlayerResponse> defaultHolder, int position) {
-        super.onBindViewHolder(defaultHolder, position);
-        if (defaultHolder instanceof PlayerHolder) {
-            PlayerHolder holder = (PlayerHolder) defaultHolder;
-            PlayerResponse data = getItem(position);
+    protected void onBindViewHolder(@NonNull DefaultHolder defaultHolder, PlayerResponse data, int position) {
+        PlayerHolder holder = (PlayerHolder) defaultHolder;
 
-//        ImageLoaderUtils.displayImage(data.getPhoto(), holder.ivAvatar);
-            holder.tvName.setText(data.getName());
-            holder.tvClub.setText(data.getRealClub().getName());
-            holder.tvOption1.setText(getOptionValue(holder.itemView.getContext(), data, option1, holder.ivOption1));
-            holder.tvOption2.setText(getOptionValue(holder.itemView.getContext(), data, option2, holder.ivOption2));
-            holder.tvOption3.setText(getOptionValue(holder.itemView.getContext(), data, option3, holder.ivOption3));
-            AppUtilities.displayPlayerPosition(holder.tvPositionPrimary, data.getMainPosition(), data.getMainPositionText());
-            AppUtilities.displayPlayerPosition(holder.tvPositionSecond, data.getMinorPosition(), data.getMinorPositionText());
+        //        ImageLoaderUtils.displayImage(data.getPhoto(), holder.ivAvatar);
+        holder.tvName.setText(data.getName());
+        holder.tvClub.setText(data.getRealClub().getName());
+        holder.tvOption1.setText(getOptionValue(holder.itemView.getContext(), data, option1, holder.ivOption1));
+        holder.tvOption2.setText(getOptionValue(holder.itemView.getContext(), data, option2, holder.ivOption2));
+        holder.tvOption3.setText(getOptionValue(holder.itemView.getContext(), data, option3, holder.ivOption3));
+        AppUtilities.displayPlayerPosition(holder.tvPositionPrimary, data.getMainPosition(), data.getMainPositionText());
+        AppUtilities.displayPlayerPosition(holder.tvPositionSecond, data.getMinorPosition(), data.getMinorPositionText());
 
-            mDisposable.add(RxView.clicks(holder.itemView).subscribe(o ->
-                    Optional.from(clickConsumer).doIfPresent(d ->
-                            d.accept(data))));
-        }
+        mDisposable.add(RxView.clicks(holder.itemView).subscribe(o ->
+                Optional.from(clickConsumer).doIfPresent(d ->
+                        d.accept(data))));
     }
 
     public void setOptions(String option1, String option2, String option3) {
@@ -128,12 +125,7 @@ public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
         return value;
     }
 
-    @Override
-    public void onHolderClick(View view, int position) {
-
-    }
-
-    public static class PlayerHolder extends DefaultHolder<PlayerResponse> {
+    public static class PlayerHolder extends DefaultHolder {
         @BindView(R.id.tvName)
         ExtTextView tvName;
         @BindView(R.id.tvClub)
@@ -159,10 +151,5 @@ public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
             super(itemView);
         }
 
-
-        @Override
-        public void bind(PlayerResponse data, int position) {
-
-        }
     }
 }

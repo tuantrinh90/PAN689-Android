@@ -29,19 +29,21 @@ public class ExtRecyclerView<T> extends FrameLayout {
     private static final String TAG = "ExtRecyclerView";
 
     // view
-    SwipeRefreshLayout rfLayout;
-    RecyclerView recyclerView;
-    ExtTextView tvMessage;
+    private SwipeRefreshLayout rfLayout;
+    private RecyclerView recyclerView;
+    private ExtTextView tvMessage;
 
     private Context context;
     private DefaultAdapter<T> mAdapter;
     private EndlessScrollListener endlessScrollListener;
 
+    @LayoutRes
     private int loadingLayout;
 
     // listener
-    ExtLoadMoreListener onExtLoadMoreListener = null;
-    ExtRefreshListener onExtRefreshListener = null;
+    private ExtLoadMoreListener onExtLoadMoreListener = null;
+    private ExtRefreshListener onExtRefreshListener = null;
+    private RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false);
 
     public ExtRecyclerView(@NonNull Context context) {
         this(context, null, 0);
@@ -112,28 +114,13 @@ public class ExtRecyclerView<T> extends FrameLayout {
         }
     }
 
-    public ExtRecyclerView init(DefaultAdapter<T> adapter) {
-        try {
-            this.mAdapter = adapter;
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false));
-            recyclerView.setAdapter(mAdapter);
+    public ExtRecyclerView adapter(DefaultAdapter<T> adapter) {
+        this.mAdapter = adapter;
+        return this;
+    }
 
-            endlessScrollListener = new EndlessScrollListener(recyclerView.getLayoutManager()) {
-                @Override
-                public void onLoadMore(int page) {
-                    if (onExtLoadMoreListener != null) {
-                        onExtLoadMoreListener.onLoadMore();
-                        recyclerView.post(() -> mAdapter.addLoading());
-                    }
-
-                }
-            };
-            recyclerView.addOnScrollListener(endlessScrollListener);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    public ExtRecyclerView layoutManager(RecyclerView.LayoutManager layoutManager) {
+        this.layoutManager = layoutManager;
         return this;
     }
 
@@ -148,12 +135,25 @@ public class ExtRecyclerView<T> extends FrameLayout {
     }
 
     public ExtRecyclerView loadingLayout(@LayoutRes int loadingLayout) {
-        this.mAdapter.setLoadingLayout(loadingLayout);
+        this.loadingLayout = loadingLayout;
         return this;
     }
 
     public void build() {
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(mAdapter);
+        mAdapter.setLoadingLayout(loadingLayout);
 
+        endlessScrollListener = new EndlessScrollListener(recyclerView.getLayoutManager()) {
+            @Override
+            public void onLoadMore(int page) {
+                if (onExtLoadMoreListener != null) {
+                    onExtLoadMoreListener.onLoadMore();
+                    recyclerView.post(() -> mAdapter.addLoading());
+                }
+            }
+        };
+        recyclerView.addOnScrollListener(endlessScrollListener);
     }
 
     public void displayMessage() {
@@ -191,7 +191,6 @@ public class ExtRecyclerView<T> extends FrameLayout {
 
     public void addItem(T item) {
         mAdapter.addItem(item);
-
     }
 
     public void addItem(int index, T item) {

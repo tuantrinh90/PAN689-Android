@@ -183,7 +183,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                 });
         adapter.setOptions(VALUE, POINT, GOALS);
 
-        rvPlayer.init(adapter)
+        rvPlayer.adapter(adapter)
                 .loadingLayout(0)
                 .refreshListener(() -> {
                     refreshData();
