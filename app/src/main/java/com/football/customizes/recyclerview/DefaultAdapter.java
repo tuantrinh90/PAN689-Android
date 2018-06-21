@@ -30,7 +30,7 @@ public abstract class DefaultAdapter<T> extends RecyclerView.Adapter<DefaultHold
 
     protected abstract DefaultHolder onCreateHolder(View v, int viewType);
 
-    protected abstract void onBindViewHolder(@NonNull DefaultHolder holder, T data, int position);
+    protected abstract void onBindViewHolder(@NonNull DefaultHolder defaultHolder, T data, int position);
 
     @Override
     public int getItemViewType(int position) {

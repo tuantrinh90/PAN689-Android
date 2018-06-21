@@ -1,15 +1,15 @@
 package com.football.adapters;
 
-import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.bon.customview.listview.ExtBaseAdapter;
-import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageLoaderUtils;
 import com.bon.interfaces.Optional;
+import com.football.customizes.recyclerview.DefaultAdapter;
+import com.football.customizes.recyclerview.DefaultHolder;
 import com.football.fantasy.R;
 import com.football.models.responses.PlayerResponse;
 import com.football.utilities.AppUtilities;
@@ -18,37 +18,38 @@ import com.jakewharton.rxbinding2.view.RxView;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.reactivex.disposables.CompositeDisposable;
 import java8.util.function.Consumer;
 
-public class PlayerAdapter extends ExtBaseAdapter<PlayerResponse, PlayerAdapter.ViewHolder> {
+public class PlayerAdapter extends DefaultAdapter<PlayerResponse> {
 
     private static final String TAG = "PlayerAdapter";
 
-    private CompositeDisposable mDisposable = new CompositeDisposable();
-    private Consumer<PlayerResponse> responseConsumer;
-    private Consumer<PlayerResponse> addConsumer;
+    private final CompositeDisposable mDisposable = new CompositeDisposable();
+    private final Consumer<PlayerResponse> clickCallback;
+    private final Consumer<PlayerResponse> addCallback;
 
-    public PlayerAdapter(Context context, List<PlayerResponse> playerResponses,
-                         Consumer<PlayerResponse> responseConsumer, Consumer<PlayerResponse> addConsumer) {
-        super(context, playerResponses);
-        this.responseConsumer = responseConsumer;
-        this.addConsumer = addConsumer;
+    public PlayerAdapter(List<PlayerResponse> playerResponses,
+                         Consumer<PlayerResponse> clickCallback,
+                         Consumer<PlayerResponse> addCallback) {
+        super(playerResponses);
+        this.clickCallback = clickCallback;
+        this.addCallback = addCallback;
     }
 
     @Override
-    protected int getViewId() {
+    protected int getLayoutId(int viewType) {
         return R.layout.player_item;
     }
 
     @Override
-    protected ViewHolder onCreateViewHolder(View view) {
-        return new ViewHolder(view);
+    protected DefaultHolder onCreateHolder(View v, int viewType) {
+        return new ViewHolder(v);
     }
 
     @Override
-    protected void onBindViewHolder(ViewHolder holder, PlayerResponse data) {
+    protected void onBindViewHolder(@NonNull DefaultHolder defaultHolder, PlayerResponse data, int position) {
+        ViewHolder holder = (ViewHolder) defaultHolder;
         ImageLoaderUtils.displayImage(data.getPhoto(), holder.ivAvatar);
         holder.tvName.setText(data.getName());
         holder.tvClub.setText(data.getRealClub().getName());
@@ -61,7 +62,7 @@ public class PlayerAdapter extends ExtBaseAdapter<PlayerResponse, PlayerAdapter.
         holder.ivAdd.setBackgroundResource(checked ? R.drawable.bg_circle_white_border : R.drawable.bg_circle_yellow);
 
         mDisposable.add(RxView.clicks(holder.ivAdd).subscribe(o -> {
-            Optional.from(addConsumer).doIfPresent(d -> {
+            Optional.from(addCallback).doIfPresent(d -> {
                 if (!data.getSelected()) {
                     d.accept(data);
                     data.setSelected(true);
@@ -72,11 +73,11 @@ public class PlayerAdapter extends ExtBaseAdapter<PlayerResponse, PlayerAdapter.
             });
         }));
         mDisposable.add(RxView.clicks(holder.itemView).subscribe(o ->
-                Optional.from(responseConsumer).doIfPresent(d ->
+                Optional.from(clickCallback).doIfPresent(d ->
                         d.accept(data))));
     }
 
-    static class ViewHolder extends ExtPagingListView.ExtViewHolder {
+    static class ViewHolder extends DefaultHolder {
 
         @BindView(R.id.ivAvatar)
         ImageView ivAvatar;
@@ -97,7 +98,6 @@ public class PlayerAdapter extends ExtBaseAdapter<PlayerResponse, PlayerAdapter.
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
         }
     }
 }

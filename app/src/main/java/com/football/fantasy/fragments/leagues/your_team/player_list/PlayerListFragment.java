@@ -9,13 +9,13 @@ import android.widget.ImageView;
 
 import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
-import com.bon.interfaces.Optional;
 import com.bon.logger.Logger;
 import com.bon.util.DateTimeUtils;
 import com.football.adapters.PlayerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.lineup.StatisticView;
+import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.customizes.searchs.SearchView;
 import com.football.events.PlayerEvent;
 import com.football.events.PlayerQueryEvent;
@@ -27,6 +27,7 @@ import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.StatisticResponse;
 import com.football.utilities.Constant;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -64,11 +65,8 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
     SearchView svSearchView;
     @BindView(R.id.ivSortValue)
     ImageView ivSortValue;
-    @BindView(R.id.rvRecyclerView)
-    ExtPagingListView rvRecyclerView;
-
-    List<PlayerResponse> playerResponses;
-    PlayerAdapter playerAdapter;
+    @BindView(R.id.rvPlayer)
+    ExtRecyclerView<PlayerResponse> rvPlayer;
 
     private LeagueResponse league;
     private int page = 1;
@@ -127,9 +125,8 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
             svSearchView.setSearchConsumer(query -> onPerformSearch(query));
 
             // playerResponses
-            playerAdapter = new PlayerAdapter(
-                    mActivity,
-                    playerResponses,
+            PlayerAdapter playerAdapter = new PlayerAdapter(
+                    new ArrayList<>(),
                     player -> { // item click
                         AloneFragmentActivity.with(this)
                                 .parameters(PlayerDetailFragment.newBundle(
@@ -145,19 +142,21 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
                                 .data(player)
                                 .build());
                     });
-            rvRecyclerView.init(mActivity, playerAdapter)
-                    .setOnExtLoadMoreListener(() -> {
+            rvPlayer.adapter(playerAdapter)
+                    .loadMoreListener(() -> {
                         page++;
                         getPlayers(false);
                     })
-                    .setOnExtRefreshListener(() ->
-                            Optional.from(rvRecyclerView).doIfPresent(rv -> {
-                                page = 1;
-                                rv.clearItems();
-                                getPlayers(false);
-                            }));
+                    .refreshListener(() -> {
+                        page = 1;
+                        rvPlayer.clear();
+                        rvPlayer.startLoading();
+                        getPlayers(false);
+                    })
+                    .build();
 
             // load data
+            rvPlayer.startLoading();
             getPlayers(false);
         } catch (Resources.NotFoundException e) {
             Logger.e(TAG, e);
@@ -182,8 +181,8 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
                                 filterPositions = event.getPosition();
 
                                 // get items
-                                rvRecyclerView.clearItems();
-                                rvRecyclerView.startLoading();
+                                rvPlayer.clear();
+                                rvPlayer.startLoading();
                                 getPlayers(true);
                             }
                         }
@@ -205,34 +204,26 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
     }
 
     void onClickFilter() {
-        Optional.from(rvRecyclerView).doIfPresent(rv -> {
-//            orderBy = orderBy.equalsIgnoreCase(ORDER_BY_DEFAULT) ? ORDER_BY_ASC : ORDER_BY_DEFAULT;
-//            svSearchView.getFilter().animate().rotation(orderBy.equalsIgnoreCase(ORDER_BY_DEFAULT) ? 0 : 180)
-//                    .setDuration(500).setInterpolator(new LinearInterpolator()).start();
-
-            AloneFragmentActivity.with(this)
-                    .parameters(PlayerPoolFilterFragment.newBundle(filterPositions, filterClubs))
-                    .start(PlayerPoolFilterFragment.class);
-        });
+        AloneFragmentActivity.with(this)
+                .parameters(PlayerPoolFilterFragment.newBundle(filterPositions, filterClubs))
+                .start(PlayerPoolFilterFragment.class);
     }
 
     void onPerformSearch(String q) {
-        Optional.from(rvRecyclerView).doIfPresent(rv -> {
-            query = q;
-            rv.clearItems();
-            page = 1;
-            getPlayers(false);
-        });
+        query = q;
+        rvPlayer.clear();
+        rvPlayer.startLoading();
+        page = 1;
+        getPlayers(false);
     }
 
     @Override
-    public void notifyDataSetChangedPlayers(List<PlayerResponse> data, boolean newPlayers) {
-        Optional.from(rvRecyclerView).doIfPresent(rv -> {
-            if (newPlayers) {
-                rv.clearItems();
-            }
-            rv.addNewItems(data);
-        });
+    public void displayPlayers(List<PlayerResponse> data, boolean newPlayers) {
+        if (newPlayers) {
+            rvPlayer.clear();
+        }
+        rvPlayer.addItems(data);
+        rvPlayer.stopLoading();
     }
 
     @Override
@@ -245,13 +236,6 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
 
     @Override
     public void showLoadingPagingListView(boolean isLoading) {
-        Optional.from(rvRecyclerView).doIfPresent(rv -> {
-            if (isLoading) {
-                rv.startLoading(true);
-            } else {
-                rv.stopLoading(true);
-            }
-        });
     }
 
     @OnClick({R.id.svNone, R.id.svGoalkeeper, R.id.svDefender, R.id.svMidfielder, R.id.svAttacker})
@@ -288,8 +272,8 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
                     break;
             }
             page = 1;
-            rvRecyclerView.clearItems();
-            rvRecyclerView.startLoading();
+            rvPlayer.clear();
+            rvPlayer.startLoading();
             getPlayers(true);
         }
     }
@@ -302,14 +286,13 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
 
     private void toggleSort() {
         page = 1;
-        rvRecyclerView.clearItems();
-        rvRecyclerView.startLoading();
+        rvPlayer.clear();
+        rvPlayer.startLoading();
         sortDesc = !sortDesc;
         getPlayers(true);
     }
 
     private void getPlayers(boolean newPlayers) {
-        rvRecyclerView.setMessage(getString(R.string.loading));
         presenter.getPlayers(league.getId(), sortDesc, page, ExtPagingListView.NUMBER_PER_PAGE, query, filterPositions, filterClubs, newPlayers);
     }
 }

@@ -8,14 +8,17 @@ import android.support.v7.app.ActionBar;
 import android.view.View;
 
 import com.bon.customview.listview.ExtPagingListView;
-import com.bon.interfaces.Optional;
 import com.football.adapters.PlayerAdapter;
+import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.customizes.searchs.SearchView;
 import com.football.events.PlayerEvent;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.models.responses.PlayerResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,10 +33,9 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
 
     @BindView(R.id.svSearch)
     SearchView svSearchView;
-    @BindView(R.id.rvRecyclerView)
-    ExtPagingListView rvRecyclerView;
+    @BindView(R.id.rvPlayer)
+    ExtRecyclerView<PlayerResponse> rvPlayer;
 
-    List<PlayerResponse> playerResponses;
     PlayerAdapter playerAdapter;
 
     private int leagueId = 0;
@@ -98,24 +100,23 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
     void initView() {
         try {
 //            // search view
-//            svSearchView.getFilter().setImageResource(R.drawable.ic_filter_list_black_24_px);
             svSearchView.getFilter().setVisibility(View.GONE);
 
             // update hint
             svSearchView.getSearchView().setHint(R.string.search_public_players);
-
-//            // click button filter
-//            svSearchView.setFilerConsumer(v -> onClickFilter());
 
             // search view
             svSearchView.setSearchConsumer(query -> onPerformSearch(query));
 
             // playerResponses
             playerAdapter = new PlayerAdapter(
-                    mActivity,
-                    playerResponses,
+                    new ArrayList<>(),
                     player -> { // item click
-
+                        AloneFragmentActivity.with(this)
+                                .parameters(PlayerDetailFragment.newBundle(
+                                        player,
+                                        getString(R.string.player_list)))
+                                .start(PlayerDetailFragment.class);
                     },
                     player -> { // add click
                         // bắn sang màn hình LineUp
@@ -125,23 +126,22 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
                                 .index(index)
                                 .data(player)
                                 .build());
-
-                        getActivity().finish();
                     });
-            rvRecyclerView.init(mActivity, playerAdapter)
-                    .setOnExtLoadMoreListener(() -> {
+            rvPlayer.adapter(playerAdapter)
+                    .loadMoreListener(() -> {
                         page++;
                         getPlayers();
                     })
-                    .setOnExtRefreshListener(() ->
-                            Optional.from(rvRecyclerView).doIfPresent(rv -> {
-                                page = 1;
-                                rv.clearItems();
-                                rv.setMessage(getString(R.string.loading));
-                                getPlayers();
-                            }));
+                    .refreshListener(() -> {
+                        page = 1;
+                        rvPlayer.clear();
+                        rvPlayer.startLoading();
+                        getPlayers();
+                    })
+                    .build();
 
             // load data
+            rvPlayer.startLoading();
             getPlayers();
         } catch (Resources.NotFoundException e) {
             e.printStackTrace();
@@ -149,23 +149,20 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
     }
 
     void onPerformSearch(String q) {
-        Optional.from(rvRecyclerView).doIfPresent(rv -> {
-            query = q;
-            rv.clearItems();
-            page = 1;
-            getPlayers();
-        });
+        query = q;
+        rvPlayer.clear();
+        rvPlayer.startLoading();
+        page = 1;
+        getPlayers();
     }
 
     private void getPlayers() {
-        rvRecyclerView.setMessage(getString(R.string.loading));
         presenter.getPlayers(leagueId, orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition);
     }
 
     @Override
-    public void notifyDataSetChangedPlayers(List<PlayerResponse> data) {
-        Optional.from(rvRecyclerView).doIfPresent(rv -> {
-            rv.addNewItems(data);
-        });
+    public void displayPlayers(List<PlayerResponse> data) {
+        rvPlayer.addItems(data);
+        rvPlayer.stopLoading();
     }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IPlayerListView extends IBaseMvpView {
 
-    void notifyDataSetChangedPlayers(List<PlayerResponse> data, boolean newPlayers);
+    void displayPlayers(List<PlayerResponse> data, boolean newPlayers);
 
     void displayStatistic(StatisticResponse statistic);
 }

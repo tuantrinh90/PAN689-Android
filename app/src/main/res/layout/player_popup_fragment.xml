@@ -12,8 +12,8 @@
         android:paddingLeft="@dimen/padding_layout"
         android:paddingRight="@dimen/padding_layout" />
 
-    <com.bon.customview.listview.ExtPagingListView
-        android:id="@+id/rvRecyclerView"
+    <com.football.customizes.recyclerview.ExtRecyclerView
+        android:id="@+id/rvPlayer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/padding_layout"

@@ -53,12 +53,12 @@ public class PlayerPopupDataPresenter extends BaseDataPresenter<IPlayerPopupView
 
                         @Override
                         public void onSuccess(ExtPagingResponse<PlayerResponse> response) {
-                            v.notifyDataSetChangedPlayers(response.getData());
+                            v.displayPlayers(response.getData());
                         }
 
                         @Override
                         public void onError(String error) {
-                            v.notifyDataSetChangedPlayers(null);
+                            v.displayPlayers(null);
                             v.showMessage(error);
                         }
                     }));

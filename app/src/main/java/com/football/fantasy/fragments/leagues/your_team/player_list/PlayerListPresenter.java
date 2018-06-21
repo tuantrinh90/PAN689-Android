@@ -58,7 +58,6 @@ public class PlayerListPresenter extends BaseDataPresenter<IPlayerListView> impl
                 queries.put(Constant.KEY_WORD, query);
             }
 
-
             mCompositeDisposable.add(RxUtilities.async(
                     v,
                     dataModule.getApiService().getPlayerList(queries),
@@ -75,13 +74,13 @@ public class PlayerListPresenter extends BaseDataPresenter<IPlayerListView> impl
 
                         @Override
                         public void onSuccess(ExtPagingResponse<PlayerResponse> response) {
-                            v.notifyDataSetChangedPlayers(response.getData(), newPlayers);
+                            v.displayPlayers(response.getData(), newPlayers);
                             v.displayStatistic(response.getStatistic());
                         }
 
                         @Override
                         public void onError(String error) {
-                            v.notifyDataSetChangedPlayers(null, newPlayers);
+                            v.displayPlayers(null, newPlayers);
                             v.showMessage(error);
                         }
                     }));

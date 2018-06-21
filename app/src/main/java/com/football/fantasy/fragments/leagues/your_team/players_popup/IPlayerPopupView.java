@@ -6,5 +6,5 @@ import com.football.models.responses.PlayerResponse;
 import java.util.List;
 
 public interface IPlayerPopupView extends IBaseMvpView {
-    void notifyDataSetChangedPlayers(List<PlayerResponse> data);
+    void displayPlayers(List<PlayerResponse> data);
 }
