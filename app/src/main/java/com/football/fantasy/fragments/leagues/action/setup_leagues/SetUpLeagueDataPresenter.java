@@ -1,5 +1,7 @@
 package com.football.fantasy.fragments.leagues.action.setup_leagues;
 
+import android.text.TextUtils;
+
 import com.bon.util.StringUtils;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
@@ -165,8 +167,11 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
                 .addFormDataPart("team_setup", request.getTeamSetup())
                 .addFormDataPart("trade_review", request.getTradeReview())
                 .addFormDataPart("draft_time", request.getDraftTime())
-                .addFormDataPart("time_to_pick", request.getTimeToPick())
-                .addFormDataPart("logo", url);
+                .addFormDataPart("time_to_pick", request.getTimeToPick());
+
+        if (!TextUtils.isEmpty(url)) {
+            builder.addFormDataPart("logo", url);
+        }
 
         if (request.getLeagueId() > 0) {
             builder.addFormDataPart("_method", "PUT");
