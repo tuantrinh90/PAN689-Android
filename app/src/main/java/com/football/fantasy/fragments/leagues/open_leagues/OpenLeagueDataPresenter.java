@@ -56,7 +56,6 @@ public class OpenLeagueDataPresenter extends BaseDataPresenter<IOpenLeagueView> 
 
                         @Override
                         public void onError(String error) {
-                            v.displayLeagues(null);
                             v.showMessage(error);
                         }
                     }));

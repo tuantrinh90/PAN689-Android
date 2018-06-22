@@ -23,6 +23,7 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
+import com.football.events.LeagueEvent;
 import com.football.events.StopLeagueEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_leagues.SetUpLeagueFragment;
@@ -38,6 +39,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.observers.DisposableObserver;
 
 public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView, ILeagueDetailPresenter<ILeagueDetailView>> implements ILeagueDetailView {
     static final String TAG = LeagueDetailFragment.class.getSimpleName();
@@ -85,6 +87,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
         getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
+        registerEvent();
         presenter.getLeagueDetail(leagueId);
     }
 
@@ -112,6 +115,35 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
         super.initToolbar(supportActionBar);
         supportActionBar.setDisplayHomeAsUpEnabled(true);
         supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_blue);
+    }
+
+    void registerEvent() {
+        try {
+            // action add click on PlayerList
+            mCompositeDisposable.add(bus.ofType(LeagueEvent.class)
+                    .subscribeWith(new DisposableObserver<LeagueEvent>() {
+                        @Override
+                        public void onNext(LeagueEvent event) {
+                            displayLeague(event.getLeague());
+                            if (leagueDetailViewPagerAdapter.getItem(0) instanceof LeagueInfoFragment) {
+                                ((LeagueInfoFragment) leagueDetailViewPagerAdapter.getItem(0)).displayLeague(event.getLeague());
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    }));
+
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
     }
 
     @OnClick(R.id.ivMenu)
@@ -159,89 +191,91 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
     }
 
     @Override
-    public void displayLeague(LeagueResponse l) {
-        try {
-            ivMenu.setVisibility(View.GONE);
+    public void displayMenu(LeagueResponse league) {
+        ivMenu.setVisibility(View.GONE);
+        // update league
+        List<Carousel> carousels = new ArrayList<>();
+        carousels.add(new Carousel(getString(R.string.league_information), true));
+        carousels.add(new Carousel(getString(R.string.teams), false));
 
-            // update league
-            league = l;
-            List<Carousel> carousels = new ArrayList<>();
-            carousels.add(new Carousel(getString(R.string.league_information), true));
-            carousels.add(new Carousel(getString(R.string.teams), false));
-
-            // only display invite with open leagues or owner
-            if (league.getOwner()) {
+        // only display invite with open leagues or owner
+        if (league.getOwner()) {
+            carousels.add(new Carousel(getString(R.string.invite_friend), false));
+        } else {
+            if (league.getLeagueType().equalsIgnoreCase(LeagueRequest.LEAGUE_TYPE_OPEN) && league.getIsJoined()) {
                 carousels.add(new Carousel(getString(R.string.invite_friend), false));
-            } else {
-                if (league.getLeagueType().equalsIgnoreCase(LeagueRequest.LEAGUE_TYPE_OPEN) && league.getIsJoined()) {
-                    carousels.add(new Carousel(getString(R.string.invite_friend), false));
-                }
+            }
+        }
+
+        // carousel view
+        cvCarouselView.setTextAllCaps(false)
+                .setFontPath(getString(R.string.font_display_heavy_italic))
+                .setAdapter(mActivity, carousels, R.color.color_blue, R.color.color_content, position -> {
+                    cvCarouselView.setActivePosition(position);
+                    vpViewPager.setCurrentItem(position);
+                });
+
+        // owner
+        if (league.getOwner()) {
+            valuePairs.add(new ExtKeyValuePair("", getString(R.string.edit), ContextCompat.getColor(mActivity, R.color.color_blue)));
+        }
+
+        // my leagues or owner
+        if (league.getIsJoined() || league.getOwner()) {
+            valuePairs.add(new ExtKeyValuePair("", getString(R.string.leave), ContextCompat.getColor(mActivity, R.color.color_blue)));
+        }
+
+        // only owner league has stop leagues
+        if (league.getOwner()) {
+            valuePairs.add(new ExtKeyValuePair("", getString(R.string.stop_league), ContextCompat.getColor(mActivity, R.color.color_red)));
+        }
+
+        // show/hide menu
+        ivMenu.setVisibility(valuePairs.size() > 0 ? View.VISIBLE : View.GONE);
+
+        // view pager
+        List<BaseMvpFragment> mvpFragments = new ArrayList<>();
+        mvpFragments.add(LeagueInfoFragment.newInstance(league, leagueType).setChildFragment(true));
+        mvpFragments.add(TeamFragment.newInstance(league, leagueType).setChildFragment(true));
+
+        // only display invite with open leagues or owner
+        if (league.getOwner()) {
+            mvpFragments.add(InviteFriendFragment.newInstance(league.getId(), leagueType).setChildFragment(true));
+        } else {
+            if (league.getLeagueType().equalsIgnoreCase(LeagueRequest.LEAGUE_TYPE_OPEN) && league.getIsJoined()) {
+                mvpFragments.add(InviteFriendFragment.newInstance(league.getId(), leagueType).setChildFragment(true));
+            }
+        }
+
+        // adapter
+        leagueDetailViewPagerAdapter = new LeagueDetailViewPagerAdapter(getFragmentManager(), mvpFragments);
+        vpViewPager.setAdapter(leagueDetailViewPagerAdapter);
+        vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
             }
 
-            // carousel view
-            cvCarouselView.setTextAllCaps(false)
-                    .setFontPath(getString(R.string.font_display_heavy_italic))
-                    .setAdapter(mActivity, carousels, R.color.color_blue, R.color.color_content, position -> {
-                        cvCarouselView.setActivePosition(position);
-                        vpViewPager.setCurrentItem(position);
-                    });
-
-            // owner
-            if (league.getOwner()) {
-                valuePairs.add(new ExtKeyValuePair("", getString(R.string.edit), ContextCompat.getColor(mActivity, R.color.color_blue)));
+            @Override
+            public void onPageSelected(int position) {
+                cvCarouselView.setActivePosition(position);
             }
 
-            // my leagues or owner
-            if (league.getIsJoined() || league.getOwner()) {
-                valuePairs.add(new ExtKeyValuePair("", getString(R.string.leave), ContextCompat.getColor(mActivity, R.color.color_blue)));
-            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
 
-            // only owner league has stop leagues
-            if (league.getOwner()) {
-                valuePairs.add(new ExtKeyValuePair("", getString(R.string.stop_league), ContextCompat.getColor(mActivity, R.color.color_red)));
             }
+        });
+    }
 
-            // show/hide menu
-            ivMenu.setVisibility(valuePairs.size() > 0 ? View.VISIBLE : View.GONE);
+    @Override
+    public void displayLeague(LeagueResponse league) {
+        try {
+            this.league = league;
 
             // load info
             Optional.from(tvTitle).doIfPresent(t -> t.setText(league.getName()));
 
-            // view pager
-            List<BaseMvpFragment> mvpFragments = new ArrayList<>();
-            mvpFragments.add(LeagueInfoFragment.newInstance(league, leagueType).setChildFragment(true));
-            mvpFragments.add(TeamFragment.newInstance(league, leagueType).setChildFragment(true));
-
-
-            // only display invite with open leagues or owner
-            if (league.getOwner()) {
-                mvpFragments.add(InviteFriendFragment.newInstance(league.getId(), leagueType).setChildFragment(true));
-            } else {
-                if (league.getLeagueType().equalsIgnoreCase(LeagueRequest.LEAGUE_TYPE_OPEN) && league.getIsJoined()) {
-                    mvpFragments.add(InviteFriendFragment.newInstance(league.getId(), leagueType).setChildFragment(true));
-                }
-            }
-
-            // adapter
-            leagueDetailViewPagerAdapter = new LeagueDetailViewPagerAdapter(getFragmentManager(), mvpFragments);
-            leagueDetailViewPagerAdapter = new LeagueDetailViewPagerAdapter(getFragmentManager(), mvpFragments);
-            vpViewPager.setAdapter(leagueDetailViewPagerAdapter);
-            vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                }
-
-                @Override
-                public void onPageSelected(int position) {
-                    cvCarouselView.setActivePosition(position);
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
-                }
-            });
         } catch (Exception e) {
             Logger.e(TAG, e);
         }

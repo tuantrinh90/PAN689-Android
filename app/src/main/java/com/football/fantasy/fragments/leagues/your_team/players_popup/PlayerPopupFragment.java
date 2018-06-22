@@ -179,6 +179,8 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
                                 .index(index)
                                 .data(player)
                                 .build());
+
+                        mActivity.finish();
                     });
             rvPlayer.adapter(playerAdapter)
                     .loadMoreListener(() -> {

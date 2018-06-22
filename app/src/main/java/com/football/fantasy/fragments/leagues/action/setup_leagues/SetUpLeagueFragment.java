@@ -34,7 +34,6 @@ import com.football.customizes.labels.LabelView;
 import com.football.events.LeagueEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
-import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.BudgetResponse;
 import com.football.models.responses.LeagueResponse;
@@ -565,17 +564,9 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     }
 
     @Override
-    public void updateSuccess() {
-        try {
-            showMessage(getString(R.string.update_success), R.string.ok, aVoid -> {
-                getActivity().finish();
-                AloneFragmentActivity.with(SetUpLeagueFragment.this)
-                        .parameters(LeagueDetailFragment.newBundle(leagueTitle, leagueId, LeagueDetailFragment.OPEN_LEAGUES))
-                        .start(LeagueDetailFragment.class);
-            });
-        } catch (Exception e) {
-            Logger.e(TAG, e);
-        }
+    public void updateSuccess(LeagueResponse league) {
+        bus.send(new LeagueEvent(league));
+        getActivity().finish();
     }
 
     @Override

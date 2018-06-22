@@ -41,7 +41,6 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
 
     private void initView(Context context) {
         mContext = context;
-//        setAlignContent(AlignContent.SPACE_AROUND);
         setAlignItems(AlignItems.CENTER);
         setFlexWrap(FlexWrap.WRAP);
         setJustifyContent(JustifyContent.CENTER);
@@ -57,7 +56,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
             int playerCount = squad[line]; // số lượng cầu thủ trên 1 hàng
             for (int i = 0; i < playerCount; i++) {
                 PlayerView view = createPlayerView(mContext, i, line);
-                displayPlayer(view, null);
+                displayPlayer(view, players.length < position ? null : players[position]);
                 position++;
                 view.setOnPlayerViewClickListener(this);
                 this.addView(view);
@@ -103,6 +102,16 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         setup();
     }
 
+    public void setupLineup(PlayerResponse[] players, String pitchSelect) {
+        String[] arr = pitchSelect.split("-");
+        int[] pitchSquad = new int[4];
+        for (int i = 0; i < arr.length; i++) {
+            pitchSquad[2 - i] = Integer.valueOf(arr[i]);
+        }
+        pitchSquad[3] = 1;
+        setupLineup(players, pitchSquad);
+    }
+
     public void setupLineup(PlayerResponse[] players, int[] squad) {
         setSquad(squad);
         setPlayers(players);
@@ -111,6 +120,17 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
 
     public void setSquad(int[] squad) {
         this.squad = squad;
+    }
+
+    public void setSquad(String pitchSelect) {
+        String[] arr = pitchSelect.split("-");
+        int[] pitchSquad = new int[4];
+        for (int i = 0; i < arr.length; i++) {
+            pitchSquad[2 - i] = Integer.valueOf(arr[i]);
+        }
+        pitchSquad[3] = 1;
+        this.squad = pitchSquad;
+
     }
 
     public void setPlayers(PlayerResponse[] players) {

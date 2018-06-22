@@ -59,7 +59,7 @@ public class PlayerView extends LinearLayout {
             tvContent.setVisibility(INVISIBLE);
             ivPlayer.setImageResource(0);
         } else {
-            ivRemove.setVisibility(VISIBLE);
+            ivRemove.setVisibility(editable ? VISIBLE : GONE);
             tvContent.setVisibility(VISIBLE);
             ImageLoaderUtils.displayImage(player.getPhoto(), ivPlayer);
             tvContent.setText(named ? player.getName() : getContext().getString(R.string.money_prefix, player.getTransferValueDisplay()));

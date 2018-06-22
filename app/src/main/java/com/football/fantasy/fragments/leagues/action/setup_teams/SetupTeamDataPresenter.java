@@ -32,7 +32,7 @@ public class SetupTeamDataPresenter extends BaseDataPresenter<ISetupTeamView> im
         getOptView().doIfPresent(v -> {
             v.showLoading(true);
             if (hasFile(request)) {
-                upload(request, uploadResponse -> create(request, uploadResponse.getUrl()));
+                upload(request, uploadResponse -> create(request, uploadResponse.getFileMachineName()));
             } else {
                 create(request, "");
             }
@@ -89,6 +89,7 @@ public class SetupTeamDataPresenter extends BaseDataPresenter<ISetupTeamView> im
                     dataModule.getApiService().upload(new MultipartBody.Builder()
                             .setType(MultipartBody.FORM)
                             .addFormDataPart("file", logo.getName(), RequestBody.create(MediaType.parse("image/*"), logo))
+                            .addFormDataPart("storage", "leagues/images")
                             .build()),
                     new ApiCallback<UploadResponse>() {
                         @Override

@@ -11,5 +11,5 @@ public interface ISetupLeagueView extends IBaseMvpView {
 
     void openCreateTeam(LeagueResponse leagueResponse);
 
-    void updateSuccess();
+    void updateSuccess(LeagueResponse league);
 }

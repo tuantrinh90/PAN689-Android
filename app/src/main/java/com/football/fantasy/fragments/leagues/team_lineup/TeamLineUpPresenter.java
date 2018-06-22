@@ -23,33 +23,6 @@ public class TeamLineUpPresenter extends BaseDataPresenter<ITeamLineUpView> impl
     }
 
     @Override
-    public void getPlayers(int teamId) {
-        getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(v,
-                    dataModule.getApiService().getTeamLineup(teamId),
-                    new ApiCallback<TeamLineupResponse>() {
-                        @Override
-                        public void onStart() {
-                        }
-
-                        @Override
-                        public void onComplete() {
-                        }
-
-                        @Override
-                        public void onSuccess(TeamLineupResponse response) {
-                            v.displayMainPlayers(response.getPlayers());
-                        }
-
-                        @Override
-                        public void onError(String e) {
-                            v.showMessage(e);
-                        }
-                    }));
-        });
-    }
-
-    @Override
     public void getPitchView(Integer teamId, String value) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
@@ -74,15 +47,17 @@ public class TeamLineUpPresenter extends BaseDataPresenter<ITeamLineUpView> impl
                     new ApiCallback<TeamPitchViewResponse>() {
                         @Override
                         public void onStart() {
+                            v.showLoadingPagingListView(true);
                         }
 
                         @Override
                         public void onComplete() {
+                            v.showLoadingPagingListView(false);
                         }
 
                         @Override
                         public void onSuccess(TeamPitchViewResponse response) {
-                            v.displayMainPlayers(response.getMainPlayers());
+                            v.displayMainPlayers(response.getMinorPlayers());
                             v.displayMinorPlayers(response.getMinorPlayers());
                         }
 

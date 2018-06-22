@@ -51,7 +51,7 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
         getOptView().doIfPresent(v -> {
             v.showLoading(true);
             if (hasFile(request)) {
-                upload(request, uploadResponse -> create(request, uploadResponse.getUrl()));
+                upload(request, uploadResponse -> create(request, uploadResponse.getFileMachineName()));
             } else {
                 create(request, "");
             }
@@ -63,7 +63,7 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
         getOptView().doIfPresent(v -> {
             v.showLoading(true);
             if (hasFile(request)) {
-                upload(request, uploadResponse -> update(request, leagueId, uploadResponse.getUrl()));
+                upload(request, uploadResponse -> update(request, leagueId, uploadResponse.getFileMachineName()));
             } else {
                 update(request, leagueId, "");
             }
@@ -94,6 +94,7 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
                     dataModule.getApiService().upload(new MultipartBody.Builder()
                             .setType(MultipartBody.FORM)
                             .addFormDataPart("file", logo.getName(), RequestBody.create(MediaType.parse("image/*"), logo))
+                            .addFormDataPart("storage", "leagues/images")
                             .build()),
                     new ApiCallback<UploadResponse>() {
                         @Override
@@ -137,7 +138,7 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
                     new ApiCallback<LeagueResponse>() {
                         @Override
                         public void onSuccess(LeagueResponse response) {
-                            v.updateSuccess();
+                            v.updateSuccess(response);
                             v.showLoading(false);
                         }
 

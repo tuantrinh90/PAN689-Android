@@ -14,7 +14,6 @@ import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
 import com.football.fantasy.fragments.leagues.your_team.YourTeamFragment;
-import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.LeagueResponse;
 import com.football.utilities.AppUtilities;
 import com.football.utilities.Constant;
@@ -76,7 +75,7 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
         getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
-        displayViews();
+        displayLeague(league);
     }
 
     void getDataFromBundle() {
@@ -86,7 +85,43 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
         leagueType = getArguments().getString(KEY_LEAGUE_TYPE);
     }
 
-    void displayViews() {
+    @NonNull
+    @Override
+    public ILeagueInfoPresenter<ILeagueInfoView> createPresenter() {
+        return new LeagueInfoDataPresenter(getAppComponent());
+    }
+
+    @OnClick(R.id.tvSetupTeam)
+    void onClickSetupTeam() {
+        if (league.getTeam() == null) {
+            AloneFragmentActivity.with(this)
+                    .parameters(SetupTeamFragment.newBundle(league, null, getString(R.string.league_information), leagueType))
+                    .start(SetupTeamFragment.class);
+        } else {
+            AloneFragmentActivity.with(this)
+                    .parameters(YourTeamFragment.newBundle(league))
+                    .start(YourTeamFragment.class);
+        }
+    }
+
+    @OnClick(R.id.tvStartLeague)
+    void onClickStartLeague() {
+    }
+
+    @OnClick(R.id.tvJoinLeague)
+    void onClickJoinLeague() {
+        AloneFragmentActivity.with(this)
+                .parameters(SetupTeamFragment.newBundle(
+                        league,
+                        null,
+                        mActivity.getTitleToolBar().getText().toString(),
+                        leagueType))
+                .start(SetupTeamFragment.class);
+        getActivity().finish();
+    }
+
+    @Override
+    public void displayLeague(LeagueResponse league) {
         try {
             tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
             ivLeague.setImageUri(league.getLogo());
@@ -138,40 +173,5 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
-    }
-
-    @NonNull
-    @Override
-    public ILeagueInfoPresenter<ILeagueInfoView> createPresenter() {
-        return new LeagueInfoDataPresenter(getAppComponent());
-    }
-
-    @OnClick(R.id.tvSetupTeam)
-    void onClickSetupTeam() {
-        if (league.getTeam() == null) {
-            AloneFragmentActivity.with(this)
-                    .parameters(SetupTeamFragment.newBundle(league, null, getString(R.string.league_information), leagueType))
-                    .start(SetupTeamFragment.class);
-        } else {
-            AloneFragmentActivity.with(this)
-                    .parameters(YourTeamFragment.newBundle(league))
-                    .start(YourTeamFragment.class);
-        }
-    }
-
-    @OnClick(R.id.tvStartLeague)
-    void onClickStartLeague() {
-    }
-
-    @OnClick(R.id.tvJoinLeague)
-    void onClickJoinLeague() {
-        AloneFragmentActivity.with(this)
-                .parameters(SetupTeamFragment.newBundle(
-                        league,
-                        null,
-                        mActivity.getTitleToolBar().getText().toString(),
-                        leagueType))
-                .start(SetupTeamFragment.class);
-        getActivity().finish();
     }
 }

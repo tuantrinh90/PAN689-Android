@@ -18,6 +18,7 @@ import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TeamResponse;
+import com.google.android.flexbox.AlignContent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
     ExtRecyclerView<PlayerResponse> rvPlayer;
 
     private List<ExtKeyValuePair> valuePairs;
-    private String pitchDefault;
+    private String pitchSelect;
 
     private TeamResponse team;
 
@@ -73,7 +74,7 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
         for (String pitchView : PITCH_VIEWS) {
             valuePairs.add(new ExtKeyValuePair(pitchView, pitchView));
         }
-        pitchDefault = valuePairs.get(0).getKey();
+        pitchSelect = valuePairs.get(0).getKey();
 
     }
 
@@ -82,7 +83,9 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
     }
 
     private void initView() {
-        tvPitch.setText(pitchDefault);
+        lineupView.setEditable(false);
+        lineupView.setJustifyContent(AlignContent.SPACE_AROUND);
+        tvPitch.setText(pitchSelect);
 
         TeamLineupPlayerAdapter adapter = new TeamLineupPlayerAdapter(new ArrayList<>());
         rvPlayer
@@ -93,9 +96,10 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
     }
 
     private void getPitchView() {
-        presenter.getPitchView(team.getId(), pitchDefault);
+        presenter.getPitchView(team.getId(), pitchSelect);
     }
 
+    @NonNull
     @Override
     public ITeamLineUpPresenter<ITeamLineUpView> createPresenter() {
         return new TeamLineUpPresenter(getAppComponent());
@@ -111,18 +115,33 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
     @OnClick(R.id.ivArrow)
     public void onArrowClicked() {
         ExtKeyValuePairDialogFragment.newInstance()
-                .setValue(pitchDefault)
+                .setValue(pitchSelect)
                 .setExtKeyValuePairs(valuePairs)
                 .setOnSelectedConsumer(extKeyValuePair -> {
                     if (extKeyValuePair != null && !TextUtils.isEmpty(extKeyValuePair.getKey())) {
-                        pitchDefault = extKeyValuePair.getKey();
+                        pitchSelect = extKeyValuePair.getKey();
                         tvPitch.setText(extKeyValuePair.getValue());
+
+                        lineupView.setSquad(pitchSelect);
+                        lineupView.notifyDataSetChanged();
                     }
                 }).show(getFragmentManager(), null);
     }
 
     @Override
+    public void showLoadingPagingListView(boolean isLoading) {
+        if (isLoading) {
+            rvPlayer.startLoading();
+        } else {
+            rvPlayer.stopLoading();
+        }
+    }
+
+    @Override
     public void displayMainPlayers(List<PlayerResponse> players) {
+        PlayerResponse[] array = new PlayerResponse[players.size()];
+        players.toArray(array);
+        lineupView.setupLineup(array, pitchSelect);
     }
 
     @Override
