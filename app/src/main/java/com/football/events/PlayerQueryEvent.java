@@ -10,16 +10,22 @@ public class PlayerQueryEvent implements IEvent {
     public static final int TAG_FILTER = 0;
     public static final int TAG_DISPLAY = 1;
 
+    private String from;
     private int tag;
     private String position;
     private String club;
     private List<ExtKeyValuePair> displays;
 
     private PlayerQueryEvent(Builder builder) {
+        from = builder.from;
         tag = builder.tag;
         position = builder.position;
         club = builder.club;
         displays = builder.displays;
+    }
+
+    public String getFrom() {
+        return from;
     }
 
     public int getTag() {
@@ -39,12 +45,18 @@ public class PlayerQueryEvent implements IEvent {
     }
 
     public static final class Builder {
+        private String from;
         private int tag;
         private String position;
         private String club;
         private List<ExtKeyValuePair> displays;
 
         public Builder() {
+        }
+
+        public Builder from(String val) {
+            from = val;
+            return this;
         }
 
         public Builder tag(int val) {

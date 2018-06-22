@@ -32,11 +32,13 @@ import static com.football.models.responses.PlayerResponse.Options.PASSES;
 import static com.football.models.responses.PlayerResponse.Options.POINT;
 import static com.football.models.responses.PlayerResponse.Options.SAVES;
 import static com.football.models.responses.PlayerResponse.Options.SHOTS;
-import static com.football.models.responses.PlayerResponse.Options.VALUE;
 import static com.football.models.responses.PlayerResponse.Options.TURNOVERS;
+import static com.football.models.responses.PlayerResponse.Options.VALUE;
 import static com.football.models.responses.PlayerResponse.Options.YELLOW_CARDS;
 
 public class PlayerPoolDisplayFragment extends BaseMainMvpFragment<IPlayerPoolDisplayView, IPlayerPoolDisplayPresenter<IPlayerPoolDisplayView>> implements IPlayerPoolDisplayView {
+
+    private static final String TAG = "PlayerPoolDisplayFragme";
 
     public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_1 = new ExtKeyValuePair(VALUE, "Value", true); // selected = sort by desc
     public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_2 = new ExtKeyValuePair(POINT, "Point", true);
@@ -147,6 +149,7 @@ public class PlayerPoolDisplayFragment extends BaseMainMvpFragment<IPlayerPoolDi
         }
         // bắn sang màn hình playerPoolFragment
         bus.send(new PlayerQueryEvent.Builder()
+                .from(TAG)
                 .tag(PlayerQueryEvent.TAG_DISPLAY)
                 .displays(displays)
                 .build());

@@ -27,6 +27,7 @@ import butterknife.OnClick;
 
 public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolFilterView, IPlayerPoolFilterPresenter<IPlayerPoolFilterView>> implements IPlayerPoolFilterView {
 
+    private static final String KEY_FROM = "FROM";
     public static final String KEY_POSITION = "POSITION";
     public static final String KEY_CLUB = "CLUB";
     private static final String KEY_ONLY_CLUB = "ONLY_CLUB";
@@ -43,6 +44,7 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolFil
     List<ExtKeyValuePair> keyValuePairPositions;
     List<ExtKeyValuePair> keyValuePairClubs;
 
+    private String from;
     private String filterPositions;
     private String filterClubs;
     private boolean onlyClubs;
@@ -50,8 +52,9 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolFil
     FilterAdapter filterPositionAdapter;
     FilterAdapter filterClubAdapter;
 
-    public static Bundle newBundle(String filterPositions, String filterClubs, boolean onlyClub) {
+    public static Bundle newBundle(String from, String filterPositions, String filterClubs, boolean onlyClub) {
         Bundle bundle = new Bundle();
+        bundle.putString(KEY_FROM, from);
         bundle.putString(KEY_POSITION, filterPositions);
         bundle.putString(KEY_CLUB, filterClubs);
         bundle.putBoolean(KEY_ONLY_CLUB, onlyClub);
@@ -73,6 +76,7 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolFil
     }
 
     private void getDataFromBundle() {
+        from = getArguments().getString(KEY_FROM);
         filterPositions = getArguments().getString(KEY_POSITION);
         filterClubs = getArguments().getString(KEY_CLUB);
         onlyClubs = getArguments().getBoolean(KEY_ONLY_CLUB);
@@ -144,6 +148,7 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolFil
 
         // bắn sang màn hình playerPoolFragment
         bus.send(new PlayerQueryEvent.Builder()
+                .from(from)
                 .tag(PlayerQueryEvent.TAG_FILTER)
                 .position(positions)
                 .club(clubs)

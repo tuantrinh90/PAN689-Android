@@ -41,6 +41,8 @@ import static com.football.models.responses.PlayerResponse.Options.VALUE;
 
 public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPlayerPoolPresenter<IPlayerPoolView>> implements IPlayerPoolView {
 
+    private static final String TAG = "PlayerPoolFragment";
+
     private static final int REQUEST_FILTER = 100;
     private static final int REQUEST_DISPLAY = 101;
 
@@ -103,18 +105,20 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                     .subscribeWith(new DisposableObserver<PlayerQueryEvent>() {
                         @Override
                         public void onNext(PlayerQueryEvent event) {
-                            if (event.getTag() == PlayerQueryEvent.TAG_FILTER) {
-                                filterClubs = event.getClub();
-                                filterPositions = event.getPosition();
+                            if (event.getFrom().equals(TAG)) {
+                                if (event.getTag() == PlayerQueryEvent.TAG_FILTER) {
+                                    filterClubs = event.getClub();
+                                    filterPositions = event.getPosition();
 
-                                // get items
-                                rvPlayer.clear();
-                                rvPlayer.startLoading();
-                                getPlayers();
-                            } else if (event.getTag() == PlayerQueryEvent.TAG_DISPLAY) {
-                                displayPairs = event.getDisplays();
+                                    // get items
+                                    rvPlayer.clear();
+                                    rvPlayer.startLoading();
+                                    getPlayers();
+                                } else if (event.getTag() == PlayerQueryEvent.TAG_DISPLAY) {
+                                    displayPairs = event.getDisplays();
 
-                                displayDisplay();
+                                    displayDisplay();
+                                }
                             }
 
                         }
@@ -253,7 +257,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
             case R.id.filter:
                 AloneFragmentActivity.with(this)
                         .forResult(REQUEST_FILTER)
-                        .parameters(PlayerPoolFilterFragment.newBundle(filterPositions, filterClubs, false))
+                        .parameters(PlayerPoolFilterFragment.newBundle(TAG, filterPositions, filterClubs, false))
                         .start(PlayerPoolFilterFragment.class);
                 break;
             case R.id.display:

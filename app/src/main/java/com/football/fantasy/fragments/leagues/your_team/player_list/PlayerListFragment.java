@@ -176,15 +176,16 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
                     .subscribeWith(new DisposableObserver<PlayerQueryEvent>() {
                         @Override
                         public void onNext(PlayerQueryEvent event) {
-                            if (event.getTag() == PlayerQueryEvent.TAG_FILTER) {
-                                filterClubs = event.getClub();
-                                filterPositions = event.getPosition();
+                            if (event.getFrom().equals(TAG))
+                                if (event.getTag() == PlayerQueryEvent.TAG_FILTER) {
+                                    filterClubs = event.getClub();
+                                    filterPositions = event.getPosition();
 
-                                // get items
-                                rvPlayer.clear();
-                                rvPlayer.startLoading();
-                                getPlayers(true);
-                            }
+                                    // get items
+                                    rvPlayer.clear();
+                                    rvPlayer.startLoading();
+                                    getPlayers(true);
+                                }
                         }
 
                         @Override
@@ -205,7 +206,7 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
 
     void onClickFilter() {
         AloneFragmentActivity.with(this)
-                .parameters(PlayerPoolFilterFragment.newBundle(filterPositions, filterClubs, false))
+                .parameters(PlayerPoolFilterFragment.newBundle(TAG, filterPositions, filterClubs, false))
                 .start(PlayerPoolFilterFragment.class);
     }
 
