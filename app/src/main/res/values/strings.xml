@@ -204,6 +204,7 @@
     <string name="team_list">Team list</string>
     <string name="league_details">League details</string>
     <string name="message_confirm_remove_lineup_player">Do you really want to remove this player out of your lineup?</string>
+    <string name="message_logout">message_logout?</string>
     <string name="statistics">Statistics</string>
     <string name="team_creation">Complete team creation</string>
     <string name="team_budget">Budget:</string>
@@ -269,4 +270,5 @@
     <string name="me">Me</string>
     <string name="point_last_round">%d points last round</string>
     <string name="message_season_not_found">Season not found</string>
+    <string name="logout">Logout</string>
 </resources>
