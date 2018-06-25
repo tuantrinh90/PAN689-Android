@@ -43,16 +43,16 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolFil
     @BindView(R.id.filter_position)
     View filterPosition;
 
-    List<ExtKeyValuePair> keyValuePairPositions;
-    List<ExtKeyValuePair> keyValuePairClubs;
+    private List<ExtKeyValuePair> keyValuePairPositions;
+    private List<ExtKeyValuePair> keyValuePairClubs;
 
     private String from;
     private String filterPositions;
     private String filterClubs;
     private boolean onlyClubs;
 
-    FilterAdapter filterPositionAdapter;
-    FilterAdapter filterClubAdapter;
+    private FilterAdapter filterPositionAdapter;
+    private FilterAdapter filterClubAdapter;
 
     public static Bundle newBundle(String from, String filterPositions, String filterClubs, boolean onlyClub) {
         Bundle bundle = new Bundle();
