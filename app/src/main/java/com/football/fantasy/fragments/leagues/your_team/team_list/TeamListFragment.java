@@ -73,7 +73,6 @@ public class TeamListFragment extends BaseMainMvpFragment<ITeamListView, ITeamLi
         teamAdapter = new TeamAdapter(
                 mActivity,
                 new ArrayList<>(),
-                league,
                 team -> { // handle click
                     AloneFragmentActivity.with(this)
                             .parameters(TeamDetailFragment.newBundle(team.getId()))

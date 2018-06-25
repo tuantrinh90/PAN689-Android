@@ -26,16 +26,13 @@ public class TeamAdapter extends ExtBaseAdapter<TeamResponse, TeamAdapter.ViewHo
 
     private CompositeDisposable mDisposable = new CompositeDisposable();
 
-    private LeagueResponse leagueResponse;
     private Consumer<TeamResponse> detailConsumer;
     private Consumer<TeamResponse> teamConsumer;
 
     public TeamAdapter(Context context, List<TeamResponse> teamResponses,
-                       LeagueResponse leagueResponse,
                        Consumer<TeamResponse> detailConsumer,
                        Consumer<TeamResponse> teamConsumer) {
         super(context, teamResponses);
-        this.leagueResponse = leagueResponse;
         this.detailConsumer = detailConsumer;
         this.teamConsumer = teamConsumer;
     }
@@ -59,9 +56,9 @@ public class TeamAdapter extends ExtBaseAdapter<TeamResponse, TeamAdapter.ViewHo
         holder.tvRemove.setVisibility(View.GONE);
         holder.ivLock.setVisibility(View.GONE);
 
-        if (leagueResponse.getOwner()) {
-            holder.tvRemove.setVisibility(data.getOwner() ? View.GONE : View.VISIBLE);
-        }
+//        if (data.getOwner()) {
+//            holder.tvRemove.setVisibility(data.getOwner() ? View.GONE : View.VISIBLE);
+//        }
 
         holder.ivLock.setVisibility(data.getOwner() ? View.VISIBLE : View.GONE);
 

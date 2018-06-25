@@ -78,7 +78,6 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
             teamAdapter = new TeamAdapter(
                     mActivity,
                     new ArrayList<>(),
-                    leagueResponse,
                     team -> {
                         AloneFragmentActivity.with(this)
                                 .parameters(TeamDetailFragment.newBundle(team.getId()))
