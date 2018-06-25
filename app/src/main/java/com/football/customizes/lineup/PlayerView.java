@@ -21,18 +21,22 @@ import butterknife.OnClick;
 public class PlayerView extends LinearLayout {
 
     @BindView(R.id.ivRemove)
-    ImageView ivRemove;
+    public ImageView ivRemove;
     @BindView(R.id.ivPlayer)
-    ImageView ivPlayer;
+    public ImageView ivPlayer;
     @BindView(R.id.tvContent)
-    TextView tvContent;
+    public TextView tvContent;
+    @BindView(R.id.tvInjured)
+    public TextView tvInjured;
 
     private OnPlayerViewClickListener mListener;
     private int index;
     private int position; // vị trí: G, M, D, A
     private PlayerResponse player;
     private boolean named = true;
+    private boolean removable;
     private boolean editable;
+    private boolean addable;
 
     public PlayerView(Context context) {
         this(context, null);
@@ -58,11 +62,13 @@ public class PlayerView extends LinearLayout {
             ivRemove.setVisibility(INVISIBLE);
             tvContent.setVisibility(INVISIBLE);
             ivPlayer.setImageResource(0);
+            tvInjured.setVisibility(GONE);
         } else {
-            ivRemove.setVisibility(editable ? VISIBLE : GONE);
+            ivRemove.setVisibility(removable ? VISIBLE : GONE);
             tvContent.setVisibility(VISIBLE);
             ImageLoaderUtils.displayImage(player.getPhoto(), ivPlayer);
             tvContent.setText(named ? player.getName() : getContext().getString(R.string.money_prefix, player.getTransferValueDisplay()));
+            tvInjured.setVisibility(player.getInjured() ? VISIBLE : GONE);
         }
         switch (3 - position) {
             case PlayerResponse.POSITION_GOALKEEPER:
@@ -116,13 +122,15 @@ public class PlayerView extends LinearLayout {
     public void onClicked(View view) {
         switch (view.getId()) {
             case R.id.ivRemove:
-                if (editable) {
+                if (removable) {
                     Optional.from(mListener).doIfPresent(listener -> listener.onRemove(player, index));
                 }
                 break;
             case R.id.ivPlayer:
-                if (player == null && editable) {
-                    Optional.from(mListener).doIfPresent(listener -> listener.onPlayerClick(position, index));
+                if (player == null && addable) {
+                    Optional.from(mListener).doIfPresent(listener -> listener.onAddPlayer(position, index));
+                } else if (player != null && editable) {
+                    Optional.from(mListener).doIfPresent(listener -> listener.onEdit(player, index));
                 }
                 break;
         }
@@ -132,14 +140,24 @@ public class PlayerView extends LinearLayout {
         this.mListener = listener;
     }
 
+    public void setRemovable(boolean removable) {
+        this.removable = removable;
+        ivRemove.setVisibility(removable ? VISIBLE : GONE);
+    }
+
     public void setEditable(boolean editable) {
         this.editable = editable;
-        ivRemove.setVisibility(editable ? VISIBLE : GONE);
+    }
+
+    public void setAddable(boolean addable) {
+        this.addable = addable;
     }
 
     public interface OnPlayerViewClickListener {
         void onRemove(PlayerResponse player, int position);
 
-        void onPlayerClick(int position, int index);
+        void onAddPlayer(int position, int index);
+
+        void onEdit(PlayerResponse player, int position);
     }
 }

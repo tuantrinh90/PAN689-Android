@@ -71,6 +71,13 @@
         <item name="android:padding">@dimen/padding_content</item>
     </style>
 
+    <style name="StyleContent2">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/font_size_small</item>
+        <item name="android:textColor">@color/color_black</item>
+    </style>
+
     <style name="StyleContentWhite" parent="StyleContent">
         <item name="android:textColor">@color/color_white</item>
     </style>

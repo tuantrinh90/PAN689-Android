@@ -12,10 +12,13 @@ import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.textview.ExtTextView;
 import com.football.adapters.TeamLineupPlayerAdapter;
+import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.lineup.LineupView;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
+import com.football.fantasy.fragments.leagues.team_lineup.dialog.SelectDialog;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TeamResponse;
 import com.google.android.flexbox.AlignContent;
@@ -30,7 +33,7 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
 
     private static final String KEY_TEAM = "TEAM";
 
-    private static final String[] PITCH_VIEWS = new String[]{"4-4-2", "4-3-3", "4-3-4", "3-5-2", "3-4-3", "5-3-2", "5-4-1"};
+    private static final String[] PITCH_VIEWS = new String[]{"4-4-2", "4-3-3", "3-5-2", "3-4-3", "5-3-2", "5-4-1"};
 
     @BindView(R.id.tvTitle)
     ExtTextView tvTitle;
@@ -82,12 +85,28 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
         team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
     }
 
+    private static final String TAG = "TeamLineUpFragment";
+
     private void initView() {
-        lineupView.setEditable(false);
+        lineupView.setEditable(true);
         lineupView.setJustifyContent(AlignContent.SPACE_AROUND);
+        lineupView.setEditCallback((player, position) -> {
+            new SelectDialog()
+                    .setPlayers(rvPlayer.getAdapter().getDataSet())
+                    .setClickCallback(playerr -> {
+
+                    })
+                    .show(getChildFragmentManager(), null);
+        });
         tvPitch.setText(pitchSelect);
 
-        TeamLineupPlayerAdapter adapter = new TeamLineupPlayerAdapter(new ArrayList<>());
+        TeamLineupPlayerAdapter adapter = new TeamLineupPlayerAdapter(
+                new ArrayList<>(),
+                player -> AloneFragmentActivity.with(this)
+                        .parameters(PlayerDetailFragment.newBundle(
+                                player,
+                                getString(R.string.team_line_up)))
+                        .start(PlayerDetailFragment.class));
         rvPlayer
                 .adapter(adapter)
                 .autoMeasureEnable(true)

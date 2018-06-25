@@ -5,22 +5,31 @@ import android.view.View;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageLoaderUtils;
+import com.bon.interfaces.Optional;
 import com.football.customizes.recyclerview.DefaultAdapter;
 import com.football.customizes.recyclerview.DefaultHolder;
 import com.football.fantasy.R;
 import com.football.models.responses.PlayerResponse;
 import com.football.utilities.AppUtilities;
+import com.jakewharton.rxbinding2.view.RxView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import java8.util.function.Consumer;
 
 public class TeamLineupPlayerAdapter extends DefaultAdapter<PlayerResponse> {
+    private Consumer<PlayerResponse> clickCallback;
+    private CompositeDisposable mDisposable = new CompositeDisposable();
 
 
-    public TeamLineupPlayerAdapter(List<PlayerResponse> dataSet) {
+    public TeamLineupPlayerAdapter(List<PlayerResponse> dataSet, Consumer<PlayerResponse> clickCallback) {
         super(dataSet);
+        this.clickCallback = clickCallback;
     }
 
     @Override
@@ -40,6 +49,11 @@ public class TeamLineupPlayerAdapter extends DefaultAdapter<PlayerResponse> {
         AppUtilities.displayPlayerPosition(holder.tvPositionPrimary, data.getMainPosition(), data.getMainPositionText());
         AppUtilities.displayPlayerPosition(holder.tvPositionSecond, data.getMinorPosition(), data.getMinorPositionText());
         holder.tvName.setText(data.getName());
+
+
+        mDisposable.add(RxView.clicks(holder.itemView).subscribe(o ->
+                Optional.from(clickCallback).doIfPresent(d ->
+                        d.accept(data))));
     }
 
     static class PlayerHolder extends DefaultHolder {

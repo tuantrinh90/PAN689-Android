@@ -97,23 +97,27 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     void initView() {
         if (System.currentTimeMillis() < AppUtilities.getTimestamp(league.getTeamSetup())) {
             lineupView.setEditable(true);
+            lineupView.setAddable(true);
+            lineupView.setRemovable(true);
             tvTeamSetupTime.setText(R.string.team_setup_time);
             tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
 
         } else {
             lineupView.setEditable(false);
+            lineupView.setAddable(false);
+            lineupView.setRemovable(false);
             tvTeamSetupTime.setText(R.string.start_time);
             tvTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
         }
 
         // setup lineupView
         lineupView.setupLineup(new PlayerResponse[18], new int[]{4, 6, 6, 2});
-        lineupView.setAddClick((position, index) -> {
+        lineupView.setAddCallback((position, index) -> {
             AloneFragmentActivity.with(this)
                     .parameters(PlayerPopupFragment.newBundle(3 - position, index, league.getId()))
                     .start(PlayerPopupFragment.class);
         });
-        lineupView.setRemoveConsumer((player, position) -> {
+        lineupView.setRemoveCallback((player, position) -> {
             DialogUtils.messageBox(mActivity,
                     0,
                     getString(R.string.app_name),

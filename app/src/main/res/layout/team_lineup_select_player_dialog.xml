@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_white"
+    android:orientation="vertical">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_title_dialog_fragment"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvCancel"
+            style="@style/StyleContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_null_gray_selector"
+            android:gravity="center"
+            android:padding="@dimen/padding_layout"
+            android:text="@string/cancel"
+            android:textSize="@dimen/font_size_title" />
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:padding="@dimen/padding_layout"
+            android:text="@string/select_value"
+            android:textColor="@color/color_white"
+            app:textViewFontAssetName="@string/font_display_black" />
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_null_gray_selector"
+            android:gravity="center"
+            android:padding="@dimen/padding_layout"
+            android:text="@string/cancel"
+            android:textSize="@dimen/font_size_title"
+            android:visibility="invisible" />
+    </TableRow>
+
+    <com.football.customizes.recyclerview.ExtRecyclerView
+        android:id="@+id/rvPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/avatar_xxlarge"
+        android:layout_marginTop="@dimen/padding_content" />
+</LinearLayout>

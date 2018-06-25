@@ -19,12 +19,15 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
 
     private Context mContext;
 
-    private BiConsumer<PlayerResponse, Integer> removeConsumer;
-    private BiConsumer<Integer, Integer> addClick;
+    private BiConsumer<PlayerResponse, Integer> editCallback;
+    private BiConsumer<PlayerResponse, Integer> removeCallback;
+    private BiConsumer<Integer, Integer> addCallback;
 
     private int[] squad = new int[]{4, 6, 6, 2}; // sắp xếp đội hình theo từng hàng, mỗi phần tử tương ứng với số lượng cầu thủ tại hàng đó
     private PlayerResponse[] players = new PlayerResponse[18];
-    private boolean editable = true; // có thể remove player
+    private boolean editable = false; // có thể edit player
+    private boolean removable = false; // có thể remove player
+    private boolean addable = false; // có thể add player
 
     public LineupView(Context context) {
         this(context, null);
@@ -56,7 +59,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
             int playerCount = squad[line]; // số lượng cầu thủ trên 1 hàng
             for (int i = 0; i < playerCount; i++) {
                 PlayerView view = createPlayerView(mContext, i, line);
-                displayPlayer(view, players.length < position ? null : players[position]);
+                displayPlayer(view, (players.length == 0 || players.length < position) ? null : players[position]);
                 position++;
                 view.setOnPlayerViewClickListener(this);
                 this.addView(view);
@@ -86,16 +89,22 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         PlayerView playerView = new PlayerView(context);
         playerView.setIndex(i);
         playerView.setPosition(line);
+        playerView.setRemovable(removable);
         playerView.setEditable(editable);
+        playerView.setAddable(addable);
         return playerView;
     }
 
-    public void setRemoveConsumer(BiConsumer<PlayerResponse, Integer> removeConsumer) {
-        this.removeConsumer = removeConsumer;
+    public void setEditCallback(BiConsumer<PlayerResponse, Integer> editCallback) {
+        this.editCallback = editCallback;
     }
 
-    public void setAddClick(BiConsumer<Integer, Integer> addClick) {
-        this.addClick = addClick;
+    public void setRemoveCallback(BiConsumer<PlayerResponse, Integer> removeCallback) {
+        this.removeCallback = removeCallback;
+    }
+
+    public void setAddCallback(BiConsumer<Integer, Integer> addCallback) {
+        this.addCallback = addCallback;
     }
 
     public void notifyDataSetChanged() {
@@ -174,12 +183,17 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
 
     @Override
     public void onRemove(PlayerResponse player, int position) {
-        Optional.from(removeConsumer).doIfPresent(c -> c.accept(player, position));
+        Optional.from(removeCallback).doIfPresent(c -> c.accept(player, position));
     }
 
     @Override
-    public void onPlayerClick(int position, int index) {
-        Optional.from(addClick).doIfPresent(c -> c.accept(position, index));
+    public void onAddPlayer(int position, int index) {
+        Optional.from(addCallback).doIfPresent(c -> c.accept(position, index));
+    }
+
+    @Override
+    public void onEdit(PlayerResponse player, int position) {
+        Optional.from(editCallback).doIfPresent(c -> c.accept(player, position));
     }
 
     public void clear() {
@@ -201,5 +215,13 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
 
     public void setEditable(boolean editable) {
         this.editable = editable;
+    }
+
+    public void setRemovable(boolean removable) {
+        this.removable = removable;
+    }
+
+    public void setAddable(boolean addable) {
+        this.addable = addable;
     }
 }

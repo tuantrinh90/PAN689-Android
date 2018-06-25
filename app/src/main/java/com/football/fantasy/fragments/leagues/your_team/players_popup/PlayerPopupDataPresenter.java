@@ -76,7 +76,6 @@ public class PlayerPopupDataPresenter extends BaseDataPresenter<IPlayerPopupView
 
                         @Override
                         public void onError(String error) {
-                            v.displayPlayers(null);
                             v.showMessage(error);
                         }
                     }));

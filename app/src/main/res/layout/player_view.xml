@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -12,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivPlayer"
             android:layout_width="@dimen/avatar_player_size"
             android:layout_height="@dimen/avatar_player_size"
@@ -23,7 +24,6 @@
             android:clickable="true"
             android:focusable="true"
             android:padding="@dimen/player_border"
-            android:scaleType="fitCenter"
             android:src="@drawable/ic_player_sample" />
 
         <ImageView
@@ -36,6 +36,20 @@
             android:focusable="true"
             android:padding="3dp"
             android:src="@drawable/ic_remove_small" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvInjured"
+            style="@style/StyleContent2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:background="@drawable/bg_red_radius"
+            android:gravity="center"
+            android:paddingLeft="@dimen/padding_content_small"
+            android:paddingRight="@dimen/padding_content_small"
+            android:text="Injured"
+            android:textColor="@color/color_white"
+            app:textViewFontAssetName="@string/font_display_bold" />
 
     </FrameLayout>
 
