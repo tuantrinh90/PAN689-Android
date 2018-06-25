@@ -29,6 +29,7 @@ import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
+import java8.util.function.BiConsumer;
 
 public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPresenter<ILineUpView>> implements ILineUpView {
 
@@ -36,6 +37,8 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
 
     static final String KEY_TEAM_ID = "TEAM_ID";
     private static final String KEY_LEAGUE = "LEAGUE_ID";
+
+    private BiConsumer<Boolean, String> callback;
 
 
     public static LineUpFragment newInstance(LeagueResponse league, Integer teamId) {
@@ -145,6 +148,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
                         public void onNext(PlayerEvent event) {
                             switch (event.getAction()) {
                                 case PlayerEvent.ACTION_ADD_CLICK:
+                                    callback = event.getCallback();
                                     insertToLineUpView(event.getData(), event.getPosition(), event.getIndex());
                                     break;
                             }
@@ -221,6 +225,14 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     public void onRemovePlayer(TeamResponse team, PlayerResponse player) {
         lineupView.removePlayer(player, 3 - player.getMainPosition());
         enableCompleteButton(false);
+    }
+
+    @Override
+    public void handleCallback(boolean success, String error) {
+        if (callback != null) {
+            callback.accept(success, error);
+            callback = null;
+        }
     }
 
 }

@@ -78,6 +78,8 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
     private String filterPositions = null;
     private String filterClubs = "";
 
+    private PlayerAdapter playerAdapter;
+
     @Override
     public int getResourceId() {
         return R.layout.player_list_fragment;
@@ -125,7 +127,8 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
             svSearchView.setSearchConsumer(query -> onPerformSearch(query));
 
             // playerResponses
-            PlayerAdapter playerAdapter = new PlayerAdapter(
+
+            playerAdapter = new PlayerAdapter(
                     new ArrayList<>(),
                     player -> { // item click
                         AloneFragmentActivity.with(this)
@@ -134,12 +137,22 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
                                         getString(R.string.player_list)))
                                 .start(PlayerDetailFragment.class);
                     },
-                    player -> { // add click
+                    (player, position) -> { // add click
+                        showLoading(true);
                         // bắn sang màn hình LineUp
                         bus.send(new PlayerEvent.Builder()
                                 .action(PlayerEvent.ACTION_ADD_CLICK)
                                 .position(playerPosition)
                                 .data(player)
+                                .callback((boo, error) -> {
+                                    showLoading(false);
+                                    if (boo) {
+                                        player.setSelected(true);
+                                        playerAdapter.notifyItemChanged(position);
+                                    } else {
+                                        showMessage(error);
+                                    }
+                                })
                                 .build());
                     });
             rvPlayer.adapter(playerAdapter)

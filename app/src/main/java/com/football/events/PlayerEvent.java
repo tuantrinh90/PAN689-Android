@@ -3,6 +3,8 @@ package com.football.events;
 import com.bon.event_bus.IEvent;
 import com.football.models.responses.PlayerResponse;
 
+import java8.util.function.BiConsumer;
+
 public class PlayerEvent implements IEvent {
 
     public static final int ACTION_ADD_CLICK = 1;
@@ -11,12 +13,14 @@ public class PlayerEvent implements IEvent {
     private int position;
     private PlayerResponse data;
     private int index;
+    private BiConsumer<Boolean, String> callback;
 
     private PlayerEvent(Builder builder) {
         action = builder.action;
         position = builder.position;
         data = builder.data;
         index = builder.index;
+        callback = builder.callback;
     }
 
     public int getAction() {
@@ -35,11 +39,16 @@ public class PlayerEvent implements IEvent {
         return index;
     }
 
+    public BiConsumer<Boolean, String> getCallback() {
+        return callback;
+    }
+
     public static final class Builder {
         private int action;
         private int position;
         private PlayerResponse data;
         private int index;
+        private BiConsumer<Boolean, String> callback;
 
         public Builder() {
         }
@@ -58,8 +67,14 @@ public class PlayerEvent implements IEvent {
             data = val;
             return this;
         }
+
         public Builder index(int val) {
             index = val;
+            return this;
+        }
+
+        public Builder callback(BiConsumer<Boolean, String> val) {
+            callback = val;
             return this;
         }
 

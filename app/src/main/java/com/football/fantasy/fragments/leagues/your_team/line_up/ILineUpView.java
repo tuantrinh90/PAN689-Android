@@ -19,4 +19,5 @@ public interface ILineUpView extends IBaseMvpView {
 
     void onRemovePlayer(TeamResponse team, PlayerResponse player);
 
+    void handleCallback(boolean success, String error);
 }

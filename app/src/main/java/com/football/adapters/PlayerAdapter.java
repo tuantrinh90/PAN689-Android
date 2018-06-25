@@ -1,7 +1,6 @@
 package com.football.adapters;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -19,6 +18,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.disposables.CompositeDisposable;
+import java8.util.function.BiConsumer;
 import java8.util.function.Consumer;
 
 public class PlayerAdapter extends DefaultAdapter<PlayerResponse> {
@@ -27,11 +27,11 @@ public class PlayerAdapter extends DefaultAdapter<PlayerResponse> {
 
     private final CompositeDisposable mDisposable = new CompositeDisposable();
     private final Consumer<PlayerResponse> clickCallback;
-    private final Consumer<PlayerResponse> addCallback;
+    private final BiConsumer<PlayerResponse, Integer> addCallback;
 
     public PlayerAdapter(List<PlayerResponse> playerResponses,
                          Consumer<PlayerResponse> clickCallback,
-                         Consumer<PlayerResponse> addCallback) {
+                         BiConsumer<PlayerResponse, Integer> addCallback) {
         super(playerResponses);
         this.clickCallback = clickCallback;
         this.addCallback = addCallback;
@@ -64,11 +64,7 @@ public class PlayerAdapter extends DefaultAdapter<PlayerResponse> {
         mDisposable.add(RxView.clicks(holder.ivAdd).subscribe(o -> {
             Optional.from(addCallback).doIfPresent(d -> {
                 if (!data.getSelected()) {
-                    d.accept(data);
-                    data.setSelected(true);
-                    holder.ivAdd.setImageResource(R.drawable.ic_tick);
-                    holder.ivAdd.setBackgroundResource(R.drawable.bg_circle_white_border);
-                    Log.d(TAG, "onBindViewHolder.checked: " + data.getName());
+                    d.accept(data, defaultHolder.getAdapterPosition());
                 }
             });
         }));

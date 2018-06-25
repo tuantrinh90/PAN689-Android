@@ -65,23 +65,22 @@ public class LineUpPresenter extends BaseDataPresenter<ILineUpView> implements I
                     new ApiCallback<PropsPlayerResponse>() {
                         @Override
                         public void onStart() {
-                            v.showLoading(true);
                         }
 
                         @Override
                         public void onComplete() {
-                            v.showLoading(false);
                         }
 
                         @Override
                         public void onSuccess(PropsPlayerResponse response) {
+                            v.handleCallback(true, "");
                             v.displayBudget(response.getTeam());
                             v.onAddPlayer(response.getTeam(), player, order);
                         }
 
                         @Override
                         public void onError(String error) {
-                            v.showMessage(error);
+                            v.handleCallback(false, error);
                         }
                     }));
         });

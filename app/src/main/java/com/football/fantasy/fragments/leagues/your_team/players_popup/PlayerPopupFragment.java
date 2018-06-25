@@ -171,16 +171,25 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
                                         getString(R.string.player_list)))
                                 .start(PlayerDetailFragment.class);
                     },
-                    player -> { // add click
+                    (player, position) -> { // add click
+                        showLoading(true);
+
                         // bắn sang màn hình LineUp
                         bus.send(new PlayerEvent.Builder()
                                 .action(PlayerEvent.ACTION_ADD_CLICK)
                                 .position(mainPosition)
                                 .index(index)
                                 .data(player)
+                                .callback((aBoolean, message) -> {
+                                    showLoading(false);
+                                    if (aBoolean) {
+                                        mActivity.finish();
+                                    } else {
+                                        showMessage(message);
+                                    }
+                                })
                                 .build());
 
-                        mActivity.finish();
                     });
             rvPlayer.adapter(playerAdapter)
                     .loadMoreListener(() -> {
