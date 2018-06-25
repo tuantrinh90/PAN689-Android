@@ -46,6 +46,7 @@ public class StatisticView extends FrameLayout {
     ExtTextView tvCount;
 
     private int position;
+    private int count;
 
     public StatisticView(@NonNull Context context) {
         this(context, null, 0);
@@ -117,6 +118,12 @@ public class StatisticView extends FrameLayout {
     }
 
     public void setCount(int count) {
+        this.count = count;
+        tvCount.setText(String.valueOf(count));
+    }
+
+    public void appendCount(int value) {
+        count += value;
         tvCount.setText(String.valueOf(count));
     }
 }

@@ -123,7 +123,7 @@ public class PlayerView extends LinearLayout {
         switch (view.getId()) {
             case R.id.ivRemove:
                 if (removable) {
-                    Optional.from(mListener).doIfPresent(listener -> listener.onRemove(player, index));
+                    Optional.from(mListener).doIfPresent(listener -> listener.onRemove(player, 3 - position, index));
                 }
                 break;
             case R.id.ivPlayer:
@@ -154,7 +154,7 @@ public class PlayerView extends LinearLayout {
     }
 
     public interface OnPlayerViewClickListener {
-        void onRemove(PlayerResponse player, int position);
+        void onRemove(PlayerResponse player, int position, int index);
 
         void onAddPlayer(int position, int index);
 

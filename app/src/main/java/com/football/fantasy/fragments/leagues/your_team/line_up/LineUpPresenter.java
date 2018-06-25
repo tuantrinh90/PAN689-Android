@@ -52,7 +52,7 @@ public class LineUpPresenter extends BaseDataPresenter<ILineUpView> implements I
     }
 
     @Override
-    public void addPlayer(PlayerResponse player, int teamId, int order) {
+    public void addPlayer(PlayerResponse player, int teamId, int position, int order) {
         getOptView().doIfPresent(v -> {
             mCompositeDisposable.add(RxUtilities.async(
                     v,
@@ -73,6 +73,7 @@ public class LineUpPresenter extends BaseDataPresenter<ILineUpView> implements I
 
                         @Override
                         public void onSuccess(PropsPlayerResponse response) {
+                            v.updateStatistic(position == PlayerResponse.POSITION_NONE ? player.getMainPosition() : position, 1);
                             v.handleCallback(true, "");
                             v.displayBudget(response.getTeam());
                             v.onAddPlayer(response.getTeam(), player, order);
@@ -87,7 +88,7 @@ public class LineUpPresenter extends BaseDataPresenter<ILineUpView> implements I
     }
 
     @Override
-    public void removePlayer(PlayerResponse player, int teamId) {
+    public void removePlayer(PlayerResponse player, int position, int teamId) {
         getOptView().doIfPresent(v -> {
             mCompositeDisposable.add(RxUtilities.async(
                     v,
@@ -109,6 +110,7 @@ public class LineUpPresenter extends BaseDataPresenter<ILineUpView> implements I
 
                         @Override
                         public void onSuccess(PropsPlayerResponse response) {
+                            v.updateStatistic(position, -1);
                             v.displayBudget(response.getTeam());
                             v.onRemovePlayer(response.getTeam(), player);
                         }

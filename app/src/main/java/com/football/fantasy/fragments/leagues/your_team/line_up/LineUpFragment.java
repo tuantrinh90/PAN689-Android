@@ -120,14 +120,14 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
                     .parameters(PlayerPopupFragment.newBundle(3 - position, index, league.getId()))
                     .start(PlayerPopupFragment.class);
         });
-        lineupView.setRemoveCallback((player, position) -> {
+        lineupView.setRemoveCallback((player, position, index) -> {
             DialogUtils.messageBox(mActivity,
                     0,
                     getString(R.string.app_name),
                     getString(R.string.message_confirm_remove_lineup_player),
                     getString(R.string.ok),
                     getString(R.string.cancel),
-                    (dialog, which) -> presenter.removePlayer(player, teamId),
+                    (dialog, which) -> presenter.removePlayer(player, position, teamId),
                     (dialog, which) -> {
                     });
         });
@@ -171,7 +171,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     }
 
     private void insertToLineUpView(PlayerResponse player, int position, int index) {
-        presenter.addPlayer(player, teamId, index);
+        presenter.addPlayer(player, teamId, position, index);
     }
 
     @Override
@@ -232,6 +232,24 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
         if (callback != null) {
             callback.accept(success, error);
             callback = null;
+        }
+    }
+
+    @Override
+    public void updateStatistic(int position, int value) {
+        switch (position) {
+            case PlayerResponse.POSITION_ATTACKER:
+                svAttacker.appendCount(value);
+                break;
+            case PlayerResponse.POSITION_MIDFIELDER:
+                svMidfielder.appendCount(value);
+                break;
+            case PlayerResponse.POSITION_DEFENDER:
+                svDefender.appendCount(value);
+                break;
+            case PlayerResponse.POSITION_GOALKEEPER:
+                svGoalkeeper.appendCount(value);
+                break;
         }
     }
 

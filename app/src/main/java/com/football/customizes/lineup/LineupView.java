@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 
 import com.bon.interfaces.Optional;
 import com.football.models.responses.PlayerResponse;
+import com.football.utilities.function.TriConsumer;
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayout;
@@ -20,7 +21,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
     private Context mContext;
 
     private BiConsumer<PlayerResponse, Integer> editCallback;
-    private BiConsumer<PlayerResponse, Integer> removeCallback;
+    private TriConsumer<PlayerResponse, Integer, Integer> removeCallback;
     private BiConsumer<Integer, Integer> addCallback;
 
     private int[] squad = new int[]{4, 6, 6, 2}; // sắp xếp đội hình theo từng hàng, mỗi phần tử tương ứng với số lượng cầu thủ tại hàng đó
@@ -99,7 +100,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         this.editCallback = editCallback;
     }
 
-    public void setRemoveCallback(BiConsumer<PlayerResponse, Integer> removeCallback) {
+    public void setRemoveCallback(TriConsumer<PlayerResponse, Integer, Integer> removeCallback) {
         this.removeCallback = removeCallback;
     }
 
@@ -182,8 +183,8 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
     }
 
     @Override
-    public void onRemove(PlayerResponse player, int position) {
-        Optional.from(removeCallback).doIfPresent(c -> c.accept(player, position));
+    public void onRemove(PlayerResponse player, int position, int index) {
+        Optional.from(removeCallback).doIfPresent(c -> c.accept(player,  position, index));
     }
 
     @Override
