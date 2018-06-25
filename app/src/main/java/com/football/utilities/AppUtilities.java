@@ -91,4 +91,8 @@ public class AppUtilities {
         }
         return 0;
     }
+
+    public static boolean isSetupTime(String setupTime) {
+        return System.currentTimeMillis() < AppUtilities.getTimestamp(setupTime);
+    }
 }

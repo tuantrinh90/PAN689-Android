@@ -159,7 +159,7 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
 
             // line up my team
             if (league.getStatus() == LeagueResponse.WAITING_FOR_START) {
-                if (System.currentTimeMillis() < AppUtilities.getTimestamp(league.getTeamSetup())) {
+                if (AppUtilities.isSetupTime(league.getTeamSetup())) {
                     tvTeamSetupTime.setText(R.string.team_setup_time);
                     tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
                 } else {

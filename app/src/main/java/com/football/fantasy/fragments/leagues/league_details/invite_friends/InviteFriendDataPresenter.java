@@ -45,7 +45,6 @@ public class InviteFriendDataPresenter extends BaseDataPresenter<IInviteFriendVi
 
                         @Override
                         public void onError(String e) {
-                            v.displayFriends(null);
                             v.showMessage(e);
                         }
                     }));
