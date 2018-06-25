@@ -154,8 +154,6 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolFil
                 .club(clubs)
                 .build());
 
-        // TODO: 6/21/2018 send to popup by tag, cần truyền vào source để bắn ngược về
-
         getActivity().finish();
     }
 

@@ -38,7 +38,7 @@ import static com.football.models.responses.PlayerResponse.Options.YELLOW_CARDS;
 
 public class PlayerPoolDisplayFragment extends BaseMainMvpFragment<IPlayerPoolDisplayView, IPlayerPoolDisplayPresenter<IPlayerPoolDisplayView>> implements IPlayerPoolDisplayView {
 
-    private static final String TAG = "PlayerPoolDisplayFragme";
+    private static final String KEY_FROM = "FROM";
 
     public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_1 = new ExtKeyValuePair(VALUE, "Value", true); // selected = sort by desc
     public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_2 = new ExtKeyValuePair(POINT, "Point", true);
@@ -58,9 +58,11 @@ public class PlayerPoolDisplayFragment extends BaseMainMvpFragment<IPlayerPoolDi
 
     private int checkCount = 0;
     private String filterDisplays;
+    private String from;
 
-    public static Bundle newBundle(String filterDisplays) {
+    public static Bundle newBundle(String from, String filterDisplays) {
         Bundle bundle = new Bundle();
+        bundle.putString(KEY_FROM, from);
         bundle.putString(KEY_DISPLAY, filterDisplays);
         return bundle;
     }
@@ -79,6 +81,7 @@ public class PlayerPoolDisplayFragment extends BaseMainMvpFragment<IPlayerPoolDi
     }
 
     private void getDataFromBundle() {
+        from = getArguments().getString(KEY_FROM);
         filterDisplays = getArguments().getString(KEY_DISPLAY);
     }
 
@@ -149,7 +152,7 @@ public class PlayerPoolDisplayFragment extends BaseMainMvpFragment<IPlayerPoolDi
         }
         // bắn sang màn hình playerPoolFragment
         bus.send(new PlayerQueryEvent.Builder()
-                .from(TAG)
+                .from(from)
                 .tag(PlayerQueryEvent.TAG_DISPLAY)
                 .displays(displays)
                 .build());
