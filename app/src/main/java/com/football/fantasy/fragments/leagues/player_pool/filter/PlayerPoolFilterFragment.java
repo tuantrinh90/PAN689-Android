@@ -40,6 +40,8 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolFil
     RecyclerView rvFilterByClub;
     @BindView(R.id.tvApplyFilter)
     ExtTextView tvApplyFilter;
+    @BindView(R.id.filter_position)
+    View filterPosition;
 
     List<ExtKeyValuePair> keyValuePairPositions;
     List<ExtKeyValuePair> keyValuePairClubs;
@@ -71,7 +73,12 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolFil
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
         getDataFromBundle();
-        initFilter();
+
+        if (!onlyClubs) {
+            initFilter();
+        } else {
+            filterPosition.setVisibility(View.GONE);
+        }
         presenter.getRealClubs();
     }
 

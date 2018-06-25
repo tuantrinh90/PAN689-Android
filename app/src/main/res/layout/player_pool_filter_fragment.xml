@@ -23,18 +23,26 @@
             android:textAllCaps="true"
             app:textViewFontAssetName="@string/font_display_black_italic" />
 
-        <com.bon.customview.textview.ExtTextView
-            style="@style/StyleContent"
-            android:layout_marginTop="@dimen/padding_layout"
-            android:padding="0dp"
-            android:text="@string/filter_by_position"
-            android:textAllCaps="true"
-            app:textViewFontAssetName="@string/font_display_bold" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvFilterByPosition"
+        <LinearLayout
+            android:id="@+id/filter_position"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.bon.customview.textview.ExtTextView
+                style="@style/StyleContent"
+                android:layout_marginTop="@dimen/padding_layout"
+                android:padding="0dp"
+                android:text="@string/filter_by_position"
+                android:textAllCaps="true"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvFilterByPosition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
 
         <com.bon.customview.textview.ExtTextView
             style="@style/StyleContent"
