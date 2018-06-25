@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.football.fantasy.R;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
+import com.football.models.responses.TeamResponse;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -74,6 +75,10 @@ public class AppUtilities {
 
     public static String getNameOrMe(Context context, LeagueResponse league) {
         return league.getOwner() ? context.getResources().getString(R.string.me) : league.getUser().getName();
+    }
+
+    public static String getNameOrMe(Context context, TeamResponse team) {
+        return team.getOwner() ? context.getResources().getString(R.string.me) : team.getUser().getName();
     }
 
     public static long getTimestamp(String date) {
