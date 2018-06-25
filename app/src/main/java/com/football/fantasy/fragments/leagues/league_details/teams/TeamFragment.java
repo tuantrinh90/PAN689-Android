@@ -9,27 +9,22 @@ import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.bon.logger.Logger;
-import com.bon.share_preferences.AppPreferences;
 import com.bon.util.DateTimeUtils;
 import com.bon.util.DialogUtils;
 import com.football.adapters.TeamAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
-import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
 import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
-import com.football.models.responses.UserResponse;
 import com.football.utilities.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import java8.util.stream.StreamSupport;
 
 public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<ITeamView>> implements ITeamView {
     static final String TAG = TeamFragment.class.getSimpleName();
@@ -136,37 +131,7 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
         Optional.from(rvRecyclerView).doIfPresent(rv -> {
             rv.clearItems();
             rv.addNewItems(teams);
-
-            UserResponse userResponse = AppPreferences.getInstance(mActivity).getObject(Constant.KEY_USER, UserResponse.class);
-            if (userResponse == null) return;
-
-            // auto create team if owner or joined
-            if (leagueResponse.getOwner() || leagueResponse.getIsJoined()) {
-                if (teams == null || teams.size() <= 0) {
-                    createTeam();
-                } else {
-                    if (StreamSupport
-                            .stream(teams)
-                            .filter(n ->
-                                    n.getUser() != null && n.getUser().getId().equals(userResponse.getId())
-                            )
-                            .count() <= 0) {
-                        createTeam();
-                    }
-                }
-            }
         });
-    }
-
-    void createTeam() {
-        AloneFragmentActivity.with(mActivity)
-                .parameters(SetupTeamFragment.newBundle(
-                        leagueResponse,
-                        null,
-                        mActivity.getTitleToolBar().getText().toString(),
-                        LeagueDetailFragment.MY_LEAGUES))
-                .start(SetupTeamFragment.class);
-        mActivity.finish();
     }
 
     @Override

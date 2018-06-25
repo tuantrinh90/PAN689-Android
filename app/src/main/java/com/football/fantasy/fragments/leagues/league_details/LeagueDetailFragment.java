@@ -27,12 +27,14 @@ import com.football.events.LeagueEvent;
 import com.football.events.StopLeagueEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_leagues.SetUpLeagueFragment;
+import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
 import com.football.fantasy.fragments.leagues.league_details.invite_friends.InviteFriendFragment;
 import com.football.fantasy.fragments.leagues.league_details.league_info.LeagueInfoFragment;
 import com.football.fantasy.fragments.leagues.league_details.successor.SuccessorFragment;
 import com.football.fantasy.fragments.leagues.league_details.teams.TeamFragment;
 import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.LeagueResponse;
+import com.football.models.responses.TeamResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -192,6 +194,10 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
 
     @Override
     public void displayMenu(LeagueResponse league) {
+        this.league = league;
+        // auto create team if owner or joined
+        autoCheckTeamExist(league);
+
         ivMenu.setVisibility(View.GONE);
         // update league
         List<Carousel> carousels = new ArrayList<>();
@@ -266,13 +272,32 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
 
             }
         });
+
+    }
+
+    void autoCheckTeamExist(LeagueResponse league) {
+        if (league.getOwner() || league.getIsJoined()) {
+            TeamResponse team = league.getTeam();
+            if (team == null) {
+                createTeam(league);
+            }
+        }
+    }
+
+    void createTeam(LeagueResponse league) {
+        AloneFragmentActivity.with(mActivity)
+                .parameters(SetupTeamFragment.newBundle(
+                        league,
+                        null,
+                        mActivity.getTitleToolBar().getText().toString(),
+                        LeagueDetailFragment.MY_LEAGUES))
+                .start(SetupTeamFragment.class);
+        mActivity.finish();
     }
 
     @Override
     public void displayLeague(LeagueResponse league) {
         try {
-            this.league = league;
-
             // load info
             Optional.from(tvTitle).doIfPresent(t -> t.setText(league.getName()));
 
