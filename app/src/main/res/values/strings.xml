@@ -166,6 +166,7 @@
     <string name="invitation_already_sent">The invitation is sent successfully</string>
     <string name="post_not_found">Post is not found</string>
     <string name="maximum_5_leagues">You can only join maximum 5 leagues at a time</string>
+    <string name="current_budget_is_not_enough">Budget is not enough</string>
 
     <!--// error message-->
     <string name="error_field_must_not_be_empty">@string/field_is_required</string>
