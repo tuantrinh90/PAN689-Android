@@ -54,6 +54,7 @@ public interface ServiceConfig {
     String UPDATE_LEAGUE = "leagues/{" + KEY_ID + "}";
     String FORM_OPTIONS = "leagues/get_form/{" + KEY_ID + "}";
     String CREATE_TEAM = "teams";
+    String UPDATE_TEAM = "teams/{id}";
     String LINEUP = "teams/lineup/{" + KEY_ID + "}";
     String ADD_PLAYER = "teams/add_player";
     String REMOVE_PLAYER = "teams/remove_player";

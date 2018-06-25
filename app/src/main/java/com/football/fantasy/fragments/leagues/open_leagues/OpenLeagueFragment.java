@@ -225,14 +225,14 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
     }
 
     @Override
-    public void onJoinSuccessful(LeagueResponse response) {
+    public void onJoinSuccessful(LeagueResponse league) {
         // refresh my league
         bus.send(new LeagueEvent());
 
         AloneFragmentActivity.with(this)
                 .parameters(SetupTeamFragment.newBundle(
-                        response,
                         null,
+                        league.getId(),
                         getString(R.string.open_leagues),
                         LeagueDetailFragment.OPEN_LEAGUES))
                 .start(SetupTeamFragment.class);

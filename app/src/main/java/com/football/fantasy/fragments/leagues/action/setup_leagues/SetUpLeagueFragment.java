@@ -555,10 +555,14 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     }
 
     @Override
-    public void openCreateTeam(LeagueResponse leagueResponse) {
+    public void openCreateTeam(LeagueResponse league) {
         bus.send(new LeagueEvent());
         AloneFragmentActivity.with(this)
-                .parameters(SetupTeamFragment.newBundle(leagueResponse, null, leagueTitle, leagueType))
+                .parameters(SetupTeamFragment.newBundle(
+                        null,
+                        league.getId(),
+                        leagueTitle,
+                        leagueType))
                 .start(SetupTeamFragment.class);
         getActivity().finish();
     }

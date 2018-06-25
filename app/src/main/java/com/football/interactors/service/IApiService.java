@@ -140,6 +140,9 @@ public interface IApiService {
     @POST(ServiceConfig.CREATE_TEAM)
     Observable<BaseResponse<TeamResponse>> createTeam(@Body RequestBody body);
 
+    @POST(ServiceConfig.UPDATE_TEAM)
+    Observable<BaseResponse<TeamResponse>> updateTeam(@Path(ServiceConfig.KEY_ID) int teamId, @Body RequestBody body);
+
     @GET(ServiceConfig.LINEUP)
     Observable<BaseResponse<LineupResponse>> getLineup(@Path(ServiceConfig.KEY_ID) int leagueId);
 

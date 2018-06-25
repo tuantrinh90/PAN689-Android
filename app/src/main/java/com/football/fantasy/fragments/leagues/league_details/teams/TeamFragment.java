@@ -80,7 +80,7 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
                     new ArrayList<>(),
                     team -> {
                         AloneFragmentActivity.with(this)
-                                .parameters(TeamDetailFragment.newBundle(team.getId()))
+                                .parameters(TeamDetailFragment.newBundle(team, leagueResponse.getId()))
                                 .start(TeamDetailFragment.class);
                     },
                     removeTeamResponse -> {

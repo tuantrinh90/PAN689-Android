@@ -71,13 +71,13 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
     @BindView(R.id.vpViewPager)
     ViewPager vpViewPager;
 
-    String title;
-    int leagueId;
-    String leagueType;
+    private String title;
+    private int leagueId;
+    private String leagueType;
 
-    LeagueResponse league;
-    LeagueDetailViewPagerAdapter leagueDetailViewPagerAdapter;
-    List<ExtKeyValuePair> valuePairs = new ArrayList<>();
+    private LeagueResponse league;
+    private LeagueDetailViewPagerAdapter leagueDetailViewPagerAdapter;
+    private List<ExtKeyValuePair> valuePairs = new ArrayList<>();
 
     @Override
     public int getResourceId() {
@@ -279,16 +279,16 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
         if (league.getOwner() || league.getIsJoined()) {
             TeamResponse team = league.getTeam();
             if (team == null) {
-                createTeam(league);
+                createTeam();
             }
         }
     }
 
-    void createTeam(LeagueResponse league) {
+    void createTeam() {
         AloneFragmentActivity.with(mActivity)
                 .parameters(SetupTeamFragment.newBundle(
-                        league,
                         null,
+                        leagueId,
                         mActivity.getTitleToolBar().getText().toString(),
                         LeagueDetailFragment.MY_LEAGUES))
                 .start(SetupTeamFragment.class);

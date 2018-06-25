@@ -10,7 +10,6 @@ import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
-import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.utilities.AppUtilities;
 import com.jakewharton.rxbinding2.view.RxView;
@@ -26,15 +25,15 @@ public class TeamAdapter extends ExtBaseAdapter<TeamResponse, TeamAdapter.ViewHo
 
     private CompositeDisposable mDisposable = new CompositeDisposable();
 
-    private Consumer<TeamResponse> detailConsumer;
-    private Consumer<TeamResponse> teamConsumer;
+    private Consumer<TeamResponse> detailCallback;
+    private Consumer<TeamResponse> removeCallback;
 
     public TeamAdapter(Context context, List<TeamResponse> teamResponses,
-                       Consumer<TeamResponse> detailConsumer,
-                       Consumer<TeamResponse> teamConsumer) {
+                       Consumer<TeamResponse> detailCallback,
+                       Consumer<TeamResponse> removeCallback) {
         super(context, teamResponses);
-        this.detailConsumer = detailConsumer;
-        this.teamConsumer = teamConsumer;
+        this.detailCallback = detailCallback;
+        this.removeCallback = removeCallback;
     }
 
     @Override
@@ -63,8 +62,8 @@ public class TeamAdapter extends ExtBaseAdapter<TeamResponse, TeamAdapter.ViewHo
         holder.ivLock.setVisibility(data.getOwner() ? View.VISIBLE : View.GONE);
 
         // click
-        mDisposable.add(RxView.clicks(holder.itemView).subscribe(o -> Optional.from(detailConsumer).doIfPresent(t -> t.accept(data))));
-        mDisposable.add(RxView.clicks(holder.tvRemove).subscribe(o -> Optional.from(teamConsumer).doIfPresent(t -> t.accept(data))));
+        mDisposable.add(RxView.clicks(holder.itemView).subscribe(o -> Optional.from(detailCallback).doIfPresent(t -> t.accept(data))));
+        mDisposable.add(RxView.clicks(holder.tvRemove).subscribe(o -> Optional.from(removeCallback).doIfPresent(t -> t.accept(data))));
     }
 
     class ViewHolder extends ExtPagingListView.ExtViewHolder {

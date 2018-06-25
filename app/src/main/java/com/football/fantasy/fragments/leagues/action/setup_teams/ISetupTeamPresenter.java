@@ -8,5 +8,5 @@ public interface ISetupTeamPresenter<V extends IBaseMvpView> extends IBaseDataPr
 
     void createTeam(TeamRequest request);
 
-    void invitationAccept(Integer leagueId);
+    void updateTeam(Integer teamId, TeamRequest request);
 }

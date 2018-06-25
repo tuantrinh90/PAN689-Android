@@ -95,7 +95,10 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
     void onClickSetupTeam() {
         if (league.getTeam() == null) {
             AloneFragmentActivity.with(this)
-                    .parameters(SetupTeamFragment.newBundle(league, null, getString(R.string.league_information), leagueType))
+                    .parameters(SetupTeamFragment.newBundle(
+                            null,
+                            league.getId(),
+                            getString(R.string.league_information), leagueType))
                     .start(SetupTeamFragment.class);
         } else {
             AloneFragmentActivity.with(this)
@@ -112,8 +115,8 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
     void onClickJoinLeague() {
         AloneFragmentActivity.with(this)
                 .parameters(SetupTeamFragment.newBundle(
-                        league,
                         null,
+                        league.getId(),
                         mActivity.getTitleToolBar().getText().toString(),
                         leagueType))
                 .start(SetupTeamFragment.class);

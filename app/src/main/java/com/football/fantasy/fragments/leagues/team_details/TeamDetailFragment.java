@@ -3,7 +3,6 @@ package com.football.fantasy.fragments.leagues.team_details;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,11 +10,14 @@ import android.widget.LinearLayout;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageLoaderUtils;
-import com.bon.interfaces.Optional;
+import com.bon.logger.Logger;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
+import com.football.events.TeamEvent;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
+import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.fantasy.fragments.leagues.team_lineup.TeamLineUpFragment;
 import com.football.fantasy.fragments.leagues.team_squad.TeamSquadFragment;
 import com.football.fantasy.fragments.leagues.team_statistics.TeamStatisticFragment;
@@ -24,10 +26,14 @@ import com.football.utilities.AppUtilities;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.observers.DisposableObserver;
 
 public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITeamDetailPresenter<ITeamDetailView>> implements ITeamDetailView {
 
-    private static final String KEY_TEAM_ID = "TEAM_ID";
+    private static final String TAG = "TeamDetailFragment";
+
+    private static final String KEY_TEAM = "TEAM_ID";
+    private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
 
     @BindView(R.id.tvHeader)
     ExtTextView tvHeader;
@@ -56,12 +62,13 @@ public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITe
     @BindView(R.id.llStatistics)
     LinearLayout llStatistics;
 
-    private int teamId;
     private TeamResponse team;
+    private int leagueId;
 
-    public static Bundle newBundle(int teamId) {
+    public static Bundle newBundle(TeamResponse team, Integer leagueId) {
         Bundle bundle = new Bundle();
-        bundle.putInt(KEY_TEAM_ID, teamId);
+        bundle.putSerializable(KEY_TEAM, team);
+        bundle.putInt(KEY_LEAGUE_ID, leagueId);
         return bundle;
     }
 
@@ -75,12 +82,15 @@ public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITe
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
         getDataFromBundle();
-        presenter.getTeamDetails(teamId);
+        registerEvent();
+
+        displayTeamDetails(team);
     }
 
     private void getDataFromBundle() {
         assert getArguments() != null;
-        teamId = getArguments().getInt(KEY_TEAM_ID);
+        team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
+        leagueId = getArguments().getInt(KEY_LEAGUE_ID);
     }
 
     @NonNull
@@ -101,10 +111,34 @@ public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITe
         supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_blue);
     }
 
-    @Override
-    public void displayTeamDetails(TeamResponse team) {
-        this.team = team;
+    void registerEvent() {
+        try {
+            // action add click on PlayerList
+            mCompositeDisposable.add(bus.ofType(TeamEvent.class)
+                    .subscribeWith(new DisposableObserver<TeamEvent>() {
+                        @Override
+                        public void onNext(TeamEvent event) {
+                            displayTeamDetails(event.getTeam());
+                        }
 
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    }));
+
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
+    }
+
+    private void displayTeamDetails(TeamResponse team) {
+        ivEdit.setVisibility(team.getOwner() ? View.VISIBLE : View.GONE);
         tvHeader.setText(team.getName());
         tvName.setText(team.getUser().getName());
         ImageLoaderUtils.displayImage(team.getLogo(), ivAvatar.getImageView());
@@ -114,9 +148,18 @@ public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITe
         tvDescription.setText(team.getDescription());
     }
 
-    @OnClick({R.id.llTeamLineUp, R.id.llTransfer, R.id.llTeamSquad, R.id.llStatistics})
+    @OnClick({R.id.ivEdit, R.id.llTeamLineUp, R.id.llTransfer, R.id.llTeamSquad, R.id.llStatistics})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.ivEdit:
+                AloneFragmentActivity.with(mActivity)
+                        .parameters(SetupTeamFragment.newBundle(
+                                team,
+                                leagueId,
+                                mActivity.getTitleToolBar().getText().toString(),
+                                LeagueDetailFragment.MY_LEAGUES))
+                        .start(SetupTeamFragment.class);
+                break;
             case R.id.llTeamLineUp:
                 AloneFragmentActivity.with(this)
                         .parameters(TeamLineUpFragment.newBundle(team))

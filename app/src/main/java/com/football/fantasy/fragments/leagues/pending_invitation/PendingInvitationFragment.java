@@ -187,12 +187,12 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
     }
 
     @Override
-    public void goCreateTeam(LeagueResponse leagueResponse) {
+    public void goCreateTeam(LeagueResponse league) {
         bus.send(new LeagueEvent());
         AloneFragmentActivity.with(this)
                 .parameters(SetupTeamFragment.newBundle(
-                        leagueResponse,
                         null,
+                        league.getId(),
                         getString(R.string.pending_invitation),
                         LeagueDetailFragment.PENDING_LEAGUES))
                 .start(SetupTeamFragment.class);

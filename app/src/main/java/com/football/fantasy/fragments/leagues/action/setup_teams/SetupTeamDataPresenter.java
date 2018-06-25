@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import com.bon.util.StringUtils;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
-import com.football.fantasy.R;
 import com.football.listeners.ApiCallback;
 import com.football.models.requests.TeamRequest;
 import com.football.models.responses.TeamResponse;
@@ -42,27 +41,14 @@ public class SetupTeamDataPresenter extends BaseDataPresenter<ISetupTeamView> im
     }
 
     @Override
-    public void invitationAccept(Integer leagueId) {
+    public void updateTeam(Integer teamId, TeamRequest request) {
         getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(
-                    v,
-                    dataModule.getApiService().invitationDecision(
-                            leagueId,
-                            new MultipartBody.Builder()
-                                    .setType(MultipartBody.FORM)
-                                    .addFormDataPart("status", String.valueOf(1))
-                                    .build()),
-                    new ApiCallback<Object>() {
-                        @Override
-                        public void onSuccess(Object o) {
-                            v.onInvitationAccept();
-                        }
-
-                        @Override
-                        public void onError(String error) {
-                            v.showMessage(error, R.string.ok, null);
-                        }
-                    }));
+            v.showLoading(true);
+            if (hasFile(request)) {
+                upload(request, uploadResponse -> update(teamId, request, uploadResponse.getFileMachineName()));
+            } else {
+                update(teamId, request, "");
+            }
         });
     }
 
@@ -116,6 +102,28 @@ public class SetupTeamDataPresenter extends BaseDataPresenter<ISetupTeamView> im
                         @Override
                         public void onSuccess(TeamResponse response) {
                             v.createTeamSuccess();
+                            v.showLoading(false);
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            v.showMessage(error);
+                            v.showLoading(false);
+                        }
+                    }));
+        });
+    }
+
+    private void update(Integer teamId, TeamRequest request, String url) {
+        getOptView().doIfPresent(v -> {
+            MultipartBody.Builder builder = createMultiPartBuilder(request, url);
+            builder.addFormDataPart("_method", "PUT");
+            mCompositeDisposable.add(RxUtilities.async(v,
+                    dataModule.getApiService().updateTeam(teamId, builder.build()),
+                    new ApiCallback<TeamResponse>() {
+                        @Override
+                        public void onSuccess(TeamResponse response) {
+                            v.updateTeamSuccess(response);
                             v.showLoading(false);
                         }
 

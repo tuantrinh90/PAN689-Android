@@ -13,7 +13,9 @@ import android.view.View;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
+import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageFilePath;
+import com.bon.image.ImageLoaderUtils;
 import com.bon.image.ImageUtils;
 import com.bon.interfaces.Optional;
 import com.bon.logger.Logger;
@@ -23,10 +25,10 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.events.LeagueEvent;
+import com.football.events.TeamEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.requests.TeamRequest;
-import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
 
 import java.io.File;
@@ -39,19 +41,16 @@ import io.reactivex.observers.DisposableObserver;
 public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetupTeamPresenter<ISetupTeamView>> implements ISetupTeamView {
     static final String TAG = SetupTeamFragment.class.getSimpleName();
 
-    public static final int INVITATION_ACCEPT = 1;
-    public static final int INVITATION_NONE = 0;
-
-    static final String KEY_LEAGUE = "LEAGUE";
+    static final String KEY_LEAGUE_ID = "LEAGUE_ID";
     static final String KEY_TEAM = "TEAM";
     static final String FROM_LEAGUES_TITLE = "LEAGUE_TITLE";
     static final String FROM_LEAGUES_TYPE = "LEAGUE_TYPE";
 
-    public static Bundle newBundle(LeagueResponse leagueResponse, TeamResponse teamResponse,
+    public static Bundle newBundle(TeamResponse team, int leagueId,
                                    String leagueTitle, String leagueType) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_LEAGUE, leagueResponse);
-        if (teamResponse != null) bundle.putSerializable(KEY_TEAM, teamResponse);
+        bundle.putSerializable(KEY_LEAGUE_ID, leagueId);
+        if (team != null) bundle.putSerializable(KEY_TEAM, team);
         bundle.putString(FROM_LEAGUES_TITLE, leagueTitle);
         bundle.putString(FROM_LEAGUES_TYPE, leagueType);
         return bundle;
@@ -63,14 +62,16 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
     CircleImageViewApp ivImagePick;
     @BindView(R.id.etDescription)
     EditTextApp etDescription;
+    @BindView(R.id.tvCreateTeam)
+    ExtTextView tvCreateTeam;
 
-    TeamResponse teamResponse;
-    LeagueResponse leagueResponse;
+    private TeamResponse team;
+    private int leagueId;
 
-    String leagueTitle;
-    String leagueType;
+    private String leagueTitle;
+    private String leagueType;
 
-    File filePath;
+    private File filePath;
 
     @Override
     public int getResourceId() {
@@ -88,9 +89,9 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
     void getDataFromBundle() {
         try {
             if (getArguments() == null) return;
-            leagueResponse = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
-            if (getArguments().containsKey(KEY_TEAM)) {
-                teamResponse = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
+            leagueId = getArguments().getInt(KEY_LEAGUE_ID);
+            if (hasKeyTeam()) {
+                team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
             }
             leagueTitle = getArguments().getString(FROM_LEAGUES_TITLE);
             leagueType = getArguments().getString(FROM_LEAGUES_TYPE);
@@ -99,11 +100,26 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
         }
     }
 
+    private boolean hasKeyTeam() {
+        return getArguments().containsKey(KEY_TEAM);
+    }
+
     void initView() {
         Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.colorPrimary)));
         Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white)));
 
         ivImagePick.getImageView().setImageResource(R.drawable.bg_image_pick);
+
+        if (hasKeyTeam()) {
+            tvCreateTeam.setText(getString(R.string.update_team));
+            displayTeamInfo(team);
+        }
+    }
+
+    void displayTeamInfo(TeamResponse team) {
+        etTeamName.setContent(team.getName());
+        ImageLoaderUtils.displayImage(team.getLogo(), ivImagePick.getImageView());
+        etDescription.setContent(team.getDescription());
     }
 
     @NonNull
@@ -177,9 +193,13 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
     public void onCreateTeamClicked() {
         if (!isValid()) return;
 
-        TeamRequest request = new TeamRequest(leagueResponse.getId(), etTeamName.getContent(),
+        TeamRequest request = new TeamRequest(leagueId, etTeamName.getContent(),
                 etDescription.getContent(), filePath == null ? "" : filePath.getAbsolutePath());
-        presenter.createTeam(request);
+        if (!hasKeyTeam()) {
+            presenter.createTeam(request);
+        } else {
+            presenter.updateTeam(team.getId(), request);
+        }
     }
 
     @Override
@@ -189,13 +209,15 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
     }
 
     @Override
-    public void onInvitationAccept() {
+    public void updateTeamSuccess(TeamResponse response) {
+        bus.send(new LeagueEvent());
+        bus.send(new TeamEvent(response));
         getActivity().finish();
     }
 
     private void goLeagueDetail() {
         AloneFragmentActivity.with(this)
-                .parameters(LeagueDetailFragment.newBundle(leagueTitle, leagueResponse.getId(), leagueType))
+                .parameters(LeagueDetailFragment.newBundle(leagueTitle, leagueId, leagueType))
                 .start(LeagueDetailFragment.class);
         getActivity().finish();
     }
