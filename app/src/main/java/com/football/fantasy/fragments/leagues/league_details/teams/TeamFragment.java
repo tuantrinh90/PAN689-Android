@@ -48,7 +48,7 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
     @BindView(R.id.rvTeam)
     ExtRecyclerView<TeamResponse> rvTeam;
 
-    LeagueResponse leagueResponse;
+    LeagueResponse league;
     String leagueType;
 
     TeamAdapter teamAdapter;
@@ -68,7 +68,7 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
     }
 
     void getDataFromBundle() {
-        leagueResponse = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
+        league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
         leagueType = getArguments().getString(KEY_LEAGUE_TYPE);
     }
 
@@ -77,9 +77,11 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
             displayTime();
             teamAdapter = new TeamAdapter(
                     new ArrayList<>(),
+                    league.getOwner(),
                     team -> {
                         AloneFragmentActivity.with(this)
-                                .parameters(TeamDetailFragment.newBundle(team, leagueResponse.getId()))
+                                .parameters(TeamDetailFragment.newBundle(
+                                        team, league.getId()))
                                 .start(TeamDetailFragment.class);
                     },
                     removeTeamResponse -> {
@@ -88,7 +90,7 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
                                 String.format(getString(R.string.remove_team_message), removeTeamResponse.getName()),
                                 getString(R.string.yes),
                                 getString(R.string.no), (dialogInterface, i) -> {
-                                    presenter.removeTeam(leagueResponse.getId(), removeTeamResponse.getId());
+                                    presenter.removeTeam(league.getId(), removeTeamResponse.getId());
                                 });
                     });
 
@@ -105,19 +107,19 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
     }
 
     void displayTime() {
-        tvTeamSetupLabel.setText(DateTimeUtils.convertCalendarToString(leagueResponse.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
+        tvTeamSetupLabel.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
 
-        if (leagueResponse.getGameplayOption().equalsIgnoreCase(LeagueRequest.GAMEPLAY_OPTION_TRANSFER)) {
+        if (league.getGameplayOption().equalsIgnoreCase(LeagueRequest.GAMEPLAY_OPTION_TRANSFER)) {
             tvTeamSetupLabel.setText(R.string.team_setup_time);
-            tvTeamSetupTime.setText(DateTimeUtils.convertCalendarToString(leagueResponse.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
+            tvTeamSetupTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
         } else {
             tvTeamSetupTime.setText(R.string.start_time);
-            tvTeamSetupTime.setText(DateTimeUtils.convertCalendarToString(leagueResponse.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
+            tvTeamSetupTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
         }
     }
 
     void getTeams() {
-        presenter.getTeams(leagueResponse.getId());
+        presenter.getTeams(league.getId());
     }
 
     @NonNull

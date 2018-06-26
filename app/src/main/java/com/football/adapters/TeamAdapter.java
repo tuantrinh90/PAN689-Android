@@ -24,13 +24,16 @@ public class TeamAdapter extends DefaultAdapter<TeamResponse> {
 
     private CompositeDisposable mDisposable = new CompositeDisposable();
 
+    private boolean leagueOwner;
     private Consumer<TeamResponse> detailCallback;
     private Consumer<TeamResponse> removeCallback;
 
     public TeamAdapter(List<TeamResponse> teams,
+                       boolean leagueOwner,
                        Consumer<TeamResponse> detailCallback,
                        Consumer<TeamResponse> removeCallback) {
         super(teams);
+        this.leagueOwner = leagueOwner;
         this.detailCallback = detailCallback;
         this.removeCallback = removeCallback;
     }
@@ -59,9 +62,8 @@ public class TeamAdapter extends DefaultAdapter<TeamResponse> {
             holder.tvRemove.setVisibility(View.GONE);
             holder.tvCompleted.setVisibility(View.VISIBLE);
         } else {
-
             boolean owner = data.getOwner();
-            holder.tvRemove.setVisibility(owner ? View.GONE : View.VISIBLE);
+            holder.tvRemove.setVisibility(this.leagueOwner && owner ? View.VISIBLE : View.GONE);
             holder.ivLock.setVisibility(owner ? View.VISIBLE : View.GONE);
             holder.tvCompleted.setVisibility(View.GONE);
         }
