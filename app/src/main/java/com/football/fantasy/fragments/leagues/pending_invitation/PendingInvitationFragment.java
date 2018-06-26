@@ -129,20 +129,20 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
             mAdapter = new LeaguesAdapter(
                     LeaguesAdapter.PENDING_INVITATIONS,
                     new ArrayList<>(),
-                    details -> {
+                    league -> { // click event
                         AloneFragmentActivity.with(this)
-                                .parameters(LeagueDetailFragment.newBundle(getString(R.string.pending_invitation), details.getId(), LeagueDetailFragment.PENDING_LEAGUES))
+                                .parameters(LeagueDetailFragment.newBundle(getString(R.string.pending_invitation), league.getId(), LeagueDetailFragment.PENDING_LEAGUES))
                                 .start(LeagueDetailFragment.class);
                     },
-                    approve -> {
-                        if (approve.getCurrentNumberOfUser() >= approve.getNumberOfUser()) {
+                    league -> { // approve event
+                        if (league.getCurrentNumberOfUser() >= league.getNumberOfUser()) {
                             showMessage(getString(R.string.message_league_full));
                         } else {
-                            presenter.invitationDecisions(approve, Constant.KEY_INVITATION_ACCEPT);
+                            presenter.invitationDecisions(league, Constant.KEY_INVITATION_ACCEPT);
                         }
                     },
-                    reject -> {
-                        presenter.invitationDecisions(reject, Constant.KEY_INVITATION_DECLINE);
+                    league -> { // reject event
+                        presenter.invitationDecisions(league, Constant.KEY_INVITATION_DECLINE);
                     },
                     null);
 
