@@ -36,7 +36,7 @@ public class AppPreferences {
                 synchronized (AppPreferences.class) {
                     // instance of app
                     if (instance == null) {
-                        instance = new AppPreferences(context);
+                        instance = new AppPreferences(context.getApplicationContext());
                     }
 
                     // instance AES crypt
