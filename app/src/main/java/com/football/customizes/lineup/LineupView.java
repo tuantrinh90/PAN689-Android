@@ -61,7 +61,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
             int playerCount = squad[line]; // số lượng cầu thủ trên 1 hàng
             for (int order = 0; order < playerCount; order++) {
                 PlayerView view = createPlayerView(mContext, order, line);
-                displayPlayer(view, (players.length == 0 || players.length < position) ? null : players[position]);
+                displayPlayer(view, (players.length == 0 || players.length <= position) ? null : players[position]);
                 position++;
                 view.setOnPlayerViewClickListener(this);
                 this.addView(view);

@@ -43,7 +43,7 @@ public class TeamStatisticAdapter extends ExtBaseAdapter<RoundResponse, TeamStat
         viewHolder.ivChange.setImageResource(data.isIncrease() ? R.drawable.ic_arrow_upward_white_small : R.drawable.ic_arrow_downward_white_small);
     }
 
-    class ViewHolder extends ExtPagingListView.ExtViewHolder {
+    static class ViewHolder extends ExtPagingListView.ExtViewHolder {
         @BindView(R.id.tvRound)
         ExtTextView tvRound;
         @BindView(R.id.tvPoint)
