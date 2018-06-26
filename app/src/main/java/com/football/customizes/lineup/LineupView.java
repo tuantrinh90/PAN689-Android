@@ -17,6 +17,7 @@ import java8.util.function.BiConsumer;
 public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerViewClickListener {
 
     private static final int LINE = 4;
+    public static final int NONE_ORDER = -1;
 
     private Context mContext;
 
@@ -58,8 +59,8 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         int position = 0;
         for (int line = 0; line < LINE; line++) {
             int playerCount = squad[line]; // số lượng cầu thủ trên 1 hàng
-            for (int i = 0; i < playerCount; i++) {
-                PlayerView view = createPlayerView(mContext, i, line);
+            for (int order = 0; order < playerCount; order++) {
+                PlayerView view = createPlayerView(mContext, order, line);
                 displayPlayer(view, (players.length == 0 || players.length < position) ? null : players[position]);
                 position++;
                 view.setOnPlayerViewClickListener(this);
@@ -67,7 +68,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
 
                 // wrap
                 LayoutParams lp = new LayoutParams(view.getLayoutParams());
-                setFlexItemAttributes(0, lp, i == 0);
+                setFlexItemAttributes(0, lp, order == 0);
                 view.setLayoutParams(lp);
             }
         }
@@ -86,9 +87,9 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
     }
 
     @NonNull
-    private PlayerView createPlayerView(Context context, int i, int line) {
+    private PlayerView createPlayerView(Context context, int order, int line) {
         PlayerView playerView = new PlayerView(context);
-        playerView.setIndex(i);
+        playerView.setOrder(order);
         playerView.setPosition(line);
         playerView.setRemovable(removable);
         playerView.setEditable(editable);
@@ -147,9 +148,8 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         this.players = players;
     }
 
-    public void addPlayer(PlayerResponse player, int line, Integer pickOrder) {
-//        int position = pickOrder != -1 ? pickOrder : getPosition(null, line, pickOrder);
-        int position = getPosition(null, line, pickOrder);
+    public void addPlayer(PlayerResponse player, int line, Integer order) {
+        int position = getPosition(null, line, order);
         if (position != -1) {
             setPlayer(player, position);
         }
@@ -162,13 +162,17 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         }
     }
 
-    private int getPosition(PlayerResponse player, int line, Integer pickOrder) {
+    private int getPosition(PlayerResponse player, int line, Integer order) {
         int index = 0;
         for (int i = 0; i < line; i++) {
             index += squad[i];
         }
         for (int i = 0; i < squad[line]; i++) {
-            if (((PlayerView) getChildAt(index)).getPlayer() == player) {
+            if (order != NONE_ORDER) {
+                if (i == order) {
+                    return index;
+                }
+            } else if (((PlayerView) getChildAt(index)).getPlayer() == player) {
                 return index;
             }
             index++;
@@ -183,18 +187,18 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
     }
 
     @Override
-    public void onRemove(PlayerResponse player, int position, int index) {
-        Optional.from(removeCallback).doIfPresent(c -> c.accept(player,  position, index));
+    public void onRemove(PlayerResponse player, int position, int order) {
+        Optional.from(removeCallback).doIfPresent(c -> c.accept(player, position, order));
     }
 
     @Override
-    public void onAddPlayer(int position, int index) {
-        Optional.from(addCallback).doIfPresent(c -> c.accept(position, index));
+    public void onAddPlayer(int position, int order) {
+        Optional.from(addCallback).doIfPresent(c -> c.accept(position, order));
     }
 
     @Override
-    public void onEdit(PlayerResponse player, int position) {
-        Optional.from(editCallback).doIfPresent(c -> c.accept(player, position));
+    public void onEdit(PlayerResponse player, int order) {
+        Optional.from(editCallback).doIfPresent(c -> c.accept(player, order));
     }
 
     public void clear() {

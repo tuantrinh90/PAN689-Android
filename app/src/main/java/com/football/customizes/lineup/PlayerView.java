@@ -30,7 +30,7 @@ public class PlayerView extends LinearLayout {
     public TextView tvInjured;
 
     private OnPlayerViewClickListener mListener;
-    private int index;
+    private int order;
     private int position; // vị trí: G, M, D, A
     private PlayerResponse player;
     private boolean named = true;
@@ -97,12 +97,12 @@ public class PlayerView extends LinearLayout {
         return player;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    public void setOrder(int order) {
+        this.order = order;
     }
 
-    public int getIndex() {
-        return index;
+    public int getOrder() {
+        return order;
     }
 
     public int getPosition() {
@@ -123,14 +123,14 @@ public class PlayerView extends LinearLayout {
         switch (view.getId()) {
             case R.id.ivRemove:
                 if (removable) {
-                    Optional.from(mListener).doIfPresent(listener -> listener.onRemove(player, 3 - position, index));
+                    Optional.from(mListener).doIfPresent(listener -> listener.onRemove(player, 3 - position, order));
                 }
                 break;
             case R.id.ivPlayer:
                 if (player == null && addable) {
-                    Optional.from(mListener).doIfPresent(listener -> listener.onAddPlayer(position, index));
+                    Optional.from(mListener).doIfPresent(listener -> listener.onAddPlayer(position, order));
                 } else if (player != null && editable) {
-                    Optional.from(mListener).doIfPresent(listener -> listener.onEdit(player, index));
+                    Optional.from(mListener).doIfPresent(listener -> listener.onEdit(player, order));
                 }
                 break;
         }
@@ -154,10 +154,10 @@ public class PlayerView extends LinearLayout {
     }
 
     public interface OnPlayerViewClickListener {
-        void onRemove(PlayerResponse player, int position, int index);
+        void onRemove(PlayerResponse player, int position, int order);
 
-        void onAddPlayer(int position, int index);
+        void onAddPlayer(int position, int order);
 
-        void onEdit(PlayerResponse player, int position);
+        void onEdit(PlayerResponse player, int order);
     }
 }

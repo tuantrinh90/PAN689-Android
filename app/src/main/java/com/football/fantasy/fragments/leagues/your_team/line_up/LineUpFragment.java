@@ -115,9 +115,9 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
 
         // setup lineupView
         lineupView.setupLineup(new PlayerResponse[18], new int[]{4, 6, 6, 2});
-        lineupView.setAddCallback((position, index) -> {
+        lineupView.setAddCallback((position, order) -> {
             AloneFragmentActivity.with(this)
-                    .parameters(PlayerPopupFragment.newBundle(3 - position, index, league.getId()))
+                    .parameters(PlayerPopupFragment.newBundle(3 - position, order, league.getId()))
                     .start(PlayerPopupFragment.class);
         });
         lineupView.setRemoveCallback((player, position, index) -> {
@@ -149,7 +149,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
                             switch (event.getAction()) {
                                 case PlayerEvent.ACTION_ADD_CLICK:
                                     callback = event.getCallback();
-                                    insertToLineUpView(event.getData(), event.getPosition(), event.getIndex());
+                                    insertToLineUpView(event.getData(), event.getPosition(), event.getOrder() == null ? LineupView.NONE_ORDER : event.getOrder());
                                     break;
                             }
                         }
@@ -198,7 +198,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     public void displayLineupPlayers(List<PlayerResponse> players) {
         lineupView.notifyDataSetChanged();
         for (PlayerResponse player : players) {
-            lineupView.addPlayer(player, 3 - player.getMainPosition(), -1);
+            lineupView.addPlayer(player, 3 - player.getMainPosition(), player.getOrder() == null ? LineupView.NONE_ORDER : player.getOrder());
         }
         enableCompleteButton(lineupView.isSetupComplete());
     }
@@ -213,7 +213,6 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
 
     @Override
     public void onAddPlayer(TeamResponse team, PlayerResponse player, int order) {
-//        lineupView.addPlayer(player, 3 - player.getMainPosition(), team.getPickOrder()); // todo: fix late
         lineupView.addPlayer(player, 3 - player.getMainPosition(), order);
 
         if (lineupView.isSetupComplete()) {

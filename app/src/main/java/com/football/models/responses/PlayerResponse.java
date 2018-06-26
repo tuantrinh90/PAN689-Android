@@ -134,6 +134,8 @@ public class PlayerResponse implements Serializable {
     private Integer foulsCommitted;
     @JsonProperty("point")
     private Integer point;
+    @JsonProperty("order")
+    private Integer order;
 
     public PlayerResponse() {
     }
@@ -383,6 +385,10 @@ public class PlayerResponse implements Serializable {
         return point;
     }
 
+    public Integer getOrder() {
+        return order;
+    }
+
     @Override
     public String toString() {
         return "PlayerResponse{" +
@@ -416,6 +422,7 @@ public class PlayerResponse implements Serializable {
                 ", turnovers=" + turnovers +
                 ", ballsRecovered=" + ballsRecovered +
                 ", foulsCommitted=" + foulsCommitted +
+                ", order=" + order +
                 ", point=" + point +
                 '}';
     }

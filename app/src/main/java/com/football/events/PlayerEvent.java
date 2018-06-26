@@ -12,14 +12,14 @@ public class PlayerEvent implements IEvent {
     private int action;
     private int position;
     private PlayerResponse data;
-    private int index;
+    private Integer order;
     private BiConsumer<Boolean, String> callback;
 
     private PlayerEvent(Builder builder) {
         action = builder.action;
         position = builder.position;
         data = builder.data;
-        index = builder.index;
+        order = builder.order;
         callback = builder.callback;
     }
 
@@ -35,8 +35,8 @@ public class PlayerEvent implements IEvent {
         return data;
     }
 
-    public int getIndex() {
-        return index;
+    public Integer getOrder() {
+        return order;
     }
 
     public BiConsumer<Boolean, String> getCallback() {
@@ -47,7 +47,7 @@ public class PlayerEvent implements IEvent {
         private int action;
         private int position;
         private PlayerResponse data;
-        private int index;
+        private Integer order;
         private BiConsumer<Boolean, String> callback;
 
         public Builder() {
@@ -68,8 +68,8 @@ public class PlayerEvent implements IEvent {
             return this;
         }
 
-        public Builder index(int val) {
-            index = val;
+        public Builder order(Integer val) {
+            order = val;
             return this;
         }
 

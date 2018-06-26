@@ -35,7 +35,7 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
     private static final String TAG = "PlayerPopupFragment";
 
     private static final String KEY_POSITION = "POSITION";
-    private static final String KEY_INDEX = "INDEX";
+    private static final String KEY_ORDER = "ORDER";
     private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
 
     @BindView(R.id.svSearch)
@@ -51,7 +51,7 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
     private int page = 1;
     private String query = "";
     private Integer mainPosition = null;
-    private int index;
+    private int order;
 
     private int valueDirection = Constant.SORT_NONE;
     private String filterClubs = "";
@@ -60,10 +60,10 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
         return new PlayerPopupFragment();
     }
 
-    public static Bundle newBundle(int position, Integer index, int leagueId) {
+    public static Bundle newBundle(int position, Integer order, int leagueId) {
         Bundle args = new Bundle();
         args.putInt(KEY_POSITION, position);
-        args.putInt(KEY_INDEX, index);
+        args.putInt(KEY_ORDER, order);
         args.putInt(KEY_LEAGUE_ID, leagueId);
         return args;
     }
@@ -85,7 +85,7 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
     private void getDataFromBundle() {
         Bundle bundle = getArguments();
         if (bundle != null) {
-            index = bundle.getInt(KEY_INDEX);
+            order = bundle.getInt(KEY_ORDER);
             leagueId = bundle.getInt(KEY_LEAGUE_ID);
             mainPosition = bundle.getInt(KEY_POSITION);
         }
@@ -178,7 +178,7 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
                         bus.send(new PlayerEvent.Builder()
                                 .action(PlayerEvent.ACTION_ADD_CLICK)
                                 .position(mainPosition)
-                                .index(index)
+                                .order(order)
                                 .data(player)
                                 .callback((aBoolean, message) -> {
                                     showLoading(false);
