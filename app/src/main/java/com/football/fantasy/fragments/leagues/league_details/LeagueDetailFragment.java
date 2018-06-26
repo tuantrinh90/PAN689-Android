@@ -127,6 +127,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
                     .subscribeWith(new DisposableObserver<LeagueEvent>() {
                         @Override
                         public void onNext(LeagueEvent event) {
+                            LeagueDetailFragment.this.league = event.getLeague();
                             displayLeague(event.getLeague());
                             if (leagueDetailViewPagerAdapter.getItem(0) instanceof LeagueInfoFragment) {
                                 ((LeagueInfoFragment) leagueDetailViewPagerAdapter.getItem(0)).displayLeague(event.getLeague());
