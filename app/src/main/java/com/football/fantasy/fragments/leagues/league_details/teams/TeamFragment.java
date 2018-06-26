@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.bon.logger.Logger;
@@ -14,6 +13,7 @@ import com.bon.util.DialogUtils;
 import com.football.adapters.TeamAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
 import com.football.models.requests.LeagueRequest;
@@ -45,8 +45,8 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
     ExtTextView tvTeamSetupLabel;
     @BindView(R.id.tvTeamSetupTime)
     ExtTextView tvTeamSetupTime;
-    @BindView(R.id.rvRecyclerView)
-    ExtPagingListView rvRecyclerView;
+    @BindView(R.id.rvTeam)
+    ExtRecyclerView<TeamResponse> rvTeam;
 
     LeagueResponse leagueResponse;
     String leagueType;
@@ -76,7 +76,6 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
         try {
             displayTime();
             teamAdapter = new TeamAdapter(
-                    mActivity,
                     new ArrayList<>(),
                     team -> {
                         AloneFragmentActivity.with(this)
@@ -93,11 +92,13 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
                                 });
                     });
 
-            rvRecyclerView.init(mActivity, teamAdapter)
-                    .setOnExtRefreshListener(() -> {
-                        Optional.from(rvRecyclerView).doIfPresent(rv -> rv.clearItems());
+            rvTeam.
+                    adapter(teamAdapter)
+                    .refreshListener(() -> {
+                        Optional.from(rvTeam).doIfPresent(ExtRecyclerView::clear);
                         getTeams();
-                    });
+                    })
+                    .build();
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
@@ -127,9 +128,9 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
 
     @Override
     public void displayTeams(List<TeamResponse> teams) {
-        Optional.from(rvRecyclerView).doIfPresent(rv -> {
-            rv.clearItems();
-            rv.addNewItems(teams);
+        Optional.from(rvTeam).doIfPresent(rv -> {
+            rv.clear();
+            rv.addItems(teams);
         });
     }
 
@@ -140,11 +141,11 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
 
     @Override
     public void showLoadingPagingListView(boolean isLoading) {
-        Optional.from(rvRecyclerView).doIfPresent(rv -> {
+        Optional.from(rvTeam).doIfPresent(rv -> {
             if (isLoading) {
-                rvRecyclerView.startLoading(true);
+                rvTeam.startLoading();
             } else {
-                rvRecyclerView.stopLoading(true);
+                rvTeam.stopLoading();
             }
         });
     }

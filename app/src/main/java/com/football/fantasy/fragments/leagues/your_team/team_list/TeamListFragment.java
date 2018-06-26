@@ -5,12 +5,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.football.adapters.TeamAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
 import com.football.models.responses.LeagueResponse;
@@ -28,8 +28,8 @@ public class TeamListFragment extends BaseMainMvpFragment<ITeamListView, ITeamLi
     ExtTextView tvNumber;
     @BindView(R.id.tvTotal)
     ExtTextView tvTotal;
-    @BindView(R.id.rvRecyclerView)
-    ExtPagingListView rvRecyclerView;
+    @BindView(R.id.rvTeam)
+    ExtRecyclerView<TeamResponse> rvTeam;
 
     LeagueResponse league;
     TeamAdapter teamAdapter;
@@ -70,7 +70,6 @@ public class TeamListFragment extends BaseMainMvpFragment<ITeamListView, ITeamLi
         tvTotal.setText(String.valueOf(league.getNumberOfUser()));
 
         teamAdapter = new TeamAdapter(
-                mActivity,
                 new ArrayList<>(),
                 team -> { // handle click
                     AloneFragmentActivity.with(this)
@@ -78,11 +77,12 @@ public class TeamListFragment extends BaseMainMvpFragment<ITeamListView, ITeamLi
                             .start(TeamDetailFragment.class);
                 },
                 null);
-        rvRecyclerView.init(mActivity, teamAdapter)
-                .setOnExtRefreshListener(() -> {
-                    Optional.from(rvRecyclerView).doIfPresent(rv -> rv.clearItems());
+        rvTeam.adapter(teamAdapter)
+                .refreshListener(() -> {
+                    Optional.from(rvTeam).doIfPresent(ExtRecyclerView::clear);
                     getTeams();
-                });
+                })
+                .build();
     }
 
     @NonNull
@@ -93,6 +93,6 @@ public class TeamListFragment extends BaseMainMvpFragment<ITeamListView, ITeamLi
 
     @Override
     public void displayTeams(List<TeamResponse> teams) {
-        Optional.from(rvRecyclerView).doIfPresent(rv -> rv.addNewItems(teams));
+        Optional.from(rvTeam).doIfPresent(rv -> rv.addItems(teams));
     }
 }
