@@ -281,4 +281,12 @@
     <string name="more_game_rules">Game Rules</string>
     <string name="more_how_it_works">How it works</string>
     <string name="more_contact">Contact us</string>
+    <string name="fullname">Full name</string>
+    <string name="dob">Date of birth</string>
+    <string name="gender">Gender</string>
+    <string name="address">Address</string>
+    <string name="phone">Phone</string>
+    <string name="introduction">Introduction</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
 </resources>

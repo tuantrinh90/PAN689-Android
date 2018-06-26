@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/padding_layout"
+    android:paddingRight="@dimen/padding_layout">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvTitle"
+                style="@style/StyleTitle"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:textAllCaps="true"
+                app:textViewFontAssetName="@string/font_display_black_italic"
+                tools:text="My Profile" />
+
+            <ImageView
+                android:id="@+id/ivMenu"
+                style="@style/IconSmall"
+                android:background="@drawable/bg_null_gray_selector"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_menu_shadow" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_layout"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleContentContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="@string/fullname"
+                    app:textAllCaps="true"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvFullName"
+                    style="@style/StyleTitleBlue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="@string/fullname"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+
+            </LinearLayout>
+
+            <com.football.customizes.images.CircleImageViewApp
+                android:id="@+id/ivAvatar"
+                android:layout_width="@dimen/avatar_large"
+                android:layout_height="@dimen/avatar_large" />
+        </TableRow>
+
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleContentContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:text="@string/dob"
+            app:textAllCaps="true"
+            app:textViewFontAssetName="@string/font_display_bold" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvDob"
+            style="@style/StyleContentContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            app:textAllCaps="true"
+            tools:text="13/04/2018" />
+
+        <View
+            style="@style/Line"
+            android:layout_marginTop="@dimen/padding_layout" />
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleContentContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:padding="0dp"
+            android:text="@string/gender"
+            app:textAllCaps="true"
+            app:textViewFontAssetName="@string/font_display_bold" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvGender"
+            style="@style/StyleContentContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            tools:text="Male" />
+
+        <View
+            style="@style/Line"
+            android:layout_marginTop="@dimen/padding_layout" />
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleContentContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:padding="0dp"
+            android:text="@string/address"
+            app:textAllCaps="true"
+            app:textViewFontAssetName="@string/font_display_bold" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvAddress"
+            style="@style/StyleContentContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            tools:text="12 floor" />
+
+        <View
+            style="@style/Line"
+            android:layout_marginTop="@dimen/padding_layout" />
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleContentContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:padding="0dp"
+            android:text="@string/phone"
+            app:textAllCaps="true"
+            app:textViewFontAssetName="@string/font_display_bold" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvPhone"
+            style="@style/StyleContentContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            app:textAllCaps="true"
+            tools:text="+8412345689" />
+
+        <View
+            style="@style/Line"
+            android:layout_marginTop="@dimen/padding_layout" />
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleContentContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:padding="0dp"
+            android:text="@string/email"
+            app:textAllCaps="true"
+            app:textViewFontAssetName="@string/font_display_bold" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvEmail"
+            style="@style/StyleContentContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            tools:text="toannx@gmail.com" />
+
+        <View
+            style="@style/Line"
+            android:layout_marginTop="@dimen/padding_layout" />
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleContentContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:padding="0dp"
+            android:text="@string/introduction"
+            app:textAllCaps="true"
+            app:textViewFontAssetName="@string/font_display_bold" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvIntroduction"
+            style="@style/StyleContentContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            tools:text="@string/introduction" />
+
+        <View
+            style="@style/Line"
+            android:layout_marginTop="@dimen/padding_layout" />
+    </LinearLayout>
+
+</ScrollView>

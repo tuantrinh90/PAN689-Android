@@ -8,9 +8,11 @@ import android.support.v4.app.ActivityCompat;
 import android.view.View;
 
 import com.bon.util.DialogUtils;
+import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
 import com.football.fantasy.activities.AccountActivity;
+import com.football.fantasy.fragments.more.profile.ProfileFragment;
 
 import butterknife.OnClick;
 
@@ -41,6 +43,9 @@ public class MoreFragment extends BaseMainMvpFragment<IMoreView, IMorePresenter<
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.profile:
+                AloneFragmentActivity
+                        .with(this)
+                        .start(ProfileFragment.class);
                 break;
             case R.id.settings:
                 break;
