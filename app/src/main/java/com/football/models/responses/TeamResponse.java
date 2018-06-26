@@ -35,6 +35,8 @@ public class TeamResponse implements Serializable {
     private Integer pickOrder;
     @JsonProperty("is_owner")
     private Boolean isOwner;
+    @JsonProperty("is_completed")
+    private Boolean isCompleted;
     @JsonIgnore
     private boolean isChecked;
 
@@ -162,6 +164,10 @@ public class TeamResponse implements Serializable {
         this.isChecked = checked;
     }
 
+    public Boolean getCompleted() {
+        return isCompleted;
+    }
+
     @Override
     public String toString() {
         return "TeamResponse{" +
@@ -180,6 +186,7 @@ public class TeamResponse implements Serializable {
                 ", pickOrder=" + pickOrder +
                 ", isOwner=" + isOwner +
                 ", isChecked=" + isChecked +
+                ", is_completed=" + isCompleted +
                 '}';
     }
 }

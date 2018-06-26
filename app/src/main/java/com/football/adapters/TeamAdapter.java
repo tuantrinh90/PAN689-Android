@@ -54,14 +54,17 @@ public class TeamAdapter extends DefaultAdapter<TeamResponse> {
         holder.tvTeam.setText(data.getName());
         holder.tvOwner.setText(data.getUser() == null ? "" : AppUtilities.getNameOrMe(holder.itemView.getContext(), data));
 
-        holder.tvRemove.setVisibility(View.GONE);
-        holder.ivLock.setVisibility(View.GONE);
+        if (data.getCompleted()) {
+            holder.ivLock.setVisibility(View.GONE);
+            holder.tvRemove.setVisibility(View.GONE);
+            holder.tvCompleted.setVisibility(View.VISIBLE);
+        } else {
 
-//        if (data.getOwner()) {
-//            holder.tvRemove.setVisibility(data.getOwner() ? View.GONE : View.VISIBLE);
-//        }
-
-        holder.ivLock.setVisibility(data.getOwner() ? View.VISIBLE : View.GONE);
+            boolean owner = data.getOwner();
+            holder.tvRemove.setVisibility(owner ? View.GONE : View.VISIBLE);
+            holder.ivLock.setVisibility(owner ? View.VISIBLE : View.GONE);
+            holder.tvCompleted.setVisibility(View.GONE);
+        }
 
         // click
         mDisposable.add(RxView.clicks(holder.itemView).subscribe(o -> Optional.from(detailCallback).doIfPresent(t -> t.accept(data))));
@@ -77,6 +80,8 @@ public class TeamAdapter extends DefaultAdapter<TeamResponse> {
         ExtTextView tvOwner;
         @BindView(R.id.tvRemove)
         ExtTextView tvRemove;
+        @BindView(R.id.tvCompleted)
+        ExtTextView tvCompleted;
         @BindView(R.id.ivLock)
         ImageView ivLock;
 
