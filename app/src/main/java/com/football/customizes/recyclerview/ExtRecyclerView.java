@@ -146,11 +146,12 @@ public class ExtRecyclerView<T> extends FrameLayout {
     }
 
     public void build() {
-        layoutManager.setAutoMeasureEnabled(autoMeasureEnable);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setLoadingLayout(loadingLayout);
-
+        if (onExtRefreshListener == null) {
+            rfLayout.setEnabled(false);
+        }
 
         endlessScrollListener = new EndlessScrollListener(recyclerView.getLayoutManager()) {
             @Override

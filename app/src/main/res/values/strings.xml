@@ -206,6 +206,7 @@
     <string name="player_list">Player list</string>
     <string name="team_list">Team list</string>
     <string name="league_details">League details</string>
+    <string name="team_details">Team details</string>
     <string name="message_confirm_remove_lineup_player">Do you really want to remove this player out of your lineup?</string>
     <string name="message_logout">message_logout?</string>
     <string name="statistics">Statistics</string>

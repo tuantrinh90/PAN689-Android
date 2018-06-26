@@ -3,7 +3,6 @@ package com.football.fantasy.fragments.leagues.team_lineup;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
-import com.football.models.responses.TeamLineupResponse;
 import com.football.models.responses.TeamPitchViewResponse;
 import com.football.utilities.RxUtilities;
 
@@ -57,7 +56,7 @@ public class TeamLineUpPresenter extends BaseDataPresenter<ITeamLineUpView> impl
 
                         @Override
                         public void onSuccess(TeamPitchViewResponse response) {
-                            v.displayMainPlayers(response.getMinorPlayers());
+                            v.displayMainPlayers(response.getMainPlayers());
                             v.displayMinorPlayers(response.getMinorPlayers());
                         }
 

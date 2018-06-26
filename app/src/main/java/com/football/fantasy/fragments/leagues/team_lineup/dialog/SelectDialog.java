@@ -52,7 +52,12 @@ public class SelectDialog extends ExtBaseBottomDialogFragment {
         super.onViewCreated(view, savedInstanceState);
         TeamLineupPlayerAdapter adapter = new TeamLineupPlayerAdapter(
                 players,
-                player -> clickCallback.accept(player));
+                player -> {
+                    clickCallback.accept(player);
+                    dismiss();
+                });
+
+        // setup adapter
         rvPlayer
                 .adapter(adapter)
                 .autoMeasureEnable(true)

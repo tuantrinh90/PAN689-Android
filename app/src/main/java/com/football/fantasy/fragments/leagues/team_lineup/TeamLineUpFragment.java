@@ -89,12 +89,15 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
 
     private void initView() {
         lineupView.setEditable(true);
+        lineupView.setAddable(true);
+        lineupView.setRemovable(true);
         lineupView.setJustifyContent(AlignContent.SPACE_AROUND);
-        lineupView.setEditCallback((player, position) -> {
+        lineupView.setAddCallback((position, order) -> {
+            List<PlayerResponse> players = rvPlayer.getAdapter().getDataSet();
             new SelectDialog()
-                    .setPlayers(rvPlayer.getAdapter().getDataSet())
-                    .setClickCallback(playerr -> {
-
+                    .setPlayers(players)
+                    .setClickCallback(player -> {
+                        lineupView.addPlayer(player, position, order);
                     })
                     .show(getChildFragmentManager(), null);
         });
@@ -116,6 +119,11 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
 
     private void getPitchView() {
         presenter.getPitchView(team.getId(), pitchSelect);
+    }
+
+    @Override
+    public int getTitleId() {
+        return R.string.team_details;
     }
 
     @NonNull
@@ -158,6 +166,9 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
 
     @Override
     public void displayMainPlayers(List<PlayerResponse> players) {
+        while (players.size() < 11) {
+            players.add(null);
+        }
         PlayerResponse[] array = new PlayerResponse[players.size()];
         players.toArray(array);
         lineupView.setupLineup(array, pitchSelect);

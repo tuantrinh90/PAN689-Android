@@ -21,9 +21,9 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
 
     private Context mContext;
 
-    private BiConsumer<PlayerResponse, Integer> editCallback;
-    private TriConsumer<PlayerResponse, Integer, Integer> removeCallback;
-    private BiConsumer<Integer, Integer> addCallback;
+    private BiConsumer<PlayerResponse, Integer> editCallback;// player, order
+    private TriConsumer<PlayerResponse, Integer, Integer> removeCallback;// player, position, order
+    private BiConsumer<Integer, Integer> addCallback; // position, order
 
     private int[] squad = new int[]{4, 6, 6, 2}; // sắp xếp đội hình theo từng hàng, mỗi phần tử tương ứng với số lượng cầu thủ tại hàng đó
     private PlayerResponse[] players = new PlayerResponse[18];
