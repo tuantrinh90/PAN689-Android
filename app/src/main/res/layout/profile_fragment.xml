@@ -24,9 +24,9 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:padding="0dp"
+                android:text="My Profile"
                 android:textAllCaps="true"
-                app:textViewFontAssetName="@string/font_display_black_italic"
-                tools:text="My Profile" />
+                app:textViewFontAssetName="@string/font_display_black_italic" />
 
             <ImageView
                 android:id="@+id/ivMenu"

@@ -103,7 +103,7 @@ public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticVie
     public void initToolbar(@NonNull ActionBar supportActionBar) {
         super.initToolbar(supportActionBar);
         supportActionBar.setDisplayHomeAsUpEnabled(true);
-        supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_blue);
+        supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
     }
 
     @Override
