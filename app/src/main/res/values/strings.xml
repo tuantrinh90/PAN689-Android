@@ -34,6 +34,7 @@
     <string name="match_up">Match up</string>
     <string name="notification">Notification</string>
     <string name="more">More</string>
+    <string name="information">Information</string>
     <string name="my_leagues">My Leagues</string>
     <string name="newsResponses">News</string>
     <string name="create">Create</string>
@@ -275,4 +276,9 @@
     <string name="point_last_round">%d points last round</string>
     <string name="message_season_not_found">Season not found</string>
     <string name="logout">Logout</string>
+    <string name="more_my_profile">My Profile</string>
+    <string name="more_setting">Setting</string>
+    <string name="more_game_rules">Game Rules</string>
+    <string name="more_how_it_works">How it works</string>
+    <string name="more_contact">Contact us</string>
 </resources>

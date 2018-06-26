@@ -37,16 +37,28 @@ public class MoreFragment extends BaseMainMvpFragment<IMoreView, IMorePresenter<
         return new MoreDataPresenter(getAppComponent());
     }
 
-    @OnClick(R.id.tvLogout)
-    public void onViewClicked() {
-        DialogUtils.messageBox(mActivity,
-                0,
-                getString(R.string.app_name),
-                getString(R.string.message_logout),
-                getString(R.string.ok),
-                getString(R.string.cancel),
-                (dialog, which) -> presenter.logout(),
-                (dialog, which) -> dialog.dismiss());
+    @OnClick({R.id.profile, R.id.settings, R.id.gamerules, R.id.contact, R.id.logout})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.profile:
+                break;
+            case R.id.settings:
+                break;
+            case R.id.gamerules:
+                break;
+            case R.id.contact:
+                break;
+            case R.id.logout:
+                DialogUtils.messageBox(mActivity,
+                        0,
+                        getString(R.string.app_name),
+                        getString(R.string.message_logout),
+                        getString(R.string.ok),
+                        getString(R.string.cancel),
+                        (dialog, which) -> presenter.logout(),
+                        (dialog, which) -> dialog.dismiss());
+                break;
+        }
     }
 
     @Override

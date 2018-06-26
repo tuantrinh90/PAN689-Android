@@ -8,14 +8,180 @@
 
     <com.bon.customview.textview.ExtTextView
         style="@style/StyleHeaderWhite"
-        android:text="@string/more"
+        android:text="@string/information"
         app:textViewFontAssetName="@string/font_display_heavy_italic" />
 
-    <com.bon.customview.textview.ExtTextView
-        android:id="@+id/tvLogout"
-        style="@style/StyleContent"
-        android:text="@string/logout"
-        app:textViewFontAssetName="@string/font_display_heavy_italic" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_layout"
+                android:background="@drawable/bg_border_white"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="@dimen/padding_layout">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_large"
+                    android:layout_height="@dimen/icon_large"
+                    android:layout_marginLeft="@dimen/padding_layout"
+                    android:layout_marginRight="@dimen/padding_layout"
+                    android:src="@drawable/ic_cups" />
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleContent"
+                    android:gravity="center_vertical"
+                    android:text="@string/more_my_profile"
+                    android:textAllCaps="true"
+                    app:textViewFontAssetName="@string/font_display_heavy_italic" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_layout"
+                android:background="@drawable/bg_border_white"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="@dimen/padding_layout">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_large"
+                    android:layout_height="@dimen/icon_large"
+                    android:layout_marginLeft="@dimen/padding_layout"
+                    android:layout_marginRight="@dimen/padding_layout"
+                    android:src="@drawable/ic_cups" />
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleContent"
+                    android:gravity="center_vertical"
+                    android:text="@string/more_setting"
+                    android:textAllCaps="true"
+                    app:textViewFontAssetName="@string/font_display_heavy_italic" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/gamerules"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_layout"
+                android:background="@drawable/bg_border_white"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="@dimen/padding_layout">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_large"
+                    android:layout_height="@dimen/icon_large"
+                    android:layout_marginLeft="@dimen/padding_layout"
+                    android:layout_marginRight="@dimen/padding_layout"
+                    android:src="@drawable/ic_cups" />
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleContent"
+                    android:gravity="center_vertical"
+                    android:text="@string/more_game_rules"
+                    android:textAllCaps="true"
+                    app:textViewFontAssetName="@string/font_display_heavy_italic" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_layout"
+                android:background="@drawable/bg_border_white"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="@dimen/padding_layout">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_large"
+                    android:layout_height="@dimen/icon_large"
+                    android:layout_marginLeft="@dimen/padding_layout"
+                    android:layout_marginRight="@dimen/padding_layout"
+                    android:src="@drawable/ic_cups" />
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleContent"
+                    android:gravity="center_vertical"
+                    android:text="@string/more_how_it_works"
+                    android:textAllCaps="true"
+                    app:textViewFontAssetName="@string/font_display_heavy_italic" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_layout"
+                android:background="@drawable/bg_border_white"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="@dimen/padding_layout">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_large"
+                    android:layout_height="@dimen/icon_large"
+                    android:layout_marginLeft="@dimen/padding_layout"
+                    android:layout_marginRight="@dimen/padding_layout"
+                    android:src="@drawable/ic_cups" />
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleContent"
+                    android:gravity="center_vertical"
+                    android:text="@string/more_contact"
+                    android:textAllCaps="true"
+                    app:textViewFontAssetName="@string/font_display_heavy_italic" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_layout"
+                android:background="@drawable/bg_border_yellow_gradient"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="@dimen/padding_layout">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_large"
+                    android:layout_height="@dimen/icon_large"
+                    android:layout_marginLeft="@dimen/padding_layout"
+                    android:layout_marginRight="@dimen/padding_layout"
+                    android:src="@drawable/ic_cups" />
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleContent"
+                    android:gravity="center_vertical"
+                    android:text="@string/logout"
+                    android:textAllCaps="true"
+                    android:textColor="@color/color_white"
+                    app:textViewFontAssetName="@string/font_display_heavy_italic" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 
 </LinearLayout>
