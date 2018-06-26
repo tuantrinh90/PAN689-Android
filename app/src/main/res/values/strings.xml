@@ -275,6 +275,7 @@
     <string name="me">Me</string>
     <string name="point_last_round">%d points last round</string>
     <string name="message_season_not_found">Season not found</string>
+    <string name="message_league_full">The league is full now</string>
     <string name="logout">Logout</string>
     <string name="more_my_profile">My Profile</string>
     <string name="more_setting">Setting</string>

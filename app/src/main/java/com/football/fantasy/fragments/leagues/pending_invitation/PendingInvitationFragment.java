@@ -135,7 +135,11 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
                                 .start(LeagueDetailFragment.class);
                     },
                     approve -> {
-                        presenter.invitationDecisions(approve, Constant.KEY_INVITATION_ACCEPT);
+                        if (approve.getCurrentNumberOfUser() >= approve.getNumberOfUser()) {
+                            showMessage(getString(R.string.message_league_full));
+                        } else {
+                            presenter.invitationDecisions(approve, Constant.KEY_INVITATION_ACCEPT);
+                        }
                     },
                     reject -> {
                         presenter.invitationDecisions(reject, Constant.KEY_INVITATION_DECLINE);
