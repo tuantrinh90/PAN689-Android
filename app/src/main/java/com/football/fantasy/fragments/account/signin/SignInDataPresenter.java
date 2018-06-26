@@ -1,10 +1,7 @@
 package com.football.fantasy.fragments.account.signin;
 
 
-import android.util.Log;
-
 import com.bon.share_preferences.AppPreferences;
-import com.football.application.AppContext;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.fantasy.R;
@@ -94,7 +91,7 @@ public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresente
 
     private void loginSuccess(UserResponse response) {
         getOptView().doIfPresent(view -> {
-            AppPreferences.getInstance(AppContext.getInstance()).putObject(Constant.KEY_USER, response);
+            AppPreferences.getInstance(view.getAppActivity()).putObject(Constant.KEY_USER, response);
             view.goToMain();
             view.showLoading(false);
         });
