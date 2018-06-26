@@ -28,6 +28,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import java8.util.stream.Collectors;
+import java8.util.stream.StreamSupport;
 
 public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITeamLineUpPresenter<ITeamLineUpView>> implements ITeamLineUpView {
 
@@ -93,7 +95,10 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
         lineupView.setRemovable(true);
         lineupView.setJustifyContent(AlignContent.SPACE_AROUND);
         lineupView.setAddCallback((position, order) -> {
-            List<PlayerResponse> players = rvPlayer.getAdapter().getDataSet();
+            List<PlayerResponse> players =
+                    StreamSupport.stream(rvPlayer.getAdapter().getDataSet())
+                            .filter(predicate -> predicate.getMainPosition().equals(position) || predicate.getMinorPosition().equals(position))
+                            .collect(Collectors.toList());
             new SelectDialog()
                     .setPlayers(players)
                     .setClickCallback(player -> {

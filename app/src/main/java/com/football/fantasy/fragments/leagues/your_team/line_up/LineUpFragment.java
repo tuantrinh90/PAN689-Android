@@ -117,7 +117,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
         lineupView.setupLineup(new PlayerResponse[18], new int[]{4, 6, 6, 2});
         lineupView.setAddCallback((position, order) -> {
             AloneFragmentActivity.with(this)
-                    .parameters(PlayerPopupFragment.newBundle(3 - position, order, league.getId()))
+                    .parameters(PlayerPopupFragment.newBundle(position, order, league.getId()))
                     .start(PlayerPopupFragment.class);
         });
         lineupView.setRemoveCallback((player, position, index) -> {
