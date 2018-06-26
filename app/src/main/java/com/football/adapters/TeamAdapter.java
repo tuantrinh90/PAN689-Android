@@ -63,7 +63,7 @@ public class TeamAdapter extends DefaultAdapter<TeamResponse> {
             holder.tvCompleted.setVisibility(View.VISIBLE);
         } else {
             boolean owner = data.getOwner();
-            holder.tvRemove.setVisibility(this.leagueOwner && owner ? View.VISIBLE : View.GONE);
+            holder.tvRemove.setVisibility(this.leagueOwner && !owner ? View.VISIBLE : View.GONE);
             holder.ivLock.setVisibility(owner ? View.VISIBLE : View.GONE);
             holder.tvCompleted.setVisibility(View.GONE);
         }
@@ -73,7 +73,7 @@ public class TeamAdapter extends DefaultAdapter<TeamResponse> {
         mDisposable.add(RxView.clicks(holder.tvRemove).subscribe(o -> Optional.from(removeCallback).doIfPresent(t -> t.accept(data))));
     }
 
-    class TeamHolder extends DefaultHolder {
+    static class TeamHolder extends DefaultHolder {
         @BindView(R.id.ivAvatar)
         CircleImageViewApp ivAvatar;
         @BindView(R.id.tvTeam)
