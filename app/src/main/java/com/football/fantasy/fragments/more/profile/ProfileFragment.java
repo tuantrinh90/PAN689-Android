@@ -7,19 +7,29 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 
+import com.bon.customview.keyvaluepair.ExtKeyValuePair;
+import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageLoaderUtils;
 import com.bon.interfaces.Optional;
+import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.more.profile.change.ChangePasswordFragment;
+import com.football.fantasy.fragments.more.profile.edit.EditProfileFragment;
 import com.football.models.responses.UserResponse;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class ProfileFragment extends BaseMainMvpFragment<IProfileView, IProfilePresenter<IProfileView>> implements IProfileView {
 
+    private static final String KEY_ACTION_EDIT = "ACTION_EDIT";
+    private static final String KEY_ACTION_CHANGE_PASSWORD = "ACTION_CHANGE_PASSWORD";
     @BindView(R.id.tvTitle)
     ExtTextView tvTitle;
     @BindView(R.id.tvFullName)
@@ -38,6 +48,8 @@ public class ProfileFragment extends BaseMainMvpFragment<IProfileView, IProfileP
     ExtTextView tvEmail;
     @BindView(R.id.tvIntroduction)
     ExtTextView tvIntroduction;
+
+    private List<ExtKeyValuePair> valuePairs = new ArrayList<>();
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -79,14 +91,43 @@ public class ProfileFragment extends BaseMainMvpFragment<IProfileView, IProfileP
         Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.color_white)));
         Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_blue)));
 
+        valuePairs.add(new ExtKeyValuePair(KEY_ACTION_EDIT, "Edit"));
+        valuePairs.add(new ExtKeyValuePair(KEY_ACTION_CHANGE_PASSWORD, "Change password"));
     }
 
     @OnClick({R.id.ivMenu})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ivMenu:
+                ExtKeyValuePairDialogFragment.newInstance()
+                        .setValue("")
+                        .setExtKeyValuePairs(valuePairs)
+                        .setOnSelectedConsumer(pair -> {
+                            switch (pair.getKey()) {
+                                case KEY_ACTION_EDIT:
+                                    launchEditProfile();
+                                    break;
+
+                                case KEY_ACTION_CHANGE_PASSWORD:
+                                    launchChangePassword();
+                                    break;
+                            }
+
+                        }).show(getFragmentManager(), null);
                 break;
         }
+    }
+
+    private void launchEditProfile() {
+        AloneFragmentActivity
+                .with(this)
+                .start(EditProfileFragment.class);
+    }
+
+    private void launchChangePassword() {
+        AloneFragmentActivity
+                .with(this)
+                .start(ChangePasswordFragment.class);
     }
 
     @Override
@@ -94,7 +135,7 @@ public class ProfileFragment extends BaseMainMvpFragment<IProfileView, IProfileP
         tvFullName.setText(user.getName());
         ImageLoaderUtils.displayImage(user.getPhoto(), ivAvatar.getImageView());
         tvDob.setText(user.getBirthday());
-        tvGender.setText(user.getGender() == 0 ? R.string.male : R.string.female);
+        tvGender.setText(user.getGender() == UserResponse.GENDER_MALE ? R.string.male : R.string.female);
         tvAddress.setText(user.getAddress());
         tvPhone.setText(user.getPhone());
         tvEmail.setText(user.getEmail());
