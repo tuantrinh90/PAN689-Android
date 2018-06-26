@@ -5,13 +5,28 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.bon.interfaces.Optional;
 import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.customizes.edittext_app.EditTextApp;
 import com.football.fantasy.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+
 public class ChangePasswordFragment extends BaseMainMvpFragment<IChangePasswordView, IChangePasswordPresenter<IChangePasswordView>> implements IChangePasswordView {
+
+    @BindView(R.id.etOldPassword)
+    EditTextApp etOldPassword;
+    @BindView(R.id.etNewPassword)
+    EditTextApp etNewPassword;
+    @BindView(R.id.etConfirmPassword)
+    EditTextApp etConfirmPassword;
 
     public static ChangePasswordFragment newInstance() {
         return new ChangePasswordFragment();
@@ -51,5 +66,10 @@ public class ChangePasswordFragment extends BaseMainMvpFragment<IChangePasswordV
     @Override
     public IChangePasswordPresenter<IChangePasswordView> createPresenter() {
         return new ChangePasswordDataPresenter(getAppComponent());
+    }
+
+    @OnClick(R.id.tvSubmit)
+    public void onViewClicked() {
+
     }
 }

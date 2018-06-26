@@ -6,13 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.view.View;
 
-import com.bon.customview.datetime.ExtDayMonthYearHourMinuteDialogFragment;
+import com.bon.customview.datetime.ExtDayMonthYearDialogFragment;
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
-import com.bon.database.DatabaseUtils;
 import com.bon.image.ImageLoaderUtils;
 import com.bon.interfaces.Optional;
 import com.bon.util.DateTimeUtils;
@@ -116,7 +114,7 @@ public class EditProfileFragment extends BaseMainMvpFragment<IEditProfileView, I
     }
 
     private void pickDob() {
-        ExtDayMonthYearHourMinuteDialogFragment.newInstance()
+        ExtDayMonthYearDialogFragment.newInstance()
                 .setMinDate(AppUtilities.getMinCalendar())
                 .setMaxDate(AppUtilities.getMaxCalendar())
                 .setValueDate(calendarDob == null ? Calendar.getInstance() : calendarDob)
@@ -152,7 +150,7 @@ public class EditProfileFragment extends BaseMainMvpFragment<IEditProfileView, I
         etFirstName.setContent(user.getFirstName());
         etLastName.setContent(user.getLastName());
         ImageLoaderUtils.displayImage(user.getPhoto(), ivAvatar.getImageView());
-        calendarDob  = DateTimeUtils.convertStringToCalendar(user.getBirthday(), Constant.FORMAT_DATE_SERVER);
+        calendarDob = DateTimeUtils.convertStringToCalendar(user.getBirthday(), Constant.FORMAT_DATE_SERVER);
         etDob.setContent(DateTimeUtils.convertCalendarToString(calendarDob, Constant.FORMAT_DATE));
         etGender.setContent(getString(user.getGender() == UserResponse.GENDER_MALE ? R.string.male : R.string.female));
         etAddress.setContent(user.getAddress());

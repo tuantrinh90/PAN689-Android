@@ -289,4 +289,9 @@
     <string name="introduction">Introduction</string>
     <string name="female">Female</string>
     <string name="male">Male</string>
+    <string name="change_password">Change password</string>
+    <string name="old_password">Old password</string>
+    <string name="new_password">New password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="submit">Submit</string>
 </resources>
