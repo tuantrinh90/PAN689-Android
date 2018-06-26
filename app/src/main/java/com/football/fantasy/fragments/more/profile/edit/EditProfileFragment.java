@@ -1,19 +1,26 @@
 package com.football.fantasy.fragments.more.profile.edit;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.bon.customview.datetime.ExtDayMonthYearDialogFragment;
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
+import com.bon.image.ImageFilePath;
 import com.bon.image.ImageLoaderUtils;
+import com.bon.image.ImageUtils;
 import com.bon.interfaces.Optional;
 import com.bon.util.DateTimeUtils;
+import com.bon.util.StringUtils;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.images.CircleImageViewApp;
@@ -22,11 +29,14 @@ import com.football.models.responses.UserResponse;
 import com.football.utilities.AppUtilities;
 import com.football.utilities.Constant;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableObserver;
 
 public class EditProfileFragment extends BaseMainMvpFragment<IEditProfileView, IEditProfilePresenter<IEditProfileView>> implements IEditProfileView {
 
@@ -51,6 +61,7 @@ public class EditProfileFragment extends BaseMainMvpFragment<IEditProfileView, I
 
     Calendar calendarDob;
     private UserResponse user;
+    private File filePath;
 
     public static EditProfileFragment newInstance() {
         return new EditProfileFragment();
@@ -94,7 +105,7 @@ public class EditProfileFragment extends BaseMainMvpFragment<IEditProfileView, I
         return new EditProfileDataPresenter(getAppComponent());
     }
 
-    @OnClick({R.id.ivAvatar, R.id.etDob, R.id.etGender})
+    @OnClick({R.id.ivAvatar, R.id.etDob, R.id.etGender, R.id.tvSave})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ivAvatar:
@@ -106,11 +117,50 @@ public class EditProfileFragment extends BaseMainMvpFragment<IEditProfileView, I
             case R.id.etGender:
                 pickGender();
                 break;
+
+            case R.id.tvSave:
+                save();
+                break;
         }
     }
 
     private void pickAvatar() {
+        mActivity.getRxPermissions().request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<Boolean>() {
+                    @Override
+                    public void onNext(Boolean granted) {
+                        if (granted) {
+                            ExtKeyValuePairDialogFragment.newInstance()
+                                    .setExtKeyValuePairs(new ArrayList<ExtKeyValuePair>() {{
+                                        add(new ExtKeyValuePair(getString(R.string.camera), getString(R.string.camera)));
+                                        add(new ExtKeyValuePair(getString(R.string.gallery), getString(R.string.gallery)));
+                                    }})
+                                    .setOnSelectedConsumer(extKeyValuePair -> {
+                                        if (extKeyValuePair.getKey().equalsIgnoreCase(getString(R.string.camera))) {
+                                            filePath = ImageUtils.getImageUrlPng();
+                                            ImageUtils.captureCamera(EditProfileFragment.this, filePath);
+                                        }
 
+                                        if (extKeyValuePair.getKey().equalsIgnoreCase(getString(R.string.gallery))) {
+                                            ImageUtils.chooseImageFromGallery(EditProfileFragment.this, getString(R.string.select_value));
+                                        }
+                                    }).show(getFragmentManager(), null);
+                        } else {
+                            pickAvatar();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     private void pickDob() {
@@ -143,6 +193,8 @@ public class EditProfileFragment extends BaseMainMvpFragment<IEditProfileView, I
                 .show(getFragmentManager(), null);
     }
 
+    private void save() {
+    }
 
     @Override
     public void displayUser(UserResponse user) {
@@ -157,5 +209,27 @@ public class EditProfileFragment extends BaseMainMvpFragment<IEditProfileView, I
         etPhone.setContent(user.getPhone());
         etEmail.setContent(user.getEmail());
         etIntroduction.setContent(user.getDescription());
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case ImageUtils.CAMERA_REQUEST: {
+                    ivAvatar.setImageUri(ImageUtils.getUriImageDisplayFromFile(filePath));
+                    break;
+                }
+                case ImageUtils.REQUEST_PICK_CONTENT: {
+                    String pathFile = ImageFilePath.getPath(mActivity, data.getData());
+                    Log.e("pathFile", "pathFile:: " + pathFile);
+                    StringUtils.isNotEmpty(pathFile, s -> {
+                        filePath = new File(s);
+                        ivAvatar.setImageUri(ImageUtils.getUriImageDisplayFromFile(filePath));
+                    });
+                    break;
+                }
+            }
+        }
     }
 }
