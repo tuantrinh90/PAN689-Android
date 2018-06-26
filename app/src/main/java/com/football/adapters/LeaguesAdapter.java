@@ -97,6 +97,11 @@ public class LeaguesAdapter extends DefaultAdapter<LeagueResponse> {
         holder.trInvitor.setVisibility(leagueType == PENDING_INVITATIONS ? View.VISIBLE : View.GONE);
         holder.llBottomAction.setVisibility(leagueType == PENDING_INVITATIONS ? View.VISIBLE : View.GONE);
         holder.tvJoin.setVisibility(leagueType == OPEN_LEAGUES && league.getCurrentNumberOfUser() < league.getNumberOfUser() ? View.VISIBLE : View.GONE);
+        if (league.getStatus().equals(LeagueResponse.ON_GOING)) {
+            holder.llBottomStatus.setBackgroundResource(R.drawable.bg_green_gradient_radius_bottom);
+        } else {
+            holder.llBottomStatus.setBackgroundResource(R.drawable.bg_blue_gradient_radius_bottom);
+        }
 
         // event
         RxView.clicks(holder.itemView).subscribe(v -> Optional.from(clickCallback).doIfPresent(c -> c.accept(league)));
@@ -140,6 +145,8 @@ public class LeaguesAdapter extends DefaultAdapter<LeagueResponse> {
         ExtTextView tvJoin;
         @BindView(R.id.llOpacity)
         LinearLayout llOpacity;
+        @BindView(R.id.llBottomStatus)
+        LinearLayout llBottomStatus;
 
         public ViewHolder(View itemView) {
             super(itemView);

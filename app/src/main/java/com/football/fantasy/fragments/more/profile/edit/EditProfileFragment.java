@@ -105,7 +105,7 @@ public class EditProfileFragment extends BaseMainMvpFragment<IEditProfileView, I
         return new EditProfileDataPresenter(getAppComponent());
     }
 
-    @OnClick({R.id.ivAvatar, R.id.etDob, R.id.etGender, R.id.tvSave})
+    @OnClick({R.id.ivAvatar, R.id.etDob, R.id.etGender, R.id.tvChange})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ivAvatar:
@@ -118,7 +118,7 @@ public class EditProfileFragment extends BaseMainMvpFragment<IEditProfileView, I
                 pickGender();
                 break;
 
-            case R.id.tvSave:
+            case R.id.tvChange:
                 save();
                 break;
         }
