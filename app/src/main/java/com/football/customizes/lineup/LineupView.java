@@ -149,14 +149,14 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
     }
 
     public void addPlayer(PlayerResponse player, int line, Integer order) {
-        int position = getPosition(null, line, order);
+        int position = getPosition(null, 3 - line, order);
         if (position != -1) {
             setPlayer(player, position);
         }
     }
 
     public void removePlayer(PlayerResponse player, int line) {
-        int position = getPosition(player, line, -1);
+        int position = getPosition(player, 3 - line, -1);
         if (position != -1) {
             setPlayer(null, position);
         }
@@ -228,5 +228,19 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
 
     public void setAddable(boolean addable) {
         this.addable = addable;
+    }
+
+    public boolean isFullPosition(int position) {
+        int maxPlayers = squad[3 - position];
+        int counter = 0;
+        for (PlayerResponse player : players) {
+            if (player != null && player.getMainPosition().equals(position)) {
+                counter++;
+                if (maxPlayers == counter) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

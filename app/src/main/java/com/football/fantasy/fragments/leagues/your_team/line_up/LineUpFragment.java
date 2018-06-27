@@ -171,7 +171,11 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     }
 
     private void insertToLineUpView(PlayerResponse player, int position, int index) {
-        presenter.addPlayer(player, teamId, position, index);
+        if (!lineupView.isFullPosition(position)) {
+            presenter.addPlayer(player, teamId, position, index);
+        } else {
+            callback.accept(false, getString(R.string.message_full_position));
+        }
     }
 
     @Override
@@ -198,7 +202,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     public void displayLineupPlayers(List<PlayerResponse> players) {
         lineupView.notifyDataSetChanged();
         for (PlayerResponse player : players) {
-            lineupView.addPlayer(player, 3 - player.getMainPosition(), player.getOrder() == null ? LineupView.NONE_ORDER : player.getOrder());
+            lineupView.addPlayer(player, player.getMainPosition(), player.getOrder() == null ? LineupView.NONE_ORDER : player.getOrder());
         }
         enableCompleteButton(lineupView.isSetupComplete());
     }
@@ -213,7 +217,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
 
     @Override
     public void onAddPlayer(TeamResponse team, PlayerResponse player, int order) {
-        lineupView.addPlayer(player, 3 - player.getMainPosition(), order);
+        lineupView.addPlayer(player, player.getMainPosition(), order);
 
         if (lineupView.isSetupComplete()) {
             enableCompleteButton(true);
@@ -222,7 +226,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
 
     @Override
     public void onRemovePlayer(TeamResponse team, PlayerResponse player) {
-        lineupView.removePlayer(player, 3 - player.getMainPosition());
+        lineupView.removePlayer(player, player.getMainPosition());
         enableCompleteButton(false);
     }
 

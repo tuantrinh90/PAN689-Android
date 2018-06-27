@@ -144,7 +144,7 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
                         // bắn sang màn hình LineUp
                         bus.send(new PlayerEvent.Builder()
                                 .action(PlayerEvent.ACTION_ADD_CLICK)
-                                .position(playerPosition)
+                                .position(playerPosition == PlayerResponse.POSITION_NONE ? player.getMainPosition() : playerPosition)
                                 .data(player)
                                 .callback((boo, error) -> {
                                     showLoading(false);
@@ -231,7 +231,7 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
 
     void onClickFilter() {
         AloneFragmentActivity.with(this)
-                .parameters(PlayerPoolFilterFragment.newBundle(TAG, filterPositions, filterClubs, false))
+                .parameters(PlayerPoolFilterFragment.newBundle(TAG, filterPositions, filterClubs, true))
                 .start(PlayerPoolFilterFragment.class);
     }
 
