@@ -43,6 +43,8 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
 
     private static final String TAG = "PlayerPoolFragment";
 
+    private static final String KEY_TITLE = "TITLE";
+
     private static final int REQUEST_FILTER = 100;
     private static final int REQUEST_DISPLAY = 101;
 
@@ -71,6 +73,8 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     @BindView(R.id.option3)
     LinearLayout option3;
 
+    private String title;
+
     private int page = 1;
     private String filterClubs = "";
     private String filterPositions = "";
@@ -79,8 +83,9 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     private ExtKeyValuePair currentSeason;
     private List<SeasonResponse> seasons;
 
-    public static Bundle newBundle() {
+    public static Bundle newBundle(String title) {
         Bundle bundle = new Bundle();
+        bundle.putString(KEY_TITLE, title);
         return bundle;
     }
 
@@ -90,12 +95,22 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     }
 
     @Override
+    public String getTitleString() {
+        return title;
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
         initView();
         initData();
         registerBus();
+    }
+
+    private void getDataFromBundle() {
+        title = getArguments().getString(KEY_TITLE);
     }
 
     private void registerBus() {
@@ -219,11 +234,6 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     @Override
     public IPlayerPoolPresenter<IPlayerPoolView> createPresenter() {
         return new PlayerPoolPresenter(getAppComponent());
-    }
-
-    @Override
-    public int getTitleId() {
-        return R.string.league_details;
     }
 
     @Override

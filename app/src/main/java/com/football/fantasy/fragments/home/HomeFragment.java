@@ -211,7 +211,7 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     @OnClick(R.id.tvPlayerList)
     void onClickPlayerList() {
         AloneFragmentActivity.with(this)
-                .parameters(PlayerPoolFragment.newBundle())
+                .parameters(PlayerPoolFragment.newBundle(getString(R.string.home)))
                 .start(PlayerPoolFragment.class);
     }
 
