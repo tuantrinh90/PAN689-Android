@@ -33,6 +33,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
@@ -89,6 +90,9 @@ public interface IApiService {
 
     @GET(ServiceConfig.TEAM_PITCH_VIEW)
     Observable<BaseResponse<TeamPitchViewResponse>> getPitchView(@Path(ServiceConfig.KEY_ID) int teamId, @QueryMap Map<String, String> queries);
+
+    @PUT(ServiceConfig.TEAM_PITCH_VIEW)
+    Observable<BaseResponse<Object>> updatePitchView(@Path(ServiceConfig.KEY_ID) int playerId, @QueryMap Map<String, String> queries);
 
     @POST(ServiceConfig.REMOVE_TEAM)
     Observable<BaseResponse<Object>> removeTeam(@Path(ServiceConfig.KEY_ID) int leagueId, @Path(ServiceConfig.KEY_TEAM_ID) int teamId);
