@@ -297,4 +297,5 @@
     <string name="confirm_password">Confirm password</string>
     <string name="submit">Submit</string>
     <string name="save_change">Save change</string>
+    <string name="completed">Completed</string>
 </resources>

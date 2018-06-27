@@ -81,6 +81,7 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
                 .subscribeWith(new DisposableObserver<TeamEvent>() {
                     @Override
                     public void onNext(TeamEvent event) {
+                        // ở LineupFragment bắn về null
                         getTeams();
                     }
 

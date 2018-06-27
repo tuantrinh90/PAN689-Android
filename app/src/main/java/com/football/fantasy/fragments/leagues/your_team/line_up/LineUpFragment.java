@@ -14,6 +14,7 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.lineup.LineupView;
 import com.football.customizes.lineup.StatisticView;
 import com.football.events.PlayerEvent;
+import com.football.events.TeamEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.your_team.players_popup.PlayerPopupFragment;
 import com.football.models.responses.LeagueResponse;
@@ -50,8 +51,8 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
         return fragment;
     }
 
-    @BindView(R.id.tvTeamSetupTime)
-    ExtTextView tvTeamSetupTime;
+    @BindView(R.id.tvTimeLabel)
+    ExtTextView tvTimeLabel;
     @BindView(R.id.tvTime)
     ExtTextView tvTime;
     @BindView(R.id.lineupView)
@@ -98,18 +99,18 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     }
 
     void initView() {
-        if (System.currentTimeMillis() < AppUtilities.getTimestamp(league.getTeamSetup())) {
+        if (AppUtilities.isSetupTime(league.getTeamSetup())) {
             lineupView.setEditable(true);
             lineupView.setAddable(true);
             lineupView.setRemovable(true);
-            tvTeamSetupTime.setText(R.string.team_setup_time);
+            tvTimeLabel.setText(R.string.team_setup_time);
             tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
 
         } else {
             lineupView.setEditable(false);
             lineupView.setAddable(false);
             lineupView.setRemovable(false);
-            tvTeamSetupTime.setText(R.string.start_time);
+            tvTimeLabel.setText(R.string.start_time);
             tvTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
         }
 
@@ -135,8 +136,9 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
 
     private void enableCompleteButton(boolean enable) {
         // disable button complete
-        tvComplete.setEnabled(enable);
-        tvComplete.setBackgroundResource(enable ? R.drawable.bg_button_yellow : R.drawable.bg_button_gray);
+        boolean realEnable = AppUtilities.isSetupTime(league.getTeamSetup()) && enable;
+        tvComplete.setEnabled(realEnable);
+        tvComplete.setBackgroundResource(realEnable ? R.drawable.bg_button_yellow : R.drawable.bg_button_gray);
     }
 
     void registerEvent() {
@@ -185,7 +187,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
 
     @OnClick(R.id.tvComplete)
     public void onCompleteClicked() {
-        getActivity().finish();
+        presenter.completeLineup(teamId);
     }
 
     @OnCheckedChanged({R.id.switch_display})
@@ -254,6 +256,12 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
                 svGoalkeeper.appendCount(value);
                 break;
         }
+    }
+
+    @Override
+    public void onCompleteLineup() {
+        bus.send(new TeamEvent(null));
+        mActivity.finish();
     }
 
 }

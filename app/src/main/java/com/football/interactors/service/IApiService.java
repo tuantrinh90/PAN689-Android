@@ -146,6 +146,9 @@ public interface IApiService {
     @GET(ServiceConfig.LINEUP)
     Observable<BaseResponse<LineupResponse>> getLineup(@Path(ServiceConfig.KEY_ID) int leagueId);
 
+    @POST(ServiceConfig.COMPLETE_LINEUP)
+    Observable<BaseResponse<Object>> completeLineup(@Path(ServiceConfig.KEY_ID) int teamId);
+
     @POST(ServiceConfig.ADD_PLAYER)
     Observable<BaseResponse<PropsPlayerResponse>> addPlayer(@Body RequestBody body);
 

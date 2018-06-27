@@ -122,4 +122,34 @@ public class LineUpPresenter extends BaseDataPresenter<ILineUpView> implements I
                     }));
         });
     }
+
+    @Override
+    public void completeLineup(int teamId) {
+        getOptView().doIfPresent(v -> {
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().completeLineup(teamId),
+                    new ApiCallback<Object>() {
+                        @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
+
+                        @Override
+                        public void onSuccess(Object response) {
+                            v.onCompleteLineup();
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            v.showMessage(error);
+                        }
+                    }));
+        });
+    }
 }

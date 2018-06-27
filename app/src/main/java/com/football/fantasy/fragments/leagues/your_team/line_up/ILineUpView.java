@@ -22,4 +22,7 @@ public interface ILineUpView extends IBaseMvpView {
     void handleCallback(boolean success, String error);
 
     void updateStatistic(int position, int value);
+
+    void onCompleteLineup();
+
 }
