@@ -5,21 +5,35 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.bon.customview.textview.ExtTextView
-        android:id="@+id/tvName"
-        style="@style/StyleContent"
-        android:layout_width="wrap_content"
+    <TableRow
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/leagues_margin"
         android:layout_marginRight="@dimen/leagues_margin"
-        android:padding="0dp"
-        android:text="@string/app_name"
-        android:textAllCaps="true"
-        app:textViewFontAssetName="@string/font_display_black_italic" />
+        android:gravity="center_vertical">
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvName"
+            style="@style/StyleContent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="0dp"
+            android:text="@string/app_name"
+            android:textAllCaps="true"
+            app:textViewFontAssetName="@string/font_display_black_italic" />
+
+        <ImageView
+            android:id="@+id/ivMenu"
+            style="@style/IconSmall"
+            android:background="@drawable/bg_null_gray_selector"
+            android:src="@drawable/ic_menu_shadow" />
+    </TableRow>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_content"
         android:paddingLeft="@dimen/leagues_margin"
         android:paddingRight="@dimen/leagues_margin">
 

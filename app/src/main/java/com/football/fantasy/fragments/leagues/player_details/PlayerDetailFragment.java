@@ -188,6 +188,21 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
                 }).show(getFragmentManager(), null);
     }
 
+    @OnClick({R.id.ivMenu})
+    public void onMenuClicked(View view) {
+        List<ExtKeyValuePair> valuePairs = new ArrayList<>();
+        valuePairs.add(new ExtKeyValuePair("Pick", "Pick"));
+
+        ExtKeyValuePairDialogFragment.newInstance()
+                .setExtKeyValuePairs(valuePairs)
+                .setValue("")
+                .setOnSelectedConsumer(extKeyValuePair -> {
+                    if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
+
+                    }
+                }).show(getFragmentManager(), null);
+    }
+
     private void updateValue() {
         tvFilter.setText(keyValuePairKey.getValue());
         presenter.getPlayerStatistic(player.getId(), keyValuePairKey.getKey());
