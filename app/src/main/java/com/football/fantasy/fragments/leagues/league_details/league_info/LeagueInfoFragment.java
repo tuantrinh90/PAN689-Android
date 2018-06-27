@@ -26,8 +26,8 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
     static final String KEY_LEAGUE = "LEAGUE";
     static final String KEY_LEAGUE_TYPE = "league_type";
 
-    @BindView(R.id.tvTeamSetupTime)
-    ExtTextView tvTeamSetupTime;
+    @BindView(R.id.tvTimeLabel)
+    ExtTextView tvTimeLabel;
     @BindView(R.id.tvTime)
     ExtTextView tvTime;
     @BindView(R.id.ivLeague)
@@ -160,10 +160,10 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
             // line up my team
             if (league.getStatus() == LeagueResponse.WAITING_FOR_START) {
                 if (AppUtilities.isSetupTime(league.getTeamSetup())) {
-                    tvTeamSetupTime.setText(R.string.team_setup_time);
+                    tvTimeLabel.setText(R.string.team_setup_time);
                     tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
                 } else {
-                    tvTeamSetupTime.setText(R.string.start_time);
+                    tvTimeLabel.setText(R.string.start_time);
                     tvTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
                 }
 

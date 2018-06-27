@@ -26,7 +26,7 @@
                 android:orientation="vertical">
 
                 <com.bon.customview.textview.ExtTextView
-                    android:id="@+id/tvTeamSetupTime"
+                    android:id="@+id/tvTimeLabel"
                     style="@style/StyleContentContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

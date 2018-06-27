@@ -2,7 +2,6 @@ package com.football.fantasy.fragments.account.signin;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -72,17 +71,17 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
 
     void initView() {
         if (BuildConfig.DEBUG) {
-        //    etEmail.setContent("henry.tran@qsoft.com.vn");
-        //    etPassword.setContent("Admin@123456!");
+            //    etEmail.setContent("henry.tran@qsoft.com.vn");
+            //    etPassword.setContent("Admin@123456!");
 
-            etEmail.setContent("minhdo@yopmail.com");
-           etPassword.setContent("123456789");
+            etEmail.setContent("caothuthuy2309@gmail.com");
+            etPassword.setContent("123456");
 
-            etEmail.setContent("dothanhminh54@gmail.com");
-            etPassword.setContent("123456789");
+//            etEmail.setContent("dothanhminh54@gmail.com");
+//            etPassword.setContent("123456789");
 
-           // etEmail.setContent("toan1@yopmail.com");
-          //  etPassword.setContent("123123");
+            // etEmail.setContent("toan1@yopmail.com");
+            //  etPassword.setContent("123123");
         }
     }
 

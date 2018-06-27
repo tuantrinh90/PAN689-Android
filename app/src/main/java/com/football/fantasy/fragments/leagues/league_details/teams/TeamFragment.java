@@ -19,6 +19,7 @@ import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
 import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
+import com.football.utilities.AppUtilities;
 import com.football.utilities.Constant;
 
 import java.util.ArrayList;
@@ -41,10 +42,10 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
     }
 
 
-    @BindView(R.id.tvTeamSetupLabel)
-    ExtTextView tvTeamSetupLabel;
-    @BindView(R.id.tvTeamSetupTime)
-    ExtTextView tvTeamSetupTime;
+    @BindView(R.id.tvTimeLabel)
+    ExtTextView tvTimeLabel;
+    @BindView(R.id.tvTime)
+    ExtTextView tvTime;
     @BindView(R.id.rvTeam)
     ExtRecyclerView<TeamResponse> rvTeam;
 
@@ -107,14 +108,12 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
     }
 
     void displayTime() {
-        tvTeamSetupLabel.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
-
-        if (league.getGameplayOption().equalsIgnoreCase(LeagueRequest.GAMEPLAY_OPTION_TRANSFER)) {
-            tvTeamSetupLabel.setText(R.string.team_setup_time);
-            tvTeamSetupTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
+        if (AppUtilities.isSetupTime(league.getTeamSetup())) {
+            tvTimeLabel.setText(R.string.team_setup_time);
+            tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
         } else {
-            tvTeamSetupTime.setText(R.string.start_time);
-            tvTeamSetupTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
+            tvTimeLabel.setText(R.string.start_time);
+            tvTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
         }
     }
 
