@@ -69,7 +69,11 @@ public class TeamAdapter extends DefaultAdapter<TeamResponse> {
         }
 
         // click
-        mDisposable.add(RxView.clicks(holder.itemView).subscribe(o -> Optional.from(detailCallback).doIfPresent(t -> t.accept(data))));
+        mDisposable.add(RxView.clicks(holder.itemView).subscribe(o -> Optional.from(detailCallback).doIfPresent(t -> {
+            if (data.getCompleted()) {
+                t.accept(data);
+            }
+        })));
         mDisposable.add(RxView.clicks(holder.tvRemove).subscribe(o -> Optional.from(removeCallback).doIfPresent(t -> t.accept(data))));
     }
 
