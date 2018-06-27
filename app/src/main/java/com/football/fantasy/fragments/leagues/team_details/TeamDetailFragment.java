@@ -138,7 +138,8 @@ public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITe
     }
 
     private void displayTeamDetails(TeamResponse team) {
-        ivEdit.setVisibility(team.getOwner() ? View.VISIBLE : View.GONE);
+        ivEdit.setVisibility(AppUtilities.isOwner(getAppContext(), team.getUserId()) ? View.VISIBLE : View.GONE);
+
         tvHeader.setText(team.getName());
         tvName.setText(team.getUser().getName());
         ImageLoaderUtils.displayImage(team.getLogo(), ivAvatar.getImageView());
