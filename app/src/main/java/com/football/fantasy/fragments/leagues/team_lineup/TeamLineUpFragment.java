@@ -33,6 +33,7 @@ import java8.util.stream.StreamSupport;
 
 public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITeamLineUpPresenter<ITeamLineUpView>> implements ITeamLineUpView {
 
+    private static final String KEY_TITLE = "TITLE";
     private static final String KEY_TEAM = "TEAM";
 
     private static final String[] PITCH_VIEWS = new String[]{"4-4-2", "4-3-3", "3-5-2", "3-4-3", "5-3-2", "5-4-1"};
@@ -50,9 +51,11 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
     private String pitchSelect;
 
     private TeamResponse team;
+    private String title;
 
-    public static Bundle newBundle(TeamResponse team) {
+    public static Bundle newBundle(String title, TeamResponse team) {
         Bundle bundle = new Bundle();
+        bundle.putString(KEY_TITLE, title);
         bundle.putSerializable(KEY_TEAM, team);
         return bundle;
     }
@@ -60,6 +63,11 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
     @Override
     public int getResourceId() {
         return R.layout.team_lineup_fragment;
+    }
+
+    @Override
+    public String getTitleString() {
+        return title;
     }
 
     @Override
@@ -84,10 +92,9 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
     }
 
     private void getDataFromBundle() {
+        title = getArguments().getString(KEY_TITLE);
         team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
     }
-
-    private static final String TAG = "TeamLineUpFragment";
 
     private void initView() {
         lineupView.setEditable(true);
@@ -124,11 +131,6 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
 
     private void getPitchView() {
         presenter.getPitchView(team.getId(), pitchSelect);
-    }
-
-    @Override
-    public int getTitleId() {
-        return R.string.team_details;
     }
 
     @NonNull

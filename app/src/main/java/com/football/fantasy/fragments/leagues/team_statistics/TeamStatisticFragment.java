@@ -7,14 +7,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.football.adapters.TeamStatisticAdapter;
+import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.team_lineup.TeamLineUpFragment;
 import com.football.models.responses.TeamResponse;
 import com.football.models.responses.TeamStatisticResponse;
 import com.football.utilities.AppUtilities;
@@ -22,13 +23,13 @@ import com.football.utilities.AppUtilities;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticView, ITeamStatisticPresenter<ITeamStatisticView>> implements ITeamStatisticView {
 
+    private static final String KEY_TITLE = "TITLE";
     private static final String KEY_TEAM = "TEAM";
 
-    @BindView(R.id.llPointPerPlayer)
-    LinearLayout llPointPerPlayer;
     @BindView(R.id.ivRank)
     ImageView ivRank;
     @BindView(R.id.tvRankValue)
@@ -42,12 +43,15 @@ public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticVie
     @BindView(R.id.lvData)
     ExtPagingListView lvData;
 
+    private String title;
     private TeamResponse team;
+
     TeamStatisticAdapter teamStatisticAdapter;
 
 
-    public static Bundle newBundle(TeamResponse team) {
+    public static Bundle newBundle(String title, TeamResponse team) {
         Bundle bundle = new Bundle();
+        bundle.putString(KEY_TITLE, title);
         bundle.putSerializable(KEY_TEAM, team);
         return bundle;
     }
@@ -58,10 +62,15 @@ public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticVie
     }
 
     @Override
+    public String getTitleString() {
+        return title;
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
-        getDataFromBundle();
         initView();
         initData();
 
@@ -69,6 +78,7 @@ public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticVie
     }
 
     private void getDataFromBundle() {
+        title = getArguments().getString(KEY_TITLE);
         team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
     }
 
@@ -92,11 +102,6 @@ public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticVie
     @Override
     public ITeamStatisticPresenter<ITeamStatisticView> createPresenter() {
         return new TeamStatisticPresenter(getAppComponent());
-    }
-
-    @Override
-    public int getTitleId() {
-        return R.string.league_details;
     }
 
     @Override
@@ -135,5 +140,12 @@ public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticVie
                 tvRankLabel.setVisibility(View.VISIBLE);
                 tvRankValue.setVisibility(View.VISIBLE);
         }
+    }
+
+    @OnClick(R.id.llPointPerPlayer)
+    public void onPointPerPlayerClicked() {
+        AloneFragmentActivity.with(this)
+                .parameters(TeamLineUpFragment.newBundle(getTitleString(), team))
+                .start(TeamLineUpFragment.class);
     }
 }

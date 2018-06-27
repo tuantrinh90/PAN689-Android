@@ -163,7 +163,7 @@ public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITe
                 break;
             case R.id.llTeamLineUp:
                 AloneFragmentActivity.with(this)
-                        .parameters(TeamLineUpFragment.newBundle(team))
+                        .parameters(TeamLineUpFragment.newBundle(getString(R.string.team_details), team))
                         .start(TeamLineUpFragment.class);
                 break;
             case R.id.llTransfer:
@@ -175,7 +175,7 @@ public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITe
                 break;
             case R.id.llStatistics:
                 AloneFragmentActivity.with(this)
-                        .parameters(TeamStatisticFragment.newBundle(team))
+                        .parameters(TeamStatisticFragment.newBundle(getString(R.string.team_details), team))
                         .start(TeamStatisticFragment.class);
                 break;
         }
