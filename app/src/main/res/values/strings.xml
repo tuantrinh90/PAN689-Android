@@ -123,53 +123,6 @@
     <string name="util_team_setup_time">until Team Setup Time</string>
     <string name="util_team_draft_time">until Team Draft Time</string>
 
-    <!--error key-->
-    <string name="field_is_required">This field must be required</string>
-    <string name="field_max_40_character">This field must be less than 40 characters</string>
-    <string name="field_max_255_character">This field must be less than 255 characters</string>
-    <string name="field_is_unique">This field must be unique</string>
-    <string name="field_confirmed">This field must be confirmed</string>
-    <string name="field_min_6_character">This field must be more than 6 characters</string>
-    <string name="selected_is_invalid">This choice is not valid</string>
-    <string name="internal_exception">Important error</string>
-    <string name="login_failure">Login unsuccessfully</string>
-    <string name="login_invalid_credentials">Login verification is not valid</string>
-    <string name="jwt_failed_to_create_token">Can not create a token</string>
-    <string name="register_failure">Sign up unsuccessfully</string>
-    <string name="register_user_exist">The user already exists</string>
-    <string name="register_success">Sign in successfully</string>
-    <string name="user_register_exist">The user already exists</string>
-    <string name="user_register_false">Sign in unsuccessfully</string>
-    <string name="forgot_user_forgot_email">Forgot email</string>
-    <string name="forgot_user_forgot_email_invalid">Email is not valid</string>
-    <string name="forgot_user_forgot_email_null">The user is not valid</string>
-    <string name="forgot_user_forgot_email_update">Email is updated</string>
-    <string name="forgot_user_email_does_not_sent_successfully">Email is sent unsuccessfully</string>
-    <string name="forgot_user_forgot_email_system">Forgot system password</string>
-    <string name="league_add_invalid_credentials">Verification is not valid</string>
-    <string name="league_update_invalid_credentials">Verification is not valid</string>
-    <string name="league_invalid_season">The league is not valid</string>
-    <string name="league_invalid_budget">The budget is not valid</string>
-    <string name="league_invalid_setup_time">Setup Time is not valid</string>
-    <string name="league_invalid_start_transfer_time">Transfer time is not valid</string>
-    <string name="league_invalid_start_draft_time">Draft time is not valid</string>
-    <string name="league_invalid_trade_review">Trade review is not valid</string>
-    <string name="league_invalid_gameplay_option">Gameplay option is not valid</string>
-    <string name="league_number_user_not_edit">Number of users is not valid</string>
-    <string name="league_invalid_number_user">User is not valid</string>
-    <string name="league_invalid_scoring_system_no_edit">Scoring system is not valid</string>
-    <string name="league_invalid_setup_time_number_user_change">Setup Time is not valid</string>
-    <string name="league_not_found">Not found</string>
-    <string name="could_not_found_cloud_storage">Cloud storage is not found</string>
-    <string name="delete_file_failure">Unable to Delete File</string>
-    <string name="delete_file_success">Delete file successfully</string>
-    <string name="team_not_found">Team is not found</string>
-    <string name="my_team_not_found">Your team is not found</string>
-    <string name="invitation_already_sent">The invitation is sent successfully</string>
-    <string name="post_not_found">Post is not found</string>
-    <string name="maximum_5_leagues">You can only join maximum 5 leagues at a time</string>
-    <string name="current_budget_is_not_enough">Budget is not enough</string>
-
     <!--// error message-->
     <string name="error_field_must_not_be_empty">@string/field_is_required</string>
     <string name="error_email_address_not_valid">@string/forgot_user_forgot_email_invalid</string>
