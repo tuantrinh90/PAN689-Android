@@ -112,6 +112,14 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
             lineupView.setRemovable(false);
             tvTimeLabel.setText(R.string.start_time);
             tvTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
+
+            // hide complete button
+            tvComplete.setVisibility(View.GONE);
+        }
+
+        // hide complete button
+        if (league.getTeam().getCompleted() != null && league.getTeam().getCompleted()) {
+            tvComplete.setVisibility(View.GONE);
         }
 
         // setup lineupView
