@@ -16,6 +16,7 @@ import com.football.customizes.lineup.StatisticView;
 import com.football.events.PlayerEvent;
 import com.football.events.TeamEvent;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.fantasy.fragments.leagues.your_team.players_popup.PlayerPopupFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
@@ -128,6 +129,11 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
             AloneFragmentActivity.with(this)
                     .parameters(PlayerPopupFragment.newBundle(position, order, league.getId()))
                     .start(PlayerPopupFragment.class);
+        });
+        lineupView.setInfoCallback(player -> {
+            AloneFragmentActivity.with(this)
+                    .parameters(PlayerDetailFragment.newBundle(player, getTitleString()))
+                    .start(PlayerDetailFragment.class);
         });
         lineupView.setRemoveCallback((player, position, index) -> {
             DialogUtils.messageBox(mActivity,

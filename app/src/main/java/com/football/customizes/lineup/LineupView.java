@@ -13,6 +13,7 @@ import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.flexbox.JustifyContent;
 
 import java8.util.function.BiConsumer;
+import java8.util.function.Consumer;
 
 public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerViewClickListener {
 
@@ -24,6 +25,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
     private BiConsumer<PlayerResponse, Integer> editCallback; // player, order
     private TriConsumer<PlayerResponse, Integer, Integer> removeCallback; // player, position, order
     private BiConsumer<Integer, Integer> addCallback; // position, order
+    private Consumer<PlayerResponse> infoCallback; // playerId
 
     private int[] squad = new int[]{4, 6, 6, 2}; // sắp xếp đội hình theo từng hàng, mỗi phần tử tương ứng với số lượng cầu thủ tại hàng đó
     private PlayerResponse[] players = new PlayerResponse[18];
@@ -107,6 +109,10 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
 
     public void setAddCallback(BiConsumer<Integer, Integer> addCallback) {
         this.addCallback = addCallback;
+    }
+
+    public void setInfoCallback(Consumer<PlayerResponse> infoCallback) {
+        this.infoCallback = infoCallback;
     }
 
     public void notifyDataSetChanged() {
@@ -194,6 +200,11 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
     @Override
     public void onAddPlayer(int position, int order) {
         Optional.from(addCallback).doIfPresent(c -> c.accept(3 - position, order));
+    }
+
+    @Override
+    public void onClickPlayer(PlayerResponse player) {
+        Optional.from(infoCallback).doIfPresent(c -> c.accept(player));
     }
 
     @Override
