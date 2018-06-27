@@ -60,6 +60,8 @@ public interface ServiceConfig {
     String REMOVE_PLAYER = "teams/remove_player";
     String PLAYERS_STATISTIC = "players/{id}/statistic";
 
+    String PROFILE = "profile";
+
     String LEAVE_LEAGUES = "leagues/leave/{id}";
     String UPLOAD = "upload";
 }

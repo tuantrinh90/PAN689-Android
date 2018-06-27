@@ -155,4 +155,7 @@ public interface IApiService {
     @GET(ServiceConfig.PLAYERS_STATISTIC)
     Observable<BaseResponse<PlayerStatisticResponse>> getPlayerStatistic(@Path(ServiceConfig.KEY_ID) Integer playerId, @Query("filter") String filter);
 
+    /* user */
+    @POST(ServiceConfig.PROFILE)
+    Observable<BaseResponse<UserResponse>> updateProfile(@Body RequestBody body);
 }

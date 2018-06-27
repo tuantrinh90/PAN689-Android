@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import com.bon.customview.datetime.ExtDayMonthYearDialogFragment;
@@ -24,7 +23,10 @@ import com.bon.util.StringUtils;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.images.CircleImageViewApp;
+import com.football.events.StopLeagueEvent;
+import com.football.events.UserEvent;
 import com.football.fantasy.R;
+import com.football.models.requests.ProfileRequest;
 import com.football.models.responses.UserResponse;
 import com.football.utilities.AppUtilities;
 import com.football.utilities.Constant;
@@ -60,7 +62,7 @@ public class EditProfileFragment extends BaseMainMvpFragment<IEditProfileView, I
     EditTextApp etIntroduction;
 
     Calendar calendarDob;
-    private UserResponse user;
+    private int gender;
     private File filePath;
 
     public static EditProfileFragment newInstance() {
@@ -117,7 +119,6 @@ public class EditProfileFragment extends BaseMainMvpFragment<IEditProfileView, I
             case R.id.etGender:
                 pickGender();
                 break;
-
             case R.id.tvChange:
                 save();
                 break;
@@ -183,22 +184,46 @@ public class EditProfileFragment extends BaseMainMvpFragment<IEditProfileView, I
                     add(new ExtKeyValuePair(String.valueOf(UserResponse.GENDER_MALE), "Male"));
                     add(new ExtKeyValuePair(String.valueOf(UserResponse.GENDER_OTHER), "Other"));
                 }})
-                .setValue(String.valueOf(user.getGender()))
+                .setValue(String.valueOf(gender))
                 .setOnSelectedConsumer(pair -> {
                     if (!TextUtils.isEmpty(pair.getKey())) {
                         etGender.setContent(pair.getValue());
-                        user.setGender(Integer.valueOf(pair.getKey()));
+                        gender = Integer.valueOf(pair.getKey());
                     }
                 })
                 .show(getFragmentManager(), null);
     }
 
     private void save() {
+        if (!isValid()) return;
+
+        ProfileRequest profileRequest = new ProfileRequest.Builder()
+                .firstName(etFirstName.getContent())
+                .lastName(etLastName.getContent())
+                .birthday(DateTimeUtils.convertCalendarToString(DateTimeUtils.convertStringToCalendar(etDob.getContent(), Constant.FORMAT_DATE), Constant.FORMAT_DATE_SERVER))
+                .gender(gender)
+                .photo(filePath)
+                .address(etAddress.getContent())
+                .phone(etPhone.getContent())
+                .description(etIntroduction.getContent())
+                .build();
+
+        presenter.updateProfile(profileRequest);
+    }
+
+    private boolean isValid() {
+        boolean valid = true;
+
+        if (etFirstName.isEmpty(mActivity)) valid = false;
+        if (etLastName.isEmpty(mActivity)) valid = false;
+
+        return valid;
     }
 
     @Override
     public void displayUser(UserResponse user) {
-        this.user = user;
+        this.gender = user.getGender();
+
         etFirstName.setContent(user.getFirstName());
         etLastName.setContent(user.getLastName());
         ImageLoaderUtils.displayImage(user.getPhoto(), ivAvatar.getImageView());
@@ -212,6 +237,12 @@ public class EditProfileFragment extends BaseMainMvpFragment<IEditProfileView, I
     }
 
     @Override
+    public void updateSuccessful(UserResponse user) {
+        bus.send(new UserEvent());
+        mActivity.finish();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
@@ -222,7 +253,6 @@ public class EditProfileFragment extends BaseMainMvpFragment<IEditProfileView, I
                 }
                 case ImageUtils.REQUEST_PICK_CONTENT: {
                     String pathFile = ImageFilePath.getPath(mActivity, data.getData());
-                    Log.e("pathFile", "pathFile:: " + pathFile);
                     StringUtils.isNotEmpty(pathFile, s -> {
                         filePath = new File(s);
                         ivAvatar.setImageUri(ImageUtils.getUriImageDisplayFromFile(filePath));

@@ -15,6 +15,7 @@ import com.bon.interfaces.Optional;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
+import com.football.events.UserEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.more.profile.change.ChangePasswordFragment;
 import com.football.fantasy.fragments.more.profile.edit.EditProfileFragment;
@@ -25,6 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.observers.DisposableObserver;
 
 public class ProfileFragment extends BaseMainMvpFragment<IProfileView, IProfilePresenter<IProfileView>> implements IProfileView {
 
@@ -66,6 +68,8 @@ public class ProfileFragment extends BaseMainMvpFragment<IProfileView, IProfileP
         bindButterKnife(view);
         initView();
 
+        registerEvent();
+
         presenter.getProfile();
     }
 
@@ -93,6 +97,27 @@ public class ProfileFragment extends BaseMainMvpFragment<IProfileView, IProfileP
 
         valuePairs.add(new ExtKeyValuePair(KEY_ACTION_EDIT, "Edit"));
         valuePairs.add(new ExtKeyValuePair(KEY_ACTION_CHANGE_PASSWORD, "Change password"));
+    }
+
+    void registerEvent() {
+        // load my leagues
+        mCompositeDisposable.add(bus.ofType(UserEvent.class).subscribeWith(new DisposableObserver<UserEvent>() {
+            @Override
+            public void onNext(UserEvent event) {
+                presenter.getProfile();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        }));
+
     }
 
     @OnClick({R.id.ivMenu})

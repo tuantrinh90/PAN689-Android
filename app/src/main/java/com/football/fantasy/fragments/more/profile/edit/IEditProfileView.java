@@ -5,4 +5,6 @@ import com.football.models.responses.UserResponse;
 
 public interface IEditProfileView extends IBaseMvpView {
     void displayUser(UserResponse user);
+
+    void updateSuccessful(UserResponse user);
 }
