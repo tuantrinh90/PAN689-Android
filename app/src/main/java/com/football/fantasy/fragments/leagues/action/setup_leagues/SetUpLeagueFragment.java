@@ -141,6 +141,13 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     Calendar calendarStartTime;
     Calendar calendarTeamSetupTime;
     ExtKeyValuePair keyValuePairNumberOfUser = new ExtKeyValuePair("6", "06");
+    List<ExtKeyValuePair> valuePairs = new ArrayList<ExtKeyValuePair>() {{
+        add(new ExtKeyValuePair("4", "04"));
+        add(new ExtKeyValuePair("6", "06"));
+        add(new ExtKeyValuePair("8", "08"));
+        add(new ExtKeyValuePair("10", "10"));
+        add(new ExtKeyValuePair("12", "12"));
+    }};
 
     int leagueId;
     String leagueTitle;
@@ -149,7 +156,7 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     BudgetOptionAdapter budgetOptionAdapter;
     List<BudgetResponse> budgetResponses;
     BudgetResponse budgetResponse;
-    LeagueResponse leagueResponse;
+    LeagueResponse league;
 
     @Override
     public int getResourceId() {
@@ -170,7 +177,7 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     void getDataFromBundle() {
         if (getArguments() == null) return;
         if (getArguments().containsKey(KEY_LEAGUE)) {
-            leagueResponse = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
+            league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
         }
         leagueTitle = getArguments().getString(KEY_LEAGUE_TITLE);
         leagueType = getArguments().getString(KEY_LEAGUE_TYPE);
@@ -185,29 +192,31 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
             ivImagePick.getImageView().setImageResource(R.drawable.bg_image_pick);
 
             // display data to views
-            if (leagueResponse != null) {
+            if (league != null) {
                 // update id
-                leagueId = leagueResponse.getId();
+                leagueId = league.getId();
 
                 // time
-                calendarStartTime = leagueResponse.getStartAtCalendar();
-                calendarDraftTime = leagueResponse.getDraftTimeCalendar();
-                calendarTeamSetupTime = leagueResponse.getTeamSetUpCalendar();
+                calendarStartTime = league.getStartAtCalendar();
+                calendarDraftTime = league.getDraftTimeCalendar();
+                calendarTeamSetupTime = league.getTeamSetUpCalendar();
 
                 // fill data
-                etLeagueName.setContent(leagueResponse.getName());
-                ivImagePick.setImageUri(leagueResponse.getLogo());
-                rgLeagueType.check(leagueResponse.getLeagueType().equals(LeagueRequest.LEAGUE_TYPE_OPEN) ? R.id.rbOpenLeague : R.id.rbPrivateLeague);
+                etLeagueName.setContent(league.getName());
+                ivImagePick.setImageUri(league.getLogo());
+                rgLeagueType.check(league.getLeagueType().equals(LeagueRequest.LEAGUE_TYPE_OPEN) ? R.id.rbOpenLeague : R.id.rbPrivateLeague);
 
-                if (leagueResponse.getGameplayOption().equals(LeagueRequest.GAMEPLAY_OPTION_TRANSFER)) {
+                if (league.getGameplayOption().equals(LeagueRequest.GAMEPLAY_OPTION_TRANSFER)) {
                     onClickTransfer();
                 } else {
                     onClickDraft();
                 }
 
-                etNumberOfUser.setContent(String.format("%02d", leagueResponse.getNumberOfUser()));
-                rbRegular.setChecked(leagueResponse.getScoringSystem().equals(LeagueRequest.SCORING_SYSTEM_REGULAR));
-                etDescription.setContent(leagueResponse.getDescription());
+                String value = String.format("%02d", league.getNumberOfUser());
+                keyValuePairNumberOfUser = new ExtKeyValuePair(String.valueOf(league.getNumberOfUser()), value);
+                etNumberOfUser.setContent(value);
+                rbRegular.setChecked(league.getScoringSystem().equals(LeagueRequest.SCORING_SYSTEM_REGULAR));
+                etDescription.setContent(league.getDescription());
 
                 // display time
                 formatDateTime();
@@ -374,13 +383,7 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     @OnClick(R.id.etNumberOfUser)
     void onClickNumberOfUser() {
         ExtKeyValuePairDialogFragment.newInstance()
-                .setExtKeyValuePairs(new ArrayList<ExtKeyValuePair>() {{
-                    add(new ExtKeyValuePair("4", "04"));
-                    add(new ExtKeyValuePair("6", "06"));
-                    add(new ExtKeyValuePair("8", "08"));
-                    add(new ExtKeyValuePair("10", "10"));
-                    add(new ExtKeyValuePair("12", "12"));
-                }})
+                .setExtKeyValuePairs(valuePairs)
                 .setValue(keyValuePairNumberOfUser.getKey())
                 .setOnSelectedConsumer(extKeyValuePair -> {
                     if (!android.text.TextUtils.isEmpty(extKeyValuePair.getKey())) {
@@ -467,7 +470,7 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
 
     LeagueRequest getLeagueRequest() {
         LeagueRequest leagueRequest = new LeagueRequest();
-        leagueRequest.setLeagueId(leagueResponse == null ? 0 : leagueResponse.getId());
+        leagueRequest.setLeagueId(league == null ? 0 : league.getId());
         leagueRequest.setName(etLeagueName.getContent());
         leagueRequest.setLogo(filePath == null ? "" : filePath.getAbsolutePath());
         leagueRequest.setLeagueType(rbOpenLeague.isChecked() ? LeagueRequest.LEAGUE_TYPE_OPEN : LeagueRequest.LEAGUE_TYPE_PRIVATE);
@@ -532,9 +535,9 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
 
             // set default value
             if (budgetResponses != null && budgetResponses.size() > 0) {
-                if (leagueResponse != null) {
+                if (league != null) {
                     StreamSupport.stream(budgetResponses).forEach(n -> {
-                        if (n.getId() == leagueResponse.getBudgetId()) {
+                        if (n.getId() == league.getBudgetId()) {
                             n.setIsActivated(true);
                             budgetResponse = n;
                         } else {
