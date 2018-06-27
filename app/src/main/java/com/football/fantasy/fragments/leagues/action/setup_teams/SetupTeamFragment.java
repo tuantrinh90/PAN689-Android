@@ -30,6 +30,7 @@ import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.requests.TeamRequest;
 import com.football.models.responses.TeamResponse;
+import com.football.utilities.Constant;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -184,6 +185,9 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
 
         if (etTeamName.isEmpty(mActivity)) {
             result = false;
+        } else if (etTeamName.getContent().length() > Constant.MAX_TEAM_NAME) {
+            result = false;
+            etTeamName.setError(getString(R.string.message_max_team_name));
         }
 
         return result;

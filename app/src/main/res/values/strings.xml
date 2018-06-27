@@ -298,4 +298,5 @@
     <string name="submit">Submit</string>
     <string name="save_change">Save change</string>
     <string name="completed">Completed</string>
+    <string name="message_max_team_name">message_max_team_name</string>
 </resources>
