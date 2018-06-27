@@ -80,8 +80,8 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
 //            etEmail.setContent("dothanhminh54@gmail.com");
 //            etPassword.setContent("123456789");
 
-            // etEmail.setContent("toan1@yopmail.com");
-            //  etPassword.setContent("123123");
+//            etEmail.setContent("toan1@yopmail.com");
+//            etPassword.setContent("123123");
         }
     }
 

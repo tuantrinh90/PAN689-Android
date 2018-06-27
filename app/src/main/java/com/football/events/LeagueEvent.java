@@ -5,12 +5,18 @@ import com.football.models.responses.LeagueResponse;
 
 public class LeagueEvent implements IEvent {
 
+    public static final int ACTION_UPDATE = 0;
+    public static final int ACTION_LEAVE = 1;
+
+    private int action;
+
     private LeagueResponse league;
 
     public LeagueEvent() {
     }
 
-    public LeagueEvent(LeagueResponse league) {
+    public LeagueEvent(int action, LeagueResponse league) {
+        this.action = action;
         this.league = league;
     }
 
@@ -18,4 +24,7 @@ public class LeagueEvent implements IEvent {
         return league;
     }
 
+    public int getAction() {
+        return action;
+    }
 }

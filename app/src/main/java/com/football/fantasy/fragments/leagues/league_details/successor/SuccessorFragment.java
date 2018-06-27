@@ -14,6 +14,7 @@ import com.bon.logger.Logger;
 import com.bon.util.DialogUtils;
 import com.football.adapters.SuccessorAdapter;
 import com.football.common.fragments.BaseMvpFragment;
+import com.football.events.LeagueEvent;
 import com.football.fantasy.R;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
@@ -151,7 +152,7 @@ public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccesso
 
     @Override
     public void onLeaveLeague() {
-        getActivity().setResult(Activity.RESULT_OK);
+        bus.send(new LeagueEvent(LeagueEvent.ACTION_LEAVE, null));
         getActivity().finish();
     }
 

@@ -572,7 +572,7 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
 
     @Override
     public void updateSuccess(LeagueResponse league) {
-        bus.send(new LeagueEvent(league));
+        bus.send(new LeagueEvent(LeagueEvent.ACTION_UPDATE, league));
         getActivity().finish();
     }
 
