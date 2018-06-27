@@ -25,8 +25,8 @@ import static com.football.models.responses.PlayerResponse.Options.PASSES;
 import static com.football.models.responses.PlayerResponse.Options.POINT;
 import static com.football.models.responses.PlayerResponse.Options.SAVES;
 import static com.football.models.responses.PlayerResponse.Options.SHOTS;
-import static com.football.models.responses.PlayerResponse.Options.VALUE;
 import static com.football.models.responses.PlayerResponse.Options.TURNOVERS;
+import static com.football.models.responses.PlayerResponse.Options.VALUE;
 import static com.football.models.responses.PlayerResponse.Options.YELLOW_CARDS;
 
 public class PlayerResponse implements Serializable {
@@ -218,7 +218,7 @@ public class PlayerResponse implements Serializable {
     }
 
     public Integer getMainPosition() {
-        return mainPosition == null ? 0 : mainPosition;
+        return mainPosition;
     }
 
     public void setMainPosition(Integer mainPosition) {
@@ -232,7 +232,7 @@ public class PlayerResponse implements Serializable {
 
 
     public Integer getMinorPosition() {
-        return minorPosition == null ? 0 : minorPosition;
+        return minorPosition;
     }
 
     public void setMinorPosition(Integer minorPosition) {
@@ -274,22 +274,23 @@ public class PlayerResponse implements Serializable {
     }
 
     @JsonIgnore
-    public String getPositionText(int position) {
+    public String getPositionText(Integer position) {
         String result = "";
-
-        switch (position) {
-            case POSITION_GOALKEEPER:
-                result = "G";
-                break;
-            case POSITION_DEFENDER:
-                result = "D";
-                break;
-            case POSITION_MIDFIELDER:
-                result = "M";
-                break;
-            case POSITION_ATTACKER:
-                result = "A";
-                break;
+        if (position != null) {
+            switch (position) {
+                case POSITION_GOALKEEPER:
+                    result = "G";
+                    break;
+                case POSITION_DEFENDER:
+                    result = "D";
+                    break;
+                case POSITION_MIDFIELDER:
+                    result = "M";
+                    break;
+                case POSITION_ATTACKER:
+                    result = "A";
+                    break;
+            }
         }
 
         return result;

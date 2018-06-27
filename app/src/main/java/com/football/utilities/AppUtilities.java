@@ -35,7 +35,7 @@ public class AppUtilities {
     }
 
     public static void displayPlayerPosition(TextView textView, Integer position, String value) {
-        if (TextUtils.isEmpty(value)) {
+        if (position == null || TextUtils.isEmpty(value) || position == PlayerResponse.POSITION_NONE) {
             textView.setVisibility(View.GONE);
         } else {
             textView.setVisibility(View.VISIBLE);
