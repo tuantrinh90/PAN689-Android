@@ -14,9 +14,9 @@ import com.football.adapters.TeamAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
+import com.football.events.TeamEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
-import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.utilities.AppUtilities;
@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.observers.DisposableObserver;
 
 public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<ITeamView>> implements ITeamView {
     static final String TAG = TeamFragment.class.getSimpleName();
@@ -66,11 +67,33 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
         bindButterKnife(view);
         initView();
         getTeams();
+        registerEvent();
     }
 
     void getDataFromBundle() {
         league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
         leagueType = getArguments().getString(KEY_LEAGUE_TYPE);
+    }
+
+    void registerEvent() {
+        // action add click on PlayerList
+        mCompositeDisposable.add(bus.ofType(TeamEvent.class)
+                .subscribeWith(new DisposableObserver<TeamEvent>() {
+                    @Override
+                    public void onNext(TeamEvent event) {
+                        getTeams();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                }));
     }
 
     void initView() {
