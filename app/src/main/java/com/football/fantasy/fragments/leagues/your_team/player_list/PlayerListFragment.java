@@ -25,6 +25,7 @@ import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilte
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.StatisticResponse;
+import com.football.utilities.AppUtilities;
 import com.football.utilities.Constant;
 
 import java.util.ArrayList;
@@ -38,8 +39,6 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
     private static final String TAG = "PlayerListFragment";
 
     static final String KEY_LEAGUE = "LEAGUE";
-    private static final String KEY_TEAM_SETUP_TIME = "TEAM_SETUP_TIME";
-
 
     public static PlayerListFragment newInstance(LeagueResponse league) {
         PlayerListFragment fragment = new PlayerListFragment();
@@ -59,8 +58,12 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
     StatisticView svMidfielder;
     @BindView(R.id.svAttacker)
     StatisticView svAttacker;
-    @BindView(R.id.tvSetupTime)
-    ExtTextView tvSetupTime;
+
+    @BindView(R.id.tvTimeLabel)
+    ExtTextView tvTimeLabel;
+    @BindView(R.id.tvTime)
+    ExtTextView tvTime;
+
     @BindView(R.id.svSearch)
     SearchView svSearchView;
     @BindView(R.id.ivSortValue)
@@ -98,12 +101,11 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
         Bundle bundle = getArguments();
         if (bundle != null) {
             league = (LeagueResponse) bundle.getSerializable(KEY_LEAGUE);
-            tvSetupTime.setText(bundle.getString(KEY_TEAM_SETUP_TIME));
         }
     }
 
     void initView() {
-        tvSetupTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
+        displayTime();
 
         try {
             // disable statisticView
@@ -173,6 +175,16 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
             getPlayers(false);
         } catch (Resources.NotFoundException e) {
             Logger.e(TAG, e);
+        }
+    }
+
+    void displayTime() {
+        if (AppUtilities.isSetupTime(league.getTeamSetup())) {
+            tvTimeLabel.setText(R.string.team_setup_time);
+            tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
+        } else {
+            tvTimeLabel.setText(R.string.start_time);
+            tvTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
         }
     }
 
