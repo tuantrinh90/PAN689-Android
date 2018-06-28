@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
@@ -17,6 +18,7 @@ import com.bon.interfaces.Optional;
 import com.football.adapters.PlayerStatisticAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
+import com.football.events.PlayerEvent;
 import com.football.fantasy.R;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.PlayerRoundPointResponse;
@@ -34,7 +36,11 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
 
     private static final String KEY_PLAYER = "PLAYER";
     private static final String KEY_TITLE = "TITLE";
+    private static final String KEY_PICK_ENABLE = "PICK_ENABLE";
 
+
+    @BindView(R.id.ivMenu)
+    ImageView ivMenu;
     @BindView(R.id.tvName)
     ExtTextView tvName;
     @BindView(R.id.tvMainPosition)
@@ -87,12 +93,14 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
 
     private PlayerResponse player;
     private String title;
+    private boolean pickEnable;
     private ExtKeyValuePair keyValuePairKey = new ExtKeyValuePair("[{\"property\":\"total\", \"operator\":\"eq\",\"value\":\"all\"}]", "Total statistics");
 
-    public static Bundle newBundle(PlayerResponse player, String title) {
+    public static Bundle newBundle(PlayerResponse player, String title, boolean pickEnable) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_PLAYER, player);
         bundle.putString(KEY_TITLE, title);
+        bundle.putBoolean(KEY_PICK_ENABLE, pickEnable);
         return bundle;
     }
 
@@ -140,13 +148,15 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
 
     private void getDataFromBundle() {
         player = (PlayerResponse) getArguments().getSerializable(KEY_PLAYER);
-        title  = getArguments().getString(KEY_TITLE);
+        title = getArguments().getString(KEY_TITLE);
+        pickEnable = getArguments().getBoolean(KEY_PICK_ENABLE);
     }
 
     void initView() {
         Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.colorPrimary)));
         Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white)));
 
+        ivMenu.setVisibility(pickEnable ? View.VISIBLE : View.GONE);
         tvFilter.setText(keyValuePairKey.getValue());
     }
 
@@ -198,7 +208,13 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
                 .setValue("")
                 .setOnSelectedConsumer(extKeyValuePair -> {
                     if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
+                        // bắn sang MH PlayerPopup
+                        bus.send(new PlayerEvent.Builder()
+                                .action(PlayerEvent.ACTION_PICK)
+                                .data(player)
+                                .build());
 
+                        mActivity.finish();
                     }
                 }).show(getFragmentManager(), null);
     }

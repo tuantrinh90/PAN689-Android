@@ -7,7 +7,9 @@ import java8.util.function.BiConsumer;
 
 public class PlayerEvent implements IEvent {
 
+    public static final int ACTION_NONE = 0;
     public static final int ACTION_ADD_CLICK = 1;
+    public static final int ACTION_PICK = 2;
 
     private int action;
     private int position;

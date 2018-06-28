@@ -120,7 +120,7 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
                 player -> AloneFragmentActivity.with(this)
                         .parameters(PlayerDetailFragment.newBundle(
                                 player,
-                                getString(R.string.team_line_up)))
+                                getString(R.string.team_line_up), false))
                         .start(PlayerDetailFragment.class));
         rvPlayer
                 .adapter(adapter)

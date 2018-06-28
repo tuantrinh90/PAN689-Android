@@ -132,7 +132,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
         });
         lineupView.setInfoCallback(player -> {
             AloneFragmentActivity.with(this)
-                    .parameters(PlayerDetailFragment.newBundle(player, getTitleString()))
+                    .parameters(PlayerDetailFragment.newBundle(player, getTitleString(), false))
                     .start(PlayerDetailFragment.class);
         });
         lineupView.setRemoveCallback((player, position, index) -> {

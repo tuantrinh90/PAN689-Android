@@ -92,39 +92,75 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
     }
 
     private void registerBus() {
-        try {
-            // action add click on PlayerList
-            mCompositeDisposable.add(bus.ofType(PlayerQueryEvent.class)
-                    .subscribeWith(new DisposableObserver<PlayerQueryEvent>() {
-                        @Override
-                        public void onNext(PlayerQueryEvent event) {
-                            if (event.getFrom().equals(TAG)) {
-                                if (event.getTag() == PlayerQueryEvent.TAG_FILTER) {
-                                    filterClubs = event.getClub();
+        // action add click on PlayerList
+        mCompositeDisposable.add(bus.ofType(PlayerQueryEvent.class)
+                .subscribeWith(new DisposableObserver<PlayerQueryEvent>() {
+                    @Override
+                    public void onNext(PlayerQueryEvent event) {
+                        if (event.getFrom().equals(TAG)) {
+                            if (event.getTag() == PlayerQueryEvent.TAG_FILTER) {
+                                filterClubs = event.getClub();
 
-                                    // get items
-                                    rvPlayer.clear();
-                                    rvPlayer.startLoading();
-                                    getPlayers();
-                                }
+                                // get items
+                                rvPlayer.clear();
+                                rvPlayer.startLoading();
+                                getPlayers();
                             }
-
                         }
 
-                        @Override
-                        public void onError(Throwable e) {
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                }));
+
+        // pick Player
+        mCompositeDisposable.add(bus.ofType(PlayerEvent.class)
+                .subscribeWith(new DisposableObserver<PlayerEvent>() {
+                    @Override
+                    public void onNext(PlayerEvent event) {
+                        if (event.getAction() == PlayerEvent.ACTION_PICK) {
+                            sendToLineup(event.getData());
                         }
 
-                        @Override
-                        public void onComplete() {
+                    }
 
-                        }
-                    }));
+                    @Override
+                    public void onError(Throwable e) {
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                }));
+    }
+
+    // bắn sang màn hình LineUp
+    private void sendToLineup(PlayerResponse player) {
+        showLoading(true);
+        bus.send(new PlayerEvent.Builder()
+                .action(PlayerEvent.ACTION_ADD_CLICK)
+                .position(mainPosition)
+                .order(order)
+                .data(player)
+                .callback((aBoolean, message) -> {
+                    showLoading(false);
+                    if (aBoolean) {
+                        mActivity.finish();
+                    } else {
+                        showMessage(message);
+                    }
+                })
+                .build());
     }
 
     @NonNull
@@ -168,28 +204,12 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
                         AloneFragmentActivity.with(getContext())
                                 .parameters(PlayerDetailFragment.newBundle(
                                         player,
-                                        getString(R.string.player_list)))
+                                        getString(R.string.player_list),
+                                        true))
                                 .start(PlayerDetailFragment.class);
                     },
                     (player, position) -> { // add click
-                        showLoading(true);
-
-                        // bắn sang màn hình LineUp
-                        bus.send(new PlayerEvent.Builder()
-                                .action(PlayerEvent.ACTION_ADD_CLICK)
-                                .position(mainPosition)
-                                .order(order)
-                                .data(player)
-                                .callback((aBoolean, message) -> {
-                                    showLoading(false);
-                                    if (aBoolean) {
-                                        mActivity.finish();
-                                    } else {
-                                        showMessage(message);
-                                    }
-                                })
-                                .build());
-
+                        sendToLineup(player);
                     });
             rvPlayer.adapter(playerAdapter)
                     .loadMoreListener(() -> {
