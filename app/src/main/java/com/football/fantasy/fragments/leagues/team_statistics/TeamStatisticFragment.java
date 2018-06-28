@@ -121,19 +121,17 @@ public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticVie
 
         tvRankLabel.setVisibility(View.GONE);
         tvRankValue.setVisibility(View.GONE);
+
         switch (team.getRank()) {
             case 1:
                 ivRank.setImageResource(R.drawable.ic_number_one);
                 break;
-
             case 2:
                 ivRank.setImageResource(R.drawable.ic_number_two);
                 break;
-
             case 3:
                 ivRank.setImageResource(R.drawable.ic_number_three);
                 break;
-
             default:
                 tvRankValue.setText(String.valueOf(team.getRank()));
                 ivRank.setVisibility(View.GONE);

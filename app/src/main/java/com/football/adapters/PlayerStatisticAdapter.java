@@ -35,8 +35,10 @@ public class PlayerStatisticAdapter extends ExtBaseAdapter<PlayerRoundPointRespo
     protected void onBindViewHolder(ViewHolder holder, PlayerRoundPointResponse data) {
         holder.tvRound.setText(String.valueOf(data.getRound()));
         holder.tvPoint.setText(String.valueOf(data.getPoint()));
+
         int change = data.getChange();
         holder.tvChange.setText(change == 0 ? "-" : String.valueOf(Math.abs(change)));
+
         if (change > 0) {
             holder.ivChange.setImageResource(R.drawable.ic_arrow_upward_white_small);
             holder.ivChange.setBackgroundResource(R.drawable.bg_circle_green);
