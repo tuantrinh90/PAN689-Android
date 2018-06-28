@@ -5,37 +5,49 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/season"
+    <com.bon.customview.shadowlayout.ShadowLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_layout"
-        android:background="@drawable/bg_background_gradient_blue_radius_component"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="@dimen/padding_small">
+        android:layout_marginLeft="@dimen/leagues_margin"
+        android:layout_marginRight="@dimen/leagues_margin"
+        app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+        app:shadowLayoutShadowColor="@color/color_shadow">
 
-        <com.bon.customview.textview.ExtTextView
-            android:id="@+id/tvSeason"
-            style="@style/StyleContentWhite"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/round"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="start"
-            android:padding="@dimen/padding_small"
-            android:paddingEnd="@dimen/padding_layout"
-            android:paddingStart="@dimen/padding_layout"
-            android:text="Real League"
-            app:textAllCaps="true"
-            app:textViewFontAssetName="@string/font_display_black" />
+            android:background="@drawable/bg_background_gradient_blue_radius_component"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_small">
 
-        <ImageView
-            style="@style/IconMedium"
-            android:background="@drawable/bg_circle_white"
-            android:padding="@dimen/padding_content"
-            android:rotation="90"
-            android:src="@drawable/ic_arrow_right" />
-    </LinearLayout>
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvRound"
+                style="@style/StyleContentWhite"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:padding="@dimen/padding_small"
+                android:paddingEnd="@dimen/padding_layout"
+                android:paddingStart="@dimen/padding_layout"
+                android:text="Real League"
+                app:textAllCaps="true"
+                app:textViewFontAssetName="@string/font_display_black" />
 
+            <ImageView
+                style="@style/IconMedium"
+                android:background="@drawable/bg_circle_white"
+                android:padding="@dimen/padding_content"
+                android:rotation="90"
+                android:src="@drawable/ic_arrow_right" />
+        </LinearLayout>
+    </com.bon.customview.shadowlayout.ShadowLayout>
+
+    <com.football.customizes.recyclerview.ExtRecyclerView
+        android:id="@+id/rvRealLeague"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

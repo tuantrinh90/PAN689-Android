@@ -18,12 +18,12 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class MatchupMyLeagueAdapter extends DefaultAdapter<String> {
+public class MatchupLeagueAdapter extends DefaultAdapter<String> {
 
     private SparseBooleanArray expandState = new SparseBooleanArray();
 
 
-    public MatchupMyLeagueAdapter(List<String> dataSet) {
+    public MatchupLeagueAdapter(List<String> dataSet) {
         super(dataSet);
         for (int i = 0; i < dataSet.size(); i++) {
             expandState.append(i, false);
