@@ -46,10 +46,11 @@ public class TeamLineupPlayerAdapter extends DefaultAdapter<PlayerResponse> {
     protected void onBindViewHolder(@NonNull DefaultHolder defaultHolder, PlayerResponse data, int position) {
         PlayerHolder holder = (PlayerHolder) defaultHolder;
         ImageLoaderUtils.displayImage(data.getPhoto(), holder.ivAvatar);
+
         AppUtilities.displayPlayerPosition(holder.tvPositionPrimary, data.getMainPosition(), data.getMainPositionText());
         AppUtilities.displayPlayerPosition(holder.tvPositionSecond, data.getMinorPosition(), data.getMinorPositionText());
-        holder.tvName.setText(data.getName());
 
+        holder.tvName.setText(data.getName());
 
         mDisposable.add(RxView.clicks(holder.itemView).subscribe(o ->
                 Optional.from(clickCallback).doIfPresent(d ->

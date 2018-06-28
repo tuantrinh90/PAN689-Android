@@ -84,7 +84,7 @@ public class LeaguesAdapter extends DefaultAdapter<LeagueResponse> {
             holder.tvNumber.setVisibility(league.getRank() > 3 ? View.VISIBLE : View.GONE);
             holder.ivNumber.setVisibility(league.getRank() <= 3 ? View.VISIBLE : View.GONE);
             holder.ivNumber.setImageResource(league.getRank() == 1 ? R.drawable.ic_number_one :
-                    (league.getRank() == 2 ? R.drawable.ic_number_two : (league.getRank() == 2 ? R.drawable.ic_number_three : 0)));
+                    (league.getRank() == 2 ? R.drawable.ic_number_two : (league.getRank() == 3 ? R.drawable.ic_number_three : 0)));
         }
 
         if (leagueType == PENDING_INVITATIONS) {

@@ -21,7 +21,6 @@ import io.reactivex.disposables.CompositeDisposable;
 import java8.util.function.Consumer;
 
 public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
-
     private CompositeDisposable mDisposable;
     private final Consumer<PlayerResponse> clickConsumer;
 
@@ -55,6 +54,7 @@ public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
         holder.tvOption1.setText(getOptionValue(holder.itemView.getContext(), data, option1, holder.ivOption1));
         holder.tvOption2.setText(getOptionValue(holder.itemView.getContext(), data, option2, holder.ivOption2));
         holder.tvOption3.setText(getOptionValue(holder.itemView.getContext(), data, option3, holder.ivOption3));
+
         AppUtilities.displayPlayerPosition(holder.tvPositionPrimary, data.getMainPosition(), data.getMainPositionText());
         AppUtilities.displayPlayerPosition(holder.tvPositionSecond, data.getMinorPosition(), data.getMinorPositionText());
 
@@ -150,6 +150,5 @@ public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
         public PlayerHolder(View itemView) {
             super(itemView);
         }
-
     }
 }

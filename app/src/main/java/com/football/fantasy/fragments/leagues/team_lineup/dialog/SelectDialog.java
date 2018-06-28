@@ -23,8 +23,6 @@ import butterknife.Unbinder;
 import java8.util.function.Consumer;
 
 public class SelectDialog extends ExtBaseBottomDialogFragment {
-
-
     @BindView(R.id.rvPlayer)
     ExtRecyclerView<PlayerResponse> rvPlayer;
 

@@ -22,7 +22,6 @@ import java8.util.function.BiConsumer;
 import java8.util.function.Consumer;
 
 public class PlayerAdapter extends DefaultAdapter<PlayerResponse> {
-
     private static final String TAG = "PlayerAdapter";
 
     private final CompositeDisposable mDisposable = new CompositeDisposable();
@@ -55,8 +54,10 @@ public class PlayerAdapter extends DefaultAdapter<PlayerResponse> {
         holder.tvClub.setText(data.getRealClub().getName());
         holder.tvTransferValue.setText(holder.itemView.getContext().getString(R.string.money_prefix, data.getTransferValueDisplay()));
         holder.tvPoints.setText(holder.itemView.getContext().getString(R.string.point_last_round, data.getPointLastRound()));
+
         AppUtilities.displayPlayerPosition(holder.tvPositionPrimary, data.getMainPosition(), data.getMainPositionText());
         AppUtilities.displayPlayerPosition(holder.tvPositionSecond, data.getMinorPosition(), data.getMinorPositionText());
+
         boolean checked = data.getSelected();
         holder.ivAdd.setImageResource(checked ? R.drawable.ic_tick : R.drawable.ic_add_white_small);
         holder.ivAdd.setBackgroundResource(checked ? R.drawable.bg_circle_white_border : R.drawable.bg_circle_yellow);
@@ -68,13 +69,13 @@ public class PlayerAdapter extends DefaultAdapter<PlayerResponse> {
                 }
             });
         }));
+
         mDisposable.add(RxView.clicks(holder.itemView).subscribe(o ->
                 Optional.from(clickCallback).doIfPresent(d ->
                         d.accept(data))));
     }
 
     static class ViewHolder extends DefaultHolder {
-
         @BindView(R.id.ivAvatar)
         ImageView ivAvatar;
         @BindView(R.id.tvPositionPrimary)

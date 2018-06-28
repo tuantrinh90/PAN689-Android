@@ -50,7 +50,6 @@ public class TeamAdapter extends DefaultAdapter<TeamResponse> {
 
     @Override
     protected void onBindViewHolder(@NonNull DefaultHolder defaultHolder, TeamResponse data, int position) {
-
         TeamHolder holder = (TeamHolder) defaultHolder;
 
         holder.ivAvatar.setImageUri(data.getLogo());
@@ -69,11 +68,13 @@ public class TeamAdapter extends DefaultAdapter<TeamResponse> {
         }
 
         // click
-        mDisposable.add(RxView.clicks(holder.itemView).subscribe(o -> Optional.from(detailCallback).doIfPresent(t -> {
-            if (data.getCompleted()) {
-                t.accept(data);
-            }
-        })));
+        mDisposable.add(RxView.clicks(holder.itemView)
+                .subscribe(o -> Optional.from(detailCallback).doIfPresent(t -> {
+                    if (data.getCompleted()) {
+                        t.accept(data);
+                    }
+                })));
+
         mDisposable.add(RxView.clicks(holder.tvRemove).subscribe(o -> Optional.from(removeCallback).doIfPresent(t -> t.accept(data))));
     }
 
