@@ -1,51 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.bon.customview.shadowlayout.ShadowLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/leagues_margin"
+    android:layout_marginRight="@dimen/leagues_margin"
+    app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+    app:shadowLayoutShadowColor="@color/color_shadow">
 
-    <RelativeLayout
-        android:id="@+id/button"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:gravity="center">
-
-        <View
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:background="@drawable/ic_arrow_drop_down_black" />
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/textView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@id/button"
-        android:gravity="center"
-        android:padding="8dp"
-        android:textColor="@color/color_blue"
-        android:textSize="12sp" />
-
-    <com.football.customizes.expandablelayout.ExpandableLinearLayout
-        android:id="@+id/expandableLayout"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_below="@id/textView"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_border_white"
         android:orientation="vertical"
-        app:ael_duration="400"
-        app:ael_expanded="false">
+        android:paddingBottom="@dimen/padding_layout">
 
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:padding="@dimen/padding_content"
-            android:text="sample.sample.sample.sample.sample.sample.sample.sample.sample.sample.\n"
-            android:textColor="@color/color_blue"
-            android:textSize="16sp" />
-    </com.football.customizes.expandablelayout.ExpandableLinearLayout>
-</RelativeLayout>
+            android:background="@drawable/bg_border_top_matchup_item"
+            android:gravity="center_vertical"
+            android:paddingBottom="@dimen/padding_content"
+            android:paddingLeft="@dimen/padding_layout"
+            android:paddingRight="@dimen/padding_layout"
+            android:paddingTop="@dimen/padding_content">
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvTitle"
+                style="@style/StyleDescriptionGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:text="@string/app_name"
+                android:textColor="@color/color_white"
+                app:textViewFontAssetName="@string/font_display_heavy" />
+
+            <LinearLayout
+                android:id="@+id/buttonResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="end|center_vertical"
+                android:background="@drawable/bg_radius_button_matchup"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_small">
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleDescriptionWhite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="0dp"
+                    android:paddingEnd="@dimen/padding_layout"
+                    android:paddingStart="@dimen/padding_layout"
+                    android:text="@string/result"
+                    android:textSize="@dimen/font_size_small"
+                    app:textViewFontAssetName="@string/font_display_black" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_content"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <com.football.customizes.images.CircleImageViewApp
+                    android:id="@+id/ivAvatarTeam1"
+                    android:layout_width="@dimen/avatar_normal"
+                    android:layout_height="@dimen/avatar_normal" />
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvTitleTeam1"
+                    style="@style/StyleDescriptionGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="@string/app_name"
+                    android:textColor="@color/color_black"
+                    app:textViewFontAssetName="@string/font_display_heavy" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvRound"
+                    style="@style/StyleDescriptionGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="@string/app_name"
+                    app:textViewFontAssetName="@string/font_display_heavy" />
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvRoundMatch"
+                    style="@style/StyleContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="@string/app_name"
+                    android:textColor="@color/color_blue"
+                    app:textViewFontAssetName="@string/font_display_heavy" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <com.football.customizes.images.CircleImageViewApp
+                    android:id="@+id/ivAvatarTeam2"
+                    android:layout_width="@dimen/avatar_normal"
+                    android:layout_height="@dimen/avatar_normal" />
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvTitleTeam2"
+                    style="@style/StyleDescriptionGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="@string/app_name"
+                    android:textColor="@color/color_black"
+                    app:textViewFontAssetName="@string/font_display_heavy" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivExpandable"
+            android:layout_width="@dimen/icon_medium"
+            android:layout_height="@dimen/icon_medium"
+            android:layout_gravity="center_horizontal"
+            android:rotation="-180"
+            android:src="@drawable/ic_arrow_drop_down_black" />
+
+        <com.football.customizes.expandablelayout.ExpandableLayout
+            android:id="@+id/expandableView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:el_expanded="false">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/match_up_league_field_item_child" />
+
+            </LinearLayout>
+
+        </com.football.customizes.expandablelayout.ExpandableLayout>
+
+    </LinearLayout>
+</com.bon.customview.shadowlayout.ShadowLayout>

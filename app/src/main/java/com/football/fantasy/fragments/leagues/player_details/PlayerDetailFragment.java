@@ -177,7 +177,7 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
         supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
     }
 
-    @OnClick({R.id.ivArrow})
+    @OnClick({R.id.selection})
     public void onClicked(View view) {
         List<ExtKeyValuePair> valuePairs = new ArrayList<>();
         valuePairs.add(new ExtKeyValuePair("[{\"property\":\"total\", \"operator\":\"eq\",\"value\":\"all\"}]", "Total statistics"));

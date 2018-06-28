@@ -60,7 +60,6 @@ public class SelectDialog extends ExtBaseBottomDialogFragment {
         // setup adapter
         rvPlayer
                 .adapter(adapter)
-                .autoMeasureEnable(true)
                 .layoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false))
                 .build();
     }

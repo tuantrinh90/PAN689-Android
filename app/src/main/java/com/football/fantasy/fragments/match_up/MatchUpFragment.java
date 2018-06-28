@@ -6,9 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import com.football.adapters.LeagueViewPagerAdapter;
+import com.football.adapters.PagerAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
-import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
 import com.football.fantasy.R;
@@ -31,7 +30,7 @@ public class MatchUpFragment extends BaseMainMvpFragment<IMatchUpView, IMatchUpP
 
     private boolean initialized = false;
 
-    private LeagueViewPagerAdapter leagueViewPagerAdapter;
+    private PagerAdapter mAdapter;
 
     @Override
     public int getResourceId() {
@@ -70,12 +69,11 @@ public class MatchUpFragment extends BaseMainMvpFragment<IMatchUpView, IMatchUpP
         });
 
         // view pager
-        leagueViewPagerAdapter = new LeagueViewPagerAdapter(getFragmentManager(), new ArrayList<BaseMvpFragment>() {{
-            add(MatchupRealLeagueFragment.newInstance());
-            add(MatchupMyLeagueFragment.newInstance());
-        }});
+        mAdapter = new PagerAdapter(getChildFragmentManager());
+        mAdapter.addFragment(MatchupRealLeagueFragment.newInstance());
+        mAdapter.addFragment(MatchupMyLeagueFragment.newInstance());
+        vpViewPager.setAdapter(mAdapter);
         vpViewPager.setOffscreenPageLimit(2);
-        vpViewPager.setAdapter(leagueViewPagerAdapter);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

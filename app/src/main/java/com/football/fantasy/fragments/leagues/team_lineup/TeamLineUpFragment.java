@@ -124,7 +124,6 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
                         .start(PlayerDetailFragment.class));
         rvPlayer
                 .adapter(adapter)
-                .autoMeasureEnable(true)
                 .layoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false))
                 .build();
     }

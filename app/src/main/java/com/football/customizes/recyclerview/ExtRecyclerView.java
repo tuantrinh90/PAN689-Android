@@ -44,7 +44,7 @@ public class ExtRecyclerView<T> extends FrameLayout {
     private ExtLoadMoreListener onExtLoadMoreListener = null;
     private ExtRefreshListener onExtRefreshListener = null;
     private RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false);
-    private boolean autoMeasureEnable;
+    private int itemViewCacheSize;
 
     public ExtRecyclerView(@NonNull Context context) {
         this(context, null, 0);
@@ -120,8 +120,8 @@ public class ExtRecyclerView<T> extends FrameLayout {
         return this;
     }
 
-    public ExtRecyclerView autoMeasureEnable(boolean enable) {
-        this.autoMeasureEnable = enable;
+    public ExtRecyclerView itemViewCacheSize(int itemViewCacheSize) {
+        this.itemViewCacheSize = itemViewCacheSize;
         return this;
     }
 
@@ -151,6 +151,11 @@ public class ExtRecyclerView<T> extends FrameLayout {
         mAdapter.setLoadingLayout(loadingLayout);
         if (onExtRefreshListener == null) {
             rfLayout.setEnabled(false);
+        }
+
+        // itemViewCacheSize
+        if (itemViewCacheSize != 0) {
+            recyclerView.setItemViewCacheSize(itemViewCacheSize);
         }
 
         endlessScrollListener = new EndlessScrollListener(recyclerView.getLayoutManager()) {

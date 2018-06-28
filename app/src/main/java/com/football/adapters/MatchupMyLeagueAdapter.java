@@ -1,15 +1,15 @@
 package com.football.adapters;
 
-import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.SparseBooleanArray;
 import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
-import com.football.customizes.expandablelayout.ExpandableLayoutListenerAdapter;
-import com.football.customizes.expandablelayout.ExpandableLinearLayout;
-import com.football.customizes.expandablelayout.Utils;
+import com.bon.customview.textview.ExtTextView;
+import com.football.customizes.expandablelayout.ExpandableLayout;
+import com.football.customizes.images.CircleImageViewApp;
 import com.football.customizes.recyclerview.DefaultAdapter;
 import com.football.customizes.recyclerview.DefaultHolder;
 import com.football.fantasy.R;
@@ -43,39 +43,50 @@ public class MatchupMyLeagueAdapter extends DefaultAdapter<String> {
     @Override
     protected void onBindViewHolder(@NonNull DefaultHolder defaultHolder, String data, int position) {
         MatchupMyLeagueHolder holder = (MatchupMyLeagueHolder) defaultHolder;
-//        Context context = holder.itemView.getContext();
-        holder.setIsRecyclable(false);
-        holder.textView.setText(data);
-        holder.expandableLayout.setInRecyclerView(true);
-//        holder.expandableLayout.setInterpolator(data.interpolator);
-        holder.expandableLayout.setExpanded(expandState.get(position));
-        holder.expandableLayout.setListener(new ExpandableLayoutListenerAdapter() {
-            @Override
-            public void onPreOpen() {
-            }
-
-            @Override
-            public void onPreClose() {
-            }
+        Context context = holder.itemView.getContext();
+        if (expandState.get(position)) {
+            holder.expandableView.expand();
+        } else {
+            holder.expandableView.collapse();
+        }
+        holder.ivExpandable.setOnClickListener(v -> {
+            holder.expandableView.toggle();
+            expandState.append(holder.getAdapterPosition(), !expandState.get(holder.getAdapterPosition()));
         });
-
     }
 
-    public ObjectAnimator createRotateAnimator(final View target, final float from, final float to) {
-        ObjectAnimator animator = ObjectAnimator.ofFloat(target, "rotation", from, to);
-        animator.setDuration(300);
-        animator.setInterpolator(Utils.createInterpolator(Utils.LINEAR_INTERPOLATOR));
-        return animator;
+    @Override
+    public void addItems(List<String> items) {
+        int index = getItemCount();
+        super.addItems(items);
+        for (int i = 0, size = items.size(); i < size; i++) {
+            expandState.append(index, false);
+            index++;
+        }
     }
 
     static class MatchupMyLeagueHolder extends DefaultHolder {
 
-        @BindView(R.id.button)
-        RelativeLayout button;
-        @BindView(R.id.textView)
-        TextView textView;
-        @BindView(R.id.expandableLayout)
-        ExpandableLinearLayout expandableLayout;
+        @BindView(R.id.tvTitle)
+        ExtTextView tvTitle;
+        @BindView(R.id.buttonResult)
+        LinearLayout buttonResult;
+        @BindView(R.id.ivAvatarTeam1)
+        CircleImageViewApp ivAvatarTeam1;
+        @BindView(R.id.tvTitleTeam1)
+        ExtTextView tvTitleTeam1;
+        @BindView(R.id.tvRound)
+        ExtTextView tvRound;
+        @BindView(R.id.tvRoundMatch)
+        ExtTextView tvRoundMatch;
+        @BindView(R.id.ivAvatarTeam2)
+        CircleImageViewApp ivAvatarTeam2;
+        @BindView(R.id.tvTitleTeam2)
+        ExtTextView tvTitleTeam2;
+        @BindView(R.id.ivExpandable)
+        ImageView ivExpandable;
+        @BindView(R.id.expandableView)
+        ExpandableLayout expandableView;
 
         public MatchupMyLeagueHolder(View itemView) {
             super(itemView);

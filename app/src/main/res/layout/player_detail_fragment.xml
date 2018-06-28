@@ -175,6 +175,7 @@
         app:shadowLayoutShadowColor="@color/color_shadow">
 
         <FrameLayout
+            android:id="@+id/selection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_button_green"
@@ -196,7 +197,6 @@
                 app:textViewFontAssetName="@string/font_display_bold" />
 
             <ImageView
-                android:id="@+id/ivArrow"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_gravity="end"
