@@ -180,7 +180,7 @@
                     android:layout_weight="1"
                     android:clickable="true"
                     android:focusable="true"
-                    android:gravity="center_vertical">
+                    android:gravity="center">
 
                     <com.bon.customview.textview.ExtTextView
                         android:id="@+id/tvOption1"
@@ -207,7 +207,7 @@
                     android:layout_weight="1"
                     android:clickable="true"
                     android:focusable="true"
-                    android:gravity="center_vertical">
+                    android:gravity="center">
 
                     <com.bon.customview.textview.ExtTextView
                         android:id="@+id/tvOption2"
@@ -233,7 +233,7 @@
                     android:layout_weight="1"
                     android:clickable="true"
                     android:focusable="true"
-                    android:gravity="center_vertical">
+                    android:gravity="center">
 
                     <com.bon.customview.textview.ExtTextView
                         android:id="@+id/tvOption3"
