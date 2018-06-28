@@ -42,6 +42,7 @@
                     app:textViewFontAssetName="@string/font_display_black_italic" />
 
                 <LinearLayout
+                    android:id="@+id/season"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/padding_layout"
@@ -65,7 +66,6 @@
                         app:textViewFontAssetName="@string/font_display_black" />
 
                     <ImageView
-                        android:id="@+id/ivArrow"
                         style="@style/IconMedium"
                         android:background="@drawable/bg_circle_white"
                         android:padding="@dimen/padding_content"

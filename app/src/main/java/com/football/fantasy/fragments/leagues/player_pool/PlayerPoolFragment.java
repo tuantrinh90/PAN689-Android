@@ -258,10 +258,10 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
         getPlayers();
     }
 
-    @OnClick({R.id.ivArrow, R.id.filter, R.id.display, R.id.option1, R.id.option2, R.id.option3})
+    @OnClick({R.id.season, R.id.filter, R.id.display, R.id.option1, R.id.option2, R.id.option3})
     public void onSortClicked(View view) {
         switch (view.getId()) {
-            case R.id.ivArrow:
+            case R.id.season:
                 displaySelectDialog();
                 break;
             case R.id.filter:
