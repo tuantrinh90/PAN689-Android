@@ -44,6 +44,8 @@
     <string name="player_list_break">Player\nList</string>
     <string name="rank">Rank</string>
     <string name="open_leagues">Open Leagues</string>
+    <string name="real_league">Real League</string>
+    <string name="my_league">My League</string>
     <string name="pending_invitation">Pending Invitations</string>
     <string name="search_public_leagues">Search public league</string>
     <string name="search_public_players">Search player by name</string>

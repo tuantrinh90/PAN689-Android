@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/season"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_layout"
+        android:background="@drawable/bg_background_gradient_blue_radius_component"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_small">
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvSeason"
+            style="@style/StyleContentWhite"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:padding="@dimen/padding_small"
+            android:paddingEnd="@dimen/padding_layout"
+            android:paddingStart="@dimen/padding_layout"
+            android:text="My League"
+            app:textAllCaps="true"
+            app:textViewFontAssetName="@string/font_display_black" />
+
+        <ImageView
+            style="@style/IconMedium"
+            android:background="@drawable/bg_circle_white"
+            android:padding="@dimen/padding_content"
+            android:rotation="90"
+            android:src="@drawable/ic_arrow_right" />
+    </LinearLayout>
+
+</LinearLayout>
