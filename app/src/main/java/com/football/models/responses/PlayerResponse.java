@@ -226,8 +226,13 @@ public class PlayerResponse implements Serializable {
     }
 
     @JsonIgnore
+    public String getMainPositionFullText() {
+        return getPositionText(getMainPosition(), true);
+    }
+
+    @JsonIgnore
     public String getMainPositionText() {
-        return getPositionText(getMainPosition());
+        return getPositionText(getMainPosition(), false);
     }
 
 
@@ -241,7 +246,12 @@ public class PlayerResponse implements Serializable {
 
     @JsonIgnore
     public String getMinorPositionText() {
-        return getPositionText(getMinorPosition());
+        return getPositionText(getMinorPosition(), false);
+    }
+
+    @JsonIgnore
+    public String getMinorPositionFullText() {
+        return getPositionText(getMinorPosition(), true);
     }
 
     public Long getTransferValue() {
@@ -274,21 +284,21 @@ public class PlayerResponse implements Serializable {
     }
 
     @JsonIgnore
-    public String getPositionText(Integer position) {
+    public String getPositionText(Integer position, boolean fullText) {
         String result = "";
         if (position != null) {
             switch (position) {
                 case POSITION_GOALKEEPER:
-                    result = "G";
+                    result = fullText ? "Goalkeeper" : "G";
                     break;
                 case POSITION_DEFENDER:
-                    result = "D";
+                    result = fullText ? "Defender" : "D";
                     break;
                 case POSITION_MIDFIELDER:
-                    result = "M";
+                    result = fullText ? "Midfielder" : "M";
                     break;
                 case POSITION_ATTACKER:
-                    result = "A";
+                    result = fullText ? "Attacker" : "A";
                     break;
             }
         }

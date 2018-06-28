@@ -137,8 +137,8 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
     private void displayPlayer() {
         if (player != null) {
             tvName.setText(player.getName());
-            AppUtilities.displayPlayerPosition(tvMainPosition, player.getMainPosition(), player.getMainPositionText());
-            AppUtilities.displayPlayerPosition(tvMinorPosition, player.getMinorPosition(), player.getMinorPositionText());
+            AppUtilities.displayPlayerPosition(tvMainPosition, player.getMainPosition(), player.getMainPositionFullText());
+            AppUtilities.displayPlayerPosition(tvMinorPosition, player.getMinorPosition(), player.getMinorPositionFullText());
             tvValue.setText(getString(R.string.money_prefix, player.getTransferValueDisplay()));
             ImageLoaderUtils.displayImage(player.getPhoto(), ivAvatar.getImageView());
             tvState.setVisibility(player.getInjured() ? View.VISIBLE : View.GONE);
