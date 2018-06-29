@@ -205,7 +205,7 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
 
     @OnClick(R.id.tvJoinLeagues)
     void onClickJoinLeagues() {
-        mMainActivity.onClickFooter(MainActivity.LEAGUES);
+        mMainActivity.openOpenLeagueFromLeague();
     }
 
     @OnClick(R.id.tvPlayerList)

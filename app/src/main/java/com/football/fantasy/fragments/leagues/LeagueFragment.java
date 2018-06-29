@@ -28,6 +28,10 @@ import butterknife.OnClick;
 public class LeagueFragment extends BaseMainMvpFragment<ILeagueView, ILeaguePresenter<ILeagueView>> implements ILeagueView {
     static final String TAG = LeagueFragment.class.getSimpleName();
 
+    private static final int OPEN_LEAGUE = 0;
+    private static final int MY_LEAGUE = 1;
+    private static final int PENDING_INVITATION = 2;
+
     public static LeagueFragment newInstance() {
         return new LeagueFragment();
     }
@@ -112,5 +116,10 @@ public class LeagueFragment extends BaseMainMvpFragment<ILeagueView, ILeaguePres
         AloneFragmentActivity.with(this)
                 .parameters(SetUpLeagueFragment.newBundle(null, getString(R.string.leagues), LeagueDetailFragment.MY_LEAGUES))
                 .start(SetUpLeagueFragment.class);
+    }
+
+    @Override
+    public void openOpenLeague() {
+        vpViewPager.setCurrentItem(OPEN_LEAGUE);
     }
 }

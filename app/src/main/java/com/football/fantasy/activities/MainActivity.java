@@ -53,6 +53,8 @@ public class MainActivity extends BaseAppCompatActivity {
     // current tab
     int currentTab = HOME;
 
+    private PagerAdapter mPagerAdapter;
+
     @Override
     protected int getContentViewId() {
         return R.layout.main_activity;
@@ -68,7 +70,7 @@ public class MainActivity extends BaseAppCompatActivity {
     }
 
     private void initViewPager() {
-        PagerAdapter mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
         mPagerAdapter.addFragment(HomeFragment.newInstance());
         mPagerAdapter.addFragment(LeagueFragment.newInstance());
         mPagerAdapter.addFragment(MatchUpFragment.newInstance());
@@ -183,5 +185,12 @@ public class MainActivity extends BaseAppCompatActivity {
 
         // active tab
         viewPager.setCurrentItem(currentTab);
+    }
+
+    public void openOpenLeagueFromLeague() {
+        onClickFooter(MainActivity.LEAGUES);
+        if (mPagerAdapter.getItem(MainActivity.LEAGUES) instanceof LeagueFragment) {
+            ((LeagueFragment) mPagerAdapter.getItem(MainActivity.LEAGUES)).openOpenLeague();
+        }
     }
 }

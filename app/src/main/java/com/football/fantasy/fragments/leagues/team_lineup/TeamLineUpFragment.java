@@ -113,7 +113,7 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
             new SelectDialog()
                     .setPlayers(players)
                     .setClickCallback(player -> {
-                        presenter.addPlayerToPitchView(player, position, order);
+                        presenter.addPlayerToPitchView(team.getId(), player, position, order);
                     })
                     .show(getChildFragmentManager(), null);
         });

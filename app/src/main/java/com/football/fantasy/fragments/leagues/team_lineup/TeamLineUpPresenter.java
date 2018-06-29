@@ -14,6 +14,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.MultipartBody;
+
 public class TeamLineUpPresenter extends BaseDataPresenter<ITeamLineUpView> implements ITeamLineUpPresenter<ITeamLineUpView> {
     /**
      * @param appComponent
@@ -70,13 +72,19 @@ public class TeamLineUpPresenter extends BaseDataPresenter<ITeamLineUpView> impl
     }
 
     @Override
-    public void addPlayerToPitchView(PlayerResponse player, Integer position, Integer order) {
+    public void addPlayerToPitchView(Integer teamId, PlayerResponse player, Integer position, Integer order) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
             queries.put("pick_order", String.valueOf(order));
 
             mCompositeDisposable.add(RxUtilities.async(v,
-                    dataModule.getApiService().updatePitchView(player.getId(), queries),
+                    dataModule.getApiService().updatePitchView(
+                            teamId,
+                            new MultipartBody.Builder()
+                                    .setType(MultipartBody.FORM)
+                                    .addFormDataPart("player_id", String.valueOf(player.getId()))
+                                    .build(),
+                            queries),
                     new ApiCallback<Object>() {
                         @Override
                         public void onStart() {
