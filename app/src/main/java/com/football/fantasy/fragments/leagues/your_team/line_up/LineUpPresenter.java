@@ -38,7 +38,7 @@ public class LineUpPresenter extends BaseDataPresenter<ILineUpView> implements I
 
                         @Override
                         public void onSuccess(LineupResponse response) {
-                            v.displayBudget(response.getTeam());
+                            v.displayTeamState(response.getTeam());
                             v.displayLineupPlayers(response.getPlayers());
                             v.displayStatistic(response.getStatistic());
                         }
@@ -75,7 +75,7 @@ public class LineUpPresenter extends BaseDataPresenter<ILineUpView> implements I
                         public void onSuccess(PropsPlayerResponse response) {
                             v.updateStatistic(position == PlayerResponse.POSITION_NONE ? player.getMainPosition() : position, 1);
                             v.handleCallback(true, "");
-                            v.displayBudget(response.getTeam());
+                            v.displayTeamState(response.getTeam());
                             v.onAddPlayer(response.getTeam(), player, order);
                         }
 
@@ -111,7 +111,7 @@ public class LineUpPresenter extends BaseDataPresenter<ILineUpView> implements I
                         @Override
                         public void onSuccess(PropsPlayerResponse response) {
                             v.updateStatistic(position, -1);
-                            v.displayBudget(response.getTeam());
+                            v.displayTeamState(response.getTeam());
                             v.onRemovePlayer(response.getTeam(), player);
                         }
 

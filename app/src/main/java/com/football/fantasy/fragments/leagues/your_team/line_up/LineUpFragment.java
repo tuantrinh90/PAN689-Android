@@ -121,11 +121,6 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
             tvComplete.setVisibility(View.GONE);
         }
 
-        // hide complete button
-        if (league.getTeam().getCompleted() != null && league.getTeam().getCompleted()) {
-            tvComplete.setVisibility(View.GONE);
-        }
-
         // setup lineupView
         lineupView.setupLineup(new PlayerResponse[18], new int[]{4, 6, 6, 2});
         lineupView.setAddCallback((position, order) -> {
@@ -139,7 +134,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
         });
         lineupView.setInfoCallback(player -> {
             AloneFragmentActivity.with(this)
-                    .parameters(PlayerDetailFragment.newBundle(player, getTitleString(), false))
+                    .parameters(PlayerDetailFragment.newBundle(player, getString(R.string.line_up), false))
                     .start(PlayerDetailFragment.class);
         });
         lineupView.setRemoveCallback((player, position, index) -> {
@@ -217,8 +212,20 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     }
 
     @Override
-    public void displayBudget(TeamResponse team) {
+    public void displayTeamState(TeamResponse team) {
+        // display budget
         tvBudget.setText(getString(R.string.money_prefix, team.getCurrentBudgetValue()));
+
+        if (team.getCompleted() != null && team.getCompleted()) {
+            // hide complete button
+            tvComplete.setVisibility(View.GONE);
+
+            // disable lineupView
+            lineupView.setEditable(false);
+            lineupView.setAddable(false);
+            lineupView.setRemovable(false);
+        }
+
     }
 
     @Override

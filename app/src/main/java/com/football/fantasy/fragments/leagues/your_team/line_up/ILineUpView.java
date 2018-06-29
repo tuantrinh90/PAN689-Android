@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ILineUpView extends IBaseMvpView {
 
-    void displayBudget(TeamResponse team);
+    void displayTeamState(TeamResponse team);
 
     void displayLineupPlayers(List<PlayerResponse> players);
 
