@@ -25,6 +25,9 @@ public class PlayerAdapter extends DefaultAdapter<PlayerResponse> {
     private static final String TAG = "PlayerAdapter";
 
     private final CompositeDisposable mDisposable = new CompositeDisposable();
+
+    private int visibleAddButton = View.VISIBLE;
+
     private final Consumer<PlayerResponse> clickCallback;
     private final BiConsumer<PlayerResponse, Integer> addCallback;
 
@@ -58,21 +61,28 @@ public class PlayerAdapter extends DefaultAdapter<PlayerResponse> {
         AppUtilities.displayPlayerPosition(holder.tvPositionPrimary, data.getMainPosition(), data.getMainPositionText());
         AppUtilities.displayPlayerPosition(holder.tvPositionSecond, data.getMinorPosition(), data.getMinorPositionText());
 
-        boolean checked = data.getSelected();
-        holder.ivAdd.setImageResource(checked ? R.drawable.ic_tick : R.drawable.ic_add_white_small);
-        holder.ivAdd.setBackgroundResource(checked ? R.drawable.bg_circle_white_border : R.drawable.bg_circle_yellow);
+        holder.ivAdd.setVisibility(visibleAddButton);
+        if (visibleAddButton == View.VISIBLE) {
+            boolean checked = data.getSelected();
+            holder.ivAdd.setImageResource(checked ? R.drawable.ic_tick : R.drawable.ic_add_white_small);
+            holder.ivAdd.setBackgroundResource(checked ? R.drawable.bg_circle_white_border : R.drawable.bg_circle_yellow);
 
-        mDisposable.add(RxView.clicks(holder.ivAdd).subscribe(o -> {
-            Optional.from(addCallback).doIfPresent(d -> {
-                if (!data.getSelected()) {
-                    d.accept(data, defaultHolder.getAdapterPosition());
-                }
-            });
-        }));
+            mDisposable.add(RxView.clicks(holder.ivAdd).subscribe(o -> {
+                Optional.from(addCallback).doIfPresent(d -> {
+                    if (!data.getSelected()) {
+                        d.accept(data, defaultHolder.getAdapterPosition());
+                    }
+                });
+            }));
+        }
 
         mDisposable.add(RxView.clicks(holder.itemView).subscribe(o ->
                 Optional.from(clickCallback).doIfPresent(d ->
                         d.accept(data))));
+    }
+
+    public void setVisibleAddButton(int visibleAddButton) {
+        this.visibleAddButton = visibleAddButton;
     }
 
     static class ViewHolder extends DefaultHolder {

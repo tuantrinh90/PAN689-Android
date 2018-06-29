@@ -157,6 +157,7 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
                                 })
                                 .build());
                     });
+            playerAdapter.setVisibleAddButton(AppUtilities.isSetupTime(league.getTeamSetup()) ? View.VISIBLE : View.GONE);
             rvPlayer.adapter(playerAdapter)
                     .loadMoreListener(() -> {
                         page++;
