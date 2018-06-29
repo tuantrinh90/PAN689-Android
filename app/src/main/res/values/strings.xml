@@ -255,4 +255,5 @@
     <string name="completed">Completed</string>
     <string name="message_max_team_name">message_max_team_name</string>
     <string name="result">Result</string>
+    <string name="message_pick_after_team_setup_time">You cannot pick players after team setup time!</string>
 </resources>

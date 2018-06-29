@@ -74,6 +74,8 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     private LeagueResponse league;
     private int teamId;
 
+    private boolean isSetupTime;
+
     @Override
     public int getResourceId() {
         return R.layout.lineup_fragment;
@@ -100,7 +102,8 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     }
 
     void initView() {
-        if (AppUtilities.isSetupTime(league.getTeamSetup())) {
+        isSetupTime = AppUtilities.isSetupTime(league.getTeamSetup());
+        if (isSetupTime) {
             lineupView.setEditable(true);
             lineupView.setAddable(true);
             lineupView.setRemovable(true);
@@ -109,7 +112,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
 
         } else {
             lineupView.setEditable(false);
-            lineupView.setAddable(false);
+            lineupView.setAddable(true);
             lineupView.setRemovable(false);
             tvTimeLabel.setText(R.string.start_time);
             tvTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
@@ -126,9 +129,13 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
         // setup lineupView
         lineupView.setupLineup(new PlayerResponse[18], new int[]{4, 6, 6, 2});
         lineupView.setAddCallback((position, order) -> {
-            AloneFragmentActivity.with(this)
-                    .parameters(PlayerPopupFragment.newBundle(position, order, league.getId()))
-                    .start(PlayerPopupFragment.class);
+            if (isSetupTime) {
+                AloneFragmentActivity.with(this)
+                        .parameters(PlayerPopupFragment.newBundle(position, order, league.getId()))
+                        .start(PlayerPopupFragment.class);
+            } else {
+                showMessage(getString(R.string.message_pick_after_team_setup_time));
+            }
         });
         lineupView.setInfoCallback(player -> {
             AloneFragmentActivity.with(this)
