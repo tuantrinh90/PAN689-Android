@@ -356,14 +356,4 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
         tvSeason.setText(currentSeason.getValue());
     }
 
-    @Override
-    public void showLoadingPagingListView(boolean isLoading) {
-//        Optional.from(lvData).doIfPresent(l -> {
-//            if (isLoading) {
-//                l.startLoading(true);
-//            } else {
-//                l.stopLoading(true);
-//            }
-//        });
-    }
 }

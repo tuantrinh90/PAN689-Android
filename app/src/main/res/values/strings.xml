@@ -256,4 +256,8 @@
     <string name="message_max_team_name">message_max_team_name</string>
     <string name="result">Result</string>
     <string name="message_pick_after_team_setup_time">You cannot pick players after team setup time!</string>
+    <string name="transferring_player">Transferring player</string>
+    <string name="transferring_player_left">Transferring player left</string>
+    <string name="transferring_time_left">Transferring time left</string>
+    <string name="record">Record</string>
 </resources>

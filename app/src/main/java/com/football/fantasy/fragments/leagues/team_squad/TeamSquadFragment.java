@@ -18,6 +18,7 @@ import com.football.adapters.TeamSquadAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.team_squad.trade.TradeFragment;
 import com.football.models.responses.TeamResponse;
 import com.football.models.responses.TeamSquadResponse;
 
@@ -134,7 +135,7 @@ public class TeamSquadFragment extends BaseMainMvpFragment<ITeamSquadView, ITeam
 
     @OnClick(R.id.llTrade)
     void onClickTrade() {
-
+        TradeFragment.start(this, getString(R.string.team_squad));
     }
 
     @OnClick(R.id.tvSortByColumn)
