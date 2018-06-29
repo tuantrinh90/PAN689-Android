@@ -218,7 +218,7 @@ public class PlayerResponse implements Serializable {
     }
 
     public Integer getMainPosition() {
-        return mainPosition;
+        return mainPosition == null ? POSITION_NONE : mainPosition;
     }
 
     public void setMainPosition(Integer mainPosition) {
@@ -235,9 +235,8 @@ public class PlayerResponse implements Serializable {
         return getPositionText(getMainPosition(), false);
     }
 
-
     public Integer getMinorPosition() {
-        return minorPosition;
+        return minorPosition == null ? POSITION_NONE : minorPosition;
     }
 
     public void setMinorPosition(Integer minorPosition) {
