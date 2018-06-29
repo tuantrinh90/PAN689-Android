@@ -104,7 +104,11 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
         lineupView.setAddCallback((position, order) -> {
             List<PlayerResponse> players =
                     StreamSupport.stream(rvPlayer.getAdapter().getDataSet())
-                            .filter(predicate -> predicate.getMainPosition().equals(position) || predicate.getMinorPosition().equals(position))
+                            .filter(predicate -> {
+                                Integer mainPos = predicate.getMainPosition();
+                                Integer minorPos = predicate.getMinorPosition();
+                                return (mainPos != null && mainPos.equals(position)) || (minorPos != null && minorPos.equals(position));
+                            })
                             .collect(Collectors.toList());
             new SelectDialog()
                     .setPlayers(players)
