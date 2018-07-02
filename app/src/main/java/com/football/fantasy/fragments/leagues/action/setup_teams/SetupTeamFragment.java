@@ -138,7 +138,7 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
     public void initToolbar(@NonNull ActionBar supportActionBar) {
         super.initToolbar(supportActionBar);
         supportActionBar.setDisplayHomeAsUpEnabled(true);
-        supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_blue);
+        supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
     }
 
     @OnClick(R.id.ivImagePick)
