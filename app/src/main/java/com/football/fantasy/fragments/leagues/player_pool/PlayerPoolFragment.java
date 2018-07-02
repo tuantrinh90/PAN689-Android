@@ -201,7 +201,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                     AloneFragmentActivity.with(this)
                             .parameters(PlayerDetailFragment.newBundle(
                                     player,
-                                    getString(R.string.player_pool), false))
+                                    getString(R.string.player_list), false))
                             .start(PlayerDetailFragment.class);
                 });
         adapter.setOptions(VALUE, POINT, GOALS);

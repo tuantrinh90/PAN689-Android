@@ -62,6 +62,16 @@ public class PendingInvitationDataPresenter extends BaseDataPresenter<IPendingIn
                                     .build()),
                     new ApiCallback<Object>() {
                         @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
+
+                        @Override
                         public void onSuccess(Object o) {
                             v.removeItem(leagueResponse);
                             if (status == Constant.KEY_INVITATION_ACCEPT) {
