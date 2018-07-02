@@ -42,7 +42,7 @@ public class PlayerPoolDisplayFragment extends BaseMainMvpFragment<IPlayerPoolDi
 
     public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_1 = new ExtKeyValuePair(VALUE, "Value", true); // selected = sort by desc
     public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_2 = new ExtKeyValuePair(POINT, "Point", true);
-    public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_3 = new ExtKeyValuePair(GOALS, "Stat 1", true);
+    public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_3 = new ExtKeyValuePair(GOALS, "Goals", true);
 
     private static final String KEY_DISPLAY = "DISPLAY";
 
@@ -90,18 +90,18 @@ public class PlayerPoolDisplayFragment extends BaseMainMvpFragment<IPlayerPoolDi
         keyValuePairs = new ArrayList<>();
         keyValuePairs.add(new ExtKeyValuePair(VALUE, "Value", filterDisplays.contains(VALUE)));
         keyValuePairs.add(new ExtKeyValuePair(POINT, "Point", filterDisplays.contains(POINT)));
-        keyValuePairs.add(new ExtKeyValuePair(GOALS, "Stat 1", filterDisplays.contains(GOALS)));
-        keyValuePairs.add(new ExtKeyValuePair(ASSISTS, "Stat 2", filterDisplays.contains(ASSISTS)));
-        keyValuePairs.add(new ExtKeyValuePair(CLEAN_SHEET, "Stat 3", filterDisplays.contains(CLEAN_SHEET)));
-        keyValuePairs.add(new ExtKeyValuePair(DUELS_THEY_WIN, "Stat 4", filterDisplays.contains(DUELS_THEY_WIN)));
-        keyValuePairs.add(new ExtKeyValuePair(PASSES, "Stat 5", filterDisplays.contains(PASSES)));
-        keyValuePairs.add(new ExtKeyValuePair(SHOTS, "Stat 6", filterDisplays.contains(SHOTS)));
-        keyValuePairs.add(new ExtKeyValuePair(SAVES, "Stat 7", filterDisplays.contains(SAVES)));
-        keyValuePairs.add(new ExtKeyValuePair(YELLOW_CARDS, "Stat 8", filterDisplays.contains(YELLOW_CARDS)));
-        keyValuePairs.add(new ExtKeyValuePair(DRIBBLES, "Stat 9", filterDisplays.contains(DRIBBLES)));
-        keyValuePairs.add(new ExtKeyValuePair(TURNOVERS, "Stat 10", filterDisplays.contains(TURNOVERS)));
-        keyValuePairs.add(new ExtKeyValuePair(BALLS_RECOVERED, "Stat 11", filterDisplays.contains(BALLS_RECOVERED)));
-        keyValuePairs.add(new ExtKeyValuePair(FOULS_COMMITTED, "Stat 12", filterDisplays.contains(FOULS_COMMITTED)));
+        keyValuePairs.add(new ExtKeyValuePair(GOALS, "Goals", filterDisplays.contains(GOALS)));
+        keyValuePairs.add(new ExtKeyValuePair(ASSISTS, "Assists", filterDisplays.contains(ASSISTS)));
+        keyValuePairs.add(new ExtKeyValuePair(CLEAN_SHEET, "Clean Sheet", filterDisplays.contains(CLEAN_SHEET)));
+        keyValuePairs.add(new ExtKeyValuePair(DUELS_THEY_WIN, "Won Duels", filterDisplays.contains(DUELS_THEY_WIN)));
+        keyValuePairs.add(new ExtKeyValuePair(PASSES, "Passes", filterDisplays.contains(PASSES)));
+        keyValuePairs.add(new ExtKeyValuePair(SHOTS, "Shots", filterDisplays.contains(SHOTS)));
+        keyValuePairs.add(new ExtKeyValuePair(SAVES, "Saves", filterDisplays.contains(SAVES)));
+        keyValuePairs.add(new ExtKeyValuePair(YELLOW_CARDS, "Yellow Cards", filterDisplays.contains(YELLOW_CARDS)));
+        keyValuePairs.add(new ExtKeyValuePair(DRIBBLES, "Dribbles", filterDisplays.contains(DRIBBLES)));
+        keyValuePairs.add(new ExtKeyValuePair(TURNOVERS, "Turnovers", filterDisplays.contains(TURNOVERS)));
+        keyValuePairs.add(new ExtKeyValuePair(BALLS_RECOVERED, "Balls Recoverded", filterDisplays.contains(BALLS_RECOVERED)));
+        keyValuePairs.add(new ExtKeyValuePair(FOULS_COMMITTED, "Fouls Commited", filterDisplays.contains(FOULS_COMMITTED)));
 
         for (ExtKeyValuePair pair : keyValuePairs) {
             if (pair.isSelected()) checkCount++;
