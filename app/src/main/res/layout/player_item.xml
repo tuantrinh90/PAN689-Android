@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivAvatar"
             android:layout_width="@dimen/player_list_item_size"
             android:layout_height="@dimen/player_list_item_size"
@@ -22,7 +22,6 @@
             android:clickable="true"
             android:focusable="true"
             android:padding="@dimen/player_border"
-            android:scaleType="fitCenter"
             android:src="@drawable/ic_player_sample" />
 
         <LinearLayout

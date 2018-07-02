@@ -15,6 +15,7 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.customizes.searchs.SearchView;
+import com.football.events.PickEvent;
 import com.football.events.PlayerEvent;
 import com.football.events.PlayerQueryEvent;
 import com.football.fantasy.R;
@@ -152,9 +153,12 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
                 .position(mainPosition)
                 .order(order)
                 .data(player)
-                .callback((aBoolean, message) -> {
+                .callback((success, message) -> {
                     showLoading(false);
-                    if (aBoolean) {
+                    if (success) {
+                        // bắn về cho PlayerList để cập nhật trạng thái đã pick
+                        bus.send(new PickEvent(PickEvent.ACTION_PICK, player.getId()));
+
                         mActivity.finish();
                     } else {
                         showMessage(message);

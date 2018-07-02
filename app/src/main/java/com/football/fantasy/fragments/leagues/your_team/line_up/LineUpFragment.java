@@ -13,6 +13,7 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.lineup.LineupView;
 import com.football.customizes.lineup.StatisticView;
+import com.football.events.PickEvent;
 import com.football.events.PlayerEvent;
 import com.football.events.TeamEvent;
 import com.football.fantasy.R;
@@ -258,6 +259,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     public void onRemovePlayer(TeamResponse team, PlayerResponse player) {
         lineupView.removePlayer(player, player.getMainPosition());
         enableCompleteButton(false);
+        bus.send(new PickEvent(PickEvent.ACTION_REMOVE, player.getId()));
     }
 
     @Override

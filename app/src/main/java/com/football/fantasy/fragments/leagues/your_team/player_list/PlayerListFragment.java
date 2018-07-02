@@ -17,6 +17,7 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.lineup.StatisticView;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.customizes.searchs.SearchView;
+import com.football.events.PickEvent;
 import com.football.events.PlayerEvent;
 import com.football.events.PlayerQueryEvent;
 import com.football.fantasy.R;
@@ -212,6 +213,30 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
                                     rvPlayer.startLoading();
                                     getPlayers(true);
                                 }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    }));
+
+            // from: PlayerPopup & Lineup
+            mCompositeDisposable.add(bus.ofType(PickEvent.class)
+                    .subscribeWith(new DisposableObserver<PickEvent>() {
+                        @Override
+                        public void onNext(PickEvent event) {
+                            int playerIndex = playerAdapter.findPlayerById(event.getPlayerId());
+                            if (playerIndex >= 0) {
+                                PlayerResponse player = playerAdapter.getItem(playerIndex);
+                                player.setSelected(event.getAction() == PickEvent.ACTION_PICK);
+                                playerAdapter.update(playerIndex, player);
+                            }
                         }
 
                         @Override

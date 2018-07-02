@@ -85,6 +85,16 @@ public class PlayerAdapter extends DefaultAdapter<PlayerResponse> {
         this.visibleAddButton = visibleAddButton;
     }
 
+    public int findPlayerById(int playerId) {
+        List<PlayerResponse> players = getDataSet();
+        for (PlayerResponse player : players) {
+            if (player.getId().equals(playerId)) {
+                return players.indexOf(player);
+            }
+        }
+        return -1;
+    }
+
     static class ViewHolder extends DefaultHolder {
         @BindView(R.id.ivAvatar)
         ImageView ivAvatar;
