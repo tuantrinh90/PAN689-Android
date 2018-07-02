@@ -18,6 +18,7 @@ import com.bon.interfaces.Optional;
 import com.football.adapters.PlayerStatisticAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
+import com.football.customizes.lineup.LineupView;
 import com.football.events.PlayerEvent;
 import com.football.fantasy.R;
 import com.football.models.responses.PlayerResponse;
@@ -37,6 +38,8 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
     private static final String KEY_PLAYER = "PLAYER";
     private static final String KEY_TITLE = "TITLE";
     private static final String KEY_PICK_ENABLE = "PICK_ENABLE";
+    private static final String KEY_MAIN_POSITION = "MAIN_POSITION";
+    private static final String KEY_ORDER = "ORDER";
 
 
     @BindView(R.id.ivMenu)
@@ -94,6 +97,9 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
     private PlayerResponse player;
     private String title;
     private boolean pickEnable;
+    private int mainPosition = PlayerResponse.POSITION_NONE;
+    private int order = LineupView.NONE_ORDER;
+
     private ExtKeyValuePair keyValuePairKey = new ExtKeyValuePair("[{\"property\":\"total\", \"operator\":\"eq\",\"value\":\"all\"}]", "Total statistics");
 
     public static Bundle newBundle(PlayerResponse player, String title, boolean pickEnable) {
@@ -101,6 +107,13 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
         bundle.putSerializable(KEY_PLAYER, player);
         bundle.putString(KEY_TITLE, title);
         bundle.putBoolean(KEY_PICK_ENABLE, pickEnable);
+        return bundle;
+    }
+
+    public static Bundle newBundle(PlayerResponse player, String title, boolean pickEnable, int mainPosition, int order) {
+        Bundle bundle = newBundle(player, title, pickEnable);
+        bundle.putInt(KEY_MAIN_POSITION, mainPosition);
+        bundle.putInt(KEY_ORDER, order);
         return bundle;
     }
 
@@ -150,6 +163,8 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
         player = (PlayerResponse) getArguments().getSerializable(KEY_PLAYER);
         title = getArguments().getString(KEY_TITLE);
         pickEnable = getArguments().getBoolean(KEY_PICK_ENABLE);
+        mainPosition = getArguments().getInt(KEY_MAIN_POSITION);
+        order = getArguments().getInt(KEY_ORDER);
     }
 
     void initView() {
@@ -208,13 +223,22 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
                 .setValue("")
                 .setOnSelectedConsumer(extKeyValuePair -> {
                     if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
-                        // bắn sang MH PlayerPopup
+                        showLoading(true);
+                        // bắn sang MH Lineup
                         bus.send(new PlayerEvent.Builder()
-                                .action(PlayerEvent.ACTION_PICK)
+                                .action(PlayerEvent.ACTION_ADD_CLICK)
+                                .position(mainPosition)
+                                .order(order)
                                 .data(player)
+                                .callback((success, message) -> {
+                                    showLoading(false);
+                                    if (success) {
+                                        mActivity.finish();
+                                    } else {
+                                        showMessage(message);
+                                    }
+                                })
                                 .build());
-
-                        mActivity.finish();
                     }
                 }).show(getFragmentManager(), null);
     }

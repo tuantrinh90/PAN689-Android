@@ -137,7 +137,8 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
                         AloneFragmentActivity.with(this)
                                 .parameters(PlayerDetailFragment.newBundle(
                                         player,
-                                        getString(R.string.player_list), false))
+                                        getString(R.string.player_list),
+                                        !player.getSelected()))
                                 .start(PlayerDetailFragment.class);
                     },
                     (player, position) -> { // add click

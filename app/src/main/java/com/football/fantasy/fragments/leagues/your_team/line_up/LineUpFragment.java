@@ -159,34 +159,29 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     }
 
     void registerEvent() {
-        try {
-            // action add click on PlayerList
-            mCompositeDisposable.add(bus.ofType(PlayerEvent.class)
-                    .subscribeWith(new DisposableObserver<PlayerEvent>() {
-                        @Override
-                        public void onNext(PlayerEvent event) {
-                            switch (event.getAction()) {
-                                case PlayerEvent.ACTION_ADD_CLICK:
-                                    callback = event.getCallback();
-                                    insertToLineUpView(event.getData(), event.getPosition(), event.getOrder() == null ? LineupView.NONE_ORDER : event.getOrder());
-                                    break;
-                            }
+        // action add click on PlayerList
+        mCompositeDisposable.add(bus.ofType(PlayerEvent.class)
+                .subscribeWith(new DisposableObserver<PlayerEvent>() {
+                    @Override
+                    public void onNext(PlayerEvent event) {
+                        switch (event.getAction()) {
+                            case PlayerEvent.ACTION_ADD_CLICK:
+                                callback = event.getCallback();
+                                insertToLineUpView(event.getData(), event.getPosition(), event.getOrder() == null ? LineupView.NONE_ORDER : event.getOrder());
+                                break;
                         }
+                    }
 
-                        @Override
-                        public void onError(Throwable e) {
+                    @Override
+                    public void onError(Throwable e) {
 
-                        }
+                    }
 
-                        @Override
-                        public void onComplete() {
+                    @Override
+                    public void onComplete() {
 
-                        }
-                    }));
-
-        } catch (Exception e) {
-            Logger.e(TAG, e);
-        }
+                    }
+                }));
     }
 
     private void insertToLineUpView(PlayerResponse player, int position, int index) {
@@ -248,6 +243,8 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
 
     @Override
     public void onAddPlayer(TeamResponse team, PlayerResponse player, int order) {
+        bus.send(new PickEvent(PickEvent.ACTION_PICK, player.getId()));
+
         lineupView.addPlayer(player, player.getMainPosition(), order);
 
         if (lineupView.isSetupComplete()) {

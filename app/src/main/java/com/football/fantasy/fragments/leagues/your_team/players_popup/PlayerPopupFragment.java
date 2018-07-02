@@ -123,14 +123,11 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
                 }));
 
         // pick Player
-        mCompositeDisposable.add(bus.ofType(PlayerEvent.class)
-                .subscribeWith(new DisposableObserver<PlayerEvent>() {
+        mCompositeDisposable.add(bus.ofType(PickEvent.class)
+                .subscribeWith(new DisposableObserver<PickEvent>() {
                     @Override
-                    public void onNext(PlayerEvent event) {
-                        if (event.getAction() == PlayerEvent.ACTION_PICK) {
-                            sendToLineup(event.getData());
-                        }
-
+                    public void onNext(PickEvent event) {
+                        mActivity.finish();
                     }
 
                     @Override
@@ -157,6 +154,7 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
                     showLoading(false);
                     if (success) {
                         // bắn về cho PlayerList để cập nhật trạng thái đã pick
+                        mCompositeDisposable.dispose();
                         bus.send(new PickEvent(PickEvent.ACTION_PICK, player.getId()));
 
                         mActivity.finish();
@@ -209,7 +207,9 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
                                 .parameters(PlayerDetailFragment.newBundle(
                                         player,
                                         getString(R.string.player_list),
-                                        true))
+                                        !player.getSelected(),
+                                        mainPosition,
+                                        order))
                                 .start(PlayerDetailFragment.class);
                     },
                     (player, position) -> { // add click
