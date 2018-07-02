@@ -82,6 +82,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     private List<ExtKeyValuePair> displayPairs = new ArrayList<>();
     private ExtKeyValuePair currentSeason;
     private List<SeasonResponse> seasons;
+    private String query = "";
 
     public static Bundle newBundle(String title) {
         Bundle bundle = new Bundle();
@@ -178,6 +179,12 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     void initView() {
         Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.colorPrimary)));
         Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white)));
+
+        svSearch.setSearchConsumer(query -> {
+            this.query = query;
+            refreshState();
+            getPlayers();
+        });
     }
 
     void initData() {
@@ -226,7 +233,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
             rvPlayer.startLoading();
         } else {
 //            lvData.setMessage(getString(R.string.loading));
-            presenter.getPlayers(currentSeason.getKey(), filterPositions, filterClubs, displayPairs, sorts, page);
+            presenter.getPlayers(currentSeason.getKey(), filterPositions, filterClubs, displayPairs, sorts, page, query);
         }
     }
 

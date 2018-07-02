@@ -30,18 +30,25 @@ public class PlayerPoolPresenter extends BaseDataPresenter<IPlayerPoolView> impl
     }
 
     @Override
-    public void getPlayers(String seasonId, String positions, String clubs, List<ExtKeyValuePair> displayPairs, int[] sorts, int page) {
+    public void getPlayers(String seasonId, String positions, String clubs, List<ExtKeyValuePair> displayPairs, int[] sorts, int page, String query) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
             queries.put(Constant.KEY_SEASON, seasonId);
             queries.put(Constant.KEY_PAGE, String.valueOf(page));
             queries.put(Constant.KEY_PER_PAGE, String.valueOf(20));
+
+            if (!TextUtils.isEmpty(query)) {
+                queries.put(Constant.KEY_WORD, query);
+            }
+
             if (!TextUtils.isEmpty(positions)) {
                 queries.put(Constant.KEY_MAIN_POSITION, positions);
             }
+
             if (!TextUtils.isEmpty(clubs)) {
                 queries.put(Constant.KEY_CLUBS, clubs);
             }
+
             JSONArray sort = new JSONArray();
             for (int i = 0, size = displayPairs.size(); i < size; i++) {
                 JSONObject sortObj = new JSONObject();
