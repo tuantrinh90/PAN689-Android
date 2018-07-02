@@ -17,7 +17,6 @@ import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.events.TeamEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
-import com.football.fantasy.fragments.leagues.team_lineup.TeamLineUpFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.utilities.AppUtilities;
@@ -106,8 +105,8 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
                     league.getOwner(),
                     team -> {
                         AloneFragmentActivity.with(this)
-                                .parameters(TeamLineUpFragment.newBundle(getString(R.string.league_details), team))
-                                .start(TeamLineUpFragment.class);
+                                .parameters(TeamDetailFragment.newBundle(team, league.getId()))
+                                .start(TeamDetailFragment.class);
                     },
                     removeTeamResponse -> {
                         DialogUtils.confirmBox(mActivity,

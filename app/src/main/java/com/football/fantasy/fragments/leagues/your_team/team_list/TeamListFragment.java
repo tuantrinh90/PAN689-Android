@@ -8,6 +8,7 @@ import android.view.View;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.football.adapters.TeamAdapter;
+import com.football.adapters.TeamListAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
@@ -35,7 +36,7 @@ public class TeamListFragment extends BaseMainMvpFragment<ITeamListView, ITeamLi
     ExtRecyclerView<TeamResponse> rvTeam;
 
     LeagueResponse league;
-    TeamAdapter teamAdapter;
+    TeamListAdapter teamAdapter;
 
     public static TeamListFragment newInstance(LeagueResponse leagueResponse) {
         TeamListFragment fragment = new TeamListFragment();
@@ -74,7 +75,7 @@ public class TeamListFragment extends BaseMainMvpFragment<ITeamListView, ITeamLi
         tvNumber.setText(String.valueOf(league.getCurrentNumberOfUser()));
         tvTotal.setText(String.valueOf(league.getNumberOfUser()));
 
-        teamAdapter = new TeamAdapter(
+        teamAdapter = new TeamListAdapter(
                 new ArrayList<>(),
                 league.getOwner(),
                 team -> { // handle click

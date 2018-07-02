@@ -20,7 +20,7 @@ import butterknife.BindView;
 import io.reactivex.disposables.CompositeDisposable;
 import java8.util.function.Consumer;
 
-public class TeamAdapter extends DefaultAdapter<TeamResponse> {
+public class TeamListAdapter extends DefaultAdapter<TeamResponse> {
 
     private CompositeDisposable mDisposable = new CompositeDisposable();
 
@@ -28,10 +28,10 @@ public class TeamAdapter extends DefaultAdapter<TeamResponse> {
     private Consumer<TeamResponse> detailCallback;
     private Consumer<TeamResponse> removeCallback;
 
-    public TeamAdapter(List<TeamResponse> teams,
-                       boolean leagueOwner,
-                       Consumer<TeamResponse> detailCallback,
-                       Consumer<TeamResponse> removeCallback) {
+    public TeamListAdapter(List<TeamResponse> teams,
+                           boolean leagueOwner,
+                           Consumer<TeamResponse> detailCallback,
+                           Consumer<TeamResponse> removeCallback) {
         super(teams);
         this.leagueOwner = leagueOwner;
         this.detailCallback = detailCallback;
@@ -56,15 +56,23 @@ public class TeamAdapter extends DefaultAdapter<TeamResponse> {
         holder.tvTeam.setText(data.getName());
         holder.tvOwner.setText(AppUtilities.getNameOrMe(holder.itemView.getContext(), data));
 
-        boolean owner = data.getOwner();
-        holder.tvRemove.setVisibility(this.leagueOwner && !owner ? View.VISIBLE : View.GONE);
-        holder.ivLock.setVisibility(owner ? View.VISIBLE : View.GONE);
-        holder.tvCompleted.setVisibility(View.GONE);
+        if (data.getCompleted()) {
+            holder.ivLock.setVisibility(View.GONE);
+            holder.tvRemove.setVisibility(View.GONE);
+            holder.tvCompleted.setVisibility(View.VISIBLE);
+        } else {
+            boolean owner = data.getOwner();
+            holder.tvRemove.setVisibility(this.leagueOwner && !owner ? View.VISIBLE : View.GONE);
+            holder.ivLock.setVisibility(owner ? View.VISIBLE : View.GONE);
+            holder.tvCompleted.setVisibility(View.GONE);
+        }
 
         // click
         mDisposable.add(RxView.clicks(holder.itemView)
                 .subscribe(o -> Optional.from(detailCallback).doIfPresent(t -> {
-                    t.accept(data);
+                    if (data.getCompleted()) {
+                        t.accept(data);
+                    }
                 })));
 
         mDisposable.add(RxView.clicks(holder.tvRemove).subscribe(o -> Optional.from(removeCallback).doIfPresent(t -> t.accept(data))));

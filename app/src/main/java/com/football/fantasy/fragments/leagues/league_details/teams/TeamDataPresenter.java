@@ -7,9 +7,12 @@ import com.football.models.PagingResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.utilities.RxUtilities;
 
-import java.util.List;
+import io.reactivex.disposables.Disposable;
 
 public class TeamDataPresenter extends BaseDataPresenter<ITeamView> implements ITeamPresenter<ITeamView> {
+
+    private Disposable getTeam;
+
     /**
      * @param appComponent
      */
@@ -19,8 +22,12 @@ public class TeamDataPresenter extends BaseDataPresenter<ITeamView> implements I
 
     @Override
     public void getTeams(int leagueId) {
+        if (getTeam != null) {
+            getTeam.dispose();
+        }
+
         getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(v,
+            getTeam = RxUtilities.async(v,
                     dataModule.getApiService().getTeams(leagueId),
                     new ApiCallback<PagingResponse<TeamResponse>>() {
                         @Override
@@ -43,7 +50,8 @@ public class TeamDataPresenter extends BaseDataPresenter<ITeamView> implements I
                             v.displayTeams(null);
                             v.showMessage(e);
                         }
-                    }));
+                    });
+            mCompositeDisposable.add(getTeam);
         });
     }
 

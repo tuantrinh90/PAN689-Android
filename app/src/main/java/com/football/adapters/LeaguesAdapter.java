@@ -60,11 +60,7 @@ public class LeaguesAdapter extends DefaultAdapter<LeagueResponse> {
 
         holder.ivAvatar.setImageUri(league.getLogo());
         holder.tvTitle.setText(league.getName());
-        try {
-            holder.tvOwner.setText(AppUtilities.getNameOrMe(holder.itemView.getContext(), league));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        holder.tvOwner.setText(AppUtilities.getNameOrMe(holder.itemView.getContext(), league));
         holder.tvEntrantNumber.setText(String.valueOf(league.getCurrentNumberOfUser()));
         holder.tvEntrantTotal.setText(String.valueOf(league.getNumberOfUser()));
         holder.tvDescription.setText(league.getDescriptionText(holder.itemView.getContext()));
