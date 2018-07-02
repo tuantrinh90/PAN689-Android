@@ -75,7 +75,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
 
     private String title;
 
-    private int page = 1;
+    private int page = Constant.PAGE_START_INDEX;
     private String filterClubs = "";
     private String filterPositions = "";
     private int[] sorts = new int[]{Constant.SORT_NONE, Constant.SORT_NONE, Constant.SORT_NONE}; // -1: NONE, 0: desc, 1: asc
@@ -126,8 +126,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                                     filterPositions = event.getPosition();
 
                                     // get items
-                                    rvPlayer.clear();
-                                    rvPlayer.startLoading();
+                                    refreshState();
                                     getPlayers();
                                 } else if (event.getTag() == PlayerQueryEvent.TAG_DISPLAY) {
                                     displayPairs = event.getDisplays();
@@ -203,7 +202,8 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
         rvPlayer.adapter(adapter)
                 .loadingLayout(0)
                 .refreshListener(() -> {
-                    refreshData();
+                    refreshState();
+                    getPlayers();
                 })
                 .loadMoreListener(() -> {
                     page++;
@@ -214,11 +214,10 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
         presenter.getSeasons();
     }
 
-    private void refreshData() {
-        page = 1;
+    private void refreshState() {
+        page = Constant.PAGE_START_INDEX;
         rvPlayer.clear();
         rvPlayer.startLoading();
-        getPlayers();
     }
 
     private void getPlayers() {
@@ -346,7 +345,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                         if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
                             currentSeason = extKeyValuePair;
                             updateValue();
-                            refreshData();
+                            refreshState();
                         }
                     }).show(getFragmentManager(), null);
         }

@@ -79,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/padding_layout"
                     android:layout_marginTop="@dimen/padding_layout"
-                    app:searchViewHint="@string/search_public_leagues"
+                    app:searchViewHint="@string/search_players"
                     app:searchViewVisibleFilter="false" />
 
                 <LinearLayout

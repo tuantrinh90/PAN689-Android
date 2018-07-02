@@ -29,4 +29,6 @@ public interface Constant {
     int SORT_NONE = -1;
     int SORT_DESC = 0;
     int SORT_ASC = 1;
+
+    int PAGE_START_INDEX = 1;
 }
