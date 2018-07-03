@@ -93,6 +93,7 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
 
         registerBus();
         initView();
+        getPlayers();
     }
 
     private void getDataFromBundle() {
