@@ -260,4 +260,5 @@
     <string name="transferring_player_left">Transferring player left</string>
     <string name="transferring_time_left">Transferring time left</string>
     <string name="record">Record</string>
+    <string name="transfer_fee">Transfer fee:</string>
 </resources>
