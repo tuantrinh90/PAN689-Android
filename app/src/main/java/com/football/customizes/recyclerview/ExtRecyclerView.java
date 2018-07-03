@@ -211,7 +211,7 @@ public class ExtRecyclerView<T> extends FrameLayout {
         mAdapter.addItem(index, item);
     }
 
-    public void addItems(List<T> items) {
+    public void addItems(@NonNull List<T> items) {
         stopLoading();
         mAdapter.addItems(items);
         displayMessage();

@@ -18,6 +18,7 @@ import com.football.customizes.carousels.CarouselView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_squad.trade.record.RecordFragment;
 import com.football.fantasy.fragments.leagues.team_squad.trade.transferring.TransferringFragment;
+import com.football.models.responses.TeamResponse;
 
 import java.util.ArrayList;
 
@@ -25,18 +26,21 @@ import butterknife.BindView;
 
 public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresenter<ITradeView>> implements ITradeView {
 
+    private static final String KEY_TEAM = "TEAM";
     private static final String KEY_TITLE = "TITLE";
 
+    private TeamResponse team;
     private String title;
 
-    public static void start(Fragment fragment, String title) {
+    public static void start(Fragment fragment, TeamResponse team, String title) {
         AloneFragmentActivity.with(fragment)
-                .parameters(TradeFragment.newBundle(title))
+                .parameters(TradeFragment.newBundle(team, title))
                 .start(TradeFragment.class);
     }
 
-    private static Bundle newBundle(String title) {
+    private static Bundle newBundle(TeamResponse team, String title) {
         Bundle bundle = new Bundle();
+        bundle.putSerializable(KEY_TEAM, team);
         bundle.putString(KEY_TITLE, title);
         return bundle;
     }
@@ -63,6 +67,7 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
     }
 
     private void getDataFromBundle() {
+        team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
         title = getArguments().getString(KEY_TITLE);
     }
 
@@ -101,7 +106,7 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
 
         // view pager
         mAdapter = new PagerAdapter(getChildFragmentManager());
-        mAdapter.addFragment(TransferringFragment.newInstance());
+        mAdapter.addFragment(TransferringFragment.newInstance(team));
         mAdapter.addFragment(RecordFragment.newInstance());
         vpViewPager.setAdapter(mAdapter);
         vpViewPager.setOffscreenPageLimit(2);

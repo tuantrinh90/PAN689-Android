@@ -80,7 +80,6 @@ public class PlayerListPresenter extends BaseDataPresenter<IPlayerListView> impl
 
                         @Override
                         public void onError(String error) {
-                            v.displayPlayers(null, newPlayers);
                             v.showMessage(error);
                         }
                     }));

@@ -25,13 +25,11 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.events.LeagueEvent;
 import com.football.events.StopLeagueEvent;
-import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
 import com.football.fantasy.activities.MainActivity;
 import com.football.fantasy.fragments.leagues.action.setup_leagues.SetUpLeagueFragment;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.fantasy.fragments.leagues.player_pool.PlayerPoolFragment;
-import com.football.fantasy.fragments.leagues.team_squad.trade.TradeFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.NewsResponse;
 
@@ -200,14 +198,9 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
 
     @OnClick(R.id.tvCreateLeagues)
     void onClickCreateLeagues() {
-        if (BuildConfig.DEBUG) {
-            TradeFragment.start(this, "Test");
-        } else {
-            AloneFragmentActivity.with(this)
-                    .parameters(SetUpLeagueFragment.newBundle(null, getString(R.string.home), LeagueDetailFragment.MY_LEAGUES))
-                    .start(SetUpLeagueFragment.class);
-        }
-
+        AloneFragmentActivity.with(this)
+                .parameters(SetUpLeagueFragment.newBundle(null, getString(R.string.home), LeagueDetailFragment.MY_LEAGUES))
+                .start(SetUpLeagueFragment.class);
     }
 
     @OnClick(R.id.tvJoinLeagues)

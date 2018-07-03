@@ -13,11 +13,13 @@ import com.football.adapters.PlayerPoolAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
+import com.football.events.PlayerQueryEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.fantasy.fragments.leagues.player_pool.display.PlayerPoolDisplayFragment;
 import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilterFragment;
 import com.football.models.responses.PlayerResponse;
+import com.football.models.responses.TeamResponse;
 import com.football.utilities.Constant;
 
 import java.util.ArrayList;
@@ -25,14 +27,24 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.observers.DisposableObserver;
 
 import static com.football.models.responses.PlayerResponse.Options.GOALS;
 import static com.football.models.responses.PlayerResponse.Options.POINT;
 import static com.football.models.responses.PlayerResponse.Options.VALUE;
 
 public class TransferringFragment extends BaseMainMvpFragment<ITransferringView, ITransferringPresenter<ITransferringView>> implements ITransferringView {
-    public static TransferringFragment newInstance() {
-        return new TransferringFragment();
+
+    private static final String KEY_TEAM = "TEAM";
+
+    public static TransferringFragment newInstance(TeamResponse team) {
+        TransferringFragment fragment = new TransferringFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(KEY_TEAM, team);
+
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     private static final String TAG = "TransferringFragment";
@@ -60,11 +72,13 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
     @BindView(R.id.option3)
     LinearLayout option3;
 
-    private int page = 1;
+    private TeamResponse team;
+
+
     private String filterClubs = "";
     private String filterPositions = "";
     private int[] sorts = new int[]{Constant.SORT_NONE, Constant.SORT_NONE, Constant.SORT_NONE}; // -1: NONE, 0: desc, 1: asc
-    private List<ExtKeyValuePair> displayPairs = new ArrayList<>();
+    private List<ExtKeyValuePair> displays = new ArrayList<>();
 
     @Override
     public int getResourceId() {
@@ -73,16 +87,83 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
 
+        registerBus();
         initView();
+    }
+
+    private void getDataFromBundle() {
+        team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
     }
 
     @NonNull
     @Override
     public ITransferringPresenter<ITransferringView> createPresenter() {
         return new TransferringDataPresenter(getAppComponent());
+    }
+
+    private void registerBus() {
+        try {
+            // action add click on PlayerList
+            mCompositeDisposable.add(bus.ofType(PlayerQueryEvent.class)
+                    .subscribeWith(new DisposableObserver<PlayerQueryEvent>() {
+                        @Override
+                        public void onNext(PlayerQueryEvent event) {
+                            if (event.getFrom().equals(TAG)) {
+                                if (event.getTag() == PlayerQueryEvent.TAG_FILTER) {
+                                    filterClubs = event.getClub();
+                                    filterPositions = event.getPosition();
+
+                                    // get items
+                                    refreshData();
+                                } else if (event.getTag() == PlayerQueryEvent.TAG_DISPLAY) {
+                                    displays = event.getDisplays();
+
+                                    displayDisplay();
+                                }
+                            }
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    }));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void displayDisplay() {
+        ((PlayerPoolAdapter) rvPlayer.getAdapter()).setOptions(
+                displays.size() > 0 ? displays.get(0).getKey() : "",
+                displays.size() > 1 ? displays.get(1).getKey() : "",
+                displays.size() > 2 ? displays.get(2).getKey() : "");
+        if (displays.size() > 0) {
+            tvOption1.setText(displays.get(0).getValue());
+        }
+        option1.setVisibility(displays.size() > 0 ? View.VISIBLE : View.INVISIBLE);
+
+        if (displays.size() > 1) {
+            tvOption2.setText(displays.get(1).getValue());
+        }
+        option2.setVisibility(displays.size() > 1 ? View.VISIBLE : View.INVISIBLE);
+
+        if (displays.size() > 2) {
+            tvOption3.setText(displays.get(2).getValue());
+        }
+        option3.setVisibility(displays.size() > 2 ? View.VISIBLE : View.INVISIBLE);
+        rvPlayer.notifyDataSetChanged();
     }
 
     private void initView() {
@@ -104,25 +185,19 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
                 .refreshListener(() -> {
                     refreshData();
                 })
-                .loadMoreListener(() -> {
-                    page++;
-                    getPlayers();
-                })
                 .build();
 
     }
 
     private void refreshData() {
-        page = 1;
         rvPlayer.clear();
         rvPlayer.startLoading();
         getPlayers();
     }
 
     private void getPlayers() {
-        presenter.getPlayers(filterPositions, filterClubs, displayPairs, sorts, page);
+        presenter.getTeamTransferring(team.getId(), filterPositions, filterClubs, displays, sorts);
     }
-
 
     @OnClick({R.id.filter, R.id.display, R.id.option1, R.id.option2, R.id.option3})
     public void onSortClicked(View view) {
@@ -135,7 +210,7 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
                 break;
             case R.id.display:
                 StringBuilder displays = new StringBuilder();
-                for (ExtKeyValuePair pair : displayPairs) {
+                for (ExtKeyValuePair pair : this.displays) {
                     displays.append(pair.getKey()).append(",");
                 }
                 AloneFragmentActivity.with(this)
@@ -162,7 +237,6 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
     }
 
     private void toggleSort(int index) {
-        page = 1;
         rvPlayer.startLoading();
         rvPlayer.clear();
         switch (sorts[index]) {

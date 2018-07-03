@@ -3,7 +3,6 @@ package com.football.fantasy.fragments.leagues.team_squad;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.View;
@@ -135,7 +134,7 @@ public class TeamSquadFragment extends BaseMainMvpFragment<ITeamSquadView, ITeam
 
     @OnClick(R.id.llTrade)
     void onClickTrade() {
-        TradeFragment.start(this, getString(R.string.team_squad));
+        TradeFragment.start(this, team, getString(R.string.team_squad));
     }
 
     @OnClick(R.id.tvSortByColumn)

@@ -42,7 +42,6 @@ public class PendingInvitationDataPresenter extends BaseDataPresenter<IPendingIn
 
                         @Override
                         public void onError(String error) {
-                            v.displayLeagues(null);
                             v.showMessage(error, R.string.ok, null);
                         }
                     }));

@@ -15,11 +15,11 @@ import com.football.models.responses.PropsPlayerResponse;
 import com.football.models.responses.RealClubResponse;
 import com.football.models.responses.SeasonResponse;
 import com.football.models.responses.StopResponse;
-import com.football.models.responses.TeamLineupResponse;
 import com.football.models.responses.TeamPitchViewResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.models.responses.TeamSquadResponse;
 import com.football.models.responses.TeamStatisticResponse;
+import com.football.models.responses.TeamTransferringResponse;
 import com.football.models.responses.UploadResponse;
 import com.football.models.responses.UserResponse;
 import com.football.utilities.Constant;
@@ -152,6 +152,10 @@ public interface IApiService {
 
     @POST(ServiceConfig.REMOVE_PLAYER)
     Observable<BaseResponse<PropsPlayerResponse>> removePlayer(@Body RequestBody body);
+
+    @GET(ServiceConfig.TEAM_TRANSFERRING)
+    Observable<BaseResponse<TeamTransferringResponse>> getTeamTransferring(@Path(ServiceConfig.KEY_ID) int teamId,
+                                                                           @QueryMap Map<String, String> queries);
 
     @GET(ServiceConfig.PLAYER_STATISTIC)
     Observable<BaseResponse<PlayerStatisticResponse>> getPlayerStatistic(@Path(ServiceConfig.KEY_ID) Integer playerId, @Query("filter") String filter);
