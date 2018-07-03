@@ -10,14 +10,14 @@ import android.widget.LinearLayout;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
-import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
-import com.bon.interfaces.Optional;
 import com.football.adapters.TeamSquadAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
+import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_squad.trade.TradeFragment;
+import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.models.responses.TeamSquadResponse;
 
@@ -40,8 +40,8 @@ public class TeamSquadFragment extends BaseMainMvpFragment<ITeamSquadView, ITeam
     EditTextApp tvSortByColumn;
     @BindView(R.id.tvSortByValue)
     EditTextApp tvSortByValue;
-    @BindView(R.id.lvData)
-    ExtPagingListView lvData;
+    @BindView(R.id.rvPlayer)
+    ExtRecyclerView<PlayerResponse> rvPlayer;
 
     private TeamResponse team;
     private String title;
@@ -107,14 +107,14 @@ public class TeamSquadFragment extends BaseMainMvpFragment<ITeamSquadView, ITeam
     }
 
     void initView() {
-        teamSquadAdapter = new TeamSquadAdapter(mActivity, new ArrayList<>());
-        lvData.init(mActivity, teamSquadAdapter)
-                .setOnExtRefreshListener(() -> {
-
+        teamSquadAdapter = new TeamSquadAdapter(new ArrayList<>());
+        rvPlayer
+                .adapter(teamSquadAdapter)
+                .refreshListener(() -> {
+                    rvPlayer.clear();
+                    getTeamSquad();
                 })
-                .setOnExtLoadMoreListener(() -> {
-
-                });
+                .build();
     }
 
     private void displaySort() {
@@ -123,10 +123,11 @@ public class TeamSquadFragment extends BaseMainMvpFragment<ITeamSquadView, ITeam
     }
 
     private void getTeamSquad() {
-        lvData.startLoading(true);
+        rvPlayer.startLoading();
         presenter.getTeamSquad(team.getId(), currentProperty.getKey(), currentDirection.getKey());
     }
 
+    @NonNull
     @Override
     public ITeamSquadPresenter<ITeamSquadView> createPresenter() {
         return new TeamSquadPresenter(getAppComponent());
@@ -169,8 +170,7 @@ public class TeamSquadFragment extends BaseMainMvpFragment<ITeamSquadView, ITeam
 
     @Override
     public void displayTeamSquad(TeamSquadResponse response) {
-        lvData.clearItems();
-        lvData.stopLoading(true);
-        Optional.from(lvData).doIfPresent(rv -> rv.addNewItems(response.getPlayers()));
+        rvPlayer.stopLoading();
+        rvPlayer.addItems(response.getPlayers());
     }
 }

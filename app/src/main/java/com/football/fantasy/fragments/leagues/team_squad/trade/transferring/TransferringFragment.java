@@ -168,6 +168,11 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
 
     private void initView() {
 
+        // display default
+        displays.add(PlayerPoolDisplayFragment.OPTION_DISPLAY_DEFAULT_1);
+        displays.add(PlayerPoolDisplayFragment.OPTION_DISPLAY_DEFAULT_2);
+        displays.add(PlayerPoolDisplayFragment.OPTION_DISPLAY_DEFAULT_3);
+
         PlayerPoolAdapter adapter;
         adapter = new PlayerPoolAdapter(
                 new ArrayList<>(),
@@ -181,12 +186,8 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
         adapter.setOptions(VALUE, POINT, GOALS);
 
         rvPlayer.adapter(adapter)
-                .loadingLayout(0)
-                .refreshListener(() -> {
-                    refreshData();
-                })
+                .refreshListener(this::refreshData)
                 .build();
-
     }
 
     private void refreshData() {
@@ -267,7 +268,14 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
         return R.drawable.ic_sort_none;
     }
 
-    private void displaySelectDialog() {
+    @Override
+    public void displayPlayers(List<PlayerResponse> players) {
+        rvPlayer.addItems(players);
     }
 
+    @Override
+    public void hideRecyclerViewLoading() {
+        rvPlayer.stopLoading();
+        rvPlayer.displayMessage();
+    }
 }

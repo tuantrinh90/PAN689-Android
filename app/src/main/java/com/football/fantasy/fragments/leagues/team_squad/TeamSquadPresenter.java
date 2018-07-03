@@ -42,15 +42,6 @@ public class TeamSquadPresenter extends BaseDataPresenter<ITeamSquadView> implem
             mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().getTeamSquad(teamId, queries),
                     new ApiCallback<TeamSquadResponse>() {
-                        @Override
-                        public void onStart() {
-                            v.showLoadingPagingListView(true);
-                        }
-
-                        @Override
-                        public void onComplete() {
-                            v.showLoadingPagingListView(false);
-                        }
 
                         @Override
                         public void onSuccess(TeamSquadResponse response) {

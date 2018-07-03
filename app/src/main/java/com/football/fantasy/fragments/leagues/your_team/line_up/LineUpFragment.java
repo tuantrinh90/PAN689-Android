@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.CompoundButton;
 
 import com.bon.customview.textview.ExtTextView;
-import com.bon.logger.Logger;
 import com.bon.util.DateTimeUtils;
 import com.bon.util.DialogUtils;
 import com.football.common.activities.AloneFragmentActivity;

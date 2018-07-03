@@ -32,17 +32,16 @@ public class TransferringDataPresenter extends BaseDataPresenter<ITransferringVi
                     new ApiCallback<TeamTransferringResponse>() {
                         @Override
                         public void onStart() {
-                            v.showLoading(true);
                         }
 
                         @Override
                         public void onComplete() {
-                            v.showLoading(false);
+                            v.hideRecyclerViewLoading();
                         }
 
                         @Override
                         public void onSuccess(TeamTransferringResponse response) {
-
+                            v.displayPlayers(response.getPlayers());
                         }
 
                         @Override

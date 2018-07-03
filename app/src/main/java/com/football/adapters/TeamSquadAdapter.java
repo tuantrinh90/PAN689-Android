@@ -1,71 +1,74 @@
 package com.football.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.bon.customview.listview.ExtBaseAdapter;
-import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageLoaderUtils;
 import com.bon.util.StringUtils;
+import com.football.customizes.recyclerview.DefaultAdapter;
+import com.football.customizes.recyclerview.DefaultHolder;
 import com.football.fantasy.R;
 import com.football.models.responses.PlayerResponse;
 
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class TeamSquadAdapter extends ExtBaseAdapter<PlayerResponse, TeamSquadAdapter.ViewHolder> {
-    /**
-     * @param ctx
-     * @param its
-     */
-    public TeamSquadAdapter(Context ctx, List<PlayerResponse> its) {
-        super(ctx, its);
+public class TeamSquadAdapter extends DefaultAdapter<PlayerResponse> {
+
+    public TeamSquadAdapter(List<PlayerResponse> dataSet) {
+        super(dataSet);
     }
 
     @Override
-    protected int getViewId() {
+    protected int getLayoutId(int viewType) {
         return R.layout.team_squad_item;
     }
 
     @Override
-    protected ViewHolder onCreateViewHolder(View view) {
-        return new ViewHolder(view);
+    protected DefaultHolder onCreateHolder(View v, int viewType) {
+        return new TeamSquadHolder(v);
     }
 
     @Override
-    protected void onBindViewHolder(ViewHolder viewHolder, PlayerResponse data) {
-        ImageLoaderUtils.displayImage(data.getPhoto(), viewHolder.ivAvatar);
-        viewHolder.tvName.setText(data.getName());
+    protected void onBindViewHolder(@NonNull DefaultHolder defaultHolder, PlayerResponse data, int position) {
+        TeamSquadHolder holder = (TeamSquadHolder) defaultHolder;
+        Context context = holder.itemView.getContext();
 
-        viewHolder.tvPositionPrimary.setBackground(data.getPositionBackground(context, data.getMainPosition()));
-        viewHolder.tvPositionPrimary.setText(data.getMainPositionText());
-        viewHolder.tvPositionPrimary.setVisibility(StringUtils.isEmpty(data.getMainPositionText()) ? View.GONE : View.VISIBLE);
+        ImageLoaderUtils.displayImage(data.getPhoto(), holder.ivAvatar);
+        holder.tvName.setText(data.getName());
 
-        viewHolder.tvPositionSecond.setBackground(data.getPositionBackground(context, data.getMinorPosition()));
-        viewHolder.tvPositionSecond.setText(data.getMinorPositionText());
-        viewHolder.tvPositionSecond.setVisibility(StringUtils.isEmpty(data.getMinorPositionText()) ? View.GONE: View.VISIBLE);
+        holder.tvPositionPrimary.setBackground(data.getPositionBackground(context, data.getMainPosition()));
+        holder.tvPositionPrimary.setText(data.getMainPositionText());
+        holder.tvPositionPrimary.setVisibility(StringUtils.isEmpty(data.getMainPositionText()) ? View.GONE : View.VISIBLE);
 
-        viewHolder.tvInjured.setText(data.getInjuredText(context));
-        viewHolder.tvInjured.setVisibility(data.getInjured() ? View.VISIBLE : View.GONE);
+        holder.tvPositionSecond.setBackground(data.getPositionBackground(context, data.getMinorPosition()));
+        holder.tvPositionSecond.setText(data.getMinorPositionText());
+        holder.tvPositionSecond.setVisibility(StringUtils.isEmpty(data.getMinorPositionText()) ? View.GONE : View.VISIBLE);
+
+        holder.tvInjured.setText(data.getInjuredText(context));
+        holder.tvInjured.setVisibility(data.getInjured() ? View.VISIBLE : View.GONE);
     }
 
-    class ViewHolder extends ExtPagingListView.ExtViewHolder {
+    static class TeamSquadHolder extends DefaultHolder {
         @BindView(R.id.ivAvatar)
         CircleImageView ivAvatar;
         @BindView(R.id.tvName)
         ExtTextView tvName;
-        @BindView(R.id.tvPositionPrimary) ExtTextView tvPositionPrimary;
-        @BindView(R.id.tvPositionSecond) ExtTextView tvPositionSecond;
-        @BindView(R.id.tvInjured) ExtTextView tvInjured;
-        @BindView(R.id.tvValue) ExtTextView tvValue;
+        @BindView(R.id.tvPositionPrimary)
+        ExtTextView tvPositionPrimary;
+        @BindView(R.id.tvPositionSecond)
+        ExtTextView tvPositionSecond;
+        @BindView(R.id.tvInjured)
+        ExtTextView tvInjured;
+        @BindView(R.id.tvValue)
+        ExtTextView tvValue;
 
-        public ViewHolder(View itemView) {
+        public TeamSquadHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
         }
     }
 }
