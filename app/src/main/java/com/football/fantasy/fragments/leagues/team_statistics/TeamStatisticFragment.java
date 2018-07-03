@@ -16,6 +16,7 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_lineup.TeamLineUpFragment;
+import com.football.fantasy.fragments.leagues.team_squad.TeamSquadFragment;
 import com.football.models.responses.TeamResponse;
 import com.football.models.responses.TeamStatisticResponse;
 import com.football.utilities.AppUtilities;
@@ -143,7 +144,7 @@ public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticVie
     @OnClick(R.id.llPointPerPlayer)
     public void onPointPerPlayerClicked() {
         AloneFragmentActivity.with(this)
-                .parameters(TeamLineUpFragment.newBundle(getTitleString(), team))
-                .start(TeamLineUpFragment.class);
+                .parameters(TeamSquadFragment.newBundle(team, getString(R.string.statistics)))
+                .start(TeamSquadFragment.class);
     }
 }
