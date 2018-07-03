@@ -26,8 +26,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingLeft="@dimen/padding_layout"
-                android:paddingRight="@dimen/padding_layout"
                 app:layout_collapseMode="parallax">
 
                 <LinearLayout
@@ -37,9 +35,11 @@
                     android:layout_marginTop="@dimen/padding_layout"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="@dimen/padding_small">
+                    android:paddingLeft="@dimen/padding_layout"
+                    android:paddingRight="@dimen/padding_layout">
 
-                    <RelativeLayout
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/relativeLayout4"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
@@ -47,13 +47,17 @@
                         <com.bon.customview.textview.ExtTextView
                             android:id="@+id/tvTransferringPlayerLeft"
                             style="@style/StyleDescriptionWhite"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_toLeftOf="@id/ivMoreTransferringPlayerLeft"
-                            android:layout_toStartOf="@id/ivMoreTransferringPlayerLeft"
                             android:lines="2"
                             android:padding="0dp"
                             android:text="@string/transferring_player_left"
+                            android:textSize="@dimen/font_size_description"
+                            app:layout_constraintEnd_toStartOf="@+id/ivMoreTransferringPlayerLeft"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toLeftOf="@id/ivMoreTransferringPlayerLeft"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
                             app:textAllCaps="true"
                             app:textViewFontAssetName="@string/font_display_heavy" />
 
@@ -61,28 +65,31 @@
                             android:id="@+id/ivMoreTransferringPlayerLeft"
                             android:layout_width="@dimen/icon_tiny"
                             android:layout_height="@dimen/icon_tiny"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:src="@drawable/ic_info_black" />
+                            android:src="@drawable/ic_info_black"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <com.bon.customview.textview.ExtTextView
                             android:id="@+id/tvTransferringPlayerLeftValue"
                             style="@style/StyleContentBlue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/tvTransferringPlayerLeft"
                             android:padding="0dp"
                             android:text="@string/injured"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvTransferringPlayerLeft"
                             app:textAllCaps="true"
                             app:textViewFontAssetName="@string/font_display_heavy" />
 
-                    </RelativeLayout>
+                    </android.support.constraint.ConstraintLayout>
 
                     <View
-                        android:layout_width="@dimen/padding_content"
+                        android:layout_width="@dimen/padding_small"
                         android:layout_height="0dp" />
 
-                    <RelativeLayout
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/relativeLayout3"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
@@ -90,13 +97,17 @@
                         <com.bon.customview.textview.ExtTextView
                             android:id="@+id/tvTransferringTimeLeft"
                             style="@style/StyleDescriptionWhite"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_toLeftOf="@id/ivMoreTransferringTimeLeft"
-                            android:layout_toStartOf="@id/ivMoreTransferringTimeLeft"
                             android:lines="2"
                             android:padding="0dp"
                             android:text="@string/transferring_time_left"
+                            android:textSize="@dimen/font_size_description"
+                            app:layout_constraintEnd_toStartOf="@+id/ivMoreTransferringTimeLeft"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toLeftOf="@id/ivMoreTransferringTimeLeft"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
                             app:textAllCaps="true"
                             app:textViewFontAssetName="@string/font_display_heavy" />
 
@@ -104,42 +115,48 @@
                             android:id="@+id/ivMoreTransferringTimeLeft"
                             android:layout_width="@dimen/icon_tiny"
                             android:layout_height="@dimen/icon_tiny"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:src="@drawable/ic_info_black" />
+                            android:src="@drawable/ic_info_black"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <com.bon.customview.textview.ExtTextView
                             android:id="@+id/tvTransferringTimeLeftValue"
                             style="@style/StyleContentBlue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/tvTransferringTimeLeft"
                             android:padding="0dp"
                             android:text="@string/injured"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvTransferringTimeLeft"
                             app:textAllCaps="true"
                             app:textViewFontAssetName="@string/font_display_heavy" />
 
-                    </RelativeLayout>
+                    </android.support.constraint.ConstraintLayout>
 
                     <View
-                        android:layout_width="@dimen/padding_content"
+                        android:layout_width="@dimen/padding_small"
                         android:layout_height="0dp" />
 
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/relativeLayout2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
                         <com.bon.customview.textview.ExtTextView
                             android:id="@+id/tvBudget"
                             style="@style/StyleDescriptionWhite"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_toLeftOf="@id/ivMoreBudget"
-                            android:layout_toStartOf="@id/ivMoreBudget"
                             android:lines="2"
                             android:padding="0dp"
                             android:text="@string/budget"
+                            android:textSize="@dimen/font_size_description"
+                            app:layout_constraintEnd_toStartOf="@+id/ivMoreBudget"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toLeftOf="@id/ivMoreBudget"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
                             app:textAllCaps="true"
                             app:textViewFontAssetName="@string/font_display_heavy" />
 
@@ -147,22 +164,24 @@
                             android:id="@+id/ivMoreBudget"
                             android:layout_width="@dimen/icon_tiny"
                             android:layout_height="@dimen/icon_tiny"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:src="@drawable/ic_info_black" />
+                            android:src="@drawable/ic_info_black"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <com.bon.customview.textview.ExtTextView
                             android:id="@+id/tvBudgetValue"
                             style="@style/StyleContentBlue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/tvBudget"
                             android:padding="0dp"
                             android:text="@string/injured"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvBudget"
                             app:textAllCaps="true"
                             app:textViewFontAssetName="@string/font_display_heavy" />
 
-                    </RelativeLayout>
+                    </android.support.constraint.ConstraintLayout>
 
                 </LinearLayout>
 
@@ -176,7 +195,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/padding_layout"
                     android:layout_marginTop="@dimen/padding_layout"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/padding_layout"
+                    android:paddingRight="@dimen/padding_layout">
 
                     <com.bon.customview.textview.ExtTextView
                         style="@style/StyleDescriptionWhite"
@@ -198,12 +219,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/padding_layout"
                     android:layout_marginTop="@dimen/padding_layout"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/padding_layout"
+                    android:paddingRight="@dimen/padding_layout">
 
                     <LinearLayout
                         android:id="@+id/filter"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_layout"
+                        android:layout_marginStart="@dimen/padding_layout"
                         android:layout_weight="1"
                         android:background="@drawable/bg_white_component_radius"
                         android:gravity="center"
@@ -233,6 +258,8 @@
                         android:id="@+id/display"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/padding_layout"
+                        android:layout_marginRight="@dimen/padding_layout"
                         android:layout_weight="1"
                         android:background="@drawable/bg_white_component_radius"
                         android:gravity="center"

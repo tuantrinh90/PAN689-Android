@@ -85,7 +85,7 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
     }
 
     void initBackgroundToolbar() {
-        Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.colorPrimary)));
+        Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, android.R.color.transparent)));
         Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white)));
     }
 
