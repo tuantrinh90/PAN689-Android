@@ -16,9 +16,9 @@ public class MyLeagueDataPresenter extends BaseDataPresenter<IMyLeagueView> impl
     }
 
     @Override
-    public void getMyLeagues(int page, int perPage) {
+    public void getMyLeagues(int page) {
         getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().getMyLeagues(page, perPage), new ApiCallback<PagingResponse<LeagueResponse>>() {
+            mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().getMyLeagues(page), new ApiCallback<PagingResponse<LeagueResponse>>() {
                 @Override
                 public void onStart() {
                     v.showLoadingPagingListView(true);

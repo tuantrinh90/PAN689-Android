@@ -17,9 +17,9 @@ public class HomeDataPresenter extends BaseDataPresenter<IHomeView> implements I
     }
 
     @Override
-    public void getMyLeagues(int page, int perPage) {
+    public void getMyLeagues(int page) {
         getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().getMyLeagues(page, perPage),
+            mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().getMyLeagues(page),
                     new ApiCallback<PagingResponse<LeagueResponse>>() {
                         @Override
                         public void onSuccess(PagingResponse<LeagueResponse> leagueResponsePagingResponse) {

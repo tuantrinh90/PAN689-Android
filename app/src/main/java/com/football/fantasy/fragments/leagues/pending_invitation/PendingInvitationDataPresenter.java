@@ -49,6 +49,41 @@ public class PendingInvitationDataPresenter extends BaseDataPresenter<IPendingIn
     }
 
     @Override
+    public void getLeagueDetail(LeagueResponse league) {
+        getOptView().doIfPresent(v -> {
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().getLeagueDetail(league.getId()),
+                    new ApiCallback<LeagueResponse>() {
+                        @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
+
+                        @Override
+                        public void onSuccess(LeagueResponse response) {
+                            if (response.getTeam() == null) {
+                                invitationDecisions(response, Constant.KEY_INVITATION_ACCEPT);
+                            } else {
+                                v.showMessage(v.getAppActivity().getString(R.string.message_exist_league), R.string.ok, null);
+                                v.removeItem(league);
+                            }
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            v.showMessage(error, R.string.ok, null);
+                        }
+                    }));
+        });
+    }
+
+    @Override
     public void invitationDecisions(LeagueResponse leagueResponse, int status) {
         getOptView().doIfPresent(v -> {
             mCompositeDisposable.add(RxUtilities.async(

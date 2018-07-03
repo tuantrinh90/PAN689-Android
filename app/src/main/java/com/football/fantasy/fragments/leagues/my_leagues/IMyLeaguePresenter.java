@@ -4,5 +4,5 @@ import com.football.common.presenters.IBaseDataPresenter;
 import com.football.common.views.IBaseMvpView;
 
 public interface IMyLeaguePresenter<V extends IBaseMvpView> extends IBaseDataPresenter<V> {
-    void getMyLeagues(int page, int perPage);
+    void getMyLeagues(int page);
 }

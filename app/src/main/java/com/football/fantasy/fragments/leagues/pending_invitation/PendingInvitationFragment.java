@@ -138,7 +138,7 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
                         if (league.getCurrentNumberOfUser() >= league.getNumberOfUser()) {
                             showMessage(getString(R.string.message_league_full));
                         } else {
-                            presenter.invitationDecisions(league, Constant.KEY_INVITATION_ACCEPT);
+                            checkExistInMyLeague(league);
                         }
                     },
                     league -> { // reject event
@@ -164,6 +164,10 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
+    }
+
+    private void checkExistInMyLeague(LeagueResponse league) {
+        presenter.getLeagueDetail(league);
     }
 
     private void getPendingList() {

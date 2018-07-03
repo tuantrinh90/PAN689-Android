@@ -67,9 +67,6 @@ public interface IApiService {
     @GET(ServiceConfig.HOME_NEWS)
     Observable<BaseResponse<PagingResponse<NewsResponse>>> getHomeNews(@Query(Constant.KEY_PAGE) int page, @Query(Constant.KEY_PER_PAGE) int perPage);
 
-    @GET(ServiceConfig.LEAGUE_DETAIL)
-    Observable<BaseResponse<LeagueResponse>> getLeagueDetail(@Path(ServiceConfig.KEY_ID) int leagueId);
-
     @GET(ServiceConfig.TEAM_LIST)
     Observable<BaseResponse<PagingResponse<TeamResponse>>> getTeams(@Query(ServiceConfig.KEY_LEAGUE_ID) int leagueId);
 
@@ -105,7 +102,10 @@ public interface IApiService {
     Observable<BaseResponse<StopResponse>> stopLeague(@Path(ServiceConfig.KEY_ID) int leagueId);
 
     @GET(ServiceConfig.MY_LEAGUES)
-    Observable<BaseResponse<PagingResponse<LeagueResponse>>> getMyLeagues(@Query(Constant.KEY_PAGE) int page, @Query(Constant.KEY_PER_PAGE) int perPage);
+    Observable<BaseResponse<PagingResponse<LeagueResponse>>> getMyLeagues(@Query(Constant.KEY_PAGE) int page);
+
+    @GET(ServiceConfig.LEAGUE_DETAIL)
+    Observable<BaseResponse<LeagueResponse>> getLeagueDetail(@Path(ServiceConfig.KEY_ID) Integer leagueId);
 
     @GET(ServiceConfig.OPEN_LEAGUES)
     Observable<BaseResponse<PagingResponse<LeagueResponse>>> getOpenLeagues(@QueryMap Map<String, String> queries);

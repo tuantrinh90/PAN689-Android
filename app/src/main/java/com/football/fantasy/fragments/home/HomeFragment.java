@@ -146,7 +146,7 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     }
 
     private void getMyLeagues() {
-        presenter.getMyLeagues(1, ExtPagingListView.NUMBER_PER_PAGE);
+        presenter.getMyLeagues(1);
     }
 
     void initRecyclerView() {
@@ -177,7 +177,7 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
             gravitySnapHelper.attachToRecyclerView(rvMyLeagues);
 
             // load my leagues, only display 5 records
-            presenter.getMyLeagues(1, 5);
+            presenter.getMyLeagues(1);
 
             // load news
             loadNews();

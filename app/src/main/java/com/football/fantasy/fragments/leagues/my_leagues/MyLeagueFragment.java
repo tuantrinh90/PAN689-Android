@@ -126,7 +126,7 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
     }
 
     private void getMyLeagues() {
-        presenter.getMyLeagues(page, ExtPagingListView.NUMBER_PER_PAGE);
+        presenter.getMyLeagues(page);
     }
 
     void initView() {
