@@ -48,7 +48,6 @@ public class MatchupMyLeagueFragment extends BaseMainMvpFragment<IMatchupMyLeagu
         // init recyclerView
         rvMyLeague
                 .adapter(mAdapter)
-                .itemViewCacheSize(8)
                 .build();
     }
 
