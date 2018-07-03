@@ -24,45 +24,69 @@ public interface ServiceConfig {
     String KEY_TEAM_ID = "team_id";
     String KEY_LEAGUE_ID = "league_id";
 
+    // auth
+    String REGISTER = "auth/register";
     String LOGIN = "login";
     String LOGIN_SOCIAL = "auth/social";
-    String REGISTER = "auth/register";
-    String RECOVER_PASSWORD = "users/forgot";
     String LOGOUT = "users/logout";
     String FORGOT_PASSWORD = "users/forgot";
-    String MY_LEAGUES = "leagues/my_index";
-    String PENDING_INVITATIONS = "invitations/pending_list";
-    String LEAGUE = "leagues/{id}";
-    String TEAMS = "teams";
-    String TEAM_DETAILS = "teams/{id}";
-    String TEAM_SQUAD = "teams/{id}/squad";
-    String TEAM_STATISTIC = "teams/{id}/statistic";
-    String TEAM_LINEUP = "teams/lineup/{id}";
-    String TEAM_PITCH_VIEW = "teams/{id}/pitchview";
-    String REMOVE_TEAM = "leagues/remove_team/{" + KEY_ID + "}/{" + KEY_TEAM_ID + "}";
-    String INVITE_FRIEND = "invitations";
-    String STOP_LEAGUE = "leagues/{id}";
+
+    // file
+    String UPLOAD = "upload";
+
+    // invitation
     String SEARCH_FRIEND = "invitations/search_friends";
+    String INVITE_FRIEND = "invitations";
     String INVITATION_DECISION = "invitations/decision/{id}";
-    String HOME_NEWS = "posts";
+    String PENDING_INVITATIONS = "invitations/pending_list";
+
+    // league
+    String SEASONS = "seasons";
+    String FORM_OPTIONS = "leagues/get_form/{id}";
+    String CREATE_LEAGUE = "leagues";
+    String UPDATE_LEAGUE = "leagues/{id}";
     String OPEN_LEAGUES = "leagues/open_league";
     String JOINT = "leagues/join/{id}";
-    String PLAYER_LIST = "players"; //     String PLAYER_LIST = "teams/player_list/{" + KEY_ID + "}";
+    String MY_LEAGUES = "leagues/my_index";
+    String LEAGUE_DETAIL = "leagues/{id}";
+    String LEAVE_LEAGUES = "leagues/leave/{id}";
+    String REMOVE_TEAM = "leagues/remove_team/{" + KEY_ID + "}/{" + KEY_TEAM_ID + "}";
+    String START_LEAGUE = "leagues/{id}/start";
+    String STOP_LEAGUE = "leagues/{id}";
+    String MATCH_RESULTS = "leagues/{id}/get_match_results";
+    String TEAM_RESULTS = "leagues/{id}/get_team_results";
+
+    // player
     String REAL_CLUB = "real_clubs";
-    String SEASONS = "seasons";
-    String CREATE_LEAGUE = "leagues";
-    String UPDATE_LEAGUE = "leagues/{" + KEY_ID + "}";
-    String FORM_OPTIONS = "leagues/get_form/{" + KEY_ID + "}";
+    String PLAYER_LIST = "players";
+    String PLAYER_DETAIL = "players/{id}";
+    String PLAYER_STATISTIC = "players/{id}/statistic";
+    String PLAYER_STATISTIC_WITH_TEAM = "players/{player_id}/team/{team_id}/statistic";
+
+    // posts
+    String HOME_NEWS = "posts";
+
+    // real match
+    String REAL_MATCHES = "real_matches";
+
+    // teams
+    String TEAM_LIST = "teams";
     String CREATE_TEAM = "teams";
     String UPDATE_TEAM = "teams/{id}";
-    String LINEUP = "teams/lineup/{" + KEY_ID + "}";
-    String COMPLETE_LINEUP = "teams/{" + KEY_ID + "}/complete_lineup";
+    String TEAM_DETAIL = "teams/{id}";
+    String TEAM_LINEUP = "teams/lineup/{id}";
     String ADD_PLAYER = "teams/add_player";
     String REMOVE_PLAYER = "teams/remove_player";
-    String PLAYERS_STATISTIC = "players/{id}/statistic";
+    String TEAM_TRANSFERRING = "teams/{id}/transfer_player_list";
+    String TRANSFER_PLAYER = "teams/{id}/transfer_player";
+    String TRANSFER_HISTORIES = "teams/{id}/transfer_histories";
+    String TEAM_STATISTIC = "teams/{id}/statistic";
+    String TEAM_SQUAD = "teams/{id}/squad";
+    String COMPLETE_LINEUP = "teams/{id}/complete_lineup";
+    String TEAM_PITCH_VIEW = "teams/{id}/pitchview";
 
-    String PROFILE = "profile";
+    // user
+    String GET_PROFILE = "profile/{id}";
+    String UPDATE_PROFILE = "profile";
 
-    String LEAVE_LEAGUES = "leagues/leave/{id}";
-    String UPLOAD = "upload";
 }

@@ -58,9 +58,6 @@ public interface IApiService {
     @POST(ServiceConfig.REGISTER)
     Observable<BaseResponse<UserResponse>> register(@Body RequestBody body);
 
-    @POST(ServiceConfig.RECOVER_PASSWORD)
-    Observable<BaseResponse<Object>> recoverPassword(@Body RequestBody body);
-
     @GET(ServiceConfig.PENDING_INVITATIONS)
     Observable<BaseResponse<PagingResponse<LeagueResponse>>> getPendingInvitations(@Query(Constant.KEY_PAGE) int page, @Query(Constant.KEY_PER_PAGE) int perPage);
 
@@ -70,13 +67,13 @@ public interface IApiService {
     @GET(ServiceConfig.HOME_NEWS)
     Observable<BaseResponse<PagingResponse<NewsResponse>>> getHomeNews(@Query(Constant.KEY_PAGE) int page, @Query(Constant.KEY_PER_PAGE) int perPage);
 
-    @GET(ServiceConfig.LEAGUE)
+    @GET(ServiceConfig.LEAGUE_DETAIL)
     Observable<BaseResponse<LeagueResponse>> getLeagueDetail(@Path(ServiceConfig.KEY_ID) int leagueId);
 
-    @GET(ServiceConfig.TEAMS)
+    @GET(ServiceConfig.TEAM_LIST)
     Observable<BaseResponse<PagingResponse<TeamResponse>>> getTeams(@Query(ServiceConfig.KEY_LEAGUE_ID) int leagueId);
 
-    @GET(ServiceConfig.TEAM_DETAILS)
+    @GET(ServiceConfig.TEAM_DETAIL)
     Observable<BaseResponse<TeamResponse>> getTeamDetails(@Path(ServiceConfig.KEY_ID) int teamId);
 
     @GET(ServiceConfig.TEAM_SQUAD)
@@ -84,9 +81,6 @@ public interface IApiService {
 
     @GET(ServiceConfig.TEAM_STATISTIC)
     Observable<BaseResponse<TeamStatisticResponse>> getTeamStatistic(@Path(ServiceConfig.KEY_ID) int teamId);
-
-    @GET(ServiceConfig.TEAM_LINEUP)
-    Observable<BaseResponse<TeamLineupResponse>> getTeamLineup(@Path(ServiceConfig.KEY_ID) int teamId);
 
     @GET(ServiceConfig.TEAM_PITCH_VIEW)
     Observable<BaseResponse<TeamPitchViewResponse>> getPitchView(@Path(ServiceConfig.KEY_ID) int teamId, @QueryMap Map<String, String> queries);
@@ -147,7 +141,7 @@ public interface IApiService {
     @POST(ServiceConfig.UPDATE_TEAM)
     Observable<BaseResponse<TeamResponse>> updateTeam(@Path(ServiceConfig.KEY_ID) int teamId, @Body RequestBody body);
 
-    @GET(ServiceConfig.LINEUP)
+    @GET(ServiceConfig.TEAM_LINEUP)
     Observable<BaseResponse<LineupResponse>> getLineup(@Path(ServiceConfig.KEY_ID) int leagueId);
 
     @POST(ServiceConfig.COMPLETE_LINEUP)
@@ -159,10 +153,10 @@ public interface IApiService {
     @POST(ServiceConfig.REMOVE_PLAYER)
     Observable<BaseResponse<PropsPlayerResponse>> removePlayer(@Body RequestBody body);
 
-    @GET(ServiceConfig.PLAYERS_STATISTIC)
+    @GET(ServiceConfig.PLAYER_STATISTIC)
     Observable<BaseResponse<PlayerStatisticResponse>> getPlayerStatistic(@Path(ServiceConfig.KEY_ID) Integer playerId, @Query("filter") String filter);
 
     /* user */
-    @POST(ServiceConfig.PROFILE)
+    @POST(ServiceConfig.UPDATE_PROFILE)
     Observable<BaseResponse<UserResponse>> updateProfile(@Body RequestBody body);
 }
