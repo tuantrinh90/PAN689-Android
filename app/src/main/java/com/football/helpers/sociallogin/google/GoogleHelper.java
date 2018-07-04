@@ -89,10 +89,6 @@ public class GoogleHelper implements GoogleApiClient.OnConnectionFailedListener 
   }
 
   public void performSignOut() {
-    Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
-      @Override public void onResult(@NonNull Status status) {
-        mListener.onGoogleAuthSignOut();
-      }
-    });
+    Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(status -> mListener.onGoogleAuthSignOut());
   }
 }

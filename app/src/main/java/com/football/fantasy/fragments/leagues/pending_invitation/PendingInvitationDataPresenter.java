@@ -68,7 +68,7 @@ public class PendingInvitationDataPresenter extends BaseDataPresenter<IPendingIn
                         @Override
                         public void onSuccess(LeagueResponse response) {
                             if (response.getTeam() == null) {
-                                invitationDecisions(response, Constant.KEY_INVITATION_ACCEPT);
+                                invitationDecisions(league, Constant.KEY_INVITATION_ACCEPT);
                             } else {
                                 v.showMessage(v.getAppActivity().getString(R.string.message_exist_league), R.string.ok, null);
                                 v.removeItem(league);

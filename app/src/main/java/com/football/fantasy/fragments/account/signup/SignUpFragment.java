@@ -44,6 +44,8 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
     ExtTextView tvErrorAgreed;
     @BindView(R.id.cbAgreed)
     ExtCheckBox cbAgreed;
+    @BindView(R.id.tvAgreed)
+    ExtTextView tvAgreed;
 
     @Override
     public int getResourceId() {
@@ -64,7 +66,7 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
         initView();
 
         // agreed
-        cbAgreed.setMovementMethod(TextViewLinkMovementMethod.newInstance(mActivity, s -> {
+        tvAgreed.setMovementMethod(TextViewLinkMovementMethod.newInstance(mActivity, s -> {
             String url = "https://www.google.com.vn/";
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
             builder.setToolbarColor(ContextCompat.getColor(mActivity, R.color.colorPrimary));
@@ -72,12 +74,12 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
             customTabsIntent.launchUrl(mActivity, Uri.parse(url));
         }));
 
-        TextViewLinkMovementMethod.stripUnderlines(cbAgreed, ContextCompat.getColor(mActivity, R.color.color_blue));
-        TextViewLinkMovementMethod.changeColorTextSelector(cbAgreed, ContextCompat.getColor(mActivity, R.color.color_gray_selector));
+        TextViewLinkMovementMethod.stripUnderlines(tvAgreed, ContextCompat.getColor(mActivity, R.color.color_blue));
+        TextViewLinkMovementMethod.changeColorTextSelector(tvAgreed, ContextCompat.getColor(mActivity, R.color.color_gray_selector));
     }
 
     void initView() {
-        cbAgreed.setText(Html.fromHtml(getString(R.string.register_condition)));
+        tvAgreed.setText(Html.fromHtml(getString(R.string.register_condition)));
     }
 
     @OnClick(R.id.tvRegister)

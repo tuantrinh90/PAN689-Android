@@ -11,6 +11,7 @@ import android.view.View;
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.textview.ExtTextView;
+import com.bon.share_preferences.AppPreferences;
 import com.football.adapters.TeamLineupPlayerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
@@ -21,6 +22,7 @@ import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragmen
 import com.football.fantasy.fragments.leagues.team_lineup.dialog.SelectDialog;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TeamResponse;
+import com.football.utilities.AppUtilities;
 import com.google.android.flexbox.AlignContent;
 
 import java.util.ArrayList;
@@ -77,7 +79,7 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
         bindButterKnife(view);
 
         initData();
-        initView();
+        initView(AppUtilities.isOwner(getContext(), team.getUserId()));
 
         getPitchView();
     }
@@ -96,10 +98,10 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
         team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
     }
 
-    private void initView() {
-        lineupView.setEditable(true);
-        lineupView.setAddable(true);
-        lineupView.setRemovable(true);
+    private void initView(boolean owner) {
+        lineupView.setEditable(owner);
+        lineupView.setAddable(owner);
+        lineupView.setRemovable(owner);
         lineupView.setJustifyContent(AlignContent.SPACE_AROUND);
         lineupView.setAddCallback((position, order) -> {
             List<PlayerResponse> players =
