@@ -57,7 +57,7 @@ public class TeamAdapter extends DefaultAdapter<TeamResponse> {
         holder.tvOwner.setText(AppUtilities.getNameOrMe(holder.itemView.getContext(), data));
 
         boolean owner = data.getOwner();
-        holder.tvRemove.setVisibility(this.leagueOwner && !owner ? View.VISIBLE : View.GONE);
+        holder.tvRemove.setVisibility(View.GONE);
         holder.ivLock.setVisibility(owner ? View.VISIBLE : View.GONE);
         holder.tvCompleted.setVisibility(View.GONE);
 
