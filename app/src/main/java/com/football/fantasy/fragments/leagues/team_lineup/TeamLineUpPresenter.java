@@ -33,16 +33,14 @@ public class TeamLineUpPresenter extends BaseDataPresenter<ITeamLineUpView> impl
             JSONArray filter = new JSONArray();
             try {
                 JSONObject filterObj = new JSONObject();
-                filterObj.put("property", "formation");
-                filterObj.put("rela", "team_round");
-                filterObj.put("operator", "eq");
-                filterObj.put("value", value);
+                filterObj.put("property", "total_point");
+                filterObj.put("direction", "asc");
                 filter.put(filterObj);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            queries.put("filter", filter.toString());
+//            queries.put("sort", filter.toString());
 
             mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().getPitchView(teamId, queries),
@@ -59,8 +57,12 @@ public class TeamLineUpPresenter extends BaseDataPresenter<ITeamLineUpView> impl
 
                         @Override
                         public void onSuccess(TeamPitchViewResponse response) {
-                            v.displayMainPlayers(response.getMainPlayers());
-                            v.displayMinorPlayers(response.getMinorPlayers());
+                            if (response.getPlayers() != null) {
+                                v.displayMainPlayers(response.getPlayers());
+                            }
+                            if (response.getMorePlayers() != null) {
+                                v.displayMinorPlayers(response.getMorePlayers());
+                            }
                         }
 
                         @Override

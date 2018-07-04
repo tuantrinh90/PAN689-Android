@@ -7,16 +7,22 @@ import java.util.List;
 
 public class TeamPitchViewResponse implements Serializable {
 
-    @JsonProperty("main_players")
-    private List<PlayerResponse> mainPlayers;
-    @JsonProperty("minor_players")
-    private List<PlayerResponse> minorPlayers;
+    @JsonProperty("players")
+    private List<PlayerResponse> players;
+    @JsonProperty("more_players")
+    private List<PlayerResponse> morePlayers;
+    @JsonProperty("team")
+    private TeamResponse team;
 
-    public List<PlayerResponse> getMainPlayers() {
-        return mainPlayers;
+    public List<PlayerResponse> getPlayers() {
+        return players;
     }
 
-    public List<PlayerResponse> getMinorPlayers() {
-        return minorPlayers;
+    public List<PlayerResponse> getMorePlayers() {
+        return morePlayers;
+    }
+
+    public TeamResponse getTeam() {
+        return team;
     }
 }

@@ -6,6 +6,8 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.bon.util.ActivityUtils;
 import com.bon.util.DialogUtils;
@@ -13,6 +15,7 @@ import com.football.adapters.PagerAdapter;
 import com.football.common.activities.BaseAppCompatActivity;
 import com.football.customizes.footers.FooterItem;
 import com.football.events.UnauthorizedEvent;
+import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.home.HomeFragment;
 import com.football.fantasy.fragments.leagues.LeagueFragment;
@@ -20,9 +23,20 @@ import com.football.fantasy.fragments.match_up.MatchUpFragment;
 import com.football.fantasy.fragments.more.MoreFragment;
 import com.football.fantasy.fragments.notification.NotificationFragment;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Calendar;
+import java.util.Scanner;
+import java.util.TimeZone;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Single;
+import io.reactivex.SingleOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends BaseAppCompatActivity {
 
@@ -67,6 +81,38 @@ public class MainActivity extends BaseAppCompatActivity {
         initViewPager();
         initFragmentDefault();
         initRxBus();
+        if (BuildConfig.DEBUG) {
+            test();
+        }
+    }
+
+    private static final String TAG = "MainActivity";
+
+    void test() {
+        Single.create((SingleOnSubscribe<Long>) emitter -> {
+            URL url = new URL("https://currentmillis.com/time/minutes-since-unix-epoch.php");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.connect();
+
+            InputStream output = connection.getInputStream();
+            Scanner s = new Scanner(output).useDelimiter("\\A");
+            String response = s.hasNext() ? s.next() : "";
+            if (TextUtils.isDigitsOnly(response)) {
+                emitter.onSuccess(Long.valueOf(response) * 60 * 1000);
+            } else {
+                Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("utc"));
+                emitter.onSuccess(cal.getTimeInMillis());
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(time -> {
+                    Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("utc"));
+                    Log.d(TAG, "test: " + time + " >< " + cal.getTimeInMillis());
+                }, throwable -> {
+                    throwable.printStackTrace();
+                });
     }
 
     private void initViewPager() {
