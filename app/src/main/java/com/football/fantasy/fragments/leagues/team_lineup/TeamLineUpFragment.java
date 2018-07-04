@@ -44,6 +44,10 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
     ExtTextView tvTitle;
     @BindView(R.id.tvPitch)
     ExtTextView tvPitch;
+    @BindView(R.id.ivArrow)
+    View ivArrow;
+    @BindView(R.id.formation)
+    View formation;
     @BindView(R.id.lineupView)
     LineupView lineupView;
     @BindView(R.id.rv_minor_player)
@@ -102,6 +106,9 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
         lineupView.setEditable(owner);
         lineupView.setAddable(owner);
         lineupView.setRemovable(owner);
+        ivArrow.setVisibility(owner ? View.VISIBLE : View.GONE);
+        formation.setEnabled(owner);
+
         lineupView.setJustifyContent(AlignContent.SPACE_AROUND);
         lineupView.setAddCallback((position, order) -> {
             List<PlayerResponse> players =
@@ -151,7 +158,7 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
         supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_blue);
     }
 
-    @OnClick(R.id.ivArrow)
+    @OnClick(R.id.formation)
     public void onArrowClicked() {
         ExtKeyValuePairDialogFragment.newInstance()
                 .setValue(pitchSelect)

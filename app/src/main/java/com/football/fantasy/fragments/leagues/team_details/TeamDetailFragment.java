@@ -162,16 +162,24 @@ public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITe
                         .start(SetupTeamFragment.class);
                 break;
             case R.id.llTeamLineUp:
-                AloneFragmentActivity.with(this)
-                        .parameters(TeamLineUpFragment.newBundle(getString(R.string.team_details), team))
-                        .start(TeamLineUpFragment.class);
+                if (team.getCompleted()) {
+                    AloneFragmentActivity.with(this)
+                            .parameters(TeamLineUpFragment.newBundle(getString(R.string.team_details), team))
+                            .start(TeamLineUpFragment.class);
+                } else {
+                    showMessage(getString(R.string.message_team_lineup_is_not_completed_yet));
+                }
                 break;
             case R.id.llTransfer:
                 break;
             case R.id.llTeamSquad:
-                AloneFragmentActivity.with(this)
-                        .parameters(TeamSquadFragment.newBundle(team, team.getName()))
-                        .start(TeamSquadFragment.class);
+                if (team.getCompleted()) {
+                    AloneFragmentActivity.with(this)
+                            .parameters(TeamSquadFragment.newBundle(team, team.getName()))
+                            .start(TeamSquadFragment.class);
+                } else {
+                    showMessage(getString(R.string.message_team_lineup_is_not_completed_yet));
+                }
                 break;
             case R.id.llStatistics:
                 AloneFragmentActivity.with(this)

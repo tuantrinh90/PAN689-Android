@@ -20,12 +20,15 @@
             app:textViewFontAssetName="@string/font_display_black_italic" />
 
         <LinearLayout
+            android:id="@+id/formation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/padding_layout"
             android:layout_marginRight="@dimen/padding_layout"
             android:layout_marginTop="@dimen/padding_layout"
             android:background="@drawable/bg_background_gradient_blue_radius_component"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="@dimen/padding_small">
