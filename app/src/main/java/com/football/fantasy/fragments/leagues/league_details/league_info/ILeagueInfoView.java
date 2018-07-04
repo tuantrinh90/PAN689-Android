@@ -5,4 +5,6 @@ import com.football.models.responses.LeagueResponse;
 
 public interface ILeagueInfoView extends IBaseMvpView {
     void displayLeague(LeagueResponse league);
+
+    void onAcceptSuccess();
 }

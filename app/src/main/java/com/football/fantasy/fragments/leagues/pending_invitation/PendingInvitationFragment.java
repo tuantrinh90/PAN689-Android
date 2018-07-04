@@ -131,7 +131,11 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
                     new ArrayList<>(),
                     league -> { // click event
                         AloneFragmentActivity.with(this)
-                                .parameters(LeagueDetailFragment.newBundle(getString(R.string.pending_invitation), league.getId(), LeagueDetailFragment.PENDING_LEAGUES))
+                                .parameters(LeagueDetailFragment.newBundle(
+                                        getString(R.string.pending_invitation),
+                                        league.getId(),
+                                        LeagueDetailFragment.PENDING_LEAGUES,
+                                        league.getInvitation().getId()))
                                 .start(LeagueDetailFragment.class);
                     },
                     league -> { // approve event

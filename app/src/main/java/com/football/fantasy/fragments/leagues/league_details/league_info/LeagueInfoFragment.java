@@ -25,6 +25,7 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
     static final String TAG = LeagueInfoFragment.class.getSimpleName();
     static final String KEY_LEAGUE = "LEAGUE";
     static final String KEY_LEAGUE_TYPE = "league_type";
+    private static final String KEY_INVITATION_ID = "INVITATION_ID";
 
     @BindView(R.id.tvTimeLabel)
     ExtTextView tvTimeLabel;
@@ -53,13 +54,15 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
 
     String leagueType;
     LeagueResponse league;
+    private Integer invitationId;
 
-    public static LeagueInfoFragment newInstance(LeagueResponse league, String leagueType) {
+    public static LeagueInfoFragment newInstance(LeagueResponse league, String leagueType, int invitationId) {
         LeagueInfoFragment fragment = new LeagueInfoFragment();
 
         Bundle bundle = new Bundle();
         if (league != null) bundle.putSerializable(KEY_LEAGUE, league);
         bundle.putString(KEY_LEAGUE_TYPE, leagueType);
+        bundle.putInt(KEY_INVITATION_ID, invitationId);
         fragment.setArguments(bundle);
 
         return fragment;
@@ -83,6 +86,7 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
             league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
         }
         leagueType = getArguments().getString(KEY_LEAGUE_TYPE);
+        invitationId = getArguments().getInt(KEY_INVITATION_ID);
     }
 
     @NonNull
@@ -113,14 +117,15 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
 
     @OnClick(R.id.tvJoinLeague)
     void onClickJoinLeague() {
-        AloneFragmentActivity.with(this)
-                .parameters(SetupTeamFragment.newBundle(
-                        null,
-                        league.getId(),
-                        mActivity.getTitleToolBar().getText().toString(),
-                        leagueType))
-                .start(SetupTeamFragment.class);
-        getActivity().finish();
+        if (league.getTeam() == null) {
+            if (league.getCurrentNumberOfUser() < league.getNumberOfUser()) {
+                presenter.acceptInvite(invitationId);
+            } else {
+                showMessage(getString(R.string.message_league_full));
+            }
+        } else {
+            showMessage(getString(R.string.message_joined_this_league), R.string.ok, null);
+        }
     }
 
     @Override
@@ -176,5 +181,17 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
+    }
+
+    @Override
+    public void onAcceptSuccess() {
+        AloneFragmentActivity.with(this)
+                .parameters(SetupTeamFragment.newBundle(
+                        null,
+                        league.getId(),
+                        mActivity.getTitleToolBar().getText().toString(),
+                        leagueType))
+                .start(SetupTeamFragment.class);
+        mActivity.finish();
     }
 }

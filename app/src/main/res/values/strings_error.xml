@@ -50,4 +50,7 @@
     <string name="the_name_has_already_been_taken">Another team with same name is existing</string>
     <string name="message_max_team_name">The Team name must be less than 40 characters</string>
     <string name="message_exist_league">message_exist_league</string>
+    <string name="message_league_full">The league is full now</string>
+    <string name="message_joined_this_league">message_joined_this_league</string>
+
 </resources>

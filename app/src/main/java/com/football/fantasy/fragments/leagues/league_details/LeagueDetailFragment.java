@@ -49,16 +49,25 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
     static final String KEY_TITLE = "key_title";
     static final String KEY_LEAGUE_ID = "key_league";
     static final String KEY_LEAGUE_TYPE = "key_league_type";
+    private static final String KEY_INVITATION_ID = "INVITATION_ID";
 
     public static final String OPEN_LEAGUES = "open_leagues";
     public static final String MY_LEAGUES = "my_leagues";
     public static final String PENDING_LEAGUES = "pending_leagues";
+
+    private int invitationId;
 
     public static Bundle newBundle(String title, int leagueId, String leagueType) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_TITLE, title);
         bundle.putInt(KEY_LEAGUE_ID, leagueId);
         bundle.putString(KEY_LEAGUE_TYPE, leagueType);
+        return bundle;
+    }
+
+    public static Bundle newBundle(String title, int leagueId, String leagueType, int invitationId) {
+        Bundle bundle = newBundle(title, leagueId, leagueType);
+        bundle.putInt(KEY_INVITATION_ID, invitationId);
         return bundle;
     }
 
@@ -100,6 +109,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
         title = bundle.getString(KEY_TITLE, "");
         leagueId = bundle.getInt(KEY_LEAGUE_ID);
         leagueType = bundle.getString(KEY_LEAGUE_TYPE, "");
+        invitationId = bundle.getInt(KEY_INVITATION_ID);
     }
 
     @NonNull
@@ -251,7 +261,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
 
         // view pager
         List<BaseMvpFragment> mvpFragments = new ArrayList<>();
-        mvpFragments.add(LeagueInfoFragment.newInstance(league, leagueType).setChildFragment(true));
+        mvpFragments.add(LeagueInfoFragment.newInstance(league, leagueType, invitationId).setChildFragment(true));
         mvpFragments.add(TeamFragment.newInstance(league, leagueType).setChildFragment(true));
 
         // only display invite with open leagues or owner
