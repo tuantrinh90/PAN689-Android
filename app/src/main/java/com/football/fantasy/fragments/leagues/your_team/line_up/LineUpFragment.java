@@ -209,17 +209,6 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     public void displayTeamState(TeamResponse team) {
         // display budget
         tvBudget.setText(getString(R.string.money_prefix, team.getCurrentBudgetValue()));
-
-        if (team.getCompleted() != null && team.getCompleted()) {
-            // hide complete button
-            tvComplete.setVisibility(View.GONE);
-
-            // disable lineupView
-            lineupView.setEditable(false);
-            lineupView.setAddable(false);
-            lineupView.setRemovable(false);
-        }
-
     }
 
     @Override
@@ -228,7 +217,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
         for (PlayerResponse player : players) {
             lineupView.addPlayer(player, player.getMainPosition(), player.getOrder() == null ? LineupView.NONE_ORDER : player.getOrder());
         }
-        enableCompleteButton(lineupView.isSetupComplete());
+//        enableCompleteButton(lineupView.isSetupComplete());
     }
 
     @Override
