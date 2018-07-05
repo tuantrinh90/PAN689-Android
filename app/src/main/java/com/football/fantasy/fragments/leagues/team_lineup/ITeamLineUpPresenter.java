@@ -8,5 +8,5 @@ public interface ITeamLineUpPresenter<V extends IBaseMvpView> extends IBaseDataP
 
     void getPitchView(Integer teamId, String value);
 
-    void addPlayerToPitchView(Integer teamId, PlayerResponse player, Integer position, Integer order);
+    void addPlayerToPitchView(Integer teamId, int round, PlayerResponse fromPlayer, PlayerResponse toPlayer, int position, int order);
 }

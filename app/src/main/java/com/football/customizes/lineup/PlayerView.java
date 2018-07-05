@@ -132,7 +132,7 @@ public class PlayerView extends LinearLayout {
                 } else if (player != null && editable) {
                     Optional.from(mListener).doIfPresent(listener -> listener.onEdit(player, order));
                 } else if (player != null) {
-                    Optional.from(mListener).doIfPresent(listener -> listener.onClickPlayer(player));
+                    Optional.from(mListener).doIfPresent(listener -> listener.onClickPlayer(player, position, order));
                 }
                 break;
         }
@@ -160,7 +160,7 @@ public class PlayerView extends LinearLayout {
 
         void onAddPlayer(int position, int order);
 
-        void onClickPlayer(PlayerResponse player);
+        void onClickPlayer(PlayerResponse player, int position, int order);
 
         void onEdit(PlayerResponse player, int order);
     }

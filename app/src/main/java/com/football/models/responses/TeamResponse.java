@@ -37,6 +37,8 @@ public class TeamResponse implements Serializable {
     private Boolean isOwner;
     @JsonProperty("is_completed")
     private Boolean isCompleted;
+    @JsonProperty("round")
+    private Integer round;
     @JsonIgnore
     private boolean isChecked;
 
@@ -166,6 +168,10 @@ public class TeamResponse implements Serializable {
 
     public Boolean getCompleted() {
         return isCompleted;
+    }
+
+    public Integer getRound() {
+        return round;
     }
 
     @Override

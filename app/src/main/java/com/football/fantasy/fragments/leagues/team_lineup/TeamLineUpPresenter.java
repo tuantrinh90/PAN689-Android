@@ -74,17 +74,20 @@ public class TeamLineUpPresenter extends BaseDataPresenter<ITeamLineUpView> impl
     }
 
     @Override
-    public void addPlayerToPitchView(Integer teamId, PlayerResponse player, Integer position, Integer order) {
+    public void addPlayerToPitchView(Integer teamId, int round, PlayerResponse fromPlayer, PlayerResponse toPlayer, int position, int order) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
-            queries.put("pick_order", String.valueOf(order));
 
             mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().updatePitchView(
                             teamId,
                             new MultipartBody.Builder()
                                     .setType(MultipartBody.FORM)
-                                    .addFormDataPart("player_id", String.valueOf(player.getId()))
+                                    .addFormDataPart("round", String.valueOf(round))
+                                    .addFormDataPart("from_player_id", String.valueOf(fromPlayer == null ? 0 : fromPlayer.getId()))
+                                    .addFormDataPart("to_player_id", String.valueOf(toPlayer.getId()))
+                                    .addFormDataPart("position", String.valueOf(position))
+                                    .addFormDataPart("order", String.valueOf(order))
                                     .build(),
                             queries),
                     new ApiCallback<Object>() {
@@ -100,7 +103,7 @@ public class TeamLineUpPresenter extends BaseDataPresenter<ITeamLineUpView> impl
 
                         @Override
                         public void onSuccess(Object response) {
-                            v.onAddPlayer(player, position, order);
+                            v.onAddPlayer(toPlayer, position, order);
                         }
 
                         @Override

@@ -130,7 +130,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
                 showMessage(getString(R.string.message_pick_after_team_setup_time));
             }
         });
-        lineupView.setInfoCallback(player -> {
+        lineupView.setInfoCallback((player, position, order) -> {
             AloneFragmentActivity.with(this)
                     .parameters(PlayerDetailFragment.newBundle(player, getString(R.string.line_up), false))
                     .start(PlayerDetailFragment.class);

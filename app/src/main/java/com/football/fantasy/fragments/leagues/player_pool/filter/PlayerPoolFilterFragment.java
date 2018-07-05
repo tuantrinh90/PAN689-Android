@@ -135,15 +135,17 @@ public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolFil
 
     @OnClick({R.id.tvApplyFilter})
     public void onApplyFilter() {
-        StringBuilder positionsBuilder = new StringBuilder();
-        for (ExtKeyValuePair key : keyValuePairPositions) {
-            if (key.isSelected()) {
-                positionsBuilder.append(key.getKey()).append(",");
+        String positions = "";
+        if (!onlyClubs) {
+            StringBuilder positionsBuilder = new StringBuilder();
+            for (ExtKeyValuePair key : keyValuePairPositions) {
+                if (key.isSelected()) {
+                    positionsBuilder.append(key.getKey()).append(",");
+                }
             }
+            positions = TextUtils.isEmpty(positionsBuilder) || positionsBuilder.toString().contains(String.valueOf(PlayerResponse.POSITION_NONE)) ?
+                    "" : positionsBuilder.substring(0, positionsBuilder.lastIndexOf(","));
         }
-        String positions =
-                TextUtils.isEmpty(positionsBuilder) || positionsBuilder.toString().contains(String.valueOf(PlayerResponse.POSITION_NONE)) ?
-                        "" : positionsBuilder.substring(0, positionsBuilder.lastIndexOf(","));
 
         StringBuilder clubsBuilder = new StringBuilder();
         for (ExtKeyValuePair key : keyValuePairClubs) {

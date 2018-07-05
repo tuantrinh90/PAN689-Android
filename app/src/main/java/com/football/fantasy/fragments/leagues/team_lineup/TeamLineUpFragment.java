@@ -11,7 +11,6 @@ import android.view.View;
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.textview.ExtTextView;
-import com.bon.share_preferences.AppPreferences;
 import com.football.adapters.TeamLineupPlayerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
@@ -110,22 +109,8 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
         formation.setEnabled(owner);
 
         lineupView.setJustifyContent(AlignContent.SPACE_AROUND);
-        lineupView.setAddCallback((position, order) -> {
-            List<PlayerResponse> players =
-                    StreamSupport.stream(rvPlayer.getAdapter().getDataSet())
-                            .filter(predicate -> {
-                                Integer mainPos = predicate.getMainPosition();
-                                Integer minorPos = predicate.getMinorPosition();
-                                return (mainPos != null && mainPos.equals(position)) || (minorPos != null && minorPos.equals(position));
-                            })
-                            .collect(Collectors.toList());
-            new SelectDialog()
-                    .setPlayers(players)
-                    .setClickCallback(player -> {
-                        presenter.addPlayerToPitchView(team.getId(), player, position, order);
-                    })
-                    .show(getChildFragmentManager(), null);
-        });
+        lineupView.setAddCallback((position, order) -> handlePlayerClicked(null, position, order));
+        lineupView.setInfoCallback(this::handlePlayerClicked);
         tvPitch.setText(pitchSelect);
 
         TeamLineupPlayerAdapter adapter = new TeamLineupPlayerAdapter(
@@ -139,6 +124,23 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
                 .adapter(adapter)
                 .layoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false))
                 .build();
+    }
+
+    private void handlePlayerClicked(PlayerResponse fromPlayer, int position, int order) {
+        List<PlayerResponse> players =
+                StreamSupport.stream(rvPlayer.getAdapter().getDataSet())
+                        .filter(predicate -> {
+                            Integer mainPos = predicate.getMainPosition();
+                            Integer minorPos = predicate.getMinorPosition();
+                            return (mainPos != null && mainPos.equals(position)) || (minorPos != null && minorPos.equals(position));
+                        })
+                        .collect(Collectors.toList());
+        new SelectDialog()
+                .setPlayers(players)
+                .setClickCallback(player -> {
+                    presenter.addPlayerToPitchView(team.getId(), team.getRound(), fromPlayer, player, position, order);
+                })
+                .show(getChildFragmentManager(), null);
     }
 
     private void getPitchView() {
