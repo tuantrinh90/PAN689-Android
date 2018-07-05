@@ -17,6 +17,8 @@ import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.customizes.searchs.SearchView;
 import com.football.fantasy.R;
 import com.football.models.responses.FriendResponse;
+import com.football.models.responses.LeagueResponse;
+import com.football.utilities.AppUtilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,14 +28,14 @@ import butterknife.OnClick;
 
 public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView, IInviteFriendPresenter<IInviteFriendView>> implements IInviteFriendView {
     private static final String TAG = InviteFriendFragment.class.getSimpleName();
-    private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+    private static final String KEY_LEAGUE = "LEAGUE";
     private static final String KEY_LEAGUE_TYPE = "league_type";
     private static final String KEY_START_TIME = "START_TIME";
 
-    public static InviteFriendFragment newInstance(int leagueId, String leagueType, boolean startTime) {
+    public static InviteFriendFragment newInstance(LeagueResponse league, String leagueType, boolean startTime) {
         InviteFriendFragment fragment = new InviteFriendFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(KEY_LEAGUE_ID, leagueId);
+        bundle.putSerializable(KEY_LEAGUE, league);
         bundle.putString(KEY_LEAGUE_TYPE, leagueType);
         bundle.putBoolean(KEY_START_TIME, startTime);
         fragment.setArguments(bundle);
@@ -50,7 +52,7 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
     private boolean startTime;
 
     String leagueType;
-    int leagueId;
+    private LeagueResponse league;
     int page = 1;
 
     InviteFriendAdapter inviteFriendAdapter;
@@ -69,12 +71,12 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
     }
 
     void getFriends(String keyword) {
-        presenter.getInviteFriends(leagueId, keyword, page, ExtPagingListView.NUMBER_PER_PAGE);
+        presenter.getInviteFriends(league.getId(), keyword, page, ExtPagingListView.NUMBER_PER_PAGE);
     }
 
     void getDataFromBundle() {
         Bundle bundle = getArguments();
-        leagueId = bundle.getInt(KEY_LEAGUE_ID);
+        league = (LeagueResponse) bundle.getSerializable(KEY_LEAGUE);
         leagueType = bundle.getString(KEY_LEAGUE_TYPE);
         startTime = bundle.getBoolean(KEY_START_TIME);
     }
@@ -95,8 +97,15 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
                     detailFriend -> { // detail
 
                     },
-                    inviteFriend -> presenter.inviteFriend(leagueId, inviteFriend.getId()),
+                    friend -> {
+                        if (AppUtilities.isSetupTime(league.getTeamSetup()) && league.getCurrentNumberOfUser().equals(league.getNumberOfUser())) {
+                            showMessage(getString(R.string.message_unable_to_invite_friend));
+                        } else {
+                            presenter.inviteFriend(league.getId(), friend.getId());
+                        }
+                    },
                     startTime);
+
             rvFriend
                     .adapter(inviteFriendAdapter)
                     .refreshListener(() -> {
