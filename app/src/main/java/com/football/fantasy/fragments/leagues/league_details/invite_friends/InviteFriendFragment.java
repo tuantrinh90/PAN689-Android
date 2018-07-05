@@ -97,7 +97,7 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
                     detailFriend -> { // detail
 
                     },
-                    friend -> {
+                    friend -> { // invite event
                         if (AppUtilities.isSetupTime(league.getTeamSetup()) && league.getCurrentNumberOfUser().equals(league.getNumberOfUser())) {
                             showMessage(getString(R.string.message_unable_to_invite_friend));
                         } else {
