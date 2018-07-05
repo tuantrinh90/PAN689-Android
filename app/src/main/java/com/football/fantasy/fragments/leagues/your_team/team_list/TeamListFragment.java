@@ -7,15 +7,12 @@ import android.view.View;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
-import com.football.adapters.TeamAdapter;
 import com.football.adapters.TeamListAdapter;
-import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.events.TeamEvent;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
-import com.football.fantasy.fragments.leagues.team_lineup.TeamLineUpFragment;
+import com.football.fantasy.fragments.leagues.team_preview.LineupPreviewFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
 
@@ -79,9 +76,7 @@ public class TeamListFragment extends BaseMainMvpFragment<ITeamListView, ITeamLi
                 new ArrayList<>(),
                 league.getOwner(),
                 team -> { // handle click
-                    AloneFragmentActivity.with(this)
-                            .parameters(TeamLineUpFragment.newBundle(getString(R.string.league_details), team))
-                            .start(TeamLineUpFragment.class);
+                    LineupPreviewFragment.start(this, team.getId());
                 },
                 null);
         rvTeam.adapter(teamAdapter)
