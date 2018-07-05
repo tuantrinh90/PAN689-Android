@@ -266,10 +266,10 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
 
         // only display invite with open leagues or owner
         if (league.getOwner()) {
-            mvpFragments.add(InviteFriendFragment.newInstance(league.getId(), leagueType, !AppUtilities.isSetupTime(league.getTeamSetup())).setChildFragment(true));
+            mvpFragments.add(InviteFriendFragment.newInstance(league, leagueType, !AppUtilities.isSetupTime(league.getTeamSetup())).setChildFragment(true));
         } else {
             if (league.getLeagueType().equalsIgnoreCase(LeagueRequest.LEAGUE_TYPE_OPEN) && league.getIsJoined()) {
-                mvpFragments.add(InviteFriendFragment.newInstance(league.getId(), leagueType, !AppUtilities.isSetupTime(league.getTeamSetup())).setChildFragment(true));
+                mvpFragments.add(InviteFriendFragment.newInstance(league, leagueType, !AppUtilities.isSetupTime(league.getTeamSetup())).setChildFragment(true));
             }
         }
 

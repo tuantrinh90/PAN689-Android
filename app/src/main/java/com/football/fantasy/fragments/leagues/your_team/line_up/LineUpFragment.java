@@ -35,8 +35,6 @@ import java8.util.function.BiConsumer;
 
 public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPresenter<ILineUpView>> implements ILineUpView {
 
-    private static final String TAG = "LineUpFragment";
-
     static final String KEY_TEAM_ID = "TEAM_ID";
     private static final String KEY_LEAGUE = "LEAGUE_ID";
 
@@ -198,7 +196,8 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
 
     @OnClick(R.id.tvComplete)
     public void onCompleteClicked() {
-        presenter.completeLineup(teamId);
+        showMessage(R.string.message_confirm_complete, R.string.yes, R.string.no,
+                aVoid -> presenter.completeLineup(teamId), null);
     }
 
     @OnCheckedChanged({R.id.switch_display})

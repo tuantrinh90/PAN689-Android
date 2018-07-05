@@ -155,6 +155,7 @@
     <string name="confirm_not_match">You must enter the same password twice in order to confirm it</string>
     <string name="register_successful">You have successfully registered. Please check the email to activate your account!</string>
     <string name="message_confirm_leave_leagues">Are you sure you want to leave this league?</string>
+    <string name="message_confirm_complete">Are you sure to complete your team creation?</string>
     <string name="your_team_has_enough_players">your_team_has_enough_players</string>
 
     <!--app-->
