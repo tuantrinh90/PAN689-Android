@@ -35,10 +35,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 
-import static com.football.models.responses.PlayerResponse.Options.GOALS;
-import static com.football.models.responses.PlayerResponse.Options.POINT;
-import static com.football.models.responses.PlayerResponse.Options.VALUE;
-
 public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPlayerPoolPresenter<IPlayerPoolView>> implements IPlayerPoolView {
 
     private static final String TAG = "PlayerPoolFragment";
@@ -204,7 +200,6 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                                     getString(R.string.player_list), false))
                             .start(PlayerDetailFragment.class);
                 });
-        adapter.setOptions(VALUE, POINT, GOALS);
 
         rvPlayer.adapter(adapter)
                 .loadingLayout(0)
@@ -217,6 +212,8 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                     getPlayers();
                 })
                 .build();
+
+        displayDisplay();
 
         presenter.getSeasons();
     }
