@@ -130,6 +130,10 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
 
     @Override
     public void displayLeague(LeagueResponse league) {
+        if (!this.league.equals(league)) {
+            this.league = league;
+        }
+
         try {
             tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
             ivLeague.setImageUri(league.getLogo());

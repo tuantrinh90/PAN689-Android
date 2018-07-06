@@ -106,8 +106,8 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
     }
 
     void initView() {
-        Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.colorPrimary)));
-        Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white)));
+        Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.color_white)));
+        Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_blue)));
 
         ivImagePick.getImageView().setImageResource(R.drawable.bg_image_pick);
 
@@ -138,7 +138,7 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
     public void initToolbar(@NonNull ActionBar supportActionBar) {
         super.initToolbar(supportActionBar);
         supportActionBar.setDisplayHomeAsUpEnabled(true);
-        supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
+        supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_blue);
     }
 
     @OnClick(R.id.ivImagePick)
