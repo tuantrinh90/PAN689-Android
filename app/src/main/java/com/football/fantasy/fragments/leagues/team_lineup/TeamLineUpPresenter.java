@@ -2,7 +2,6 @@ package com.football.fantasy.fragments.leagues.team_lineup;
 
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
-import com.football.fantasy.R;
 import com.football.listeners.ApiCallback;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TeamPitchViewResponse;
