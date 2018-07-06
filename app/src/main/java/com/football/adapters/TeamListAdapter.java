@@ -56,13 +56,12 @@ public class TeamListAdapter extends DefaultAdapter<TeamResponse> {
         holder.tvTeam.setText(data.getName());
         holder.tvOwner.setText(AppUtilities.getNameOrMe(holder.itemView.getContext(), data));
 
+        holder.tvRemove.setVisibility(View.GONE);
         if (data.getCompleted()) {
             holder.ivLock.setVisibility(View.GONE);
-            holder.tvRemove.setVisibility(View.GONE);
             holder.tvCompleted.setVisibility(View.VISIBLE);
         } else {
             boolean owner = data.getOwner();
-            holder.tvRemove.setVisibility(this.leagueOwner && !owner ? View.VISIBLE : View.GONE);
             holder.ivLock.setVisibility(owner ? View.VISIBLE : View.GONE);
             holder.tvCompleted.setVisibility(View.GONE);
         }
@@ -74,8 +73,6 @@ public class TeamListAdapter extends DefaultAdapter<TeamResponse> {
                         t.accept(data);
                     }
                 })));
-
-        mDisposable.add(RxView.clicks(holder.tvRemove).subscribe(o -> Optional.from(removeCallback).doIfPresent(t -> t.accept(data))));
     }
 
     static class TeamHolder extends DefaultHolder {
