@@ -113,6 +113,9 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
         lineupView.setJustifyContent(AlignContent.SPACE_AROUND);
         lineupView.setAddCallback((position, order) -> handlePlayerClicked(null, position, order));
         lineupView.setEditCallback(this::handlePlayerClicked);
+        lineupView.setFormation(formationValue);
+        lineupView.setPlayers(new PlayerResponse[TEAM_PLAYER_SIZE]);
+        lineupView.notifyDataSetChanged();
         tvPitch.setText(formationValue);
 
         TeamLineupPlayerAdapter adapter = new TeamLineupPlayerAdapter(
@@ -193,8 +196,10 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
     @Override
     public void displayTeam(TeamResponse team) {
         this.team = team;
-        lineupView.setFormation(team.getFormation());
-        lineupView.notifyDataSetChanged();
+        if (!TextUtils.isEmpty(team.getFormation()) || team.getFormation().equals("null")) {
+            lineupView.setFormation(team.getFormation());
+            lineupView.notifyDataSetChanged();
+        }
     }
 
     @Override
