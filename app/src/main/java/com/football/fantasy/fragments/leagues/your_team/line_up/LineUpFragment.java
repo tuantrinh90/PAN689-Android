@@ -12,6 +12,7 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.lineup.LineupView;
 import com.football.customizes.lineup.StatisticView;
+import com.football.events.LineupEvent;
 import com.football.events.PickEvent;
 import com.football.events.PlayerEvent;
 import com.football.events.TeamEvent;
@@ -275,6 +276,10 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     @Override
     public void onCompleteLineup() {
         bus.send(new TeamEvent(null));
+
+        // open viewpager page TeamFragment
+        bus.send(new LineupEvent());
+
         mActivity.finish();
     }
 
