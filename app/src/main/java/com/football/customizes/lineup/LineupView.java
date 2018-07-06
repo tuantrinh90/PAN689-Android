@@ -21,12 +21,12 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
 
     private Context mContext;
 
-    private BiConsumer<PlayerResponse, Integer> editCallback; // player, order
+    private TriConsumer<PlayerResponse, Integer, Integer> editCallback; //  player, position, order
     private TriConsumer<PlayerResponse, Integer, Integer> removeCallback; // player, position, order
     private BiConsumer<Integer, Integer> addCallback; // position, order
     private TriConsumer<PlayerResponse, Integer, Integer> infoCallback; // player, position, order
 
-    private int[] squad = new int[]{4, 6, 6, 2}; // sắp xếp đội hình theo từng hàng, mỗi phần tử tương ứng với số lượng cầu thủ tại hàng đó
+    private int[] formation = new int[]{4, 6, 6, 2}; // sắp xếp đội hình theo từng hàng, mỗi phần tử tương ứng với số lượng cầu thủ tại hàng đó
     private PlayerResponse[] players = new PlayerResponse[18];
     private boolean editable = false; // có thể edit player
     private boolean removable = false; // có thể remove player
@@ -59,7 +59,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
 
         int position = 0;
         for (int line = 0; line < LINE; line++) {
-            int playerCount = squad[line]; // số lượng cầu thủ trên 1 hàng
+            int playerCount = formation[line]; // số lượng cầu thủ trên 1 hàng
             for (int order = 0; order < playerCount; order++) {
                 PlayerView view = createPlayerView(mContext, order, line);
                 displayPlayer(view, (players.length == 0 || players.length <= position) ? null : players[position]);
@@ -98,7 +98,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         return playerView;
     }
 
-    public void setEditCallback(BiConsumer<PlayerResponse, Integer> editCallback) {
+    public void setEditCallback(TriConsumer<PlayerResponse, Integer, Integer> editCallback) {
         this.editCallback = editCallback;
     }
 
@@ -128,25 +128,24 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         setupLineup(players, pitchSquad);
     }
 
-    public void setupLineup(PlayerResponse[] players, int[] squad) {
-        setSquad(squad);
+    public void setFormation(String string) {
+        String[] arr = string.split("-");
+        int[] formation = new int[4];
+        for (int i = 0; i < arr.length; i++) {
+            formation[2 - i] = Integer.valueOf(arr[i]);
+        }
+        formation[3] = 1;
+        setFormation(formation);
+    }
+
+    public void setFormation(int[] formation) {
+        this.formation = formation;
+    }
+
+    public void setupLineup(PlayerResponse[] players, int[] formation) {
+        setFormation(formation);
         setPlayers(players);
         setup();
-    }
-
-    public void setSquad(int[] squad) {
-        this.squad = squad;
-    }
-
-    public void setSquad(String pitchSelect) {
-        String[] arr = pitchSelect.split("-");
-        int[] pitchSquad = new int[4];
-        for (int i = 0; i < arr.length; i++) {
-            pitchSquad[2 - i] = Integer.valueOf(arr[i]);
-        }
-        pitchSquad[3] = 1;
-        this.squad = pitchSquad;
-
     }
 
     public void setPlayers(PlayerResponse[] players) {
@@ -170,9 +169,9 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
     private int getPosition(PlayerResponse player, int line, Integer order) {
         int index = 0;
         for (int i = 0; i < line; i++) {
-            index += squad[i];
+            index += formation[i];
         }
-        for (int i = 0; i < squad[line]; i++) {
+        for (int i = 0; i < formation[line]; i++) {
             if (order != NONE_ORDER) {
                 if (i == order) {
                     return index;
@@ -203,12 +202,12 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
 
     @Override
     public void onClickPlayer(PlayerResponse player, int position, int order) {
-        Optional.from(infoCallback).doIfPresent(c -> c.accept(player, position, order));
+        Optional.from(infoCallback).doIfPresent(c -> c.accept(player, 3 - position, order));
     }
 
     @Override
-    public void onEdit(PlayerResponse player, int order) {
-        Optional.from(editCallback).doIfPresent(c -> c.accept(player, order));
+    public void onEdit(PlayerResponse player, int position, int order) {
+        Optional.from(editCallback).doIfPresent(c -> c.accept(player, 3 - position, order));
     }
 
     public void clear() {
@@ -241,7 +240,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
     }
 
     public boolean isFullPosition(int position) {
-        int maxPlayers = squad[3 - position];
+        int maxPlayers = formation[3 - position];
         int counter = 0;
         for (PlayerResponse player : players) {
             if (player != null && player.getMainPosition().equals(position)) {

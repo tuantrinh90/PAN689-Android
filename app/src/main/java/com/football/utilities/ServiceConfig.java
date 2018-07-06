@@ -83,6 +83,7 @@ public interface ServiceConfig {
     String TEAM_STATISTIC = "teams/{id}/statistic";
     String TEAM_SQUAD = "teams/{id}/squad";
     String COMPLETE_LINEUP = "teams/{id}/complete_lineup";
+    String CHANGE_TEAM_FORMATION = "teams/{id}/change_formation";
     String TEAM_PITCH_VIEW = "teams/{id}/pitchview";
 
     // user

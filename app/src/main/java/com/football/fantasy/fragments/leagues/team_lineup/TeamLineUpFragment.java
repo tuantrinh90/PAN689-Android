@@ -37,6 +37,8 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
     private static final String KEY_TITLE = "TITLE";
     private static final String KEY_TEAM = "TEAM";
 
+    private static final int TEAM_PLAYER_SIZE = 11;
+
     private static final String[] PITCH_VIEWS = new String[]{"4-4-2", "4-3-3", "3-5-2", "3-4-3", "5-3-2", "5-4-1"};
 
     @BindView(R.id.tvTitle)
@@ -53,7 +55,7 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
     ExtRecyclerView<PlayerResponse> rvPlayer;
 
     private List<ExtKeyValuePair> valuePairs;
-    private String pitchSelect;
+    private String formationValue;
 
     private TeamResponse team;
     private String title;
@@ -92,7 +94,7 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
         for (String pitchView : PITCH_VIEWS) {
             valuePairs.add(new ExtKeyValuePair(pitchView, pitchView));
         }
-        pitchSelect = valuePairs.get(0).getKey();
+        formationValue = valuePairs.get(0).getKey();
 
     }
 
@@ -104,14 +106,14 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
     private void initView(boolean owner) {
         lineupView.setEditable(owner);
         lineupView.setAddable(owner);
-        lineupView.setRemovable(owner);
+        lineupView.setRemovable(false);
         ivArrow.setVisibility(owner ? View.VISIBLE : View.GONE);
         formation.setEnabled(owner);
 
         lineupView.setJustifyContent(AlignContent.SPACE_AROUND);
         lineupView.setAddCallback((position, order) -> handlePlayerClicked(null, position, order));
-        lineupView.setInfoCallback(this::handlePlayerClicked);
-        tvPitch.setText(pitchSelect);
+        lineupView.setEditCallback(this::handlePlayerClicked);
+        tvPitch.setText(formationValue);
 
         TeamLineupPlayerAdapter adapter = new TeamLineupPlayerAdapter(
                 new ArrayList<>(),
@@ -144,7 +146,7 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
     }
 
     private void getPitchView() {
-        presenter.getPitchView(team.getId(), pitchSelect);
+        presenter.getPitchView(team.getId(), formationValue);
     }
 
     @NonNull
@@ -163,15 +165,18 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
     @OnClick(R.id.formation)
     public void onArrowClicked() {
         ExtKeyValuePairDialogFragment.newInstance()
-                .setValue(pitchSelect)
+                .setValue(formationValue)
                 .setExtKeyValuePairs(valuePairs)
                 .setOnSelectedConsumer(extKeyValuePair -> {
                     if (extKeyValuePair != null && !TextUtils.isEmpty(extKeyValuePair.getKey())) {
-                        pitchSelect = extKeyValuePair.getKey();
+                        formationValue = extKeyValuePair.getKey();
                         tvPitch.setText(extKeyValuePair.getValue());
 
-                        lineupView.setSquad(pitchSelect);
+                        lineupView.setPlayers(new PlayerResponse[TEAM_PLAYER_SIZE]);
+                        lineupView.setFormation(formationValue);
                         lineupView.notifyDataSetChanged();
+
+                        presenter.changeTeamFormation(team, formationValue);
                     }
                 }).show(getFragmentManager(), null);
     }
@@ -186,13 +191,22 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
     }
 
     @Override
+    public void displayTeam(TeamResponse team) {
+        this.team = team;
+        lineupView.setFormation(team.getFormation());
+        lineupView.notifyDataSetChanged();
+    }
+
+    @Override
     public void displayMainPlayers(List<PlayerResponse> players) {
-        while (players.size() < 11) {
+        while (players.size() < TEAM_PLAYER_SIZE) {
             players.add(null);
         }
-        PlayerResponse[] array = new PlayerResponse[players.size()];
-        players.toArray(array);
-        lineupView.setupLineup(array, pitchSelect);
+        for (PlayerResponse player : players) {
+            if (player != null) {
+                lineupView.addPlayer(player, player.getPosition(), player.getOrder());
+            }
+        }
     }
 
     @Override
@@ -201,7 +215,11 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
     }
 
     @Override
-    public void onAddPlayer(PlayerResponse player, Integer position, Integer order) {
-        lineupView.addPlayer(player, position, order);
+    public void onAddPlayer(PlayerResponse fromPlayer, PlayerResponse toPlayer, Integer position, Integer order) {
+        lineupView.addPlayer(toPlayer, position, order);
+        rvPlayer.removeItem(toPlayer);
+        if (fromPlayer != null) {
+            rvPlayer.addItem(fromPlayer);
+        }
     }
 }

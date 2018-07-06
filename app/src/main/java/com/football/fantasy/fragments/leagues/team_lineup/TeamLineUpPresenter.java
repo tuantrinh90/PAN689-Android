@@ -5,6 +5,7 @@ import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TeamPitchViewResponse;
+import com.football.models.responses.TeamResponse;
 import com.football.utilities.RxUtilities;
 
 import org.json.JSONArray;
@@ -57,14 +58,7 @@ public class TeamLineUpPresenter extends BaseDataPresenter<ITeamLineUpView> impl
 
                         @Override
                         public void onSuccess(TeamPitchViewResponse response) {
-                            if (response != null) {
-                                if (response.getPlayers() != null) {
-                                    v.displayMainPlayers(response.getPlayers());
-                                }
-                                if (response.getMorePlayers() != null) {
-                                    v.displayMinorPlayers(response.getMorePlayers());
-                                }
-                            }
+                            showResponse(v, response);
                         }
 
                         @Override
@@ -105,7 +99,7 @@ public class TeamLineUpPresenter extends BaseDataPresenter<ITeamLineUpView> impl
 
                         @Override
                         public void onSuccess(Object response) {
-                            v.onAddPlayer(toPlayer, position, order);
+                            v.onAddPlayer(fromPlayer, toPlayer, position, order);
                         }
 
                         @Override
@@ -114,5 +108,54 @@ public class TeamLineUpPresenter extends BaseDataPresenter<ITeamLineUpView> impl
                         }
                     }));
         });
+    }
+
+    @Override
+    public void changeTeamFormation(TeamResponse team, String formationValue) {
+        getOptView().doIfPresent(v -> {
+            mCompositeDisposable.add(RxUtilities.async(v,
+                    dataModule.getApiService().changeTeamFormation(
+                            team.getId(),
+                            new MultipartBody.Builder()
+                                    .setType(MultipartBody.FORM)
+                                    .addFormDataPart("round", String.valueOf(team.getRound()))
+                                    .addFormDataPart("formation", formationValue)
+                                    .build()),
+                    new ApiCallback<TeamPitchViewResponse>() {
+                        @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
+
+                        @Override
+                        public void onSuccess(TeamPitchViewResponse response) {
+                            showResponse(v, response);
+                        }
+
+                        @Override
+                        public void onError(String e) {
+                            v.showMessage(e);
+                        }
+                    }));
+        });
+    }
+
+    private void showResponse(ITeamLineUpView v, TeamPitchViewResponse response) {
+        if (response != null) {
+            if (response.getTeam() != null) {
+                v.displayTeam(response.getTeam());
+            }
+            if (response.getPlayers() != null) {
+                v.displayMainPlayers(response.getPlayers());
+            }
+            if (response.getMorePlayers() != null) {
+                v.displayMinorPlayers(response.getMorePlayers());
+            }
+        }
     }
 }

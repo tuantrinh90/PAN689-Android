@@ -31,4 +31,5 @@ public interface Constant {
     int SORT_ASC = 1;
 
     int PAGE_START_INDEX = 1;
+
 }
