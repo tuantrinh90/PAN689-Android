@@ -86,7 +86,7 @@ public class TeamLineUpPresenter extends BaseDataPresenter<ITeamLineUpView> impl
                                     .addFormDataPart("order", String.valueOf(order))
                                     .build(),
                             queries),
-                    new ApiCallback<Object>() {
+                    new ApiCallback<TeamPitchViewResponse>() {
                         @Override
                         public void onStart() {
                             v.showLoading(true);
@@ -98,8 +98,8 @@ public class TeamLineUpPresenter extends BaseDataPresenter<ITeamLineUpView> impl
                         }
 
                         @Override
-                        public void onSuccess(Object response) {
-                            v.onAddPlayer(fromPlayer, toPlayer, position, order);
+                        public void onSuccess(TeamPitchViewResponse response) {
+                            showResponse(v, response);
                         }
 
                         @Override

@@ -211,6 +211,7 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
 
     @Override
     public void displayMinorPlayers(List<PlayerResponse> players) {
+        rvPlayer.clear();
         rvPlayer.addItems(players);
     }
 

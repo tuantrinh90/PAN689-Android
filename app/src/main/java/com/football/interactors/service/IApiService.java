@@ -83,7 +83,7 @@ public interface IApiService {
     Observable<BaseResponse<TeamPitchViewResponse>> getPitchView(@Path(ServiceConfig.KEY_ID) int teamId, @QueryMap Map<String, String> queries);
 
     @POST(ServiceConfig.TEAM_PITCH_VIEW)
-    Observable<BaseResponse<Object>> updatePitchView(@Path(ServiceConfig.KEY_ID) int playerId, @Body RequestBody requestBody, @QueryMap Map<String, String> queries);
+    Observable<BaseResponse<TeamPitchViewResponse>> updatePitchView(@Path(ServiceConfig.KEY_ID) int playerId, @Body RequestBody requestBody, @QueryMap Map<String, String> queries);
 
     @POST(ServiceConfig.CHANGE_TEAM_FORMATION)
     Observable<BaseResponse<TeamPitchViewResponse>> changeTeamFormation(@Path(ServiceConfig.KEY_ID) int teamId, @Body RequestBody requestBody);
