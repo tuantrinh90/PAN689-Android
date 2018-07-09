@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 
 import com.bon.logger.Logger;
 
+import java.lang.ref.WeakReference;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,8 +23,7 @@ public final class ExtUtils {
     private static Application sApplication;
 
     static List<Activity> sActivityList = new LinkedList<>();
-    @SuppressLint("StaticFieldLeak")
-    public static Activity sTopActivity;
+    public static WeakReference<Activity> sTopActivity;
 
     private static Application.ActivityLifecycleCallbacks mCallbacks = new Application.ActivityLifecycleCallbacks() {
         @Override
@@ -43,7 +43,7 @@ public final class ExtUtils {
         @Override
         public void onActivityResumed(Activity activity) {
             try {
-                sTopActivity = activity;
+                sTopActivity = new WeakReference<>(activity);
             } catch (Exception e) {
                 Logger.e(TAG, e);
             }

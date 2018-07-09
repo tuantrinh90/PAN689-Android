@@ -39,6 +39,7 @@ public class KeyboardUtils {
      */
     public static void hideKeyboard(Activity activity, EditText editText) {
         try {
+            if (activity == null) return;
             InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         } catch (Exception e) {

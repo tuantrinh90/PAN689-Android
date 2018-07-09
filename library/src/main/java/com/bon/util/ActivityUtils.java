@@ -386,7 +386,7 @@ public final class ActivityUtils {
      * @return get top activity
      */
     public static Activity getTopActivity() {
-        return ExtUtils.sTopActivity;
+        return ExtUtils.sTopActivity != null ? ExtUtils.sTopActivity.get() : null;
     }
 
     /**

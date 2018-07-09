@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 
 import com.bon.customview.edittext.ExtEditText;
 import com.bon.interfaces.Optional;
-import com.bon.util.ExtUtils;
+import com.bon.util.ActivityUtils;
 import com.bon.util.KeyboardUtils;
 import com.bon.util.StringUtils;
 import com.football.fantasy.R;
@@ -90,7 +90,7 @@ public class SearchView extends LinearLayout {
     }
 
     void performSearch(String query) {
-        KeyboardUtils.hideKeyboard(ExtUtils.sTopActivity, etSearch);
+        KeyboardUtils.hideKeyboard(ActivityUtils.getTopActivity(), etSearch);
         Optional.from(searchConsumer).doIfPresent(s -> s.accept(query));
     }
 
