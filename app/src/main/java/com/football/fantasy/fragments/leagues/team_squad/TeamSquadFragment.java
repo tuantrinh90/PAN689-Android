@@ -148,8 +148,9 @@ public class TeamSquadFragment extends BaseMainMvpFragment<ITeamSquadView, ITeam
                         currentProperty = extKeyValuePair;
                         displaySort();
                         getTeamSquad();
+                        rvPlayer.clear();
+                        rvPlayer.startLoading();
                     }
-                    displaySort();
                 }).show(getFragmentManager(), null);
     }
 
@@ -163,8 +164,9 @@ public class TeamSquadFragment extends BaseMainMvpFragment<ITeamSquadView, ITeam
                         currentDirection = extKeyValuePair;
                         displaySort();
                         getTeamSquad();
+                        rvPlayer.clear();
+                        rvPlayer.startLoading();
                     }
-                    displaySort();
                 }).show(getFragmentManager(), null);
     }
 
