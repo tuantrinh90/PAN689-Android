@@ -4,6 +4,7 @@ import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.fantasy.R;
 import com.football.listeners.ApiCallback;
+import com.football.models.responses.LeagueResponse;
 import com.football.utilities.Constant;
 import com.football.utilities.RxUtilities;
 
@@ -42,6 +43,36 @@ public class LeagueInfoDataPresenter extends BaseDataPresenter<ILeagueInfoView> 
                         @Override
                         public void onSuccess(Object o) {
                             v.onAcceptSuccess();
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            v.showMessage(error, R.string.ok, null);
+                        }
+                    }));
+        });
+    }
+
+    @Override
+    public void startLeague(Integer leagueId) {
+        getOptView().doIfPresent(v -> {
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().startLeague(leagueId),
+                    new ApiCallback<LeagueResponse>() {
+                        @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
+
+                        @Override
+                        public void onSuccess(LeagueResponse response) {
+                            v.onStartSuccess(response);
                         }
 
                         @Override

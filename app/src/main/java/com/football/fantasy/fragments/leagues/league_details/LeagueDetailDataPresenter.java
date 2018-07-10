@@ -34,6 +34,7 @@ public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailVi
                         @Override
                         public void onSuccess(LeagueResponse response) {
                             v.displayMenu(response);
+                            v.displayLeaguePager(response);
                             v.displayLeague(response);
                         }
 

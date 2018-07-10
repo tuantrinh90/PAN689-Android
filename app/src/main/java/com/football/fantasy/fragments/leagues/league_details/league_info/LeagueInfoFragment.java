@@ -11,6 +11,7 @@ import com.bon.util.DateTimeUtils;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
+import com.football.events.StartLeagueEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
 import com.football.fantasy.fragments.leagues.your_team.YourTeamFragment;
@@ -113,6 +114,12 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
 
     @OnClick(R.id.tvStartLeague)
     void onClickStartLeague() {
+        showMessage(R.string.message_confirm_start_league,
+                R.string.ok,
+                R.string.cancel,
+                aVoid -> {
+                    presenter.startLeague(league.getId());
+                }, null);
     }
 
     @OnClick(R.id.tvJoinLeague)
@@ -157,12 +164,17 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
             }
 
             // show button join leagues
-            if (!league.getOwner() && !league.getIsJoined()) {
+            if (!league.getOwner() && !league.getIsJoined() && AppUtilities.isSetupTime(league.getTeamSetup())) {
                 tvJoinLeague.setVisibility(View.VISIBLE);
             }
 
-            // show button start league for owner
-            if (league.getOwner()) {
+            // show button start league
+            // conditions: owner + after setup time and before start time. + isSetupTime + The number of missing user in the league does not exceed 1 user
+            if (league.getOwner()
+                    && !league.getTeamSetup().equals(league.getStartAt())
+                    && AppUtilities.isSetupTime(league.getTeamSetup())
+                    && league.getNumberOfUser() - league.getCurrentNumberOfUser() <= 1
+                    && league.getStatus() == LeagueResponse.WAITING_FOR_START) {
                 tvStartLeague.setVisibility(View.VISIBLE);
             }
 
@@ -197,5 +209,13 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
                         leagueType))
                 .start(SetupTeamFragment.class);
         mActivity.finish();
+    }
+
+    @Override
+    public void onStartSuccess(LeagueResponse league) {
+        this.league = league;
+        displayLeague(league);
+
+        bus.send(new StartLeagueEvent(league));
     }
 }

@@ -91,6 +91,9 @@ public interface IApiService {
     @POST(ServiceConfig.REMOVE_TEAM)
     Observable<BaseResponse<Object>> removeTeam(@Path(ServiceConfig.KEY_ID) int leagueId, @Path(ServiceConfig.KEY_TEAM_ID) int teamId);
 
+    @POST(ServiceConfig.START_LEAGUE)
+    Observable<BaseResponse<LeagueResponse>> startLeague(@Path(ServiceConfig.KEY_ID) int leagueId);
+
     @GET(ServiceConfig.SEARCH_FRIEND)
     Observable<BaseResponse<PagingResponse<FriendResponse>>> getInviteFriends(@QueryMap Map<String, String> queries);
 

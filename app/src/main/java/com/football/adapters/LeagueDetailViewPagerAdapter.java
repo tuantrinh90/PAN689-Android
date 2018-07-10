@@ -9,7 +9,7 @@ import com.football.common.fragments.BaseMvpFragment;
 import java.util.List;
 
 public class LeagueDetailViewPagerAdapter extends FragmentStatePagerAdapter {
-    List<BaseMvpFragment> fragments;
+    private List<BaseMvpFragment> fragments;
 
     public LeagueDetailViewPagerAdapter(FragmentManager fm, List<BaseMvpFragment> fragments) {
         super(fm);
@@ -24,5 +24,13 @@ public class LeagueDetailViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
         return fragments.size();
+    }
+
+    public void remove(int index) {
+        fragments.remove(index);
+    }
+
+    public void add(BaseMvpFragment fragment) {
+        fragments.add(fragment);
     }
 }

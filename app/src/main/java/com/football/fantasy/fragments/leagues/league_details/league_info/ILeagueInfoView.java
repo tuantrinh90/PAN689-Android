@@ -7,4 +7,6 @@ public interface ILeagueInfoView extends IBaseMvpView {
     void displayLeague(LeagueResponse league);
 
     void onAcceptSuccess();
+
+    void onStartSuccess(LeagueResponse league);
 }

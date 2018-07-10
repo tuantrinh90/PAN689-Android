@@ -35,6 +35,7 @@ public class CarouselView extends LinearLayout {
     CarouselDotAdapter carouselDotAdapter;
     boolean isTextAllCaps = true;
     String fontPath = "";
+    SnapHelper snapHelper = new LinearSnapHelper();
 
     public CarouselView(Context context) {
         super(context);
@@ -72,7 +73,6 @@ public class CarouselView extends LinearLayout {
         rvRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         rvRecyclerView.setAdapter(carouselAdapter);
 
-        SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(rvRecyclerView);
 
         carouselDotAdapter = new CarouselDotAdapter(context, items, colorActive, colorNormal);
