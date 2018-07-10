@@ -20,6 +20,8 @@ import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragme
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.fantasy.fragments.leagues.team_lineup.TeamLineUpFragment;
 import com.football.fantasy.fragments.leagues.team_squad.TeamSquadFragment;
+import com.football.fantasy.fragments.leagues.team_squad.trade.TradeFragment;
+import com.football.fantasy.fragments.leagues.team_squad.trade.transferring.TransferringFragment;
 import com.football.fantasy.fragments.leagues.team_statistics.TeamStatisticFragment;
 import com.football.models.responses.TeamResponse;
 import com.football.utilities.AppUtilities;
@@ -171,6 +173,7 @@ public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITe
                 }
                 break;
             case R.id.llTransfer:
+                TradeFragment.start(this, team, getString(R.string.team_squad));
                 break;
             case R.id.llTeamSquad:
                 if (team.getCompleted()) {

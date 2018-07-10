@@ -51,7 +51,7 @@ public abstract class DefaultAdapter<T> extends RecyclerView.Adapter<DefaultHold
 
     @Override
     public void onBindViewHolder(@NonNull DefaultHolder holder, int position) {
-        if (getItemViewType(position) == TYPE_ITEM) {
+        if (getItemViewType(position) == TYPE_ITEM && getItem(position) != null) {
             onBindViewHolder(holder, getItem(position), position);
         }
     }

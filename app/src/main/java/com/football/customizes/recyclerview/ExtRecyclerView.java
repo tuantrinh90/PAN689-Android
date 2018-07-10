@@ -44,7 +44,7 @@ public class ExtRecyclerView<T> extends FrameLayout {
     private ExtLoadMoreListener onExtLoadMoreListener = null;
     private ExtRefreshListener onExtRefreshListener = null;
     private RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false);
-    private int itemViewCacheSize;
+    private int perPage = 20;
 
     public ExtRecyclerView(@NonNull Context context) {
         this(context, null, 0);
@@ -120,8 +120,8 @@ public class ExtRecyclerView<T> extends FrameLayout {
         return this;
     }
 
-    public ExtRecyclerView itemViewCacheSize(int itemViewCacheSize) {
-        this.itemViewCacheSize = itemViewCacheSize;
+    public ExtRecyclerView perPage(int perPage) {
+        this.perPage = perPage;
         return this;
     }
 
@@ -153,9 +153,9 @@ public class ExtRecyclerView<T> extends FrameLayout {
             rfLayout.setEnabled(false);
         }
 
-        // itemViewCacheSize
-        if (itemViewCacheSize != 0) {
-            recyclerView.setItemViewCacheSize(itemViewCacheSize);
+        // perPage
+        if (perPage != 0) {
+            recyclerView.setItemViewCacheSize(perPage);
         }
 
         endlessScrollListener = new EndlessScrollListener(recyclerView.getLayoutManager()) {
@@ -163,7 +163,7 @@ public class ExtRecyclerView<T> extends FrameLayout {
             public void onLoadMore(int page) {
                 if (onExtLoadMoreListener != null) {
                     onExtLoadMoreListener.onLoadMore();
-                    recyclerView.post(() -> mAdapter.addLoading());
+//                    recyclerView.post(() -> mAdapter.addLoading());
                 }
             }
         };
@@ -213,11 +213,16 @@ public class ExtRecyclerView<T> extends FrameLayout {
 
     public void addItems(@NonNull List<T> items) {
         stopLoading();
-        mAdapter.addItems(items);
-        displayMessage();
         if (onExtLoadMoreListener != null) {
             removeLoading();
+
+            // add loading
+            if (items.size() == perPage || items.size() != 0) {
+                items.add(null);
+            }
         }
+        mAdapter.addItems(items);
+        displayMessage();
     }
 
     public void update(int index, T item) {

@@ -11,6 +11,9 @@ import com.football.models.responses.UserResponse;
 import com.football.utilities.Constant;
 import com.football.utilities.RxUtilities;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import okhttp3.MultipartBody;
 
 public class InviteFriendDataPresenter extends BaseDataPresenter<IInviteFriendView> implements IInviteFriendPresenter<IInviteFriendView> {
@@ -24,8 +27,14 @@ public class InviteFriendDataPresenter extends BaseDataPresenter<IInviteFriendVi
     @Override
     public void getInviteFriends(int leagueId, String keyword, int page, int perPage) {
         getOptView().doIfPresent(v -> {
+            Map<String, String> queries = new HashMap<>();
+            queries.put("league_id", String.valueOf(leagueId));
+            queries.put("keyword", keyword);
+            queries.put("page", String.valueOf(page));
+            queries.put("per_page", String.valueOf(perPage));
+
             mCompositeDisposable.add(RxUtilities.async(v,
-                    dataModule.getApiService().getInviteFriends(leagueId, keyword, page, perPage),
+                    dataModule.getApiService().getInviteFriends(queries),
                     new ApiCallback<PagingResponse<FriendResponse>>() {
 
                         @Override
@@ -50,7 +59,6 @@ public class InviteFriendDataPresenter extends BaseDataPresenter<IInviteFriendVi
                     }));
         });
     }
-
 
     @Override
     public void inviteFriend(int leagueId, int receiveId) {

@@ -33,7 +33,6 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
@@ -92,8 +91,7 @@ public interface IApiService {
     Observable<BaseResponse<Object>> removeTeam(@Path(ServiceConfig.KEY_ID) int leagueId, @Path(ServiceConfig.KEY_TEAM_ID) int teamId);
 
     @GET(ServiceConfig.SEARCH_FRIEND)
-    Observable<BaseResponse<PagingResponse<FriendResponse>>> getInviteFriends(@Query(ServiceConfig.KEY_ID) int leagueId, @Query(Constant.KEY_WORD) String keyword,
-                                                                              @Query(Constant.KEY_PAGE) int page, @Query(Constant.KEY_PER_PAGE) int perPage);
+    Observable<BaseResponse<PagingResponse<FriendResponse>>> getInviteFriends(@QueryMap Map<String, String> queries);
 
     @POST(ServiceConfig.INVITE_FRIEND)
     Observable<BaseResponse<InviteResponse>> inviteFriends(@Body RequestBody body);
