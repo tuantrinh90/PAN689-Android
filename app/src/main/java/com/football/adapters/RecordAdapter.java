@@ -6,13 +6,16 @@ import android.view.View;
 import com.football.customizes.recyclerview.DefaultAdapter;
 import com.football.customizes.recyclerview.DefaultHolder;
 import com.football.fantasy.R;
-import com.football.models.responses.RecordResponse;
+import com.football.models.responses.TransferHistoryResponse;
 
 import java.util.List;
 
-public class RecordAdapter extends DefaultAdapter<RecordResponse> {
+public class RecordAdapter extends DefaultAdapter<TransferHistoryResponse> {
 
-    public RecordAdapter(List<RecordResponse> dataSet) {
+    public RecordAdapter() {
+        super();
+    }
+    public RecordAdapter(List<TransferHistoryResponse> dataSet) {
         super(dataSet);
     }
 
@@ -27,7 +30,7 @@ public class RecordAdapter extends DefaultAdapter<RecordResponse> {
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull DefaultHolder defaultHolder, RecordResponse data, int position) {
+    protected void onBindViewHolder(@NonNull DefaultHolder defaultHolder, TransferHistoryResponse data, int position) {
 
     }
 

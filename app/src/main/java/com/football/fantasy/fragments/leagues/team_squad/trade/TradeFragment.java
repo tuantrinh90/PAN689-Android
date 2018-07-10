@@ -107,7 +107,7 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
         // view pager
         mAdapter = new PagerAdapter(getChildFragmentManager());
         mAdapter.addFragment(TransferringFragment.newInstance(team));
-        mAdapter.addFragment(RecordFragment.newInstance());
+        mAdapter.addFragment(RecordFragment.newInstance(team));
         vpViewPager.setAdapter(mAdapter);
         vpViewPager.setOffscreenPageLimit(2);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

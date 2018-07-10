@@ -8,5 +8,7 @@ import java.util.List;
 public interface ITransferringView extends IBaseMvpView {
     void displayPlayers(List<PlayerResponse> players);
 
-    void hideRecyclerViewLoading();
+    void displayInjuredPlayers(List<PlayerResponse> injuredPlayers);
+
+    void displayHeader(String transferPlayerLeftDisplay, String transferDeadline, Integer transferTimeLeft);
 }

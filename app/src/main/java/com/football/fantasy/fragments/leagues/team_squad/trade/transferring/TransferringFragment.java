@@ -72,6 +72,14 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
     @BindView(R.id.option3)
     LinearLayout option3;
 
+    @BindView(R.id.tvTransferringPlayerLeftValue)
+    ExtTextView tvTransferringPlayerLeftValue;
+    @BindView(R.id.tvTransferringTimeLeftValue)
+    ExtTextView tvTransferringTimeLeftValue;
+    @BindView(R.id.tvBudgetValue)
+    ExtTextView tvBudgetValue;
+
+
     private TeamResponse team;
 
 
@@ -93,7 +101,7 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
 
         registerBus();
         initView();
-        getPlayers();
+        getTeamTransferring();
     }
 
     private void getDataFromBundle() {
@@ -194,10 +202,10 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
     private void refreshData() {
         rvPlayer.clear();
         rvPlayer.startLoading();
-        getPlayers();
+        getTeamTransferring();
     }
 
-    private void getPlayers() {
+    private void getTeamTransferring() {
         presenter.getTeamTransferring(team.getId(), filterPositions, filterClubs, displays, sorts);
     }
 
@@ -252,7 +260,7 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
                 sorts[index] = Constant.SORT_DESC;
                 break;
         }
-        getPlayers();
+        getTeamTransferring();
     }
 
     private int getArrowResource(int state) {
@@ -275,8 +283,13 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
     }
 
     @Override
-    public void hideRecyclerViewLoading() {
-        rvPlayer.stopLoading();
-        rvPlayer.displayMessage();
+    public void displayInjuredPlayers(List<PlayerResponse> injuredPlayers) {
+
+    }
+
+    @Override
+    public void displayHeader(String transferPlayerLeftDisplay, String transferDeadline, Integer transferTimeLeft) {
+        tvTransferringPlayerLeftValue.setText(transferPlayerLeftDisplay);
+        tvTransferringTimeLeftValue.setText(transferTimeLeft);
     }
 }

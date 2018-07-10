@@ -50,8 +50,10 @@
 
     <ImageView
         android:id="@+id/ivFilter"
-        style="@style/IconTiny"
+        style="@style/IconLarge"
         android:layout_marginLeft="@dimen/padding_layout"
+        android:layout_marginStart="@dimen/padding_layout"
+        android:padding="@dimen/padding_content"
         android:background="@drawable/bg_null_gray_selector"
         android:src="@drawable/ic_filter_white" />
 </LinearLayout>

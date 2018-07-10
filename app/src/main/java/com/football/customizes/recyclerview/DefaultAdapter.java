@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.football.fantasy.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,6 +25,10 @@ public abstract class DefaultAdapter<T> extends RecyclerView.Adapter<DefaultHold
 
     public DefaultAdapter(List<T> dataSet) {
         this.mDataSet = dataSet;
+    }
+
+    public DefaultAdapter() {
+        this.mDataSet = new ArrayList<>();
     }
 
     protected abstract int getLayoutId(int viewType);

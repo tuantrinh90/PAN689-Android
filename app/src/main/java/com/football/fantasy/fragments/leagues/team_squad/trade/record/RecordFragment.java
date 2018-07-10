@@ -9,22 +9,32 @@ import com.football.adapters.RecordAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
-import com.football.models.responses.RecordResponse;
+import com.football.models.responses.TeamResponse;
+import com.football.models.responses.TransferHistoryResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 
 public class RecordFragment extends BaseMainMvpFragment<IRecordView, IRecordPresenter<IRecordView>> implements IRecordView {
 
+    private static final String KEY_TEAM = "TEAM";
+
     @BindView(R.id.rvRecord)
-    ExtRecyclerView<RecordResponse> rvRecord;
+    ExtRecyclerView<TransferHistoryResponse> rvRecord;
+
+    private TeamResponse team;
 
     private int page = 1;
 
-    public static RecordFragment newInstance() {
-        return new RecordFragment();
+    public static RecordFragment newInstance(TeamResponse team) {
+        RecordFragment fragment = new RecordFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(KEY_TEAM, team);
+
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
@@ -34,10 +44,16 @@ public class RecordFragment extends BaseMainMvpFragment<IRecordView, IRecordPres
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
 
         initRecyclerView();
+        getTransferHistories();
+    }
+
+    private void getDataFromBundle() {
+        team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
     }
 
     @NonNull
@@ -47,28 +63,27 @@ public class RecordFragment extends BaseMainMvpFragment<IRecordView, IRecordPres
     }
 
     void initRecyclerView() {
-        List<RecordResponse> records = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-            records.add(new RecordResponse());
-        }
-
-        RecordAdapter adapter = new RecordAdapter(records);
+        RecordAdapter adapter = new RecordAdapter();
         rvRecord.adapter(adapter)
-                .refreshListener(() -> {
-                    refreshData();
-                })
+                .refreshListener(this::refreshData)
                 .loadMoreListener(() -> {
                     page++;
-                    getPlayers();
+                    getTransferHistories();
                 })
                 .build();
     }
 
     private void refreshData() {
-
+        rvRecord.clear();
+        getTransferHistories();
     }
 
-    private void getPlayers() {
+    private void getTransferHistories() {
+        presenter.getTransferHistories(team.getId(), "transfer");
+    }
 
+    @Override
+    public void displayHistories(List<TransferHistoryResponse> histories) {
+        rvRecord.addItems(histories);
     }
 }

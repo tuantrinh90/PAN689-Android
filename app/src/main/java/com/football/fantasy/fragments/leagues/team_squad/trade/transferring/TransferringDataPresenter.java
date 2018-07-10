@@ -36,12 +36,13 @@ public class TransferringDataPresenter extends BaseDataPresenter<ITransferringVi
 
                         @Override
                         public void onComplete() {
-                            v.hideRecyclerViewLoading();
                         }
 
                         @Override
                         public void onSuccess(TeamTransferringResponse response) {
                             v.displayPlayers(response.getPlayers());
+                            v.displayInjuredPlayers(response.getInjuredPlayers());
+                            v.displayHeader(response.getTransferPlayerLeftDisplay(), response.getTransferDeadline(), response.getTransferTimeLeft());
                         }
 
                         @Override

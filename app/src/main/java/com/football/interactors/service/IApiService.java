@@ -20,6 +20,7 @@ import com.football.models.responses.TeamResponse;
 import com.football.models.responses.TeamSquadResponse;
 import com.football.models.responses.TeamStatisticResponse;
 import com.football.models.responses.TeamTransferringResponse;
+import com.football.models.responses.TransferHistoryResponse;
 import com.football.models.responses.UploadResponse;
 import com.football.models.responses.UserResponse;
 import com.football.utilities.Constant;
@@ -157,6 +158,10 @@ public interface IApiService {
     @GET(ServiceConfig.TEAM_TRANSFERRING)
     Observable<BaseResponse<TeamTransferringResponse>> getTeamTransferring(@Path(ServiceConfig.KEY_ID) int teamId,
                                                                            @QueryMap Map<String, String> queries);
+
+    @GET(ServiceConfig.TRANSFER_HISTORIES)
+    Observable<BaseResponse<PagingResponse<TransferHistoryResponse>>> getTransferHistories(@Path(ServiceConfig.KEY_ID) int teamId,
+                                                                                           @QueryMap Map<String, String> queries);
 
     @GET(ServiceConfig.PLAYER_STATISTIC)
     Observable<BaseResponse<PlayerStatisticResponse>> getPlayerStatistic(@Path(ServiceConfig.KEY_ID) Integer playerId, @Query("filter") String filter);

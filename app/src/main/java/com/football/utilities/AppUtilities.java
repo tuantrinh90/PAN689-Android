@@ -82,7 +82,7 @@ public class AppUtilities {
     public static String getNameOrMe(Context context, TeamResponse team) {
         AppPreferences preferences = AppPreferences.getInstance(context);
         UserResponse user = preferences.getObject(Constant.KEY_USER, UserResponse.class);
-        return team.getOwner() && user.getId().equals(team.getUserId()) ? context.getResources().getString(R.string.me) : team.getUser().getName();
+        return user.getId().equals(team.getUserId()) ? context.getResources().getString(R.string.me) : team.getUser().getName();
     }
 
     public static boolean isOwner(Context context, int userId) {
