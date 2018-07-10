@@ -79,7 +79,6 @@
                             android:text="@string/injured"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvTransferringPlayerLeft"
-                            app:textAllCaps="true"
                             app:textViewFontAssetName="@string/font_display_heavy" />
 
                     </android.support.constraint.ConstraintLayout>
@@ -129,7 +128,6 @@
                             android:text="@string/injured"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvTransferringTimeLeft"
-                            app:textAllCaps="true"
                             app:textViewFontAssetName="@string/font_display_heavy" />
 
                     </android.support.constraint.ConstraintLayout>
@@ -146,7 +144,7 @@
                         <com.bon.customview.textview.ExtTextView
                             android:id="@+id/tvBudget"
                             style="@style/StyleDescriptionWhite"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:lines="2"
                             android:padding="0dp"
@@ -178,7 +176,6 @@
                             android:text="@string/injured"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvBudget"
-                            app:textAllCaps="true"
                             app:textViewFontAssetName="@string/font_display_heavy" />
 
                     </android.support.constraint.ConstraintLayout>
@@ -186,6 +183,7 @@
                 </LinearLayout>
 
                 <View
+                    android:layout_marginTop="@dimen/padding_content"
                     style="@style/Line"
                     android:background="@color/color_white" />
 

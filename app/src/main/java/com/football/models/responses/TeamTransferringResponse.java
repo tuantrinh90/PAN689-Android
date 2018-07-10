@@ -22,7 +22,7 @@ public class TeamTransferringResponse implements Serializable {
     @JsonProperty("transfer_deadline")
     private String transferDeadline;
     @JsonProperty("transfer_time_left")
-    private Integer transferTimeLeft;
+    private Long transferTimeLeft;
 
     public List<PlayerResponse> getPlayers() {
         return players;
@@ -52,7 +52,7 @@ public class TeamTransferringResponse implements Serializable {
         return transferDeadline;
     }
 
-    public Integer getTransferTimeLeft() {
+    public Long getTransferTimeLeft() {
         return transferTimeLeft;
     }
 

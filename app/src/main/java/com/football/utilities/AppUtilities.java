@@ -105,4 +105,12 @@ public class AppUtilities {
     public static boolean isSetupTime(String setupTime) {
         return System.currentTimeMillis() < AppUtilities.getTimestamp(setupTime);
     }
+
+    public static String timeLeft(long totalSecs) {
+        long hours = totalSecs / 3600;
+        long minutes = (totalSecs % 3600) / 60;
+        long seconds = totalSecs % 60;
+
+        return String.format("%02dh %02d", hours, minutes);
+    }
 }

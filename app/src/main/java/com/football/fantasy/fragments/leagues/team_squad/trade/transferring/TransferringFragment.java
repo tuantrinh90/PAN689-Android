@@ -20,6 +20,7 @@ import com.football.fantasy.fragments.leagues.player_pool.display.PlayerPoolDisp
 import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilterFragment;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TeamResponse;
+import com.football.utilities.AppUtilities;
 import com.football.utilities.Constant;
 
 import java.util.ArrayList;
@@ -288,8 +289,9 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
     }
 
     @Override
-    public void displayHeader(String transferPlayerLeftDisplay, String transferDeadline, Integer transferTimeLeft) {
+    public void displayHeader(String transferPlayerLeftDisplay, long transferTimeLeft, long budget) {
         tvTransferringPlayerLeftValue.setText(transferPlayerLeftDisplay);
-        tvTransferringTimeLeftValue.setText(transferTimeLeft);
+        tvTransferringTimeLeftValue.setText(AppUtilities.timeLeft(transferTimeLeft));
+        tvBudgetValue.setText(AppUtilities.getMoney(budget));
     }
 }
