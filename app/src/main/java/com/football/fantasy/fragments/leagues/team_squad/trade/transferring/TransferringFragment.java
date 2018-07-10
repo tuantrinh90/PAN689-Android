@@ -81,6 +81,9 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
     ExtTextView tvBudgetValue;
 
 
+    @BindView(R.id.rv_injured)
+    ExtRecyclerView rvInjured;
+
     private TeamResponse team;
 
 

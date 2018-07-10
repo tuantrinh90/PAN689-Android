@@ -33,7 +33,7 @@ public class OpenLeagueDataPresenter extends BaseDataPresenter<IOpenLeagueView> 
             if (!TextUtils.isEmpty(query)) {
                 queries.put(Constant.KEY_WORD, query);
             }
-            if (!TextUtils.isEmpty(numberOfUser)) {
+            if (!TextUtils.isEmpty(numberOfUser) && !numberOfUser.equals(Constant.NUMBER_OF_USER_ALL)) {
                 queries.put(Constant.NUMBER_OF_USER, numberOfUser);
             }
 

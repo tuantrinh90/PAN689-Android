@@ -22,6 +22,7 @@ import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.responses.LeagueResponse;
+import com.football.utilities.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
     String orderBy = "desc";
     int page = 1;
     String query = "";
-    String numberOfUser = "";
+    String numberOfUser = Constant.NUMBER_OF_USER_ALL;
 
     @Override
     public int getResourceId() {
@@ -179,6 +180,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
 
     void onClickFilter() {
         List<ExtKeyValuePair> valuePairs = new ArrayList<>();
+        valuePairs.add(new ExtKeyValuePair(Constant.NUMBER_OF_USER_ALL, "None"));
         valuePairs.add(new ExtKeyValuePair("4", "4"));
         valuePairs.add(new ExtKeyValuePair("6", "6"));
         valuePairs.add(new ExtKeyValuePair("8", "8"));
