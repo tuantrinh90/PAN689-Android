@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="@dimen/padding_content"
+        android:paddingTop="@dimen/padding_content">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_weight="1"
+            android:background="@color/color_gray" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvTime"
+            style="@style/StyleDescription"
+            android:gravity="center"
+            android:minWidth="100dp"
+            android:padding="0dp"
+            android:text="@string/app_name"
+            android:textAllCaps="false"
+            app:textViewFontAssetName="@string/font_display_heavy" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_weight="1"
+            android:background="@color/color_gray" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvTeam1"
+            style="@style/StyleDescription"
+            android:layout_toLeftOf="@+id/view_center"
+            android:layout_toStartOf="@+id/view_center"
+            android:gravity="center"
+            android:padding="0dp"
+            android:text="@string/app_name"
+            android:textAllCaps="false"
+            android:textColor="@color/color_blue"
+            app:textViewFontAssetName="@string/font_display_heavy" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/view_center"
+            style="@style/StyleDescriptionGray"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout"
+            android:gravity="center"
+            android:padding="0dp"
+            android:text="V.S"
+            android:textAllCaps="false"
+            app:textViewFontAssetName="@string/font_display_heavy" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvTeam2"
+            style="@style/StyleDescription"
+            android:layout_toEndOf="@+id/view_center"
+            android:layout_toRightOf="@+id/view_center"
+            android:gravity="center"
+            android:padding="0dp"
+            android:text="@string/app_name"
+            android:textAllCaps="false"
+            android:textColor="@color/color_blue"
+            app:textViewFontAssetName="@string/font_display_heavy" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvMatchTeam1"
+            style="@style/StyleTitleGray"
+            android:layout_toLeftOf="@+id/view_center_2"
+            android:layout_toStartOf="@+id/view_center_2"
+            android:gravity="center"
+            android:padding="0dp"
+            android:text="1"
+            android:textAllCaps="false"
+            app:textViewFontAssetName="@string/font_display_heavy" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/view_center_2"
+            style="@style/StyleDescriptionGray"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/icon_large"
+            android:layout_marginRight="@dimen/icon_large"
+            android:gravity="center"
+            android:padding="0dp"
+            android:text=""
+            android:textAllCaps="false"
+            app:textViewFontAssetName="@string/font_display_heavy" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvMatchTeam2"
+            style="@style/StyleTitleGray"
+            android:layout_toEndOf="@+id/view_center_2"
+            android:layout_toRightOf="@+id/view_center_2"
+            android:gravity="center"
+            android:padding="0dp"
+            android:text="9"
+            android:textAllCaps="false"
+            app:textViewFontAssetName="@string/font_display_heavy" />
+
+    </RelativeLayout>
+</LinearLayout>

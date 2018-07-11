@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bon.share_preferences.AppPreferences;
+import com.bon.util.DateTimeUtils;
 import com.football.fantasy.R;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
@@ -112,5 +113,15 @@ public class AppUtilities {
         long seconds = totalSecs % 60;
 
         return String.format("%02dh %02d", hours, minutes);
+    }
+
+    public static String getDayOfWeek(String date) {
+        Calendar calendar = DateTimeUtils.convertStringToCalendar(date, Constant.FORMAT_DATE_TIME_SERVER);
+        return DateTimeUtils.convertCalendarToString(calendar, Constant.FORMAT_DAY_OF_WEEK);
+    }
+
+    public static String getDate(String date) {
+        Calendar calendar = DateTimeUtils.convertStringToCalendar(date, Constant.FORMAT_DATE_TIME_SERVER);
+        return DateTimeUtils.convertCalendarToString(calendar, Constant.FORMAT_DATE);
     }
 }

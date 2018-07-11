@@ -9,9 +9,11 @@ import android.view.View;
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.textview.ExtTextView;
+import com.football.adapters.RealMatchAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
+import com.football.models.responses.RealMatch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +28,13 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
     }
 
     @BindView(R.id.rvRealLeague)
-    ExtRecyclerView<String> rvRealLeague;
+    ExtRecyclerView<RealMatch> rvRealLeague;
     @BindView(R.id.tvRound)
     ExtTextView tvRound;
 
     private List<ExtKeyValuePair> valuePairs;
+    private String round;
+    private int page;
 
     @Override
     public int getResourceId() {
@@ -44,6 +48,8 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
 
         initData();
         initView();
+
+        getRealMatches();
     }
 
     private void initData() {
@@ -55,6 +61,20 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
     }
 
     private void initView() {
+        RealMatchAdapter adapter = new RealMatchAdapter();
+        rvRealLeague
+                .adapter(adapter)
+                .hasFixedSize(false)
+                .refreshListener(() -> {
+                    page = 1;
+                    rvRealLeague.clear();
+                    getRealMatches();
+                })
+                .build();
+    }
+
+    private void getRealMatches() {
+        presenter.getRealMatches(round, page);
     }
 
     @NonNull
@@ -71,12 +91,14 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
                 .setOnSelectedConsumer(extKeyValuePair -> {
                     if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
                         tvRound.setText(extKeyValuePair.getValue());
-                        getLeagues();
+                        round = extKeyValuePair.getKey();
+                        getRealMatches();
                     }
                 }).show(getFragmentManager(), null);
     }
 
-    private void getLeagues() {
-
+    @Override
+    public void displayRealMatches(List<RealMatch> realMatches) {
+        rvRealLeague.addItems(realMatches);
     }
 }

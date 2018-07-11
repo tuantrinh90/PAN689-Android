@@ -6,6 +6,8 @@ public interface Constant {
     String FORMAT_DATE_TIME_SERVER = "yyyy-MM-dd HH:mm:ss";
     String FORMAT_DATE = "yyyy/MM/dd";
     String FORMAT_DATE_SERVER = "yyyy-MM-dd";
+    String FORMAT_DAY_OF_WEEK = "EEEE";
+    String FORMAT_HOUR_MINUTE = "HH:mm";
 
     // login response
     String KEY_USER = "key_user";

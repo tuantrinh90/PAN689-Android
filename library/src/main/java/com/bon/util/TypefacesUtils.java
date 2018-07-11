@@ -29,7 +29,7 @@ public class TypefacesUtils {
             synchronized (caches) {
                 if (!caches.containsKey(assetPath)) {
                     try {
-                        Typeface tf = Typeface.createFromAsset(context.getAssets(), assetPath);
+                        Typeface tf = Typeface.createFromAsset(context.getApplicationContext().getAssets(), assetPath);
                         caches.put(assetPath, tf);
                     } catch (Exception e) {
                         Log.e(TAG, "Could not get typeface '" + assetPath + "' because " + e.getMessage());

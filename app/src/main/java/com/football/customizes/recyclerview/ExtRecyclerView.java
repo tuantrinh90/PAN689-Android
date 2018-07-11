@@ -45,6 +45,7 @@ public class ExtRecyclerView<T> extends FrameLayout {
     private ExtRefreshListener onExtRefreshListener = null;
     private RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false);
     private int perPage = 20;
+    private boolean hasFixedSize;
 
     public ExtRecyclerView(@NonNull Context context) {
         this(context, null, 0);
@@ -125,6 +126,11 @@ public class ExtRecyclerView<T> extends FrameLayout {
         return this;
     }
 
+    public ExtRecyclerView hasFixedSize(boolean hasFixedSize) {
+        this.hasFixedSize = hasFixedSize;
+        return this;
+    }
+
     public ExtRecyclerView layoutManager(RecyclerView.LayoutManager layoutManager) {
         this.layoutManager = layoutManager;
         return this;
@@ -168,6 +174,7 @@ public class ExtRecyclerView<T> extends FrameLayout {
             }
         };
         recyclerView.addOnScrollListener(endlessScrollListener);
+        recyclerView.setHasFixedSize(hasFixedSize);
     }
 
     public void displayMessage() {
