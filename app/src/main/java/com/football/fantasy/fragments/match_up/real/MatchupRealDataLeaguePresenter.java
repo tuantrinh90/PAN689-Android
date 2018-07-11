@@ -17,9 +17,9 @@ import java.util.List;
 import java.util.Map;
 
 public class MatchupRealDataLeaguePresenter extends BaseDataPresenter<IMatchupRealLeagueView> implements IMatchupRealLeaguePresenter<IMatchupRealLeagueView> {
-    /**
-     * @param appComponent
-     */
+
+    private String lastDate = "";
+
     protected MatchupRealDataLeaguePresenter(AppComponent appComponent) {
         super(appComponent);
     }
@@ -35,6 +35,10 @@ public class MatchupRealDataLeaguePresenter extends BaseDataPresenter<IMatchupRe
             queries.put("page", String.valueOf(page));
             queries.put("orderBy", "end_at");
             queries.put("sortedBy", "desc");
+
+            if (page == 1) {
+                lastDate = "";
+            }
 
             mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().getRealMatches(queries),
@@ -72,6 +76,9 @@ public class MatchupRealDataLeaguePresenter extends BaseDataPresenter<IMatchupRe
                             List<RealMatch> matches = new ArrayList<>();
                             for (String date : dates) {
                                 matches.add(new RealMatch(date, hashMap.get(date)));
+                            }
+                            if (matches.size() > 0) {
+                                lastDate = matches.get(matches.size() - 1).getDate();
                             }
                             v.displayRealMatches(matches);
                         }
