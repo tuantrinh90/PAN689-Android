@@ -1,5 +1,7 @@
 package com.football.fantasy.fragments.match_up.real;
 
+import android.text.TextUtils;
+
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
@@ -26,6 +28,13 @@ public class MatchupRealDataLeaguePresenter extends BaseDataPresenter<IMatchupRe
     public void getRealMatches(String round, int page) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
+
+            if (!TextUtils.isEmpty(round)) {
+                queries.put("round", round);
+            }
+            queries.put("page", String.valueOf(page));
+            queries.put("orderBy", "end_at");
+            queries.put("sortedBy", "desc");
 
             mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().getRealMatches(queries),

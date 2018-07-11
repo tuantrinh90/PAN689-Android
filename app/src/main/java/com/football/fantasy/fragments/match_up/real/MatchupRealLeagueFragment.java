@@ -33,8 +33,8 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
     ExtTextView tvRound;
 
     private List<ExtKeyValuePair> valuePairs;
-    private String round;
-    private int page;
+    private String round = "";
+    private int page = 1;
 
     @Override
     public int getResourceId() {
@@ -54,10 +54,9 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
 
     private void initData() {
         valuePairs = new ArrayList<>();
-        valuePairs.add(new ExtKeyValuePair("1", "Option 1"));
-        valuePairs.add(new ExtKeyValuePair("2", "Option 2"));
-        valuePairs.add(new ExtKeyValuePair("3", "Option 3"));
-        valuePairs.add(new ExtKeyValuePair("4", "Option 4"));
+        for (int i = 0; i < 30; i++) {
+            valuePairs.add(new ExtKeyValuePair(String.valueOf(i + 1), String.valueOf(i + 1)));
+        }
     }
 
     private void initView() {
@@ -65,12 +64,18 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
         rvRealLeague
                 .adapter(adapter)
                 .hasFixedSize(false)
-                .refreshListener(() -> {
-                    page = 1;
-                    rvRealLeague.clear();
+                .refreshListener(this::refresh)
+                .loadMoreListener(() -> {
+                    page++;
                     getRealMatches();
                 })
                 .build();
+    }
+
+    private void refresh() {
+        page = 1;
+        rvRealLeague.clear();
+        getRealMatches();
     }
 
     private void getRealMatches() {
@@ -86,13 +91,13 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
     @OnClick(R.id.round)
     public void onRoundClicked() {
         ExtKeyValuePairDialogFragment.newInstance()
-                .setValue("")
+                .setValue(round)
                 .setExtKeyValuePairs(valuePairs)
                 .setOnSelectedConsumer(extKeyValuePair -> {
                     if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
                         tvRound.setText(extKeyValuePair.getValue());
                         round = extKeyValuePair.getKey();
-                        getRealMatches();
+                        refresh();
                     }
                 }).show(getFragmentManager(), null);
     }

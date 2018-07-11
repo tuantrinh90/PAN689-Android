@@ -56,7 +56,7 @@ public class RealMatchAdapter extends DefaultAdapter<RealMatch> {
         }
     }
 
-    public static class LeagueResultAdapter extends ExtBaseAdapter<RealMatchResponse, LeagueResultAdapter.LeagueResultHolder> {
+    public class LeagueResultAdapter extends ExtBaseAdapter<RealMatchResponse, LeagueResultAdapter.LeagueResultHolder> {
 
         public LeagueResultAdapter(Context ctx, List<RealMatchResponse> its) {
             super(ctx, its);
@@ -82,7 +82,7 @@ public class RealMatchAdapter extends DefaultAdapter<RealMatch> {
             holder.tvTime.setText(DateTimeUtils.convertCalendarToString(DateTimeUtils.convertStringToCalendar(data.getEndAt(), Constant.FORMAT_DATE_TIME_SERVER), Constant.FORMAT_HOUR_MINUTE));
         }
 
-        public static class LeagueResultHolder extends ExtPagingListView.ExtViewHolder {
+        class LeagueResultHolder extends ExtPagingListView.ExtViewHolder {
 
             @BindView(R.id.tvTime)
             ExtTextView tvTime;
