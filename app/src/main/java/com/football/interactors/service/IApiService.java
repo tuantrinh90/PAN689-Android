@@ -15,6 +15,7 @@ import com.football.models.responses.PropsPlayerResponse;
 import com.football.models.responses.RealClubResponse;
 import com.football.models.responses.RealMatchResponse;
 import com.football.models.responses.SeasonResponse;
+import com.football.models.responses.SettingsResponse;
 import com.football.models.responses.StopResponse;
 import com.football.models.responses.TeamPitchViewResponse;
 import com.football.models.responses.TeamResponse;
@@ -179,4 +180,10 @@ public interface IApiService {
 
     @POST(ServiceConfig.CHANGE_PASSWORD)
     Observable<BaseResponse<Object>> changePassword(@Body RequestBody body);
+
+    @GET(ServiceConfig.SETTINGS)
+    Observable<BaseResponse<SettingsResponse>> getSettings();
+
+    @POST(ServiceConfig.SETTINGS)
+    Observable<BaseResponse<SettingsResponse>> changeSettings(@Body RequestBody body);
 }

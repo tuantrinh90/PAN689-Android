@@ -13,6 +13,7 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
 import com.football.fantasy.activities.AccountActivity;
 import com.football.fantasy.fragments.more.profile.ProfileFragment;
+import com.football.fantasy.fragments.more.settings.SettingsFragment;
 
 import butterknife.OnClick;
 
@@ -48,6 +49,7 @@ public class MoreFragment extends BaseMainMvpFragment<IMoreView, IMorePresenter<
                         .start(ProfileFragment.class);
                 break;
             case R.id.settings:
+                SettingsFragment.start(this);
                 break;
             case R.id.gamerules:
                 break;
