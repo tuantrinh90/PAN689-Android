@@ -14,6 +14,7 @@ import com.football.customizes.recyclerview.DefaultAdapter;
 import com.football.customizes.recyclerview.DefaultHolder;
 import com.football.fantasy.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -28,6 +29,10 @@ public class MatchupLeagueAdapter extends DefaultAdapter<String> {
         for (int i = 0; i < dataSet.size(); i++) {
             expandState.append(i, false);
         }
+    }
+
+    public MatchupLeagueAdapter() {
+        super(new ArrayList<>());
     }
 
     @Override

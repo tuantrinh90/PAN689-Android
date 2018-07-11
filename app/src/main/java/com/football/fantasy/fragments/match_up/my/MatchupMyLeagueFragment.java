@@ -10,9 +10,6 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 
 public class MatchupMyLeagueFragment extends BaseMainMvpFragment<IMatchupMyLeagueView, IMatchupMyLeaguePresenter<IMatchupMyLeagueView>> implements IMatchupMyLeagueView {
@@ -39,16 +36,15 @@ public class MatchupMyLeagueFragment extends BaseMainMvpFragment<IMatchupMyLeagu
     }
 
     private void initView() {
-        List<String> arr = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-            arr.add("item " + i);
-        }
-        mAdapter = new MatchupLeagueAdapter(arr);
-
+        mAdapter = new MatchupLeagueAdapter();
         // init recyclerView
         rvMyLeague
                 .adapter(mAdapter)
                 .build();
+    }
+
+    private void getMatchResults() {
+        presenter.getMatchResults();
     }
 
     @NonNull
