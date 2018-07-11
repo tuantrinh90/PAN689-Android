@@ -185,7 +185,7 @@ public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetu
 
         if (etTeamName.isEmpty(mActivity)) {
             result = false;
-        } else if (etTeamName.getContent().length() > Constant.MAX_TEAM_NAME) {
+        } else if (etTeamName.getContent().length() > Constant.MAX_NAME_40_CHARACTERS) {
             result = false;
             etTeamName.setError(getString(R.string.message_max_team_name));
         }

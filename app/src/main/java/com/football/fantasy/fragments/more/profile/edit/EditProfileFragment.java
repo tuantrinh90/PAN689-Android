@@ -19,11 +19,11 @@ import com.bon.image.ImageLoaderUtils;
 import com.bon.image.ImageUtils;
 import com.bon.interfaces.Optional;
 import com.bon.util.DateTimeUtils;
+import com.bon.util.EmailUtils;
 import com.bon.util.StringUtils;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.images.CircleImageViewApp;
-import com.football.events.StopLeagueEvent;
 import com.football.events.UserEvent;
 import com.football.fantasy.R;
 import com.football.models.requests.ProfileRequest;
@@ -215,7 +215,26 @@ public class EditProfileFragment extends BaseMainMvpFragment<IEditProfileView, I
         boolean valid = true;
 
         if (etFirstName.isEmpty(mActivity)) valid = false;
-        if (etLastName.isEmpty(mActivity)) valid = false;
+        else if (etLastName.isEmpty(mActivity)) valid = false;
+        else if (etFirstName.getContent().length() > Constant.MAX_NAME_40_CHARACTERS) {
+            etFirstName.setError(getString(R.string.field_max_40_character));
+            valid = false;
+        } else if (etLastName.getContent().length() > Constant.MAX_NAME_40_CHARACTERS) {
+            etLastName.setError(getString(R.string.field_max_40_character));
+            valid = false;
+        } else if (etAddress.getContent().length() > Constant.MAX_255_CHARACTERS) {
+            etAddress.setError(getString(R.string.field_max_255_character));
+            valid = false;
+        } else if (etPhone.getContent().length() >= Constant.MIN_PHONE && etPhone.getContent().length() <= Constant.MAX_PHONE) {
+            etPhone.setError(getString(R.string.field_phone_invalid));
+            valid = false;
+        } else if (!EmailUtils.isValidate(etEmail.getContent())) {
+            etEmail.setError(getString(R.string.error_email_address_not_valid));
+            return false;
+        } else if (etIntroduction.getContent().length() > Constant.MAX_255_CHARACTERS) {
+            etIntroduction.setError(getString(R.string.field_max_255_character));
+            valid = false;
+        }
 
         return valid;
     }

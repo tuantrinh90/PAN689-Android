@@ -25,7 +25,10 @@ public interface Constant {
     int KEY_INVITATION_DECLINE = -1;
     int KEY_INVITATION_ACCEPT = 1;
     int MIN_PASSWORD = 6;
-    int MAX_TEAM_NAME = 40;
+    int MAX_NAME_40_CHARACTERS = 40;
+    int MAX_255_CHARACTERS = 255;
+    int MIN_PHONE = 9;
+    int MAX_PHONE = 12;
 
     int SORT_NONE = -1;
     int SORT_DESC = 0;

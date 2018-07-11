@@ -4,6 +4,7 @@
     <string name="field_is_required">This field must be required</string>
     <string name="field_max_40_character">This field must be less than 40 characters</string>
     <string name="field_max_255_character">This field must be less than 255 characters</string>
+    <string name="field_phone_invalid">Phone number from 9 – 12 characters</string>
     <string name="field_is_unique">This field must be unique</string>
     <string name="field_confirmed">This field must be confirmed</string>
     <string name="field_min_6_character">This field must be more than 6 characters</string>
