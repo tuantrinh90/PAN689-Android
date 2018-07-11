@@ -96,4 +96,13 @@ public class ChangePasswordFragment extends BaseMainMvpFragment<IChangePasswordV
         }
         return true;
     }
+
+    @Override
+    public void changePasswordSuccessful() {
+        showMessage(R.string.message_change_password_success,
+                R.string.ok,
+                aVoid -> {
+                    mActivity.finish();
+                });
+    }
 }

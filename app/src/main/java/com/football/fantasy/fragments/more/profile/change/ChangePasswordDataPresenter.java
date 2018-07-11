@@ -2,6 +2,7 @@ package com.football.fantasy.fragments.more.profile.change;
 
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
+import com.football.fantasy.R;
 import com.football.listeners.ApiCallback;
 import com.football.utilities.RxUtilities;
 
@@ -40,7 +41,7 @@ public class ChangePasswordDataPresenter extends BaseDataPresenter<IChangePasswo
 
                         @Override
                         public void onSuccess(Object response) {
-
+                            v.changePasswordSuccessful();
                         }
 
                         @Override
