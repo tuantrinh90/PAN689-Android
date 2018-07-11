@@ -89,5 +89,6 @@ public interface ServiceConfig {
     // user
     String GET_PROFILE = "profile/{id}";
     String UPDATE_PROFILE = "profile";
+    String CHANGE_PASSWORD = "change_password";
 
 }

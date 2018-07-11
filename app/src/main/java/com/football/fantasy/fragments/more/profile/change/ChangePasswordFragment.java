@@ -5,19 +5,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.bon.interfaces.Optional;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.fantasy.R;
+import com.football.utilities.Constant;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 public class ChangePasswordFragment extends BaseMainMvpFragment<IChangePasswordView, IChangePasswordPresenter<IChangePasswordView>> implements IChangePasswordView {
 
@@ -70,6 +67,33 @@ public class ChangePasswordFragment extends BaseMainMvpFragment<IChangePasswordV
 
     @OnClick(R.id.tvSubmit)
     public void onViewClicked() {
+        if (isValid()) {
+            presenter.changePassword(etOldPassword.getContent(), etNewPassword.getContent());
+        }
+    }
 
+    private boolean isValid() {
+        if (isEmpty(etOldPassword) || isEmpty(etNewPassword) || isEmpty(etConfirmPassword)
+                || !isValidCharacter(etOldPassword) || !isValidCharacter(etNewPassword) || !isValidCharacter(etConfirmPassword)) {
+            return false;
+        }
+        if (!etNewPassword.getContent().equals(etConfirmPassword.getContent())) {
+            etConfirmPassword.setError(getString(R.string.err_confirm_password));
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isEmpty(EditTextApp editTextApp) {
+        return editTextApp.isEmpty(mActivity);
+    }
+
+    private boolean isValidCharacter(EditTextApp editTextApp) {
+        if (editTextApp.getContent().length() < Constant.MIN_PASSWORD) {
+            editTextApp.setError(getString(R.string.min_password));
+            return false;
+        }
+        return true;
     }
 }

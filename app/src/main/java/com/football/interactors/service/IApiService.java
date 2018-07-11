@@ -176,4 +176,7 @@ public interface IApiService {
     /* user */
     @POST(ServiceConfig.UPDATE_PROFILE)
     Observable<BaseResponse<UserResponse>> updateProfile(@Body RequestBody body);
+
+    @POST(ServiceConfig.CHANGE_PASSWORD)
+    Observable<BaseResponse<Object>> changePassword(@Body RequestBody body);
 }
