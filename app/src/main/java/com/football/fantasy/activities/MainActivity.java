@@ -12,6 +12,7 @@ import android.util.Log;
 import com.bon.util.ActivityUtils;
 import com.bon.util.DialogUtils;
 import com.football.adapters.PagerAdapter;
+import com.football.adapters.StatePagerAdapter;
 import com.football.common.activities.BaseAppCompatActivity;
 import com.football.customizes.footers.FooterItem;
 import com.football.events.UnauthorizedEvent;
@@ -67,7 +68,7 @@ public class MainActivity extends BaseAppCompatActivity {
     // current tab
     int currentTab = HOME;
 
-    private PagerAdapter mPagerAdapter;
+    private StatePagerAdapter mPagerAdapter;
 
     @Override
     protected int getContentViewId() {
@@ -116,14 +117,14 @@ public class MainActivity extends BaseAppCompatActivity {
     }
 
     private void initViewPager() {
-        mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        mPagerAdapter = new StatePagerAdapter(getSupportFragmentManager());
         mPagerAdapter.addFragment(HomeFragment.newInstance());
         mPagerAdapter.addFragment(LeagueFragment.newInstance());
         mPagerAdapter.addFragment(MatchUpFragment.newInstance());
         mPagerAdapter.addFragment(NotificationFragment.newInstance());
         mPagerAdapter.addFragment(MoreFragment.newInstance());
         viewPager.setAdapter(mPagerAdapter);
-        viewPager.setOffscreenPageLimit(5);
+//        viewPager.setOffscreenPageLimit(5);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

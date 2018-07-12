@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.football.adapters.PagerAdapter;
+import com.football.adapters.StatePagerAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
@@ -29,8 +30,6 @@ public class MatchUpFragment extends BaseMainMvpFragment<IMatchUpView, IMatchUpP
     ViewPager vpViewPager;
 
     private boolean initialized = false;
-
-    private PagerAdapter mAdapter;
 
     @Override
     public int getResourceId() {
@@ -69,7 +68,7 @@ public class MatchUpFragment extends BaseMainMvpFragment<IMatchUpView, IMatchUpP
         });
 
         // view pager
-        mAdapter = new PagerAdapter(getChildFragmentManager());
+        StatePagerAdapter mAdapter = new StatePagerAdapter(getChildFragmentManager());
         mAdapter.addFragment(MatchupRealLeagueFragment.newInstance());
         mAdapter.addFragment(MatchupMyLeagueFragment.newInstance());
         vpViewPager.setAdapter(mAdapter);

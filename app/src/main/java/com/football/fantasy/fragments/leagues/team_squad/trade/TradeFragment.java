@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.bon.interfaces.Optional;
 import com.football.adapters.PagerAdapter;
+import com.football.adapters.StatePagerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.carousels.Carousel;
@@ -49,8 +50,6 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
     CarouselView cvCarouselView;
     @BindView(R.id.vpViewPager)
     ViewPager vpViewPager;
-
-    private PagerAdapter mAdapter;
 
     @Override
     public int getResourceId() {
@@ -105,7 +104,7 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
         });
 
         // view pager
-        mAdapter = new PagerAdapter(getChildFragmentManager());
+        StatePagerAdapter mAdapter = new StatePagerAdapter(getChildFragmentManager());
         mAdapter.addFragment(TransferringFragment.newInstance(team));
         mAdapter.addFragment(RecordFragment.newInstance(team));
         vpViewPager.setAdapter(mAdapter);
