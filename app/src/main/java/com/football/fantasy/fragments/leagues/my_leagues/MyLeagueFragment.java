@@ -35,7 +35,7 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
 
     LeaguesAdapter mAdapter;
 
-    int page = 1;
+    int page;
 
     @Override
     public int getResourceId() {
@@ -47,6 +47,11 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
         super.initialized();
         initView();
         registerEvent();
+
+        // load data
+        page = 1;
+        rvLeague.startLoading();
+        getMyLeagues();
     }
 
     void registerEvent() {
@@ -142,9 +147,6 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
                         getMyLeagues();
                     })
                     .build();
-            // load data
-            rvLeague.startLoading();
-            getMyLeagues();
         } catch (Exception e) {
             Logger.e(TAG, e);
         }

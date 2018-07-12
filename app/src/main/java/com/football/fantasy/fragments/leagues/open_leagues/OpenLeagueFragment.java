@@ -44,7 +44,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
     private LeaguesAdapter mAdapter;
 
     String orderBy = "desc";
-    int page = 1;
+    int page;
     String query = "";
     String numberOfUser = Constant.NUMBER_OF_USER_ALL;
 
@@ -58,6 +58,11 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
         super.initialized();
         initView();
         registerEvent();
+
+        // load data
+        page = 1;
+        rvLeague.startLoading();
+        getOpenLeagues();
     }
 
     void registerEvent() {
@@ -154,10 +159,6 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
                         refresh();
                     })
                     .build();
-
-            // load data
-            rvLeague.startLoading();
-            getOpenLeagues();
         } catch (Resources.NotFoundException e) {
             Logger.e(TAG, e);
         }

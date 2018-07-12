@@ -31,7 +31,7 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
 
     private List<ExtKeyValuePair> valuePairs;
     private String round = "";
-    private int page = 1;
+    private int page;
 
     @Override
     public int getResourceId() {
@@ -44,6 +44,7 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
         initData();
         initView();
 
+        page = 1;
         getRealMatches();
         rvRealLeague.startLoading();
     }

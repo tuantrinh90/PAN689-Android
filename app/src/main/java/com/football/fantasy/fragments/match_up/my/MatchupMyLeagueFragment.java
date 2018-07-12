@@ -20,7 +20,7 @@ public class MatchupMyLeagueFragment extends BaseMainMvpFragment<IMatchupMyLeagu
     @BindView(R.id.rvMyLeague)
     ExtRecyclerView<MyMatchResponse> rvMyLeague;
 
-    private int page = 1;
+    private int page;
 
     @Override
     public int getResourceId() {
@@ -31,6 +31,7 @@ public class MatchupMyLeagueFragment extends BaseMainMvpFragment<IMatchupMyLeagu
     protected void initialized() {
         super.initialized();
         initView();
+        page = 1;
         getMatchResults();
         rvMyLeague.startLoading();
     }

@@ -11,7 +11,6 @@ import android.support.v7.widget.SnapHelper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.LinearLayout;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.logger.Logger;
@@ -71,7 +70,7 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     MyLeagueRecyclerAdapter myLeagueRecyclerAdapter;
     List<LeagueResponse> leagueResponses;
 
-    private int page = 1;
+    private int page;
 
     @Override
     public int getResourceId() {
@@ -85,6 +84,7 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
         registerEvent();
 
         // load news
+        page = 1;
         loadNews();
     }
 

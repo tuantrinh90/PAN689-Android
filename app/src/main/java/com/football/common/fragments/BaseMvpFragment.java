@@ -53,7 +53,7 @@ public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDat
     private static final int VIEW_INITIALIZED = 2;
 
     private boolean isAttack;
-    private int fragmentState;
+    private int fragmentState = -1;
 
     // base activity
     protected BaseAppCompatActivity mActivity;
