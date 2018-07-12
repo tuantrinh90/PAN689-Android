@@ -32,7 +32,7 @@ public abstract class BaseDataPresenter<V extends IBaseMvpView> extends MvpBaseP
     protected RxBus<IEvent> bus;
 
     // composite disposable
-    protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    protected CompositeDisposable mCompositeDisposable;
 
     /**
      * @param appComponent
@@ -40,6 +40,13 @@ public abstract class BaseDataPresenter<V extends IBaseMvpView> extends MvpBaseP
     public BaseDataPresenter(AppComponent appComponent) {
         // leave casting to match generic type for Dagger2
         appComponent.inject((BaseDataPresenter<IBaseMvpView>) this);
+    }
+
+    @Override
+    public void attachView(@NonNull V view) {
+        super.attachView(view);
+        if (mCompositeDisposable == null)
+            mCompositeDisposable = new CompositeDisposable();
     }
 
     /**
@@ -69,8 +76,8 @@ public abstract class BaseDataPresenter<V extends IBaseMvpView> extends MvpBaseP
 
     @Override
     public void unbindEvent() {
-        if (!mCompositeDisposable.isDisposed()) {
-            mCompositeDisposable.dispose();
-        }
+//        if (!mCompositeDisposable.isDisposed()) {
+//        }
+        mCompositeDisposable.clear();
     }
 }

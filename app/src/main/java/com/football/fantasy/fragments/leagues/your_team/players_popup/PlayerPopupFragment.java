@@ -9,7 +9,6 @@ import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.bon.customview.listview.ExtPagingListView;
 import com.football.adapters.PlayerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
@@ -245,7 +244,7 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
     }
 
     private void getPlayers() {
-        presenter.getPlayers(leagueId, valueDirection, page, ExtPagingListView.NUMBER_PER_PAGE, query, mainPosition, filterClubs);
+        presenter.getPlayers(leagueId, valueDirection, page, query, mainPosition, filterClubs);
     }
 
     @OnClick(R.id.sortValue)

@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.bon.customview.listview.ExtPagingListView;
 import com.bon.interfaces.Optional;
 import com.bon.logger.Logger;
 import com.bon.util.SharedUtils;
@@ -71,7 +70,7 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
     }
 
     void getFriends(String keyword) {
-        presenter.getInviteFriends(league.getId(), keyword, page, ExtPagingListView.NUMBER_PER_PAGE);
+        presenter.getInviteFriends(league.getId(), keyword, page);
     }
 
     void getDataFromBundle() {

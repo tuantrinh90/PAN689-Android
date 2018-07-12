@@ -1,10 +1,7 @@
 package com.football.fantasy.fragments.match_up.real;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.View;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
@@ -42,14 +39,13 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        bindButterKnife(view);
-
+    protected void initialized() {
+        super.initialized();
         initData();
         initView();
 
         getRealMatches();
+        rvRealLeague.startLoading();
     }
 
     private void initData() {
@@ -105,5 +101,10 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
     @Override
     public void displayRealMatches(List<RealMatch> realMatches) {
         rvRealLeague.addItems(realMatches);
+    }
+
+    @Override
+    public void stopLoading() {
+        rvRealLeague.stopLoading();
     }
 }

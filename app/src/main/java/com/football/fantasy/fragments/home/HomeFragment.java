@@ -1,9 +1,7 @@
 package com.football.fantasy.fragments.home;
 
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,10 +9,10 @@ import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 
-import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.logger.Logger;
 import com.bon.util.StringUtils;
@@ -55,7 +53,7 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     @BindView(R.id.tvJoinLeagues)
     ExtTextView tvJoinLeagues;
     @BindView(R.id.llPlayerList)
-    LinearLayout llPlayerList;
+    ViewGroup llPlayerList;
     @BindView(R.id.tvPlayerList)
     ExtTextView tvPlayerList;
     @BindView(R.id.tvMyLeagues)
@@ -81,16 +79,18 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        bindButterKnife(view);
+    protected void initialized() {
+        super.initialized();
         initView();
         registerEvent();
+
+        // load news
+        loadNews();
     }
 
     void initView() {
         initRecyclerView();
-        ViewUtils.attachViewTreeObserver(llPlayerList, this);
+//        ViewUtils.attachViewTreeObserver(llPlayerList, this);
     }
 
     void registerEvent() {
@@ -178,16 +178,13 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
 
             // load my leagues, only display 5 records
             presenter.getMyLeagues(1);
-
-            // load news
-            loadNews();
         } catch (IllegalStateException e) {
             Logger.e(TAG, e);
         }
     }
 
     private void loadNews() {
-        presenter.getNews(1, ExtPagingListView.NUMBER_PER_PAGE);
+        presenter.getNews(1);
     }
 
     @NonNull

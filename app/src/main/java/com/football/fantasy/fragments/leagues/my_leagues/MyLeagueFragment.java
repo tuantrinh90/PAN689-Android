@@ -1,13 +1,8 @@
 package com.football.fantasy.fragments.leagues.my_leagues;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
-import android.view.View;
 
-import com.bon.customview.listview.ExtPagingListView;
 import com.bon.interfaces.Optional;
 import com.bon.logger.Logger;
 import com.football.adapters.LeaguesAdapter;
@@ -38,8 +33,6 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
     @BindView(R.id.rv_league)
     ExtRecyclerView<LeagueResponse> rvLeague;
 
-    private boolean initialized = false;
-
     LeaguesAdapter mAdapter;
 
     int page = 1;
@@ -50,19 +43,10 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        bindButterKnife(view);
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && !initialized) {
-            initialized = true;
-            initView();
-            registerEvent();
-        }
+    protected void initialized() {
+        super.initialized();
+        initView();
+        registerEvent();
     }
 
     void registerEvent() {
@@ -72,7 +56,6 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
                 @Override
                 public void onNext(LeagueEvent leagueEvent) {
                     try {
-                        Log.e("LeagueEvent", "LeagueEvent");
                         page = 1;
                         rvLeague.clear();
                         rvLeague.startLoading();

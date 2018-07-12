@@ -7,10 +7,9 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.bon.logger.Logger;
-import com.football.adapters.LeagueViewPagerAdapter;
+import com.football.adapters.StatePagerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
-import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
 import com.football.fantasy.R;
@@ -41,8 +40,6 @@ public class LeagueFragment extends BaseMainMvpFragment<ILeagueView, ILeaguePres
     @BindView(R.id.vpViewPager)
     ViewPager vpViewPager;
 
-    private boolean initialized = false;
-    LeagueViewPagerAdapter leagueViewPagerAdapter;
 
     @Override
     public int getResourceId() {
@@ -53,15 +50,7 @@ public class LeagueFragment extends BaseMainMvpFragment<ILeagueView, ILeaguePres
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && !initialized) {
-            initialized = true;
-            initView();
-        }
+        initView();
     }
 
     void initView() {
@@ -77,13 +66,11 @@ public class LeagueFragment extends BaseMainMvpFragment<ILeagueView, ILeaguePres
             });
 
             // view pager
-            leagueViewPagerAdapter = new LeagueViewPagerAdapter(getFragmentManager(), new ArrayList<BaseMvpFragment>() {{
-                add(OpenLeagueFragment.newInstance());
-                add(MyLeagueFragment.newInstance());
-                add(PendingInvitationFragment.newInstance());
-            }});
-            vpViewPager.setOffscreenPageLimit(3);
-            vpViewPager.setAdapter(leagueViewPagerAdapter);
+            StatePagerAdapter adapter = new StatePagerAdapter(getChildFragmentManager());
+            adapter.addFragment(OpenLeagueFragment.newInstance());
+            adapter.addFragment(MyLeagueFragment.newInstance());
+            adapter.addFragment(PendingInvitationFragment.newInstance());
+            vpViewPager.setAdapter(adapter);
             vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

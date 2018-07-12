@@ -23,7 +23,7 @@
     <!--home-->
     <dimen name="home_size_button_width_leagues">100dp</dimen>
     <dimen name="home_size_button_height_leagues">40dp</dimen>
-    <dimen name="home_size_margin_leagues">20dp</dimen>
+    <dimen name="home_size_margin_leagues">24dp</dimen>
     <dimen name="home_size_cup_width">150dp</dimen>
     <dimen name="home_size_cup_height">160dp</dimen>
     <dimen name="home_size_cup_margin_right">55dp</dimen>

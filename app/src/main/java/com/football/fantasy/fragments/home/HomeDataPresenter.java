@@ -1,5 +1,6 @@
 package com.football.fantasy.fragments.home;
 
+import com.bon.customview.listview.ExtPagingListView;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
@@ -35,9 +36,9 @@ public class HomeDataPresenter extends BaseDataPresenter<IHomeView> implements I
     }
 
     @Override
-    public void getNews(int page, int perPage) {
+    public void getNews(int page) {
         getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().getHomeNews(page, perPage), new ApiCallback<PagingResponse<NewsResponse>>() {
+            mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().getHomeNews(page, ExtPagingListView.NUMBER_PER_PAGE), new ApiCallback<PagingResponse<NewsResponse>>() {
                 @Override
                 public void onSuccess(PagingResponse<NewsResponse> newsResponsePagingResponse) {
                     v.notifyDataSetChangedNews(newsResponsePagingResponse.getData());

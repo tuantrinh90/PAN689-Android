@@ -1,5 +1,6 @@
 package com.football.fantasy.fragments.leagues.league_details.invite_friends;
 
+import com.bon.customview.listview.ExtPagingListView;
 import com.bon.share_preferences.AppPreferences;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
@@ -25,13 +26,13 @@ public class InviteFriendDataPresenter extends BaseDataPresenter<IInviteFriendVi
     }
 
     @Override
-    public void getInviteFriends(int leagueId, String keyword, int page, int perPage) {
+    public void getInviteFriends(int leagueId, String keyword, int page) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
             queries.put("league_id", String.valueOf(leagueId));
             queries.put("keyword", keyword);
             queries.put("page", String.valueOf(page));
-            queries.put("per_page", String.valueOf(perPage));
+            queries.put("per_page", String.valueOf(ExtPagingListView.NUMBER_PER_PAGE));
 
             mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().getInviteFriends(queries),

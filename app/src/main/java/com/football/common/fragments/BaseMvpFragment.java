@@ -28,7 +28,6 @@ import com.football.interactors.IDataModule;
 import com.football.interactors.database.IDbModule;
 import com.football.interactors.service.IApiService;
 import com.hannesdorfmann.mosby3.mvp.MvpFragment;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.RxLifecycle;
 import com.trello.rxlifecycle2.android.FragmentEvent;
@@ -48,6 +47,13 @@ import java8.util.function.Consumer;
  */
 public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDataPresenter<V>>
         extends MvpFragment<V, P> implements IBaseFragment, IResourceFragment, IBaseMvpView {
+
+    private static final int ATTACKED_BUT_NOT_CREATED = 0;
+    private static final int VIEW_CREATED = 1;
+    private static final int VIEW_INITIALIZED = 2;
+
+    private boolean isAttack;
+    private int fragmentState;
 
     // base activity
     protected BaseAppCompatActivity mActivity;
@@ -103,11 +109,28 @@ public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDat
 
         // lifecycle
         lifecycleSubject.onNext(FragmentEvent.ATTACH);
+        isAttack = true;
 
         // activity
         if (activity instanceof BaseAppCompatActivity) {
             this.mActivity = (BaseAppCompatActivity) activity;
         }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            if (!isAttack) {
+                fragmentState = ATTACKED_BUT_NOT_CREATED;
+            } else if (fragmentState == VIEW_CREATED) {
+                initialized();
+            }
+        }
+    }
+
+    protected void initialized() {
+        fragmentState = VIEW_INITIALIZED;
     }
 
     @Override
@@ -139,6 +162,13 @@ public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDat
 
         // hide keyboard
         KeyboardUtils.hideKeyboard(mActivity, view);
+
+        bindButterKnife(view);
+        if (fragmentState == ATTACKED_BUT_NOT_CREATED) {
+            initialized();
+        } else {
+            fragmentState = VIEW_CREATED;
+        }
 
         // only update title with isChildFragment = false
         if (isChildFragment) return;
@@ -199,6 +229,7 @@ public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDat
     public void onDetach() {
         // lifecycle
         lifecycleSubject.onNext(FragmentEvent.DETACH);
+        isAttack = false;
         super.onDetach();
     }
 

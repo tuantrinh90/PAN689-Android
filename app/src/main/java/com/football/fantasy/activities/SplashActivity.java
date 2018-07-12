@@ -34,7 +34,7 @@ public class SplashActivity extends BaseAppCompatActivity {
             UserResponse user = AppPreferences.getInstance(this).getObject(Constant.KEY_USER, UserResponse.class);
             startActivity(new Intent(this, user == null ? AccountActivity.class : MainActivity.class));
             finish();
-        }, 2000);
+        }, 1000);
     }
 
     @Override

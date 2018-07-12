@@ -1,9 +1,6 @@
 package com.football.fantasy.fragments.leagues.pending_invitation;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.view.View;
 
 import com.bon.customview.listview.ExtPagingListView;
 import com.bon.logger.Logger;
@@ -37,10 +34,6 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
     @BindView(R.id.rv_pending)
     ExtRecyclerView<LeagueResponse> rvLeague;
 
-    private boolean initialized = false;
-
-    LeaguesAdapter mAdapter;
-
     int page = 1;
 
     @Override
@@ -49,19 +42,12 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        bindButterKnife(view);
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && !initialized) {
-            initialized = true;
-            initView();
-            registerEvent();
-        }
+    protected void initialized() {
+        super.initialized();
+        page = 1;
+        initView();
+        registerEvent();
+        getPendingList();
     }
 
     void registerEvent() {
@@ -70,14 +56,7 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
             mCompositeDisposable.add(bus.ofType(LeagueEvent.class).subscribeWith(new DisposableObserver<LeagueEvent>() {
                 @Override
                 public void onNext(LeagueEvent leagueEvent) {
-                    try {
-                        page = 1;
-                        rvLeague.clear();
-                        rvLeague.startLoading();
-                        getPendingList();
-                    } catch (Exception e) {
-                        Logger.e(TAG, e);
-                    }
+                    refresh();
                 }
 
                 @Override
@@ -97,7 +76,7 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
                         @Override
                         public void onNext(StopLeagueEvent stopLeagueEvent) {
                             try {
-                                List<LeagueResponse> leagues = mAdapter.getDataSet();
+                                List<LeagueResponse> leagues = rvLeague.getAdapter().getDataSet();
                                 if (leagues != null && leagues.size() > 0) {
                                     leagues = StreamSupport.stream(leagues).filter(n -> n.getId() != stopLeagueEvent.getLeagueId()).collect(Collectors.toList());
                                     rvLeague.clear();
@@ -126,7 +105,7 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
     void initView() {
         try {
             // leagueResponses
-            mAdapter = new LeaguesAdapter(
+            LeaguesAdapter adapter = new LeaguesAdapter(
                     LeaguesAdapter.PENDING_INVITATIONS,
                     new ArrayList<>(),
                     league -> { // click event
@@ -151,20 +130,14 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
                     null);
 
             rvLeague.
-                    adapter(mAdapter)
-                    .refreshListener(() -> {
-                        rvLeague.clear();
-                        rvLeague.startLoading();
-                        page = 1;
-                        getPendingList();
-                    })
+                    adapter(adapter)
+                    .refreshListener(this::refresh)
                     .loadMoreListener(() -> {
                         page++;
                         getPendingList();
                     })
                     .build();
             rvLeague.startLoading();
-            getPendingList();
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
@@ -172,6 +145,13 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
 
     private void checkExistInMyLeague(LeagueResponse league) {
         presenter.getLeagueDetail(league);
+    }
+
+    private void refresh() {
+        page = 1;
+        rvLeague.clear();
+        getPendingList();
+        rvLeague.startLoading();
     }
 
     private void getPendingList() {

@@ -2,6 +2,7 @@ package com.football.fantasy.fragments.leagues.your_team.player_list;
 
 import android.text.TextUtils;
 
+import com.bon.customview.listview.ExtPagingListView;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
@@ -27,12 +28,12 @@ public class PlayerListPresenter extends BaseDataPresenter<IPlayerListView> impl
     }
 
     @Override
-    public void getPlayers(int leagueId, boolean valueSortDesc, int page, int perPage, String query, String filterPositions, String filterClubs, boolean newPlayers) {
+    public void getPlayers(int leagueId, boolean valueSortDesc, int page, String query, String filterPositions, String filterClubs, boolean newPlayers) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
             queries.put(Constant.KEY_LEAGUE_ID, String.valueOf(leagueId));
             queries.put(Constant.KEY_PAGE, String.valueOf(page));
-            queries.put(Constant.KEY_PER_PAGE, String.valueOf(perPage));
+            queries.put(Constant.KEY_PER_PAGE, String.valueOf(ExtPagingListView.NUMBER_PER_PAGE));
 
             if (!TextUtils.isEmpty(filterPositions)) {
                 queries.put(Constant.KEY_MAIN_POSITION, String.valueOf(filterPositions));

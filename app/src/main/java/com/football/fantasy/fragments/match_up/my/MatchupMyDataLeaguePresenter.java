@@ -1,5 +1,6 @@
 package com.football.fantasy.fragments.match_up.my;
 
+import com.bon.customview.listview.ExtPagingListView;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
@@ -22,6 +23,8 @@ public class MatchupMyDataLeaguePresenter extends BaseDataPresenter<IMatchupMyLe
     public void getMatchResults(int page) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
+            queries.put("page", String.valueOf(page));
+            queries.put("per_page", String.valueOf(ExtPagingListView.NUMBER_PER_PAGE));
             mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().getMyMatchResults(queries),
                     new ApiCallback<PagingResponse<MyMatchResponse>>() {
@@ -32,6 +35,7 @@ public class MatchupMyDataLeaguePresenter extends BaseDataPresenter<IMatchupMyLe
 
                         @Override
                         public void onComplete() {
+                            v.stopLoading();
                         }
 
                         @Override

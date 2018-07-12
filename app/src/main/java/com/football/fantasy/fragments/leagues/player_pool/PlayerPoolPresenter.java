@@ -3,6 +3,7 @@ package com.football.fantasy.fragments.leagues.player_pool;
 import android.text.TextUtils;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
+import com.bon.customview.listview.ExtPagingListView;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
@@ -35,7 +36,7 @@ public class PlayerPoolPresenter extends BaseDataPresenter<IPlayerPoolView> impl
             Map<String, String> queries = new HashMap<>();
             queries.put(Constant.KEY_SEASON, seasonId);
             queries.put(Constant.KEY_PAGE, String.valueOf(page));
-            queries.put(Constant.KEY_PER_PAGE, String.valueOf(20));
+            queries.put(Constant.KEY_PER_PAGE, String.valueOf(ExtPagingListView.NUMBER_PER_PAGE));
 
             if (!TextUtils.isEmpty(query)) {
                 queries.put(Constant.KEY_WORD, query);

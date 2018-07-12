@@ -1,15 +1,11 @@
 package com.football.fantasy.fragments.leagues.open_leagues;
 
 import android.content.res.Resources;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.View;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
-import com.bon.customview.listview.ExtPagingListView;
 import com.bon.logger.Logger;
 import com.football.adapters.LeaguesAdapter;
 import com.football.common.activities.AloneFragmentActivity;
@@ -44,6 +40,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
     @BindView(R.id.searchView)
     SearchView svSearchView;
 
+
     private LeaguesAdapter mAdapter;
 
     String orderBy = "desc";
@@ -57,9 +54,8 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        bindButterKnife(view);
+    protected void initialized() {
+        super.initialized();
         initView();
         registerEvent();
     }
@@ -168,7 +164,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
     }
 
     private void getOpenLeagues() {
-        presenter.getOpenLeagues(orderBy, page, ExtPagingListView.NUMBER_PER_PAGE, query, numberOfUser);
+        presenter.getOpenLeagues(orderBy, page, query, numberOfUser);
     }
 
     private void refresh() {

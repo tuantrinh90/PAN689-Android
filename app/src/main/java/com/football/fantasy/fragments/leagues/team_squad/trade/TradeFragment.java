@@ -108,7 +108,6 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
         mAdapter.addFragment(TransferringFragment.newInstance(team));
         mAdapter.addFragment(RecordFragment.newInstance(team));
         vpViewPager.setAdapter(mAdapter);
-        vpViewPager.setOffscreenPageLimit(2);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

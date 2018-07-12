@@ -12,7 +12,7 @@ public abstract class BaseMainMvpFragment<V extends IBaseMvpView, P extends IBas
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (activity instanceof MainActivity){
+        if (activity instanceof MainActivity) {
             mMainActivity = (MainActivity) activity;
         }
     }

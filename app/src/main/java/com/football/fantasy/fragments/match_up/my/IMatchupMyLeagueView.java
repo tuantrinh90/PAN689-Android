@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface IMatchupMyLeagueView extends IBaseMvpView {
     void displayMatches(List<MyMatchResponse> matches);
+
+    void stopLoading();
 }

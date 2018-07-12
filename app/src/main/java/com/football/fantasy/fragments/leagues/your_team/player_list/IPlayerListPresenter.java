@@ -5,7 +5,7 @@ import com.football.common.views.IBaseMvpView;
 
 public interface IPlayerListPresenter<V extends IBaseMvpView> extends IBaseDataPresenter<V> {
 
-    void getPlayers(int leagueId, boolean valueSortDesc, int page, int numberPerPage, String query,
+    void getPlayers(int leagueId, boolean valueSortDesc, int page, String query,
                     String filterPositions, String filterClubs, boolean newPlayers);
 
 }

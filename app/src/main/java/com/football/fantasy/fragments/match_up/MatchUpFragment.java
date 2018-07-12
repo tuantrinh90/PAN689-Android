@@ -29,8 +29,6 @@ public class MatchUpFragment extends BaseMainMvpFragment<IMatchUpView, IMatchUpP
     @BindView(R.id.vpViewPager)
     ViewPager vpViewPager;
 
-    private boolean initialized = false;
-
     @Override
     public int getResourceId() {
         return R.layout.match_up_fragment;
@@ -40,21 +38,13 @@ public class MatchUpFragment extends BaseMainMvpFragment<IMatchUpView, IMatchUpP
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
+        initView();
     }
 
     @NonNull
     @Override
     public IMatchUpPresenter<IMatchUpView> createPresenter() {
         return new MatchUpDataPresenter(getAppComponent());
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && !initialized) {
-            initialized = true;
-            initView();
-        }
     }
 
     void initView() {
@@ -72,7 +62,6 @@ public class MatchUpFragment extends BaseMainMvpFragment<IMatchUpView, IMatchUpP
         mAdapter.addFragment(MatchupRealLeagueFragment.newInstance());
         mAdapter.addFragment(MatchupMyLeagueFragment.newInstance());
         vpViewPager.setAdapter(mAdapter);
-        vpViewPager.setOffscreenPageLimit(2);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
