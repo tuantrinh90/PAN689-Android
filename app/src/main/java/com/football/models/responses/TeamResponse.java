@@ -17,6 +17,8 @@ public class TeamResponse implements Serializable {
     private Integer userId;
     @JsonProperty("user")
     private UserResponse user;
+    @JsonProperty("statistic")
+    private PlayerStatisticMetaResponse statistic;
     @JsonProperty("name")
     private String name;
     @JsonProperty("description")
@@ -37,6 +39,8 @@ public class TeamResponse implements Serializable {
     private Boolean isOwner;
     @JsonProperty("is_completed")
     private Boolean isCompleted;
+    @JsonProperty("point")
+    private Integer point;
     @JsonProperty("round")
     private Integer round;
     @JsonIgnore
@@ -84,6 +88,10 @@ public class TeamResponse implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public PlayerStatisticMetaResponse getStatistic() {
+        return statistic;
     }
 
     public void setName(String name) {
@@ -168,6 +176,10 @@ public class TeamResponse implements Serializable {
 
     public Boolean getCompleted() {
         return isCompleted;
+    }
+
+    public Integer getPoint() {
+        return point;
     }
 
     public Integer getRound() {

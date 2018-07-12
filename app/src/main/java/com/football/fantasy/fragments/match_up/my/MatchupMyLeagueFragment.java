@@ -9,6 +9,9 @@ import com.football.adapters.MatchupLeagueAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
+import com.football.models.responses.MyMatchResponse;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -18,9 +21,9 @@ public class MatchupMyLeagueFragment extends BaseMainMvpFragment<IMatchupMyLeagu
     }
 
     @BindView(R.id.rvMyLeague)
-    ExtRecyclerView<String> rvMyLeague;
+    ExtRecyclerView<MyMatchResponse> rvMyLeague;
 
-    private MatchupLeagueAdapter mAdapter;
+    private int page = 1;
 
     @Override
     public int getResourceId() {
@@ -33,23 +36,41 @@ public class MatchupMyLeagueFragment extends BaseMainMvpFragment<IMatchupMyLeagu
         bindButterKnife(view);
 
         initView();
+        getMatchResults();
     }
 
     private void initView() {
-        mAdapter = new MatchupLeagueAdapter();
+        MatchupLeagueAdapter adapter = new MatchupLeagueAdapter();
         // init recyclerView
         rvMyLeague
-                .adapter(mAdapter)
+                .adapter(adapter)
+                .refreshListener(this::refresh)
+                .loadMoreListener(() -> {
+                    page++;
+                    getMatchResults();
+                })
                 .build();
     }
 
-    private void getMatchResults() {
-        presenter.getMatchResults();
+    private void refresh() {
+        page = 1;
+        rvMyLeague.clear();
+        getMatchResults();
     }
+
+    private void getMatchResults() {
+        presenter.getMatchResults(page);
+    }
+
 
     @NonNull
     @Override
     public IMatchupMyLeaguePresenter<IMatchupMyLeagueView> createPresenter() {
         return new MatchupMyDataLeaguePresenter(getAppComponent());
+    }
+
+    @Override
+    public void displayMatches(List<MyMatchResponse> matches) {
+        rvMyLeague.addItems(matches);
     }
 }

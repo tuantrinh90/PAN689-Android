@@ -147,7 +147,6 @@
             android:layout_width="@dimen/icon_medium"
             android:layout_height="@dimen/icon_medium"
             android:layout_gravity="center_horizontal"
-            android:rotation="-180"
             android:src="@drawable/ic_arrow_drop_down_black" />
 
         <com.football.customizes.expandablelayout.ExpandableLayout

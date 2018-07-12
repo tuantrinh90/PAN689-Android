@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -14,9 +15,11 @@
             android:layout_marginTop="@dimen/padding_content" />
 
         <com.football.customizes.match_up.MatchupTextItem
+            android:id="@+id/matchupGoals"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_content_small" />
+            android:layout_marginTop="@dimen/padding_content_small"
+            app:matchup_textCenter="@string/goals" />
 
         <View
             style="@style/Line"
@@ -25,9 +28,11 @@
             android:layout_marginTop="@dimen/padding_content_small" />
 
         <com.football.customizes.match_up.MatchupTextItem
+            android:id="@+id/matchupAssists"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_content_small" />
+            android:layout_marginTop="@dimen/padding_content_small"
+            app:matchup_textCenter="@string/assists" />
 
         <View
             style="@style/Line"
@@ -36,9 +41,11 @@
             android:layout_marginTop="@dimen/padding_content_small" />
 
         <com.football.customizes.match_up.MatchupTextItem
+            android:id="@+id/matchupCleanSheet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_content_small" />
+            android:layout_marginTop="@dimen/padding_content_small"
+            app:matchup_textCenter="@string/clean_sheet" />
 
         <View
             style="@style/Line"
@@ -47,9 +54,11 @@
             android:layout_marginTop="@dimen/padding_content_small" />
 
         <com.football.customizes.match_up.MatchupTextItem
+            android:id="@+id/matchupDuelsTheyWin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_content_small" />
+            android:layout_marginTop="@dimen/padding_content_small"
+            app:matchup_textCenter="@string/duels_they_win" />
 
         <View
             style="@style/Line"
@@ -58,9 +67,11 @@
             android:layout_marginTop="@dimen/padding_content_small" />
 
         <com.football.customizes.match_up.MatchupTextItem
+            android:id="@+id/matchupPasses"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_content_small" />
+            android:layout_marginTop="@dimen/padding_content_small"
+            app:matchup_textCenter="@string/passes" />
 
         <View
             style="@style/Line"
@@ -69,9 +80,11 @@
             android:layout_marginTop="@dimen/padding_content_small" />
 
         <com.football.customizes.match_up.MatchupTextItem
+            android:id="@+id/matchupSaves"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_content_small" />
+            android:layout_marginTop="@dimen/padding_content_small"
+            app:matchup_textCenter="@string/saves" />
 
         <View
             style="@style/Line"
@@ -80,9 +93,12 @@
             android:layout_marginTop="@dimen/padding_content_small" />
 
         <com.football.customizes.match_up.MatchupTextItem
+            android:id="@+id/matchupYellowCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_content_small" />
+            android:layout_marginTop="@dimen/padding_content_small"
+            app:matchup_color="@color/color_red"
+            app:matchup_textCenter="@string/yellow_cards" />
 
         <View
             style="@style/Line"
@@ -91,9 +107,11 @@
             android:layout_marginTop="@dimen/padding_content_small" />
 
         <com.football.customizes.match_up.MatchupTextItem
+            android:id="@+id/matchupDribbles"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_content_small" />
+            android:layout_marginTop="@dimen/padding_content_small"
+            app:matchup_textCenter="@string/dribbles" />
 
         <View
             style="@style/Line"
@@ -102,9 +120,11 @@
             android:layout_marginTop="@dimen/padding_content_small" />
 
         <com.football.customizes.match_up.MatchupTextItem
+            android:id="@+id/matchupTurnovers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_content_small" />
+            android:layout_marginTop="@dimen/padding_content_small"
+            app:matchup_textCenter="@string/turnovers" />
 
         <View
             style="@style/Line"
@@ -113,9 +133,25 @@
             android:layout_marginTop="@dimen/padding_content_small" />
 
         <com.football.customizes.match_up.MatchupTextItem
+            android:id="@+id/matchupBallRecovered"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_content_small"
+            app:matchup_textCenter="@string/balls_recovered" />
+
+        <View
+            style="@style/Line"
+            android:layout_marginLeft="@dimen/padding_content"
+            android:layout_marginRight="@dimen/padding_content"
             android:layout_marginTop="@dimen/padding_content_small" />
+
+        <com.football.customizes.match_up.MatchupTextItem
+            android:id="@+id/matchupFoundCommitted"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_content_small"
+            app:matchup_color="@color/color_red"
+            app:matchup_textCenter="@string/fouls_committed" />
 
     </LinearLayout>
 </LinearLayout>

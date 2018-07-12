@@ -3,10 +3,12 @@ package com.football.fantasy.fragments.match_up.my;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
+import com.football.models.PagingResponse;
+import com.football.models.responses.MyMatchResponse;
 import com.football.utilities.RxUtilities;
 
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MatchupMyDataLeaguePresenter extends BaseDataPresenter<IMatchupMyLeagueView> implements IMatchupMyLeaguePresenter<IMatchupMyLeagueView> {
     /**
@@ -17,31 +19,31 @@ public class MatchupMyDataLeaguePresenter extends BaseDataPresenter<IMatchupMyLe
     }
 
     @Override
-    public void getMatchResults() {
+    public void getMatchResults(int page) {
         getOptView().doIfPresent(v -> {
+            Map<String, String> queries = new HashMap<>();
+            mCompositeDisposable.add(RxUtilities.async(v,
+                    dataModule.getApiService().getMyMatchResults(queries),
+                    new ApiCallback<PagingResponse<MyMatchResponse>>() {
+                        @Override
+                        public void onStart() {
 
-//            mCompositeDisposable.add(RxUtilities.async(v,
-//                    dataModule.getApiService().changePassword(body),
-//                    new ApiCallback<Object>() {
-//                        @Override
-//                        public void onStart() {
-//
-//                        }
-//
-//                        @Override
-//                        public void onComplete() {
-//                        }
-//
-//                        @Override
-//                        public void onSuccess(Object response) {
-//                            v.changePasswordSuccessful();
-//                        }
-//
-//                        @Override
-//                        public void onError(String e) {
-//                            v.showMessage(e);
-//                        }
-//                    }));
+                        }
+
+                        @Override
+                        public void onComplete() {
+                        }
+
+                        @Override
+                        public void onSuccess(PagingResponse<MyMatchResponse> response) {
+                            v.displayMatches(response.getData());
+                        }
+
+                        @Override
+                        public void onError(String e) {
+                            v.showMessage(e);
+                        }
+                    }));
         });
     }
 }

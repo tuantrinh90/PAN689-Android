@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MatchupTextItem">
+        <attr name="matchup_color" format="color" />
+        <attr name="matchup_textCenter" format="reference" />
+        <attr name="matchup_textLeft" format="reference" />
+        <attr name="matchup_textRight" format="reference" />
+    </declare-styleable>
+</resources>
