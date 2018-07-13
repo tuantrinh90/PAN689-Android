@@ -56,5 +56,6 @@
     <string name="message_pick_after_team_setup_time">You cannot pick players after team setup time!</string>
     <string name="message_team_lineup_is_not_completed_yet">You are not able to access this screen because this team lineup is not completed yet</string>
     <string name="message_unable_to_invite_friend">Limit on number of user, unable to invite friend!</string>
+    <string name="start_league_before_continue">start_league_before_continue</string>
 
 </resources>

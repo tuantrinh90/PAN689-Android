@@ -78,6 +78,7 @@ public class YourTeamFragment extends BaseMainMvpFragment<IYourTeamView, IYourTe
             add(PlayerListFragment.newInstance(league).setChildFragment(true));
             add(TeamListFragment.newInstance(league).setChildFragment(true));
         }}));
+        vpViewPager.setOffscreenPageLimit(3);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

@@ -175,7 +175,7 @@ public class TeamResponse implements Serializable {
     }
 
     public Boolean getCompleted() {
-        return isCompleted;
+        return isCompleted == null ? false : isCompleted;
     }
 
     public Integer getPoint() {

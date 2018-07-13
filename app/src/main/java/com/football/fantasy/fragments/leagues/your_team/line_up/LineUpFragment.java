@@ -219,7 +219,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
         for (PlayerResponse player : players) {
             lineupView.addPlayer(player, player.getMainPosition(), player.getOrder() == null ? LineupView.NONE_ORDER : player.getOrder());
         }
-//        enableCompleteButton(lineupView.isSetupComplete());
+        enableCompleteButton(league.getTeam() != null && !league.getTeam().getCompleted() && lineupView.isSetupComplete());
     }
 
     @Override
