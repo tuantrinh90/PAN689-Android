@@ -21,7 +21,7 @@
     <string name="forgot_password_question">Forgot password?</string>
     <string name="password_description">Your password must not be lesser than 6 characters</string>
     <string name="retype_password">Re-type password</string>
-    <string name="register_condition"><![CDATA[I have read and agreed to the <a href="https://google.com.vn"><font color="#3b3fc2"><b>Term and Privacy policy</b></font></a>]]></string>
+    <string name="register_condition" formatted="false"><![CDATA[I have read and agreed to the <a href="%s"><font color="#3b3fc2"><b>Term</b></font></a> and <a href="%s"><font color="#3b3fc2"><b>Privacy policy</b></font></a>]]></string>
     <string name="sign_with">Or sign-in with</string>
     <string name="forgot_description">Enter your email. We’ll send email instructions on how to reset your password.</string>
     <string name="forgot_description_success">We have just sent a verification link to your email. Please, check your inbox and click into the link to activate your account. If you cannot find any verification email, try to find in spam mails or resend a new email.</string>

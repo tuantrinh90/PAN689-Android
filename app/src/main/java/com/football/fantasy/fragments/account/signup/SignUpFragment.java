@@ -1,10 +1,8 @@
 package com.football.fantasy.fragments.account.signup;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.view.View;
@@ -17,8 +15,10 @@ import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.events.SignInEvent;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.web_view.WebViewFragment;
 import com.football.models.requests.SignupRequest;
 import com.football.utilities.Constant;
+import com.football.utilities.ServiceConfig;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -67,11 +67,7 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
 
         // agreed
         tvAgreed.setMovementMethod(TextViewLinkMovementMethod.newInstance(mActivity, s -> {
-            String url = "https://www.google.com.vn/";
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            builder.setToolbarColor(ContextCompat.getColor(mActivity, R.color.colorPrimary));
-            CustomTabsIntent customTabsIntent = builder.build();
-            customTabsIntent.launchUrl(mActivity, Uri.parse(url));
+            WebViewFragment.start(this, getString(R.string.register), s);
         }));
 
         TextViewLinkMovementMethod.stripUnderlines(tvAgreed, ContextCompat.getColor(mActivity, R.color.color_blue));
@@ -79,7 +75,7 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
     }
 
     void initView() {
-        tvAgreed.setText(Html.fromHtml(getString(R.string.register_condition)));
+        tvAgreed.setText(Html.fromHtml(getString(R.string.register_condition, ServiceConfig.TERMS, ServiceConfig.PRIVACY_POLICY)));
     }
 
     @OnClick(R.id.tvRegister)
@@ -135,7 +131,7 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
             cbAgreed.setChecked(false);
             bus.send(new SignInEvent());
         } catch (Exception e) {
-            Logger.e(TAG,e);
+            Logger.e(TAG, e);
         }
     }
 }

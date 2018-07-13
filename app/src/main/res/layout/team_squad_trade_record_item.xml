@@ -13,7 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <android.support.v7.widget.CardView
         android:layout_width="0dp"
@@ -25,13 +25,12 @@
         android:layout_weight="9"
         app:cardCornerRadius="@dimen/radius">
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/padding_small"
             android:layout_marginLeft="@dimen/padding_layout"
             android:layout_marginRight="@dimen/padding_layout"
-            android:layout_marginTop="@dimen/padding_small"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -39,89 +38,101 @@
                 android:id="@+id/ivAvatar"
                 android:layout_width="@dimen/avatar_small"
                 android:layout_height="@dimen/avatar_small"
+                android:layout_marginBottom="@dimen/padding_content"
+                android:layout_marginTop="@dimen/padding_content"
                 android:padding="0.5dp"
                 android:src="@drawable/ic_player_sample"
                 app:civ_border_color="@color/color_background_edit_text_focused"
-                app:civ_border_width="0.5dp" />
+                app:civ_border_width="0.5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvName"
+                style="@style/StyleDescriptionContent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_layout"
-                android:layout_marginStart="@dimen/padding_layout"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
+                android:layout_marginEnd="@dimen/padding_content_small"
+                android:layout_marginLeft="@dimen/padding_content_small"
+                android:layout_marginRight="@dimen/padding_content"
+                android:layout_marginStart="@dimen/padding_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:padding="0dp"
+                android:text="@string/fouls_committed"
+                android:textSize="@dimen/font_size_description"
+                app:layout_constraintBottom_toBottomOf="@+id/tvStatus"
+                app:layout_constraintEnd_toStartOf="@+id/tvStatus"
+                app:layout_constraintStart_toEndOf="@+id/ivAvatar"
+                app:layout_constraintTop_toTopOf="@+id/tvStatus"
+                app:textViewFontAssetName="@string/font_display_bold" />
 
-                <com.bon.customview.textview.ExtTextView
-                    android:id="@+id/tvName"
-                    style="@style/StyleDescriptionContent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    android:padding="0dp"
-                    android:text="@string/fouls_committed"
-                    android:textSize="@dimen/font_size_description"
-                    app:textViewFontAssetName="@string/font_display_bold" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <com.bon.customview.textview.ExtTextView
-                        style="@style/StyleDescriptionContent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="0dp"
-                        android:text="@string/transfer_fee"
-                        android:textSize="@dimen/font_size_description" />
-
-                    <com.bon.customview.textview.ExtTextView
-                        android:id="@+id/tvTransferFee"
-                        style="@style/StyleDescriptionContent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:padding="0dp"
-                        android:text="100"
-                        android:textSize="@dimen/font_size_description"
-                        app:textViewFontAssetName="@string/font_display_bold" />
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/extTextView"
+                style="@style/StyleDescriptionContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="end|center_vertical"
-                android:orientation="vertical">
+                android:padding="0dp"
+                android:text="@string/transfer_fee"
+                android:textSize="@dimen/font_size_description"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvTime"
+                app:layout_constraintStart_toStartOf="@+id/tvName" />
 
-                <com.bon.customview.textview.ExtTextView
-                    android:id="@+id/tvStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/icon_small"
-                    android:background="@drawable/bg_red_radius"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/padding_content"
-                    android:paddingRight="@dimen/padding_content"
-                    android:text="out"
-                    android:textAllCaps="true"
-                    android:textColor="@color/color_white"
-                    android:textSize="@dimen/font_size_description"
-                    app:textViewFontAssetName="@string/font_display_bold" />
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvTransferFee"
+                style="@style/StyleDescriptionContent"
+                android:layout_width="wrap_content"
+                android:layout_height="21dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:padding="0dp"
+                android:text="100"
+                android:textSize="@dimen/font_size_description"
+                app:layout_constraintBaseline_toBaselineOf="@+id/extTextView"
+                app:layout_constraintStart_toEndOf="@+id/extTextView"
+                app:textViewFontAssetName="@string/font_display_bold" />
 
-                <com.bon.customview.textview.ExtTextView
-                    android:id="@+id/tvTime"
-                    style="@style/StyleDescriptionContent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="0dp"
-                    android:text="12/12/2018"
-                    android:textSize="@dimen/font_size_description" />
-            </LinearLayout>
-        </LinearLayout>
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_content_small"
+                android:background="@drawable/bg_red_radius"
+                android:gravity="center"
+                android:paddingLeft="@dimen/padding_content"
+                android:paddingRight="@dimen/padding_content"
+                android:text="out"
+                android:textAllCaps="true"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/font_size_description"
+                app:layout_constraintBottom_toBottomOf="@+id/guideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvTime"
+                style="@style/StyleDescriptionContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_content_small"
+                android:padding="0dp"
+                android:text="12/12/2018"
+                android:textSize="@dimen/font_size_description"
+                app:layout_constraintEnd_toEndOf="@+id/tvStatus"
+                app:layout_constraintTop_toBottomOf="@+id/guideline" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.5" />
+
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.v7.widget.CardView>
 
@@ -129,6 +140,7 @@
         android:id="@+id/space_right"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:visibility="gone" />
 
 </LinearLayout>

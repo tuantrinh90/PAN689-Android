@@ -19,11 +19,12 @@ public class RecordDataPresenter extends BaseDataPresenter<IRecordView> implemen
     }
 
     @Override
-    public void getTransferHistories(Integer teamId, String gameOption) {
+    public void getTransferHistories(Integer teamId, String gameOption, int page) {
         getOptView().doIfPresent(v -> {
 
             Map<String, String> queries = new HashMap<>();
             queries.put("gameplay_option", gameOption);
+            queries.put("page", String.valueOf(page));
 
             mCompositeDisposable.add(RxUtilities.async(
                     v,

@@ -14,6 +14,8 @@ import com.football.fantasy.R;
 import com.football.fantasy.activities.AccountActivity;
 import com.football.fantasy.fragments.more.profile.ProfileFragment;
 import com.football.fantasy.fragments.more.settings.SettingsFragment;
+import com.football.fantasy.fragments.web_view.WebViewFragment;
+import com.football.utilities.ServiceConfig;
 
 import butterknife.OnClick;
 
@@ -54,6 +56,7 @@ public class MoreFragment extends BaseMainMvpFragment<IMoreView, IMorePresenter<
             case R.id.gamerules:
                 break;
             case R.id.contact:
+                WebViewFragment.start(this, getString(R.string.more), ServiceConfig.CONTACT);
                 break;
             case R.id.logout:
                 DialogUtils.messageBox(mActivity,

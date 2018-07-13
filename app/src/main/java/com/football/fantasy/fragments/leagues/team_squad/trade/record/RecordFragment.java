@@ -9,6 +9,7 @@ import com.football.adapters.RecordAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.models.responses.TeamResponse;
 import com.football.models.responses.TransferHistoryResponse;
 
@@ -63,7 +64,9 @@ public class RecordFragment extends BaseMainMvpFragment<IRecordView, IRecordPres
     }
 
     void initRecyclerView() {
-        RecordAdapter adapter = new RecordAdapter();
+        RecordAdapter adapter = new RecordAdapter(player -> {
+            PlayerDetailFragment.start(this, player, getString(R.string.record), false);
+        });
         rvRecord.adapter(adapter)
                 .refreshListener(this::refreshData)
                 .loadMoreListener(() -> {
@@ -74,12 +77,13 @@ public class RecordFragment extends BaseMainMvpFragment<IRecordView, IRecordPres
     }
 
     private void refreshData() {
+        page = 1;
         rvRecord.clear();
         getTransferHistories();
     }
 
     private void getTransferHistories() {
-        presenter.getTransferHistories(team.getId(), "transfer");
+        presenter.getTransferHistories(team.getId(), "transfer", page);
     }
 
     @Override

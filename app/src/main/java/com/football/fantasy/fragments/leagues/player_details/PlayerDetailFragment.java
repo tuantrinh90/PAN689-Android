@@ -3,6 +3,7 @@ package com.football.fantasy.fragments.leagues.player_details;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
@@ -16,6 +17,7 @@ import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageLoaderUtils;
 import com.bon.interfaces.Optional;
 import com.football.adapters.PlayerStatisticAdapter;
+import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.customizes.lineup.LineupView;
@@ -101,6 +103,12 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
     private int order = LineupView.NONE_ORDER;
 
     private ExtKeyValuePair keyValuePairKey = new ExtKeyValuePair("[{\"property\":\"total\", \"operator\":\"eq\",\"value\":\"all\"}]", "Total statistics");
+
+    public static void start(Fragment fragment, PlayerResponse player, String title, boolean pickEnable) {
+        AloneFragmentActivity.with(fragment)
+                .parameters(newBundle(player, title, pickEnable))
+                .start(PlayerDetailFragment.class);
+    }
 
     public static Bundle newBundle(PlayerResponse player, String title, boolean pickEnable) {
         Bundle bundle = new Bundle();
