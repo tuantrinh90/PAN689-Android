@@ -42,7 +42,7 @@ public class MoreFragment extends BaseMainMvpFragment<IMoreView, IMorePresenter<
         return new MoreDataPresenter(getAppComponent());
     }
 
-    @OnClick({R.id.profile, R.id.settings, R.id.gamerules, R.id.contact, R.id.logout})
+    @OnClick({R.id.profile, R.id.settings, R.id.gamerules, R.id.how_it_works, R.id.contact, R.id.logout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.profile:
@@ -54,6 +54,10 @@ public class MoreFragment extends BaseMainMvpFragment<IMoreView, IMorePresenter<
                 SettingsFragment.start(this);
                 break;
             case R.id.gamerules:
+//                WebViewFragment.start(this, getString(R.string.more), ServiceConfig.CONTACT);
+                break;
+            case R.id.how_it_works:
+                WebViewFragment.start(this, getString(R.string.more), ServiceConfig.FAQ);
                 break;
             case R.id.contact:
                 WebViewFragment.start(this, getString(R.string.more), ServiceConfig.CONTACT);
