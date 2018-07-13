@@ -28,7 +28,7 @@
     <string name="league_update_invalid_credentials">Verification is not valid</string>
     <string name="league_invalid_season">The league is not valid</string>
     <string name="league_invalid_budget">The budget is not valid</string>
-    <string name="league_invalid_setup_time">Setup Time is not valid</string>
+    <string name="league_invalid_setup_time">Start time must not be earlier than team setup time</string>
     <string name="league_invalid_start_transfer_time">Transfer time is not valid</string>
     <string name="league_invalid_start_draft_time">Draft time is not valid</string>
     <string name="league_invalid_trade_review">Trade review is not valid</string>
@@ -36,7 +36,7 @@
     <string name="league_number_user_not_edit">Number of users is not valid</string>
     <string name="league_invalid_number_user">User is not valid</string>
     <string name="league_invalid_scoring_system_no_edit">Scoring system is not valid</string>
-    <string name="league_invalid_setup_time_number_user_change">Setup Time is not valid</string>
+    <string name="league_invalid_setup_time_number_user_change">Start time must not be earlier than team setup time</string>
     <string name="league_not_found">Not found</string>
     <string name="could_not_found_cloud_storage">Cloud storage is not found</string>
     <string name="delete_file_failure">Unable to Delete File</string>
