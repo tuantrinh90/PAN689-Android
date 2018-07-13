@@ -4,12 +4,15 @@ import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
+import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TeamTransferringResponse;
 import com.football.utilities.RxUtilities;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.MultipartBody;
 
 public class TransferringDataPresenter extends BaseDataPresenter<ITransferringView> implements ITransferringPresenter<ITransferringView> {
     /**
@@ -48,6 +51,41 @@ public class TransferringDataPresenter extends BaseDataPresenter<ITransferringVi
                         @Override
                         public void onError(String error) {
                             v.showMessage(error);
+                        }
+                    }));
+        });
+    }
+
+    @Override
+    public void transferPlayer(Integer teamId, String gameplayOption, PlayerResponse fromPlayer, PlayerResponse toPlayer) {
+        getOptView().doIfPresent(v -> {
+
+            MultipartBody.Builder builder = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("gameplay_option", gameplayOption)
+                    .addFormDataPart("from_player_id", String.valueOf(fromPlayer.getId()))
+                    .addFormDataPart("to_player_id", String.valueOf(toPlayer.getId()));
+
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().transferPlayer(teamId, builder.build()),
+                    new ApiCallback<Object>() {
+                        @Override
+                        public void onStart() {
+                        }
+
+                        @Override
+                        public void onComplete() {
+                        }
+
+                        @Override
+                        public void onSuccess(Object response) {
+                            v.transferSuccess();
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            v.transferError(error);
                         }
                     }));
         });

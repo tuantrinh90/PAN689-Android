@@ -168,8 +168,8 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
     }
 
     void initView() {
-        Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.colorPrimary)));
-        Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white)));
+        Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.color_white)));
+        Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white_blue)));
 
         ivMenu.setVisibility(pickEnable ? View.VISIBLE : View.GONE);
         tvFilter.setText(keyValuePairKey.getValue());
@@ -189,7 +189,7 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
     public void initToolbar(@NonNull ActionBar supportActionBar) {
         super.initToolbar(supportActionBar);
         supportActionBar.setDisplayHomeAsUpEnabled(true);
-        supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
+        supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_blue);
     }
 
     @OnClick({R.id.selection})

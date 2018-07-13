@@ -3,6 +3,7 @@ package com.football.fantasy.fragments.leagues.player_pool;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
@@ -20,6 +21,7 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.customizes.searchs.SearchView;
 import com.football.events.PlayerQueryEvent;
+import com.football.events.TransferEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.fantasy.fragments.leagues.player_pool.display.PlayerPoolDisplayFragment;
@@ -40,6 +42,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     private static final String TAG = "PlayerPoolFragment";
 
     private static final String KEY_TITLE = "TITLE";
+    private static final String KEY_TRANSFER = "TRANSFER";
 
     private static final int REQUEST_FILTER = 100;
     private static final int REQUEST_DISPLAY = 101;
@@ -70,6 +73,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     LinearLayout option3;
 
     private String title;
+    private PlayerResponse transfer;
 
     private int page = Constant.PAGE_START_INDEX;
     private String filterClubs = "";
@@ -80,9 +84,16 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     private List<SeasonResponse> seasons;
     private String query = "";
 
-    public static Bundle newBundle(String title) {
+    public static void start(Fragment fragment, String title, PlayerResponse transfer) {
+        AloneFragmentActivity.with(fragment)
+                .parameters(PlayerPoolFragment.newBundle(title, transfer))
+                .start(PlayerPoolFragment.class);
+    }
+
+    private static Bundle newBundle(String title, PlayerResponse transfer) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_TITLE, title);
+        bundle.putSerializable(KEY_TRANSFER, transfer);
         return bundle;
     }
 
@@ -108,6 +119,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
 
     private void getDataFromBundle() {
         title = getArguments().getString(KEY_TITLE);
+        transfer = (PlayerResponse) getArguments().getSerializable(KEY_TRANSFER);
     }
 
     private void registerBus() {
@@ -132,6 +144,32 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                                 }
                             }
 
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    }));
+
+            // action add click on PlayerList
+            mCompositeDisposable.add(bus.ofType(TransferEvent.class)
+                    .subscribeWith(new DisposableObserver<TransferEvent>() {
+                        @Override
+                        public void onNext(TransferEvent event) {
+                            if (event.getAction() == TransferEvent.RECEIVER) {
+                                showLoading(false);
+                                if (!TextUtils.isEmpty(event.getMessage())) {
+                                    showMessage(event.getMessage());
+                                } else {
+                                    mActivity.finish();
+                                }
+                            }
                         }
 
                         @Override
@@ -200,6 +238,14 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                                     getString(R.string.player_list), false))
                             .start(PlayerDetailFragment.class);
                 });
+
+        if (transfer != null) {
+            // bắn về cho MH Transferring Player
+            adapter.setOptionAddCallback(player -> {
+                showLoading(true);
+                bus.send(new TransferEvent(transfer, player));
+            });
+        }
 
         rvPlayer.adapter(adapter)
                 .loadingLayout(0)

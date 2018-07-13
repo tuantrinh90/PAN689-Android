@@ -61,7 +61,7 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
         getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
-        initBackgroundToolbar();
+
         initView();
     }
 
@@ -79,7 +79,8 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
     public void initToolbar(@NonNull ActionBar supportActionBar) {
         super.initToolbar(supportActionBar);
         supportActionBar.setDisplayHomeAsUpEnabled(true);
-        supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
+        supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_blue);
+        initBackgroundToolbar();
     }
 
     @NonNull
@@ -89,8 +90,8 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
     }
 
     void initBackgroundToolbar() {
-        Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, android.R.color.transparent)));
-        Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white)));
+        Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.colorPrimary)));
+     //   Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white)));
     }
 
     void initView() {

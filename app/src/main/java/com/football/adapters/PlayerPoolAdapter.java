@@ -24,6 +24,10 @@ public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
     private CompositeDisposable mDisposable;
     private final Consumer<PlayerResponse> clickConsumer;
 
+    // options
+    private Consumer<PlayerResponse> deleteConsumer;
+    private Consumer<PlayerResponse> addConsumer;
+
     private String option1;
     private String option2;
     private String option3;
@@ -32,6 +36,14 @@ public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
         super(dataSet);
         this.clickConsumer = clickConsumer;
         mDisposable = new CompositeDisposable();
+    }
+
+    public void setOptionDeleteCallback(Consumer<PlayerResponse> deleteConsumer) {
+        this.deleteConsumer = deleteConsumer;
+    }
+
+    public void setOptionAddCallback(Consumer<PlayerResponse> addConsumer) {
+        this.addConsumer = addConsumer;
     }
 
     @Override
@@ -48,12 +60,25 @@ public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
     protected void onBindViewHolder(@NonNull DefaultHolder defaultHolder, PlayerResponse data, int position) {
         PlayerHolder holder = (PlayerHolder) defaultHolder;
 
-        //        ImageLoaderUtils.displayImage(data.getPhoto(), holder.ivAvatar);
         holder.tvName.setText(data.getName());
         holder.tvClub.setText(data.getRealClub().getName());
         holder.tvOption1.setText(getOptionValue(holder.itemView.getContext(), data, option1, holder.ivOption1));
         holder.tvOption2.setText(getOptionValue(holder.itemView.getContext(), data, option2, holder.ivOption2));
         holder.tvOption3.setText(getOptionValue(holder.itemView.getContext(), data, option3, holder.ivOption3));
+
+        holder.ivDelete.setVisibility(deleteConsumer != null ? View.VISIBLE : View.GONE);
+        holder.ivDelete.setOnClickListener(v -> {
+            if (deleteConsumer != null) {
+                deleteConsumer.accept(getItem(defaultHolder.getAdapterPosition()));
+            }
+        });
+
+        holder.ivAdd.setVisibility(addConsumer != null ? View.VISIBLE : View.GONE);
+        holder.ivAdd.setOnClickListener(v -> {
+            if (addConsumer != null) {
+                addConsumer.accept(getItem(defaultHolder.getAdapterPosition()));
+            }
+        });
 
         AppUtilities.displayPlayerPosition(holder.tvPositionPrimary, data.getMainPosition(), data.getMainPositionText());
         AppUtilities.displayPlayerPosition(holder.tvPositionSecond, data.getMinorPosition(), data.getMinorPositionText());
@@ -74,7 +99,7 @@ public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
      * SAVES, YELLOW_CARDS, DRIBBLES, TURNOVERS, BALLS_RECOVERED, FOULS_COMMITTED
      */
     private String getOptionValue(Context context, PlayerResponse data, String option, ImageView ivOption) {
-        ivOption.setVisibility(View.INVISIBLE);
+        ivOption.setVisibility(View.GONE);
         String value = "";
         switch (option) {
             case PlayerResponse.Options.VALUE:
@@ -146,6 +171,10 @@ public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
         ImageView ivOption2;
         @BindView(R.id.ivOption3)
         ImageView ivOption3;
+        @BindView(R.id.ivDelete)
+        ImageView ivDelete;
+        @BindView(R.id.ivAdd)
+        ImageView ivAdd;
 
         public PlayerHolder(View itemView) {
             super(itemView);

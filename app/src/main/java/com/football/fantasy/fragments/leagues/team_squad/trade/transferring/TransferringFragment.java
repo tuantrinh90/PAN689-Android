@@ -16,8 +16,10 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.events.PlayerQueryEvent;
+import com.football.events.TransferEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
+import com.football.fantasy.fragments.leagues.player_pool.PlayerPoolFragment;
 import com.football.fantasy.fragments.leagues.player_pool.display.PlayerPoolDisplayFragment;
 import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilterFragment;
 import com.football.models.responses.PlayerResponse;
@@ -152,6 +154,30 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
                         }
                     }));
 
+            // action add click on PlayerPool
+            mCompositeDisposable.add(bus.ofType(TransferEvent.class)
+                    .subscribeWith(new DisposableObserver<TransferEvent>() {
+                        @Override
+                        public void onNext(TransferEvent event) {
+                            if (event.getAction() == TransferEvent.SENDER) {
+                                presenter.transferPlayer(team.getId(),
+                                        "transfer",
+                                        event.getFromPlayer(),
+                                        event.getToPlayer());
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    }));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -196,6 +222,8 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
                                     getString(R.string.player_pool), false))
                             .start(PlayerDetailFragment.class);
                 });
+        // remove click
+        adapter.setOptionDeleteCallback(this::transferPlayer);
         adapter.setOptions(VALUE, POINT, GOALS);
 
         rvPlayer.adapter(adapter)
@@ -203,10 +231,9 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
                 .build();
 
         // injured
+        // remove click
         InjuredPlayerAdapter injuredPlayerAdapter = new InjuredPlayerAdapter(
-                player -> {
-
-                });
+                this::transferPlayer);
         rvInjured
                 .adapter(injuredPlayerAdapter)
                 .layoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false))
@@ -221,6 +248,11 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
 
     private void getTeamTransferring() {
         presenter.getTeamTransferring(team.getId(), filterPositions, filterClubs, displays, sorts);
+    }
+
+    private void transferPlayer(PlayerResponse player) {
+        // append PlayerPool
+        PlayerPoolFragment.start(this, getString(R.string.transferring_player), player);
     }
 
     @OnClick({R.id.filter, R.id.display, R.id.option1, R.id.option2, R.id.option3})
@@ -306,5 +338,16 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
         tvTransferringPlayerLeftValue.setText(transferPlayerLeftDisplay);
         tvTransferringTimeLeftValue.setText(AppUtilities.timeLeft(transferTimeLeft));
         tvBudgetValue.setText(AppUtilities.getMoney(budget));
+    }
+
+    @Override
+    public void transferSuccess() {
+        bus.send(new TransferEvent(TransferEvent.RECEIVER, ""));
+        refreshData();
+    }
+
+    @Override
+    public void transferError(String error) {
+        bus.send(new TransferEvent(TransferEvent.RECEIVER, error));
     }
 }

@@ -171,6 +171,10 @@ public interface IApiService {
     Observable<BaseResponse<TeamTransferringResponse>> getTeamTransferring(@Path(ServiceConfig.KEY_ID) int teamId,
                                                                            @QueryMap Map<String, String> queries);
 
+    @POST(ServiceConfig.TRANSFER_PLAYER)
+    Observable<BaseResponse<Object>> transferPlayer(@Path(ServiceConfig.KEY_ID) int teamId,
+                                                                      @Body RequestBody body);
+
     @GET(ServiceConfig.TRANSFER_HISTORIES)
     Observable<BaseResponse<PagingResponse<TransferHistoryResponse>>> getTransferHistories(@Path(ServiceConfig.KEY_ID) int teamId,
                                                                                            @QueryMap Map<String, String> queries);
