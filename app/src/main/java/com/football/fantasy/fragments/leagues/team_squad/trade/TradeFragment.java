@@ -10,7 +10,6 @@ import android.support.v7.app.ActionBar;
 import android.view.View;
 
 import com.bon.interfaces.Optional;
-import com.football.adapters.PagerAdapter;
 import com.football.adapters.StatePagerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
@@ -79,7 +78,7 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
     public void initToolbar(@NonNull ActionBar supportActionBar) {
         super.initToolbar(supportActionBar);
         supportActionBar.setDisplayHomeAsUpEnabled(true);
-        supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_blue);
+        supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
         initBackgroundToolbar();
     }
 
@@ -91,7 +90,7 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
 
     void initBackgroundToolbar() {
         Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.colorPrimary)));
-     //   Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white)));
+        Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white)));
     }
 
     void initView() {
@@ -106,8 +105,8 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
 
         // view pager
         StatePagerAdapter mAdapter = new StatePagerAdapter(getChildFragmentManager());
-        mAdapter.addFragment(TransferringFragment.newInstance(team));
-        mAdapter.addFragment(RecordFragment.newInstance(team));
+        mAdapter.addFragment(TransferringFragment.newInstance(team).setChildFragment(true));
+        mAdapter.addFragment(RecordFragment.newInstance(team).setChildFragment(true));
         vpViewPager.setAdapter(mAdapter);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
