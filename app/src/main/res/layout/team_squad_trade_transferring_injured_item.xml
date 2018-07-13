@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/padding_content"
+    android:layout_marginRight="@dimen/padding_content"
+    android:background="@drawable/bg_white_component_radius"
+    android:gravity="center_vertical"
+    android:paddingLeft="@dimen/padding_content"
+    android:paddingRight="@dimen/padding_content">
+
+    <com.bon.customview.textview.ExtTextView
+        android:id="@+id/tvName"
+        style="@style/StyleDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/filter"
+        app:textViewFontAssetName="@string/font_display_bold" />
+
+    <ImageView
+        android:id="@+id/ivDelete"
+        style="@style/IconTiny"
+        android:background="@drawable/bg_circle_red"
+        android:padding="@dimen/padding_small"
+        android:src="@drawable/ic_remove_small" />
+
+</LinearLayout>

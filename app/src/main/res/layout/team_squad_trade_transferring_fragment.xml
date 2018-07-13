@@ -210,7 +210,9 @@
                     <com.football.customizes.recyclerview.ExtRecyclerView
                         android:id="@+id/rv_injured"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="@dimen/icon_large"
+                        android:layout_marginLeft="@dimen/padding_content"
+                        android:layout_marginStart="@dimen/padding_content" />
 
                 </LinearLayout>
 

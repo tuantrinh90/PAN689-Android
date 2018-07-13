@@ -3,12 +3,14 @@ package com.football.fantasy.fragments.leagues.team_squad.trade.transferring;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.textview.ExtTextView;
+import com.football.adapters.InjuredPlayerAdapter;
 import com.football.adapters.PlayerPoolAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
@@ -54,6 +56,8 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
 
     @BindView(R.id.rvPlayer)
     ExtRecyclerView<PlayerResponse> rvPlayer;
+    @BindView(R.id.rv_injured)
+    ExtRecyclerView<PlayerResponse> rvInjured;
     @BindView(R.id.tvOption1)
     ExtTextView tvOption1;
     @BindView(R.id.tvOption2)
@@ -79,10 +83,6 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
     ExtTextView tvTransferringTimeLeftValue;
     @BindView(R.id.tvBudgetValue)
     ExtTextView tvBudgetValue;
-
-
-    @BindView(R.id.rv_injured)
-    ExtRecyclerView rvInjured;
 
     private TeamResponse team;
 
@@ -201,6 +201,16 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
         rvPlayer.adapter(adapter)
                 .refreshListener(this::refreshData)
                 .build();
+
+        // injured
+        InjuredPlayerAdapter injuredPlayerAdapter = new InjuredPlayerAdapter(
+                player -> {
+
+                });
+        rvInjured
+                .adapter(injuredPlayerAdapter)
+                .layoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false))
+                .build();
     }
 
     private void refreshData() {
@@ -288,7 +298,7 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
 
     @Override
     public void displayInjuredPlayers(List<PlayerResponse> injuredPlayers) {
-
+        rvInjured.addItems(injuredPlayers);
     }
 
     @Override

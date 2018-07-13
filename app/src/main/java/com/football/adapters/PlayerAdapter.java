@@ -88,7 +88,7 @@ public class PlayerAdapter extends DefaultAdapter<PlayerResponse> {
     public int findPlayerById(int playerId) {
         List<PlayerResponse> players = getDataSet();
         for (PlayerResponse player : players) {
-            if (player.getId().equals(playerId)) {
+            if (player != null && player.getId().equals(playerId)) {
                 return players.indexOf(player);
             }
         }
