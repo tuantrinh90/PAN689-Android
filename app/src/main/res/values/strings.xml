@@ -91,6 +91,7 @@
     <string name="invite_friend">Invite friend</string>
     <string name="ranking">Ranking</string>
     <string name="trade_review">Trade review</string>
+    <string name="results">Results</string>
     <string name="setup_team">Setup team</string>
     <string name="setup_your_team">Setup your team</string>
     <string name="team_name">Team name</string>
@@ -266,7 +267,7 @@
     <string name="record">Record</string>
     <string name="transfer_fee">Transfer fee:</string>
     <string name="message_confirm_start_league">This league will start after you confirm this message.</string>
-    <string name="message_change_password_success">Successful</string>
+    <string name="message_change_password_success">Your password has been changed successfully!</string>
     <string name="push_notification">Push notification</string>
     <string name="email_alert">Email alert</string>
     <string name="message_delete">message_delete</string>

@@ -311,7 +311,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
             }
         } else if (league.getStatus() == LeagueResponse.ON_GOING) {
             carousels.add(new Carousel(getString(R.string.ranking), false));
-            carousels.add(new Carousel(getString(R.string.trade_review), false));
+            carousels.add(new Carousel(getString(R.string.results), false));
 
             mvpFragments.add(NotificationFragment.newInstance().setChildFragment(true));
             mvpFragments.add(NotificationFragment.newInstance().setChildFragment(true));

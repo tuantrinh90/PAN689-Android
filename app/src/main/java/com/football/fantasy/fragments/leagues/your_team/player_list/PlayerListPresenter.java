@@ -40,7 +40,7 @@ public class PlayerListPresenter extends BaseDataPresenter<IPlayerListView> impl
             }
 
             if (!TextUtils.isEmpty(filterClubs)) {
-                queries.put(Constant.KEY_CLUBS, String.valueOf(filterPositions));
+                queries.put(Constant.KEY_CLUBS, String.valueOf(filterClubs));
             }
 
             // sort

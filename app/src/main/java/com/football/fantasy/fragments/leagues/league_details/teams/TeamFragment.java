@@ -16,6 +16,7 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.events.TeamEvent;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
@@ -102,9 +103,11 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
                     new ArrayList<>(),
                     league.getOwner(),
                     team -> { // click detail
-                        AloneFragmentActivity.with(this)
-                                .parameters(TeamDetailFragment.newBundle(team, league.getId()))
-                                .start(TeamDetailFragment.class);
+                        if (!leagueType.equals(LeagueDetailFragment.OPEN_LEAGUES)) {
+                            AloneFragmentActivity.with(this)
+                                    .parameters(TeamDetailFragment.newBundle(team, league.getId()))
+                                    .start(TeamDetailFragment.class);
+                        }
                     },
                     team -> { // click remove
                         DialogUtils.confirmBox(mActivity,

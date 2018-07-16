@@ -14,6 +14,7 @@ import com.football.customizes.images.CircleImageViewApp;
 import com.football.events.StartLeagueEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
+import com.football.fantasy.fragments.leagues.team_lineup.TeamLineUpFragment;
 import com.football.fantasy.fragments.leagues.your_team.YourTeamFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.utilities.AppUtilities;
@@ -106,9 +107,16 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
                             getString(R.string.league_information), leagueType))
                     .start(SetupTeamFragment.class);
         } else {
-            AloneFragmentActivity.with(this)
-                    .parameters(YourTeamFragment.newBundle(league))
-                    .start(YourTeamFragment.class);
+            if (league.getStatus().equals(LeagueResponse.WAITING_FOR_START)) {
+                AloneFragmentActivity.with(this)
+                        .parameters(YourTeamFragment.newBundle(league))
+                        .start(YourTeamFragment.class);
+            } else {
+                league.getTeam().setUserId(league.getUserId());
+                AloneFragmentActivity.with(this)
+                        .parameters(TeamLineUpFragment.newBundle(getString(R.string.league_information), league.getTeam()))
+                        .start(TeamLineUpFragment.class);
+            }
         }
     }
 
