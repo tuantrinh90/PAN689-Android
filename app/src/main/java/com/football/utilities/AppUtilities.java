@@ -107,6 +107,14 @@ public class AppUtilities {
         return System.currentTimeMillis() < AppUtilities.getTimestamp(setupTime);
     }
 
+    public static boolean isStartLeagueEnable(LeagueResponse league) {
+        return league.getOwner()
+                && !league.getTeamSetup().equals(league.getStartAt())
+                && !AppUtilities.isSetupTime(league.getTeamSetup())
+                && league.getNumberOfUser() - league.getCurrentNumberOfUser() <= 1
+                && league.getStatus() == LeagueResponse.WAITING_FOR_START;
+    }
+
     public static String timeLeft(long totalSecs) {
         long hours = totalSecs / 3600;
         long minutes = (totalSecs % 3600) / 60;

@@ -53,8 +53,6 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
     LeagueResponse league;
     String leagueType;
 
-    TeamAdapter teamAdapter;
-
     @Override
     public int getResourceId() {
         return R.layout.team_fragment;
@@ -100,24 +98,26 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
     void initView() {
         try {
             displayTime();
-            teamAdapter = new TeamAdapter(
+            TeamAdapter teamAdapter = new TeamAdapter(
                     new ArrayList<>(),
                     league.getOwner(),
-                    team -> {
+                    team -> { // click detail
                         AloneFragmentActivity.with(this)
                                 .parameters(TeamDetailFragment.newBundle(team, league.getId()))
                                 .start(TeamDetailFragment.class);
                     },
-                    removeTeamResponse -> {
+                    team -> { // click remove
                         DialogUtils.confirmBox(mActivity,
                                 getString(R.string.app_name),
-                                String.format(getString(R.string.remove_team_message), removeTeamResponse.getName()),
+                                String.format(getString(R.string.remove_team_message), team.getName()),
                                 getString(R.string.yes),
                                 getString(R.string.no), (dialogInterface, i) -> {
-                                    presenter.removeTeam(league.getId(), removeTeamResponse.getId());
+                                    if (league.getStatus() == LeagueResponse.WAITING_FOR_START) {
+                                        presenter.removeTeam(league.getId(), team.getId());
+                                    }
                                 });
                     });
-
+            teamAdapter.removeVisible(league.getStatus() == LeagueResponse.WAITING_FOR_START);
             rvTeam.
                     adapter(teamAdapter)
                     .refreshListener(() -> {

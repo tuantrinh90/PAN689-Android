@@ -170,11 +170,7 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
 
             // show button start league
             // conditions: owner + after setup time and before start time. + !isSetupTime + The number of missing user in the league does not exceed 1 user
-            if (league.getOwner()
-                    && !league.getTeamSetup().equals(league.getStartAt())
-                    && !AppUtilities.isSetupTime(league.getTeamSetup())
-                    && league.getNumberOfUser() - league.getCurrentNumberOfUser() <= 1
-                    && league.getStatus() == LeagueResponse.WAITING_FOR_START) {
+            if (AppUtilities.isStartLeagueEnable(league)) {
                 tvStartLeague.setVisibility(View.VISIBLE);
             }
 
@@ -190,6 +186,8 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
 
             } else if (league.getStatus() == LeagueResponse.ON_GOING) {
                 tvSetupTeam.setText(R.string.lineup_my_team);
+                tvTimeLabel.setText(R.string.transfer_deadline);
+                tvTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
 
             } else if (league.getStatus() == LeagueResponse.FINISHED) {
                 tvSetupTeam.setVisibility(View.GONE);

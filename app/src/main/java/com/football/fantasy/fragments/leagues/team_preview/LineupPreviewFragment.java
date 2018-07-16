@@ -25,8 +25,10 @@ import butterknife.OnCheckedChanged;
 
 public class LineupPreviewFragment extends BaseMainMvpFragment<ILineupPreviewView, ITeamPreviewPresenter<ILineupPreviewView>> implements ILineupPreviewView {
 
-    private static final String KEY_TEAM_ID = "TEAM_ID";
+    private static final String KEY_TEAM = "TEAM_ID";
 
+    @BindView(R.id.tvTitle)
+    ExtTextView tvTitle;
     @BindView(R.id.lineupView)
     LineupView lineupView;
     @BindView(R.id.svGoalkeeper)
@@ -40,17 +42,17 @@ public class LineupPreviewFragment extends BaseMainMvpFragment<ILineupPreviewVie
     @BindView(R.id.tvBudget)
     ExtTextView tvBudget;
 
-    private int teamId;
+    private TeamResponse team;
 
-    public static void start(Fragment fragment, int teamId) {
+    public static void start(Fragment fragment, TeamResponse team) {
         AloneFragmentActivity.with(fragment)
-                .parameters(LineupPreviewFragment.newBundle(teamId))
+                .parameters(LineupPreviewFragment.newBundle(team))
                 .start(LineupPreviewFragment.class);
     }
 
-    public static Bundle newBundle(int teamId) {
+    public static Bundle newBundle(TeamResponse team) {
         Bundle bundle = new Bundle();
-        bundle.putInt(KEY_TEAM_ID, teamId);
+        bundle.putSerializable(KEY_TEAM, team);
         return bundle;
     }
 
@@ -66,11 +68,11 @@ public class LineupPreviewFragment extends BaseMainMvpFragment<ILineupPreviewVie
         bindButterKnife(view);
 
         initView();
-        presenter.getLineup(teamId);
+        presenter.getLineup(team.getId());
     }
 
     private void getDataFromBundle() {
-        teamId = getArguments().getInt(KEY_TEAM_ID);
+        team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
     }
 
     @NonNull
@@ -92,6 +94,8 @@ public class LineupPreviewFragment extends BaseMainMvpFragment<ILineupPreviewVie
     }
 
     private void initView() {
+        tvTitle.setText(team.getName());
+
         lineupView.setEditable(false);
         lineupView.setAddable(true);
         lineupView.setRemovable(false);

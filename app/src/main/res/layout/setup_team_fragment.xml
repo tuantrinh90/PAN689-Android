@@ -65,26 +65,20 @@
         android:lines="6"
         app:editTextAppHint="@string/tell_us_more_about_your_team" />
 
-    <FrameLayout
+    <com.bon.customview.shadowlayout.ShadowLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="@dimen/padding_layout"
+        app:shadowLayoutCornerRadius="@dimen/component_radius"
+        app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+        app:shadowLayoutShadowColor="@color/color_shadow">
 
-        <com.bon.customview.shadowlayout.ShadowLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_margin="@dimen/padding_layout"
-            app:shadowLayoutCornerRadius="@dimen/component_radius"
-            app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
-            app:shadowLayoutShadowColor="@color/color_shadow">
-
-            <com.bon.customview.textview.ExtTextView
-                android:id="@+id/tvCreateTeam"
-                style="@style/StyleButton"
-                android:text="@string/create_team"
-                android:textAllCaps="true"
-                app:textViewFontAssetName="@string/font_display_black" />
-        </com.bon.customview.shadowlayout.ShadowLayout>
-    </FrameLayout>
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvCreateTeam"
+            style="@style/StyleButton"
+            android:text="@string/create_team"
+            android:textAllCaps="true"
+            app:textViewFontAssetName="@string/font_display_black" />
+    </com.bon.customview.shadowlayout.ShadowLayout>
 </LinearLayout>

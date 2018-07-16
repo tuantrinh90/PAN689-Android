@@ -219,7 +219,7 @@
     <string name="stat_1">Stat 1</string>
     <string name="injured">Injured</string>
     <string name="total">Total</string>
-    <string name="team_list_label">Complete Team will be listed here and visible to all participants.</string>
+    <string name="team_list_label">You can view the lineup of completed teams</string>
     <string name="filter_the_list">Filter the list</string>
     <string name="filter_by_position">Filter by position</string>
     <string name="filter_by_club">Filter by club</string>
@@ -266,8 +266,10 @@
     <string name="record">Record</string>
     <string name="transfer_fee">Transfer fee:</string>
     <string name="message_confirm_start_league">This league will start after you confirm this message.</string>
-    <string name="message_change_password_success">Successsful</string>
+    <string name="message_change_password_success">Successful</string>
     <string name="push_notification">Push notification</string>
     <string name="email_alert">Email alert</string>
     <string name="message_delete">message_delete</string>
+    <string name="message_not_owner_the_team">You are not owner of the team.</string>
+    <string name="transfer_deadline">Transfer deadline</string>
 </resources>

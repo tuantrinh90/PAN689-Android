@@ -27,6 +27,7 @@ public class TeamAdapter extends DefaultAdapter<TeamResponse> {
     private boolean leagueOwner;
     private Consumer<TeamResponse> detailCallback;
     private Consumer<TeamResponse> removeCallback;
+    private boolean removable;
 
     public TeamAdapter(List<TeamResponse> teams,
                        boolean leagueOwner,
@@ -59,7 +60,7 @@ public class TeamAdapter extends DefaultAdapter<TeamResponse> {
         boolean owner = data.getOwner();
         holder.ivLock.setVisibility(owner ? View.VISIBLE : View.GONE);
         holder.tvCompleted.setVisibility(View.GONE);
-        holder.tvRemove.setVisibility(this.leagueOwner && !owner ? View.VISIBLE : View.GONE);
+        holder.tvRemove.setVisibility(removable && this.leagueOwner && !owner ? View.VISIBLE : View.GONE);
 
         // click
         mDisposable.add(RxView.clicks(holder.itemView)
@@ -68,6 +69,10 @@ public class TeamAdapter extends DefaultAdapter<TeamResponse> {
                 })));
 
         mDisposable.add(RxView.clicks(holder.tvRemove).subscribe(o -> Optional.from(removeCallback).doIfPresent(t -> t.accept(data))));
+    }
+
+    public void removeVisible(boolean removable) {
+        this.removable = removable;
     }
 
     static class TeamHolder extends DefaultHolder {
