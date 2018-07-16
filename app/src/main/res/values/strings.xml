@@ -169,7 +169,7 @@
     <string name="league_details">League details</string>
     <string name="team_details">Team details</string>
     <string name="message_confirm_remove_lineup_player">Do you really want to remove this player out of your lineup?</string>
-    <string name="message_logout">message_logout?</string>
+    <string name="message_logout">Do you really want to log out?</string>
     <string name="message_full_position">No vacancy for this position</string>
     <string name="statistics">Statistics</string>
     <string name="team_creation">Complete team creation</string>

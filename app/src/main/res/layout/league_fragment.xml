@@ -11,7 +11,6 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/padding_layout"
-        android:paddingRight="@dimen/padding_layout"
         android:paddingTop="@dimen/padding_layout">
 
         <com.bon.customview.textview.ExtTextView
@@ -22,20 +21,29 @@
             android:text="@string/leagueResponses"
             app:textViewFontAssetName="@string/font_display_heavy_italic" />
 
-        <com.bon.customview.shadowlayout.ShadowLayout
+        <FrameLayout
+            android:id="@+id/btnAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:shadowLayoutCornerRadius="@dimen/component_radius"
-            app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
-            app:shadowLayoutShadowColor="@color/color_shadow">
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="@dimen/padding_layout">
 
-            <ImageView
-                android:id="@+id/btnAdd"
-                style="@style/FloatingActionButton"
-                android:background="@drawable/bg_button_float_action"
-                android:layout_marginTop="@dimen/shadow_layout_dxy_normal"
-                android:src="@drawable/ic_add_white_small" />
-        </com.bon.customview.shadowlayout.ShadowLayout>
+            <com.bon.customview.shadowlayout.ShadowLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:shadowLayoutCornerRadius="@dimen/component_radius"
+                app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+                app:shadowLayoutShadowColor="@color/color_shadow">
+
+                <ImageView
+                    style="@style/FloatingActionButton"
+                    android:layout_marginTop="@dimen/shadow_layout_dxy_normal"
+                    android:background="@drawable/bg_button_float_action"
+                    android:src="@drawable/ic_add_white_small" />
+            </com.bon.customview.shadowlayout.ShadowLayout>
+
+        </FrameLayout>
     </LinearLayout>
 
     <com.football.customizes.carousels.CarouselView

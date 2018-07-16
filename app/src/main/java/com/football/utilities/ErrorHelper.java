@@ -42,7 +42,7 @@ public class ErrorHelper {
                 break;
             case ErrorCodes.APP_ERROR:
                 String messageError = error.getMessage();
-                stringRes = context.getString(R.string.not_found_resource);
+                stringRes = /*context.getString(R.string.not_found_resource)*/  messageError;
                 if (messageError != null) {
                     int idRes = context.getResources().getIdentifier(messageError, "string", context.getPackageName());
                     if (idRes != 0) {

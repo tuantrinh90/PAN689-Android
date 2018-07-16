@@ -31,17 +31,18 @@ public class ExtDayMonthYearHourMinuteDialogFragment extends ExtBaseBottomDialog
     }
 
     // const
-      static final int MIN_INDEX_MONTH = 0;
-      static final int MAX_INDEX_MONTH = 11;
-      static final int MIN_INDEX_DAY = 1;
-      static final int MAX_INDEX_DAY_31 = 31;
-      static final int MAX_INDEX_DAY_30 = 30;
-      static final int MAX_INDEX_DAY_29 = 29;
-      static final int MAX_INDEX_DAY_28 = 28;
-      static final int MIN_INDEX_HOUR = 0;
-      static final int MAX_INDEX_HOUR = 23;
-      static final int MIN_INDEX_MINUTE = 0;
-      static final int MAX_INDEX_MINUTE = 59;
+    static final int MIN_INDEX_MONTH = 0;
+    static final int MAX_INDEX_MONTH = 11;
+    static final int MIN_INDEX_DAY = 1;
+    static final int MAX_INDEX_DAY_31 = 31;
+    static final int MAX_INDEX_DAY_30 = 30;
+    static final int MAX_INDEX_DAY_29 = 29;
+    static final int MAX_INDEX_DAY_28 = 28;
+    static final int MIN_INDEX_HOUR = 0;
+    static final int MAX_INDEX_HOUR = 23;
+    static final int MIN_INDEX_MINUTE = 0;
+//    static final int MAX_INDEX_MINUTE = 59;
+    static final int MAX_INDEX_MINUTE = 3;
 
     // view
     ExtTextView tvCancel;
@@ -170,13 +171,14 @@ public class ExtDayMonthYearHourMinuteDialogFragment extends ExtBaseBottomDialog
             numPickerHour.setMaxValue(MAX_INDEX_HOUR);
 
             // minute values display
-            numPickerMinute.setDisplayedValues(new String[]{
-                    "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
-                    "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21",
-                    "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32",
-                    "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43",
-                    "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54",
-                    "55", "56", "57", "58", "59"});
+//            numPickerMinute.setDisplayedValues(new String[]{
+//                    "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
+//                    "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21",
+//                    "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32",
+//                    "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43",
+//                    "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54",
+//                    "55", "56", "57", "58", "59"});
+            numPickerMinute.setDisplayedValues(new String[]{"00", "15", "30", "45"});
 
             numPickerMinute.setMinValue(MIN_INDEX_MINUTE);
             numPickerMinute.setMaxValue(MAX_INDEX_MINUTE);
