@@ -80,6 +80,7 @@ public class EditProfileFragment extends BaseMainMvpFragment<IEditProfileView, I
         bindButterKnife(view);
         initToolbar();
 
+        etEmail.setEnabled(false);
         presenter.getProfile();
     }
 
@@ -228,10 +229,10 @@ public class EditProfileFragment extends BaseMainMvpFragment<IEditProfileView, I
         } else if (etPhone.getContent().length() < Constant.MIN_PHONE || etPhone.getContent().length() > Constant.MAX_PHONE) {
             etPhone.setError(getString(R.string.field_phone_invalid));
             valid = false;
-        } else if (!EmailUtils.isValidate(etEmail.getContent())) {
+        } /*else if (!EmailUtils.isValidate(etEmail.getContent())) {
             etEmail.setError(getString(R.string.error_email_address_not_valid));
             return false;
-        } else if (etIntroduction.getContent().length() > Constant.MAX_255_CHARACTERS) {
+        }*/ else if (etIntroduction.getContent().length() > Constant.MAX_255_CHARACTERS) {
             etIntroduction.setError(getString(R.string.field_max_255_character));
             valid = false;
         }
@@ -251,7 +252,7 @@ public class EditProfileFragment extends BaseMainMvpFragment<IEditProfileView, I
         etGender.setContent(getString(user.getGender() == UserResponse.GENDER_MALE ? R.string.male : R.string.female));
         etAddress.setContent(user.getAddress());
         etPhone.setContent(user.getPhone());
-        etEmail.setContent(user.getEmail());
+//        etEmail.setContent(user.getEmail());
         etIntroduction.setContent(user.getDescription());
     }
 

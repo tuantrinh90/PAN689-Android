@@ -11,10 +11,11 @@ import com.bon.customview.checkbox.ExtCheckBox;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.logger.Logger;
 import com.bon.textstyle.TextViewLinkMovementMethod;
+import com.bon.util.ActivityUtils;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
-import com.football.events.SignInEvent;
 import com.football.fantasy.R;
+import com.football.fantasy.activities.MainActivity;
 import com.football.fantasy.fragments.web_view.WebViewFragment;
 import com.football.models.requests.SignupRequest;
 import com.football.utilities.Constant;
@@ -129,9 +130,15 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
             etPassword.setContent("");
             etConfirmPassword.setContent("");
             cbAgreed.setChecked(false);
-            bus.send(new SignInEvent());
+//            bus.send(new SignInEvent());
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
+    }
+
+    @Override
+    public void goToMain() {
+        ActivityUtils.startActivity(MainActivity.class);
+        getActivity().finish();
     }
 }

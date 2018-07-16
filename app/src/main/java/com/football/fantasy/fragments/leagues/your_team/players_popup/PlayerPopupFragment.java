@@ -196,7 +196,7 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
             svSearchView.getSearchView().setHint(R.string.search_public_players);
 
             // search view
-            svSearchView.setSearchConsumer(query -> onPerformSearch(query));
+            svSearchView.setSearchConsumer(query -> onPerformSearch(query.trim()));
 
             // playerResponses
             playerAdapter = new PlayerAdapter(

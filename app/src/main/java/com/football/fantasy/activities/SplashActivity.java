@@ -31,7 +31,7 @@ public class SplashActivity extends BaseAppCompatActivity {
         super.onCreate(savedInstanceState);
 
         new Handler().postDelayed(() -> {
-            UserResponse user = AppPreferences.getInstance(getAppContext()).getObject(Constant.KEY_USER, UserResponse.class);
+            UserResponse user = AppPreferences.getInstance(this).getObject(Constant.KEY_USER, UserResponse.class);
             startActivity(new Intent(this, user == null ? AccountActivity.class : MainActivity.class));
             finish();
         }, 1000);

@@ -59,8 +59,8 @@ public class MatchUpFragment extends BaseMainMvpFragment<IMatchUpView, IMatchUpP
 
         // view pager
         StatePagerAdapter mAdapter = new StatePagerAdapter(getChildFragmentManager());
-        mAdapter.addFragment(MatchupRealLeagueFragment.newInstance());
-        mAdapter.addFragment(MatchupMyLeagueFragment.newInstance());
+        mAdapter.addFragment(MatchupRealLeagueFragment.newInstance().setChildFragment(true));
+        mAdapter.addFragment(MatchupMyLeagueFragment.newInstance().setChildFragment(true));
         vpViewPager.setAdapter(mAdapter);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

@@ -88,7 +88,7 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
                 llInvite.setVisibility(StringUtils.isEmpty(query) ? View.VISIBLE : View.GONE);
                 rvFriend.clear();
                 page = 1;
-                getFriends(query);
+                getFriends(query.trim());
             });
 
             inviteFriendAdapter = new InviteFriendAdapter(

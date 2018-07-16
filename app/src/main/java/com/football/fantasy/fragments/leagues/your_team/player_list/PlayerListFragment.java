@@ -127,7 +127,7 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
             svSearchView.setFilerConsumer(v -> onClickFilter());
 
             // search view
-            svSearchView.setSearchConsumer(query -> onPerformSearch(query));
+            svSearchView.setSearchConsumer(query -> onPerformSearch(query.trim()));
 
             // playerResponses
 

@@ -23,7 +23,6 @@
             android:layout_weight="1"
             android:gravity="left"
             android:padding="0dp"
-            android:textAllCaps="true"
             app:textViewFontAssetName="@string/font_display_black_italic"
             tools:text="Jupiter Pro League" />
 

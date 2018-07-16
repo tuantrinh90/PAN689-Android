@@ -156,7 +156,7 @@
     <string name="resend_forgot_success">@string/forgot_description_success</string>
     <string name="agreed_error">Please read and agree to the Term and Privacy policy by tapping on the checkbox</string>
     <string name="confirm_not_match">You must enter the same password twice in order to confirm it</string>
-    <string name="register_successful">You have successfully registered. Please check the email to activate your account!</string>
+    <string name="register_successful">You have successfully registered an account</string>
     <string name="message_confirm_leave_leagues">Are you sure you want to leave this league?</string>
     <string name="message_confirm_complete">Are you sure to complete your team creation?</string>
     <string name="your_team_has_enough_players">your_team_has_enough_players</string>
@@ -245,6 +245,7 @@
     <string name="more_how_it_works">How it works</string>
     <string name="more_contact">Contact us</string>
     <string name="fullname">Full name</string>
+    <string name="your_name">Your name</string>
     <string name="dob">Date of birth</string>
     <string name="gender">Gender</string>
     <string name="address">Address</string>
@@ -273,4 +274,6 @@
     <string name="message_delete">message_delete</string>
     <string name="message_not_owner_the_team">You are not owner of the team.</string>
     <string name="transfer_deadline">Transfer deadline</string>
+    <string name="off">Off</string>
+    <string name="on">On</string>
 </resources>

@@ -1,11 +1,13 @@
 package com.football.fantasy.fragments.account.signup;
 
+import com.bon.share_preferences.AppPreferences;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.fantasy.R;
 import com.football.listeners.ApiCallback;
 import com.football.models.requests.SignupRequest;
 import com.football.models.responses.UserResponse;
+import com.football.utilities.Constant;
 import com.football.utilities.RxUtilities;
 
 import okhttp3.MultipartBody;
@@ -44,7 +46,9 @@ public class SignUpDataPresenter<V extends ISignUpView> extends BaseDataPresente
                         @Override
                         public void onSuccess(UserResponse response) {
                             v.onRegisterSuccess();
-                            v.showMessage(R.string.register_successful, R.string.ok, null);
+                            v.showMessage(R.string.register_successful, R.string.ok, aVoid -> {
+                                loginSuccess(response);
+                            });
                         }
 
                         @Override
@@ -52,6 +56,14 @@ public class SignUpDataPresenter<V extends ISignUpView> extends BaseDataPresente
                             v.showMessage(e);
                         }
                     }));
+        });
+    }
+
+    private void loginSuccess(UserResponse response) {
+        getOptView().doIfPresent(view -> {
+            AppPreferences.getInstance(view.getAppActivity().getAppContext()).putObject(Constant.KEY_USER, response);
+            view.goToMain();
+            view.showLoading(false);
         });
     }
 }

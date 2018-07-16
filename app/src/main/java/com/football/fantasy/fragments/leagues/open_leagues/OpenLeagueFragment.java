@@ -133,7 +133,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
             svSearchView.setFilerConsumer(v -> onClickFilter());
 
             // search view
-            svSearchView.setSearchConsumer(query -> onPerformSearch(query));
+            svSearchView.setSearchConsumer(query -> onPerformSearch(query.trim()));
 
             // leagueResponses
             mAdapter = new LeaguesAdapter(

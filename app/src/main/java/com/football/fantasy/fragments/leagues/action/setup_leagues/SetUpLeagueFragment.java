@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -31,6 +32,7 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.customizes.labels.LabelView;
+import com.football.customizes.recyclerview.deco.GridSpacingItemDecoration;
 import com.football.events.LeagueEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
@@ -259,7 +261,8 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
                 }
             });
 
-            rvBudgetOption.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
+            rvBudgetOption.setLayoutManager(new GridLayoutManager(mActivity, 3));
+            rvBudgetOption.addItemDecoration(new GridSpacingItemDecoration(3, (int) getResources().getDimension(R.dimen.padding_content), false, 0));
             rvBudgetOption.setAdapter(budgetOptionAdapter);
         } catch (Exception e) {
             Logger.e(TAG, e);

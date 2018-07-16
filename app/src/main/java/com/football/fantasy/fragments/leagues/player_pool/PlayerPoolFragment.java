@@ -215,7 +215,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
         Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white)));
 
         svSearch.setSearchConsumer(query -> {
-            this.query = query;
+            this.query = query.trim();
             refreshState();
             getPlayers();
         });
