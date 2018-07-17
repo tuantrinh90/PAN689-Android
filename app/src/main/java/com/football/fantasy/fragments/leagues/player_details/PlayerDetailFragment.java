@@ -8,7 +8,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
@@ -45,7 +44,7 @@ public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView,
 
 
     @BindView(R.id.ivMenu)
-    ImageView ivMenu;
+    View ivMenu;
     @BindView(R.id.tvName)
     ExtTextView tvName;
     @BindView(R.id.tvMainPosition)

@@ -9,7 +9,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
@@ -81,7 +80,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
     @BindView(R.id.tvTitle)
     ExtTextView tvTitle;
     @BindView(R.id.ivMenu)
-    ImageView ivMenu;
+    View ivMenu;
     @BindView(R.id.cvCarouselView)
     CarouselView cvCarouselView;
     @BindView(R.id.vpViewPager)
@@ -145,10 +144,12 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
                         public void onNext(LeagueEvent event) {
                             switch (event.getAction()) {
                                 case LeagueEvent.ACTION_UPDATE:
-                                    LeagueDetailFragment.this.league = event.getLeague();
-                                    displayLeague(event.getLeague());
-                                    if (leagueDetailViewPagerAdapter.getItem(0) instanceof LeagueInfoFragment) {
-                                        ((LeagueInfoFragment) leagueDetailViewPagerAdapter.getItem(0)).displayLeague(event.getLeague());
+                                    if (event.getLeague() != null) {
+                                        LeagueDetailFragment.this.league = event.getLeague();
+                                        displayLeague(event.getLeague());
+                                        if (leagueDetailViewPagerAdapter.getItem(0) instanceof LeagueInfoFragment) {
+                                            ((LeagueInfoFragment) leagueDetailViewPagerAdapter.getItem(0)).displayLeague(event.getLeague());
+                                        }
                                     }
                                     break;
 

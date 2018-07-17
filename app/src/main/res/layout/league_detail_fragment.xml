@@ -26,11 +26,20 @@
             app:textViewFontAssetName="@string/font_display_black_italic"
             tools:text="Jupiter Pro League" />
 
-        <ImageView
+        <FrameLayout
             android:id="@+id/ivMenu"
-            style="@style/IconSmall"
-            android:background="@drawable/bg_null_gray_selector"
-            android:src="@drawable/ic_menu_shadow" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="@dimen/padding_content">
+
+            <ImageView
+                style="@style/IconSmall"
+                android:background="@drawable/bg_null_gray_selector"
+                android:src="@drawable/ic_menu_shadow" />
+
+        </FrameLayout>
     </TableRow>
 
     <com.football.customizes.carousels.CarouselView

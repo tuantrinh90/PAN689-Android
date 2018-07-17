@@ -11,6 +11,7 @@ import com.bon.interfaces.Optional;
 import com.football.common.adapters.BaseRecyclerViewAdapter;
 import com.football.fantasy.R;
 import com.football.models.responses.BudgetResponse;
+import com.football.utilities.AppUtilities;
 
 import java.util.List;
 
@@ -34,15 +35,15 @@ public class BudgetOptionAdapter extends BaseRecyclerViewAdapter<BudgetResponse,
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        BudgetResponse budgetResponse = getItem(position);
-        if (budgetResponse == null) return;
+        BudgetResponse data = getItem(position);
+        if (data == null) return;
 
-        holder.tvBudgetOption.setText(budgetResponse.getName());
-        holder.tvBudgetOptionValue.setText(String.format(context.getString(R.string.money_prefix), String.valueOf(budgetResponse.getValueDisplay())));
-        holder.itemView.setActivated(budgetResponse.getIsActivated());
-        holder.tvBudgetOption.setActivated(budgetResponse.getIsActivated());
-        holder.tvBudgetOptionValue.setActivated(budgetResponse.getIsActivated());
-        holder.itemView.setOnClickListener(v -> Optional.from(consumer).doIfPresent(c -> c.accept(budgetResponse)));
+        holder.tvBudgetOption.setText(data.getName());
+        holder.tvBudgetOptionValue.setText(String.format(context.getString(R.string.money_prefix), AppUtilities.getMoney(data.getValue())));
+        holder.itemView.setActivated(data.getIsActivated());
+        holder.tvBudgetOption.setActivated(data.getIsActivated());
+        holder.tvBudgetOptionValue.setActivated(data.getIsActivated());
+        holder.itemView.setOnClickListener(v -> Optional.from(consumer).doIfPresent(c -> c.accept(data)));
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

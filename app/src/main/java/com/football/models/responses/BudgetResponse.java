@@ -12,7 +12,7 @@ public class BudgetResponse implements Serializable {
     @JsonProperty("name")
     private String name;
     @JsonProperty("value")
-    private Float value;
+    private Long value;
     @JsonIgnore
     private Boolean isActivated = false;
 
@@ -32,11 +32,11 @@ public class BudgetResponse implements Serializable {
         this.name = name;
     }
 
-    public Float getValue() {
+    public Long getValue() {
         return value == null ? 0 : value;
     }
 
-    public void setValue(Float value) {
+    public void setValue(Long value) {
         this.value = value;
     }
 
