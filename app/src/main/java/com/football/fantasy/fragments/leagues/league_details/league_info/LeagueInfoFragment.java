@@ -11,6 +11,7 @@ import com.bon.util.DateTimeUtils;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
+import com.football.events.LeagueEvent;
 import com.football.events.StartLeagueEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
@@ -28,6 +29,8 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
     static final String KEY_LEAGUE = "LEAGUE";
     static final String KEY_LEAGUE_TYPE = "league_type";
     private static final String KEY_INVITATION_ID = "INVITATION_ID";
+
+    private static final int INVITATION_NONE = 0;
 
     @BindView(R.id.tvTimeLabel)
     ExtTextView tvTimeLabel;
@@ -141,7 +144,13 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
     void onClickJoinLeague() {
         if (league.getTeam() == null) {
             if (league.getCurrentNumberOfUser() < league.getNumberOfUser()) {
-                presenter.acceptInvite(invitationId);
+
+                // nếu có invitationId
+                if (invitationId != INVITATION_NONE) {
+                    presenter.acceptInvite(invitationId);
+                } else {
+                    presenter.joinLeague(league.getId());
+                }
             } else {
                 showMessage(getString(R.string.message_league_full));
             }
@@ -229,5 +238,19 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
         displayLeague(league);
 
         bus.send(new StartLeagueEvent(league));
+    }
+
+    @Override
+    public void joinSuccess(LeagueResponse league) {
+        bus.send(new LeagueEvent());
+
+        AloneFragmentActivity.with(this)
+                .parameters(SetupTeamFragment.newBundle(
+                        null,
+                        league.getId(),
+                        mActivity.getTitleToolBar().getText().toString(),
+                        leagueType))
+                .start(SetupTeamFragment.class);
+        mActivity.finish();
     }
 }

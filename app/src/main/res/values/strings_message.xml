@@ -28,7 +28,7 @@
     <string name="league_update_invalid_credentials">Verification is not valid</string>
     <string name="league_invalid_season">The league is not valid</string>
     <string name="league_invalid_budget">The budget is not valid</string>
-    <string name="league_invalid_setup_time">Start time must not be earlier than team setup time</string>
+    <string name="league_invalid_setup_time">Team setup time must not be later than start time</string>
     <string name="league_invalid_start_transfer_time">Transfer time is not valid</string>
     <string name="league_invalid_start_draft_time">Draft time is not valid</string>
     <string name="league_invalid_trade_review">Trade review is not valid</string>

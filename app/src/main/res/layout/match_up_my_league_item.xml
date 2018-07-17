@@ -82,8 +82,11 @@
                 <com.bon.customview.textview.ExtTextView
                     android:id="@+id/tvTitleTeam1"
                     style="@style/StyleDescriptionGray"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/padding_content"
+                    android:paddingRight="@dimen/padding_content"
+                    android:gravity="center"
                     android:padding="0dp"
                     android:text="@string/app_name"
                     android:textColor="@color/color_black"
@@ -132,8 +135,11 @@
                 <com.bon.customview.textview.ExtTextView
                     android:id="@+id/tvTitleTeam2"
                     style="@style/StyleDescriptionGray"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/padding_content"
+                    android:paddingRight="@dimen/padding_content"
+                    android:gravity="center"
                     android:padding="0dp"
                     android:text="@string/app_name"
                     android:textColor="@color/color_black"
@@ -145,9 +151,9 @@
         <ImageView
             android:id="@+id/ivExpandable"
             android:layout_width="@dimen/icon_medium"
-            android:layout_height="@dimen/icon_medium"
+            android:layout_height="@dimen/icon_small"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_arrow_drop_down_black" />
+            android:src="@drawable/ic_arrow_up" />
 
         <com.football.customizes.expandablelayout.ExpandableLayout
             android:id="@+id/expandableView"

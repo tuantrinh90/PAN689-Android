@@ -19,6 +19,36 @@ public class LeagueInfoDataPresenter extends BaseDataPresenter<ILeagueInfoView> 
     }
 
     @Override
+    public void joinLeague(Integer id) {
+        getOptView().doIfPresent(v -> {
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().join(id),
+                    new ApiCallback<LeagueResponse>() {
+                        @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
+
+                        @Override
+                        public void onSuccess(LeagueResponse response) {
+                            v.joinSuccess(response);
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            v.showMessage(error, R.string.ok, null);
+                        }
+                    }));
+        });
+    }
+
+    @Override
     public void acceptInvite(Integer invitationId) {
         getOptView().doIfPresent(v -> {
             mCompositeDisposable.add(RxUtilities.async(

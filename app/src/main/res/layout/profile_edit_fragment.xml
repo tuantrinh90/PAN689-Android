@@ -155,6 +155,7 @@
             android:layout_marginTop="@dimen/padding_layout"
             android:padding="0dp"
             android:text="@string/email"
+            android:visibility="gone"
             app:textAllCaps="true"
             app:textViewFontAssetName="@string/font_display_bold" />
 
@@ -162,7 +163,8 @@
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_content" />
+            android:layout_marginTop="@dimen/padding_content"
+            android:visibility="gone" />
 
         <com.bon.customview.textview.ExtTextView
             style="@style/StyleContentContent"

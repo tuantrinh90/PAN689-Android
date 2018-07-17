@@ -3,12 +3,15 @@ package com.football.fantasy.fragments.more.profile.edit;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.bon.customview.datetime.ExtDayMonthYearDialogFragment;
@@ -19,7 +22,6 @@ import com.bon.image.ImageLoaderUtils;
 import com.bon.image.ImageUtils;
 import com.bon.interfaces.Optional;
 import com.bon.util.DateTimeUtils;
-import com.bon.util.EmailUtils;
 import com.bon.util.StringUtils;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
@@ -126,6 +128,8 @@ public class EditProfileFragment extends BaseMainMvpFragment<IEditProfileView, I
         }
     }
 
+    private static final String TAG = "EditProfileFragment";
+
     private void pickAvatar() {
         mActivity.getRxPermissions().request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -149,18 +153,28 @@ public class EditProfileFragment extends BaseMainMvpFragment<IEditProfileView, I
                                         }
                                     }).show(getFragmentManager(), null);
                         } else {
-                            pickAvatar();
+                            showMessage(
+                                    R.string.message_permission_image,
+                                    R.string.ok,
+                                    R.string.cancel,
+                                    aVoid -> {
+                                        Intent intent = new Intent();
+                                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                        Uri uri = Uri.fromParts("package", getContext().getPackageName(), null);
+                                        intent.setData(uri);
+                                        startActivity(intent);
+                                    }, null);
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.d(TAG, "onError: ");
                     }
 
                     @Override
                     public void onComplete() {
-
+                        Log.d(TAG, "onComplete: ");
                     }
                 });
     }

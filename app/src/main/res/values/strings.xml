@@ -278,4 +278,5 @@
     <string name="on">On</string>
     <string name="not_enough_teams">Not enough teams to start league</string>
     <string name="cannot_start_league_before_team_setup_time">You cannot start league before team setup time</string>
+    <string name="message_permission_image">Require right to access, press OK to log in setting</string>
 </resources>
