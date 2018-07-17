@@ -93,15 +93,15 @@ public class PlayerPoolDisplayFragment extends BaseMainMvpFragment<IPlayerPoolDi
         keyValuePairs.add(new ExtKeyValuePair(GOALS, "Goals", filterDisplays.contains(GOALS)));
         keyValuePairs.add(new ExtKeyValuePair(ASSISTS, "Assists", filterDisplays.contains(ASSISTS)));
         keyValuePairs.add(new ExtKeyValuePair(CLEAN_SHEET, "Clean Sheet", filterDisplays.contains(CLEAN_SHEET)));
-        keyValuePairs.add(new ExtKeyValuePair(DUELS_THEY_WIN, "Won Duels", filterDisplays.contains(DUELS_THEY_WIN)));
+        keyValuePairs.add(new ExtKeyValuePair(DUELS_THEY_WIN, "Duels They Win", filterDisplays.contains(DUELS_THEY_WIN)));
         keyValuePairs.add(new ExtKeyValuePair(PASSES, "Passes", filterDisplays.contains(PASSES)));
         keyValuePairs.add(new ExtKeyValuePair(SHOTS, "Shots", filterDisplays.contains(SHOTS)));
         keyValuePairs.add(new ExtKeyValuePair(SAVES, "Saves", filterDisplays.contains(SAVES)));
         keyValuePairs.add(new ExtKeyValuePair(YELLOW_CARDS, "Yellow Cards", filterDisplays.contains(YELLOW_CARDS)));
         keyValuePairs.add(new ExtKeyValuePair(DRIBBLES, "Dribbles", filterDisplays.contains(DRIBBLES)));
         keyValuePairs.add(new ExtKeyValuePair(TURNOVERS, "Turnovers", filterDisplays.contains(TURNOVERS)));
-        keyValuePairs.add(new ExtKeyValuePair(BALLS_RECOVERED, "Balls Recoverded", filterDisplays.contains(BALLS_RECOVERED)));
-        keyValuePairs.add(new ExtKeyValuePair(FOULS_COMMITTED, "Fouls Commited", filterDisplays.contains(FOULS_COMMITTED)));
+        keyValuePairs.add(new ExtKeyValuePair(BALLS_RECOVERED, "Balls Recovered", filterDisplays.contains(BALLS_RECOVERED)));
+        keyValuePairs.add(new ExtKeyValuePair(FOULS_COMMITTED, "Fouls Committed", filterDisplays.contains(FOULS_COMMITTED)));
 
         for (ExtKeyValuePair pair : keyValuePairs) {
             if (pair.isSelected()) checkCount++;

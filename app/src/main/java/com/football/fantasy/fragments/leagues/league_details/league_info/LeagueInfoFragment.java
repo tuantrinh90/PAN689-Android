@@ -122,12 +122,19 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
 
     @OnClick(R.id.tvStartLeague)
     void onClickStartLeague() {
-        showMessage(R.string.message_confirm_start_league,
-                R.string.ok,
-                R.string.cancel,
-                aVoid -> {
-                    presenter.startLeague(league.getId());
-                }, null);
+        if (league.getNumberOfUser() - league.getCurrentNumberOfUser() > 1) {
+            showMessage(R.string.not_enough_teams, R.string.ok, null);
+        } else if (!league.getTeamSetup().equals(league.getStartAt())
+                && AppUtilities.isSetupTime(league.getTeamSetup())) {
+            showMessage(R.string.cannot_start_league_before_team_setup_time, R.string.ok, null);
+        } else {
+            showMessage(R.string.message_confirm_start_league,
+                    R.string.ok,
+                    R.string.cancel,
+                    aVoid -> {
+                        presenter.startLeague(league.getId());
+                    }, null);
+        }
     }
 
     @OnClick(R.id.tvJoinLeague)
@@ -177,8 +184,7 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
             }
 
             // show button start league
-            // conditions: owner + after setup time and before start time. + !isSetupTime + The number of missing user in the league does not exceed 1 user
-            if (AppUtilities.isStartLeagueEnable(league)) {
+            if (AppUtilities.isOwner(getContext(), league.getUserId())) {
                 tvStartLeague.setVisibility(View.VISIBLE);
             }
 
