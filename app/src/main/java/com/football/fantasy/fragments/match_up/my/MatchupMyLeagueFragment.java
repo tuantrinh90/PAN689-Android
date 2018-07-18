@@ -3,9 +3,11 @@ package com.football.fantasy.fragments.match_up.my;
 import android.support.annotation.NonNull;
 
 import com.football.adapters.MatchupLeagueAdapter;
+import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
 import com.football.models.responses.MyMatchResponse;
 
 import java.util.List;
@@ -37,7 +39,12 @@ public class MatchupMyLeagueFragment extends BaseMainMvpFragment<IMatchupMyLeagu
     }
 
     private void initView() {
-        MatchupLeagueAdapter adapter = new MatchupLeagueAdapter();
+        MatchupLeagueAdapter adapter = new MatchupLeagueAdapter(
+                (team, leagueId) -> {
+                    AloneFragmentActivity.with(this)
+                            .parameters(TeamDetailFragment.newBundle(team, leagueId))
+                            .start(TeamDetailFragment.class);
+                });
         // init recyclerView
         rvMyLeague
                 .adapter(adapter)

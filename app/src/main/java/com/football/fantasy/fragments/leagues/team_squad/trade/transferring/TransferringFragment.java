@@ -242,11 +242,14 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
                 .adapter(injuredPlayerAdapter)
                 .layoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false))
                 .build();
+
+        displayDisplay();
     }
 
     private void refreshData() {
         rvPlayer.clear();
         rvPlayer.startLoading();
+        rvInjured.clear();
         getTeamTransferring();
     }
 

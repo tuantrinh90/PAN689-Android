@@ -19,26 +19,22 @@ import com.football.customizes.recyclerview.DefaultHolder;
 import com.football.fantasy.R;
 import com.football.models.responses.MyMatchResponse;
 import com.football.models.responses.PlayerStatisticMetaResponse;
+import com.football.models.responses.TeamResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import java8.util.function.BiConsumer;
 
 public class MatchupLeagueAdapter extends DefaultAdapter<MyMatchResponse> {
 
+    private final BiConsumer<TeamResponse, Integer> teamDetailCallback;
     private SparseBooleanArray expandState = new SparseBooleanArray();
 
-
-    public MatchupLeagueAdapter(List<MyMatchResponse> dataSet) {
-        super(dataSet);
-        for (int i = 0; i < dataSet.size(); i++) {
-            expandState.append(i, false);
-        }
-    }
-
-    public MatchupLeagueAdapter() {
+    public MatchupLeagueAdapter(BiConsumer<TeamResponse, Integer> teamDetailCallback) {
         super(new ArrayList<>());
+        this.teamDetailCallback = teamDetailCallback;
     }
 
     @Override
@@ -65,7 +61,7 @@ public class MatchupLeagueAdapter extends DefaultAdapter<MyMatchResponse> {
         holder.tvTitleTeam1.setText(data.getTeam().getName());
 
         ImageLoaderUtils.displayImage(data.getWithTeam().getLogo(), holder.ivAvatarTeam2.getImageView());
-        holder.tvTitleTeam2.setText(data.getTeam().getName());
+        holder.tvTitleTeam2.setText(data.getWithTeam().getName());
 
         // round
         holder.tvRound.setText(context.getString(R.string.round_number, data.getRound()));
@@ -92,6 +88,15 @@ public class MatchupLeagueAdapter extends DefaultAdapter<MyMatchResponse> {
             }
             expandState.append(holder.getAdapterPosition(), !expandState.get(holder.getAdapterPosition()));
         });
+
+        holder.ivAvatarTeam1.setOnClickListener(v -> {
+            MyMatchResponse match = getItem(defaultHolder.getAdapterPosition());
+            teamDetailCallback.accept(match.getTeam(), match.getLeague().getId());
+        });
+        holder.ivAvatarTeam2.setOnClickListener(v -> {
+            MyMatchResponse match = getItem(defaultHolder.getAdapterPosition());
+            teamDetailCallback.accept(match.getWithTeam(), match.getLeague().getId());
+        });
     }
 
     private void showStatistic(MatchupMyLeagueHolder holder, PlayerStatisticMetaResponse statisticTeam, PlayerStatisticMetaResponse statisticWithTeam) {
@@ -100,6 +105,7 @@ public class MatchupLeagueAdapter extends DefaultAdapter<MyMatchResponse> {
         holder.matchupCleanSheet.setTextLeft(String.valueOf(statisticTeam.getCleanSheet()));
         holder.matchupDuelsTheyWin.setTextLeft(String.valueOf(statisticTeam.getDuelsTheyWin()));
         holder.matchupPasses.setTextLeft(String.valueOf(statisticTeam.getPasses()));
+        holder.matchupShots.setTextLeft(String.valueOf(statisticTeam.getShots()));
         holder.matchupSaves.setTextLeft(String.valueOf(statisticTeam.getSaves()));
         holder.matchupYellowCard.setTextLeft(String.valueOf(statisticTeam.getYellowCards()));
         holder.matchupDribbles.setTextLeft(String.valueOf(statisticTeam.getDribbles()));
@@ -112,6 +118,7 @@ public class MatchupLeagueAdapter extends DefaultAdapter<MyMatchResponse> {
         holder.matchupCleanSheet.setTextRight(String.valueOf(statisticWithTeam.getCleanSheet()));
         holder.matchupDuelsTheyWin.setTextRight(String.valueOf(statisticWithTeam.getDuelsTheyWin()));
         holder.matchupPasses.setTextRight(String.valueOf(statisticWithTeam.getPasses()));
+        holder.matchupShots.setTextRight(String.valueOf(statisticWithTeam.getShots()));
         holder.matchupSaves.setTextRight(String.valueOf(statisticWithTeam.getSaves()));
         holder.matchupYellowCard.setTextRight(String.valueOf(statisticWithTeam.getYellowCards()));
         holder.matchupDribbles.setTextRight(String.valueOf(statisticWithTeam.getDribbles()));
@@ -170,6 +177,8 @@ public class MatchupLeagueAdapter extends DefaultAdapter<MyMatchResponse> {
         MatchupTextItem matchupDuelsTheyWin;
         @BindView(R.id.matchupPasses)
         MatchupTextItem matchupPasses;
+        @BindView(R.id.matchupShots)
+        MatchupTextItem matchupShots;
         @BindView(R.id.matchupSaves)
         MatchupTextItem matchupSaves;
         @BindView(R.id.matchupYellowCard)

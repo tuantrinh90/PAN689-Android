@@ -80,6 +80,19 @@
             android:layout_marginTop="@dimen/padding_content_small" />
 
         <com.football.customizes.match_up.MatchupTextItem
+            android:id="@+id/matchupShots"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_content_small"
+            app:matchup_textCenter="@string/shots" />
+
+        <View
+            style="@style/Line"
+            android:layout_marginLeft="@dimen/padding_content"
+            android:layout_marginRight="@dimen/padding_content"
+            android:layout_marginTop="@dimen/padding_content_small" />
+
+        <com.football.customizes.match_up.MatchupTextItem
             android:id="@+id/matchupSaves"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

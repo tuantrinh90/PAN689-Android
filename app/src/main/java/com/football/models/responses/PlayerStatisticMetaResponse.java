@@ -29,6 +29,8 @@ public class PlayerStatisticMetaResponse implements Serializable {
     private Integer ballsRecovered;
     @JsonProperty("fouls_committed")
     private Integer foulsCommitted;
+    @JsonProperty("point")
+    private Integer point;
 
     public Integer getGoals() {
         return goals;
@@ -76,5 +78,9 @@ public class PlayerStatisticMetaResponse implements Serializable {
 
     public Integer getFoulsCommitted() {
         return foulsCommitted;
+    }
+
+    public Integer getPoint() {
+        return point;
     }
 }
