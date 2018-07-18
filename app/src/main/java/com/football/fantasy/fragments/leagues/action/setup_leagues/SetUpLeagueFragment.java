@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -48,6 +47,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
@@ -138,6 +138,13 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     @BindView(R.id.vKeyBoard)
     View vKeyBoard;
 
+    @BindViews({R.id.rbOpenLeague, R.id.rbPrivateLeague, R.id.llTransfer, R.id.llDraft,
+            R.id.etNumberOfUser, R.id.rvBudgetOption,
+            R.id.rbNoTradeReview, R.id.rbTradeReviewCreator, R.id.rbTradeReviewUsers,
+            R.id.rbRegular, R.id.rbPointPerStats,
+            R.id.etDraftTime, R.id.etTimePerDraftPick, R.id.etTeamSetupTime, R.id.etStartTime})
+    View[] viewsOngoing;
+
     File filePath;
     Calendar calendarDraftTime;
     Calendar calendarStartTime;
@@ -222,6 +229,18 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
 
                 // display time
                 formatDateTime();
+
+                // disable views after startLeague
+                if (league.getStatus() == LeagueResponse.ON_GOING) {
+                    for (View view : viewsOngoing) {
+                        view.setEnabled(false);
+                        view.setClickable(false);
+                        view.setFocusable(false);
+                        if (view instanceof RecyclerView) {
+                            ((BudgetOptionAdapter) ((RecyclerView) view).getAdapter()).clickEnable(false);
+                        }
+                    }
+                }
             }
         } catch (Exception e) {
             Logger.e(TAG, e);

@@ -281,7 +281,7 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
         // open viewpager page TeamFragment
         bus.send(new LineupEvent());
 
-        mActivity.finish();
+//        mActivity.finish();
     }
 
 }

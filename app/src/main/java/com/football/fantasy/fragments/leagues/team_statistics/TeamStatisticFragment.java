@@ -15,7 +15,6 @@ import com.football.adapters.TeamStatisticAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.leagues.team_lineup.TeamLineUpFragment;
 import com.football.fantasy.fragments.leagues.team_squad.TeamSquadFragment;
 import com.football.models.responses.TeamResponse;
 import com.football.models.responses.TeamStatisticResponse;
@@ -30,6 +29,7 @@ public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticVie
 
     private static final String KEY_TITLE = "TITLE";
     private static final String KEY_TEAM = "TEAM";
+    private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
 
     @BindView(R.id.ivRank)
     ImageView ivRank;
@@ -46,14 +46,16 @@ public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticVie
 
     private String title;
     private TeamResponse team;
+    private int leagueId;
 
     TeamStatisticAdapter teamStatisticAdapter;
 
 
-    public static Bundle newBundle(String title, TeamResponse team) {
+    public static Bundle newBundle(String title, TeamResponse team, int leagueId) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_TITLE, title);
         bundle.putSerializable(KEY_TEAM, team);
+        bundle.putInt(KEY_LEAGUE_ID, leagueId);
         return bundle;
     }
 
@@ -81,6 +83,7 @@ public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticVie
     private void getDataFromBundle() {
         title = getArguments().getString(KEY_TITLE);
         team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
+        leagueId = getArguments().getInt(KEY_LEAGUE_ID);
     }
 
     void initView() {
@@ -144,7 +147,7 @@ public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticVie
     @OnClick(R.id.llPointPerPlayer)
     public void onPointPerPlayerClicked() {
         AloneFragmentActivity.with(this)
-                .parameters(TeamSquadFragment.newBundle(team, getString(R.string.statistics)))
+                .parameters(TeamSquadFragment.newBundle(team, getString(R.string.statistics), leagueId))
                 .start(TeamSquadFragment.class);
     }
 }

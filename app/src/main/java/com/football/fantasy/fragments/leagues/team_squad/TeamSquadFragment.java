@@ -31,6 +31,7 @@ public class TeamSquadFragment extends BaseMainMvpFragment<ITeamSquadView, ITeam
 
     private static final String KEY_TEAM = "TEAM";
     private static final String KEY_TITLE = "TITLE";
+    private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
 
     @BindView(R.id.tvTitle)
     ExtTextView tvTitle;
@@ -45,6 +46,8 @@ public class TeamSquadFragment extends BaseMainMvpFragment<ITeamSquadView, ITeam
 
     private TeamResponse team;
     private String title;
+    private int leagueId;
+
     TeamSquadAdapter teamSquadAdapter;
 
     private List<ExtKeyValuePair> properties;
@@ -52,10 +55,11 @@ public class TeamSquadFragment extends BaseMainMvpFragment<ITeamSquadView, ITeam
     private List<ExtKeyValuePair> directions;
     private ExtKeyValuePair currentDirection;
 
-    public static Bundle newBundle(TeamResponse team, String title) {
+    public static Bundle newBundle(TeamResponse team, String title, int leagueId) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_TEAM, team);
         bundle.putString(KEY_TITLE, title);
+        bundle.putInt(KEY_LEAGUE_ID, leagueId);
         return bundle;
     }
 
@@ -104,6 +108,7 @@ public class TeamSquadFragment extends BaseMainMvpFragment<ITeamSquadView, ITeam
     private void getDataFromBundle() {
         team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
         title = getArguments().getString(KEY_TITLE);
+        leagueId = getArguments().getInt(KEY_LEAGUE_ID);
     }
 
     void initView() {
@@ -135,7 +140,7 @@ public class TeamSquadFragment extends BaseMainMvpFragment<ITeamSquadView, ITeam
 
     @OnClick(R.id.llTrade)
     void onClickTrade() {
-        TradeFragment.start(this, team, getString(R.string.team_squad));
+        TradeFragment.start(this, getString(R.string.team_squad), team, leagueId);
     }
 
     @OnClick(R.id.tvSortByColumn)

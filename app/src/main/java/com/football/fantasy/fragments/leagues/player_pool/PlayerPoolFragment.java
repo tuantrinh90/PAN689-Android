@@ -43,6 +43,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
 
     private static final String KEY_TITLE = "TITLE";
     private static final String KEY_TRANSFER = "TRANSFER";
+    private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
 
     private static final int REQUEST_FILTER = 100;
     private static final int REQUEST_DISPLAY = 101;
@@ -73,7 +74,8 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     LinearLayout option3;
 
     private String title;
-    private PlayerResponse transfer;
+    private PlayerResponse playerTransfer;
+    private int leagueId;
 
     private int page = Constant.PAGE_START_INDEX;
     private String filterClubs = "";
@@ -84,16 +86,23 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     private List<SeasonResponse> seasons;
     private String query = "";
 
-    public static void start(Fragment fragment, String title, PlayerResponse transfer) {
+    public static void start(Fragment fragment, String title, PlayerResponse transfer, int leagueId) {
         AloneFragmentActivity.with(fragment)
-                .parameters(PlayerPoolFragment.newBundle(title, transfer))
+                .parameters(PlayerPoolFragment.newBundle(title, transfer, leagueId))
                 .start(PlayerPoolFragment.class);
     }
 
-    private static Bundle newBundle(String title, PlayerResponse transfer) {
+    public static void start(Fragment fragment, String title, PlayerResponse transfer) {
+        AloneFragmentActivity.with(fragment)
+                .parameters(PlayerPoolFragment.newBundle(title, transfer, 0))
+                .start(PlayerPoolFragment.class);
+    }
+
+    private static Bundle newBundle(String title, PlayerResponse transfer, int leagueId) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_TITLE, title);
         bundle.putSerializable(KEY_TRANSFER, transfer);
+        bundle.putInt(KEY_LEAGUE_ID, leagueId);
         return bundle;
     }
 
@@ -119,7 +128,8 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
 
     private void getDataFromBundle() {
         title = getArguments().getString(KEY_TITLE);
-        transfer = (PlayerResponse) getArguments().getSerializable(KEY_TRANSFER);
+        playerTransfer = (PlayerResponse) getArguments().getSerializable(KEY_TRANSFER);
+        leagueId = getArguments().getInt(KEY_LEAGUE_ID);
     }
 
     private void registerBus() {
@@ -239,11 +249,17 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                             .start(PlayerDetailFragment.class);
                 });
 
-        if (transfer != null) {
+        if (playerTransfer != null) {
+            // update positions
+            filterPositions = String.valueOf(playerTransfer.getMainPosition());
+            if (playerTransfer.getMinorPosition() != PlayerResponse.POSITION_NONE) {
+                filterPositions = filterPositions + "," + playerTransfer.getMinorPosition();
+            }
+
             // bắn về cho MH Transferring Player
             adapter.setOptionAddCallback(player -> {
                 showLoading(true);
-                bus.send(new TransferEvent(transfer, player));
+                bus.send(new TransferEvent(playerTransfer, player));
             });
         }
 
@@ -275,8 +291,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
             showMessage(getString(R.string.message_season_not_found));
             rvPlayer.startLoading();
         } else {
-//            lvData.setMessage(getString(R.string.loading));
-            presenter.getPlayers(currentSeason.getKey(), filterPositions, filterClubs, displayPairs, sorts, page, query);
+            presenter.getPlayers(currentSeason.getKey(), leagueId, filterPositions, filterClubs, displayPairs, sorts, page, query);
         }
     }
 

@@ -28,20 +28,23 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
 
     private static final String KEY_TEAM = "TEAM";
     private static final String KEY_TITLE = "TITLE";
+    private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
 
     private TeamResponse team;
     private String title;
+    private int leagueId;
 
-    public static void start(Fragment fragment, TeamResponse team, String title) {
+    public static void start(Fragment fragment, String title, TeamResponse team, int leagueId) {
         AloneFragmentActivity.with(fragment)
-                .parameters(TradeFragment.newBundle(team, title))
+                .parameters(TradeFragment.newBundle(title, team, leagueId))
                 .start(TradeFragment.class);
     }
 
-    private static Bundle newBundle(TeamResponse team, String title) {
+    private static Bundle newBundle(String title, TeamResponse team, int leagueId) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_TEAM, team);
         bundle.putString(KEY_TITLE, title);
+        bundle.putInt(KEY_LEAGUE_ID, leagueId);
         return bundle;
     }
 
@@ -67,6 +70,7 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
     private void getDataFromBundle() {
         team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
         title = getArguments().getString(KEY_TITLE);
+        leagueId = getArguments().getInt(KEY_LEAGUE_ID);
     }
 
     @Override
@@ -105,7 +109,7 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
 
         // view pager
         StatePagerAdapter mAdapter = new StatePagerAdapter(getChildFragmentManager());
-        mAdapter.addFragment(TransferringFragment.newInstance(team).setChildFragment(true));
+        mAdapter.addFragment(TransferringFragment.newInstance(team, leagueId).setChildFragment(true));
         mAdapter.addFragment(RecordFragment.newInstance(team).setChildFragment(true));
         vpViewPager.setAdapter(mAdapter);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

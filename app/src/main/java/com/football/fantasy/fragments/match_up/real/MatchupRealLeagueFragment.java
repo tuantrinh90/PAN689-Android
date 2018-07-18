@@ -20,9 +20,7 @@ import butterknife.OnClick;
 
 public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealLeagueView, IMatchupRealLeaguePresenter<IMatchupRealLeagueView>> implements IMatchupRealLeagueView {
 
-    public static MatchupRealLeagueFragment newInstance() {
-        return new MatchupRealLeagueFragment();
-    }
+    public static final String ROUND_DEFAULT = "0";
 
     @BindView(R.id.rvRealLeague)
     ExtRecyclerView<RealMatch> rvRealLeague;
@@ -30,8 +28,12 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
     ExtTextView tvRound;
 
     private List<ExtKeyValuePair> valuePairs;
-    private String round = "";
+    private String round = ROUND_DEFAULT;
     private int page;
+
+    public static MatchupRealLeagueFragment newInstance() {
+        return new MatchupRealLeagueFragment();
+    }
 
     @Override
     public int getResourceId() {
@@ -51,6 +53,7 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
 
     private void initData() {
         valuePairs = new ArrayList<>();
+        valuePairs.add(new ExtKeyValuePair(ROUND_DEFAULT, "None"));
         for (int i = 0; i < 30; i++) {
             valuePairs.add(new ExtKeyValuePair(String.valueOf(i + 1), String.valueOf(i + 1)));
         }

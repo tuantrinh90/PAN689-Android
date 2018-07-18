@@ -40,19 +40,11 @@ import static com.football.models.responses.PlayerResponse.Options.VALUE;
 
 public class TransferringFragment extends BaseMainMvpFragment<ITransferringView, ITransferringPresenter<ITransferringView>> implements ITransferringView {
 
-    private static final String KEY_TEAM = "TEAM";
-
-    public static TransferringFragment newInstance(TeamResponse team) {
-        TransferringFragment fragment = new TransferringFragment();
-
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_TEAM, team);
-
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
     private static final String TAG = "TransferringFragment";
+
+    private static final String KEY_TEAM = "TEAM";
+    private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+
     private static final int REQUEST_FILTER = 100;
     private static final int REQUEST_DISPLAY = 101;
 
@@ -87,12 +79,23 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
     ExtTextView tvBudgetValue;
 
     private TeamResponse team;
-
+    private int leagueId;
 
     private String filterClubs = "";
     private String filterPositions = "";
     private int[] sorts = new int[]{Constant.SORT_NONE, Constant.SORT_NONE, Constant.SORT_NONE}; // -1: NONE, 0: desc, 1: asc
     private List<ExtKeyValuePair> displays = new ArrayList<>();
+
+    public static TransferringFragment newInstance(TeamResponse team, int leagueId) {
+        TransferringFragment fragment = new TransferringFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(KEY_TEAM, team);
+        bundle.putInt(KEY_LEAGUE_ID, leagueId);
+
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     @Override
     public int getResourceId() {
@@ -112,6 +115,7 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
 
     private void getDataFromBundle() {
         team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
+        leagueId = getArguments().getInt(KEY_LEAGUE_ID);
     }
 
     @NonNull
@@ -252,7 +256,7 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
 
     private void transferPlayer(PlayerResponse player) {
         // append PlayerPool
-        PlayerPoolFragment.start(this, getString(R.string.transferring_player), player);
+        PlayerPoolFragment.start(this, getString(R.string.transferring_player), player, leagueId);
     }
 
     @OnClick({R.id.filter, R.id.display, R.id.option1, R.id.option2, R.id.option3})

@@ -20,6 +20,8 @@ import com.football.fantasy.R;
 import com.football.fantasy.fragments.more.profile.change.ChangePasswordFragment;
 import com.football.fantasy.fragments.more.profile.edit.EditProfileFragment;
 import com.football.models.responses.UserResponse;
+import com.football.utilities.AppUtilities;
+import com.football.utilities.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -159,7 +161,7 @@ public class ProfileFragment extends BaseMainMvpFragment<IProfileView, IProfileP
     public void displayUser(UserResponse user) {
         tvFullName.setText(user.getName());
         ImageLoaderUtils.displayImage(user.getPhoto(), ivAvatar.getImageView());
-        tvDob.setText(user.getBirthday());
+        tvDob.setText(AppUtilities.getDate(user.getBirthday(), Constant.FORMAT_DATE_SERVER));
         tvGender.setText(user.getGender() == UserResponse.GENDER_MALE ? R.string.male : R.string.female);
         tvAddress.setText(user.getAddress());
         tvPhone.setText(user.getPhone());

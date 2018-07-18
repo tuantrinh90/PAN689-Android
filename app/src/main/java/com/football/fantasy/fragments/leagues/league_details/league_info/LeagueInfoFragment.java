@@ -193,7 +193,7 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
             }
 
             // show button start league
-            if (AppUtilities.isOwner(getContext(), league.getUserId())) {
+            if (AppUtilities.isOwner(getContext(), league.getUserId()) && league.getStatus() == LeagueResponse.WAITING_FOR_START) {
                 tvStartLeague.setVisibility(View.VISIBLE);
             }
 

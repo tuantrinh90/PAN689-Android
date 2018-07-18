@@ -8,11 +8,13 @@ import android.support.v7.app.ActionBar;
 import android.view.View;
 
 import com.bon.customview.textview.ExtTextView;
+import com.football.adapters.StatePagerAdapter;
 import com.football.adapters.YourTeamViewPagerAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
+import com.football.events.LineupEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.your_team.line_up.LineUpFragment;
 import com.football.fantasy.fragments.leagues.your_team.player_list.PlayerListFragment;
@@ -20,8 +22,10 @@ import com.football.fantasy.fragments.leagues.your_team.team_list.TeamListFragme
 import com.football.models.responses.LeagueResponse;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import butterknife.BindView;
+import io.reactivex.observers.DisposableObserver;
 
 public class YourTeamFragment extends BaseMainMvpFragment<IYourTeamView, IYourTeamPresenter<IYourTeamView>> implements IYourTeamView {
     static final String KEY_LEAGUE = "LEAGUE";
@@ -52,6 +56,7 @@ public class YourTeamFragment extends BaseMainMvpFragment<IYourTeamView, IYourTe
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
         initView();
+        registerEvent();
     }
 
     private void getDataFromBundle() {
@@ -95,6 +100,33 @@ public class YourTeamFragment extends BaseMainMvpFragment<IYourTeamView, IYourTe
 
             }
         });
+    }
+
+    private void registerEvent() {
+        // complete lineup event
+        mCompositeDisposable.add(bus.ofType(LineupEvent.class)
+                .subscribeWith(new DisposableObserver<LineupEvent>() {
+                    @Override
+                    public void onNext(LineupEvent event) {
+                        try {
+                            if (((YourTeamViewPagerAdapter) Objects.requireNonNull(vpViewPager.getAdapter())).getItem(2) instanceof TeamListFragment) {
+                                vpViewPager.setCurrentItem(2);
+                            }
+                        } catch (NullPointerException e) {
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                }));
     }
 
     @Override

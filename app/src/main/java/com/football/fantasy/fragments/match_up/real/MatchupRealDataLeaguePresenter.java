@@ -22,6 +22,8 @@ import io.reactivex.SingleOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.football.fantasy.fragments.match_up.real.MatchupRealLeagueFragment.ROUND_DEFAULT;
+
 public class MatchupRealDataLeaguePresenter extends BaseDataPresenter<IMatchupRealLeagueView> implements IMatchupRealLeaguePresenter<IMatchupRealLeagueView> {
 
     private String lastDate = "";
@@ -35,7 +37,7 @@ public class MatchupRealDataLeaguePresenter extends BaseDataPresenter<IMatchupRe
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
 
-            if (!TextUtils.isEmpty(round)) {
+            if (!TextUtils.isEmpty(round) && !round.equals(ROUND_DEFAULT)) {
                 queries.put("round", round);
             }
             queries.put("page", String.valueOf(page));

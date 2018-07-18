@@ -23,7 +23,6 @@ import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
 import com.football.events.LeagueEvent;
-import com.football.events.LineupEvent;
 import com.football.events.StartLeagueEvent;
 import com.football.events.StopLeagueEvent;
 import com.football.fantasy.R;
@@ -157,25 +156,6 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
                                     mActivity.finish();
                                     break;
                             }
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    }));
-
-            // complete lineup event
-            mCompositeDisposable.add(bus.ofType(LineupEvent.class)
-                    .subscribeWith(new DisposableObserver<LineupEvent>() {
-                        @Override
-                        public void onNext(LineupEvent event) {
-                            vpViewPager.setCurrentItem(TEAM_FRAGMENT_INDEX);
                         }
 
                         @Override

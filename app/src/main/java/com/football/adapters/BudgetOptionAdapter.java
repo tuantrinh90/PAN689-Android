@@ -20,7 +20,10 @@ import butterknife.ButterKnife;
 import java8.util.function.Consumer;
 
 public class BudgetOptionAdapter extends BaseRecyclerViewAdapter<BudgetResponse, BudgetOptionAdapter.ViewHolder> {
+
     Consumer<BudgetResponse> consumer;
+
+    private boolean enable = true;
 
     public BudgetOptionAdapter(Context context, List<BudgetResponse> its, Consumer<BudgetResponse> consumer) {
         super(context, its);
@@ -43,10 +46,18 @@ public class BudgetOptionAdapter extends BaseRecyclerViewAdapter<BudgetResponse,
         holder.itemView.setActivated(data.getIsActivated());
         holder.tvBudgetOption.setActivated(data.getIsActivated());
         holder.tvBudgetOptionValue.setActivated(data.getIsActivated());
-        holder.itemView.setOnClickListener(v -> Optional.from(consumer).doIfPresent(c -> c.accept(data)));
+        holder.itemView.setOnClickListener(v -> {
+            if (enable) {
+                Optional.from(consumer).doIfPresent(c -> c.accept(data));
+            }
+        });
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public void clickEnable(boolean enable) {
+        this.enable = enable;
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tvBudgetOption)
         ExtTextView tvBudgetOption;
         @BindView(R.id.tvBudgetOptionValue)
