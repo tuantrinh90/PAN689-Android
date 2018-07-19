@@ -1,0 +1,27 @@
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<resources>
+    <!--player list-->
+
+    <!--lineup-->
+    <dimen name="avatar_player_size">60dp</dimen>
+    <dimen name="remove_player_size">24dp</dimen>
+    <dimen name="margin_player_size">16dp</dimen>
+    <dimen name="player_margin_large">20dp</dimen>
+    <dimen name="player_margin_normal">14dp</dimen>
+    <dimen name="player_margin_small">10dp</dimen>
+    <dimen name="player_margin_none">0dp</dimen>
+    <dimen name="player_border">1dp</dimen>
+    <dimen name="item_border">0.5dp</dimen>
+    <dimen name="player_position_size">45dp</dimen>
+    <dimen name="player_list_item_size">55dp</dimen>
+    <dimen name="player_position_margin">10dp</dimen>
+    <dimen name="player_bubble_width">28dp</dimen>
+    <dimen name="player_bubble_height">28dp</dimen>
+    <dimen name="lineup_padding">45dp</dimen>
+    <dimen name="player_padding">1dp</dimen>
+    <dimen name="player_padding_remove">6dp</dimen>
+
+    <!--transferring-->
+    <dimen name="transferring_header_item_padding">10dp</dimen>
+
+</resources>

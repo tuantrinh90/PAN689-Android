@@ -5,8 +5,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.bon.share_preferences.AppPreferences;
 import com.bon.util.DateTimeUtils;
-import com.football.application.AppContext;
 import com.football.fantasy.R;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
@@ -80,12 +80,12 @@ public class AppUtilities {
     }
 
     public static String getNameOrMe(Context context, TeamResponse team) {
-        int myId = ((AppContext) context.getApplicationContext()).getMyId();
+        int myId = AppPreferences.getInstance(context).getInt(Constant.KEY_USER_ID);
         return myId == team.getUserId() ? context.getResources().getString(R.string.me) : team.getUser().getName();
     }
 
     public static boolean isOwner(Context context, int userId) {
-        int myId = ((AppContext) context.getApplicationContext()).getMyId();
+        int myId = AppPreferences.getInstance(context).getInt(Constant.KEY_USER_ID);
         return myId == userId;
     }
 

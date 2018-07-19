@@ -19,6 +19,8 @@
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingLeft="@dimen/padding_content"
+            android:paddingRight="@dimen/padding_content"
             app:layout_scrollFlags="scroll|enterAlways"
             app:title="@string/app_name">
 
@@ -49,8 +51,6 @@
                             style="@style/StyleDescriptionWhite"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:lines="2"
-                            android:maxEms="7"
                             android:padding="0dp"
                             android:text="@string/transferring_player_left"
                             android:textSize="@dimen/font_transferring_header"
@@ -64,6 +64,8 @@
                             android:id="@+id/ivMoreTransferringPlayerLeft"
                             android:layout_width="@dimen/icon_tiny"
                             android:layout_height="@dimen/icon_tiny"
+                            android:layout_marginLeft="@dimen/padding_content"
+                            android:layout_marginRight="@dimen/padding_content"
                             android:src="@drawable/ic_info_outline_white"
                             app:layout_constraintStart_toEndOf="@+id/tvTransferringPlayerLeft"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -96,8 +98,6 @@
                             style="@style/StyleDescriptionWhite"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:lines="2"
-                            android:maxEms="7"
                             android:padding="0dp"
                             android:text="@string/transferring_time_left"
                             android:textSize="@dimen/font_transferring_header"
@@ -111,6 +111,8 @@
                             android:id="@+id/ivMoreTransferringTimeLeft"
                             android:layout_width="@dimen/icon_tiny"
                             android:layout_height="@dimen/icon_tiny"
+                            android:layout_marginLeft="@dimen/padding_content"
+                            android:layout_marginRight="@dimen/padding_content"
                             android:src="@drawable/ic_info_outline_white"
                             app:layout_constraintStart_toEndOf="@+id/tvTransferringTimeLeft"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -134,15 +136,15 @@
 
                     <android.support.constraint.ConstraintLayout
                         android:id="@+id/relativeLayout2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5">
 
                         <com.bon.customview.textview.ExtTextView
                             android:id="@+id/tvBudget"
                             style="@style/StyleDescriptionWhite"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:lines="2"
                             android:padding="0dp"
                             android:text="@string/budget"
                             android:textSize="@dimen/font_transferring_header"
@@ -300,6 +302,8 @@
 
             <TableRow
                 android:layout_width="match_parent"
+                android:paddingLeft="@dimen/padding_content"
+                android:paddingRight="@dimen/padding_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 

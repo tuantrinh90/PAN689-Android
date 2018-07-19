@@ -11,6 +11,7 @@ public interface Constant {
 
     // login response
     String KEY_TOKEN = "key_token";
+    String KEY_USER_ID = "key_user_id";
     float KEY_MIO = 1000000f;
     String KEY_LEAGUE_ID = "league_id";
     String KEY_SORT = "sort";

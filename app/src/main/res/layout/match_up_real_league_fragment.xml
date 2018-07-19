@@ -9,6 +9,8 @@
     <com.bon.customview.shadowlayout.ShadowLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_layout"
+        android:layout_marginRight="@dimen/padding_layout"
         app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
         app:shadowLayoutShadowColor="@color/color_shadow">
 

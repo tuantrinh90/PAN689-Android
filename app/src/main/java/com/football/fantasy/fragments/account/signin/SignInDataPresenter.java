@@ -93,7 +93,7 @@ public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresente
     private void loginSuccess(UserResponse response) {
         getOptView().doIfPresent(view -> {
             AppPreferences.getInstance(view.getAppActivity().getAppContext()).putString(Constant.KEY_TOKEN, response.getApiToken());
-            ((AppContext) view.getAppActivity().getApplicationContext()).setMyId(response.getId());
+            AppPreferences.getInstance(view.getAppActivity().getAppContext()).putInt(Constant.KEY_USER_ID, response.getId());
             view.goToMain();
             view.showLoading(false);
         });

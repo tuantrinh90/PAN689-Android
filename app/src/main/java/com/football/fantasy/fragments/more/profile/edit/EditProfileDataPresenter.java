@@ -4,11 +4,13 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.bon.share_preferences.AppPreferences;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
 import com.football.models.requests.ProfileRequest;
 import com.football.models.responses.UserResponse;
+import com.football.utilities.Constant;
 import com.football.utilities.RxUtilities;
 import com.football.utilities.compressor.Compressor;
 
@@ -30,7 +32,7 @@ public class EditProfileDataPresenter extends BaseDataPresenter<IEditProfileView
     @Override
     public void getProfile() {
         getOptView().doIfPresent(v -> {
-            int userId = v.getAppActivity().getAppContext().getMyId();
+            int userId = AppPreferences.getInstance(v.getAppActivity()).getInt(Constant.KEY_USER_ID);
             mCompositeDisposable.add(RxUtilities.async(
                     v,
                     dataModule.getApiService().getProfile(userId),

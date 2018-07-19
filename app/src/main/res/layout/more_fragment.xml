@@ -13,7 +13,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/padding_content"
+        android:paddingRight="@dimen/padding_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,6 +26,7 @@
                 android:id="@+id/profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_layout"
                 android:layout_marginTop="@dimen/padding_layout"
                 android:background="@drawable/bg_border_white"
                 android:clickable="true"
@@ -50,6 +53,7 @@
                 android:id="@+id/settings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_layout"
                 android:layout_marginTop="@dimen/padding_layout"
                 android:background="@drawable/bg_border_white"
                 android:clickable="true"
@@ -76,6 +80,7 @@
                 android:id="@+id/gamerules"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_layout"
                 android:layout_marginTop="@dimen/padding_layout"
                 android:background="@drawable/bg_border_white"
                 android:clickable="true"
@@ -103,6 +108,7 @@
                 android:id="@+id/how_it_works"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_layout"
                 android:layout_marginTop="@dimen/padding_layout"
                 android:background="@drawable/bg_border_white"
                 android:clickable="true"
@@ -129,6 +135,7 @@
                 android:id="@+id/contact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_layout"
                 android:layout_marginTop="@dimen/padding_layout"
                 android:background="@drawable/bg_border_white"
                 android:clickable="true"
@@ -156,6 +163,7 @@
                 android:id="@+id/logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_layout"
                 android:layout_marginTop="@dimen/padding_layout"
                 android:background="@drawable/bg_border_yellow_gradient"
                 android:clickable="true"

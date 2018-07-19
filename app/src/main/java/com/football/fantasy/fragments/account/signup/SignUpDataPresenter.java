@@ -1,7 +1,6 @@
 package com.football.fantasy.fragments.account.signup;
 
 import com.bon.share_preferences.AppPreferences;
-import com.football.application.AppContext;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.fantasy.R;
@@ -63,7 +62,7 @@ public class SignUpDataPresenter<V extends ISignUpView> extends BaseDataPresente
     private void loginSuccess(UserResponse response) {
         getOptView().doIfPresent(view -> {
             AppPreferences.getInstance(view.getAppActivity().getAppContext()).putString(Constant.KEY_TOKEN, response.getApiToken());
-            ((AppContext) view.getAppActivity().getApplicationContext()).setMyId(response.getId());
+            AppPreferences.getInstance(view.getAppActivity().getAppContext()).putInt(Constant.KEY_USER_ID, response.getId());
             view.goToMain();
             view.showLoading(false);
         });

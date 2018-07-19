@@ -1,13 +1,14 @@
 package com.football.fantasy.fragments.leagues.league_details.invite_friends;
 
 import com.bon.customview.listview.ExtPagingListView;
-import com.football.application.AppContext;
+import com.bon.share_preferences.AppPreferences;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
 import com.football.models.PagingResponse;
 import com.football.models.responses.FriendResponse;
 import com.football.models.responses.InviteResponse;
+import com.football.utilities.Constant;
 import com.football.utilities.RxUtilities;
 
 import java.util.HashMap;
@@ -62,7 +63,7 @@ public class InviteFriendDataPresenter extends BaseDataPresenter<IInviteFriendVi
     @Override
     public void inviteFriend(int leagueId, int receiveId) {
         getOptView().doIfPresent(v -> {
-            int senderId = ((AppContext) v.getAppActivity().getApplicationContext()).getMyId();
+            int senderId = AppPreferences.getInstance(v.getAppActivity()).getInt(Constant.KEY_USER_ID);
             mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().inviteFriends(new MultipartBody.Builder()
                             .setType(MultipartBody.FORM)

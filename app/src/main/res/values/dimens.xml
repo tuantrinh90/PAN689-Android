@@ -15,12 +15,6 @@
     <dimen name="avatar_border">2dp</dimen>
     <dimen name="avatar_padding">3dp</dimen>
 
-    <!--lineup-->
-    <dimen name="avatar_player_size">45dp</dimen>
-    <dimen name="remove_player_size">16dp</dimen>
-    <dimen name="margin_player_size">4dp</dimen>
-
-
     <!--icon-->
     <dimen name="icon_tiny">18dp</dimen>
     <dimen name="icon_small">25dp</dimen>
@@ -86,6 +80,9 @@
     <dimen name="leagues_size_number_height">70dp</dimen>
 
     <!--lineup-->
+    <dimen name="avatar_player_size">45dp</dimen>
+    <dimen name="remove_player_size">16dp</dimen>
+    <dimen name="margin_player_size">4dp</dimen>
     <dimen name="player_margin_large">14dp</dimen>
     <dimen name="player_margin_normal">10dp</dimen>
     <dimen name="player_margin_small">6dp</dimen>
@@ -99,4 +96,9 @@
     <dimen name="player_bubble_height">24dp</dimen>
     <dimen name="lineup_padding">35dp</dimen>
     <dimen name="player_padding">1dp</dimen>
+    <dimen name="player_padding_remove">3dp</dimen>
+
+    <!--transferring-->
+    <dimen name="transferring_header_item_padding">0dp</dimen>
+
 </resources>
