@@ -23,7 +23,6 @@ import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilte
 import com.football.models.responses.PlayerResponse;
 import com.football.utilities.Constant;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -200,7 +199,7 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
 
             // playerResponses
             playerAdapter = new PlayerAdapter(
-                    new ArrayList<>(),
+                    getContext(),
                     player -> { // item click
                         AloneFragmentActivity.with(getContext())
                                 .parameters(PlayerDetailFragment.newBundle(

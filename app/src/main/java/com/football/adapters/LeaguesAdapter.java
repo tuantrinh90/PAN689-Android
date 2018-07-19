@@ -1,5 +1,6 @@
 package com.football.adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -8,8 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.TableRow;
 
 import com.bon.customview.textview.ExtTextView;
+import com.bon.image.ImageLoaderUtils;
 import com.bon.interfaces.Optional;
-import com.football.customizes.images.CircleImageViewApp;
 import com.football.customizes.recyclerview.DefaultAdapter;
 import com.football.customizes.recyclerview.DefaultHolder;
 import com.football.fantasy.R;
@@ -17,8 +18,6 @@ import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.UserResponse;
 import com.football.utilities.AppUtilities;
 import com.jakewharton.rxbinding2.view.RxView;
-
-import java.util.List;
 
 import butterknife.BindView;
 import java8.util.function.Consumer;
@@ -32,11 +31,11 @@ public class LeaguesAdapter extends DefaultAdapter<LeagueResponse> {
     private Consumer<LeagueResponse> rejectCallback;
     private Consumer<LeagueResponse> joinCallback;
 
-    public LeaguesAdapter(int leagueType, List<LeagueResponse> leagueResponses, Consumer<LeagueResponse> clickCallback,
+    public LeaguesAdapter(Context context, int leagueType, Consumer<LeagueResponse> clickCallback,
                           Consumer<LeagueResponse> approveCallback,
                           Consumer<LeagueResponse> rejectCallback,
                           Consumer<LeagueResponse> joinCallback) {
-        super(leagueResponses);
+        super(context);
         this.leagueType = leagueType;
         this.clickCallback = clickCallback;
         this.approveCallback = approveCallback;
@@ -58,29 +57,39 @@ public class LeaguesAdapter extends DefaultAdapter<LeagueResponse> {
     protected void onBindViewHolder(@NonNull DefaultHolder defaultHolder, LeagueResponse league, int position) {
         ViewHolder holder = (ViewHolder) defaultHolder;
 
-        holder.ivAvatar.setImageUri(league.getLogo());
+        ImageLoaderUtils.displayImage(league.getLogo(), holder.ivAvatar);
         holder.tvTitle.setText(league.getName());
-        holder.tvOwner.setText(AppUtilities.getNameOrMe(holder.itemView.getContext(), league));
+        holder.tvOwner.setText(AppUtilities.getNameOrMe(mContext, league));
         holder.tvEntrantNumber.setText(String.valueOf(league.getCurrentNumberOfUser()));
         holder.tvEntrantTotal.setText(String.valueOf(league.getNumberOfUser()));
-        holder.tvDescription.setText(league.getDescriptionText(holder.itemView.getContext()));
+        holder.tvDescription.setText(league.getDescriptionText(mContext));
 
         // hide up/down
         holder.ivUpOrDown.setVisibility(View.GONE);
         if (leagueType == MY_LEAGUES) {
-            if (league.getRankStatus() != 0) {
+            int rankStatus = league.getRankStatus();
+            if (rankStatus != 0) {
                 holder.ivUpOrDown.setVisibility(View.VISIBLE);
-                holder.ivUpOrDown.setBackgroundResource(league.getRankStatus() > 0 ? R.drawable.bg_green_arrow_up_circle :
-                        (league.getRankStatus() < 0 ? R.drawable.bg_green_arrow_down_red : 0));
-                holder.ivUpOrDown.setImageResource(league.getRankStatus() > 0 ? R.drawable.ic_arrow_upward_white_small :
-                        (league.getRankStatus() < 0 ? R.drawable.ic_arrow_down_white_small : 0));
+                holder.ivUpOrDown.setBackgroundResource(rankStatus > 0 ? R.drawable.bg_green_arrow_up_circle :
+                        R.drawable.bg_green_arrow_down_red);
+                holder.ivUpOrDown.setImageResource(rankStatus > 0 ? R.drawable.ic_arrow_upward_white_small :
+                        R.drawable.ic_arrow_down_white_small);
             }
 
             holder.tvNumber.setText(String.valueOf(league.getRank()));
+
             holder.tvNumber.setVisibility(league.getRank() > 3 ? View.VISIBLE : View.GONE);
             holder.ivNumber.setVisibility(league.getRank() <= 3 ? View.VISIBLE : View.GONE);
-            holder.ivNumber.setImageResource(league.getRank() == 1 ? R.drawable.ic_number_one :
-                    (league.getRank() == 2 ? R.drawable.ic_number_two : (league.getRank() == 3 ? R.drawable.ic_number_three : 0)));
+
+            if (league.getRank() > 3) {
+                if (league.getRank() == 1) {
+                    holder.ivNumber.setImageResource(R.drawable.ic_number_one);
+                } else if (league.getRank() == 2) {
+                    holder.ivNumber.setImageResource(R.drawable.ic_number_two);
+                } else if (league.getRank() == 3) {
+                    holder.ivNumber.setImageResource(R.drawable.ic_number_three);
+                }
+            }
         }
 
         if (leagueType == PENDING_INVITATIONS) {
@@ -108,7 +117,7 @@ public class LeaguesAdapter extends DefaultAdapter<LeagueResponse> {
 
     static class ViewHolder extends DefaultHolder {
         @BindView(R.id.ivAvatar)
-        CircleImageViewApp ivAvatar;
+        ImageView ivAvatar;
         @BindView(R.id.tvTitle)
         ExtTextView tvTitle;
         @BindView(R.id.tvOwner)

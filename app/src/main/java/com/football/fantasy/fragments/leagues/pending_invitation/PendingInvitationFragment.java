@@ -16,7 +16,6 @@ import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragmen
 import com.football.models.responses.LeagueResponse;
 import com.football.utilities.Constant;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -106,8 +105,8 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
         try {
             // leagueResponses
             LeaguesAdapter adapter = new LeaguesAdapter(
+                    getContext(),
                     LeaguesAdapter.PENDING_INVITATIONS,
-                    new ArrayList<>(),
                     league -> { // click event
                         AloneFragmentActivity.with(this)
                                 .parameters(LeagueDetailFragment.newBundle(

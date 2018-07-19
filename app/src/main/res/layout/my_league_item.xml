@@ -10,13 +10,18 @@
     android:orientation="horizontal"
     android:padding="@dimen/padding_layout">
 
-    <com.football.customizes.images.CircleImageViewApp
-        android:id="@+id/ivAvatar"
-        android:layout_width="@dimen/avatar_large"
-        android:layout_height="@dimen/avatar_large"
-        android:layout_marginBottom="@dimen/padding_content"
-        android:layout_marginLeft="@dimen/padding_content"
-        android:layout_marginTop="@dimen/padding_content" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_avatar_default"
+        android:padding="@dimen/avatar_padding">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivAvatar"
+            android:layout_width="@dimen/avatar_large"
+            android:layout_height="@dimen/avatar_large" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"

@@ -40,6 +40,7 @@ public class MatchupMyLeagueFragment extends BaseMainMvpFragment<IMatchupMyLeagu
 
     private void initView() {
         MatchupLeagueAdapter adapter = new MatchupLeagueAdapter(
+                getContext(),
                 (team, league) -> {
                     AloneFragmentActivity.with(this)
                             .parameters(TeamDetailFragment.newBundle(team, league))

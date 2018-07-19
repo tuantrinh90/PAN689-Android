@@ -12,15 +12,13 @@ import com.football.customizes.recyclerview.DefaultHolder;
 import com.football.fantasy.R;
 import com.football.models.responses.PlayerResponse;
 
-import java.util.List;
-
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TeamSquadAdapter extends DefaultAdapter<PlayerResponse> {
 
-    public TeamSquadAdapter(List<PlayerResponse> dataSet) {
-        super(dataSet);
+    public TeamSquadAdapter(Context context) {
+        super(context);
     }
 
     @Override

@@ -23,6 +23,10 @@ import butterknife.ButterKnife;
 
 public class RealMatchAdapter extends DefaultAdapter<RealMatch> {
 
+    public RealMatchAdapter(Context context) {
+        super(context);
+    }
+
     @Override
     protected int getLayoutId(int viewType) {
         return R.layout.match_up_real_match_item;

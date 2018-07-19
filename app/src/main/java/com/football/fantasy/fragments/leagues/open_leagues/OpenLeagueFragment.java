@@ -137,8 +137,8 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
 
             // leagueResponses
             mAdapter = new LeaguesAdapter(
+                    getContext(),
                     LeaguesAdapter.OPEN_LEAGUES,
-                    new ArrayList<>(),
                     details -> {
                         AloneFragmentActivity.with(this)
                                 .parameters(LeagueDetailFragment.newBundle(getString(R.string.open_leagues), details.getId(), LeagueDetailFragment.OPEN_LEAGUES))

@@ -112,7 +112,7 @@ public class TeamSquadFragment extends BaseMainMvpFragment<ITeamSquadView, ITeam
     }
 
     void initView() {
-        teamSquadAdapter = new TeamSquadAdapter(new ArrayList<>());
+        teamSquadAdapter = new TeamSquadAdapter(getContext());
         rvPlayer
                 .adapter(teamSquadAdapter)
                 .refreshListener(() -> {

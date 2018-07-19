@@ -4,8 +4,10 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.bon.customview.textview.ExtTextView;
+import com.bon.image.ImageLoaderUtils;
 import com.bon.interfaces.Optional;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.customizes.recyclerview.DefaultAdapter;
@@ -13,8 +15,6 @@ import com.football.customizes.recyclerview.DefaultHolder;
 import com.football.fantasy.R;
 import com.football.models.responses.FriendResponse;
 import com.jakewharton.rxbinding2.view.RxView;
-
-import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.disposables.CompositeDisposable;
@@ -29,11 +29,10 @@ public class InviteFriendAdapter extends DefaultAdapter<FriendResponse> {
 
     private boolean startTime;
 
-    public InviteFriendAdapter(List<FriendResponse> friends,
-                               Consumer<FriendResponse> detailCallback,
+    public InviteFriendAdapter(Context context, Consumer<FriendResponse> detailCallback,
                                Consumer<FriendResponse> inviteCallback,
                                boolean startTime) {
-        super(friends);
+        super(context);
         this.detailCallback = detailCallback;
         this.inviteCallback = inviteCallback;
         this.startTime = startTime;
@@ -54,7 +53,7 @@ public class InviteFriendAdapter extends DefaultAdapter<FriendResponse> {
         ViewHolder holder = (ViewHolder) defaultHolder;
         Context context = holder.itemView.getContext();
 
-        holder.ivAvatar.setImageUri(friend.getPhoto());
+        ImageLoaderUtils.displayImage(friend.getPhoto(), holder.ivAvatar);
         holder.tvName.setText(friend.getName());
         holder.tvStatus.setEnabled(!friend.getInvited());
 
@@ -83,7 +82,7 @@ public class InviteFriendAdapter extends DefaultAdapter<FriendResponse> {
 
     static class ViewHolder extends DefaultHolder {
         @BindView(R.id.ivAvatar)
-        CircleImageViewApp ivAvatar;
+        ImageView ivAvatar;
         @BindView(R.id.tvName)
         ExtTextView tvName;
         @BindView(R.id.tvStatus)

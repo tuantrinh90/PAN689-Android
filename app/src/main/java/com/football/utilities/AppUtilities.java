@@ -5,13 +5,12 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.bon.share_preferences.AppPreferences;
 import com.bon.util.DateTimeUtils;
+import com.football.application.AppContext;
 import com.football.fantasy.R;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TeamResponse;
-import com.football.models.responses.UserResponse;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -81,15 +80,13 @@ public class AppUtilities {
     }
 
     public static String getNameOrMe(Context context, TeamResponse team) {
-        AppPreferences preferences = AppPreferences.getInstance(context);
-        UserResponse user = preferences.getObject(Constant.KEY_USER, UserResponse.class);
-        return user.getId().equals(team.getUserId()) ? context.getResources().getString(R.string.me) : team.getUser().getName();
+        int myId = ((AppContext) context.getApplicationContext()).getMyId();
+        return myId == team.getUserId() ? context.getResources().getString(R.string.me) : team.getUser().getName();
     }
 
     public static boolean isOwner(Context context, int userId) {
-        AppPreferences preferences = AppPreferences.getInstance(context);
-        UserResponse user = preferences.getObject(Constant.KEY_USER, UserResponse.class);
-        return user.getId().equals(userId);
+        int myId = ((AppContext) context.getApplicationContext()).getMyId();
+        return myId == userId;
     }
 
     public static long getTimestamp(String date) {

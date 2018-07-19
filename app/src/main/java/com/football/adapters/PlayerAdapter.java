@@ -1,5 +1,6 @@
 package com.football.adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,10 +32,10 @@ public class PlayerAdapter extends DefaultAdapter<PlayerResponse> {
     private final Consumer<PlayerResponse> clickCallback;
     private final BiConsumer<PlayerResponse, Integer> addCallback;
 
-    public PlayerAdapter(List<PlayerResponse> playerResponses,
+    public PlayerAdapter(Context context,
                          Consumer<PlayerResponse> clickCallback,
                          BiConsumer<PlayerResponse, Integer> addCallback) {
-        super(playerResponses);
+        super(context);
         this.clickCallback = clickCallback;
         this.addCallback = addCallback;
     }

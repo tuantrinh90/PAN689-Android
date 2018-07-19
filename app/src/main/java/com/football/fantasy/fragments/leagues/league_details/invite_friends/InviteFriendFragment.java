@@ -92,7 +92,7 @@ public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView,
             });
 
             inviteFriendAdapter = new InviteFriendAdapter(
-                    new ArrayList<>(),
+                    getContext(),
                     detailFriend -> { // detail
 
                     },

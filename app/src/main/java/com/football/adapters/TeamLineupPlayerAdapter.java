@@ -1,5 +1,6 @@
 package com.football.adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 
@@ -13,13 +14,11 @@ import com.football.models.responses.PlayerResponse;
 import com.football.utilities.AppUtilities;
 import com.jakewharton.rxbinding2.view.RxView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import java8.util.function.Consumer;
 
 public class TeamLineupPlayerAdapter extends DefaultAdapter<PlayerResponse> {
@@ -27,8 +26,8 @@ public class TeamLineupPlayerAdapter extends DefaultAdapter<PlayerResponse> {
     private CompositeDisposable mDisposable = new CompositeDisposable();
 
 
-    public TeamLineupPlayerAdapter(List<PlayerResponse> dataSet, Consumer<PlayerResponse> clickCallback) {
-        super(dataSet);
+    public TeamLineupPlayerAdapter(Context context, List<PlayerResponse> dataSet, Consumer<PlayerResponse> clickCallback) {
+        super(context, dataSet);
         this.clickCallback = clickCallback;
     }
 

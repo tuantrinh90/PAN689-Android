@@ -119,6 +119,7 @@ public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITe
         tvPitch.setText(formationValue);
 
         TeamLineupPlayerAdapter adapter = new TeamLineupPlayerAdapter(
+                getContext(),
                 new ArrayList<>(),
                 player -> AloneFragmentActivity.with(this)
                         .parameters(PlayerDetailFragment.newBundle(

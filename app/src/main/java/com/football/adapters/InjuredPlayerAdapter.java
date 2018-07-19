@@ -1,5 +1,6 @@
 package com.football.adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,7 +18,8 @@ public class InjuredPlayerAdapter extends DefaultAdapter<PlayerResponse> {
 
     private Consumer<PlayerResponse> deleteConsumer;
 
-    public InjuredPlayerAdapter(Consumer<PlayerResponse> deleteConsumer) {
+    public InjuredPlayerAdapter(Context context, Consumer<PlayerResponse> deleteConsumer) {
+        super(context);
         this.deleteConsumer = deleteConsumer;
     }
 

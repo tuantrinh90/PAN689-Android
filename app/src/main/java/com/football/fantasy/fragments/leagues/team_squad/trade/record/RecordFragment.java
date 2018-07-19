@@ -64,9 +64,11 @@ public class RecordFragment extends BaseMainMvpFragment<IRecordView, IRecordPres
     }
 
     void initRecyclerView() {
-        RecordAdapter adapter = new RecordAdapter(player -> {
-            PlayerDetailFragment.start(this, player, getString(R.string.record), false);
-        });
+        RecordAdapter adapter = new RecordAdapter(
+                getContext(),
+                player -> {
+                    PlayerDetailFragment.start(this, player, getString(R.string.record), false);
+                });
         rvRecord.adapter(adapter)
                 .refreshListener(this::refreshData)
                 .loadMoreListener(() -> {

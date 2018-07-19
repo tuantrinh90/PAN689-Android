@@ -1,5 +1,6 @@
 package com.football.adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 
@@ -21,8 +22,8 @@ public class RecordAdapter extends DefaultAdapter<TransferHistoryResponse> {
 
     private Consumer<PlayerResponse> clickConsumer;
 
-    public RecordAdapter(Consumer<PlayerResponse> clickConsumer) {
-        super();
+    public RecordAdapter(Context context, Consumer<PlayerResponse> clickConsumer) {
+        super(context);
         this.clickConsumer = clickConsumer;
     }
 

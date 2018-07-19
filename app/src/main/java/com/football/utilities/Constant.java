@@ -10,7 +10,7 @@ public interface Constant {
     String FORMAT_HOUR_MINUTE = "HH:mm";
 
     // login response
-    String KEY_USER = "key_user";
+    String KEY_TOKEN = "key_token";
     float KEY_MIO = 1000000f;
     String KEY_LEAGUE_ID = "league_id";
     String KEY_SORT = "sort";

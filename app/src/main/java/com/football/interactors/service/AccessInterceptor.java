@@ -1,12 +1,10 @@
 package com.football.interactors.service;
 
 import android.content.Context;
-import android.util.Log;
+import android.text.TextUtils;
 
 import com.bon.share_preferences.AppPreferences;
-import com.bon.util.StringUtils;
 import com.football.common.Keys;
-import com.football.models.responses.UserResponse;
 import com.football.utilities.Constant;
 
 import java.io.IOException;
@@ -19,10 +17,10 @@ import okhttp3.Response;
  * Created by dangpp on 2/9/2018.
  */
 public class AccessInterceptor implements Interceptor {
-    private UserResponse userResponse;
+    private String token;
 
     public AccessInterceptor(Context context) {
-        userResponse = AppPreferences.getInstance(context).getObject(Constant.KEY_USER, UserResponse.class);
+        token = AppPreferences.getInstance(context).getString(Constant.KEY_TOKEN);
     }
 
     @Override
@@ -30,9 +28,9 @@ public class AccessInterceptor implements Interceptor {
         Request request;
 
         // update token
-        if (userResponse != null && !StringUtils.isEmpty(userResponse.getApiToken())) {
+        if (!TextUtils.isEmpty(token)) {
             request = chain.request().newBuilder()
-                    .addHeader(Keys.AUTH_TOKEN, "Bearer " + userResponse.getApiToken())
+                    .addHeader(Keys.AUTH_TOKEN, "Bearer " + token)
                     .build();
         } else {
             request = chain.request();

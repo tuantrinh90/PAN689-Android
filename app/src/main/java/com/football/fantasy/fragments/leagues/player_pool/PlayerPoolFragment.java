@@ -240,7 +240,7 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
 
         PlayerPoolAdapter adapter;
         adapter = new PlayerPoolAdapter(
-                new ArrayList<>(),
+                getContext(),
                 player -> { // click event
                     AloneFragmentActivity.with(this)
                             .parameters(PlayerDetailFragment.newBundle(

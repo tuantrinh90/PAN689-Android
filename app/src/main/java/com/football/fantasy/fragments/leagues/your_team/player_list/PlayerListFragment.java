@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.logger.Logger;
 import com.bon.util.DateTimeUtils;
@@ -29,7 +28,6 @@ import com.football.models.responses.StatisticResponse;
 import com.football.utilities.AppUtilities;
 import com.football.utilities.Constant;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -132,7 +130,7 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
             // playerResponses
 
             playerAdapter = new PlayerAdapter(
-                    new ArrayList<>(),
+                    getContext(),
                     player -> { // item click
                         AloneFragmentActivity.with(this)
                                 .parameters(PlayerDetailFragment.newBundle(

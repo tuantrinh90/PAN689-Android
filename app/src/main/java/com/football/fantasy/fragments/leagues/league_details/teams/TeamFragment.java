@@ -23,7 +23,6 @@ import com.football.models.responses.TeamResponse;
 import com.football.utilities.AppUtilities;
 import com.football.utilities.Constant;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -100,7 +99,7 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
         try {
             displayTime();
             TeamAdapter teamAdapter = new TeamAdapter(
-                    new ArrayList<>(),
+                    getContext(),
                     league.getOwner(),
                     team -> { // click detail
                         if (!leagueType.equals(LeagueDetailFragment.OPEN_LEAGUES)) {

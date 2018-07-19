@@ -34,7 +34,7 @@
             android:background="@drawable/bg_circle_red"
             android:clickable="true"
             android:focusable="true"
-            android:padding="3dp"
+            android:padding="@dimen/player_padding_remove"
             android:src="@drawable/ic_remove_small" />
 
         <com.bon.customview.textview.ExtTextView

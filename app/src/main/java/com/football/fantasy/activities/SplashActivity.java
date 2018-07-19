@@ -7,11 +7,14 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.util.Log;
 
 import com.bon.share_preferences.AppPreferences;
 import com.football.common.activities.BaseAppCompatActivity;
+import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
-import com.football.models.responses.UserResponse;
 import com.football.utilities.Constant;
 
 
@@ -30,9 +33,14 @@ public class SplashActivity extends BaseAppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (BuildConfig.DEBUG) {
+            String TAG = "SplashActivity";
+            Log.i(TAG, "onCreate: " + getDeviceResolution());
+        }
+
         new Handler().postDelayed(() -> {
-            UserResponse user = AppPreferences.getInstance(this).getObject(Constant.KEY_USER, UserResponse.class);
-            startActivity(new Intent(this, user == null ? AccountActivity.class : MainActivity.class));
+            String token = AppPreferences.getInstance(this).getString(Constant.KEY_TOKEN);
+            startActivity(new Intent(this, TextUtils.isEmpty(token) ? AccountActivity.class : MainActivity.class));
             finish();
         }, 1000);
     }
@@ -52,4 +60,25 @@ public class SplashActivity extends BaseAppCompatActivity {
         return null;
     }
 
+    private String getDeviceResolution() {
+        int density = getResources().getDisplayMetrics().densityDpi;
+        switch (density) {
+            case DisplayMetrics.DENSITY_MEDIUM:
+                return "MDPI";
+            case DisplayMetrics.DENSITY_HIGH:
+                return "HDPI";
+            case DisplayMetrics.DENSITY_LOW:
+                return "LDPI";
+            case DisplayMetrics.DENSITY_XHIGH:
+                return "XHDPI";
+            case DisplayMetrics.DENSITY_TV:
+                return "TV";
+            case DisplayMetrics.DENSITY_XXHIGH:
+                return "XXHDPI";
+            case DisplayMetrics.DENSITY_XXXHIGH:
+                return "XXXHDPI";
+            default:
+                return "Unknown";
+        }
+    }
 }

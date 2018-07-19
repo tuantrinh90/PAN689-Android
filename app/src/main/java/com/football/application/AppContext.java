@@ -23,6 +23,8 @@ public class AppContext extends ExtApplication {
 
     private AppComponent component;
 
+    private int myId;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -94,5 +96,13 @@ public class AppContext extends ExtApplication {
      */
     public AppComponent getComponent() {
         return component;
+    }
+
+    public int getMyId() {
+        return myId;
+    }
+
+    public void setMyId(int myId) {
+        this.myId = myId;
     }
 }

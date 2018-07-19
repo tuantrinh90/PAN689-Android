@@ -60,7 +60,7 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
     }
 
     private void initView() {
-        RealMatchAdapter adapter = new RealMatchAdapter();
+        RealMatchAdapter adapter = new RealMatchAdapter(getContext());
         rvRealLeague
                 .adapter(adapter)
                 .hasFixedSize(false)

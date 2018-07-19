@@ -32,8 +32,8 @@ public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
     private String option2;
     private String option3;
 
-    public PlayerPoolAdapter(List<PlayerResponse> dataSet, Consumer<PlayerResponse> clickConsumer) {
-        super(dataSet);
+    public PlayerPoolAdapter(Context context, Consumer<PlayerResponse> clickConsumer) {
+        super(context);
         this.clickConsumer = clickConsumer;
         mDisposable = new CompositeDisposable();
     }

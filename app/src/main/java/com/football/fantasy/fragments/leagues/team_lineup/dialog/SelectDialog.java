@@ -49,6 +49,7 @@ public class SelectDialog extends ExtBaseBottomDialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TeamLineupPlayerAdapter adapter = new TeamLineupPlayerAdapter(
+                getContext(),
                 players,
                 player -> {
                     clickCallback.accept(player);

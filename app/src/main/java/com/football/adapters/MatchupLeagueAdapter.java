@@ -12,7 +12,6 @@ import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageLoaderUtils;
 import com.football.customizes.expandablelayout.ExpandableLayout;
 import com.football.customizes.expandablelayout.util.Utils;
-import com.football.customizes.images.CircleImageViewApp;
 import com.football.customizes.match_up.MatchupTextItem;
 import com.football.customizes.recyclerview.DefaultAdapter;
 import com.football.customizes.recyclerview.DefaultHolder;
@@ -22,7 +21,6 @@ import com.football.models.responses.MyMatchResponse;
 import com.football.models.responses.PlayerStatisticMetaResponse;
 import com.football.models.responses.TeamResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -33,8 +31,8 @@ public class MatchupLeagueAdapter extends DefaultAdapter<MyMatchResponse> {
     private final BiConsumer<TeamResponse, LeagueResponse> teamDetailCallback;
     private SparseBooleanArray expandState = new SparseBooleanArray();
 
-    public MatchupLeagueAdapter(BiConsumer<TeamResponse, LeagueResponse> teamDetailCallback) {
-        super(new ArrayList<>());
+    public MatchupLeagueAdapter(Context context, BiConsumer<TeamResponse, LeagueResponse> teamDetailCallback) {
+        super(context);
         this.teamDetailCallback = teamDetailCallback;
     }
 
@@ -58,10 +56,10 @@ public class MatchupLeagueAdapter extends DefaultAdapter<MyMatchResponse> {
         showStatistic(holder, statisticTeamA, statisticTeamB);
         holder.tvTitle.setText(data.getLeague().getName());
 
-        ImageLoaderUtils.displayImage(data.getTeam().getLogo(), holder.ivAvatarTeam1.getImageView());
+        ImageLoaderUtils.displayImage(data.getTeam().getLogo(), holder.ivAvatarTeam1);
         holder.tvTitleTeam1.setText(data.getTeam().getName());
 
-        ImageLoaderUtils.displayImage(data.getWithTeam().getLogo(), holder.ivAvatarTeam2.getImageView());
+        ImageLoaderUtils.displayImage(data.getWithTeam().getLogo(), holder.ivAvatarTeam2);
         holder.tvTitleTeam2.setText(data.getWithTeam().getName());
 
         // round
@@ -152,7 +150,7 @@ public class MatchupLeagueAdapter extends DefaultAdapter<MyMatchResponse> {
         @BindView(R.id.buttonResult)
         LinearLayout buttonResult;
         @BindView(R.id.ivAvatarTeam1)
-        CircleImageViewApp ivAvatarTeam1;
+        ImageView ivAvatarTeam1;
         @BindView(R.id.tvTitleTeam1)
         ExtTextView tvTitleTeam1;
         @BindView(R.id.tvRound)
@@ -160,7 +158,7 @@ public class MatchupLeagueAdapter extends DefaultAdapter<MyMatchResponse> {
         @BindView(R.id.tvRoundMatch)
         ExtTextView tvRoundMatch;
         @BindView(R.id.ivAvatarTeam2)
-        CircleImageViewApp ivAvatarTeam2;
+        ImageView ivAvatarTeam2;
         @BindView(R.id.tvTitleTeam2)
         ExtTextView tvTitleTeam2;
         @BindView(R.id.ivExpandable)

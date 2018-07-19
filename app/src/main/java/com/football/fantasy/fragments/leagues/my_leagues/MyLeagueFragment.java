@@ -124,8 +124,8 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
         try {
             // leagueResponses
             mAdapter = new LeaguesAdapter(
+                    getContext(),
                     LeaguesAdapter.MY_LEAGUES,
-                    new ArrayList<>(),
                     details -> {
                         AloneFragmentActivity.with(this)
                                 .parameters(LeagueDetailFragment.newBundle(getString(R.string.my_leagues), details.getId(), LeagueDetailFragment.MY_LEAGUES))

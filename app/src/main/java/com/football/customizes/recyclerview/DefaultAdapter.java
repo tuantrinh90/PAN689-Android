@@ -1,5 +1,6 @@
 package com.football.customizes.recyclerview;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,15 +21,20 @@ public abstract class DefaultAdapter<T> extends RecyclerView.Adapter<DefaultHold
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_LOADING = 1;
 
+    protected final Context mContext;
+    private final LayoutInflater mInflater;
+
     private List<T> mDataSet;
     private int loadingId;
 
-    public DefaultAdapter(List<T> dataSet) {
-        this.mDataSet = dataSet;
+    public DefaultAdapter(Context context) {
+        this(context, new ArrayList<>());
     }
 
-    public DefaultAdapter() {
-        this.mDataSet = new ArrayList<>();
+    public DefaultAdapter(Context context, List<T> dataSet) {
+        this.mContext = context;
+        mInflater = LayoutInflater.from(context);
+        this.mDataSet = dataSet;
     }
 
     protected abstract int getLayoutId(int viewType);
@@ -46,7 +52,7 @@ public abstract class DefaultAdapter<T> extends RecyclerView.Adapter<DefaultHold
     @Override
     public DefaultHolder onCreateViewHolder(@NonNull ViewGroup parent, final int viewType) {
         if (viewType == TYPE_ITEM) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(getLayoutId(viewType), parent, false);
+            View view = mInflater.inflate(getLayoutId(viewType), parent, false);
             return onCreateHolder(view, viewType);
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(loadingId == 0 ? R.layout.paging_item_loading : loadingId, parent, false);

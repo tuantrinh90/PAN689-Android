@@ -218,7 +218,7 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
 
         PlayerPoolAdapter adapter;
         adapter = new PlayerPoolAdapter(
-                new ArrayList<>(),
+                getContext(),
                 player -> { // click event
                     AloneFragmentActivity.with(this)
                             .parameters(PlayerDetailFragment.newBundle(
@@ -237,6 +237,7 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
         // injured
         // remove click
         InjuredPlayerAdapter injuredPlayerAdapter = new InjuredPlayerAdapter(
+                getContext(),
                 this::transferPlayer);
         rvInjured
                 .adapter(injuredPlayerAdapter)

@@ -16,7 +16,6 @@ import com.football.fantasy.fragments.leagues.team_preview.LineupPreviewFragment
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -73,7 +72,7 @@ public class TeamListFragment extends BaseMainMvpFragment<ITeamListView, ITeamLi
         tvTotal.setText(String.valueOf(league.getNumberOfUser()));
 
         teamAdapter = new TeamListAdapter(
-                new ArrayList<>(),
+                getContext(),
                 league.getOwner(),
                 team -> { // handle click
                     LineupPreviewFragment.start(this, team);

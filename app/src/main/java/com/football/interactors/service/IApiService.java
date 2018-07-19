@@ -173,7 +173,7 @@ public interface IApiService {
 
     @POST(ServiceConfig.TRANSFER_PLAYER)
     Observable<BaseResponse<Object>> transferPlayer(@Path(ServiceConfig.KEY_ID) int teamId,
-                                                                      @Body RequestBody body);
+                                                    @Body RequestBody body);
 
     @GET(ServiceConfig.TRANSFER_HISTORIES)
     Observable<BaseResponse<PagingResponse<TransferHistoryResponse>>> getTransferHistories(@Path(ServiceConfig.KEY_ID) int teamId,
@@ -183,6 +183,9 @@ public interface IApiService {
     Observable<BaseResponse<PlayerStatisticResponse>> getPlayerStatistic(@Path(ServiceConfig.KEY_ID) Integer playerId, @Query("filter") String filter);
 
     /* user */
+    @GET(ServiceConfig.GET_PROFILE)
+    Observable<BaseResponse<UserResponse>> getProfile(@Path("id") int userId);
+
     @POST(ServiceConfig.UPDATE_PROFILE)
     Observable<BaseResponse<UserResponse>> updateProfile(@Body RequestBody body);
 

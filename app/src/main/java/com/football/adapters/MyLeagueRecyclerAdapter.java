@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bon.customview.textview.ExtTextView;
+import com.bon.image.ImageLoaderUtils;
 import com.bon.interfaces.Optional;
 import com.bon.util.GeneralUtils;
 import com.football.common.adapters.BaseRecyclerViewAdapter;
@@ -44,7 +45,7 @@ public class MyLeagueRecyclerAdapter extends BaseRecyclerViewAdapter<LeagueRespo
         LeagueResponse league = getItem(position);
         assert league != null;
 
-        holder.ivAvatar.setImageUri(league.getLogo());
+        ImageLoaderUtils.displayImage(league.getLogo(), holder.ivAvatar);
         holder.tvTitle.setText(league.getName());
         holder.tvDescription.setText(AppUtilities.getNameOrMe(holder.itemView.getContext(), league));
         holder.tvRankNumber.setText(String.valueOf(league.getRank()));
@@ -65,7 +66,7 @@ public class MyLeagueRecyclerAdapter extends BaseRecyclerViewAdapter<LeagueRespo
         @BindView(R.id.llContainer)
         LinearLayout llContainer;
         @BindView(R.id.ivAvatar)
-        CircleImageViewApp ivAvatar;
+        ImageView ivAvatar;
         @BindView(R.id.tvTitle)
         ExtTextView tvTitle;
         @BindView(R.id.tvDescription)

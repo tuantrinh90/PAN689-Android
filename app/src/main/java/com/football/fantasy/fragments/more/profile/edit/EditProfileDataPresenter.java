@@ -4,13 +4,11 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.bon.share_preferences.AppPreferences;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
 import com.football.models.requests.ProfileRequest;
 import com.football.models.responses.UserResponse;
-import com.football.utilities.Constant;
 import com.football.utilities.RxUtilities;
 import com.football.utilities.compressor.Compressor;
 
@@ -32,9 +30,31 @@ public class EditProfileDataPresenter extends BaseDataPresenter<IEditProfileView
     @Override
     public void getProfile() {
         getOptView().doIfPresent(v -> {
-            UserResponse user = AppPreferences.getInstance(v.getAppActivity()).getObject(Constant.KEY_USER, UserResponse.class);
-            v.displayUser(user);
+            int userId = v.getAppActivity().getAppContext().getMyId();
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().getProfile(userId),
+                    new ApiCallback<UserResponse>() {
+                        @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
 
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
+
+                        @Override
+                        public void onSuccess(UserResponse response) {
+                            v.displayUser(response);
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            v.showMessage(error);
+                        }
+                    }));
         });
     }
 
@@ -57,9 +77,6 @@ public class EditProfileDataPresenter extends BaseDataPresenter<IEditProfileView
 
                         @Override
                         public void onSuccess(UserResponse user) {
-                            String token = AppPreferences.getInstance(v.getAppActivity()).getObject(Constant.KEY_USER, UserResponse.class).getApiToken();
-                            user.setApiToken(token);
-                            AppPreferences.getInstance(v.getAppActivity().getAppContext()).putObject(Constant.KEY_USER, user);
                             v.updateSuccessful(user);
                         }
 
