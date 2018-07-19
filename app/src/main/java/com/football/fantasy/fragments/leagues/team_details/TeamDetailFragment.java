@@ -22,6 +22,7 @@ import com.football.fantasy.fragments.leagues.team_lineup.TeamLineUpFragment;
 import com.football.fantasy.fragments.leagues.team_squad.TeamSquadFragment;
 import com.football.fantasy.fragments.leagues.team_squad.trade.TradeFragment;
 import com.football.fantasy.fragments.leagues.team_statistics.TeamStatisticFragment;
+import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.utilities.AppUtilities;
 
@@ -34,7 +35,7 @@ public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITe
     private static final String TAG = "TeamDetailFragment";
 
     private static final String KEY_TEAM = "TEAM_ID";
-    private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+    private static final String KEY_LEAGUE = "LEAGUE_ID";
 
     @BindView(R.id.tvHeader)
     ExtTextView tvHeader;
@@ -64,12 +65,12 @@ public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITe
     LinearLayout llStatistics;
 
     private TeamResponse team;
-    private int leagueId;
+    private LeagueResponse league;
 
-    public static Bundle newBundle(TeamResponse team, Integer leagueId) {
+    public static Bundle newBundle(TeamResponse team, LeagueResponse league) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_TEAM, team);
-        bundle.putInt(KEY_LEAGUE_ID, leagueId);
+        bundle.putSerializable(KEY_LEAGUE, league);
         return bundle;
     }
 
@@ -91,7 +92,7 @@ public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITe
     private void getDataFromBundle() {
         assert getArguments() != null;
         team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
-        leagueId = getArguments().getInt(KEY_LEAGUE_ID);
+        league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
     }
 
     @NonNull
@@ -157,7 +158,7 @@ public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITe
                 AloneFragmentActivity.with(mActivity)
                         .parameters(SetupTeamFragment.newBundle(
                                 team,
-                                leagueId,
+                                league.getId(),
                                 mActivity.getTitleToolBar().getText().toString(),
                                 LeagueDetailFragment.MY_LEAGUES))
                         .start(SetupTeamFragment.class);
@@ -173,7 +174,11 @@ public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITe
                 break;
             case R.id.llTransfer:
                 if (AppUtilities.isOwner(getContext(), team.getUserId())) {
-                    TradeFragment.start(this, getString(R.string.team_details), team, leagueId);
+                    if (league.getStatus() == LeagueResponse.ON_GOING) {
+                        TradeFragment.start(this, getString(R.string.team_details), team, league.getId());
+                    } else {
+                        showMessage(R.string.start_league_before_team_setup_time, R.string.ok, null);
+                    }
                 } else {
                     showMessage(R.string.message_not_owner_the_team, R.string.ok, null);
                 }
@@ -181,7 +186,7 @@ public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITe
             case R.id.llTeamSquad:
                 if (team.getCompleted()) {
                     AloneFragmentActivity.with(this)
-                            .parameters(TeamSquadFragment.newBundle(team, team.getName(), leagueId))
+                            .parameters(TeamSquadFragment.newBundle(team, team.getName(), league.getId()))
                             .start(TeamSquadFragment.class);
                 } else {
                     showMessage(getString(R.string.message_team_lineup_is_not_completed_yet));
@@ -189,7 +194,7 @@ public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITe
                 break;
             case R.id.llStatistics:
                 AloneFragmentActivity.with(this)
-                        .parameters(TeamStatisticFragment.newBundle(getString(R.string.team_details), team, leagueId))
+                        .parameters(TeamStatisticFragment.newBundle(getString(R.string.team_details), team, league.getId()))
                         .start(TeamStatisticFragment.class);
                 break;
         }

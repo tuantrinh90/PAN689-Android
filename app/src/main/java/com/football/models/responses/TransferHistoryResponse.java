@@ -7,8 +7,9 @@ import java.io.Serializable;
 
 public class TransferHistoryResponse implements Serializable {
 
-    public static final int STATUS_IN = -1;
-    public static final int STATUS_OUT = 1;
+    public static final int STATUS_OUT = -1;
+    public static final int PENDING = 0;
+    public static final int STATUS_IN = 1;
 
     @JsonProperty("id")
     private Integer id;

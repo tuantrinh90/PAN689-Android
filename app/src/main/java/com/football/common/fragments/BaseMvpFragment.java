@@ -256,6 +256,7 @@ public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDat
             mCompositeDisposable.dispose();
         }
 
+        mActivity = null;
         super.onDestroyView();
     }
 

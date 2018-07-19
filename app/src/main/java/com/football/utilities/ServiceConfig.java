@@ -72,7 +72,7 @@ public interface ServiceConfig {
     String HOME_NEWS = "posts";
 
     // real match
-    String REAL_MATCHES = "real_matches";
+    String REAL_MATCHES = "real_rounds";
 
     // teams
     String TEAM_LIST = "teams";

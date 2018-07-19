@@ -302,6 +302,7 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
     private void toggleSort(int index) {
         rvPlayer.startLoading();
         rvPlayer.clear();
+        rvInjured.clear();
         switch (sorts[index]) {
             case Constant.SORT_NONE:
                 sorts[index] = Constant.SORT_DESC;

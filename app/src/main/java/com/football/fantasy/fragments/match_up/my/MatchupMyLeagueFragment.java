@@ -40,9 +40,9 @@ public class MatchupMyLeagueFragment extends BaseMainMvpFragment<IMatchupMyLeagu
 
     private void initView() {
         MatchupLeagueAdapter adapter = new MatchupLeagueAdapter(
-                (team, leagueId) -> {
+                (team, league) -> {
                     AloneFragmentActivity.with(this)
-                            .parameters(TeamDetailFragment.newBundle(team, leagueId))
+                            .parameters(TeamDetailFragment.newBundle(team, league))
                             .start(TeamDetailFragment.class);
                 });
         // init recyclerView

@@ -93,6 +93,7 @@ public class TeamListFragment extends BaseMainMvpFragment<ITeamListView, ITeamLi
                 .subscribeWith(new DisposableObserver<TeamEvent>() {
                     @Override
                     public void onNext(TeamEvent event) {
+                        rvTeam.clear();
                         getTeams();
                     }
 

@@ -17,6 +17,7 @@ import com.football.customizes.match_up.MatchupTextItem;
 import com.football.customizes.recyclerview.DefaultAdapter;
 import com.football.customizes.recyclerview.DefaultHolder;
 import com.football.fantasy.R;
+import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.MyMatchResponse;
 import com.football.models.responses.PlayerStatisticMetaResponse;
 import com.football.models.responses.TeamResponse;
@@ -29,10 +30,10 @@ import java8.util.function.BiConsumer;
 
 public class MatchupLeagueAdapter extends DefaultAdapter<MyMatchResponse> {
 
-    private final BiConsumer<TeamResponse, Integer> teamDetailCallback;
+    private final BiConsumer<TeamResponse, LeagueResponse> teamDetailCallback;
     private SparseBooleanArray expandState = new SparseBooleanArray();
 
-    public MatchupLeagueAdapter(BiConsumer<TeamResponse, Integer> teamDetailCallback) {
+    public MatchupLeagueAdapter(BiConsumer<TeamResponse, LeagueResponse> teamDetailCallback) {
         super(new ArrayList<>());
         this.teamDetailCallback = teamDetailCallback;
     }
@@ -91,11 +92,11 @@ public class MatchupLeagueAdapter extends DefaultAdapter<MyMatchResponse> {
 
         holder.ivAvatarTeam1.setOnClickListener(v -> {
             MyMatchResponse match = getItem(defaultHolder.getAdapterPosition());
-            teamDetailCallback.accept(match.getTeam(), match.getLeague().getId());
+            teamDetailCallback.accept(match.getTeam(), match.getLeague());
         });
         holder.ivAvatarTeam2.setOnClickListener(v -> {
             MyMatchResponse match = getItem(defaultHolder.getAdapterPosition());
-            teamDetailCallback.accept(match.getWithTeam(), match.getLeague().getId());
+            teamDetailCallback.accept(match.getWithTeam(), match.getLeague());
         });
     }
 
