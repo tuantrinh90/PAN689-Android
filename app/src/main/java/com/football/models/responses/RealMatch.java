@@ -20,4 +20,8 @@ public class RealMatch implements Serializable {
     public List<RealMatchResponse> getResponses() {
         return responses;
     }
+
+    public void addRealMatchResponse(List<RealMatchResponse> responses) {
+        this.responses.addAll(responses);
+    }
 }

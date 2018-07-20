@@ -8,6 +8,7 @@ import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.textview.ExtTextView;
 import com.football.adapters.RealMatchAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.customizes.recyclerview.DefaultAdapter;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 import com.football.models.responses.RealMatch;
@@ -104,7 +105,21 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
 
     @Override
     public void displayRealMatches(List<RealMatch> realMatches) {
-        rvRealLeague.addItems(realMatches);
+        DefaultAdapter<RealMatch> adapter = rvRealLeague.getAdapter();
+        int lastIndex = adapter.getItemCount() - 2; // trừ 2 vì lastItem là loadMore
+        if (realMatches.size() > 0 && lastIndex >= 0 && adapter.getDataSet().get(lastIndex).getDate().equals(realMatches.get(0).getDate())) {
+            RealMatch firstRealMatch = realMatches.get(0);
+            realMatches.remove(0);
+
+            // add firstRealMatch of response to lastRealMatch of Adapter
+            adapter.getItem(lastIndex).addRealMatchResponse(firstRealMatch.getResponses());
+
+            // add to rv
+            rvRealLeague.addItems(realMatches);
+            rvRealLeague.getAdapter().notifyItemChanged(lastIndex);
+        } else {
+            rvRealLeague.addItems(realMatches);
+        }
     }
 
     @Override
