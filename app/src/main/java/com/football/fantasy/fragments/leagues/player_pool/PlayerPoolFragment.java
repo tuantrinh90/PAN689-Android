@@ -348,16 +348,22 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
             case R.id.option1:
                 toggleSort(0);
                 ivSort1.setImageResource(getArrowResource(sorts[0]));
+                clearState(ivSort2, 1);
+                clearState(ivSort3, 2);
                 break;
 
             case R.id.option2:
                 toggleSort(1);
                 ivSort2.setImageResource(getArrowResource(sorts[1]));
+                clearState(ivSort1, 0);
+                clearState(ivSort3, 2);
                 break;
 
             case R.id.option3:
                 toggleSort(2);
                 ivSort3.setImageResource(getArrowResource(sorts[2]));
+                clearState(ivSort1, 0);
+                clearState(ivSort2, 1);
                 break;
         }
     }
@@ -392,6 +398,11 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
                 return R.drawable.ic_sort_asc;
         }
         return R.drawable.ic_sort_none;
+    }
+
+    private void clearState(ImageView imageView, int index) {
+        imageView.setImageResource(R.drawable.ic_sort_none);
+        sorts[index] = Constant.SORT_NONE;
     }
 
     private void displaySelectDialog() {
