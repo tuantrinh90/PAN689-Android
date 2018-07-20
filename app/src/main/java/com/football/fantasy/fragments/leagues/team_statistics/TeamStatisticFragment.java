@@ -146,8 +146,12 @@ public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticVie
 
     @OnClick(R.id.llPointPerPlayer)
     public void onPointPerPlayerClicked() {
-        AloneFragmentActivity.with(this)
-                .parameters(TeamSquadFragment.newBundle(team, getString(R.string.statistics), leagueId))
-                .start(TeamSquadFragment.class);
+        if (team.getCompleted()) {
+            AloneFragmentActivity.with(this)
+                    .parameters(TeamSquadFragment.newBundle(team, getString(R.string.statistics), leagueId))
+                    .start(TeamSquadFragment.class);
+        } else {
+            showMessage(getString(R.string.message_team_lineup_is_not_completed_yet));
+        }
     }
 }

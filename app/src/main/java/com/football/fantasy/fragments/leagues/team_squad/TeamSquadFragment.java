@@ -97,8 +97,8 @@ public class TeamSquadFragment extends BaseMainMvpFragment<ITeamSquadView, ITeam
         properties.add(new ExtKeyValuePair("main_position", "Main position"));
 
         directions = new ArrayList<>();
-        directions.add(new ExtKeyValuePair("asc", "ASC"));
-        directions.add(new ExtKeyValuePair("desc", "DESC"));
+        directions.add(new ExtKeyValuePair("asc", "A-Z"));
+        directions.add(new ExtKeyValuePair("desc", "Z-A"));
 
         currentProperty = properties.get(0);
         currentDirection = directions.get(0);
