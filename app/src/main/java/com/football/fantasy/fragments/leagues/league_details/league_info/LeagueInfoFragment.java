@@ -125,7 +125,9 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
 
     @OnClick(R.id.tvStartLeague)
     void onClickStartLeague() {
-        if (league.getNumberOfUser() - league.getCurrentNumberOfUser() > 1) {
+        if (league.getStatus() == LeagueResponse.WAITING_FOR_START && AppUtilities.isSetupTime(league.getTeamSetup())) {
+            showMessage(R.string.cannot_start_league_before_team_setup_time, R.string.ok, null);
+        } else if (league.getNumberOfUser() - league.getCurrentNumberOfUser() > 1) {
             showMessage(R.string.not_enough_teams, R.string.ok, null);
         } else if (!league.getTeamSetup().equals(league.getStartAt())
                 && AppUtilities.isSetupTime(league.getTeamSetup())) {
