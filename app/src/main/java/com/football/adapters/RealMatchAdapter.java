@@ -44,6 +44,7 @@ public class RealMatchAdapter extends DefaultAdapter<RealMatch> {
         holder.tvDate.setText("(" + data.getDate() + ")");
         LeagueResultAdapter adapter = new LeagueResultAdapter(holder.itemView.getContext(), data.getResponses());
         holder.rvResult.setAdapter(adapter);
+        holder.rvResult.setDividerHeight(0);
     }
 
     public static class RealMatchHolder extends DefaultHolder {
@@ -83,7 +84,7 @@ public class RealMatchAdapter extends DefaultAdapter<RealMatch> {
             holder.tvMatchTeam1.setText(String.valueOf(data.getTeam1Result()));
             holder.tvMatchTeam2.setText(String.valueOf(data.getTeam2Result()));
 
-            holder.tvTime.setText(DateTimeUtils.convertCalendarToString(DateTimeUtils.convertStringToCalendar(data.getEndAt(), Constant.FORMAT_DATE_TIME_SERVER), Constant.FORMAT_HOUR_MINUTE));
+            holder.tvTime.setText(DateTimeUtils.convertCalendarToString(DateTimeUtils.convertStringToCalendar(data.getStartAt(), Constant.FORMAT_DATE_TIME_SERVER), Constant.FORMAT_HOUR_MINUTE));
         }
 
         class LeagueResultHolder extends ExtPagingListView.ExtViewHolder {
