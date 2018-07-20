@@ -84,12 +84,12 @@ public class PendingInvitationDataPresenter extends BaseDataPresenter<IPendingIn
     }
 
     @Override
-    public void invitationDecisions(LeagueResponse leagueResponse, int status) {
+    public void invitationDecisions(LeagueResponse league, int status) {
         getOptView().doIfPresent(v -> {
             mCompositeDisposable.add(RxUtilities.async(
                     v,
                     dataModule.getApiService().invitationDecision(
-                            leagueResponse.getInvitation().getId(),
+                            league.getInvitation().getId(),
                             new MultipartBody.Builder()
                                     .setType(MultipartBody.FORM)
                                     .addFormDataPart("status", String.valueOf(status))
@@ -107,9 +107,9 @@ public class PendingInvitationDataPresenter extends BaseDataPresenter<IPendingIn
 
                         @Override
                         public void onSuccess(Object o) {
-                            v.removeItem(leagueResponse);
+                            v.removeItem(league);
                             if (status == Constant.KEY_INVITATION_ACCEPT) {
-                                v.goCreateTeam(leagueResponse);
+                                v.goCreateTeam(league);
                             }
                         }
 

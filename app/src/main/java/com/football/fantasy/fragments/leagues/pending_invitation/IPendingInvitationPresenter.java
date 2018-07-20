@@ -9,6 +9,6 @@ public interface IPendingInvitationPresenter<V extends IBaseMvpView> extends IBa
 
     void getLeagueDetail(LeagueResponse league);
 
-    void invitationDecisions(LeagueResponse leagueResponse, int status);
+    void invitationDecisions(LeagueResponse league, int status);
 
 }
