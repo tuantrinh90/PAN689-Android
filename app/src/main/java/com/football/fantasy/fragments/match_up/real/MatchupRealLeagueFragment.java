@@ -53,9 +53,9 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
 
     private void initData() {
         valuePairs = new ArrayList<>();
-        valuePairs.add(new ExtKeyValuePair(ROUND_DEFAULT, "None"));
+        valuePairs.add(new ExtKeyValuePair(ROUND_DEFAULT, "Real League"));
         for (int i = 0; i < 30; i++) {
-            valuePairs.add(new ExtKeyValuePair(String.valueOf(i + 1), String.valueOf(i + 1)));
+            valuePairs.add(new ExtKeyValuePair(String.valueOf(i + 1), "Round " + (i + 1)));
         }
     }
 
