@@ -188,9 +188,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_button_green"
-            android:paddingBottom="@dimen/padding_small"
-            android:paddingLeft="@dimen/activity_vertical_margin"
-            android:paddingRight="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/padding_content"
+            android:paddingLeft="@dimen/padding_layout"
+            android:paddingRight="@dimen/padding_layout"
             android:paddingTop="@dimen/padding_content">
 
             <com.bon.customview.textview.ExtTextView
@@ -206,11 +206,12 @@
                 app:textViewFontAssetName="@string/font_display_bold" />
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                style="@style/IconMedium"
                 android:layout_gravity="end"
+                android:background="@drawable/bg_circle_white"
+                android:padding="@dimen/padding_content"
                 android:rotation="90"
-                android:src="@drawable/ic_arrow_circle_right" />
+                android:src="@drawable/ic_arrow_right" />
         </FrameLayout>
     </com.bon.customview.shadowlayout.ShadowLayout>
 
