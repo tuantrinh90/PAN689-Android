@@ -216,18 +216,23 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
 
                             // leave
                             if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.leave))) {
-                                if (league.getOwner() && league.getTeam() != null && league.getCurrentNumberOfUser() > 1) {
-                                    AloneFragmentActivity.with(LeagueDetailFragment.this)
-                                            .parameters(SuccessorFragment.newBundle(league))
-                                            .forResult(SuccessorFragment.REQUEST_CODE)
-                                            .start(SuccessorFragment.class);
+                                if (AppUtilities.isOwner(getContext(), league.getUserId())) {
+                                    if (league.getCurrentNumberOfUser() > 1) {
+                                        AloneFragmentActivity.with(LeagueDetailFragment.this)
+                                                .parameters(SuccessorFragment.newBundle(league))
+                                                .forResult(SuccessorFragment.REQUEST_CODE)
+                                                .start(SuccessorFragment.class);
+                                    } else {
+                                        showMessage(R.string.message_confirm_leave_leagues, R.string.yes, R.string.no,
+                                                aVoid -> presenter.stopLeague(leagueId), null);
+                                    }
                                 } else {
                                     showMessage(R.string.message_confirm_leave_leagues, R.string.yes, R.string.no,
-                                            aVoid -> presenter.stopLeague(leagueId), null);
+                                            aVoid -> presenter.leaveLeague(leagueId), null);
                                 }
                             }
 
-                            // edit
+                            // stop league
                             if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.stop_league))) {
                                 DialogUtils.confirmBox(mActivity, getString(R.string.app_name), getString(R.string.stop_league_message), getString(R.string.yes),
                                         getString(R.string.no), (dialog, which) -> presenter.stopLeague(leagueId));
@@ -359,7 +364,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
     }
 
     @Override
-    public void stopLeagueSuccess() {
+    public void stopOrLeaveLeagueSuccess() {
         bus.send(new StopLeagueEvent(leagueId));
         getActivity().finish();
     }

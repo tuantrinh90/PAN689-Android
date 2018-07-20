@@ -109,6 +109,9 @@ public interface IApiService {
     @POST(ServiceConfig.LEAVE_LEAGUES)
     Observable<BaseResponse<Object>> leaveLeague(@Path(ServiceConfig.KEY_ID) int leagueId, @Body RequestBody requestBody);
 
+    @POST(ServiceConfig.LEAVE_LEAGUES)
+    Observable<BaseResponse<Object>> leaveLeague(@Path(ServiceConfig.KEY_ID) int leagueId);
+
     @DELETE(ServiceConfig.STOP_LEAGUE)
     Observable<BaseResponse<StopResponse>> stopLeague(@Path(ServiceConfig.KEY_ID) int leagueId);
 

@@ -10,6 +10,6 @@ public interface ILeagueDetailView extends IBaseMvpView {
 
     void displayLeague(LeagueResponse league);
 
-    void stopLeagueSuccess();
+    void stopOrLeaveLeagueSuccess();
 
 }

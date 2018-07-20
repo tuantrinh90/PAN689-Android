@@ -3,7 +3,7 @@ package com.football.events;
 import com.bon.event_bus.IEvent;
 
 public class StopLeagueEvent implements IEvent {
-    int leagueId;
+    private int leagueId;
 
     public StopLeagueEvent(int leagueId) {
         this.leagueId = leagueId;

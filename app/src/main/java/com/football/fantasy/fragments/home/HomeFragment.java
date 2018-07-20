@@ -35,8 +35,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
 
 public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<IHomeView>> implements IHomeView, ViewTreeObserver.OnGlobalLayoutListener {
     private static final String TAG = HomeFragment.class.getSimpleName();
@@ -70,8 +68,6 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     MyLeagueRecyclerAdapter myLeagueRecyclerAdapter;
     List<LeagueResponse> leagueResponses;
 
-    private int page;
-
     @Override
     public int getResourceId() {
         return R.layout.home_fragment;
@@ -80,17 +76,14 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     @Override
     protected void initialized() {
         super.initialized();
-        initView();
+        initRecyclerView();
         registerEvent();
 
-        // load news
-        page = 1;
-        loadNews();
-    }
+        // load my leagues, only display 5 records
+        getMyLeagues();
 
-    void initView() {
-        initRecyclerView();
-//        ViewUtils.attachViewTreeObserver(llPlayerList, this);
+        // load news
+        loadNews();
     }
 
     void registerEvent() {
@@ -99,7 +92,6 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
             mCompositeDisposable.add(bus.ofType(LeagueEvent.class).subscribeWith(new DisposableObserver<LeagueEvent>() {
                 @Override
                 public void onNext(LeagueEvent leagueEvent) {
-                    page = 1;
                     getMyLeagues();
                 }
 
@@ -119,15 +111,7 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
                     .subscribeWith(new DisposableObserver<StopLeagueEvent>() {
                         @Override
                         public void onNext(StopLeagueEvent stopLeagueEvent) {
-                            try {
-                                List<LeagueResponse> leagueResponses = myLeagueRecyclerAdapter.getItems();
-                                if (leagueResponses != null && leagueResponses.size() > 0) {
-                                    leagueResponses = StreamSupport.stream(leagueResponses).filter(n -> n.getId() != stopLeagueEvent.getLeagueId()).collect(Collectors.toList());
-                                    myLeagueRecyclerAdapter.notifyDataSetChanged(leagueResponses);
-                                }
-                            } catch (Exception e) {
-                                Logger.e(TAG, e);
-                            }
+                            getMyLeagues();
                         }
 
                         @Override
@@ -175,9 +159,6 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
             // center view
             SnapHelper gravitySnapHelper = new LinearSnapHelper();
             gravitySnapHelper.attachToRecyclerView(rvMyLeagues);
-
-            // load my leagues, only display 5 records
-            presenter.getMyLeagues(1);
         } catch (IllegalStateException e) {
             Logger.e(TAG, e);
         }

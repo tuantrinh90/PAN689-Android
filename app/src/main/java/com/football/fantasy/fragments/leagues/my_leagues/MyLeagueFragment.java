@@ -15,7 +15,6 @@ import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.models.responses.LeagueResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -142,10 +141,10 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
                         page = 1;
                         getMyLeagues();
                     })
-                    .loadMoreListener(() -> {
-                        page++;
-                        getMyLeagues();
-                    })
+//                    .loadMoreListener(() -> {
+//                        page++;
+//                        getMyLeagues();
+//                    })
                     .build();
         } catch (Exception e) {
             Logger.e(TAG, e);

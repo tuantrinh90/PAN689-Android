@@ -7,6 +7,8 @@ import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.StopResponse;
 import com.football.utilities.RxUtilities;
 
+import okhttp3.MultipartBody;
+
 public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailView> implements ILeagueDetailPresenter<ILeagueDetailView> {
     /**
      * @param appComponent
@@ -64,7 +66,37 @@ public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailVi
 
                         @Override
                         public void onSuccess(StopResponse response) {
-                            v.stopLeagueSuccess();
+                            v.stopOrLeaveLeagueSuccess();
+                        }
+
+                        @Override
+                        public void onError(String e) {
+                            v.showMessage(e);
+                        }
+                    }));
+        });
+    }
+
+    @Override
+    public void leaveLeague(int leagueId) {
+        getOptView().doIfPresent(v -> {
+            mCompositeDisposable.add(RxUtilities.async(v,
+                    dataModule.getApiService().leaveLeague(
+                            leagueId),
+                    new ApiCallback<Object>() {
+                        @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
+
+                        @Override
+                        public void onSuccess(Object response) {
+                            v.stopOrLeaveLeagueSuccess();
                         }
 
                         @Override
