@@ -43,6 +43,7 @@ public class ExtDayMonthYearHourMinuteDialogFragment extends ExtBaseBottomDialog
     static final int MIN_INDEX_MINUTE = 0;
     //    static final int MAX_INDEX_MINUTE = 59;
     static final int MAX_INDEX_MINUTE = 3;
+    static final int MINUTE_STEP = 15;
 
     // view
     ExtTextView tvCancel;
@@ -226,7 +227,7 @@ public class ExtDayMonthYearHourMinuteDialogFragment extends ExtBaseBottomDialog
             // minute
             numPickerMinute.setOnValueChangedListener((picker, oldVal, newVal) -> {
                 try {
-                    valueDate.set(Calendar.MINUTE, newVal);
+                    valueDate.set(Calendar.MINUTE, newVal * MINUTE_STEP);
                     setDisplayButtonDone(conditionFunction.apply(valueDate));
                 } catch (Exception e) {
                     Logger.e(TAG, e);
@@ -246,7 +247,7 @@ public class ExtDayMonthYearHourMinuteDialogFragment extends ExtBaseBottomDialog
             numPickerMonth.setValue(valueDate.get(Calendar.MONTH));
             numPickerYear.setValue(valueDate.get(Calendar.YEAR));
             numPickerHour.setValue(valueDate.get(Calendar.HOUR_OF_DAY));
-            numPickerMinute.setValue(valueDate.get(Calendar.MINUTE) / 15);
+            numPickerMinute.setValue(valueDate.get(Calendar.MINUTE) / MINUTE_STEP);
             setDisplayButtonDone(conditionFunction.apply(valueDate));
         } catch (Exception e) {
             Logger.e(TAG, e);
