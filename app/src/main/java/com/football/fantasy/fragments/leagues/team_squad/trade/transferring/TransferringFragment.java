@@ -356,8 +356,8 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
     @Override
     public void displayHeader(String transferPlayerLeftDisplay, long transferTimeLeft, long budget) {
         tvTransferringPlayerLeftValue.setText(transferPlayerLeftDisplay);
-        tvTransferringTimeLeftValue.setText(getString(R.string.money_prefix, AppUtilities.timeLeft(transferTimeLeft)));
-        tvBudgetValue.setText(AppUtilities.getMoney(budget));
+        tvTransferringTimeLeftValue.setText(AppUtilities.timeLeft(transferTimeLeft));
+        tvBudgetValue.setText(getString(R.string.money_prefix, AppUtilities.getMoney(budget)));
     }
 
     @Override

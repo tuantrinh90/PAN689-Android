@@ -141,10 +141,10 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
                         page = 1;
                         getMyLeagues();
                     })
-//                    .loadMoreListener(() -> {
-//                        page++;
-//                        getMyLeagues();
-//                    })
+                    .loadMoreListener(() -> {
+                        page++;
+                        getMyLeagues();
+                    })
                     .build();
         } catch (Exception e) {
             Logger.e(TAG, e);
