@@ -47,13 +47,45 @@ public class SignUpDataPresenter<V extends ISignUpView> extends BaseDataPresente
                         public void onSuccess(UserResponse response) {
                             v.onRegisterSuccess();
                             v.showMessage(R.string.register_successful, R.string.ok, aVoid -> {
-                                loginSuccess(response);
+                                autoLogin(request.getEmail(), request.getPassword());
                             });
                         }
 
                         @Override
                         public void onError(String e) {
                             v.showMessage(e);
+                        }
+                    }));
+        });
+    }
+
+    private void autoLogin(String email, String password) {
+        getOptView().doIfPresent(v -> {
+            mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().loginService(new MultipartBody.Builder()
+                            .setType(MultipartBody.FORM)
+                            .addFormDataPart("email", email)
+                            .addFormDataPart("password", password)
+                            .addFormDataPart("device_token", "")
+                            .build()),
+                    new ApiCallback<UserResponse>() {
+                        @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
+
+                        @Override
+                        public void onSuccess(UserResponse userResponse) {
+                            loginSuccess(userResponse);
+                        }
+
+                        @Override
+                        public void onError(String e) {
+                            v.showMessage(e, R.string.ok, null);
                         }
                     }));
         });
