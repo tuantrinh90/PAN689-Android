@@ -53,15 +53,18 @@ public class RecordAdapter extends DefaultAdapter<TransferHistoryResponse> {
             holder.spaceRight.setVisibility(View.GONE);
             holder.spaceLeft.setVisibility(View.VISIBLE);
             holder.tvStatus.setBackgroundResource(R.drawable.bg_green_radius);
-            ImageLoaderUtils.displayImage(data.getToPlayer().getPhoto(), holder.ivAvatar);
-            holder.tvName.setText(data.getToPlayer().getName());
+            ImageLoaderUtils.displayImage(data.getFromPlayer().getPhoto(), holder.ivAvatar);
+            holder.tvName.setText(data.getFromPlayer().getName());
+//            ImageLoaderUtils.displayImage(data.getToPlayer().getPhoto(), holder.ivAvatar);
+//            holder.tvName.setText(data.getToPlayer().getName());
         }
         holder.tvTransferFee.setText(holder.itemView.getContext().getString(R.string.money_prefix, data.getTransferFeeValue()));
         holder.tvTime.setText(DateTimeUtils.convertCalendarToString(DateTimeUtils.convertStringToCalendar(data.getTransferAt(), Constant.FORMAT_DATE_TIME_SERVER), Constant.FORMAT_DATE));
 
         holder.itemView.setOnClickListener(v -> {
             TransferHistoryResponse response = getItem(defaultHolder.getAdapterPosition());
-            clickConsumer.accept(response.getStatus() == TransferHistoryResponse.STATUS_OUT ? response.getFromPlayer() : response.getToPlayer());
+            clickConsumer.accept(response.getFromPlayer());
+//            clickConsumer.accept(response.getStatus() == TransferHistoryResponse.STATUS_OUT ? response.getFromPlayer() : response.getToPlayer());
         });
     }
 
