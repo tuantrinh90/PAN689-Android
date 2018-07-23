@@ -18,7 +18,11 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.reactivex.disposables.Disposable;
+
 public class PlayerListPresenter extends BaseDataPresenter<IPlayerListView> implements IPlayerListPresenter<IPlayerListView> {
+
+    private Disposable disposableGetPlayers;
 
     /**
      * @param appComponent
@@ -59,7 +63,11 @@ public class PlayerListPresenter extends BaseDataPresenter<IPlayerListView> impl
                 queries.put(Constant.KEY_WORD, query);
             }
 
-            mCompositeDisposable.add(RxUtilities.async(
+            if (disposableGetPlayers != null) {
+                mCompositeDisposable.remove(disposableGetPlayers);
+            }
+
+            disposableGetPlayers = RxUtilities.async(
                     v,
                     dataModule.getApiService().getPlayerList(queries),
                     new ApiCallback<ExtPagingResponse<PlayerResponse>>() {
@@ -83,7 +91,8 @@ public class PlayerListPresenter extends BaseDataPresenter<IPlayerListView> impl
                         public void onError(String error) {
                             v.showMessage(error);
                         }
-                    }));
+                    });
+            mCompositeDisposable.add(disposableGetPlayers);
         });
     }
 

@@ -22,7 +22,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.disposables.Disposable;
+
 public class PlayerPoolPresenter extends BaseDataPresenter<IPlayerPoolView> implements IPlayerPoolPresenter<IPlayerPoolView> {
+    private Disposable disposableGetPlayers;
+
     /**
      * @param appComponent
      */
@@ -71,7 +75,11 @@ public class PlayerPoolPresenter extends BaseDataPresenter<IPlayerPoolView> impl
                 }
             }
 
-            mCompositeDisposable.add(RxUtilities.async(
+            if (disposableGetPlayers != null) {
+                mCompositeDisposable.remove(disposableGetPlayers);
+            }
+
+            disposableGetPlayers = RxUtilities.async(
                     v,
                     dataModule.getApiService().getPlayerList(queries),
                     new ApiCallback<ExtPagingResponse<PlayerResponse>>() {
@@ -94,7 +102,8 @@ public class PlayerPoolPresenter extends BaseDataPresenter<IPlayerPoolView> impl
                         public void onError(String error) {
                             v.showMessage(error);
                         }
-                    }));
+                    });
+            mCompositeDisposable.add(disposableGetPlayers);
         });
     }
 

@@ -19,9 +19,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.disposables.Disposable;
 import okhttp3.MultipartBody;
 
 public class TransferringDataPresenter extends BaseDataPresenter<ITransferringView> implements ITransferringPresenter<ITransferringView> {
+    private Disposable disposableGetPlayers;
+
     /**
      * @param appComponent
      */
@@ -62,7 +65,10 @@ public class TransferringDataPresenter extends BaseDataPresenter<ITransferringVi
                 }
             }
 
-            mCompositeDisposable.add(RxUtilities.async(
+            if (disposableGetPlayers != null) {
+                mCompositeDisposable.remove(disposableGetPlayers);
+            }
+            disposableGetPlayers = RxUtilities.async(
                     v,
                     dataModule.getApiService().getTeamTransferring(teamId, queries),
                     new ApiCallback<TeamTransferringResponse>() {
@@ -85,7 +91,8 @@ public class TransferringDataPresenter extends BaseDataPresenter<ITransferringVi
                         public void onError(String error) {
                             v.showMessage(error);
                         }
-                    }));
+                    });
+            mCompositeDisposable.add(disposableGetPlayers);
         });
     }
 

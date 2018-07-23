@@ -18,7 +18,11 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.reactivex.disposables.Disposable;
+
 public class PlayerPopupDataPresenter extends BaseDataPresenter<IPlayerPopupView> implements IPlayerPopupPresenter<IPlayerPopupView> {
+    private Disposable disposableGetPlayers;
+
     /**
      * @param appComponent
      */
@@ -56,7 +60,11 @@ public class PlayerPopupDataPresenter extends BaseDataPresenter<IPlayerPopupView
                 queries.put(Constant.KEY_WORD, query);
             }
 
-            mCompositeDisposable.add(RxUtilities.async(
+            if (disposableGetPlayers != null) {
+                mCompositeDisposable.remove(disposableGetPlayers);
+            }
+
+            disposableGetPlayers = RxUtilities.async(
                     v,
                     dataModule.getApiService().getPlayerList(queries),
                     new ApiCallback<ExtPagingResponse<PlayerResponse>>() {
@@ -79,7 +87,8 @@ public class PlayerPopupDataPresenter extends BaseDataPresenter<IPlayerPopupView
                         public void onError(String error) {
                             v.showMessage(error);
                         }
-                    }));
+                    });
+            mCompositeDisposable.add(disposableGetPlayers);
         });
     }
 }
