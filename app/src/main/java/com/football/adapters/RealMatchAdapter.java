@@ -81,8 +81,8 @@ public class RealMatchAdapter extends DefaultAdapter<RealMatch> {
         protected void onBindViewHolder(LeagueResultHolder holder, RealMatchResponse data) {
             holder.tvTeam1.setText(data.getTeam1());
             holder.tvTeam2.setText(data.getTeam2());
-            holder.tvMatchTeam1.setText(String.valueOf(data.getTeam1Result()));
-            holder.tvMatchTeam2.setText(String.valueOf(data.getTeam2Result()));
+            holder.tvMatchTeam1.setText(data.getTeam1Result() != -1 ? String.valueOf(data.getTeam1Result()) : "-");
+            holder.tvMatchTeam2.setText(data.getTeam2Result() != -1 ? String.valueOf(data.getTeam2Result()) : "-");
 
             holder.tvTime.setText(DateTimeUtils.convertCalendarToString(DateTimeUtils.convertStringToCalendar(data.getStartAt(), Constant.FORMAT_DATE_TIME_SERVER), Constant.FORMAT_HOUR_MINUTE));
         }

@@ -28,6 +28,8 @@ import com.football.utilities.ServiceConfig;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by dangpp on 3/1/2018.
  */
@@ -154,7 +156,7 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
     // facebook login
     @Override
     public void onFbSignInFail(String errorMessage) {
-        Log.e(TAG, "onFbSignInFail: ");
+        Log.e(TAG, "onFbSignInFail: " + errorMessage);
     }
 
     @Override

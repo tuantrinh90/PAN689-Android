@@ -15,6 +15,10 @@ import com.football.fantasy.activities.AccountActivity;
 import com.football.fantasy.fragments.more.profile.ProfileFragment;
 import com.football.fantasy.fragments.more.settings.SettingsFragment;
 import com.football.fantasy.fragments.web_view.WebViewFragment;
+import com.football.helpers.sociallogin.facebook.FacebookHelper;
+import com.football.helpers.sociallogin.facebook.FacebookListener;
+import com.football.helpers.sociallogin.google.GoogleHelper;
+import com.football.helpers.sociallogin.google.GoogleListener;
 import com.football.utilities.ServiceConfig;
 
 import butterknife.OnClick;

@@ -50,13 +50,13 @@ public class FacebookHelper {
     public void performSignIn(Activity activity) {
         LoginManager.getInstance()
                 .logInWithReadPermissions(activity,
-                        Arrays.asList("public_profile", "user_friends", "email"));
+                        Arrays.asList("public_profile", "email"));
     }
 
     public void performSignIn(Fragment fragment) {
         LoginManager.getInstance()
                 .logInWithReadPermissions(fragment,
-                        Arrays.asList("public_profile", "user_friends", "email"));
+                        Arrays.asList("public_profile", "email"));
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -66,5 +66,9 @@ public class FacebookHelper {
     public void performSignOut() {
         LoginManager.getInstance().logOut();
         mListener.onFBSignOut();
+    }
+
+    public static void quickSignOut() {
+        LoginManager.getInstance().logOut();
     }
 }

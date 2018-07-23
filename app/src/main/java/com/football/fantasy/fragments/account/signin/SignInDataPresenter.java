@@ -1,8 +1,9 @@
 package com.football.fantasy.fragments.account.signin;
 
 
+import android.util.Log;
+
 import com.bon.share_preferences.AppPreferences;
-import com.football.application.AppContext;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.fantasy.R;
@@ -19,6 +20,9 @@ import okhttp3.MultipartBody;
  */
 
 public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresenter<V> implements ISignInDataPresenter<V> {
+
+    private static final String TAG = "SignInDataPresenter";
+
     /**
      * @param appComponent
      */
@@ -51,7 +55,7 @@ public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresente
 
                             @Override
                             public void onSuccess(UserResponse userResponse) {
-                                loginSuccess(userResponse);
+                                loginSuccess(userResponse, "");
                             }
 
                             @Override
@@ -66,7 +70,6 @@ public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresente
     @Override
     public void onSignIn(String provider, String accessToken, String secret) {
         getOptView().doIfPresent(v -> {
-            v.showLoading(true);
             mCompositeDisposable.add(RxUtilities.async(
                     v,
                     dataModule.getApiService().loginSocial(new MultipartBody.Builder()
@@ -77,31 +80,43 @@ public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresente
                             .addFormDataPart("device_token", "123")
                             .build()),
                     new ApiCallback<UserResponse>() {
+
+                        @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
+
                         @Override
                         public void onSuccess(UserResponse userResponse) {
-                            loginSuccess(userResponse);
+                            Log.d(TAG, "onSuccess: " + provider);
+                            loginSuccess(userResponse, provider);
                         }
 
                         @Override
                         public void onError(String e) {
+                            Log.d(TAG, "onSuccess: " + provider);
                             loginError(e);
                         }
                     }));
         });
     }
 
-    private void loginSuccess(UserResponse response) {
+    private void loginSuccess(UserResponse response, String provider) {
         getOptView().doIfPresent(view -> {
             AppPreferences.getInstance(view.getAppActivity().getAppContext()).putString(Constant.KEY_TOKEN, response.getApiToken());
             AppPreferences.getInstance(view.getAppActivity().getAppContext()).putInt(Constant.KEY_USER_ID, response.getId());
+            AppPreferences.getInstance(view.getAppActivity().getAppContext()).putString(Constant.KEY_LOGIN_TYPE, provider);
             view.goToMain();
-            view.showLoading(false);
         });
     }
 
     private void loginError(String e) {
         getOptView().doIfPresent(view -> {
-            view.showLoading(false);
             view.showMessage(e, R.string.ok, null);
         });
     }
