@@ -133,11 +133,18 @@ public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<
     }
 
     void displayTime() {
-        if (AppUtilities.isSetupTime(league.getTeamSetup())) {
-            tvTimeLabel.setText(R.string.team_setup_time);
-            tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
-        } else {
-            tvTimeLabel.setText(R.string.start_time);
+        // line up my team
+        if (league.getStatus() == LeagueResponse.WAITING_FOR_START) {
+            if (AppUtilities.isSetupTime(league.getTeamSetup())) {
+                tvTimeLabel.setText(R.string.team_setup_time);
+                tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
+            } else {
+                tvTimeLabel.setText(R.string.start_time);
+                tvTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
+            }
+
+        } else if (league.getStatus() == LeagueResponse.ON_GOING) {
+            tvTimeLabel.setText(R.string.transfer_deadline);
             tvTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
         }
     }
