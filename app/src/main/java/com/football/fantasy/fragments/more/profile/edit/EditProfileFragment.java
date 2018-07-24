@@ -240,10 +240,10 @@ public class EditProfileFragment extends BaseMainMvpFragment<IEditProfileView, I
         } else if (etAddress.getContent().length() > Constant.MAX_255_CHARACTERS) {
             etAddress.setError(getString(R.string.field_max_255_character));
             valid = false;
-        } else if (etPhone.getContent().length() < Constant.MIN_PHONE || etPhone.getContent().length() > Constant.MAX_PHONE) {
+        } /*else if (etPhone.getContent().length() < Constant.MIN_PHONE || etPhone.getContent().length() > Constant.MAX_PHONE) {
             etPhone.setError(getString(R.string.field_phone_invalid));
             valid = false;
-        } /*else if (!EmailUtils.isValidate(etEmail.getContent())) {
+        } else if (!EmailUtils.isValidate(etEmail.getContent())) {
             etEmail.setError(getString(R.string.error_email_address_not_valid));
             return false;
         }*/ else if (etIntroduction.getContent().length() > Constant.MAX_255_CHARACTERS) {

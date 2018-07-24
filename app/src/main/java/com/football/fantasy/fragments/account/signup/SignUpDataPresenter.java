@@ -53,7 +53,7 @@ public class SignUpDataPresenter<V extends ISignUpView> extends BaseDataPresente
 
                         @Override
                         public void onError(String e) {
-                            v.showMessage(e);
+                            v.showMessage(e, R.string.ok, null);
                         }
                     }));
         });
