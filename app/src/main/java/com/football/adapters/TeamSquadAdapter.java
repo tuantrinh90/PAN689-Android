@@ -14,11 +14,15 @@ import com.football.models.responses.PlayerResponse;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
+import java8.util.function.Consumer;
 
 public class TeamSquadAdapter extends DefaultAdapter<PlayerResponse> {
 
-    public TeamSquadAdapter(Context context) {
+    private final Consumer<PlayerResponse> clickCallback;
+
+    public TeamSquadAdapter(Context context, Consumer<PlayerResponse> clickCallback) {
         super(context);
+        this.clickCallback = clickCallback;
     }
 
     @Override
@@ -49,6 +53,8 @@ public class TeamSquadAdapter extends DefaultAdapter<PlayerResponse> {
 
         holder.tvInjured.setText(data.getInjuredText(context));
         holder.tvInjured.setVisibility(data.getInjured() ? View.VISIBLE : View.GONE);
+
+        holder.itemView.setOnClickListener(v -> clickCallback.accept(getItem(defaultHolder.getAdapterPosition())));
     }
 
     static class TeamSquadHolder extends DefaultHolder {

@@ -16,6 +16,7 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.fantasy.fragments.leagues.team_squad.trade.TradeFragment;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TeamResponse;
@@ -112,7 +113,11 @@ public class TeamSquadFragment extends BaseMainMvpFragment<ITeamSquadView, ITeam
     }
 
     void initView() {
-        teamSquadAdapter = new TeamSquadAdapter(getContext());
+        teamSquadAdapter = new TeamSquadAdapter(
+                getContext(),
+                player -> {
+                    PlayerDetailFragment.start(this, player, getString(R.string.team_squad), false);
+                });
         rvPlayer
                 .adapter(teamSquadAdapter)
                 .refreshListener(() -> {
