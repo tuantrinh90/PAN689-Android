@@ -88,6 +88,10 @@ public class LeagueResponse implements Serializable {
     private Boolean isJoined;
     @JsonProperty("team")
     private TeamResponse team;
+    @JsonProperty("transfer_deadline")
+    private String transferDeadline;
+    @JsonProperty("round")
+    private int round;
 
     public LeagueResponse() {
     }
@@ -239,6 +243,11 @@ public class LeagueResponse implements Serializable {
     @JsonIgnore
     public Calendar getStartAtCalendar() {
         return DateTimeUtils.convertStringToCalendar(startAt, Constant.FORMAT_DATE_TIME_SERVER);
+    }
+
+    @JsonIgnore
+    public Calendar getTransferDeadlineCalendar() {
+        return DateTimeUtils.convertStringToCalendar(transferDeadline, Constant.FORMAT_DATE_TIME_SERVER);
     }
 
     public Integer getRealRoundStart() {
@@ -442,6 +451,18 @@ public class LeagueResponse implements Serializable {
 
     public void setTeam(TeamResponse team) {
         this.team = team;
+    }
+
+    public Boolean getJoined() {
+        return isJoined;
+    }
+
+    public String getTransferDeadline() {
+        return transferDeadline;
+    }
+
+    public int getRound() {
+        return round;
     }
 
     @Override

@@ -212,7 +212,7 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
             } else if (league.getStatus() == LeagueResponse.ON_GOING) {
                 tvSetupTeam.setText(R.string.lineup_my_team);
                 tvTimeLabel.setText(R.string.transfer_deadline);
-                tvTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
+                tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTransferDeadlineCalendar(), Constant.FORMAT_DATE_TIME));
 
             } else if (league.getStatus() == LeagueResponse.FINISHED) {
                 tvSetupTeam.setVisibility(View.GONE);
