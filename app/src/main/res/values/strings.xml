@@ -289,4 +289,5 @@
     <string name="draw">Draw</string>
     <string name="lose">Lose</string>
     <string name="pts">Pts</string>
+    <string name="started_at">Started at</string>
 </resources>

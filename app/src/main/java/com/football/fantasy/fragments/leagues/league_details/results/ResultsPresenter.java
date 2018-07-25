@@ -48,6 +48,8 @@ public class ResultsPresenter extends BaseDataPresenter<IResultsView> implements
 
                         @Override
                         public void onSuccess(PagingResponse<MatchResponse> response) {
+                            v.displayRound(response.getRound());
+                            v.displayTime(response.getStartAt());
                             v.displayMatches(response.getData());
                         }
 

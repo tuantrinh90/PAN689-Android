@@ -22,6 +22,12 @@ public class PagingResponse<T> implements Serializable {
     private Integer from;
     @JsonProperty("to")
     private Integer to;
+    @JsonProperty("round")
+    private Integer round;
+    @JsonProperty("start_at")
+    private String startAt;
+    @JsonProperty("end_at")
+    private String endAt;
     @JsonProperty("data")
     private List<T> data;
 
@@ -87,6 +93,18 @@ public class PagingResponse<T> implements Serializable {
 
     public void setTo(Integer to) {
         this.to = to;
+    }
+
+    public Integer getRound() {
+        return round;
+    }
+
+    public String getStartAt() {
+        return startAt;
+    }
+
+    public String getEndAt() {
+        return endAt;
     }
 
     public List<T> getData() {

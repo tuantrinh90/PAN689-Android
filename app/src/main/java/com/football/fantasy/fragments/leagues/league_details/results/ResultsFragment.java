@@ -10,6 +10,7 @@ import android.view.View;
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.textview.ExtTextView;
+import com.bon.util.DateTimeUtils;
 import com.football.adapters.ResultsAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
@@ -18,6 +19,7 @@ import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.MatchResponse;
+import com.football.utilities.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,8 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
 
     @BindView(R.id.rv_results)
     ExtRecyclerView<MatchResponse> rvResults;
+    @BindView(R.id.text_time)
+    ExtTextView textTime;
     @BindView(R.id.tvRound)
     ExtTextView tvRound;
 
@@ -121,7 +125,6 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
                 .setExtKeyValuePairs(valuePairs)
                 .setOnSelectedConsumer(extKeyValuePair -> {
                     if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
-                        tvRound.setText(extKeyValuePair.getValue());
                         round = extKeyValuePair.getKey();
                         refresh();
                     }
@@ -133,6 +136,16 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
         if (!isLoading) {
             rvResults.stopLoading();
         }
+    }
+
+    @Override
+    public void displayRound(Integer round) {
+        tvRound.setText(getString(R.string.round_number, round));
+    }
+
+    @Override
+    public void displayTime(String startAt) {
+        textTime.setText(DateTimeUtils.convertCalendarToString(DateTimeUtils.convertStringToCalendar(startAt, Constant.FORMAT_DATE_TIME_SERVER), Constant.FORMAT_DATE_TIME));
     }
 
     @Override
