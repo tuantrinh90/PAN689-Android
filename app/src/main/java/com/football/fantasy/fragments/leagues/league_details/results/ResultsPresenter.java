@@ -24,17 +24,13 @@ public class ResultsPresenter extends BaseDataPresenter<IResultsView> implements
     }
 
     @Override
-    public void getMatchResults(Integer leagueId, String round, int page) {
+    public void getMatchResults(Integer leagueId, String round) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
 
             if (!TextUtils.isEmpty(round) && !round.equals(ROUND_DEFAULT)) {
                 queries.put("round", round);
             }
-            queries.put("page", String.valueOf(page));
-            queries.put("orderBy", "end_at");
-            queries.put("sortedBy", "desc");
-            queries.put("per_page", "10");
 
             mCompositeDisposable.add(RxUtilities.async(
                     v,

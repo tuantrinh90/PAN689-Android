@@ -39,7 +39,6 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
 
     private String round = ROUND_DEFAULT;
     private List<ExtKeyValuePair> valuePairs;
-    private int page = 1;
 
     public static ResultsFragment newInstance(LeagueResponse leagueResponse) {
 
@@ -92,19 +91,14 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
         rvResults
                 .adapter(adapter)
                 .refreshListener(this::refresh)
-                .loadMoreListener(() -> {
-                    page++;
-                    getResults();
-                })
                 .build();
     }
 
     private void getResults() {
-        presenter.getMatchResults(league.getId(), round, page);
+        presenter.getMatchResults(league.getId(), round);
     }
 
     private void refresh() {
-        page = 1;
         rvResults.clear();
         getResults();
     }
