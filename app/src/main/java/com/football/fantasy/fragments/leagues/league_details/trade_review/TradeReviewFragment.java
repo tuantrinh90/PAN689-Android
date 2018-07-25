@@ -7,13 +7,30 @@ import android.support.v7.app.ActionBar;
 import android.view.View;
 
 import com.football.common.fragments.BaseMvpFragment;
+import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 import com.football.models.responses.LeagueResponse;
+import com.football.models.responses.TradeResponse;
+
+import butterknife.BindView;
 
 public class TradeReviewFragment extends BaseMvpFragment<ITradeReviewView, ITradeReviewPresenter<ITradeReviewView>> implements ITradeReviewView {
     static final String TAG = TradeReviewFragment.class.getSimpleName();
 
     static final String KEY_LEAGUE = "key_leagues";
+
+    @BindView(R.id.rv_trade_review)
+    ExtRecyclerView<TradeResponse> rvTrade;
+
+    public static TradeReviewFragment newInstance(LeagueResponse league) {
+
+        Bundle args = new Bundle();
+        args.putSerializable(KEY_LEAGUE, league);
+
+        TradeReviewFragment fragment = new TradeReviewFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     public static Bundle newBundle(LeagueResponse leagueResponse) {
         Bundle bundle = new Bundle();
@@ -21,7 +38,7 @@ public class TradeReviewFragment extends BaseMvpFragment<ITradeReviewView, ITrad
         return bundle;
     }
 
-    LeagueResponse league;
+    private LeagueResponse league;
 
     @Override
     public int getResourceId() {
