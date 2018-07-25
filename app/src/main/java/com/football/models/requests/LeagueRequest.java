@@ -1,18 +1,6 @@
 package com.football.models.requests;
 
 public class LeagueRequest {
-    public static final String LEAGUE_TYPE_OPEN = "open";
-    public static final String LEAGUE_TYPE_PRIVATE = "private";
-
-    public static final String SCORING_SYSTEM_REGULAR = "regular";
-    public static final String SCORING_SYSTEM_POINTS = "per_stats";
-
-    public static final String GAMEPLAY_OPTION_TRANSFER = "transfer";
-    public static final String GAMEPLAY_OPTION_DRAFT = "draft";
-
-    public static final String TRADE_REVIEW_NO_REVIEW = "no";
-    public static final String TRADE_REVIEW_CREATOR = "creator";
-    public static final String TRADE_REVIEW_MEMBER = "members";
 
     private int leagueId;
     private String name = "";

@@ -16,6 +16,19 @@ public class LeagueResponse implements Serializable {
     public static final int ON_GOING = 2;
     public static final int FINISHED = 3;
 
+    public static final String LEAGUE_TYPE_OPEN = "open";
+    public static final String LEAGUE_TYPE_PRIVATE = "private";
+
+    public static final String SCORING_SYSTEM_REGULAR = "regular";
+    public static final String SCORING_SYSTEM_POINTS = "per_stats";
+
+    public static final String GAMEPLAY_OPTION_TRANSFER = "transfer";
+    public static final String GAMEPLAY_OPTION_DRAFT = "draft";
+
+    public static final String TRADE_REVIEW_NO_REVIEW = "no";
+    public static final String TRADE_REVIEW_CREATOR = "creator";
+    public static final String TRADE_REVIEW_MEMBER = "members";
+
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("created_at")

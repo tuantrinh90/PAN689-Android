@@ -45,6 +45,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 
+import static com.football.models.responses.LeagueResponse.LEAGUE_TYPE_OPEN;
+
 public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView, ILeagueDetailPresenter<ILeagueDetailView>> implements ILeagueDetailView {
     static final String TAG = LeagueDetailFragment.class.getSimpleName();
     static final String KEY_TITLE = "key_title";
@@ -291,7 +293,7 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
 
         if (league.getStatus() == LeagueResponse.WAITING_FOR_START) {
             // only display invite with open leagues or owner
-            if (league.getOwner() || (league.getLeagueType().equalsIgnoreCase(LeagueRequest.LEAGUE_TYPE_OPEN) && league.getIsJoined())) {
+            if (league.getOwner() || (league.getLeagueType().equalsIgnoreCase(LEAGUE_TYPE_OPEN) && league.getIsJoined())) {
                 carousels.add(new Carousel(getString(R.string.invite_friend), false));
                 mvpFragments.add(InviteFriendFragment.newInstance(league, leagueType, !AppUtilities.isSetupTime(league.getTeamSetup())).setChildFragment(true));
             }

@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TableRow;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.util.DateTimeUtils;
@@ -38,7 +41,6 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
 
     static final String KEY_TEAM_ID = "TEAM_ID";
     private static final String KEY_LEAGUE = "LEAGUE_ID";
-
     private BiConsumer<Boolean, String> callback;
 
 
@@ -70,10 +72,32 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     @BindView(R.id.tvComplete)
     ExtTextView tvComplete;
 
+    @BindView(R.id.transfer_header)
+    TableRow transferHeader;
+    @BindView(R.id.tvDraftCurrentTimeLeft)
+    ExtTextView tvDraftCurrentTimeLeft;
+    @BindView(R.id.tvDraftCurrentTeam)
+    ExtTextView tvDraftCurrentTeam;
+    @BindView(R.id.tvDraftNextTeam)
+    ExtTextView tvDraftNextTeam;
+    @BindView(R.id.header_item_1)
+    LinearLayout headerItem1;
+    @BindView(R.id.tvDraftYourTeam)
+    ExtTextView tvDraftYourTeam;
+    @BindView(R.id.tvDraftYourTurnTimeLeft)
+    ExtTextView tvDraftYourTurnTimeLeft;
+    @BindView(R.id.tvDraftEndTurn)
+    ExtTextView tvDraftEndTurn;
+    @BindView(R.id.progress_draft)
+    ProgressBar progressDraft;
+    @BindView(R.id.draft_header)
+    LinearLayout draftHeader;
+    @BindView(R.id.transfer_bottom)
+    LinearLayout transferBottom;
+
+
     private LeagueResponse league;
     private int teamId;
-
-    private boolean isSetupTime;
 
     @Override
     public int getResourceId() {
@@ -101,7 +125,24 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
     }
 
     void initView() {
-        isSetupTime = AppUtilities.isSetupTime(league.getTeamSetup());
+
+        if (league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER)) {
+            transferHeader.setVisibility(View.VISIBLE);
+            transferBottom.setVisibility(View.VISIBLE);
+            draftHeader.setVisibility(View.GONE);
+            setupTransferMode();
+        } else {
+            transferHeader.setVisibility(View.GONE);
+            transferBottom.setVisibility(View.GONE);
+            draftHeader.setVisibility(View.VISIBLE);
+            setupDraftMode();
+        }
+
+        setupLineupView();
+    }
+
+    private void setupTransferMode() {
+        boolean isSetupTime = AppUtilities.isSetupTime(league.getTeamSetup());
         if (isSetupTime) {
             lineupView.setEditable(true);
             lineupView.setAddable(true);
@@ -120,10 +161,17 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
             // hide complete button
             tvComplete.setVisibility(View.GONE);
         }
+    }
 
+    private void setupDraftMode() {
+
+    }
+
+    private void setupLineupView() {
         // setup lineupView
         lineupView.setupLineup(new PlayerResponse[18], new int[]{4, 6, 6, 2});
         lineupView.setAddCallback((position, order) -> {
+            boolean isSetupTime = AppUtilities.isSetupTime(league.getTeamSetup());
             if (isSetupTime) {
                 AloneFragmentActivity.with(this)
                         .parameters(PlayerPopupFragment.newBundle(position, order, league.getId()))
@@ -283,5 +331,4 @@ public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPres
 
 //        mActivity.finish();
     }
-
 }

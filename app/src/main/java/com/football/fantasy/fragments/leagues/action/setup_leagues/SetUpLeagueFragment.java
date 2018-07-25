@@ -53,6 +53,16 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import java8.util.stream.StreamSupport;
 
+import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_DRAFT;
+import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
+import static com.football.models.responses.LeagueResponse.LEAGUE_TYPE_OPEN;
+import static com.football.models.responses.LeagueResponse.LEAGUE_TYPE_PRIVATE;
+import static com.football.models.responses.LeagueResponse.SCORING_SYSTEM_POINTS;
+import static com.football.models.responses.LeagueResponse.SCORING_SYSTEM_REGULAR;
+import static com.football.models.responses.LeagueResponse.TRADE_REVIEW_CREATOR;
+import static com.football.models.responses.LeagueResponse.TRADE_REVIEW_MEMBER;
+import static com.football.models.responses.LeagueResponse.TRADE_REVIEW_NO_REVIEW;
+
 public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, ISetUpLeaguePresenter<ISetupLeagueView>> implements ISetupLeagueView {
     static final String TAG = SetUpLeagueFragment.class.getSimpleName();
     static final String KEY_LEAGUE = "league";
@@ -220,9 +230,9 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
                 // fill data
                 etLeagueName.setContent(league.getName());
                 ivImagePick.setImageUri(league.getLogo());
-                rgLeagueType.check(league.getLeagueType().equals(LeagueRequest.LEAGUE_TYPE_OPEN) ? R.id.rbOpenLeague : R.id.rbPrivateLeague);
+                rgLeagueType.check(league.getLeagueType().equals(LEAGUE_TYPE_OPEN) ? R.id.rbOpenLeague : R.id.rbPrivateLeague);
 
-                if (league.getGameplayOption().equals(LeagueRequest.GAMEPLAY_OPTION_TRANSFER)) {
+                if (league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER)) {
                     onClickTransfer();
                 } else {
                     onClickDraft();
@@ -238,7 +248,7 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
 
                 etNumberOfUser.setContent(valueTransfer);
                 etTimePerDraftPick.setContent(valueDraft);
-                rbRegular.setChecked(league.getScoringSystem().equals(LeagueRequest.SCORING_SYSTEM_REGULAR));
+                rbRegular.setChecked(league.getScoringSystem().equals(SCORING_SYSTEM_REGULAR));
                 etDescription.setContent(league.getDescription());
 
                 // display time
@@ -520,14 +530,14 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
         leagueRequest.setLeagueId(league == null ? 0 : league.getId());
         leagueRequest.setName(etLeagueName.getContent());
         leagueRequest.setLogo(filePath == null ? "" : filePath.getAbsolutePath());
-        leagueRequest.setLeagueType(rbOpenLeague.isChecked() ? LeagueRequest.LEAGUE_TYPE_OPEN : LeagueRequest.LEAGUE_TYPE_PRIVATE);
-        leagueRequest.setGameplayOption(llTransfer.isActivated() ? LeagueRequest.GAMEPLAY_OPTION_TRANSFER : LeagueRequest.GAMEPLAY_OPTION_DRAFT);
+        leagueRequest.setLeagueType(rbOpenLeague.isChecked() ? LEAGUE_TYPE_OPEN : LEAGUE_TYPE_PRIVATE);
+        leagueRequest.setGameplayOption(llTransfer.isActivated() ? GAMEPLAY_OPTION_TRANSFER : GAMEPLAY_OPTION_DRAFT);
         leagueRequest.setNumberOfUser(Integer.parseInt(keyValuePairNumberOfUser.getKey()));
         leagueRequest.setTradeReview(rgTradeReviewSetting.getCheckedRadioButtonId() == R.id.rbNoTradeReview ?
-                LeagueRequest.TRADE_REVIEW_NO_REVIEW : (rgTradeReviewSetting.getCheckedRadioButtonId() == R.id.rbTradeReviewCreator ?
-                LeagueRequest.TRADE_REVIEW_CREATOR : LeagueRequest.TRADE_REVIEW_MEMBER));
+                TRADE_REVIEW_NO_REVIEW : (rgTradeReviewSetting.getCheckedRadioButtonId() == R.id.rbTradeReviewCreator ?
+                TRADE_REVIEW_CREATOR : TRADE_REVIEW_MEMBER));
         leagueRequest.setBudgetId(budgetResponse == null ? 0 : budgetResponse.getId());
-        leagueRequest.setScoringSystem(rbRegular.isChecked() ? LeagueRequest.SCORING_SYSTEM_REGULAR : LeagueRequest.SCORING_SYSTEM_POINTS);
+        leagueRequest.setScoringSystem(rbRegular.isChecked() ? SCORING_SYSTEM_REGULAR : SCORING_SYSTEM_POINTS);
         leagueRequest.setTeamSetup(DateTimeUtils.convertCalendarToString(calendarTeamSetupTime, Constant.FORMAT_DATE_TIME_SERVER));
         leagueRequest.setStartAt(DateTimeUtils.convertCalendarToString(calendarStartTime, Constant.FORMAT_DATE_TIME_SERVER));
         leagueRequest.setDraftTime(DateTimeUtils.convertCalendarToString(calendarDraftTime, Constant.FORMAT_DATE_TIME_SERVER));
