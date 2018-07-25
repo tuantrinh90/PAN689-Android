@@ -6,14 +6,24 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 
+import com.football.adapters.ResultsAdapter;
 import com.football.common.fragments.BaseMvpFragment;
+import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 import com.football.models.responses.LeagueResponse;
+import com.football.models.responses.MatchResponse;
+
+import java.util.List;
+
+import butterknife.BindView;
 
 public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPresenter<IResultsView>> implements IResultsView {
     static final String TAG = ResultsFragment.class.getSimpleName();
 
     static final String KEY_LEAGUE = "key_leagues";
+
+    @BindView(R.id.rv_results)
+    ExtRecyclerView<MatchResponse> rvResults;
 
     public static ResultsFragment newInstance(LeagueResponse leagueResponse) {
 
@@ -29,7 +39,7 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
 
     @Override
     public int getResourceId() {
-        return R.layout.league_detail_ranking_fragment;
+        return R.layout.league_detail_results_fragment;
     }
 
     @Override
@@ -38,6 +48,8 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
         initView();
+
+        getResults();
     }
 
     void getDataFromBundle() {
@@ -45,6 +57,21 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
     }
 
     void initView() {
+        ResultsAdapter adapter = new ResultsAdapter(
+                getContext(),
+                (team, league) -> {
+
+                });
+        rvResults
+                .adapter(adapter)
+                .refreshListener(() -> {
+                    rvResults.clear();
+                    getResults();
+                });
+    }
+
+    private void getResults() {
+        presenter.getMatchResults(league.getId());
     }
 
     @Override
@@ -56,5 +83,10 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
     public void initToolbar(@NonNull ActionBar supportActionBar) {
         super.initToolbar(supportActionBar);
         supportActionBar.hide();
+    }
+
+    @Override
+    public void displayMatches(List<MatchResponse> matches) {
+        rvResults.addItems(matches);
     }
 }

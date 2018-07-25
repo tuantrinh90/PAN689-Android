@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_layout">
+
+    <com.bon.customview.shadowlayout.ShadowLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_layout"
+        android:layout_marginRight="@dimen/padding_layout"
+        app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+        app:shadowLayoutShadowColor="@color/color_shadow">
+
+        <LinearLayout
+            android:id="@+id/round"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_background_gradient_blue_radius_component"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_small">
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvRound"
+                style="@style/StyleContentWhite"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:padding="@dimen/padding_small"
+                android:paddingEnd="@dimen/padding_layout"
+                android:paddingStart="@dimen/padding_layout"
+                android:text="Round 1"
+                app:textAllCaps="true"
+                app:textViewFontAssetName="@string/font_display_black" />
+
+            <ImageView
+                style="@style/IconMedium"
+                android:background="@drawable/bg_circle_white"
+                android:padding="@dimen/padding_content"
+                android:rotation="90"
+                android:src="@drawable/ic_arrow_right" />
+        </LinearLayout>
+    </com.bon.customview.shadowlayout.ShadowLayout>
+
+    <com.football.customizes.recyclerview.ExtRecyclerView
+        android:id="@+id/rv_results"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

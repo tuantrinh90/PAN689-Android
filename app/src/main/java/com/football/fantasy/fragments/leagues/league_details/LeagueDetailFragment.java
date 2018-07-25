@@ -291,13 +291,13 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
         mvpFragments.add(LeagueInfoFragment.newInstance(league, leagueType, invitationId).setChildFragment(true));
         mvpFragments.add(TeamFragment.newInstance(league, leagueType).setChildFragment(true));
 
-        if (false && league.getStatus() == LeagueResponse.WAITING_FOR_START) {
+        if (league.getStatus() == LeagueResponse.WAITING_FOR_START) {
             // only display invite with open leagues or owner
             if (league.getOwner() || (league.getLeagueType().equalsIgnoreCase(LEAGUE_TYPE_OPEN) && league.getIsJoined())) {
                 carousels.add(new Carousel(getString(R.string.invite_friend), false));
                 mvpFragments.add(InviteFriendFragment.newInstance(league, leagueType, !AppUtilities.isSetupTime(league.getTeamSetup())).setChildFragment(true));
             }
-        } else if (true || league.getStatus() == LeagueResponse.ON_GOING) {
+        } else if (league.getStatus() == LeagueResponse.ON_GOING) {
             carousels.add(new Carousel(getString(R.string.ranking), false));
             carousels.add(new Carousel(getString(R.string.results), false));
 

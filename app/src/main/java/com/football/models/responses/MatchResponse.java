@@ -2,7 +2,7 @@ package com.football.models.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class MyMatchResponse {
+public class MatchResponse {
 
     @JsonProperty("id")
     private Integer id;

@@ -5,7 +5,7 @@ import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
 import com.football.models.PagingResponse;
-import com.football.models.responses.MyMatchResponse;
+import com.football.models.responses.MatchResponse;
 import com.football.utilities.RxUtilities;
 
 import java.util.HashMap;
@@ -27,7 +27,7 @@ public class MatchupMyDataLeaguePresenter extends BaseDataPresenter<IMatchupMyLe
             queries.put("per_page", String.valueOf(ExtPagingListView.NUMBER_PER_PAGE));
             mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().getMyMatchResults(queries),
-                    new ApiCallback<PagingResponse<MyMatchResponse>>() {
+                    new ApiCallback<PagingResponse<MatchResponse>>() {
                         @Override
                         public void onStart() {
 
@@ -39,7 +39,7 @@ public class MatchupMyDataLeaguePresenter extends BaseDataPresenter<IMatchupMyLe
                         }
 
                         @Override
-                        public void onSuccess(PagingResponse<MyMatchResponse> response) {
+                        public void onSuccess(PagingResponse<MatchResponse> response) {
                             v.displayMatches(response.getData());
                         }
 

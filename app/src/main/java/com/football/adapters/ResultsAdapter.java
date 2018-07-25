@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageLoaderUtils;
@@ -24,37 +23,38 @@ import com.football.models.responses.TeamResponse;
 import java.util.List;
 
 import butterknife.BindView;
+import de.hdodenhof.circleimageview.CircleImageView;
 import java8.util.function.BiConsumer;
 
-public class MatchupLeagueAdapter extends DefaultAdapter<MatchResponse> {
+public class ResultsAdapter extends DefaultAdapter<MatchResponse> {
 
     private final BiConsumer<TeamResponse, LeagueResponse> teamDetailCallback;
+
     private SparseBooleanArray expandState = new SparseBooleanArray();
 
-    public MatchupLeagueAdapter(Context context, BiConsumer<TeamResponse, LeagueResponse> teamDetailCallback) {
+    public ResultsAdapter(Context context, BiConsumer<TeamResponse, LeagueResponse> teamDetailCallback) {
         super(context);
         this.teamDetailCallback = teamDetailCallback;
     }
 
     @Override
     protected int getLayoutId(int viewType) {
-        return R.layout.match_up_my_league_item;
+        return R.layout.league_detail_results_item;
     }
 
     @Override
     protected DefaultHolder onCreateHolder(View v, int viewType) {
-        return new MatchupMyLeagueHolder(v);
+        return new ResultsHolder(v);
     }
 
     @Override
     protected void onBindViewHolder(@NonNull DefaultHolder defaultHolder, MatchResponse data, int position) {
-        MatchupMyLeagueHolder holder = (MatchupMyLeagueHolder) defaultHolder;
-        Context context = holder.itemView.getContext();
+
+        ResultsHolder holder = (ResultsHolder) defaultHolder;
 
         PlayerStatisticMetaResponse statisticTeamA = data.getTeam().getStatistic();
         PlayerStatisticMetaResponse statisticTeamB = data.getWithTeam().getStatistic();
         showStatistic(holder, statisticTeamA, statisticTeamB);
-        holder.tvTitle.setText(data.getLeague().getName());
 
         ImageLoaderUtils.displayImage(data.getTeam().getLogo(), holder.ivAvatarTeam1);
         holder.tvTitleTeam1.setText(data.getTeam().getName());
@@ -62,11 +62,8 @@ public class MatchupLeagueAdapter extends DefaultAdapter<MatchResponse> {
         ImageLoaderUtils.displayImage(data.getWithTeam().getLogo(), holder.ivAvatarTeam2);
         holder.tvTitleTeam2.setText(data.getWithTeam().getName());
 
-        // round
-        holder.tvRound.setText(context.getString(R.string.round_number, data.getRound()));
-
         // round match
-        holder.tvRoundMatch.setText(context.getString(R.string.round_match, data.getTeam().getPoint(), data.getWithTeam().getPoint()));
+        holder.tvRoundMatch.setText(mContext.getString(R.string.round_match, data.getTeam().getPoint(), data.getWithTeam().getPoint()));
 
         // state
         if (expandState.get(position)) {
@@ -98,7 +95,7 @@ public class MatchupLeagueAdapter extends DefaultAdapter<MatchResponse> {
         });
     }
 
-    private void showStatistic(MatchupMyLeagueHolder holder, PlayerStatisticMetaResponse statisticTeam, PlayerStatisticMetaResponse statisticWithTeam) {
+    private void showStatistic(ResultsHolder holder, PlayerStatisticMetaResponse statisticTeam, PlayerStatisticMetaResponse statisticWithTeam) {
         holder.matchupGoals.setTextLeft(String.valueOf(statisticTeam.getGoals()));
         holder.matchupAssists.setTextLeft(String.valueOf(statisticTeam.getAssists()));
         holder.matchupCleanSheet.setTextLeft(String.valueOf(statisticTeam.getCleanSheet()));
@@ -126,7 +123,7 @@ public class MatchupLeagueAdapter extends DefaultAdapter<MatchResponse> {
         holder.matchupFoundCommitted.setTextRight(String.valueOf(statisticWithTeam.getFoulsCommitted()));
     }
 
-    public ObjectAnimator createRotateAnimator(final View target, final float from, final float to) {
+    private ObjectAnimator createRotateAnimator(final View target, final float from, final float to) {
         ObjectAnimator animator = ObjectAnimator.ofFloat(target, "rotation", from, to);
         animator.setDuration(300);
         animator.setInterpolator(Utils.createInterpolator(Utils.LINEAR_INTERPOLATOR));
@@ -143,29 +140,20 @@ public class MatchupLeagueAdapter extends DefaultAdapter<MatchResponse> {
         }
     }
 
-    static class MatchupMyLeagueHolder extends DefaultHolder {
+    static class ResultsHolder extends DefaultHolder {
 
-        @BindView(R.id.tvTitle)
-        ExtTextView tvTitle;
-        @BindView(R.id.buttonResult)
-        LinearLayout buttonResult;
         @BindView(R.id.ivAvatarTeam1)
-        ImageView ivAvatarTeam1;
+        CircleImageView ivAvatarTeam1;
         @BindView(R.id.tvTitleTeam1)
         ExtTextView tvTitleTeam1;
-        @BindView(R.id.tvRound)
-        ExtTextView tvRound;
         @BindView(R.id.tvRoundMatch)
         ExtTextView tvRoundMatch;
         @BindView(R.id.ivAvatarTeam2)
-        ImageView ivAvatarTeam2;
+        CircleImageView ivAvatarTeam2;
         @BindView(R.id.tvTitleTeam2)
         ExtTextView tvTitleTeam2;
         @BindView(R.id.ivExpandable)
         ImageView ivExpandable;
-        @BindView(R.id.expandableView)
-        ExpandableLayout expandableView;
-
         @BindView(R.id.matchupGoals)
         MatchupTextItem matchupGoals;
         @BindView(R.id.matchupAssists)
@@ -190,8 +178,10 @@ public class MatchupLeagueAdapter extends DefaultAdapter<MatchResponse> {
         MatchupTextItem matchupBallRecovered;
         @BindView(R.id.matchupFoundCommitted)
         MatchupTextItem matchupFoundCommitted;
+        @BindView(R.id.expandableView)
+        ExpandableLayout expandableView;
 
-        public MatchupMyLeagueHolder(View itemView) {
+        public ResultsHolder(View itemView) {
             super(itemView);
         }
     }

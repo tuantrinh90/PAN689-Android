@@ -8,7 +8,7 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
-import com.football.models.responses.MyMatchResponse;
+import com.football.models.responses.MatchResponse;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class MatchupMyLeagueFragment extends BaseMainMvpFragment<IMatchupMyLeagu
     }
 
     @BindView(R.id.rvMyLeague)
-    ExtRecyclerView<MyMatchResponse> rvMyLeague;
+    ExtRecyclerView<MatchResponse> rvMyLeague;
 
     private int page;
 
@@ -75,7 +75,7 @@ public class MatchupMyLeagueFragment extends BaseMainMvpFragment<IMatchupMyLeagu
     }
 
     @Override
-    public void displayMatches(List<MyMatchResponse> matches) {
+    public void displayMatches(List<MatchResponse> matches) {
         rvMyLeague.addItems(matches);
     }
 

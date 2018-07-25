@@ -8,7 +8,7 @@ import com.football.models.responses.FriendResponse;
 import com.football.models.responses.InviteResponse;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.LineupResponse;
-import com.football.models.responses.MyMatchResponse;
+import com.football.models.responses.MatchResponse;
 import com.football.models.responses.NewsResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.PlayerStatisticResponse;
@@ -120,13 +120,13 @@ public interface IApiService {
     Observable<BaseResponse<PagingResponse<LeagueResponse>>> getMyLeagues(@Query(Constant.KEY_PAGE) int page);
 
     @GET(ServiceConfig.MY_MATCH_RESULTS)
-    Observable<BaseResponse<PagingResponse<MyMatchResponse>>> getMyMatchResults(@QueryMap Map<String, String> queries);
+    Observable<BaseResponse<PagingResponse<MatchResponse>>> getMyMatchResults(@QueryMap Map<String, String> queries);
 
     @GET(ServiceConfig.MATCH_RESULTS)
-    Observable<BaseResponse<PagingResponse<RankingResponse>>> getMatchResults(@Path(ServiceConfig.KEY_ID) int leagueId, @QueryMap Map<String, String> queries);
+    Observable<BaseResponse<PagingResponse<MatchResponse>>> getMatchResults(@Path(ServiceConfig.KEY_ID) int leagueId, @QueryMap Map<String, String> queries);
 
     @GET(ServiceConfig.TEAM_RESULTS)
-    Observable<BaseResponse<PagingResponse<MyMatchResponse>>> getTeamResults(@Path(ServiceConfig.KEY_ID) int leagueId, @QueryMap Map<String, String> queries);
+    Observable<BaseResponse<PagingResponse<RankingResponse>>> getTeamResults(@Path(ServiceConfig.KEY_ID) int leagueId, @QueryMap Map<String, String> queries);
 
     @GET(ServiceConfig.LEAGUE_DETAIL)
     Observable<BaseResponse<LeagueResponse>> getLeagueDetail(@Path(ServiceConfig.KEY_ID) Integer leagueId);
