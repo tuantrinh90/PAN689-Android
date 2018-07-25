@@ -4,5 +4,5 @@ import com.football.common.presenters.IBaseDataPresenter;
 import com.football.common.views.IBaseMvpView;
 
 public interface IResultsPresenter<V extends IBaseMvpView> extends IBaseDataPresenter<V> {
-    void getMatchResults(Integer leagueId);
+    void getMatchResults(Integer leagueId, String round, int page);
 }

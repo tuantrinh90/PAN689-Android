@@ -308,6 +308,13 @@ public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPl
     }
 
     @Override
+    public void showLoadingPagingListView(boolean isLoading) {
+        if (!isLoading) {
+            rvPlayer.stopLoading();
+        }
+    }
+
+    @Override
     public void displayPlayers(List<PlayerResponse> players) {
         rvPlayer.addItems(players);
     }

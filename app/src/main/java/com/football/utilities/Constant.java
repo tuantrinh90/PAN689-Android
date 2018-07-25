@@ -40,4 +40,7 @@ public interface Constant {
 
     int PAGE_START_INDEX = 1;
 
+    String ROUND_DEFAULT = "0";
+
+
 }

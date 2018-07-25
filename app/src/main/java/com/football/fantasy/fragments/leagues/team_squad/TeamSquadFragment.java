@@ -143,6 +143,13 @@ public class TeamSquadFragment extends BaseMainMvpFragment<ITeamSquadView, ITeam
         return new TeamSquadPresenter(getAppComponent());
     }
 
+    @Override
+    public void showLoadingPagingListView(boolean isLoading) {
+        if (!isLoading) {
+            rvPlayer.stopLoading();
+        }
+    }
+
     @OnClick(R.id.llTrade)
     void onClickTrade() {
         TradeFragment.start(this, getString(R.string.team_squad), team, leagueId);

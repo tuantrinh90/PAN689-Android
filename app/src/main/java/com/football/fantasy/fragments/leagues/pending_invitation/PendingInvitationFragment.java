@@ -165,6 +165,9 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
 
     @Override
     public void showLoadingPagingListView(boolean isLoading) {
+        if (!isLoading) {
+            rvLeague.stopLoading();
+        }
     }
 
     @Override

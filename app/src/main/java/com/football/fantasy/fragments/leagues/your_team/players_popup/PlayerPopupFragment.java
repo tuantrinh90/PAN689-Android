@@ -292,6 +292,13 @@ public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, I
     }
 
     @Override
+    public void showLoadingPagingListView(boolean isLoading) {
+        if (!isLoading) {
+            rvPlayer.stopLoading();
+        }
+    }
+
+    @Override
     public void displayPlayers(List<PlayerResponse> data) {
         rvPlayer.addItems(data);
     }

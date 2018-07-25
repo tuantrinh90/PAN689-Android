@@ -89,6 +89,13 @@ public class RecordFragment extends BaseMainMvpFragment<IRecordView, IRecordPres
     }
 
     @Override
+    public void showLoadingPagingListView(boolean isLoading) {
+        if (!isLoading) {
+            rvRecord.stopLoading();
+        }
+    }
+
+    @Override
     public void displayHistories(List<TransferHistoryResponse> histories) {
         rvRecord.addItems(histories);
     }

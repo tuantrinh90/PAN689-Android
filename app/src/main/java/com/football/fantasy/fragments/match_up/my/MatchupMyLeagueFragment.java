@@ -75,6 +75,13 @@ public class MatchupMyLeagueFragment extends BaseMainMvpFragment<IMatchupMyLeagu
     }
 
     @Override
+    public void showLoadingPagingListView(boolean isLoading) {
+        if (!isLoading) {
+            rvMyLeague.stopLoading();
+        }
+    }
+
+    @Override
     public void displayMatches(List<MatchResponse> matches) {
         rvMyLeague.addItems(matches);
     }

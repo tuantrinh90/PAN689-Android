@@ -344,6 +344,14 @@ public class TransferringFragment extends BaseMainMvpFragment<ITransferringView,
     }
 
     @Override
+    public void showLoadingPagingListView(boolean isLoading) {
+        if (!isLoading) {
+            rvInjured.stopLoading();
+            rvPlayer.stopLoading();
+        }
+    }
+
+    @Override
     public void displayPlayers(List<PlayerResponse> players) {
         rvPlayer.addItems(players);
     }

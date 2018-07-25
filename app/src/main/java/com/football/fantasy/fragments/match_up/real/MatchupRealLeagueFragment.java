@@ -19,9 +19,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealLeagueView, IMatchupRealLeaguePresenter<IMatchupRealLeagueView>> implements IMatchupRealLeagueView {
+import static com.football.utilities.Constant.ROUND_DEFAULT;
 
-    public static final String ROUND_DEFAULT = "0";
+public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealLeagueView, IMatchupRealLeaguePresenter<IMatchupRealLeagueView>> implements IMatchupRealLeagueView {
 
     @BindView(R.id.rvRealLeague)
     ExtRecyclerView<RealMatch> rvRealLeague;
@@ -87,6 +87,13 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
     @Override
     public IMatchupRealLeaguePresenter<IMatchupRealLeagueView> createPresenter() {
         return new MatchupRealDataLeaguePresenter(getAppComponent());
+    }
+
+    @Override
+    public void showLoadingPagingListView(boolean isLoading) {
+        if (!isLoading) {
+            rvRealLeague.stopLoading();
+        }
     }
 
     @OnClick(R.id.round)

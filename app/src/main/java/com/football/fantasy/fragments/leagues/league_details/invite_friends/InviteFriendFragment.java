@@ -19,7 +19,6 @@ import com.football.models.responses.FriendResponse;
 import com.football.models.responses.LeagueResponse;
 import com.football.utilities.AppUtilities;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;

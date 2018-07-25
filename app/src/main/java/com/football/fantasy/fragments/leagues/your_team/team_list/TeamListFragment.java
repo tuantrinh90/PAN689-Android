@@ -115,6 +115,13 @@ public class TeamListFragment extends BaseMainMvpFragment<ITeamListView, ITeamLi
     }
 
     @Override
+    public void showLoadingPagingListView(boolean isLoading) {
+        if (!isLoading) {
+            rvTeam.stopLoading();
+        }
+    }
+
+    @Override
     public void displayTeams(List<TeamResponse> teams) {
         Optional.from(rvTeam).doIfPresent(rv -> rv.addItems(teams));
     }

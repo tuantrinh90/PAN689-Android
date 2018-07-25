@@ -290,6 +290,9 @@ public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPl
 
     @Override
     public void showLoadingPagingListView(boolean isLoading) {
+        if (!isLoading) {
+            rvPlayer.stopLoading();
+        }
     }
 
     @OnClick({R.id.svNone, R.id.svGoalkeeper, R.id.svDefender, R.id.svMidfielder, R.id.svAttacker})

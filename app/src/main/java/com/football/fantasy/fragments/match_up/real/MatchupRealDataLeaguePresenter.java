@@ -22,7 +22,7 @@ import io.reactivex.SingleOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.football.fantasy.fragments.match_up.real.MatchupRealLeagueFragment.ROUND_DEFAULT;
+import static com.football.utilities.Constant.ROUND_DEFAULT;
 
 public class MatchupRealDataLeaguePresenter extends BaseDataPresenter<IMatchupRealLeagueView> implements IMatchupRealLeaguePresenter<IMatchupRealLeagueView> {
 

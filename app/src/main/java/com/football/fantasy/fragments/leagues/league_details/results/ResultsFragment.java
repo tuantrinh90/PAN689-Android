@@ -4,18 +4,28 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.text.TextUtils;
 import android.view.View;
 
+import com.bon.customview.keyvaluepair.ExtKeyValuePair;
+import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
+import com.bon.customview.textview.ExtTextView;
 import com.football.adapters.ResultsAdapter;
+import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.MatchResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+
+import static com.football.utilities.Constant.ROUND_DEFAULT;
 
 public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPresenter<IResultsView>> implements IResultsView {
     static final String TAG = ResultsFragment.class.getSimpleName();
@@ -24,6 +34,12 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
 
     @BindView(R.id.rv_results)
     ExtRecyclerView<MatchResponse> rvResults;
+    @BindView(R.id.tvRound)
+    ExtTextView tvRound;
+
+    private String round = ROUND_DEFAULT;
+    private List<ExtKeyValuePair> valuePairs;
+    private int page = 1;
 
     public static ResultsFragment newInstance(LeagueResponse leagueResponse) {
 
@@ -47,6 +63,7 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
         getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
+        initData();
         initView();
 
         getResults();
@@ -56,23 +73,40 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
         league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
     }
 
+    private void initData() {
+        valuePairs = new ArrayList<>();
+        valuePairs.add(new ExtKeyValuePair(ROUND_DEFAULT, "Real League"));
+        for (int i = 0; i < 30; i++) {
+            valuePairs.add(new ExtKeyValuePair(String.valueOf(i + 1), "Round " + (i + 1)));
+        }
+    }
+
     void initView() {
         ResultsAdapter adapter = new ResultsAdapter(
                 getContext(),
                 (team, league) -> {
-
+                    AloneFragmentActivity.with(this)
+                            .parameters(TeamDetailFragment.newBundle(team, league))
+                            .start(TeamDetailFragment.class);
                 });
         rvResults
                 .adapter(adapter)
-                .refreshListener(() -> {
-                    rvResults.clear();
+                .refreshListener(this::refresh)
+                .loadMoreListener(() -> {
+                    page++;
                     getResults();
                 })
                 .build();
     }
 
     private void getResults() {
-        presenter.getMatchResults(league.getId());
+        presenter.getMatchResults(league.getId(), round, page);
+    }
+
+    private void refresh() {
+        page = 1;
+        rvResults.clear();
+        getResults();
     }
 
     @Override
@@ -84,6 +118,27 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
     public void initToolbar(@NonNull ActionBar supportActionBar) {
         super.initToolbar(supportActionBar);
         supportActionBar.hide();
+    }
+
+    @OnClick(R.id.round)
+    public void onRoundClicked() {
+        ExtKeyValuePairDialogFragment.newInstance()
+                .setValue(round)
+                .setExtKeyValuePairs(valuePairs)
+                .setOnSelectedConsumer(extKeyValuePair -> {
+                    if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
+                        tvRound.setText(extKeyValuePair.getValue());
+                        round = extKeyValuePair.getKey();
+                        refresh();
+                    }
+                }).show(getFragmentManager(), null);
+    }
+
+    @Override
+    public void showLoadingPagingListView(boolean isLoading) {
+        if (!isLoading) {
+            rvResults.stopLoading();
+        }
     }
 
     @Override
