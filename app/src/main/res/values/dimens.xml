@@ -20,6 +20,7 @@
     <dimen name="icon_small">25dp</dimen>
     <dimen name="icon_medium">30dp</dimen>
     <dimen name="icon_large">40dp</dimen>
+    <dimen name="icon_xlarge">60dp</dimen>
 
     <!--line-->
     <dimen name="line">1dp</dimen>

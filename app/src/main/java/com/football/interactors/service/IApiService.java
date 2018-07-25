@@ -13,6 +13,7 @@ import com.football.models.responses.NewsResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.PlayerStatisticResponse;
 import com.football.models.responses.PropsPlayerResponse;
+import com.football.models.responses.RankingResponse;
 import com.football.models.responses.RealClubResponse;
 import com.football.models.responses.RealMatchResponse;
 import com.football.models.responses.SeasonResponse;
@@ -120,6 +121,12 @@ public interface IApiService {
 
     @GET(ServiceConfig.MY_MATCH_RESULTS)
     Observable<BaseResponse<PagingResponse<MyMatchResponse>>> getMyMatchResults(@QueryMap Map<String, String> queries);
+
+    @GET(ServiceConfig.MATCH_RESULTS)
+    Observable<BaseResponse<PagingResponse<RankingResponse>>> getMatchResults(@Path(ServiceConfig.KEY_ID) int leagueId, @QueryMap Map<String, String> queries);
+
+    @GET(ServiceConfig.TEAM_RESULTS)
+    Observable<BaseResponse<PagingResponse<MyMatchResponse>>> getTeamResults(@Path(ServiceConfig.KEY_ID) int leagueId, @QueryMap Map<String, String> queries);
 
     @GET(ServiceConfig.LEAGUE_DETAIL)
     Observable<BaseResponse<LeagueResponse>> getLeagueDetail(@Path(ServiceConfig.KEY_ID) Integer leagueId);

@@ -59,8 +59,8 @@ public interface ServiceConfig {
     String REMOVE_TEAM = "leagues/remove_team/{" + KEY_ID + "}/{" + KEY_TEAM_ID + "}";
     String START_LEAGUE = "leagues/{id}/start";
     String STOP_LEAGUE = "leagues/{id}";
-    String MATCH_RESULTS = "leagues/get_match_results";
     String MY_MATCH_RESULTS = "leagues/get_my_match_results";
+    String MATCH_RESULTS = "leagues/{id}/get_match_results";
     String TEAM_RESULTS = "leagues/{id}/get_team_results";
 
     // player

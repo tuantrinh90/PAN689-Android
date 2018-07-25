@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/leagues_margin"
+    android:layout_marginRight="@dimen/leagues_margin">
+
+    <com.bon.customview.shadowlayout.ShadowLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_content_small"
+        android:layout_marginRight="@dimen/padding_content_small"
+        android:layout_marginTop="@dimen/padding_content_small"
+        app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+        app:shadowLayoutShadowColor="@color/color_shadow">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding_content_small"
+            android:layout_marginRight="@dimen/padding_content_small"
+            android:background="@drawable/bg_border_white"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/padding_content_small">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/leagues_size_number_number"
+                android:paddingBottom="@dimen/padding_layout">
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/text_title"
+                    style="@style/StyleDescriptionGray"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:background="@drawable/bg_border_top_ranking_item"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="@dimen/padding_layout"
+                    android:paddingStart="@dimen/padding_layout"
+                    android:text="@string/app_name"
+                    android:textColor="@color/color_white"
+                    app:textViewFontAssetName="@string/font_display_heavy" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal|bottom"
+                    android:orientation="horizontal">
+
+                    <com.bon.customview.textview.ExtTextView
+                        style="@style/StyleDescriptionGray"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal|bottom"
+                        android:padding="0dp"
+                        android:text="@string/play_match"
+                        android:textAllCaps="true"
+                        android:textSize="@dimen/font_bubble"
+                        app:textViewFontAssetName="@string/font_display_heavy" />
+
+                    <com.bon.customview.textview.ExtTextView
+                        style="@style/StyleDescriptionGray"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal|bottom"
+                        android:padding="0dp"
+                        android:text="@string/win"
+                        android:textAllCaps="true"
+                        android:textSize="@dimen/font_bubble"
+                        app:textViewFontAssetName="@string/font_display_heavy" />
+
+                    <com.bon.customview.textview.ExtTextView
+                        style="@style/StyleDescriptionGray"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal|bottom"
+                        android:padding="0dp"
+                        android:text="@string/draw"
+                        android:textAllCaps="true"
+                        android:textSize="@dimen/font_bubble"
+                        app:textViewFontAssetName="@string/font_display_heavy" />
+
+                    <com.bon.customview.textview.ExtTextView
+                        style="@style/StyleDescriptionGray"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal|bottom"
+                        android:padding="0dp"
+                        android:text="@string/lose"
+                        android:textAllCaps="true"
+                        android:textSize="@dimen/font_bubble"
+                        app:textViewFontAssetName="@string/font_display_heavy" />
+
+                    <com.bon.customview.textview.ExtTextView
+                        style="@style/StyleDescriptionGray"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal|bottom"
+                        android:padding="0dp"
+                        android:text="@string/pts"
+                        android:textAllCaps="true"
+                        android:textSize="@dimen/font_bubble"
+                        app:textViewFontAssetName="@string/font_display_heavy" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.bon.customview.textview.ExtTextView
+                        android:id="@+id/text_play_match"
+                        style="@style/StyleDescription"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="0dp"
+                        android:text="3"
+                        android:textAllCaps="true"
+                        app:textViewFontAssetName="@string/font_display_heavy" />
+
+                    <com.bon.customview.textview.ExtTextView
+                        android:id="@+id/text_win"
+                        style="@style/StyleDescription"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="0dp"
+                        android:text="3"
+                        android:textAllCaps="true"
+                        app:textViewFontAssetName="@string/font_display_heavy" />
+
+                    <com.bon.customview.textview.ExtTextView
+                        android:id="@+id/text_draw"
+                        style="@style/StyleDescription"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="0dp"
+                        android:text="3"
+                        android:textAllCaps="true"
+                        app:textViewFontAssetName="@string/font_display_heavy" />
+
+                    <com.bon.customview.textview.ExtTextView
+                        android:id="@+id/text_lose"
+                        style="@style/StyleDescription"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="0dp"
+                        android:text="3"
+                        android:textAllCaps="true"
+                        app:textViewFontAssetName="@string/font_display_heavy" />
+
+                    <com.bon.customview.textview.ExtTextView
+                        android:id="@+id/text_pts"
+                        style="@style/StyleDescription"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="0dp"
+                        android:text="3"
+                        android:textAllCaps="true"
+                        app:textViewFontAssetName="@string/font_display_heavy" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </com.bon.customview.shadowlayout.ShadowLayout>
+
+    <ImageView
+        android:id="@+id/image_number"
+        android:layout_width="@dimen/leagues_size_number_number"
+        android:layout_height="@dimen/leagues_size_number_number"
+        android:layout_gravity="end"
+        android:src="@drawable/ic_number_one" />
+
+    <com.bon.customview.textview.ExtTextView
+        android:id="@+id/text_number"
+        style="@style/StyleContent"
+        android:layout_width="@dimen/leagues_size_number_number"
+        android:layout_height="@dimen/leagues_size_number_number"
+        android:layout_gravity="end"
+        android:layout_marginBottom="@dimen/padding_layout"
+        android:background="@drawable/bg_circle_white"
+        android:gravity="center"
+        android:text="4"
+        android:textColor="@color/color_blue"
+        android:textSize="@dimen/font_size_menu"
+        app:textViewFontAssetName="@string/font_display_bold" />
+
+</FrameLayout>

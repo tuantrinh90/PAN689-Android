@@ -30,10 +30,10 @@ import com.football.fantasy.fragments.leagues.action.setup_leagues.SetUpLeagueFr
 import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
 import com.football.fantasy.fragments.leagues.league_details.invite_friends.InviteFriendFragment;
 import com.football.fantasy.fragments.leagues.league_details.league_info.LeagueInfoFragment;
+import com.football.fantasy.fragments.leagues.league_details.ranking.RankingFragment;
+import com.football.fantasy.fragments.leagues.league_details.results.ResultsFragment;
 import com.football.fantasy.fragments.leagues.league_details.successor.SuccessorFragment;
 import com.football.fantasy.fragments.leagues.league_details.teams.TeamFragment;
-import com.football.fantasy.fragments.notification.NotificationFragment;
-import com.football.models.requests.LeagueRequest;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.utilities.AppUtilities;
@@ -291,18 +291,18 @@ public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView,
         mvpFragments.add(LeagueInfoFragment.newInstance(league, leagueType, invitationId).setChildFragment(true));
         mvpFragments.add(TeamFragment.newInstance(league, leagueType).setChildFragment(true));
 
-        if (league.getStatus() == LeagueResponse.WAITING_FOR_START) {
+        if (false && league.getStatus() == LeagueResponse.WAITING_FOR_START) {
             // only display invite with open leagues or owner
             if (league.getOwner() || (league.getLeagueType().equalsIgnoreCase(LEAGUE_TYPE_OPEN) && league.getIsJoined())) {
                 carousels.add(new Carousel(getString(R.string.invite_friend), false));
                 mvpFragments.add(InviteFriendFragment.newInstance(league, leagueType, !AppUtilities.isSetupTime(league.getTeamSetup())).setChildFragment(true));
             }
-        } else if (league.getStatus() == LeagueResponse.ON_GOING) {
+        } else if (true || league.getStatus() == LeagueResponse.ON_GOING) {
             carousels.add(new Carousel(getString(R.string.ranking), false));
             carousels.add(new Carousel(getString(R.string.results), false));
 
-            mvpFragments.add(NotificationFragment.newInstance().setChildFragment(true));
-            mvpFragments.add(NotificationFragment.newInstance().setChildFragment(true));
+            mvpFragments.add(RankingFragment.newInstance(league).setChildFragment(true));
+            mvpFragments.add(ResultsFragment.newInstance(league).setChildFragment(true));
         }
 
         // carousel view
