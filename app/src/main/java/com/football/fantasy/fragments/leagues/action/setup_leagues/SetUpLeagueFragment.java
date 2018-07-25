@@ -150,12 +150,19 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     Calendar calendarStartTime;
     Calendar calendarTeamSetupTime;
     ExtKeyValuePair keyValuePairNumberOfUser = new ExtKeyValuePair("6", "06");
-    List<ExtKeyValuePair> valuePairs = new ArrayList<ExtKeyValuePair>() {{
+    ExtKeyValuePair keyValuePairTimePerDraft = new ExtKeyValuePair("30", "30");
+    List<ExtKeyValuePair> valuePairsNumberOfUser = new ArrayList<ExtKeyValuePair>() {{
         add(new ExtKeyValuePair("4", "04"));
         add(new ExtKeyValuePair("6", "06"));
         add(new ExtKeyValuePair("8", "08"));
         add(new ExtKeyValuePair("10", "10"));
         add(new ExtKeyValuePair("12", "12"));
+    }};
+    List<ExtKeyValuePair> valuePairsTimePerDraft = new ArrayList<ExtKeyValuePair>() {{
+        add(new ExtKeyValuePair("15", "15"));
+        add(new ExtKeyValuePair("30", "30"));
+        add(new ExtKeyValuePair("45", "45"));
+        add(new ExtKeyValuePair("60", "60"));
     }};
 
     int leagueId;
@@ -221,9 +228,16 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
                     onClickDraft();
                 }
 
-                String value = String.format("%02d", league.getNumberOfUser());
-                keyValuePairNumberOfUser = new ExtKeyValuePair(String.valueOf(league.getNumberOfUser()), value);
-                etNumberOfUser.setContent(value);
+                // transfer mode
+                String valueTransfer = String.format("%02d", league.getNumberOfUser());
+                keyValuePairNumberOfUser = new ExtKeyValuePair(String.valueOf(league.getNumberOfUser()), valueTransfer);
+
+                // draft mode
+                String valueDraft = String.format("%02d", league.getTimeToPick());
+                keyValuePairNumberOfUser = new ExtKeyValuePair(valueDraft, valueDraft);
+
+                etNumberOfUser.setContent(valueTransfer);
+                etTimePerDraftPick.setContent(valueDraft);
                 rbRegular.setChecked(league.getScoringSystem().equals(LeagueRequest.SCORING_SYSTEM_REGULAR));
                 etDescription.setContent(league.getDescription());
 
@@ -251,7 +265,8 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
         onClickTransfer();
         initBudgetOption();
         formatDateTime();
-        setUpdateDataKeyValuePair();
+        setUpdateNumberOfUser();
+        setUpdateTimePerDraft();
         focusDescription();
 
         if (!isCreateMode()) {
@@ -306,8 +321,13 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
         supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_blue);
     }
 
-    void setUpdateDataKeyValuePair() {
+    void setUpdateNumberOfUser() {
         etNumberOfUser.setContent(keyValuePairNumberOfUser.getValue());
+    }
+
+
+    void setUpdateTimePerDraft() {
+        etTimePerDraftPick.setContent(keyValuePairTimePerDraft.getValue());
     }
 
     void formatDateTime() {
@@ -370,34 +390,29 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
 
     @OnClick(R.id.llTransfer)
     void onClickTransfer() {
-        llTransfer.setActivated(true);
-        llDraft.setActivated(false);
-        llTradeReview.setVisibility(View.GONE);
-        lvBudgetOption.setVisibility(View.VISIBLE);
-        rvBudgetOption.setVisibility(View.VISIBLE);
-        lvDraftTime.setVisibility(View.GONE);
-        etDraftTime.setVisibility(View.GONE);
-        lvTimePerDraftPick.setVisibility(View.GONE);
-        etTimePerDraftPick.setVisibility(View.GONE);
-        lvTeamSetupTime.setVisibility(View.VISIBLE);
-        etTeamSetupTime.setVisibility(View.VISIBLE);
+        toggleTransfer(true);
     }
 
     @OnClick(R.id.llDraft)
     void onClickDraft() {
-//        llTransfer.setActivated(false);
-//        llDraft.setActivated(true);
-//        llTradeReview.setVisibility(View.VISIBLE);
-//        lvBudgetOption.setVisibility(View.GONE);
-//        rvBudgetOption.setVisibility(View.GONE);
-//        lvDraftTime.setVisibility(View.VISIBLE);
-//        etDraftTime.setVisibility(View.VISIBLE);
-//        lvTimePerDraftPick.setVisibility(View.VISIBLE);
-//        etTimePerDraftPick.setVisibility(View.VISIBLE);
-//        lvTeamSetupTime.setVisibility(View.GONE);
-//        etTeamSetupTime.setVisibility(View.GONE);
+        toggleTransfer(false);
     }
 
+    private void toggleTransfer(boolean active) {
+        llTransfer.setActivated(active);
+        llDraft.setActivated(!active);
+        llTradeReview.setVisibility(active ? View.GONE : View.VISIBLE);
+        lvBudgetOption.setVisibility(active ? View.VISIBLE : View.GONE);
+        rvBudgetOption.setVisibility(active ? View.VISIBLE : View.GONE);
+        lvDraftTime.setVisibility(active ? View.GONE : View.VISIBLE);
+        etDraftTime.setVisibility(active ? View.GONE : View.VISIBLE);
+        lvTimePerDraftPick.setVisibility(active ? View.GONE : View.VISIBLE);
+        etTimePerDraftPick.setVisibility(active ? View.GONE : View.VISIBLE);
+        lvTeamSetupTime.setVisibility(active ? View.VISIBLE : View.GONE);
+        etTeamSetupTime.setVisibility(active ? View.VISIBLE : View.GONE);
+    }
+
+    // numberOfUser info
     @OnClick(R.id.lvNumberOfUsers)
     void onClickNumberOfUsers() {
     }
@@ -405,12 +420,12 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
     @OnClick(R.id.etNumberOfUser)
     void onClickNumberOfUser() {
         ExtKeyValuePairDialogFragment.newInstance()
-                .setExtKeyValuePairs(valuePairs)
+                .setExtKeyValuePairs(valuePairsNumberOfUser)
                 .setValue(keyValuePairNumberOfUser.getKey())
                 .setOnSelectedConsumer(extKeyValuePair -> {
                     if (!android.text.TextUtils.isEmpty(extKeyValuePair.getKey())) {
                         keyValuePairNumberOfUser = extKeyValuePair;
-                        setUpdateDataKeyValuePair();
+                        setUpdateNumberOfUser();
                     }
                 })
                 .show(getFragmentManager(), null);
@@ -444,6 +459,16 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
 
     @OnClick(R.id.etTimePerDraftPick)
     void onClickTimePerDraftPick() {
+        ExtKeyValuePairDialogFragment.newInstance()
+                .setExtKeyValuePairs(valuePairsTimePerDraft)
+                .setValue(keyValuePairTimePerDraft.getKey())
+                .setOnSelectedConsumer(extKeyValuePair -> {
+                    if (!android.text.TextUtils.isEmpty(extKeyValuePair.getKey())) {
+                        keyValuePairTimePerDraft = extKeyValuePair;
+                        setUpdateTimePerDraft();
+                    }
+                })
+                .show(getFragmentManager(), null);
     }
 
     @OnClick(R.id.etTeamSetupTime)

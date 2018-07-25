@@ -6,8 +6,8 @@ package com.football.utilities;
 
 public interface ServiceConfig {
     // base url
-//    String BASE_URL = "http://192.168.1.150/api/v1/";
-    String BASE_URL = "http://52.77.241.109/api/v1/";
+    String BASE_URL = "http://192.168.1.150/api/v1/";
+//    String BASE_URL = "http://52.77.241.109/api/v1/";
     String CONTACT = BASE_URL + "admin/posts/frontcms/contact";
     String FAQ = BASE_URL + "admin/posts/frontcms/faq";
     String TERMS = BASE_URL + "admin/posts/frontcms/terms_conditions";

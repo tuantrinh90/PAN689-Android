@@ -30,7 +30,7 @@
     <string name="league_invalid_budget">The budget is not valid</string>
     <string name="league_invalid_setup_time">Team setup time must not be later than start time</string>
     <string name="league_invalid_start_transfer_time">Transfer time is not valid</string>
-    <string name="league_invalid_start_draft_time">Draft time is not valid</string>
+    <string name="league_invalid_start_draft_time">Draft time must not be later than start time</string>
     <string name="league_invalid_trade_review">Trade review is not valid</string>
     <string name="league_invalid_gameplay_option">Gameplay option is not valid</string>
     <string name="league_number_user_not_edit">Number of users is not valid</string>
