@@ -27,7 +27,7 @@ public class RankingPresenter extends BaseDataPresenter<IRankingView> implements
 
             mCompositeDisposable.add(RxUtilities.async(
                     v,
-                    dataModule.getApiService().getMatchResults(leagueId, queries),
+                    dataModule.getApiService().getTeamResults(leagueId, queries),
                     new ApiCallback<PagingResponse<RankingResponse>>() {
                         @Override
                         public void onStart() {
