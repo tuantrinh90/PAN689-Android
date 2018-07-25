@@ -67,7 +67,8 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
                 .refreshListener(() -> {
                     rvResults.clear();
                     getResults();
-                });
+                })
+                .build();
     }
 
     private void getResults() {
