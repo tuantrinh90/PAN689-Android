@@ -42,7 +42,7 @@ public class TradeReviewFragment extends BaseMvpFragment<ITradeReviewView, ITrad
 
     @Override
     public int getResourceId() {
-        return R.layout.league_detail_ranking_fragment;
+        return R.layout.league_detail_trade_review_fragment;
     }
 
     @Override
