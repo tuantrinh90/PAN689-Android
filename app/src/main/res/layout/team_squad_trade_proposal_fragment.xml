@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/padding_layout">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_layout"
+        android:layout_marginRight="@dimen/padding_layout"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_layout">
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvCancel"
+            style="@style/StyleContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_null_gray_selector"
+            android:padding="0dp"
+            android:text="@string/cancel"
+            android:textColor="@color/color_blue" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvDone"
+            style="@style/StyleContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_null_gray_selector"
+            android:padding="0dp"
+            android:text="@string/done"
+            android:textColor="@color/color_blue"
+            app:textViewFontAssetName="@string/font_display_bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_layout"
+        android:layout_marginRight="@dimen/padding_layout"
+        android:orientation="vertical">
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleTitle"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout"
+            android:padding="0dp"
+            android:text="@string/choose_a_team"
+            android:textAllCaps="true"
+            app:textViewFontAssetName="@string/font_display_black_italic" />
+
+        <com.bon.customview.textview.ExtTextView
+            style="@style/StyleContent"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:padding="0dp"
+            android:text="@string/choose_a_team_description"
+            android:textColor="@color/color_gray" />
+    </LinearLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/padding_layout"
+        android:layout_marginRight="@dimen/padding_layout"
+        android:layout_marginTop="@dimen/padding_layout"
+        android:paddingLeft="@dimen/padding_content"
+        android:paddingRight="@dimen/padding_content">
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvTitleTeam1"
+            style="@style/StyleDescriptionGray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/player_list_item_size"
+            android:padding="0dp"
+            android:paddingLeft="@dimen/padding_content"
+            android:paddingRight="@dimen/padding_content"
+            android:text="@string/app_name"
+            android:textColor="@color/color_black"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:textViewFontAssetName="@string/font_display_heavy" />
+
+        <LinearLayout
+            android:id="@+id/group_my_team"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_blue_gradient_radius"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/padding_layout"
+            android:paddingTop="@dimen/padding_layout"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitleTeam1">
+
+            <com.bon.customview.shadowlayout.ShadowLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/player_margin_large"
+                android:layout_marginTop="@dimen/player_margin_large"
+                app:shadowLayoutCornerRadius="@dimen/component_radius"
+                app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+                app:shadowLayoutShadowColor="@color/color_shadow">
+
+                <ImageView
+                    style="@style/IconLarge"
+                    android:background="@drawable/bg_circle_white"
+                    android:src="@drawable/ic_add_green_g" />
+            </com.bon.customview.shadowlayout.ShadowLayout>
+
+            <com.bon.customview.shadowlayout.ShadowLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/player_margin_large"
+                android:layout_marginTop="@dimen/player_margin_large"
+                app:shadowLayoutCornerRadius="@dimen/component_radius"
+                app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+                app:shadowLayoutShadowColor="@color/color_shadow">
+
+                <ImageView
+                    style="@style/IconLarge"
+                    android:background="@drawable/bg_circle_white"
+                    android:src="@drawable/ic_add_green_g" />
+            </com.bon.customview.shadowlayout.ShadowLayout>
+
+            <com.bon.customview.shadowlayout.ShadowLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/player_margin_large"
+                android:layout_marginTop="@dimen/player_margin_large"
+                app:shadowLayoutCornerRadius="@dimen/component_radius"
+                app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+                app:shadowLayoutShadowColor="@color/color_shadow">
+
+                <ImageView
+                    style="@style/IconLarge"
+                    android:background="@drawable/bg_circle_white"
+                    android:src="@drawable/ic_add_green_g" />
+            </com.bon.customview.shadowlayout.ShadowLayout>
+
+        </LinearLayout>
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvTitleTeam2"
+            style="@style/StyleDescriptionGray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/player_list_item_size"
+            android:padding="0dp"
+            android:paddingLeft="@dimen/padding_content"
+            android:paddingRight="@dimen/padding_content"
+            android:text="@string/app_name"
+            android:textColor="@color/color_black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:textViewFontAssetName="@string/font_display_heavy" />
+
+        <LinearLayout
+            android:id="@+id/group_other_team"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginStart="@dimen/padding_layout"
+            android:layout_marginTop="@dimen/padding_content"
+            android:background="@drawable/bg_yellow_gradient_radius"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/padding_layout"
+            android:paddingTop="@dimen/padding_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitleTeam2">
+
+            <com.bon.customview.shadowlayout.ShadowLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/player_margin_large"
+                android:layout_marginTop="@dimen/player_margin_large"
+                app:shadowLayoutCornerRadius="@dimen/component_radius"
+                app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+                app:shadowLayoutShadowColor="@color/color_shadow">
+
+                <ImageView
+                    style="@style/IconLarge"
+                    android:background="@drawable/bg_circle_white"
+                    android:src="@drawable/ic_add_green_g" />
+            </com.bon.customview.shadowlayout.ShadowLayout>
+
+            <com.bon.customview.shadowlayout.ShadowLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/player_margin_large"
+                android:layout_marginTop="@dimen/player_margin_large"
+                app:shadowLayoutCornerRadius="@dimen/component_radius"
+                app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+                app:shadowLayoutShadowColor="@color/color_shadow">
+
+                <ImageView
+                    style="@style/IconLarge"
+                    android:background="@drawable/bg_circle_white"
+                    android:src="@drawable/ic_add_green_g" />
+            </com.bon.customview.shadowlayout.ShadowLayout>
+
+            <com.bon.customview.shadowlayout.ShadowLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/player_margin_large"
+                android:layout_marginTop="@dimen/player_margin_large"
+                app:shadowLayoutCornerRadius="@dimen/component_radius"
+                app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+                app:shadowLayoutShadowColor="@color/color_shadow">
+
+                <ImageView
+                    style="@style/IconLarge"
+                    android:background="@drawable/bg_circle_white"
+                    android:src="@drawable/ic_add_green_g" />
+            </com.bon.customview.shadowlayout.ShadowLayout>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/point_1"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/group_my_team"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/group_my_team"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/point_2"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/group_other_team"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/group_other_team"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/color_gray"
+            app:layout_constraintEnd_toStartOf="@+id/point_2"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/point_1"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:background="@color/color_gray"
+            app:layout_constraintEnd_toStartOf="@+id/point_2"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/point_1"
+            app:layout_constraintTop_toBottomOf="@+id/group_my_team">
+
+        </LinearLayout>
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</LinearLayout>
