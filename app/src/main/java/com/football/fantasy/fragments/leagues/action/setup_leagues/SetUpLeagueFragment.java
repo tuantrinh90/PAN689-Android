@@ -244,7 +244,7 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
 
                 // draft mode
                 String valueDraft = String.format("%02d", league.getTimeToPick());
-                keyValuePairNumberOfUser = new ExtKeyValuePair(valueDraft, valueDraft);
+                keyValuePairTimePerDraft = new ExtKeyValuePair(valueDraft, valueDraft);
 
                 etNumberOfUser.setContent(valueTransfer);
                 etTimePerDraftPick.setContent(valueDraft);
