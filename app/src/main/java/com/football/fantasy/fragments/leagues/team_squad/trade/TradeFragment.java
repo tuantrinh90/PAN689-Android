@@ -17,12 +17,12 @@ import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.team_squad.trade.choose_a_team.ChooseATeamFragment;
 import com.football.fantasy.fragments.leagues.team_squad.trade.record.RecordFragment;
 import com.football.fantasy.fragments.leagues.team_squad.trade.request.RequestFragment;
 import com.football.fantasy.fragments.leagues.team_squad.trade.transferring.TransferringFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
-import com.football.models.responses.TradeRequestResponse;
 
 import java.util.ArrayList;
 
@@ -162,8 +162,8 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
 
         // view pager
         StatePagerAdapter mAdapter = new StatePagerAdapter(getChildFragmentManager());
-        mAdapter.addFragment(RequestFragment.newInstance(RequestFragment.REQUEST_FROM, team.getId()).setChildFragment(true));
-        mAdapter.addFragment(RequestFragment.newInstance(RequestFragment.REQUEST_TO, team.getId()).setChildFragment(true));
+        mAdapter.addFragment(RequestFragment.newInstance(RequestFragment.REQUEST_FROM, league.getId(), team.getId()).setChildFragment(true));
+        mAdapter.addFragment(RequestFragment.newInstance(RequestFragment.REQUEST_TO, league.getId(), team.getId()).setChildFragment(true));
         vpViewPager.setAdapter(mAdapter);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -185,10 +185,7 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
 
     @OnClick(R.id.ivAdd)
     public void onAddClicked() {
-    }
-
-    @Override
-    public void displayTradeRequest(TradeRequestResponse response) {
+        ChooseATeamFragment.start(getContext(), league.getId());
     }
 
 }

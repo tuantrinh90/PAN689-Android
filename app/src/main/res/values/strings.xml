@@ -294,4 +294,6 @@
     <string name="request_by_you">Request by you</string>
     <string name="request_to_you">Request to you</string>
     <string name="trade_request">Trade request</string>
+    <string name="choose_a_team_description">Choose a team you want to trade</string>
+    <string name="choose_a_team">Choose a team</string>
 </resources>

@@ -55,7 +55,7 @@
             android:layout_marginLeft="@dimen/padding_layout"
             android:layout_marginRight="@dimen/padding_layout"
             android:padding="0dp"
-            android:text="@string/choose_a_successor"
+            android:text="@string/choose_a_team"
             android:textAllCaps="true"
             app:textViewFontAssetName="@string/font_display_black_italic" />
 
@@ -65,14 +65,12 @@
             android:layout_marginRight="@dimen/padding_layout"
             android:layout_marginTop="@dimen/padding_layout"
             android:padding="0dp"
-            android:text="@string/choose_a_successor_description"
+            android:text="@string/choose_a_team_description"
             android:textColor="@color/color_gray" />
     </LinearLayout>
 
     <com.football.customizes.recyclerview.ExtRecyclerView
-        android:id="@+id/rvRecyclerView"
+        android:id="@+id/rv_team"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/padding_layout"
-        android:layout_weight="1" />
+        android:layout_height="match_parent" />
 </LinearLayout>

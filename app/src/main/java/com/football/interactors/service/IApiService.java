@@ -24,7 +24,7 @@ import com.football.models.responses.TeamResponse;
 import com.football.models.responses.TeamSquadResponse;
 import com.football.models.responses.TeamStatisticResponse;
 import com.football.models.responses.TeamTransferringResponse;
-import com.football.models.responses.TradeRequestResponse;
+import com.football.models.responses.TradeResponse;
 import com.football.models.responses.TransferHistoryResponse;
 import com.football.models.responses.UploadResponse;
 import com.football.models.responses.UserResponse;
@@ -94,7 +94,7 @@ public interface IApiService {
     Observable<BaseResponse<TeamPitchViewResponse>> updatePitchView(@Path(ServiceConfig.KEY_ID) int playerId, @Body RequestBody requestBody, @QueryMap Map<String, String> queries);
 
     @GET(ServiceConfig.TRADE_REQUESTS)
-    Observable<BaseResponse<TradeRequestResponse>> getTradeRequests();
+    Observable<BaseResponse<PagingResponse<TradeResponse>>> getTradeRequests(@QueryMap Map<String, String> queries);
 
 
     @POST(ServiceConfig.CHANGE_TEAM_FORMATION)
