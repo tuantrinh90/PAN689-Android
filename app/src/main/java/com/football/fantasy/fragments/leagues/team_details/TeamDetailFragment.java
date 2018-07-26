@@ -175,7 +175,7 @@ public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITe
             case R.id.llTransfer:
                 if (AppUtilities.isOwner(getContext(), team.getUserId())) {
                     if (league.getStatus() == LeagueResponse.ON_GOING) {
-                        TradeFragment.start(this, getString(R.string.team_details), team, league.getId());
+                        TradeFragment.start(this, getString(R.string.team_details), team, league);
                     } else {
                         showMessage(R.string.start_league_before_team_setup_time, R.string.ok, null);
                     }
@@ -186,7 +186,7 @@ public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITe
             case R.id.llTeamSquad:
                 if (team.getCompleted()) {
                     AloneFragmentActivity.with(this)
-                            .parameters(TeamSquadFragment.newBundle(team, team.getName(), league.getId()))
+                            .parameters(TeamSquadFragment.newBundle(team, team.getName(), league))
                             .start(TeamSquadFragment.class);
                 } else {
                     showMessage(getString(R.string.message_team_lineup_is_not_completed_yet));
@@ -194,7 +194,7 @@ public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITe
                 break;
             case R.id.llStatistics:
                 AloneFragmentActivity.with(this)
-                        .parameters(TeamStatisticFragment.newBundle(getString(R.string.team_details), team, league.getId()))
+                        .parameters(TeamStatisticFragment.newBundle(getString(R.string.team_details), team, league))
                         .start(TeamStatisticFragment.class);
                 break;
         }

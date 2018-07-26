@@ -17,34 +17,39 @@ import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_squad.trade.record.RecordFragment;
+import com.football.fantasy.fragments.leagues.team_squad.trade.request.RequestFragment;
 import com.football.fantasy.fragments.leagues.team_squad.trade.transferring.TransferringFragment;
+import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
+import com.football.models.responses.TradeRequestResponse;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 
+import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
+
 public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresenter<ITradeView>> implements ITradeView {
 
     private static final String KEY_TEAM = "TEAM";
     private static final String KEY_TITLE = "TITLE";
-    private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+    private static final String KEY_LEAGUE = "LEAGUE";
 
     private TeamResponse team;
     private String title;
-    private int leagueId;
+    private LeagueResponse league;
 
-    public static void start(Fragment fragment, String title, TeamResponse team, int leagueId) {
+    public static void start(Fragment fragment, String title, TeamResponse team, LeagueResponse league) {
         AloneFragmentActivity.with(fragment)
-                .parameters(TradeFragment.newBundle(title, team, leagueId))
+                .parameters(TradeFragment.newBundle(title, team, league))
                 .start(TradeFragment.class);
     }
 
-    private static Bundle newBundle(String title, TeamResponse team, int leagueId) {
+    private static Bundle newBundle(String title, TeamResponse team, LeagueResponse league) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_TEAM, team);
         bundle.putString(KEY_TITLE, title);
-        bundle.putInt(KEY_LEAGUE_ID, leagueId);
+        bundle.putSerializable(KEY_LEAGUE, league);
         return bundle;
     }
 
@@ -70,7 +75,7 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
     private void getDataFromBundle() {
         team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
         title = getArguments().getString(KEY_TITLE);
-        leagueId = getArguments().getInt(KEY_LEAGUE_ID);
+        league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
     }
 
     @Override
@@ -98,6 +103,14 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
     }
 
     void initView() {
+        if (league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER)) {
+            initTransferPages();
+        } else {
+            initDraftPagers();
+        }
+    }
+
+    private void initTransferPages() {
         // carousel
         cvCarouselView.setAdapter(mActivity, new ArrayList<Carousel>() {{
             add(new Carousel(getString(R.string.transferring_player), true));
@@ -109,7 +122,7 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
 
         // view pager
         StatePagerAdapter mAdapter = new StatePagerAdapter(getChildFragmentManager());
-        mAdapter.addFragment(TransferringFragment.newInstance(team, leagueId).setChildFragment(true));
+        mAdapter.addFragment(TransferringFragment.newInstance(team, league.getId()).setChildFragment(true));
         mAdapter.addFragment(RecordFragment.newInstance(team).setChildFragment(true));
         vpViewPager.setAdapter(mAdapter);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -130,4 +143,40 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
         });
     }
 
+    private void initDraftPagers() {
+        // carousel
+        cvCarouselView.setAdapter(mActivity, new ArrayList<Carousel>() {{
+            add(new Carousel(getString(R.string.request_by_you), true));
+            add(new Carousel(getString(R.string.request_to_you), false));
+        }}, R.color.color_blue, R.color.color_white, position -> {
+            cvCarouselView.setActivePosition(position);
+            vpViewPager.setCurrentItem(position);
+        });
+
+        // view pager
+        StatePagerAdapter mAdapter = new StatePagerAdapter(getChildFragmentManager());
+        mAdapter.addFragment(RequestFragment.newInstance(RequestFragment.REQUEST_FROM, team.getId()).setChildFragment(true));
+        mAdapter.addFragment(RequestFragment.newInstance(RequestFragment.REQUEST_TO, team.getId()).setChildFragment(true));
+        vpViewPager.setAdapter(mAdapter);
+        vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                cvCarouselView.setActivePosition(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    @Override
+    public void displayTradeRequest(TradeRequestResponse response) {
+    }
 }

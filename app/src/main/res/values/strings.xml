@@ -290,4 +290,6 @@
     <string name="lose">Lose</string>
     <string name="pts">Pts</string>
     <string name="started_at">Started at</string>
+    <string name="request_by_you">Request by you</string>
+    <string name="request_to_you">Request to you</string>
 </resources>

@@ -150,7 +150,7 @@ public class LeagueResponse implements Serializable {
     }
 
     public String getGameplayOption() {
-        return gameplayOption + "";
+        return gameplayOption;
     }
 
     public void setGameplayOption(String gameplayOption) {

@@ -134,4 +134,9 @@ public class AppUtilities {
         Calendar calendar = DateTimeUtils.convertStringToCalendar(date, format);
         return DateTimeUtils.convertCalendarToString(calendar, Constant.FORMAT_DATE);
     }
+
+    public static String getTime(String time, String formatCurrent, String formatTarget) {
+        Calendar calendar = DateTimeUtils.convertStringToCalendar(time, formatCurrent);
+        return DateTimeUtils.convertCalendarToString(calendar, formatTarget);
+    }
 }

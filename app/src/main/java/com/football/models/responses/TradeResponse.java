@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 public class TradeResponse implements Serializable {
+
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("created_at")

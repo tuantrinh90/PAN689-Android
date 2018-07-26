@@ -93,6 +93,9 @@ public interface ServiceConfig {
     String CHANGE_TEAM_FORMATION = "teams/{id}/change_formation";
     String TEAM_PITCH_VIEW = "teams/{id}/pitchview";
 
+    // trade request
+    String TRADE_REQUESTS = "trade_requests";
+
     // user
     String GET_PROFILE = "profile/{id}";
     String UPDATE_PROFILE = "profile";

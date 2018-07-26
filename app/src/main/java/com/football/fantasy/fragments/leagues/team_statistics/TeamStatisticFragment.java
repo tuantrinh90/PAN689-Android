@@ -16,6 +16,7 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_squad.TeamSquadFragment;
+import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.models.responses.TeamStatisticResponse;
 import com.football.utilities.AppUtilities;
@@ -29,7 +30,7 @@ public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticVie
 
     private static final String KEY_TITLE = "TITLE";
     private static final String KEY_TEAM = "TEAM";
-    private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+    private static final String KEY_LEAGUE = "LEAGUE";
 
     @BindView(R.id.ivRank)
     ImageView ivRank;
@@ -46,16 +47,16 @@ public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticVie
 
     private String title;
     private TeamResponse team;
-    private int leagueId;
+    private LeagueResponse league;
 
     TeamStatisticAdapter teamStatisticAdapter;
 
 
-    public static Bundle newBundle(String title, TeamResponse team, int leagueId) {
+    public static Bundle newBundle(String title, TeamResponse team, LeagueResponse league) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_TITLE, title);
         bundle.putSerializable(KEY_TEAM, team);
-        bundle.putInt(KEY_LEAGUE_ID, leagueId);
+        bundle.putSerializable(KEY_LEAGUE, league);
         return bundle;
     }
 
@@ -83,7 +84,7 @@ public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticVie
     private void getDataFromBundle() {
         title = getArguments().getString(KEY_TITLE);
         team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
-        leagueId = getArguments().getInt(KEY_LEAGUE_ID);
+        league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
     }
 
     void initView() {
@@ -148,7 +149,7 @@ public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticVie
     public void onPointPerPlayerClicked() {
         if (team.getCompleted()) {
             AloneFragmentActivity.with(this)
-                    .parameters(TeamSquadFragment.newBundle(team, getString(R.string.statistics), leagueId))
+                    .parameters(TeamSquadFragment.newBundle(team, getString(R.string.statistics), league))
                     .start(TeamSquadFragment.class);
         } else {
             showMessage(getString(R.string.message_team_lineup_is_not_completed_yet));

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.bon.customview.shadowlayout.ShadowLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/leagues_margin"
+    android:layout_marginRight="@dimen/leagues_margin"
+    app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+    app:shadowLayoutShadowColor="@color/color_shadow">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_border_white">
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_avatar_matchup_league"
+            android:padding="@dimen/avatar_padding"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivAvatarTeam1"
+                android:layout_width="@dimen/avatar_small"
+                android:layout_height="@dimen/avatar_small" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/tvTitleTeam2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/linearLayout4">
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvTime"
+                style="@style/StyleDescriptionGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="8"
+                android:gravity="center"
+                android:padding="0dp"
+                android:text="@string/app_name"
+                app:textViewFontAssetName="@string/font_display_heavy" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvPlayers"
+                style="@style/StyleContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:padding="0dp"
+                android:text="@string/app_name"
+                android:textColor="@color/color_blue"
+                app:textViewFontAssetName="@string/font_display_heavy" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_avatar_matchup_league"
+            android:padding="@dimen/avatar_padding"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivAvatarTeam2"
+                android:layout_width="@dimen/avatar_small"
+                android:layout_height="@dimen/avatar_small" />
+
+        </LinearLayout>
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvTitleTeam1"
+            style="@style/StyleDescriptionGray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:padding="0dp"
+            android:paddingLeft="@dimen/padding_content"
+            android:paddingRight="@dimen/padding_content"
+            android:text="@string/app_name"
+            android:textColor="@color/color_black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout3"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout3"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+            app:textViewFontAssetName="@string/font_display_heavy" />
+
+        <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvTitleTeam2"
+            style="@style/StyleDescriptionGray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:padding="0dp"
+            android:paddingLeft="@dimen/padding_content"
+            android:paddingRight="@dimen/padding_content"
+            android:text="@string/app_name"
+            android:textColor="@color/color_black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout4"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
+            app:textViewFontAssetName="@string/font_display_heavy" />
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTitleTeam2"
+            app:layout_constraintEnd_toStartOf="@+id/tvTitleTeam2"
+            app:layout_constraintStart_toEndOf="@+id/tvTitleTeam1"
+            app:layout_constraintTop_toTopOf="@+id/tvTitleTeam2">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_arrow_forward_gray" />
+
+        </FrameLayout>
+
+    </android.support.constraint.ConstraintLayout>
+</com.bon.customview.shadowlayout.ShadowLayout>
