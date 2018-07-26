@@ -265,6 +265,7 @@
     <string name="transferring_player">Transferring player</string>
     <string name="transferring_player_left">Transferring player left</string>
     <string name="transferring_time_left">Transferring time left</string>
+    <string name="number_of_trade_left">Number of trade left</string>
     <string name="record">Record</string>
     <string name="transfer_fee">Transfer fee:</string>
     <string name="message_confirm_start_league">This league will start after you confirm this message.</string>
@@ -292,4 +293,5 @@
     <string name="started_at">Started at</string>
     <string name="request_by_you">Request by you</string>
     <string name="request_to_you">Request to you</string>
+    <string name="trade_request">Trade request</string>
 </resources>

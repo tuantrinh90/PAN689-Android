@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 
+import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.football.adapters.StatePagerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
@@ -26,6 +27,7 @@ import com.football.models.responses.TradeRequestResponse;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
 
@@ -34,10 +36,18 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
     private static final String KEY_TEAM = "TEAM";
     private static final String KEY_TITLE = "TITLE";
     private static final String KEY_LEAGUE = "LEAGUE";
-
     private TeamResponse team;
     private String title;
     private LeagueResponse league;
+
+    @BindView(R.id.tvNumberOfTradeLeft)
+    ExtTextView tvNumberOfTradeLeft;
+    @BindView(R.id.header_draft)
+    View headerDraft;
+    @BindView(R.id.cvCarouselView)
+    CarouselView cvCarouselView;
+    @BindView(R.id.vpViewPager)
+    ViewPager vpViewPager;
 
     public static void start(Fragment fragment, String title, TeamResponse team, LeagueResponse league) {
         AloneFragmentActivity.with(fragment)
@@ -52,11 +62,6 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
         bundle.putSerializable(KEY_LEAGUE, league);
         return bundle;
     }
-
-    @BindView(R.id.cvCarouselView)
-    CarouselView cvCarouselView;
-    @BindView(R.id.vpViewPager)
-    ViewPager vpViewPager;
 
     @Override
     public int getResourceId() {
@@ -105,8 +110,10 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
     void initView() {
         if (league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER)) {
             initTransferPages();
+            headerDraft.setVisibility(View.GONE);
         } else {
             initDraftPagers();
+            headerDraft.setVisibility(View.VISIBLE);
         }
     }
 
@@ -176,7 +183,12 @@ public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresent
         });
     }
 
+    @OnClick(R.id.ivAdd)
+    public void onAddClicked() {
+    }
+
     @Override
     public void displayTradeRequest(TradeRequestResponse response) {
     }
+
 }
