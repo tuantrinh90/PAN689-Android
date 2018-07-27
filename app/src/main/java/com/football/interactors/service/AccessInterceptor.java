@@ -17,10 +17,11 @@ import okhttp3.Response;
  * Created by dangpp on 2/9/2018.
  */
 public class AccessInterceptor implements Interceptor {
-    private String token;
+
+    private final Context context;
 
     public AccessInterceptor(Context context) {
-        token = AppPreferences.getInstance(context).getString(Constant.KEY_TOKEN);
+        this.context = context;
     }
 
     @Override
@@ -28,6 +29,7 @@ public class AccessInterceptor implements Interceptor {
         Request request;
 
         // update token
+        String token = AppPreferences.getInstance(context).getString(Constant.KEY_TOKEN);
         if (!TextUtils.isEmpty(token)) {
             request = chain.request().newBuilder()
                     .addHeader(Keys.AUTH_TOKEN, "Bearer " + token)

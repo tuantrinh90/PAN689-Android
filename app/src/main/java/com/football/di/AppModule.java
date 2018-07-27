@@ -37,19 +37,19 @@ public class AppModule {
         return appContext.getApplicationContext();
     }
 
-    // @Singleton
+    @Singleton
     @Provides
     public IDataModule provideDataModule() {
         return new DataModule(appContext.getComponent());
     }
 
-    // @Singleton
+    @Singleton
     @Provides
     public IDbModule provideDbModule() {
         return new DbModule(appContext.getComponent());
     }
 
-    // @Singleton
+    @Singleton
     @Provides
     public ApiModule provideApiModule() {
         return new ApiModule();

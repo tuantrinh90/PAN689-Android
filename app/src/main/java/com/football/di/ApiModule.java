@@ -81,6 +81,7 @@ public class ApiModule {
         client.addInterceptor(logging);
     }
 
+    @Singleton
     @Provides
     public AccessInterceptor provideAccessInterceptor(Context context) {
         return new AccessInterceptor(context);
