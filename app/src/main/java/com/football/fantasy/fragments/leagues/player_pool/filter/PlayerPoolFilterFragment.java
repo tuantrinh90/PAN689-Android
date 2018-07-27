@@ -12,7 +12,7 @@ import android.view.View;
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.textview.ExtTextView;
 import com.football.adapters.FilterAdapter;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.events.PlayerQueryEvent;
 import com.football.fantasy.R;
 import com.football.models.responses.PlayerResponse;
@@ -25,7 +25,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class PlayerPoolFilterFragment extends BaseMainMvpFragment<IPlayerPoolFilterView, IPlayerPoolFilterPresenter<IPlayerPoolFilterView>> implements IPlayerPoolFilterView {
+public class PlayerPoolFilterFragment extends BaseMvpFragment<IPlayerPoolFilterView, IPlayerPoolFilterPresenter<IPlayerPoolFilterView>> implements IPlayerPoolFilterView {
 
     private static final String KEY_FROM = "FROM";
     public static final String KEY_POSITION = "POSITION";

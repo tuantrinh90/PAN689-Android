@@ -11,7 +11,7 @@ import com.bon.logger.Logger;
 import com.bon.util.SharedUtils;
 import com.bon.util.StringUtils;
 import com.football.adapters.InviteFriendAdapter;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.customizes.searchs.SearchView;
 import com.football.fantasy.R;
@@ -24,7 +24,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class InviteFriendFragment extends BaseMainMvpFragment<IInviteFriendView, IInviteFriendPresenter<IInviteFriendView>> implements IInviteFriendView {
+public class InviteFriendFragment extends BaseMvpFragment<IInviteFriendView, IInviteFriendPresenter<IInviteFriendView>> implements IInviteFriendView {
     private static final String TAG = InviteFriendFragment.class.getSimpleName();
     private static final String KEY_LEAGUE = "LEAGUE";
     private static final String KEY_LEAGUE_TYPE = "league_type";

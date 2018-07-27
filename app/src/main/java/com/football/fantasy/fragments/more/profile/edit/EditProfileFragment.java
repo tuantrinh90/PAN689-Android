@@ -23,7 +23,7 @@ import com.bon.image.ImageUtils;
 import com.bon.interfaces.Optional;
 import com.bon.util.DateTimeUtils;
 import com.bon.util.StringUtils;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.events.UserEvent;
@@ -42,7 +42,7 @@ import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 
-public class EditProfileFragment extends BaseMainMvpFragment<IEditProfileView, IEditProfilePresenter<IEditProfileView>> implements IEditProfileView {
+public class EditProfileFragment extends BaseMvpFragment<IEditProfileView, IEditProfilePresenter<IEditProfileView>> implements IEditProfileView {
 
     @BindView(R.id.etFirstName)
     EditTextApp etFirstName;

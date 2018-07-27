@@ -21,7 +21,7 @@ import com.bon.interfaces.Optional;
 import com.bon.logger.Logger;
 import com.bon.util.StringUtils;
 import com.football.common.activities.AloneFragmentActivity;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.events.LeagueEvent;
@@ -39,13 +39,13 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 
-public class SetupTeamFragment extends BaseMainMvpFragment<ISetupTeamView, ISetupTeamPresenter<ISetupTeamView>> implements ISetupTeamView {
-    static final String TAG = SetupTeamFragment.class.getSimpleName();
+public class SetupTeamFragment extends BaseMvpFragment<ISetupTeamView, ISetupTeamPresenter<ISetupTeamView>> implements ISetupTeamView {
+    private static final String TAG = SetupTeamFragment.class.getSimpleName();
 
-    static final String KEY_LEAGUE_ID = "LEAGUE_ID";
-    static final String KEY_TEAM = "TEAM";
-    static final String FROM_LEAGUES_TITLE = "LEAGUE_TITLE";
-    static final String FROM_LEAGUES_TYPE = "LEAGUE_TYPE";
+    private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+    private static final String KEY_TEAM = "TEAM";
+    private static final String FROM_LEAGUES_TITLE = "LEAGUE_TITLE";
+    private static final String FROM_LEAGUES_TYPE = "LEAGUE_TYPE";
 
     public static Bundle newBundle(TeamResponse team, int leagueId,
                                    String leagueTitle, String leagueType) {

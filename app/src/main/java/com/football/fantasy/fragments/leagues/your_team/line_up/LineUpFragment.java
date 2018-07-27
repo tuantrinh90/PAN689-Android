@@ -12,7 +12,7 @@ import com.bon.customview.textview.ExtTextView;
 import com.bon.util.DateTimeUtils;
 import com.bon.util.DialogUtils;
 import com.football.common.activities.AloneFragmentActivity;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.lineup.LineupView;
 import com.football.customizes.lineup.StatisticView;
 import com.football.events.LineupEvent;
@@ -37,7 +37,7 @@ import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 import java8.util.function.BiConsumer;
 
-public class LineUpFragment extends BaseMainMvpFragment<ILineUpView, ILineUpPresenter<ILineUpView>> implements ILineUpView {
+public class LineUpFragment extends BaseMvpFragment<ILineUpView, ILineUpPresenter<ILineUpView>> implements ILineUpView {
 
     static final String KEY_TEAM_ID = "TEAM_ID";
     private static final String KEY_LEAGUE = "LEAGUE_ID";

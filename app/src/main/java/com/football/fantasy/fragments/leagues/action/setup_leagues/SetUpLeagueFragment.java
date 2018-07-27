@@ -27,7 +27,7 @@ import com.bon.util.DateTimeUtils;
 import com.bon.util.StringUtils;
 import com.football.adapters.BudgetOptionAdapter;
 import com.football.common.activities.AloneFragmentActivity;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.customizes.labels.LabelView;
@@ -63,11 +63,11 @@ import static com.football.models.responses.LeagueResponse.TRADE_REVIEW_CREATOR;
 import static com.football.models.responses.LeagueResponse.TRADE_REVIEW_MEMBER;
 import static com.football.models.responses.LeagueResponse.TRADE_REVIEW_NO_REVIEW;
 
-public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, ISetUpLeaguePresenter<ISetupLeagueView>> implements ISetupLeagueView {
-    static final String TAG = SetUpLeagueFragment.class.getSimpleName();
-    static final String KEY_LEAGUE = "league";
-    static final String KEY_LEAGUE_TITLE = "league_title";
-    static final String KEY_LEAGUE_TYPE = "league_type";
+public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetUpLeaguePresenter<ISetupLeagueView>> implements ISetupLeagueView {
+    private static final String TAG = SetUpLeagueFragment.class.getSimpleName();
+    private static final String KEY_LEAGUE = "league";
+    private static final String KEY_LEAGUE_TITLE = "league_title";
+    private static final String KEY_LEAGUE_TYPE = "league_type";
 
     public static Bundle newBundle(LeagueResponse leagueResponse, String leagueTitle, String leagueType) {
         Bundle bundle = new Bundle();
@@ -155,34 +155,34 @@ public class SetUpLeagueFragment extends BaseMainMvpFragment<ISetupLeagueView, I
             R.id.etDraftTime, R.id.etTimePerDraftPick, R.id.etTeamSetupTime, R.id.etStartTime})
     View[] viewsOngoing;
 
-    File filePath;
-    Calendar calendarDraftTime;
-    Calendar calendarStartTime;
-    Calendar calendarTeamSetupTime;
-    ExtKeyValuePair keyValuePairNumberOfUser = new ExtKeyValuePair("6", "06");
-    ExtKeyValuePair keyValuePairTimePerDraft = new ExtKeyValuePair("30", "30");
-    List<ExtKeyValuePair> valuePairsNumberOfUser = new ArrayList<ExtKeyValuePair>() {{
+    private File filePath;
+    private Calendar calendarDraftTime;
+    private Calendar calendarStartTime;
+    private Calendar calendarTeamSetupTime;
+    private ExtKeyValuePair keyValuePairNumberOfUser = new ExtKeyValuePair("6", "06");
+    private ExtKeyValuePair keyValuePairTimePerDraft = new ExtKeyValuePair("30", "30");
+    private List<ExtKeyValuePair> valuePairsNumberOfUser = new ArrayList<ExtKeyValuePair>() {{
         add(new ExtKeyValuePair("4", "04"));
         add(new ExtKeyValuePair("6", "06"));
         add(new ExtKeyValuePair("8", "08"));
         add(new ExtKeyValuePair("10", "10"));
         add(new ExtKeyValuePair("12", "12"));
     }};
-    List<ExtKeyValuePair> valuePairsTimePerDraft = new ArrayList<ExtKeyValuePair>() {{
+    private List<ExtKeyValuePair> valuePairsTimePerDraft = new ArrayList<ExtKeyValuePair>() {{
         add(new ExtKeyValuePair("15", "15"));
         add(new ExtKeyValuePair("30", "30"));
         add(new ExtKeyValuePair("45", "45"));
         add(new ExtKeyValuePair("60", "60"));
     }};
 
-    int leagueId;
-    String leagueTitle;
-    String leagueType;
+    private int leagueId;
+    private String leagueTitle;
+    private String leagueType;
 
-    BudgetOptionAdapter budgetOptionAdapter;
-    List<BudgetResponse> budgetResponses;
-    BudgetResponse budgetResponse;
-    LeagueResponse league;
+    private BudgetOptionAdapter budgetOptionAdapter;
+    private List<BudgetResponse> budgetResponses;
+    private BudgetResponse budgetResponse;
+    private LeagueResponse league;
 
     @Override
     public int getResourceId() {

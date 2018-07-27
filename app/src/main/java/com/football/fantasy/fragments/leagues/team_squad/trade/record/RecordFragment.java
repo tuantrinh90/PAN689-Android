@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.football.adapters.RecordAdapter;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
@@ -17,7 +17,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class RecordFragment extends BaseMainMvpFragment<IRecordView, IRecordPresenter<IRecordView>> implements IRecordView {
+public class RecordFragment extends BaseMvpFragment<IRecordView, IRecordPresenter<IRecordView>> implements IRecordView {
 
     private static final String KEY_TEAM = "TEAM";
 

@@ -10,7 +10,7 @@ import android.widget.CompoundButton;
 
 import com.bon.customview.textview.ExtTextView;
 import com.football.common.activities.AloneFragmentActivity;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.lineup.LineupView;
 import com.football.customizes.lineup.StatisticView;
 import com.football.fantasy.R;
@@ -23,7 +23,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 
-public class LineupPreviewFragment extends BaseMainMvpFragment<ILineupPreviewView, ITeamPreviewPresenter<ILineupPreviewView>> implements ILineupPreviewView {
+public class LineupPreviewFragment extends BaseMvpFragment<ILineupPreviewView, ITeamPreviewPresenter<ILineupPreviewView>> implements ILineupPreviewView {
 
     private static final String KEY_TEAM = "TEAM_ID";
 

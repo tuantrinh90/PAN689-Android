@@ -8,9 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.view.View;
 
 import com.bon.customview.textview.ExtTextView;
-import com.football.adapters.StatePagerAdapter;
 import com.football.adapters.YourTeamViewPagerAdapter;
-import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
@@ -27,7 +25,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import io.reactivex.observers.DisposableObserver;
 
-public class YourTeamFragment extends BaseMainMvpFragment<IYourTeamView, IYourTeamPresenter<IYourTeamView>> implements IYourTeamView {
+public class YourTeamFragment extends BaseMvpFragment<IYourTeamView, IYourTeamPresenter<IYourTeamView>> implements IYourTeamView {
     static final String KEY_LEAGUE = "LEAGUE";
 
     public static Bundle newBundle(LeagueResponse leagueResponse) {

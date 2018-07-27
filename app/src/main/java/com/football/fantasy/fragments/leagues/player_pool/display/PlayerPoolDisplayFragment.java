@@ -11,7 +11,7 @@ import android.view.View;
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.textview.ExtTextView;
 import com.football.adapters.FilterAdapter;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.events.PlayerQueryEvent;
 import com.football.fantasy.R;
 
@@ -36,7 +36,7 @@ import static com.football.models.responses.PlayerResponse.Options.TURNOVERS;
 import static com.football.models.responses.PlayerResponse.Options.VALUE;
 import static com.football.models.responses.PlayerResponse.Options.YELLOW_CARDS;
 
-public class PlayerPoolDisplayFragment extends BaseMainMvpFragment<IPlayerPoolDisplayView, IPlayerPoolDisplayPresenter<IPlayerPoolDisplayView>> implements IPlayerPoolDisplayView {
+public class PlayerPoolDisplayFragment extends BaseMvpFragment<IPlayerPoolDisplayView, IPlayerPoolDisplayPresenter<IPlayerPoolDisplayView>> implements IPlayerPoolDisplayView {
 
     private static final String KEY_FROM = "FROM";
 

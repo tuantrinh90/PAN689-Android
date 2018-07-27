@@ -13,7 +13,7 @@ import com.bon.customview.textview.ExtTextView;
 import com.football.adapters.InjuredPlayerAdapter;
 import com.football.adapters.PlayerPoolAdapter;
 import com.football.common.activities.AloneFragmentActivity;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.events.PlayerQueryEvent;
 import com.football.events.TransferEvent;
@@ -38,7 +38,7 @@ import static com.football.models.responses.PlayerResponse.Options.GOALS;
 import static com.football.models.responses.PlayerResponse.Options.POINT;
 import static com.football.models.responses.PlayerResponse.Options.VALUE;
 
-public class TransferringFragment extends BaseMainMvpFragment<ITransferringView, ITransferringPresenter<ITransferringView>> implements ITransferringView {
+public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITransferringPresenter<ITransferringView>> implements ITransferringView {
 
     private static final String TAG = "TransferringFragment";
 

@@ -9,12 +9,12 @@ import android.view.View;
 import android.webkit.WebView;
 
 import com.football.common.activities.AloneFragmentActivity;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.fantasy.R;
 
 import butterknife.BindView;
 
-public class WebViewFragment extends BaseMainMvpFragment<IWebViewView, IWebViewPresenter<IWebViewView>> implements IWebViewView {
+public class WebViewFragment extends BaseMvpFragment<IWebViewView, IWebViewPresenter<IWebViewView>> implements IWebViewView {
 
     private static final String KEY_TITLE = "TITLE";
     private static final String KEY_URL = "URL";

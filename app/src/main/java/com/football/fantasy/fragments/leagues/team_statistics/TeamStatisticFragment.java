@@ -13,7 +13,7 @@ import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.football.adapters.TeamStatisticAdapter;
 import com.football.common.activities.AloneFragmentActivity;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_squad.TeamSquadFragment;
 import com.football.models.responses.LeagueResponse;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class TeamStatisticFragment extends BaseMainMvpFragment<ITeamStatisticView, ITeamStatisticPresenter<ITeamStatisticView>> implements ITeamStatisticView {
+public class TeamStatisticFragment extends BaseMvpFragment<ITeamStatisticView, ITeamStatisticPresenter<ITeamStatisticView>> implements ITeamStatisticView {
 
     private static final String KEY_TITLE = "TITLE";
     private static final String KEY_TEAM = "TEAM";

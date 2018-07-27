@@ -12,7 +12,7 @@ import com.bon.util.DateTimeUtils;
 import com.bon.util.DialogUtils;
 import com.football.adapters.TeamAdapter;
 import com.football.common.activities.AloneFragmentActivity;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.events.TeamEvent;
 import com.football.fantasy.R;
@@ -28,10 +28,10 @@ import java.util.List;
 import butterknife.BindView;
 import io.reactivex.observers.DisposableObserver;
 
-public class TeamFragment extends BaseMainMvpFragment<ITeamView, ITeamPresenter<ITeamView>> implements ITeamView {
-    static final String TAG = TeamFragment.class.getSimpleName();
-    static final String KEY_LEAGUE = "LEAGUE";
-    static final String KEY_LEAGUE_TYPE = "league_type";
+public class TeamFragment extends BaseMvpFragment<ITeamView, ITeamPresenter<ITeamView>> implements ITeamView {
+    private static final String TAG = TeamFragment.class.getSimpleName();
+    private static final String KEY_LEAGUE = "LEAGUE";
+    private static final String KEY_LEAGUE_TYPE = "league_type";
 
     public static TeamFragment newInstance(LeagueResponse leagueId, String leagueType) {
         TeamFragment fragment = new TeamFragment();

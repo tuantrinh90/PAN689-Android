@@ -10,7 +10,7 @@ import android.view.View;
 import com.bon.customview.textview.ExtTextView;
 import com.football.adapters.TeamSelectAdapter;
 import com.football.common.activities.AloneFragmentActivity;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 import com.football.models.responses.TeamResponse;
@@ -20,7 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class ChooseATeamFragment extends BaseMainMvpFragment<IChooseATeamView, IChooseATeamPresenter<IChooseATeamView>> implements IChooseATeamView {
+public class ChooseATeamFragment extends BaseMvpFragment<IChooseATeamView, IChooseATeamPresenter<IChooseATeamView>> implements IChooseATeamView {
 
     private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
 

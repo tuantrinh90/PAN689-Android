@@ -13,7 +13,7 @@ import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.textview.ExtTextView;
 import com.football.adapters.TeamLineupPlayerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.lineup.LineupView;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
@@ -32,7 +32,7 @@ import butterknife.OnClick;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 
-public class TeamLineUpFragment extends BaseMainMvpFragment<ITeamLineUpView, ITeamLineUpPresenter<ITeamLineUpView>> implements ITeamLineUpView {
+public class TeamLineUpFragment extends BaseMvpFragment<ITeamLineUpView, ITeamLineUpPresenter<ITeamLineUpView>> implements ITeamLineUpView {
 
     private static final String KEY_TITLE = "TITLE";
     private static final String KEY_TEAM = "TEAM";

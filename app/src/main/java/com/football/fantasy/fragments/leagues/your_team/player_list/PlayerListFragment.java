@@ -12,7 +12,7 @@ import com.bon.logger.Logger;
 import com.bon.util.DateTimeUtils;
 import com.football.adapters.PlayerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.lineup.StatisticView;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.customizes.searchs.SearchView;
@@ -34,7 +34,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 
-public class PlayerListFragment extends BaseMainMvpFragment<IPlayerListView, IPlayerListPresenter<IPlayerListView>> implements IPlayerListView {
+public class PlayerListFragment extends BaseMvpFragment<IPlayerListView, IPlayerListPresenter<IPlayerListView>> implements IPlayerListView {
     private static final String TAG = "PlayerListFragment";
 
     static final String KEY_LEAGUE = "LEAGUE";

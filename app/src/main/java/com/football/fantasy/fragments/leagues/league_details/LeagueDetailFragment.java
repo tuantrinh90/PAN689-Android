@@ -18,7 +18,6 @@ import com.bon.logger.Logger;
 import com.bon.util.DialogUtils;
 import com.football.adapters.LeagueDetailViewPagerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
-import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
@@ -48,11 +47,11 @@ import io.reactivex.observers.DisposableObserver;
 
 import static com.football.models.responses.LeagueResponse.LEAGUE_TYPE_OPEN;
 
-public class LeagueDetailFragment extends BaseMainMvpFragment<ILeagueDetailView, ILeagueDetailPresenter<ILeagueDetailView>> implements ILeagueDetailView {
-    static final String TAG = LeagueDetailFragment.class.getSimpleName();
-    static final String KEY_TITLE = "key_title";
-    static final String KEY_LEAGUE_ID = "key_league";
-    static final String KEY_LEAGUE_TYPE = "key_league_type";
+public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILeagueDetailPresenter<ILeagueDetailView>> implements ILeagueDetailView {
+    private static final String TAG = LeagueDetailFragment.class.getSimpleName();
+    private static final String KEY_TITLE = "key_title";
+    private static final String KEY_LEAGUE_ID = "key_league";
+    private static final String KEY_LEAGUE_TYPE = "key_league_type";
     private static final String KEY_INVITATION_ID = "INVITATION_ID";
 
     private static final int TEAM_FRAGMENT_INDEX = 1;

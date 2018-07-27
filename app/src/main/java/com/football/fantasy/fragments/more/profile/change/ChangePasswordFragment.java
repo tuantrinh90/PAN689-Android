@@ -8,7 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.view.View;
 
 import com.bon.interfaces.Optional;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.fantasy.R;
 import com.football.utilities.Constant;
@@ -16,7 +16,7 @@ import com.football.utilities.Constant;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class ChangePasswordFragment extends BaseMainMvpFragment<IChangePasswordView, IChangePasswordPresenter<IChangePasswordView>> implements IChangePasswordView {
+public class ChangePasswordFragment extends BaseMvpFragment<IChangePasswordView, IChangePasswordPresenter<IChangePasswordView>> implements IChangePasswordView {
 
     @BindView(R.id.etOldPassword)
     EditTextApp etOldPassword;

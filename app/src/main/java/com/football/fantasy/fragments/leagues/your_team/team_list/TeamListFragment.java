@@ -8,7 +8,7 @@ import android.view.View;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.football.adapters.TeamListAdapter;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.events.TeamEvent;
 import com.football.fantasy.R;
@@ -21,7 +21,7 @@ import java.util.List;
 import butterknife.BindView;
 import io.reactivex.observers.DisposableObserver;
 
-public class TeamListFragment extends BaseMainMvpFragment<ITeamListView, ITeamListPresenter<ITeamListView>> implements ITeamListView {
+public class TeamListFragment extends BaseMvpFragment<ITeamListView, ITeamListPresenter<ITeamListView>> implements ITeamListView {
     static final String KEY_LEAGUE = "LEAGUE";
 
     @BindView(R.id.tvNumber)

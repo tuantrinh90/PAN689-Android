@@ -11,7 +11,7 @@ import android.widget.ImageView;
 
 import com.football.adapters.PlayerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.customizes.searchs.SearchView;
 import com.football.events.PickEvent;
@@ -29,7 +29,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 
-public class PlayerPopupFragment extends BaseMainMvpFragment<IPlayerPopupView, IPlayerPopupPresenter<IPlayerPopupView>> implements IPlayerPopupView {
+public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlayerPopupPresenter<IPlayerPopupView>> implements IPlayerPopupView {
 
     private static final String TAG = "PlayerPopupFragment";
 

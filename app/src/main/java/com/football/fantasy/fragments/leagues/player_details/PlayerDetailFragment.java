@@ -17,7 +17,7 @@ import com.bon.image.ImageLoaderUtils;
 import com.bon.interfaces.Optional;
 import com.football.adapters.PlayerStatisticAdapter;
 import com.football.common.activities.AloneFragmentActivity;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.customizes.lineup.LineupView;
 import com.football.events.PlayerEvent;
@@ -34,7 +34,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class PlayerDetailFragment extends BaseMainMvpFragment<IPlayerDetailView, IPlayerDetailPresenter<IPlayerDetailView>> implements IPlayerDetailView {
+public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPlayerDetailPresenter<IPlayerDetailView>> implements IPlayerDetailView {
 
     private static final String KEY_PLAYER = "PLAYER";
     private static final String KEY_TITLE = "TITLE";

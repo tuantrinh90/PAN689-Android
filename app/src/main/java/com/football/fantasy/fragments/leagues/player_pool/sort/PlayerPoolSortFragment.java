@@ -9,7 +9,7 @@ import android.view.View;
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.textview.ExtTextView;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.fantasy.R;
 
@@ -19,7 +19,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class PlayerPoolSortFragment extends BaseMainMvpFragment<IPlayerPoolSortView, IPlayerPoolSortPresenter<IPlayerPoolSortView>> implements IPlayerPoolSortView {
+public class PlayerPoolSortFragment extends BaseMvpFragment<IPlayerPoolSortView, IPlayerPoolSortPresenter<IPlayerPoolSortView>> implements IPlayerPoolSortView {
     @BindView(R.id.tvHeader)
     ExtTextView tvHeader;
     @BindView(R.id.tvSortByColumn)

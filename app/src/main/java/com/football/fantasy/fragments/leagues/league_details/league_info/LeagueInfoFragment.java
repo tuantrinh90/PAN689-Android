@@ -10,7 +10,7 @@ import com.bon.image.ImageLoaderUtils;
 import com.bon.logger.Logger;
 import com.bon.util.DateTimeUtils;
 import com.football.common.activities.AloneFragmentActivity;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.events.LeagueEvent;
 import com.football.events.StartLeagueEvent;
 import com.football.fantasy.R;
@@ -25,10 +25,10 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILeagueInfoPresenter<ILeagueInfoView>> implements ILeagueInfoView {
-    static final String TAG = LeagueInfoFragment.class.getSimpleName();
-    static final String KEY_LEAGUE = "LEAGUE";
-    static final String KEY_LEAGUE_TYPE = "league_type";
+public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeagueInfoPresenter<ILeagueInfoView>> implements ILeagueInfoView {
+    private static final String TAG = LeagueInfoFragment.class.getSimpleName();
+    private static final String KEY_LEAGUE = "LEAGUE";
+    private static final String KEY_LEAGUE_TYPE = "league_type";
     private static final String KEY_INVITATION_ID = "INVITATION_ID";
 
     private static final int INVITATION_NONE = 0;

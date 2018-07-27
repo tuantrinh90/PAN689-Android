@@ -12,7 +12,7 @@ import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageLoaderUtils;
 import com.bon.logger.Logger;
 import com.football.common.activities.AloneFragmentActivity;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
 import com.football.events.TeamEvent;
 import com.football.fantasy.R;
@@ -30,7 +30,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 
-public class TeamDetailFragment extends BaseMainMvpFragment<ITeamDetailView, ITeamDetailPresenter<ITeamDetailView>> implements ITeamDetailView {
+public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDetailPresenter<ITeamDetailView>> implements ITeamDetailView {
 
     private static final String TAG = "TeamDetailFragment";
 

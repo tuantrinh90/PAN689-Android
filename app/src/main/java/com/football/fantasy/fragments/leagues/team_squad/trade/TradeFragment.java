@@ -13,7 +13,7 @@ import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.football.adapters.StatePagerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
 import com.football.fantasy.R;
@@ -31,7 +31,7 @@ import butterknife.OnClick;
 
 import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
 
-public class TradeFragment extends BaseMainMvpFragment<ITradeView, ITradePresenter<ITradeView>> implements ITradeView {
+public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<ITradeView>> implements ITradeView {
 
     private static final String KEY_TEAM = "TEAM";
     private static final String KEY_TITLE = "TITLE";

@@ -12,7 +12,7 @@ import android.widget.Switch;
 
 import com.bon.interfaces.Optional;
 import com.football.common.activities.AloneFragmentActivity;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.fantasy.R;
 import com.football.models.responses.SettingsResponse;
 
@@ -20,7 +20,7 @@ import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class SettingsFragment extends BaseMainMvpFragment<ISettingsView, ISettingsPresenter<ISettingsView>> implements ISettingsView {
+public class SettingsFragment extends BaseMvpFragment<ISettingsView, ISettingsPresenter<ISettingsView>> implements ISettingsView {
 
     @BindView(R.id.switch_notification)
     Switch switchNotification;

@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.football.adapters.TradeAdapter;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 import com.football.models.responses.TradeResponse;
@@ -15,7 +15,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class RequestFragment extends BaseMainMvpFragment<IRequestView, IRequestPresenter<IRequestView>> implements IRequestView {
+public class RequestFragment extends BaseMvpFragment<IRequestView, IRequestPresenter<IRequestView>> implements IRequestView {
 
     public static final int REQUEST_FROM = 0;
     public static final int REQUEST_TO = 1;

@@ -12,7 +12,7 @@ import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.textview.ExtTextView;
 import com.football.adapters.TeamSquadAdapter;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
@@ -29,7 +29,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class TeamSquadFragment extends BaseMainMvpFragment<ITeamSquadView, ITeamSquadPresenter<ITeamSquadView>> implements ITeamSquadView {
+public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSquadPresenter<ITeamSquadView>> implements ITeamSquadView {
 
     private static final String KEY_TEAM = "TEAM";
     private static final String KEY_TITLE = "TITLE";

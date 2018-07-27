@@ -9,13 +9,13 @@ import android.view.View;
 
 import com.bon.customview.textview.ExtTextView;
 import com.football.common.activities.AloneFragmentActivity;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.fantasy.R;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class ProposalFragment extends BaseMainMvpFragment<IProposalView, IProposalPresenter<IProposalView>> implements IProposalView {
+public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPresenter<IProposalView>> implements IProposalView {
 
     @BindView(R.id.tvCancel)
     ExtTextView tvCancel;

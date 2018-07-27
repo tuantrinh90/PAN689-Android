@@ -17,7 +17,7 @@ import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.football.adapters.PlayerPoolAdapter;
 import com.football.common.activities.AloneFragmentActivity;
-import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.customizes.searchs.SearchView;
 import com.football.events.PlayerQueryEvent;
@@ -37,7 +37,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 
-public class PlayerPoolFragment extends BaseMainMvpFragment<IPlayerPoolView, IPlayerPoolPresenter<IPlayerPoolView>> implements IPlayerPoolView {
+public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayerPoolPresenter<IPlayerPoolView>> implements IPlayerPoolView {
 
     private static final String TAG = "PlayerPoolFragment";
 
