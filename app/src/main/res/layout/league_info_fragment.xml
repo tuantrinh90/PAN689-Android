@@ -53,11 +53,18 @@
                     app:textViewFontAssetName="@string/font_display_black" />
             </LinearLayout>
 
-            <com.football.customizes.images.CircleImageViewApp
-                android:id="@+id/ivLeague"
-                android:layout_width="@dimen/avatar_large"
-                android:layout_height="@dimen/avatar_large"
-                android:layout_marginLeft="@dimen/padding_layout" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_avatar_matchup_league"
+                android:padding="@dimen/avatar_padding">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivLeague"
+                    android:layout_width="@dimen/avatar_large"
+                    android:layout_height="@dimen/avatar_large" />
+
+            </LinearLayout>
         </TableRow>
 
         <TableRow

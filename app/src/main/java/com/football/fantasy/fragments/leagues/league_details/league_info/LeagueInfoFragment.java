@@ -6,11 +6,11 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.bon.customview.textview.ExtTextView;
+import com.bon.image.ImageLoaderUtils;
 import com.bon.logger.Logger;
 import com.bon.util.DateTimeUtils;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
-import com.football.customizes.images.CircleImageViewApp;
 import com.football.events.LeagueEvent;
 import com.football.events.StartLeagueEvent;
 import com.football.fantasy.R;
@@ -23,6 +23,7 @@ import com.football.utilities.Constant;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILeagueInfoPresenter<ILeagueInfoView>> implements ILeagueInfoView {
     static final String TAG = LeagueInfoFragment.class.getSimpleName();
@@ -37,7 +38,7 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
     @BindView(R.id.tvTime)
     ExtTextView tvTime;
     @BindView(R.id.ivLeague)
-    CircleImageViewApp ivLeague;
+    CircleImageView ivLeague;
     @BindView(R.id.tvSetupTeam)
     ExtTextView tvSetupTeam;
     @BindView(R.id.tvLeagueType)
@@ -169,7 +170,7 @@ public class LeagueInfoFragment extends BaseMainMvpFragment<ILeagueInfoView, ILe
 
         try {
             tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
-            ivLeague.setImageUri(league.getLogo());
+            ImageLoaderUtils.displayImage(league.getLogo(), ivLeague);
             tvLeagueType.setText(league.getLeagueTypeDisplay());
             tvMaxNumberOfTeam.setText(String.valueOf(league.getNumberOfUser()));
             tvGamePlayOptions.setText(league.getGameplayOptionDisplay());
