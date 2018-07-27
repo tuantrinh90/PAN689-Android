@@ -19,6 +19,7 @@ import java8.util.function.Consumer;
 public class TeamSquadAdapter extends DefaultAdapter<PlayerResponse> {
 
     private final Consumer<PlayerResponse> clickCallback;
+    private Consumer<PlayerResponse> addCallback;
 
     public TeamSquadAdapter(Context context, Consumer<PlayerResponse> clickCallback) {
         super(context);
@@ -54,7 +55,14 @@ public class TeamSquadAdapter extends DefaultAdapter<PlayerResponse> {
         holder.tvInjured.setText(data.getInjuredText(context));
         holder.tvInjured.setVisibility(data.getInjured() ? View.VISIBLE : View.GONE);
 
+        holder.ivAdd.setVisibility(addCallback != null ? View.VISIBLE : View.GONE);
+
         holder.itemView.setOnClickListener(v -> clickCallback.accept(getItem(defaultHolder.getAdapterPosition())));
+        holder.ivAdd.setOnClickListener(v -> addCallback.accept(getItem(defaultHolder.getAdapterPosition())));
+    }
+
+    public void setAddCallback(Consumer<PlayerResponse> addCallback) {
+        this.addCallback = addCallback;
     }
 
     static class TeamSquadHolder extends DefaultHolder {
@@ -70,6 +78,8 @@ public class TeamSquadAdapter extends DefaultAdapter<PlayerResponse> {
         ExtTextView tvInjured;
         @BindView(R.id.tvValue)
         ExtTextView tvValue;
+        @BindView(R.id.ivAdd)
+        View ivAdd;
 
         public TeamSquadHolder(View itemView) {
             super(itemView);

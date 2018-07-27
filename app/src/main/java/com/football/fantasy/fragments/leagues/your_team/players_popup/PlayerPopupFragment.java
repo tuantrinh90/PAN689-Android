@@ -78,6 +78,7 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
         bindButterKnife(view);
         getDataFromBundle();
         initView();
+        getPlayers();
         registerBus();
     }
 
@@ -228,7 +229,6 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
 
             // load data
             rvPlayer.startLoading();
-            getPlayers();
         } catch (Resources.NotFoundException e) {
             e.printStackTrace();
         }

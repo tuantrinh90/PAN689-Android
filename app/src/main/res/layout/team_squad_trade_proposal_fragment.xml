@@ -120,6 +120,7 @@
                 app:shadowLayoutShadowColor="@color/color_shadow">
 
                 <ImageView
+                    android:id="@+id/image_player11"
                     style="@style/IconLarge"
                     android:background="@drawable/bg_circle_white"
                     android:src="@drawable/ic_add_green_g" />
@@ -135,6 +136,7 @@
                 app:shadowLayoutShadowColor="@color/color_shadow">
 
                 <ImageView
+                    android:id="@+id/image_player12"
                     style="@style/IconLarge"
                     android:background="@drawable/bg_circle_white"
                     android:src="@drawable/ic_add_green_g" />
@@ -150,6 +152,7 @@
                 app:shadowLayoutShadowColor="@color/color_shadow">
 
                 <ImageView
+                    android:id="@+id/image_player13"
                     style="@style/IconLarge"
                     android:background="@drawable/bg_circle_white"
                     android:src="@drawable/ic_add_green_g" />
@@ -199,6 +202,7 @@
                 app:shadowLayoutShadowColor="@color/color_shadow">
 
                 <ImageView
+                    android:id="@+id/image_player21"
                     style="@style/IconLarge"
                     android:background="@drawable/bg_circle_white"
                     android:src="@drawable/ic_add_green_g" />
@@ -214,6 +218,7 @@
                 app:shadowLayoutShadowColor="@color/color_shadow">
 
                 <ImageView
+                    android:id="@+id/image_player22"
                     style="@style/IconLarge"
                     android:background="@drawable/bg_circle_white"
                     android:src="@drawable/ic_add_green_g" />
@@ -229,6 +234,7 @@
                 app:shadowLayoutShadowColor="@color/color_shadow">
 
                 <ImageView
+                    android:id="@+id/image_player23"
                     style="@style/IconLarge"
                     android:background="@drawable/bg_circle_white"
                     android:src="@drawable/ic_add_green_g" />

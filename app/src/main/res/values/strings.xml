@@ -296,4 +296,5 @@
     <string name="trade_request">Trade request</string>
     <string name="choose_a_team_description">Choose a team you want to trade</string>
     <string name="choose_a_team">Choose a team</string>
+    <string name="trade_proposal">Trade proposal</string>
 </resources>

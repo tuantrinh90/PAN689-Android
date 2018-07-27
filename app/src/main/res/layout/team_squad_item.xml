@@ -116,5 +116,17 @@
                 android:text="@string/points"
                 android:textSize="@dimen/font_size_description" />
         </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/ivAdd"
+            style="@style/IconSmall"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginStart="@dimen/padding_layout"
+            android:layout_marginTop="@dimen/padding_small"
+            android:background="@drawable/bg_circle_yellow"
+            android:padding="@dimen/padding_small"
+            android:src="@drawable/ic_add_white_small"
+            android:visibility="gone" />
     </LinearLayout>
 </LinearLayout>
