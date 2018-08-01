@@ -13,9 +13,10 @@
         android:orientation="vertical">
 
         <com.bon.customview.textview.ExtTextView
-            style="@style/StyleHeaderWhite"
+            style="@style/StyleTitle"
             android:text="@string/trade_request"
             android:textAllCaps="true"
+            android:textColor="@color/color_white"
             app:textViewFontAssetName="@string/font_display_heavy_italic" />
 
         <LinearLayout

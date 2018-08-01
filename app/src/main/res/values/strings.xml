@@ -280,6 +280,7 @@
     <string name="not_enough_teams">Not enough teams to start league</string>
     <string name="cannot_start_league_before_team_setup_time">Only start league after team setup time</string>
     <string name="start_league_before_team_setup_time">Start league before team setup time</string>
+    <string name="league_is_not_started_yet">You are not able to access this screen because league is not started yet</string>
     <string name="message_permission_image">Require right to access, press OK to log in setting</string>
     <string name="current">Current</string>
     <string name="next">Next</string>

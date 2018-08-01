@@ -152,18 +152,25 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
         tvDescription.setText(team.getDescription());
     }
 
-    @OnClick({R.id.ivEdit, R.id.llTeamLineUp, R.id.llTransfer, R.id.llTeamSquad, R.id.llStatistics})
-    public void onViewClicked(View view) {
+    @OnClick({R.id.ivEdit})
+    public void onEditClick() {
+        AloneFragmentActivity.with(mActivity)
+                .parameters(SetupTeamFragment.newBundle(
+                        team,
+                        league.getId(),
+                        mActivity.getTitleToolBar().getText().toString(),
+                        LeagueDetailFragment.MY_LEAGUES))
+                .start(SetupTeamFragment.class);
+    }
+
+    @OnClick({R.id.llTeamLineUp, R.id.llTransfer, R.id.llTeamSquad, R.id.llStatistics})
+    public void onBlockClicked(View view) {
+        if (league.getStatus().equals(LeagueResponse.WAITING_FOR_START)) {
+            showMessage(R.string.league_is_not_started_yet, R.string.ok, null);
+            return;
+        }
+
         switch (view.getId()) {
-            case R.id.ivEdit:
-                AloneFragmentActivity.with(mActivity)
-                        .parameters(SetupTeamFragment.newBundle(
-                                team,
-                                league.getId(),
-                                mActivity.getTitleToolBar().getText().toString(),
-                                LeagueDetailFragment.MY_LEAGUES))
-                        .start(SetupTeamFragment.class);
-                break;
             case R.id.llTeamLineUp:
                 if (team.getCompleted()) {
                     AloneFragmentActivity.with(this)
