@@ -6,7 +6,6 @@ import android.view.View;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageLoaderUtils;
-import com.bon.util.DateTimeUtils;
 import com.football.customizes.recyclerview.DefaultAdapter;
 import com.football.customizes.recyclerview.DefaultHolder;
 import com.football.fantasy.R;
@@ -44,6 +43,7 @@ public class TradeAdapter extends DefaultAdapter<TradeResponse> {
         holder.tvTitleTeam2.setText(data.getWithTeam().getName());
 
         holder.tvTime.setText(AppUtilities.getTime(data.getDeadline(), Constant.FORMAT_DATE_TIME_SERVER, Constant.FORMAT_DATE_TIME));
+        holder.tvPlayers.setText(mContext.getString(R.string.total_players, data.getTotalPlayer()));
 
     }
 
