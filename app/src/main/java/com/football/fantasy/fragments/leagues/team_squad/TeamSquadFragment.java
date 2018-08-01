@@ -29,6 +29,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
+
 public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSquadPresenter<ITeamSquadView>> implements ITeamSquadView {
 
     private static final String KEY_TEAM = "TEAM";
@@ -114,6 +116,9 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
     }
 
     void initView() {
+        // setVisible Trade button
+        llTrade.setVisibility(league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER) ? View.INVISIBLE : View.VISIBLE);
+
         teamSquadAdapter = new TeamSquadAdapter(
                 getContext(),
                 player -> {

@@ -39,7 +39,8 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/padding_layout"
-                android:paddingRight="@dimen/padding_layout">
+                android:paddingRight="@dimen/padding_layout"
+                android:visibility="invisible">
 
                 <ImageView
                     style="@style/IconTiny"
