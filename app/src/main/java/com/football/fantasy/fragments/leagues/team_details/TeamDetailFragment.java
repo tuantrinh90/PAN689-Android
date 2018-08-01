@@ -120,7 +120,8 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
                     .subscribeWith(new DisposableObserver<TeamEvent>() {
                         @Override
                         public void onNext(TeamEvent event) {
-                            displayTeamDetails(event.getTeam());
+                            team = event.getTeam();
+                            displayTeamDetails(team);
                         }
 
                         @Override
