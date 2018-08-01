@@ -29,6 +29,7 @@ import butterknife.OnClick;
 public class ProposalTeamSquadFragment extends BaseMvpFragment<IProposalTeamSquadView, IProposalTeamSquadPresenter<IProposalTeamSquadView>> implements IProposalTeamSquadView {
 
     private static final String KEY_TEAM = "TEAM";
+    private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
 
     @BindView(R.id.tvSortByColumn)
     EditTextApp tvSortByColumn;
@@ -38,21 +39,23 @@ public class ProposalTeamSquadFragment extends BaseMvpFragment<IProposalTeamSqua
     ExtRecyclerView<PlayerResponse> rvPlayer;
 
     private TeamResponse team;
+    private int leagueId;
 
     private List<ExtKeyValuePair> properties;
     private ExtKeyValuePair currentProperty;
     private List<ExtKeyValuePair> directions;
     private ExtKeyValuePair currentDirection;
 
-    public static void start(Context context, TeamResponse team) {
+    public static void start(Context context, TeamResponse team, int leagueId) {
         AloneFragmentActivity.with(context)
-                .parameters(ProposalTeamSquadFragment.newBundle(team))
+                .parameters(ProposalTeamSquadFragment.newBundle(team, leagueId))
                 .start(ProposalTeamSquadFragment.class);
     }
 
-    private static Bundle newBundle(TeamResponse team) {
+    private static Bundle newBundle(TeamResponse team, int leagueId) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_TEAM, team);
+        bundle.putInt(KEY_LEAGUE_ID, leagueId);
         return bundle;
     }
 
@@ -74,6 +77,7 @@ public class ProposalTeamSquadFragment extends BaseMvpFragment<IProposalTeamSqua
 
     private void getDataFromBundle() {
         team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
+        leagueId = getArguments().getInt(KEY_LEAGUE_ID);
     }
 
     @NonNull
@@ -135,7 +139,7 @@ public class ProposalTeamSquadFragment extends BaseMvpFragment<IProposalTeamSqua
     }
 
     private void getPlayers() {
-        presenter.getLineup(team.getId(), currentProperty.getKey(), currentDirection.getKey());
+        presenter.getLineup(leagueId, currentProperty.getKey(), currentDirection.getKey());
     }
 
     @OnClick(R.id.tvSortByColumn)

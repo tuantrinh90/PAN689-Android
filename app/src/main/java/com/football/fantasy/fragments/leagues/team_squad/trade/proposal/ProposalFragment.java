@@ -21,6 +21,7 @@ import butterknife.OnClick;
 public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPresenter<IProposalView>> implements IProposalView {
 
     private static final String KEY_TEAM = "TEAM";
+    private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
 
     @BindView(R.id.tvCancel)
     ExtTextView tvCancel;
@@ -42,16 +43,18 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
     ImageView imagePlayer23;
 
     private TeamResponse team;
+    private int leagueId;
 
-    public static void start(Context context, TeamResponse team) {
+    public static void start(Context context, TeamResponse team, int leagueId) {
         AloneFragmentActivity.with(context)
-                .parameters(ProposalFragment.newBundle(team))
+                .parameters(ProposalFragment.newBundle(team, leagueId))
                 .start(ProposalFragment.class);
     }
 
-    private static Bundle newBundle(TeamResponse team) {
+    private static Bundle newBundle(TeamResponse team, int leagueId) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_TEAM, team);
+        bundle.putInt(KEY_LEAGUE_ID, leagueId);
         return bundle;
     }
 
@@ -71,6 +74,7 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
 
     private void getDataFromBundle() {
         team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
+        leagueId = getArguments().getInt(KEY_LEAGUE_ID);
     }
 
     @NonNull
@@ -96,22 +100,22 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
                 mActivity.finish();
                 break;
             case R.id.image_player11:
-                ProposalTeamSquadFragment.start(getContext(), team);
+                ProposalTeamSquadFragment.start(getContext(), team, leagueId);
                 break;
             case R.id.image_player12:
-                ProposalTeamSquadFragment.start(getContext(), team);
+                ProposalTeamSquadFragment.start(getContext(), team, leagueId);
                 break;
             case R.id.image_player13:
-                ProposalTeamSquadFragment.start(getContext(), team);
+                ProposalTeamSquadFragment.start(getContext(), team, leagueId);
                 break;
             case R.id.image_player21:
-                ProposalTeamSquadFragment.start(getContext(), team);
+                ProposalTeamSquadFragment.start(getContext(), team, leagueId);
                 break;
             case R.id.image_player22:
-                ProposalTeamSquadFragment.start(getContext(), team);
+                ProposalTeamSquadFragment.start(getContext(), team, leagueId);
                 break;
             case R.id.image_player23:
-                ProposalTeamSquadFragment.start(getContext(), team);
+                ProposalTeamSquadFragment.start(getContext(), team, leagueId);
                 break;
         }
     }

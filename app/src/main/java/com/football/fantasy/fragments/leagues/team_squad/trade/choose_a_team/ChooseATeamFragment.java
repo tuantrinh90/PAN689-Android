@@ -105,7 +105,7 @@ public class ChooseATeamFragment extends BaseMvpFragment<IChooseATeamView, IChoo
                 break;
             case R.id.tvDone:
                 TeamResponse team = ((TeamSelectAdapter) rvTeam.getAdapter()).getTeamSelected();
-                ProposalFragment.start(getContext(), team);
+                ProposalFragment.start(getContext(), team, leagueId);
 
                 break;
         }
