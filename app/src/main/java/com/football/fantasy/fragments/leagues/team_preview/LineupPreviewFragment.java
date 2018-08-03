@@ -50,7 +50,7 @@ public class LineupPreviewFragment extends BaseMvpFragment<ILineupPreviewView, I
                 .start(LineupPreviewFragment.class);
     }
 
-    public static Bundle newBundle(TeamResponse team) {
+    private static Bundle newBundle(TeamResponse team) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_TEAM, team);
         return bundle;

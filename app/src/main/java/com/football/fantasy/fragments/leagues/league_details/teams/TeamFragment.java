@@ -104,7 +104,7 @@ public class TeamFragment extends BaseMvpFragment<ITeamView, ITeamPresenter<ITea
                     team -> { // click detail
                         if (!leagueType.equals(LeagueDetailFragment.OPEN_LEAGUES)) {
                             AloneFragmentActivity.with(this)
-                                    .parameters(TeamDetailFragment.newBundle(team, league))
+                                    .parameters(TeamDetailFragment.newBundle(team.getId(), league))
                                     .start(TeamDetailFragment.class);
                         }
                     },

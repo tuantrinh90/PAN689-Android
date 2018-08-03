@@ -15,6 +15,7 @@ import com.football.events.LeagueEvent;
 import com.football.events.StartLeagueEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
+import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
 import com.football.fantasy.fragments.leagues.team_lineup.TeamLineUpFragment;
 import com.football.fantasy.fragments.leagues.your_team.YourTeamFragment;
 import com.football.models.responses.LeagueResponse;
@@ -118,8 +119,8 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
             } else {
                 league.getTeam().setUserId(league.getUserId());
                 AloneFragmentActivity.with(this)
-                        .parameters(TeamLineUpFragment.newBundle(getString(R.string.league_information), league.getTeam()))
-                        .start(TeamLineUpFragment.class);
+                        .parameters(TeamDetailFragment.newBundle(league.getTeam().getId(), league))
+                        .start(TeamDetailFragment.class);
             }
         }
     }

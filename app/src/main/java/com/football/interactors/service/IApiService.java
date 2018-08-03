@@ -171,7 +171,7 @@ public interface IApiService {
     Observable<BaseResponse<TeamResponse>> updateTeam(@Path(ServiceConfig.KEY_ID) int teamId, @Body RequestBody body);
 
     @GET(ServiceConfig.TEAM_LINEUP)
-    Observable<BaseResponse<LineupResponse>> getLineup(@Path(ServiceConfig.KEY_ID) int leagueId);
+    Observable<BaseResponse<LineupResponse>> getLineup(@Path(ServiceConfig.KEY_ID) int teamId);
 
     @POST(ServiceConfig.COMPLETE_LINEUP)
     Observable<BaseResponse<Object>> completeLineup(@Path(ServiceConfig.KEY_ID) int teamId);

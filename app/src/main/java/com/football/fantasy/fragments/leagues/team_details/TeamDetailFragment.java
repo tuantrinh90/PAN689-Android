@@ -34,7 +34,7 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
 
     private static final String TAG = "TeamDetailFragment";
 
-    private static final String KEY_TEAM = "TEAM_ID";
+    private static final String KEY_TEAM_ID = "TEAM_ID";
     private static final String KEY_LEAGUE = "LEAGUE_ID";
 
     @BindView(R.id.tvHeader)
@@ -64,12 +64,14 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
     @BindView(R.id.llStatistics)
     LinearLayout llStatistics;
 
-    private TeamResponse team;
+    private int teamId;
     private LeagueResponse league;
 
-    public static Bundle newBundle(TeamResponse team, LeagueResponse league) {
+    private TeamResponse team;
+
+    public static Bundle newBundle(int teamId, LeagueResponse league) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_TEAM, team);
+        bundle.putInt(KEY_TEAM_ID, teamId);
         bundle.putSerializable(KEY_LEAGUE, league);
         return bundle;
     }
@@ -86,12 +88,16 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
         getDataFromBundle();
         registerEvent();
 
-        displayTeamDetails(team);
+        getTeam();
+    }
+
+    private void getTeam() {
+        presenter.getTeam(teamId);
     }
 
     private void getDataFromBundle() {
         assert getArguments() != null;
-        team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
+        teamId = getArguments().getInt(KEY_TEAM_ID);
         league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
     }
 
@@ -120,8 +126,7 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
                     .subscribeWith(new DisposableObserver<TeamEvent>() {
                         @Override
                         public void onNext(TeamEvent event) {
-                            team = event.getTeam();
-                            displayTeamDetails(team);
+                            getTeam();
                         }
 
                         @Override
@@ -138,18 +143,6 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
-    }
-
-    private void displayTeamDetails(TeamResponse team) {
-        ivEdit.setVisibility(AppUtilities.isOwner(getAppContext(), team.getUserId()) ? View.VISIBLE : View.GONE);
-
-        tvHeader.setText(team.getName());
-        tvName.setText(team.getUser().getName());
-        ImageLoaderUtils.displayImage(team.getLogo(), ivAvatar.getImageView());
-        tvRank.setText(String.valueOf(team.getRank()));
-        tvPoints.setText(AppUtilities.convertNumber(Long.valueOf(team.getTotalPoint())));
-        tvBudget.setText(getString(R.string.money_prefix, AppUtilities.getMoney(team.getCurrentBudget())));
-        tvDescription.setText(team.getDescription());
     }
 
     @OnClick({R.id.ivEdit})
@@ -206,5 +199,20 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
                         .start(TeamStatisticFragment.class);
                 break;
         }
+    }
+
+    @Override
+    public void displayTeam(TeamResponse team) {
+        this.team = team;
+
+        ivEdit.setVisibility(AppUtilities.isOwner(getAppContext(), team.getUserId()) ? View.VISIBLE : View.GONE);
+
+        tvHeader.setText(team.getName());
+        tvName.setText(team.getUser().getName());
+        ImageLoaderUtils.displayImage(team.getLogo(), ivAvatar.getImageView());
+        tvRank.setText(String.valueOf(team.getRank()));
+        tvPoints.setText(AppUtilities.convertNumber(Long.valueOf(team.getTotalPoint())));
+        tvBudget.setText(getString(R.string.money_prefix, AppUtilities.getMoney(team.getCurrentBudget())));
+        tvDescription.setText(team.getDescription());
     }
 }
