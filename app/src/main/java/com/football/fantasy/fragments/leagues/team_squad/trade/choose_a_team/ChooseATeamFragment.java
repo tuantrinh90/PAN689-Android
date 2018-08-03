@@ -20,10 +20,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import java8.util.stream.Collectors;
+import java8.util.stream.StreamSupport;
 
 public class ChooseATeamFragment extends BaseMvpFragment<IChooseATeamView, IChooseATeamPresenter<IChooseATeamView>> implements IChooseATeamView {
 
     private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+    private static final String KEY_MY_TEAM_ID = "MY_TEAM_ID";
 
 
     @BindView(R.id.tvCancel)
@@ -34,16 +37,18 @@ public class ChooseATeamFragment extends BaseMvpFragment<IChooseATeamView, IChoo
     ExtRecyclerView<TeamResponse> rvTeam;
 
     private int leagueId;
+    private int myTeamId;
 
-    public static void start(Context context, int leagueId) {
+    public static void start(Context context, int leagueId, int myTeamId) {
         AloneFragmentActivity.with(context)
-                .parameters(ChooseATeamFragment.newBundle(leagueId))
+                .parameters(ChooseATeamFragment.newBundle(leagueId, myTeamId))
                 .start(ChooseATeamFragment.class);
     }
 
-    private static Bundle newBundle(int leagueId) {
+    private static Bundle newBundle(int leagueId, int myTeamId) {
         Bundle bundle = new Bundle();
         bundle.putInt(KEY_LEAGUE_ID, leagueId);
+        bundle.putInt(KEY_MY_TEAM_ID, myTeamId);
         return bundle;
     }
 
@@ -64,6 +69,7 @@ public class ChooseATeamFragment extends BaseMvpFragment<IChooseATeamView, IChoo
 
     private void getDataFromBundle() {
         leagueId = getArguments().getInt(KEY_LEAGUE_ID);
+        myTeamId = getArguments().getInt(KEY_MY_TEAM_ID);
     }
 
     @NonNull
@@ -94,7 +100,7 @@ public class ChooseATeamFragment extends BaseMvpFragment<IChooseATeamView, IChoo
     }
 
     private void getTeams() {
-        presenter.getTeams(leagueId, 1);
+        presenter.getTeams(leagueId);
     }
 
     @OnClick({R.id.tvCancel, R.id.tvDone})
@@ -105,14 +111,14 @@ public class ChooseATeamFragment extends BaseMvpFragment<IChooseATeamView, IChoo
                 break;
             case R.id.tvDone:
                 TeamResponse team = ((TeamSelectAdapter) rvTeam.getAdapter()).getTeamSelected();
-                ProposalFragment.start(getContext(), team, leagueId);
-
+                ProposalFragment.start(getContext(), myTeamId, team.getId());
                 break;
         }
     }
 
     @Override
     public void displayTeams(List<TeamResponse> teams) {
-        rvTeam.addItems(teams);
+        // filter other team
+        rvTeam.addItems(StreamSupport.stream(teams).filter(team -> team.getId() != myTeamId).collect(Collectors.toList()));
     }
 }

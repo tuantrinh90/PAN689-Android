@@ -16,7 +16,7 @@ public class ChooseATeamDataPresenter extends BaseDataPresenter<IChooseATeamView
     }
 
     @Override
-    public void getTeams(int leagueId, int teamId) {
+    public void getTeams(int leagueId) {
         getOptView().doIfPresent(v -> {
             mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().getTeams(leagueId),

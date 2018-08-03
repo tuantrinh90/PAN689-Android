@@ -123,16 +123,16 @@ public class PlayerView extends LinearLayout {
         switch (view.getId()) {
             case R.id.ivRemove:
                 if (removable) {
-                    Optional.from(mListener).doIfPresent(listener -> listener.onRemove(player, position, order));
+                    Optional.from(mListener).doIfPresent(listener -> listener.onRemove(this, player, position, order));
                 }
                 break;
             case R.id.ivPlayer:
                 if (player == null && addable) {
-                    Optional.from(mListener).doIfPresent(listener -> listener.onAddPlayer(position, order));
+                    Optional.from(mListener).doIfPresent(listener -> listener.onAddPlayer(this, position, order));
                 } else if (player != null && editable) {
-                    Optional.from(mListener).doIfPresent(listener -> listener.onEdit(player, position, order));
+                    Optional.from(mListener).doIfPresent(listener -> listener.onEdit(this, player, position, order));
                 } else if (player != null) {
-                    Optional.from(mListener).doIfPresent(listener -> listener.onClickPlayer(player, position, order));
+                    Optional.from(mListener).doIfPresent(listener -> listener.onClickPlayer(this, player, position, order));
                 }
                 break;
         }
@@ -144,7 +144,6 @@ public class PlayerView extends LinearLayout {
 
     public void setRemovable(boolean removable) {
         this.removable = removable;
-        ivRemove.setVisibility(removable ? VISIBLE : GONE);
     }
 
     public void setEditable(boolean editable) {
@@ -156,12 +155,12 @@ public class PlayerView extends LinearLayout {
     }
 
     public interface OnPlayerViewClickListener {
-        void onRemove(PlayerResponse player, int position, int order);
+        void onRemove(PlayerView view, PlayerResponse player, int position, int order);
 
-        void onAddPlayer(int position, int order);
+        void onAddPlayer(PlayerView view, int position, int order);
 
-        void onClickPlayer(PlayerResponse player, int position, int order);
+        void onClickPlayer(PlayerView view, PlayerResponse player, int position, int order);
 
-        void onEdit(PlayerResponse player, int position, int order);
+        void onEdit(PlayerView view, PlayerResponse player, int position, int order);
     }
 }

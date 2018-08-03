@@ -185,7 +185,7 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
 
     @OnClick(R.id.ivAdd)
     public void onAddClicked() {
-        ChooseATeamFragment.start(getContext(), league.getId());
+        ChooseATeamFragment.start(getContext(), league.getId(), team.getId());
     }
 
 }

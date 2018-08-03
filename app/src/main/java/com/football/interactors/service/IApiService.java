@@ -96,6 +96,9 @@ public interface IApiService {
     @GET(ServiceConfig.TRADE_REQUESTS)
     Observable<BaseResponse<PagingResponse<TradeResponse>>> getTradeRequests(@QueryMap Map<String, String> queries);
 
+    @POST(ServiceConfig.TRADE_REQUESTS)
+    Observable<BaseResponse<TradeResponse>> submitTradeRequests(@Body RequestBody requestBody);
+
 
     @POST(ServiceConfig.CHANGE_TEAM_FORMATION)
     Observable<BaseResponse<TeamPitchViewResponse>> changeTeamFormation(@Path(ServiceConfig.KEY_ID) int teamId, @Body RequestBody requestBody);

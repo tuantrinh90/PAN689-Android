@@ -40,6 +40,7 @@
             android:padding="0dp"
             android:text="@string/done"
             android:textColor="@color/color_blue"
+            android:visibility="gone"
             app:textViewFontAssetName="@string/font_display_bold" />
     </LinearLayout>
 
@@ -55,7 +56,7 @@
             android:layout_marginLeft="@dimen/padding_layout"
             android:layout_marginRight="@dimen/padding_layout"
             android:padding="0dp"
-            android:text="@string/choose_a_team"
+            android:text="@string/trade_proposal"
             android:textAllCaps="true"
             app:textViewFontAssetName="@string/font_display_black_italic" />
 
@@ -65,13 +66,13 @@
             android:layout_marginRight="@dimen/padding_layout"
             android:layout_marginTop="@dimen/padding_layout"
             android:padding="0dp"
-            android:text="@string/choose_a_team_description"
+            android:text="@string/trade_proposal_description"
             android:textColor="@color/color_gray" />
     </LinearLayout>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/padding_layout"
         android:layout_marginRight="@dimen/padding_layout"
         android:layout_marginTop="@dimen/padding_layout"
@@ -110,53 +111,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTitleTeam1">
 
-            <com.bon.customview.shadowlayout.ShadowLayout
+            <com.football.customizes.lineup.PlayerView
+                android:id="@+id/player11"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/player_margin_large"
-                android:layout_marginTop="@dimen/player_margin_large"
-                app:shadowLayoutCornerRadius="@dimen/component_radius"
-                app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
-                app:shadowLayoutShadowColor="@color/color_shadow">
+                android:layout_height="wrap_content" />
 
-                <ImageView
-                    android:id="@+id/image_player11"
-                    style="@style/IconLarge"
-                    android:background="@drawable/bg_circle_white"
-                    android:src="@drawable/ic_add_green_g" />
-            </com.bon.customview.shadowlayout.ShadowLayout>
-
-            <com.bon.customview.shadowlayout.ShadowLayout
+            <com.football.customizes.lineup.PlayerView
+                android:id="@+id/player12"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/player_margin_large"
-                android:layout_marginTop="@dimen/player_margin_large"
-                app:shadowLayoutCornerRadius="@dimen/component_radius"
-                app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
-                app:shadowLayoutShadowColor="@color/color_shadow">
+                android:layout_height="wrap_content" />
 
-                <ImageView
-                    android:id="@+id/image_player12"
-                    style="@style/IconLarge"
-                    android:background="@drawable/bg_circle_white"
-                    android:src="@drawable/ic_add_green_g" />
-            </com.bon.customview.shadowlayout.ShadowLayout>
-
-            <com.bon.customview.shadowlayout.ShadowLayout
+            <com.football.customizes.lineup.PlayerView
+                android:id="@+id/player13"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/player_margin_large"
-                android:layout_marginTop="@dimen/player_margin_large"
-                app:shadowLayoutCornerRadius="@dimen/component_radius"
-                app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
-                app:shadowLayoutShadowColor="@color/color_shadow">
-
-                <ImageView
-                    android:id="@+id/image_player13"
-                    style="@style/IconLarge"
-                    android:background="@drawable/bg_circle_white"
-                    android:src="@drawable/ic_add_green_g" />
-            </com.bon.customview.shadowlayout.ShadowLayout>
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -192,53 +160,20 @@
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/tvTitleTeam2">
 
-            <com.bon.customview.shadowlayout.ShadowLayout
+            <com.football.customizes.lineup.PlayerView
+                android:id="@+id/player21"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/player_margin_large"
-                android:layout_marginTop="@dimen/player_margin_large"
-                app:shadowLayoutCornerRadius="@dimen/component_radius"
-                app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
-                app:shadowLayoutShadowColor="@color/color_shadow">
+                android:layout_height="wrap_content" />
 
-                <ImageView
-                    android:id="@+id/image_player21"
-                    style="@style/IconLarge"
-                    android:background="@drawable/bg_circle_white"
-                    android:src="@drawable/ic_add_green_g" />
-            </com.bon.customview.shadowlayout.ShadowLayout>
-
-            <com.bon.customview.shadowlayout.ShadowLayout
+            <com.football.customizes.lineup.PlayerView
+                android:id="@+id/player22"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/player_margin_large"
-                android:layout_marginTop="@dimen/player_margin_large"
-                app:shadowLayoutCornerRadius="@dimen/component_radius"
-                app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
-                app:shadowLayoutShadowColor="@color/color_shadow">
+                android:layout_height="wrap_content" />
 
-                <ImageView
-                    android:id="@+id/image_player22"
-                    style="@style/IconLarge"
-                    android:background="@drawable/bg_circle_white"
-                    android:src="@drawable/ic_add_green_g" />
-            </com.bon.customview.shadowlayout.ShadowLayout>
-
-            <com.bon.customview.shadowlayout.ShadowLayout
+            <com.football.customizes.lineup.PlayerView
+                android:id="@+id/player23"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/player_margin_large"
-                android:layout_marginTop="@dimen/player_margin_large"
-                app:shadowLayoutCornerRadius="@dimen/component_radius"
-                app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
-                app:shadowLayoutShadowColor="@color/color_shadow">
-
-                <ImageView
-                    android:id="@+id/image_player23"
-                    style="@style/IconLarge"
-                    android:background="@drawable/bg_circle_white"
-                    android:src="@drawable/ic_add_green_g" />
-            </com.bon.customview.shadowlayout.ShadowLayout>
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -295,4 +230,29 @@
 
     </android.support.constraint.ConstraintLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/padding_layout"
+        android:layout_marginRight="@dimen/padding_layout">
+
+        <com.bon.customview.shadowlayout.ShadowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="@dimen/padding_layout"
+            app:shadowLayoutCornerRadius="@dimen/component_radius"
+            app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+            app:shadowLayoutShadowColor="@color/color_shadow">
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/buttonMakeProposal"
+                style="@style/StyleButton"
+                android:background="@drawable/bg_button_white"
+                android:text="@string/make_proposal"
+                android:textAllCaps="true"
+                app:textViewFontAssetName="@string/font_display_black" />
+        </com.bon.customview.shadowlayout.ShadowLayout>
+
+    </FrameLayout>
 </LinearLayout>

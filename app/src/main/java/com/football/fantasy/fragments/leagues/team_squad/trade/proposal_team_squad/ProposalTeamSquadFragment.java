@@ -15,10 +15,10 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.recyclerview.ExtRecyclerView;
+import com.football.events.PlayerEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.models.responses.PlayerResponse;
-import com.football.models.responses.TeamResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ import butterknife.OnClick;
 public class ProposalTeamSquadFragment extends BaseMvpFragment<IProposalTeamSquadView, IProposalTeamSquadPresenter<IProposalTeamSquadView>> implements IProposalTeamSquadView {
 
     private static final String KEY_TEAM = "TEAM";
-    private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+    private static final String KEY_PLAYER_INDEX = "PLAYER_INDEX";
 
     @BindView(R.id.tvSortByColumn)
     EditTextApp tvSortByColumn;
@@ -38,24 +38,24 @@ public class ProposalTeamSquadFragment extends BaseMvpFragment<IProposalTeamSqua
     @BindView(R.id.rv_player)
     ExtRecyclerView<PlayerResponse> rvPlayer;
 
-    private TeamResponse team;
-    private int leagueId;
+    private int teamId;
+    private int playerIndex;
 
     private List<ExtKeyValuePair> properties;
     private ExtKeyValuePair currentProperty;
     private List<ExtKeyValuePair> directions;
     private ExtKeyValuePair currentDirection;
 
-    public static void start(Context context, TeamResponse team, int leagueId) {
+    public static void start(Context context, int teamId, int playerIndex) {
         AloneFragmentActivity.with(context)
-                .parameters(ProposalTeamSquadFragment.newBundle(team, leagueId))
+                .parameters(ProposalTeamSquadFragment.newBundle(teamId, playerIndex))
                 .start(ProposalTeamSquadFragment.class);
     }
 
-    private static Bundle newBundle(TeamResponse team, int leagueId) {
+    private static Bundle newBundle(int teamId, int playerIndex) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_TEAM, team);
-        bundle.putInt(KEY_LEAGUE_ID, leagueId);
+        bundle.putInt(KEY_TEAM, teamId);
+        bundle.putInt(KEY_PLAYER_INDEX, playerIndex);
         return bundle;
     }
 
@@ -76,8 +76,8 @@ public class ProposalTeamSquadFragment extends BaseMvpFragment<IProposalTeamSqua
     }
 
     private void getDataFromBundle() {
-        team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
-        leagueId = getArguments().getInt(KEY_LEAGUE_ID);
+        teamId = getArguments().getInt(KEY_TEAM);
+        playerIndex = getArguments().getInt(KEY_PLAYER_INDEX);
     }
 
     @NonNull
@@ -126,7 +126,12 @@ public class ProposalTeamSquadFragment extends BaseMvpFragment<IProposalTeamSqua
                 });
         adapter.setAddCallback(
                 player -> {
-
+                    bus.send(new PlayerEvent.Builder()
+                            .action(PlayerEvent.ACTION_ADD_CLICK)
+                            .position(playerIndex)
+                            .data(player)
+                            .build());
+                    getActivity().finish();
                 });
         rvPlayer
                 .adapter(adapter)
@@ -139,7 +144,7 @@ public class ProposalTeamSquadFragment extends BaseMvpFragment<IProposalTeamSqua
     }
 
     private void getPlayers() {
-        presenter.getLineup(leagueId, currentProperty.getKey(), currentDirection.getKey());
+        presenter.getLineup(teamId, currentProperty.getKey(), currentDirection.getKey());
     }
 
     @OnClick(R.id.tvSortByColumn)

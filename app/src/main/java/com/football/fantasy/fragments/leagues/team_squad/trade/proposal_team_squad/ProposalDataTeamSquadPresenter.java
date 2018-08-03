@@ -22,7 +22,7 @@ public class ProposalDataTeamSquadPresenter extends BaseDataPresenter<IProposalT
     }
 
     @Override
-    public void getLineup(Integer leagueId, String property, String direction) {
+    public void getLineup(Integer teamId, String property, String direction) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
             JSONArray sortArray = new JSONArray();
@@ -41,7 +41,7 @@ public class ProposalDataTeamSquadPresenter extends BaseDataPresenter<IProposalT
             }
             mCompositeDisposable.add(RxUtilities.async(
                     v,
-                    dataModule.getApiService().getLineup(leagueId),
+                    dataModule.getApiService().getLineup(teamId),
                     new ApiCallback<LineupResponse>() {
                         @Override
                         public void onSuccess(LineupResponse response) {

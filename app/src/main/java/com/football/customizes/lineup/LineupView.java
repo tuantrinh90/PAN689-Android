@@ -191,22 +191,22 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
     }
 
     @Override
-    public void onRemove(PlayerResponse player, int position, int order) {
+    public void onRemove(PlayerView view, PlayerResponse player, int position, int order) {
         Optional.from(removeCallback).doIfPresent(c -> c.accept(player, 3 - position, order));
     }
 
     @Override
-    public void onAddPlayer(int position, int order) {
+    public void onAddPlayer(PlayerView view, int position, int order) {
         Optional.from(addCallback).doIfPresent(c -> c.accept(3 - position, order));
     }
 
     @Override
-    public void onClickPlayer(PlayerResponse player, int position, int order) {
+    public void onClickPlayer(PlayerView view, PlayerResponse player, int position, int order) {
         Optional.from(infoCallback).doIfPresent(c -> c.accept(player, 3 - position, order));
     }
 
     @Override
-    public void onEdit(PlayerResponse player, int position, int order) {
+    public void onEdit(PlayerView view, PlayerResponse player, int position, int order) {
         Optional.from(editCallback).doIfPresent(c -> c.accept(player, 3 - position, order));
     }
 

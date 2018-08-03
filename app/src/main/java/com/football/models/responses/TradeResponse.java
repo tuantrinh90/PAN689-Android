@@ -36,7 +36,7 @@ public class TradeResponse implements Serializable {
     private String statusDisplay;
     @JsonProperty("decision_at")
     private String decisionAt;
-    @JsonProperty("total_player ")
+    @JsonProperty("total_player")
     private int totalPlayer;
 
     public Integer getId() {
