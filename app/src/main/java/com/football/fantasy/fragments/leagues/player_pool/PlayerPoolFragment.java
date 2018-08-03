@@ -295,6 +295,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
         }
     }
 
+    @NonNull
     @Override
     public IPlayerPoolPresenter<IPlayerPoolView> createPresenter() {
         return new PlayerPoolPresenter(getAppComponent());
