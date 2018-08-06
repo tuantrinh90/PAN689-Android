@@ -16,7 +16,6 @@ import com.football.events.StartLeagueEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
 import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
-import com.football.fantasy.fragments.leagues.team_lineup.TeamLineUpFragment;
 import com.football.fantasy.fragments.leagues.your_team.YourTeamFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.utilities.AppUtilities;
