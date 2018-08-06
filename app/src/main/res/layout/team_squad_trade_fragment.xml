@@ -10,7 +10,9 @@
         android:id="@+id/header_draft"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/padding_content"
+        android:paddingRight="@dimen/padding_content">
 
         <com.bon.customview.textview.ExtTextView
             style="@style/StyleTitle"

@@ -35,6 +35,8 @@ public class ChooseATeamFragment extends BaseMvpFragment<IChooseATeamView, IChoo
     ExtTextView tvDone;
     @BindView(R.id.rv_team)
     ExtRecyclerView<TeamResponse> rvTeam;
+    @BindView(R.id.buttonProceed)
+    ExtTextView buttonProceed;
 
     private int leagueId;
     private int myTeamId;
@@ -86,12 +88,14 @@ public class ChooseATeamFragment extends BaseMvpFragment<IChooseATeamView, IChoo
 
     private void initView() {
         tvDone.setVisibility(View.GONE);
+        setEnableMakeProceedButton(false);
 
         TeamSelectAdapter adapter = new TeamSelectAdapter(
                 getContext(),
                 aVoid -> {
                     // set visibility view
                     tvDone.setVisibility(View.VISIBLE);
+                    setEnableMakeProceedButton(true);
                 });
 
         rvTeam
@@ -103,15 +107,26 @@ public class ChooseATeamFragment extends BaseMvpFragment<IChooseATeamView, IChoo
         presenter.getTeams(leagueId);
     }
 
-    @OnClick({R.id.tvCancel, R.id.tvDone})
+    private void setEnableMakeProceedButton(boolean enable) {
+        buttonProceed.setEnabled(enable);
+        buttonProceed.setBackgroundResource(enable ? R.drawable.bg_button_yellow : R.drawable.bg_button_white);
+    }
+
+    @OnClick({R.id.tvCancel, R.id.tvDone, R.id.buttonProceed})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tvCancel:
                 mActivity.finish();
                 break;
+
             case R.id.tvDone:
                 TeamResponse team = ((TeamSelectAdapter) rvTeam.getAdapter()).getTeamSelected();
                 ProposalFragment.start(getContext(), myTeamId, team.getId());
+                mActivity.finish();
+                break;
+
+            case R.id.buttonProceed:
+
                 break;
         }
     }

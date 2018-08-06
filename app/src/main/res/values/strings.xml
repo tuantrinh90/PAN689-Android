@@ -301,4 +301,5 @@
     <string name="trade_proposal_description">Choose players on both team to make proposal</string>
     <string name="total_players">%d players</string>
     <string name="make_proposal">Make proposal</string>
+    <string name="proceed">Proceed</string>
 </resources>
