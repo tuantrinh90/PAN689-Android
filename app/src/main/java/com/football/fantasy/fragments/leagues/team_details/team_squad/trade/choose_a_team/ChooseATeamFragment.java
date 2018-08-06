@@ -1,4 +1,4 @@
-package com.football.fantasy.fragments.leagues.team_details.gameplay_option.choose_a_team;
+package com.football.fantasy.fragments.leagues.team_details.team_squad.trade.choose_a_team;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.leagues.team_details.gameplay_option.proposal.ProposalFragment;
+import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.proposal.ProposalFragment;
 import com.football.models.responses.TeamResponse;
 
 import java.util.List;
@@ -56,7 +56,7 @@ public class ChooseATeamFragment extends BaseMvpFragment<IChooseATeamView, IChoo
 
     @Override
     public int getResourceId() {
-        return R.layout.team_squad_trade_choose_a_team_fragment;
+        return R.layout.team_squad_team_details_gameplay_option_choose_a_team_fragment;
     }
 
     @Override

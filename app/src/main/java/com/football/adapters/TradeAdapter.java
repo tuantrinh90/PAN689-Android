@@ -9,17 +9,22 @@ import com.bon.image.ImageLoaderUtils;
 import com.football.customizes.recyclerview.DefaultAdapter;
 import com.football.customizes.recyclerview.DefaultHolder;
 import com.football.fantasy.R;
+import com.football.models.responses.TeamResponse;
 import com.football.models.responses.TradeResponse;
 import com.football.utilities.AppUtilities;
 import com.football.utilities.Constant;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
+import java8.util.function.Consumer;
 
 public class TradeAdapter extends DefaultAdapter<TradeResponse> {
 
-    public TradeAdapter(Context context) {
+    private final Consumer<TeamResponse> teamDetailCallback;
+
+    public TradeAdapter(Context context, Consumer<TeamResponse> teamDetailCallback) {
         super(context);
+        this.teamDetailCallback = teamDetailCallback;
     }
 
     @Override
@@ -45,6 +50,14 @@ public class TradeAdapter extends DefaultAdapter<TradeResponse> {
         holder.tvTime.setText(AppUtilities.getTime(data.getDeadline(), Constant.FORMAT_DATE_TIME_SERVER, Constant.FORMAT_DATE_TIME));
         holder.tvPlayers.setText(mContext.getString(R.string.total_players, data.getTotalPlayer()));
 
+        holder.ivAvatarTeam1.setOnClickListener(v -> {
+            TradeResponse trade = getItem(defaultHolder.getAdapterPosition());
+            teamDetailCallback.accept(trade.getTeam());
+        });
+        holder.ivAvatarTeam2.setOnClickListener(v -> {
+            TradeResponse trade = getItem(defaultHolder.getAdapterPosition());
+            teamDetailCallback.accept(trade.getWithTeam());
+        });
     }
 
     static class TradeHolder extends DefaultHolder {

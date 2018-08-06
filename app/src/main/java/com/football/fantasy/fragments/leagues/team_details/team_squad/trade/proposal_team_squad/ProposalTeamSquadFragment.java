@@ -1,4 +1,4 @@
-package com.football.fantasy.fragments.leagues.team_details.gameplay_option.proposal_team_squad;
+package com.football.fantasy.fragments.leagues.team_details.team_squad.trade.proposal_team_squad;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -61,7 +61,7 @@ public class ProposalTeamSquadFragment extends BaseMvpFragment<IProposalTeamSqua
 
     @Override
     public int getResourceId() {
-        return R.layout.team_squad_trade_proposal_team_squad_fragment;
+        return R.layout.team_squad_team_details_gameplay_option_proposal_team_squad_fragment;
     }
 
     @Override

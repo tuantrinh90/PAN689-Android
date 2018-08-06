@@ -1,4 +1,4 @@
-package com.football.fantasy.fragments.leagues.team_details.gameplay_option;
+package com.football.fantasy.fragments.leagues.team_details.team_squad.trade;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,8 +16,7 @@ import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.leagues.team_details.gameplay_option.record.RecordFragment;
-import com.football.fantasy.fragments.leagues.team_details.gameplay_option.transferring.TransferringFragment;
+import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.request.RequestFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
 
@@ -25,9 +24,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 
-import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
-
-public class GameplayOptionFragment extends BaseMvpFragment<IGameplayOptionView, IGameplayOptionPresenter<IGameplayOptionView>> implements IGameplayOptionView {
+public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<ITradeView>> implements ITradeView {
 
     private static final String KEY_TEAM = "TEAM";
     private static final String KEY_TITLE = "TITLE";
@@ -43,8 +40,8 @@ public class GameplayOptionFragment extends BaseMvpFragment<IGameplayOptionView,
 
     public static void start(Fragment fragment, String title, TeamResponse team, LeagueResponse league) {
         AloneFragmentActivity.with(fragment)
-                .parameters(GameplayOptionFragment.newBundle(title, team, league))
-                .start(GameplayOptionFragment.class);
+                .parameters(TradeFragment.newBundle(title, team, league))
+                .start(TradeFragment.class);
     }
 
     private static Bundle newBundle(String title, TeamResponse team, LeagueResponse league) {
@@ -57,7 +54,7 @@ public class GameplayOptionFragment extends BaseMvpFragment<IGameplayOptionView,
 
     @Override
     public int getResourceId() {
-        return R.layout.team_squad_gameplay_option_fragment;
+        return R.layout.team_squad_trade_fragment;
     }
 
     @Override
@@ -90,8 +87,8 @@ public class GameplayOptionFragment extends BaseMvpFragment<IGameplayOptionView,
 
     @NonNull
     @Override
-    public IGameplayOptionPresenter<IGameplayOptionView> createPresenter() {
-        return new GameplayOptionDataPresenter(getAppComponent());
+    public ITradePresenter<ITradeView> createPresenter() {
+        return new TradeDataPresenter(getAppComponent());
     }
 
     void initBackgroundToolbar() {
@@ -100,14 +97,14 @@ public class GameplayOptionFragment extends BaseMvpFragment<IGameplayOptionView,
     }
 
     void initView() {
-        initPages(league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER));
+        initPages();
     }
 
-    private void initPages(boolean isTransferMode) {
+    private void initPages() {
         // carousel
         cvCarouselView.setAdapter(mActivity, new ArrayList<Carousel>() {{
-            add(new Carousel(getString(isTransferMode ? R.string.transferring_player : R.string.waiving_player), true));
-            add(new Carousel(getString(R.string.record), false));
+            add(new Carousel(getString(R.string.request_by_you), true));
+            add(new Carousel(getString(R.string.request_to_you), false));
         }}, R.color.color_blue, R.color.color_white, position -> {
             cvCarouselView.setActivePosition(position);
             vpViewPager.setCurrentItem(position);
@@ -115,8 +112,8 @@ public class GameplayOptionFragment extends BaseMvpFragment<IGameplayOptionView,
 
         // view pager
         StatePagerAdapter mAdapter = new StatePagerAdapter(getChildFragmentManager());
-        mAdapter.addFragment(TransferringFragment.newInstance(team, league).setChildFragment(true));
-        mAdapter.addFragment(RecordFragment.newInstance(team, league).setChildFragment(true));
+        mAdapter.addFragment(RequestFragment.newInstance(RequestFragment.REQUEST_FROM, league, team.getId()).setChildFragment(true));
+        mAdapter.addFragment(RequestFragment.newInstance(RequestFragment.REQUEST_TO, league, team.getId()).setChildFragment(true));
         vpViewPager.setAdapter(mAdapter);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

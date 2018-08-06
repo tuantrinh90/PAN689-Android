@@ -1,4 +1,4 @@
-package com.football.fantasy.fragments.leagues.team_details.gameplay_option.proposal;
+package com.football.fantasy.fragments.leagues.team_details.team_squad.trade.proposal;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.lineup.PlayerView;
 import com.football.events.PlayerEvent;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.leagues.team_details.gameplay_option.proposal_team_squad.ProposalTeamSquadFragment;
+import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.proposal_team_squad.ProposalTeamSquadFragment;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TradeResponse;
 
@@ -62,7 +62,7 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
 
     @Override
     public int getResourceId() {
-        return R.layout.team_squad_trade_proposal_fragment;
+        return R.layout.team_squad_team_details_gameplay_option_proposal_fragment;
     }
 
     @Override

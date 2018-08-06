@@ -1,4 +1,4 @@
-package com.football.fantasy.fragments.leagues.team_details.gameplay_option.request;
+package com.football.fantasy.fragments.leagues.team_details.team_squad.trade.request;
 
 import com.football.common.views.IBaseMvpView;
 import com.football.models.responses.TradeResponse;

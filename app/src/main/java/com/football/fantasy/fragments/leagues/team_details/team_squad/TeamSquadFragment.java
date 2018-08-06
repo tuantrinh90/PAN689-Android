@@ -18,6 +18,7 @@ import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.fantasy.fragments.leagues.team_details.gameplay_option.GameplayOptionFragment;
+import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.TradeFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TeamResponse;
@@ -158,7 +159,7 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
 
     @OnClick(R.id.llTrade)
     void onClickTrade() {
-        GameplayOptionFragment.start(this, getString(R.string.team_squad), team, league);
+        TradeFragment.start(this, getString(R.string.team_squad), team, league);
     }
 
     @OnClick(R.id.tvSortByColumn)

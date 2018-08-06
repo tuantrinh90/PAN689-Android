@@ -1,4 +1,4 @@
-package com.football.fantasy.fragments.leagues.team_details.gameplay_option.proposal;
+package com.football.fantasy.fragments.leagues.team_details.team_squad.trade.proposal;
 
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
