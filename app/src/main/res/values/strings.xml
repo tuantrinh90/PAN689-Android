@@ -63,6 +63,7 @@
     <string name="game_play_options">Gameplay option</string>
     <string name="transfer">Transfer</string>
     <string name="draft">Draft</string>
+    <string name="waving">Waving</string>
     <string name="number_of_users">Number of users</string>
     <string name="trade_review_setting">Trade review setting</string>
     <string name="no_trade_review">No trade review</string>
@@ -265,6 +266,9 @@
     <string name="transferring_player">Transferring player</string>
     <string name="transferring_player_left">Transferring player left</string>
     <string name="transferring_time_left">Transferring time left</string>
+    <string name="waiving_player">Waiving player</string>
+    <string name="waiving_player_left">Waiving player left</string>
+    <string name="waiving_time_left">Waiving time left</string>
     <string name="number_of_trade_left">Number of trade left</string>
     <string name="record">Record</string>
     <string name="transfer_fee">Transfer fee:</string>

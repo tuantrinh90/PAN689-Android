@@ -20,7 +20,7 @@ import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragme
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.fantasy.fragments.leagues.team_lineup.TeamLineUpFragment;
 import com.football.fantasy.fragments.leagues.team_squad.TeamSquadFragment;
-import com.football.fantasy.fragments.leagues.team_squad.trade.TradeFragment;
+import com.football.fantasy.fragments.leagues.team_squad.trade.GameplayOptionFragment;
 import com.football.fantasy.fragments.leagues.team_statistics.TeamStatisticFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
@@ -29,6 +29,8 @@ import com.football.utilities.AppUtilities;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
+
+import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
 
 public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDetailPresenter<ITeamDetailView>> implements ITeamDetailView {
 
@@ -57,12 +59,12 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
     ExtTextView tvDescription;
     @BindView(R.id.llTeamLineUp)
     LinearLayout llTeamLineUp;
-    @BindView(R.id.llTransfer)
-    LinearLayout llTransfer;
     @BindView(R.id.llTeamSquad)
     LinearLayout llTeamSquad;
     @BindView(R.id.llStatistics)
     LinearLayout llStatistics;
+    @BindView(R.id.tvGamePlayOption)
+    ExtTextView tvGamePlayOption;
 
     private int teamId;
     private LeagueResponse league;
@@ -88,7 +90,13 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
         getDataFromBundle();
         registerEvent();
 
+        initView();
+
         getTeam();
+    }
+
+    private void initView() {
+        tvGamePlayOption.setText(getString(league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER) ? R.string.transfer : R.string.waving));
     }
 
     private void getTeam() {
@@ -156,7 +164,7 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
                 .start(SetupTeamFragment.class);
     }
 
-    @OnClick({R.id.llTeamLineUp, R.id.llTransfer, R.id.llTeamSquad, R.id.llStatistics})
+    @OnClick({R.id.llTeamLineUp, R.id.llGamePlayOption, R.id.llTeamSquad, R.id.llStatistics})
     public void onBlockClicked(View view) {
         if (league.getStatus().equals(LeagueResponse.WAITING_FOR_START)) {
             showMessage(R.string.league_is_not_started_yet, R.string.ok, null);
@@ -173,10 +181,10 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
                     showMessage(getString(R.string.message_team_lineup_is_not_completed_yet));
                 }
                 break;
-            case R.id.llTransfer:
+            case R.id.llGamePlayOption:
                 if (AppUtilities.isOwner(getContext(), team.getUserId())) {
                     if (league.getStatus() == LeagueResponse.ON_GOING) {
-                        TradeFragment.start(this, getString(R.string.team_details), team, league);
+                        GameplayOptionFragment.start(this, getString(R.string.team_details), team, league);
                     } else {
                         showMessage(R.string.start_league_before_team_setup_time, R.string.ok, null);
                     }

@@ -33,11 +33,11 @@ public class TransferringDataPresenter extends BaseDataPresenter<ITransferringVi
     }
 
     @Override
-    public void getTeamTransferring(Integer teamId, String filterPositions, String filterClubs, List<ExtKeyValuePair> displayPairs, int[] sorts) {
+    public void getTeamTransferring(Integer teamId, String gameplay, String filterPositions, String filterClubs, List<ExtKeyValuePair> displayPairs, int[] sorts) {
         getOptView().doIfPresent(v -> {
 
             Map<String, String> queries = new HashMap<>();
-            queries.put("gameplay_option", "transfer");
+            queries.put("gameplay_option", gameplay);
 
             if (!TextUtils.isEmpty(filterPositions)) {
                 queries.put(Constant.KEY_MAIN_POSITION, filterPositions);

@@ -10,6 +10,7 @@ import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
+import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.models.responses.TransferHistoryResponse;
 
@@ -17,22 +18,27 @@ import java.util.List;
 
 import butterknife.BindView;
 
+import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
+
 public class RecordFragment extends BaseMvpFragment<IRecordView, IRecordPresenter<IRecordView>> implements IRecordView {
 
     private static final String KEY_TEAM = "TEAM";
+    private static final String KEY_LEAGUE = "LEAGUE";
 
     @BindView(R.id.rvRecord)
     ExtRecyclerView<TransferHistoryResponse> rvRecord;
 
     private TeamResponse team;
+    private LeagueResponse league;
 
     private int page = 1;
 
-    public static RecordFragment newInstance(TeamResponse team) {
+    public static RecordFragment newInstance(TeamResponse team, LeagueResponse league) {
         RecordFragment fragment = new RecordFragment();
 
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_TEAM, team);
+        bundle.putSerializable(KEY_LEAGUE, league);
 
         fragment.setArguments(bundle);
         return fragment;
@@ -55,6 +61,7 @@ public class RecordFragment extends BaseMvpFragment<IRecordView, IRecordPresente
 
     private void getDataFromBundle() {
         team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
+        league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
     }
 
     @NonNull
@@ -85,7 +92,8 @@ public class RecordFragment extends BaseMvpFragment<IRecordView, IRecordPresente
     }
 
     private void getTransferHistories() {
-        presenter.getTransferHistories(team.getId(), "transfer", page);
+        boolean isTransfer = league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER);
+        presenter.getTransferHistories(team.getId(), isTransfer ? "transfer" : "draft", page);
     }
 
     @Override

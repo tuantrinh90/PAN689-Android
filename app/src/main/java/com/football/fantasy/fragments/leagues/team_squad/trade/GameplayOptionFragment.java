@@ -9,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 
-import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.football.adapters.StatePagerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
@@ -17,7 +16,6 @@ import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.leagues.team_squad.trade.choose_a_team.ChooseATeamFragment;
 import com.football.fantasy.fragments.leagues.team_squad.trade.record.RecordFragment;
 import com.football.fantasy.fragments.leagues.team_squad.trade.request.RequestFragment;
 import com.football.fantasy.fragments.leagues.team_squad.trade.transferring.TransferringFragment;
@@ -27,11 +25,10 @@ import com.football.models.responses.TeamResponse;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
 
-public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<ITradeView>> implements ITradeView {
+public class GameplayOptionFragment extends BaseMvpFragment<ITradeView, ITradePresenter<ITradeView>> implements ITradeView {
 
     private static final String KEY_TEAM = "TEAM";
     private static final String KEY_TITLE = "TITLE";
@@ -40,10 +37,6 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
     private String title;
     private LeagueResponse league;
 
-    @BindView(R.id.tvNumberOfTradeLeft)
-    ExtTextView tvNumberOfTradeLeft;
-    @BindView(R.id.header_draft)
-    View headerDraft;
     @BindView(R.id.cvCarouselView)
     CarouselView cvCarouselView;
     @BindView(R.id.vpViewPager)
@@ -51,8 +44,8 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
 
     public static void start(Fragment fragment, String title, TeamResponse team, LeagueResponse league) {
         AloneFragmentActivity.with(fragment)
-                .parameters(TradeFragment.newBundle(title, team, league))
-                .start(TradeFragment.class);
+                .parameters(GameplayOptionFragment.newBundle(title, team, league))
+                .start(GameplayOptionFragment.class);
     }
 
     private static Bundle newBundle(String title, TeamResponse team, LeagueResponse league) {
@@ -65,7 +58,7 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
 
     @Override
     public int getResourceId() {
-        return R.layout.team_squad_trade_fragment;
+        return R.layout.team_squad_gameplay_option_fragment;
     }
 
     @Override
@@ -108,19 +101,13 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
     }
 
     void initView() {
-        if (league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER)) {
-            initTransferPages();
-            headerDraft.setVisibility(View.GONE);
-        } else {
-            initDraftPagers();
-            headerDraft.setVisibility(View.VISIBLE);
-        }
+        initPages(league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER));
     }
 
-    private void initTransferPages() {
+    private void initPages(boolean isTransferMode) {
         // carousel
         cvCarouselView.setAdapter(mActivity, new ArrayList<Carousel>() {{
-            add(new Carousel(getString(R.string.transferring_player), true));
+            add(new Carousel(getString(isTransferMode ? R.string.transferring_player : R.string.waiving_player), true));
             add(new Carousel(getString(R.string.record), false));
         }}, R.color.color_blue, R.color.color_white, position -> {
             cvCarouselView.setActivePosition(position);
@@ -129,8 +116,8 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
 
         // view pager
         StatePagerAdapter mAdapter = new StatePagerAdapter(getChildFragmentManager());
-        mAdapter.addFragment(TransferringFragment.newInstance(team, league.getId()).setChildFragment(true));
-        mAdapter.addFragment(RecordFragment.newInstance(team).setChildFragment(true));
+        mAdapter.addFragment(TransferringFragment.newInstance(team, league).setChildFragment(true));
+        mAdapter.addFragment(RecordFragment.newInstance(team, league).setChildFragment(true));
         vpViewPager.setAdapter(mAdapter);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -181,11 +168,6 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
 
             }
         });
-    }
-
-    @OnClick(R.id.ivAdd)
-    public void onAddClicked() {
-        ChooseATeamFragment.start(getContext(), league.getId(), team.getId());
     }
 
 }

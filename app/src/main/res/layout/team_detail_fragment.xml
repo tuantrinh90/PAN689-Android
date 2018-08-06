@@ -222,7 +222,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/llTransfer"
+                android:id="@+id/llGamePlayOption"
                 android:layout_width="0dp"
                 android:layout_marginLeft="@dimen/padding_content"
                 android:layout_marginStart="@dimen/padding_content"
@@ -237,6 +237,7 @@
                     android:src="@drawable/ic_transfer_blue" />
 
                 <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvGamePlayOption"
                     style="@style/StyleContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

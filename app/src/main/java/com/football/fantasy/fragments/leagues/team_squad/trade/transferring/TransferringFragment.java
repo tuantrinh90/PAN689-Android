@@ -22,6 +22,7 @@ import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragmen
 import com.football.fantasy.fragments.leagues.player_pool.PlayerPoolFragment;
 import com.football.fantasy.fragments.leagues.player_pool.display.PlayerPoolDisplayFragment;
 import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilterFragment;
+import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.utilities.AppUtilities;
@@ -34,6 +35,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 
+import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
 import static com.football.models.responses.PlayerResponse.Options.GOALS;
 import static com.football.models.responses.PlayerResponse.Options.POINT;
 import static com.football.models.responses.PlayerResponse.Options.VALUE;
@@ -43,7 +45,7 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     private static final String TAG = "TransferringFragment";
 
     private static final String KEY_TEAM = "TEAM";
-    private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+    private static final String KEY_LEAGUE = "LEAGUE_ID";
 
     private static final int REQUEST_FILTER = 100;
     private static final int REQUEST_DISPLAY = 101;
@@ -71,6 +73,14 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     @BindView(R.id.option3)
     LinearLayout option3;
 
+    @BindView(R.id.relativeLayout2)
+    View budgetView;
+
+    @BindView(R.id.tvTransferringPlayerLeft)
+    ExtTextView tvTransferringPlayerLeft;
+    @BindView(R.id.tvTransferringTimeLeft)
+    ExtTextView tvTransferringTimeLeft;
+
     @BindView(R.id.tvTransferringPlayerLeftValue)
     ExtTextView tvTransferringPlayerLeftValue;
     @BindView(R.id.tvTransferringTimeLeftValue)
@@ -79,19 +89,19 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     ExtTextView tvBudgetValue;
 
     private TeamResponse team;
-    private int leagueId;
+    private LeagueResponse league;
 
     private String filterClubs = "";
     private String filterPositions = "";
     private int[] sorts = new int[]{Constant.SORT_NONE, Constant.SORT_NONE, Constant.SORT_NONE}; // -1: NONE, 0: desc, 1: asc
     private List<ExtKeyValuePair> displays = new ArrayList<>();
 
-    public static TransferringFragment newInstance(TeamResponse team, int leagueId) {
+    public static TransferringFragment newInstance(TeamResponse team, LeagueResponse league) {
         TransferringFragment fragment = new TransferringFragment();
 
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_TEAM, team);
-        bundle.putInt(KEY_LEAGUE_ID, leagueId);
+        bundle.putSerializable(KEY_LEAGUE, league);
 
         fragment.setArguments(bundle);
         return fragment;
@@ -110,12 +120,12 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
 
         registerBus();
         initView();
-        getTeamTransferring();
+        getTeamPlayers();
     }
 
     private void getDataFromBundle() {
         team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
-        leagueId = getArguments().getInt(KEY_LEAGUE_ID);
+        league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
     }
 
     @NonNull
@@ -210,6 +220,20 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     }
 
     private void initView() {
+        boolean isTransfer = league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER);
+        if (isTransfer) {
+            budgetView.setVisibility(View.VISIBLE);
+            tvTransferringPlayerLeft.setText(R.string.transferring_player_left);
+            tvTransferringTimeLeft.setText(R.string.transferring_time_left);
+        } else {
+            tvTransferringPlayerLeft.setMaxEms(999);
+            tvTransferringTimeLeft.setMaxEms(999);
+            tvTransferringPlayerLeft.setLines(1);
+            tvTransferringTimeLeft.setLines(1);
+            budgetView.setVisibility(View.GONE);
+            tvTransferringPlayerLeft.setText(R.string.waiving_player_left);
+            tvTransferringTimeLeft.setText(R.string.waiving_time_left);
+        }
 
         // display default
         displays.add(PlayerPoolDisplayFragment.OPTION_DISPLAY_DEFAULT_1);
@@ -251,16 +275,17 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
         rvPlayer.clear();
         rvPlayer.startLoading();
         rvInjured.clear();
-        getTeamTransferring();
+        getTeamPlayers();
     }
 
-    private void getTeamTransferring() {
-        presenter.getTeamTransferring(team.getId(), filterPositions, filterClubs, displays, sorts);
+    private void getTeamPlayers() {
+        boolean isTransfer = league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER);
+        presenter.getTeamTransferring(team.getId(), isTransfer ? "transfer" : "draft", filterPositions, filterClubs, displays, sorts);
     }
 
     private void transferPlayer(PlayerResponse player) {
         // append PlayerPool
-        PlayerPoolFragment.start(this, getString(R.string.transferring_player), player, leagueId);
+        PlayerPoolFragment.start(this, getString(R.string.transferring_player), player, league.getId());
     }
 
     @OnClick({R.id.filter, R.id.display, R.id.option1, R.id.option2, R.id.option3})
@@ -321,7 +346,7 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
                 sorts[index] = Constant.SORT_DESC;
                 break;
         }
-        getTeamTransferring();
+        getTeamPlayers();
     }
 
     private int getArrowResource(int state) {
