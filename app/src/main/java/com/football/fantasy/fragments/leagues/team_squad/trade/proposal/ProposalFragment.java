@@ -25,8 +25,8 @@ import io.reactivex.observers.DisposableObserver;
 
 public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPresenter<IProposalView>> implements IProposalView {
 
-    private static final String KEY_FROM_TEAM = "TEAM";
-    private static final String KEY_TO_TEAM = "TO_TEAM";
+    private static final String KEY_FROM_TEAM_ID = "TEAM";
+    private static final String KEY_TO_TEAM_ID = "TO_TEAM";
 
     private static final int MY_TEAM_INDEX_1 = 0;
     private static final int MY_TEAM_INDEX_2 = 1;
@@ -40,12 +40,12 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
     @BindView(R.id.tvTitleTeam1)
     ExtTextView tvTitleTeam1;
     @BindViews({R.id.player11, R.id.player12, R.id.player13, R.id.player21, R.id.player22, R.id.player23})
-    PlayerView[] players;
+    PlayerView[] playerViews;
     @BindView(R.id.buttonMakeProposal)
     ExtTextView buttonMakeProposal;
 
-    private int fromTeam;
-    private int toTeam;
+    private int fromTeamId;
+    private int toTeamId;
 
     public static void start(Context context, int fromTeam, int toTeam) {
         AloneFragmentActivity.with(context)
@@ -55,8 +55,8 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
 
     private static Bundle newBundle(int fromTeam, int toTeam) {
         Bundle bundle = new Bundle();
-        bundle.putInt(KEY_FROM_TEAM, fromTeam);
-        bundle.putInt(KEY_TO_TEAM, toTeam);
+        bundle.putInt(KEY_FROM_TEAM_ID, fromTeam);
+        bundle.putInt(KEY_TO_TEAM_ID, toTeam);
         return bundle;
     }
 
@@ -76,8 +76,8 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
     }
 
     private void getDataFromBundle() {
-        fromTeam = getArguments().getInt(KEY_FROM_TEAM);
-        toTeam = getArguments().getInt(KEY_TO_TEAM);
+        fromTeamId = getArguments().getInt(KEY_FROM_TEAM_ID);
+        toTeamId = getArguments().getInt(KEY_TO_TEAM_ID);
     }
 
     @NonNull
@@ -99,9 +99,10 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
                     @Override
                     public void onNext(PlayerEvent event) {
                         if (event.getAction() == PlayerEvent.ACTION_ADD_CLICK) {
-
                             PlayerResponse player = event.getData();
-                            players[event.getPosition()].setPlayer(player);
+                            playerViews[event.getPosition()].setPlayer(player);
+
+                            setEnableMakeProposalButton(true);
                         }
                     }
 
@@ -120,7 +121,7 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
     private void initView() {
         setEnableMakeProposalButton(false);
 
-        for (PlayerView player : players) {
+        for (PlayerView player : playerViews) {
             player.setPlayer(null);
             player.setAddable(true);
             player.setRemovable(true);
@@ -156,22 +157,22 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
     private void onAddPlayer(PlayerView view) {
         switch (view.getId()) {
             case R.id.player11:
-                ProposalTeamSquadFragment.start(getContext(), fromTeam, MY_TEAM_INDEX_1);
+                ProposalTeamSquadFragment.start(getContext(), fromTeamId, MY_TEAM_INDEX_1);
                 break;
             case R.id.player12:
-                ProposalTeamSquadFragment.start(getContext(), fromTeam, MY_TEAM_INDEX_2);
+                ProposalTeamSquadFragment.start(getContext(), fromTeamId, MY_TEAM_INDEX_2);
                 break;
             case R.id.player13:
-                ProposalTeamSquadFragment.start(getContext(), fromTeam, MY_TEAM_INDEX_3);
+                ProposalTeamSquadFragment.start(getContext(), fromTeamId, MY_TEAM_INDEX_3);
                 break;
             case R.id.player21:
-                ProposalTeamSquadFragment.start(getContext(), toTeam, OTHER_TEAM_INDEX_1);
+                ProposalTeamSquadFragment.start(getContext(), toTeamId, OTHER_TEAM_INDEX_1);
                 break;
             case R.id.player22:
-                ProposalTeamSquadFragment.start(getContext(), toTeam, OTHER_TEAM_INDEX_2);
+                ProposalTeamSquadFragment.start(getContext(), toTeamId, OTHER_TEAM_INDEX_2);
                 break;
             case R.id.player23:
-                ProposalTeamSquadFragment.start(getContext(), toTeam, OTHER_TEAM_INDEX_3);
+                ProposalTeamSquadFragment.start(getContext(), toTeamId, OTHER_TEAM_INDEX_3);
                 break;
         }
     }
@@ -183,7 +184,18 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
                 getString(R.string.message_confirm_remove_lineup_player),
                 getString(R.string.ok),
                 getString(R.string.cancel),
-                (dialog, which) -> player.setPlayer(null),
+                (dialog, which) -> {
+                    player.setPlayer(null);
+
+                    boolean hasView = false;
+                    for (PlayerView playerView : playerViews) {
+                        if (playerView.getPlayer() != null) {
+                            hasView = true;
+                            break;
+                        }
+                    }
+                    setEnableMakeProposalButton(hasView);
+                },
                 (dialog, which) -> {
                 });
     }
@@ -208,15 +220,15 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
                 int[] toPlayerIds = new int[3];
 
                 for (int i = 0; i < 3; i++) {
-                    if (players[i] != null) {
-                        fromPlayerIds[i] = players[i].getId();
+                    if (playerViews[i].getPlayer() != null) {
+                        fromPlayerIds[i] = playerViews[i].getPlayer().getId();
                     }
-                    if (players[i + 2] != null) {
-                        toPlayerIds[i] = players[i + 2].getId();
+                    if (playerViews[i + 3].getPlayer() != null) {
+                        toPlayerIds[i] = playerViews[i + 3].getPlayer().getId();
                     }
                 }
 
-                presenter.makeProposal(fromTeam, toTeam, fromPlayerIds, toPlayerIds);
+                presenter.makeProposal(fromTeamId, toTeamId, fromPlayerIds, toPlayerIds);
                 break;
         }
     }
