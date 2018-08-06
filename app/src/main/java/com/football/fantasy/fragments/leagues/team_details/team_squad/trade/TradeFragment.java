@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 
+import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.football.adapters.StatePagerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
@@ -16,6 +17,7 @@ import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.choose_a_team.ChooseATeamFragment;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.request.RequestFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
@@ -23,20 +25,24 @@ import com.football.models.responses.TeamResponse;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<ITradeView>> implements ITradeView {
 
     private static final String KEY_TEAM = "TEAM";
     private static final String KEY_TITLE = "TITLE";
     private static final String KEY_LEAGUE = "LEAGUE";
-    private TeamResponse team;
-    private String title;
-    private LeagueResponse league;
 
+    @BindView(R.id.tvNumberOfTradeLeft)
+    ExtTextView tvNumberOfTradeLeft;
     @BindView(R.id.cvCarouselView)
     CarouselView cvCarouselView;
     @BindView(R.id.vpViewPager)
     ViewPager vpViewPager;
+
+    private TeamResponse team;
+    private String title;
+    private LeagueResponse league;
 
     public static void start(Fragment fragment, String title, TeamResponse team, LeagueResponse league) {
         AloneFragmentActivity.with(fragment)
@@ -97,6 +103,7 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
     }
 
     void initView() {
+        tvNumberOfTradeLeft.setText(team.getTradeRequestLeftDisplay());
         initPages();
     }
 
@@ -133,4 +140,8 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
         });
     }
 
+    @OnClick(R.id.ivAdd)
+    public void onAddClicked() {
+        ChooseATeamFragment.start(getContext(), league.getId(), team.getId());
+    }
 }

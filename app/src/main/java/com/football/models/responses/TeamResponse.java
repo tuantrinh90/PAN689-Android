@@ -43,6 +43,13 @@ public class TeamResponse implements Serializable {
     private Integer point;
     @JsonProperty("round")
     private Integer round;
+    @JsonProperty("current_trade_request")
+    private Integer currentTradeRequest;
+    @JsonProperty("max_trade_request")
+    private Integer maxTradeRequest;
+    @JsonProperty("trade_request_left_display")
+    private String tradeRequestLeftDisplay;
+
     @JsonIgnore
     private boolean isChecked;
 
@@ -186,6 +193,18 @@ public class TeamResponse implements Serializable {
         return round;
     }
 
+    public Integer getCurrentTradeRequest() {
+        return currentTradeRequest;
+    }
+
+    public Integer getMaxTradeRequest() {
+        return maxTradeRequest;
+    }
+
+    public String getTradeRequestLeftDisplay() {
+        return tradeRequestLeftDisplay;
+    }
+
     @Override
     public String toString() {
         return "TeamResponse{" +
@@ -194,6 +213,7 @@ public class TeamResponse implements Serializable {
                 ", updatedAt='" + updatedAt + '\'' +
                 ", userId=" + userId +
                 ", user=" + user +
+                ", statistic=" + statistic +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", logo='" + logo + '\'' +
@@ -203,8 +223,13 @@ public class TeamResponse implements Serializable {
                 ", formation='" + formation + '\'' +
                 ", pickOrder=" + pickOrder +
                 ", isOwner=" + isOwner +
+                ", isCompleted=" + isCompleted +
+                ", point=" + point +
+                ", round=" + round +
+                ", currentTradeRequest=" + currentTradeRequest +
+                ", maxTradeRequest=" + maxTradeRequest +
+                ", tradeRequestLeftDisplay='" + tradeRequestLeftDisplay + '\'' +
                 ", isChecked=" + isChecked +
-                ", is_completed=" + isCompleted +
                 '}';
     }
 }
