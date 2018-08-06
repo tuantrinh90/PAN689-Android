@@ -58,7 +58,7 @@ public class GameplayOptionFragment extends BaseMvpFragment<IGameplayOptionView,
 
     @Override
     public int getResourceId() {
-        return R.layout.team_details.gameplay_option_fragment;
+        return R.layout.team_squad_gameplay_option_fragment;
     }
 
     @Override
