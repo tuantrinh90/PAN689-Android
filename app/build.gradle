@@ -82,6 +82,12 @@ dependencies {
     // play service
     implementation "com.google.android.gms:play-services-base:${rootProject.ext.playServiceVer}"
 
+    // notification
+    implementation "com.google.firebase:firebase-messaging:${rootProject.ext.firebaseMessagingVer}"
+    implementation "com.google.firebase:firebase-iid:${rootProject.ext.firebase_iid}"
+    implementation "com.google.firebase:firebase-core:${rootProject.ext.firebase_core}"
+    implementation "com.firebase:firebase-jobdispatcher:${rootProject.ext.firebase_jobdispatcher}"
+
     // butter knife
     implementation "com.jakewharton:butterknife:${rootProject.ext.butterknifeVer}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${rootProject.ext.butterknifeVer}"

@@ -5,6 +5,8 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.bon.util.ActivityUtils;
 import com.bon.util.DialogUtils;
@@ -12,13 +14,13 @@ import com.football.adapters.StatePagerAdapter;
 import com.football.common.activities.BaseAppCompatActivity;
 import com.football.customizes.footers.FooterItem;
 import com.football.events.UnauthorizedEvent;
-import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.home.HomeFragment;
 import com.football.fantasy.fragments.leagues.LeagueFragment;
 import com.football.fantasy.fragments.match_up.MatchUpFragment;
 import com.football.fantasy.fragments.more.MoreFragment;
 import com.football.fantasy.fragments.notification.NotificationFragment;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -67,38 +69,28 @@ public class MainActivity extends BaseAppCompatActivity {
         initViewPager();
         initFragmentDefault();
         initRxBus();
-        if (BuildConfig.DEBUG) {
-            test();
-        }
+        registerNotification();
     }
 
     private static final String TAG = "MainActivity";
 
-    void test() {
-//        Single.create((SingleOnSubscribe<Long>) emitter -> {
-//            URL url = new URL("https://currentmillis.com/time/minutes-since-unix-epoch.php");
-//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//            connection.setRequestMethod("GET");
-//            connection.connect();
-//
-//            InputStream output = connection.getInputStream();
-//            Scanner s = new Scanner(output).useDelimiter("\\A");
-//            String response = s.hasNext() ? s.next() : "";
-//            if (TextUtils.isDigitsOnly(response)) {
-//                emitter.onSuccess(Long.valueOf(response) * 60 * 1000);
-//            } else {
-//                Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("utc"));
-//                emitter.onSuccess(cal.getTimeInMillis());
-//            }
-//        })
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(time -> {
-//                    Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("utc"));
-//                    Log.d(TAG, "test: " + time + " >< " + cal.getTimeInMillis());
-//                }, throwable -> {
-//                    throwable.printStackTrace();
-//                });
+    void registerNotification() {
+        // Get token
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "getInstanceId failed", task.getException());
+                        return;
+                    }
+
+                    // Get new Instance ID token
+                    String token = task.getResult().getToken();
+
+                    // Log and toast
+                    String msg = "Token ne: " + token;
+                    Log.d(TAG, msg);
+                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void initViewPager() {

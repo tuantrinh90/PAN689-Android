@@ -18,7 +18,7 @@ ext {
     minSdkVersion = 16
     targetSdkVersion = 23
     androidVer = '27.1.1'
-    constrainLayoutVer = '1.1.0'
+    constrainLayoutVer = '1.1.2'
     butterknifeVer = '8.8.1'
     nineoldandroidsVer = '2.4.0'
     multidexVer = '1.0.3'
@@ -45,6 +45,13 @@ ext {
     easyLoginVer = 'v0.6'
     facebookVer = '4.24.0'
     twitterVer = '3.3.0@aar'
+
+    // notifcation
+    firebaseMessagingVer = '17.1.0'
+    firebase_iid = '16.2.0'
+    firebase_core = '16.0.1'
+    firebase_jobdispatcher = '0.8.5'
+
 }
 
 allprojects {
