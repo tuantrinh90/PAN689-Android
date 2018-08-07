@@ -31,7 +31,7 @@ public class PlayerView extends LinearLayout {
 
     private OnPlayerViewClickListener mListener;
     private int order;
-    private int position; // vị trí: G, M, D, A
+    private int position = -1; // vị trí: G, M, D, A
     private PlayerResponse player;
     private boolean named = true;
     private boolean removable;
@@ -83,6 +83,8 @@ public class PlayerView extends LinearLayout {
             case PlayerResponse.POSITION_ATTACKER:
                 ivPlayer.setBackgroundResource(R.drawable.bg_player_a);
                 break;
+            default:
+                ivPlayer.setBackgroundResource(R.drawable.bg_player_none);
         }
     }
 
@@ -116,6 +118,10 @@ public class PlayerView extends LinearLayout {
     public void setPlayer(PlayerResponse player) {
         this.player = player;
         displayPlayer();
+    }
+
+    public void setTextColor(int color) {
+        tvContent.setTextColor(color);
     }
 
     @OnClick({R.id.ivRemove, R.id.ivPlayer})

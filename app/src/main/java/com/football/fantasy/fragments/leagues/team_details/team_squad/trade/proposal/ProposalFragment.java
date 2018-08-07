@@ -100,6 +100,7 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
                     public void onNext(PlayerEvent event) {
                         if (event.getAction() == PlayerEvent.ACTION_ADD_CLICK) {
                             PlayerResponse player = event.getData();
+                            playerViews[event.getPosition()].setPosition(player.getMainPosition());
                             playerViews[event.getPosition()].setPlayer(player);
 
                             setEnableMakeProposalButton(true);
@@ -185,6 +186,7 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
                 getString(R.string.ok),
                 getString(R.string.cancel),
                 (dialog, which) -> {
+                    player.setPosition(PlayerResponse.POSITION_NONE);
                     player.setPlayer(null);
 
                     boolean hasView = false;

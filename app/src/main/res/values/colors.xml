@@ -38,4 +38,6 @@
     <color name="color_background_edit_text_focused">#edeaf6</color>
     <color name="switch_color">#c4c4c4</color>
 
+    <color name="color_white_2">#E4F2FF</color>
+
 </resources>
