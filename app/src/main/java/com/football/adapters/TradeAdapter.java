@@ -20,10 +20,12 @@ import java8.util.function.Consumer;
 
 public class TradeAdapter extends DefaultAdapter<TradeResponse> {
 
+    private final Consumer<TradeResponse> itemCallback;
     private final Consumer<TeamResponse> teamDetailCallback;
 
-    public TradeAdapter(Context context, Consumer<TeamResponse> teamDetailCallback) {
+    public TradeAdapter(Context context, Consumer<TradeResponse> itemCallback, Consumer<TeamResponse> teamDetailCallback) {
         super(context);
+        this.itemCallback = itemCallback;
         this.teamDetailCallback = teamDetailCallback;
     }
 
@@ -50,6 +52,10 @@ public class TradeAdapter extends DefaultAdapter<TradeResponse> {
         holder.tvTime.setText(AppUtilities.getTime(data.getDeadline(), Constant.FORMAT_DATE_TIME_SERVER, Constant.FORMAT_DATE_TIME));
         holder.tvPlayers.setText(mContext.getString(R.string.total_players, data.getTotalPlayer()));
 
+        holder.itemView.setOnClickListener(v -> {
+            TradeResponse trade = getItem(defaultHolder.getAdapterPosition());
+            itemCallback.accept(trade);
+        });
         holder.ivAvatarTeam1.setOnClickListener(v -> {
             TradeResponse trade = getItem(defaultHolder.getAdapterPosition());
             teamDetailCallback.accept(trade.getTeam());

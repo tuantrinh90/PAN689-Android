@@ -11,6 +11,7 @@ import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
+import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.proposal_reveiew.ProposalReviewFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TradeResponse;
 
@@ -77,6 +78,9 @@ public class RequestFragment extends BaseMvpFragment<IRequestView, IRequestPrese
     void initRecyclerView() {
         TradeAdapter adapter = new TradeAdapter(
                 getContext(),
+                trade -> {
+                    ProposalReviewFragment.start(getContext(), getString(R.string.trade_request), trade);
+                },
                 team -> {
                     AloneFragmentActivity.with(this)
                             .parameters(TeamDetailFragment.newBundle(team.getId(), league))

@@ -95,6 +95,8 @@ public interface ServiceConfig {
 
     // trade request
     String TRADE_REQUESTS = "trade_requests";
+    String TRADE_REVIEW = "trade_requests/get_results";
+    String TRADE_DECISION  = "trade_requests/{id}/decision";
 
     // user
     String GET_PROFILE = "profile/{id}";

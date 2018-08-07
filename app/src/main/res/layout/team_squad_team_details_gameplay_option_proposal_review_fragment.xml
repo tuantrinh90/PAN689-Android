@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_white"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/padding_layout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/padding_layout"
+            android:paddingRight="@dimen/padding_layout">
+
+            <com.bon.customview.textview.ExtTextView
+                style="@style/StyleTitle"
+                android:padding="0dp"
+                android:text="@string/trade_review"
+                android:textAllCaps="true"
+                app:textViewFontAssetName="@string/font_display_black_italic" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_content"
+                android:gravity="center_horizontal|center_vertical">
+
+                <com.bon.customview.textview.ExtTextView
+                    style="@style/StyleDescriptionGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:text="@string/deadline"
+                    android:textColor="@color/color_content"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvTime"
+                    style="@style/StyleDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="12/12/2018 15:15" />
+
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/carousel_item_dot_height"
+                android:progress="25"
+                android:progressDrawable="@drawable/progress_bar_trade_preview" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvReject"
+                    style="@style/StyleDescriptionGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:text="@string/rejected"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvApprove"
+                    style="@style/StyleDescriptionGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:text="@string/approved"
+                    app:textViewFontAssetName="@string/font_display_bold" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:paddingLeft="@dimen/padding_content"
+            android:paddingRight="@dimen/padding_content">
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvTitleTeam1"
+                style="@style/StyleDescriptionGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/player_list_item_size"
+                android:padding="0dp"
+                android:paddingLeft="@dimen/padding_content"
+                android:paddingRight="@dimen/padding_content"
+                android:text="@string/app_name"
+                android:textColor="@color/color_black"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:textViewFontAssetName="@string/font_display_heavy" />
+
+            <LinearLayout
+                android:id="@+id/group_my_team"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/padding_layout"
+                android:layout_marginRight="@dimen/padding_layout"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_gray_gradient_radius"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/padding_layout"
+                android:paddingTop="@dimen/padding_layout"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitleTeam1">
+
+                <com.football.customizes.lineup.PlayerView
+                    android:id="@+id/player11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <com.football.customizes.lineup.PlayerView
+                    android:id="@+id/player12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <com.football.customizes.lineup.PlayerView
+                    android:id="@+id/player13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvTitleTeam2"
+                style="@style/StyleDescriptionGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/player_list_item_size"
+                android:padding="0dp"
+                android:paddingLeft="@dimen/padding_content"
+                android:paddingRight="@dimen/padding_content"
+                android:text="@string/app_name"
+                android:textColor="@color/color_black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:textViewFontAssetName="@string/font_display_heavy" />
+
+            <LinearLayout
+                android:id="@+id/group_other_team"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_layout"
+                android:layout_marginStart="@dimen/padding_layout"
+                android:layout_marginTop="@dimen/padding_content"
+                android:background="@drawable/bg_gray_gradient_radius"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/padding_layout"
+                android:paddingTop="@dimen/padding_layout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitleTeam2">
+
+                <com.football.customizes.lineup.PlayerView
+                    android:id="@+id/player21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <com.football.customizes.lineup.PlayerView
+                    android:id="@+id/player22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <com.football.customizes.lineup.PlayerView
+                    android:id="@+id/player23"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/point_1"
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/group_my_team"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/group_my_team"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/point_2"
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/group_other_team"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/group_other_team"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/point_2"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/point_1"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="@dimen/padding_layout"
+                app:layout_constraintEnd_toStartOf="@+id/point_2"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/point_1"
+                app:layout_constraintTop_toBottomOf="@+id/group_my_team">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/padding_layout"
+            android:layout_marginRight="@dimen/padding_layout">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_margin="@dimen/padding_layout">
+
+                <com.bon.customview.shadowlayout.ShadowLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:shadowLayoutCornerRadius="@dimen/component_radius"
+                    app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+                    app:shadowLayoutShadowColor="@color/color_shadow">
+
+                    <com.bon.customview.textview.ExtTextView
+                        android:id="@+id/buttonReject"
+                        style="@style/StyleButton"
+                        android:background="@drawable/bg_button_red"
+                        android:text="@string/reject"
+                        android:textAllCaps="true"
+                        app:textViewFontAssetName="@string/font_display_black" />
+                </com.bon.customview.shadowlayout.ShadowLayout>
+
+                <com.bon.customview.shadowlayout.ShadowLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1"
+                    app:shadowLayoutCornerRadius="@dimen/component_radius"
+                    app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+                    app:shadowLayoutShadowColor="@color/color_shadow">
+
+                    <com.bon.customview.textview.ExtTextView
+                        android:id="@+id/buttonApprove"
+                        style="@style/StyleButton"
+                        android:background="@drawable/bg_button_green_approve"
+                        android:text="@string/approve"
+                        android:textAllCaps="true"
+                        app:textViewFontAssetName="@string/font_display_black" />
+                </com.bon.customview.shadowlayout.ShadowLayout>
+            </LinearLayout>
+
+        </FrameLayout>
+    </LinearLayout>
+
+</ScrollView>

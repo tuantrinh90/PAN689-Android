@@ -306,4 +306,11 @@
     <string name="total_players">%d players</string>
     <string name="make_proposal">Make proposal</string>
     <string name="proceed">Proceed</string>
+    <string name="approve">Approve</string>
+    <string name="reject">Reject</string>
+    <string name="deadline">Deadline:</string>
+    <string name="rejected">Rejected %d</string>
+    <string name="approved">%d Approved</string>
+    <string name="message_confirm_proposal_reject">This proposal has been rejected</string>
+    <string name="message_confirm_proposal_approved">This proposal has been approved</string>
 </resources>

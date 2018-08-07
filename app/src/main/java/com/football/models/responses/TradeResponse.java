@@ -6,6 +6,9 @@ import java.io.Serializable;
 
 public class TradeResponse implements Serializable {
 
+    public static final int DECISION_REJECT = -1;
+    public static final int DECISION_ACCEPT = 1;
+
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("created_at")

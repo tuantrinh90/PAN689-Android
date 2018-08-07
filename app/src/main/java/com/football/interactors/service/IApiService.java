@@ -99,6 +99,12 @@ public interface IApiService {
     @POST(ServiceConfig.TRADE_REQUESTS)
     Observable<BaseResponse<TradeResponse>> submitTradeRequests(@Body RequestBody requestBody);
 
+    @GET(ServiceConfig.TRADE_REVIEW)
+    Observable<BaseResponse<TradeResponse>> getTradeReviews(@Body RequestBody requestBody);
+
+    @POST(ServiceConfig.TRADE_DECISION)
+    Observable<BaseResponse<TradeResponse>> submitTradeDecision(@Path(ServiceConfig.KEY_ID) int requestId, @Body RequestBody requestBody);
+
 
     @POST(ServiceConfig.CHANGE_TEAM_FORMATION)
     Observable<BaseResponse<TeamPitchViewResponse>> changeTeamFormation(@Path(ServiceConfig.KEY_ID) int teamId, @Body RequestBody requestBody);
