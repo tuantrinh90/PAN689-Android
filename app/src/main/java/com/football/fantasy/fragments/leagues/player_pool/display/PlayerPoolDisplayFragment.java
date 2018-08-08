@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.textview.ExtTextView;
+import com.bon.util.DialogUtils;
 import com.football.adapters.FilterAdapter;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.events.PlayerQueryEvent;
@@ -112,6 +113,12 @@ public class PlayerPoolDisplayFragment extends BaseMvpFragment<IPlayerPoolDispla
                 keyValuePairs,
                 extKeyValuePair -> {
                     if (!extKeyValuePair.isSelected() && checkCount > 2) {
+                        DialogUtils.messageBox(mActivity,
+                                0,
+                                getString(R.string.app_name),
+                                getString(R.string.message_maximun_3_columns),
+                                getString(R.string.ok), null);
+
                         return;
                     }
                     if (extKeyValuePair.isSelected()) checkCount--;
@@ -124,6 +131,7 @@ public class PlayerPoolDisplayFragment extends BaseMvpFragment<IPlayerPoolDispla
         rvRecyclerView.setAdapter(filterAdapter);
     }
 
+    @NonNull
     @Override
     public IPlayerPoolDisplayPresenter<IPlayerPoolDisplayView> createPresenter() {
         return new PlayerPoolDisplayPresenter(getAppComponent());

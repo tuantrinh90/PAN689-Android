@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--error key-->
-    <string name="field_is_required">This field must be required</string>
+    <string name="field_is_required">This field is required</string>
     <string name="field_max_40_character">This field must be less than 40 characters</string>
     <string name="field_max_255_character">This field must be less than 255 characters</string>
     <string name="field_phone_invalid">Phone number from 9 – 12 characters</string>
