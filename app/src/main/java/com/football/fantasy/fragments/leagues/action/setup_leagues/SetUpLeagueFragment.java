@@ -62,6 +62,7 @@ import static com.football.models.responses.LeagueResponse.SCORING_SYSTEM_REGULA
 import static com.football.models.responses.LeagueResponse.TRADE_REVIEW_CREATOR;
 import static com.football.models.responses.LeagueResponse.TRADE_REVIEW_MEMBER;
 import static com.football.models.responses.LeagueResponse.TRADE_REVIEW_NO_REVIEW;
+import static com.football.models.responses.LeagueResponse.WAITING_FOR_START;
 
 public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetUpLeaguePresenter<ISetupLeagueView>> implements ISetupLeagueView {
     private static final String TAG = SetUpLeagueFragment.class.getSimpleName();
@@ -246,6 +247,9 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                 String valueDraft = String.format("%02d", league.getTimeToPick());
                 keyValuePairTimePerDraft = new ExtKeyValuePair(valueDraft, valueDraft);
 
+                // disable etNumberOfUser after setupTime
+                etNumberOfUser.setEnabled(league.getStatus() == WAITING_FOR_START && AppUtilities.isSetupTime(league.getTeamSetup()));
+
                 etNumberOfUser.setContent(valueTransfer);
                 etTimePerDraftPick.setContent(valueDraft);
                 rgScoringSystem.check(league.getScoringSystem().equals(SCORING_SYSTEM_REGULAR) ? R.id.rbRegular : R.id.rbPointPerStats);
@@ -299,7 +303,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
     void initBudgetOption() {
         try {
             budgetOptionAdapter = new BudgetOptionAdapter(mActivity, budgetResponses, budgetResponse -> {
-                if (league != null && league.getStatus() == LeagueResponse.WAITING_FOR_START && !AppUtilities.isSetupTime(league.getTeamSetup())) {
+                if (league != null && league.getStatus() == WAITING_FOR_START && !AppUtilities.isSetupTime(league.getTeamSetup())) {
                     return;
                 }
 
