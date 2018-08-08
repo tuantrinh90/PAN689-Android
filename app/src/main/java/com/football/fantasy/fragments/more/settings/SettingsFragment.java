@@ -94,11 +94,11 @@ public class SettingsFragment extends BaseMvpFragment<ISettingsView, ISettingsPr
 
         switch (button.getId()) {
             case R.id.switch_email:
-                presenter.changeSettings("allow_notification", checked);
+                presenter.changeSettings("allow_email_alert", checked);
                 break;
 
             case R.id.switch_notification:
-                presenter.changeSettings("allow_email_alert", checked);
+                presenter.changeSettings("allow_notification", checked);
                 break;
         }
     }
