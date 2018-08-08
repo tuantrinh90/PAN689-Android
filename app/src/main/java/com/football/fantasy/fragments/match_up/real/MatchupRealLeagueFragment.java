@@ -54,7 +54,7 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
 
     private void initData() {
         valuePairs = new ArrayList<>();
-        valuePairs.add(new ExtKeyValuePair(ROUND_DEFAULT, "Real League"));
+        valuePairs.add(new ExtKeyValuePair(ROUND_DEFAULT, "All round"));
         for (int i = 0; i < 30; i++) {
             valuePairs.add(new ExtKeyValuePair(String.valueOf(i + 1), "Round " + (i + 1)));
         }
@@ -99,6 +99,7 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
     @OnClick(R.id.round)
     public void onRoundClicked() {
         ExtKeyValuePairDialogFragment.newInstance()
+                .title(getString(R.string.select_round))
                 .setValue(round)
                 .setExtKeyValuePairs(valuePairs)
                 .setOnSelectedConsumer(extKeyValuePair -> {

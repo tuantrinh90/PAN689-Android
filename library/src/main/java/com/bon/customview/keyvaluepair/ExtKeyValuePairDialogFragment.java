@@ -1,6 +1,7 @@
 package com.bon.customview.keyvaluepair;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -45,6 +46,8 @@ public class ExtKeyValuePairDialogFragment extends ExtBaseBottomDialogFragment {
     Consumer<ExtKeyValuePair> onSelectedConsumer;
 
     ExtTextView tvCancel;
+    ExtTextView tvTitle;
+
     ExtEditText edtSearch;
     ExtListView lvKeyValuePair;
 
@@ -52,7 +55,7 @@ public class ExtKeyValuePairDialogFragment extends ExtBaseBottomDialogFragment {
     int positionSelected = 0;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.key_value_pair_dialog_fragment, container, false);
     }
@@ -63,6 +66,7 @@ public class ExtKeyValuePairDialogFragment extends ExtBaseBottomDialogFragment {
         try {
             // cancel
             tvCancel = view.findViewById(R.id.tvCancel);
+            tvTitle = view.findViewById(R.id.tvTitle);
             tvCancel.setOnClickListener(v -> onClickCancel());
 
             // filter
@@ -162,6 +166,11 @@ public class ExtKeyValuePairDialogFragment extends ExtBaseBottomDialogFragment {
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
+    }
+
+    public ExtKeyValuePairDialogFragment title(String value) {
+        tvTitle.setText(value);
+        return this;
     }
 
     public ExtKeyValuePairDialogFragment setValue(String value) {

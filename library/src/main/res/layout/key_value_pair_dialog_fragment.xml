@@ -25,6 +25,7 @@
             android:textSize="@dimen/font_size_title" />
 
         <com.bon.customview.textview.ExtTextView
+            android:id="@+id/tvTitle"
             style="@style/StyleTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

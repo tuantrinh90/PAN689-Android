@@ -313,4 +313,5 @@
     <string name="approved">%d Approved</string>
     <string name="message_confirm_proposal_reject">This proposal has been rejected</string>
     <string name="message_confirm_proposal_approved">This proposal has been approved</string>
+    <string name="select_round">Select Round</string>
 </resources>
