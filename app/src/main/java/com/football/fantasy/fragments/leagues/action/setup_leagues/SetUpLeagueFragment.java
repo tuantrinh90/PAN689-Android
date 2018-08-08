@@ -411,7 +411,8 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
     private void toggleTransfer(boolean active) {
         llTransfer.setActivated(active);
         llDraft.setActivated(!active);
-        llTradeReview.setVisibility(active ? View.GONE : View.VISIBLE);
+//        llTradeReview.setVisibility(active ? View.GONE : View.VISIBLE);
+        llTradeReview.setVisibility(View.GONE); // always gone
         lvBudgetOption.setVisibility(active ? View.VISIBLE : View.GONE);
         rvBudgetOption.setVisibility(active ? View.VISIBLE : View.GONE);
         lvDraftTime.setVisibility(active ? View.GONE : View.VISIBLE);
