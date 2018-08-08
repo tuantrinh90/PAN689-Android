@@ -59,5 +59,6 @@
     <string name="start_league_before_continue">start_league_before_continue</string>
     <string name="overload_max_transfer">overload_max_transfer</string>
     <string name="invalid_from_player">invalid_from_player</string>
+    <string name="password_current_failure">Current password failure</string>
 
 </resources>

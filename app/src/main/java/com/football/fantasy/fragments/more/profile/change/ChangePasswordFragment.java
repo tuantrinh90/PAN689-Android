@@ -99,10 +99,17 @@ public class ChangePasswordFragment extends BaseMvpFragment<IChangePasswordView,
 
     @Override
     public void changePasswordSuccessful() {
+        etOldPassword.setError(null);
         showMessage(R.string.message_change_password_success,
                 R.string.ok,
                 aVoid -> {
                     mActivity.finish();
                 });
+    }
+
+    @Override
+    public void displayCurrentPasswordError() {
+        etOldPassword.setContent("");
+        etOldPassword.setError(getString(R.string.old_password_incorrect));
     }
 }

@@ -2,6 +2,7 @@ package com.football.fantasy.fragments.more.profile.change;
 
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
+import com.football.fantasy.R;
 import com.football.listeners.ApiCallback;
 import com.football.utilities.RxUtilities;
 
@@ -45,7 +46,11 @@ public class ChangePasswordDataPresenter extends BaseDataPresenter<IChangePasswo
 
                         @Override
                         public void onError(String e) {
-                            v.showMessage(e);
+                            if (e.equals(v.getAppActivity().getString(R.string.password_current_failure))) {
+                                v.displayCurrentPasswordError();
+                            } else {
+                                v.showMessage(e);
+                            }
                         }
                     }));
         });

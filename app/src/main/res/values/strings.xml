@@ -317,4 +317,5 @@
     <string name="select_round">Select Round</string>
     <string name="select_season">Select season</string>
     <string name="message_maximun_3_columns">The display only supports maximum 3 columns</string>
+    <string name="old_password_incorrect">Old password is incorrect</string>
 </resources>
