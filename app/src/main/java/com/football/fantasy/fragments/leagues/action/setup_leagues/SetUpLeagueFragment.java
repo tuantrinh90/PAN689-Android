@@ -248,8 +248,9 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
 
                 etNumberOfUser.setContent(valueTransfer);
                 etTimePerDraftPick.setContent(valueDraft);
-                rbRegular.setChecked(league.getScoringSystem().equals(SCORING_SYSTEM_REGULAR));
+                rgScoringSystem.check(league.getScoringSystem().equals(SCORING_SYSTEM_REGULAR) ? R.id.rbRegular : R.id.rbPointPerStats);
                 etDescription.setContent(league.getDescription());
+
 
                 // display time
                 formatDateTime();
@@ -298,9 +299,13 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
     void initBudgetOption() {
         try {
             budgetOptionAdapter = new BudgetOptionAdapter(mActivity, budgetResponses, budgetResponse -> {
+                if (league != null && league.getStatus() == LeagueResponse.WAITING_FOR_START && !AppUtilities.isSetupTime(league.getTeamSetup())) {
+                    return;
+                }
+
                 this.budgetResponse = budgetResponse;
                 if (budgetResponses != null && budgetResponses.size() > 0) {
-                    StreamSupport.stream(budgetResponses).forEach(n -> n.setIsActivated(n.getId() == budgetResponse.getId()));
+                    StreamSupport.stream(budgetResponses).forEach(n -> n.setIsActivated(n.getId().equals(budgetResponse.getId())));
                     budgetOptionAdapter.notifyDataSetChanged(budgetResponses);
                 }
             });
