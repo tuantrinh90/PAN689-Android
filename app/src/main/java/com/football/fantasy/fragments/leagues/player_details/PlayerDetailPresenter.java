@@ -6,6 +6,10 @@ import com.football.listeners.ApiCallback;
 import com.football.models.responses.PlayerStatisticResponse;
 import com.football.utilities.RxUtilities;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,19 +22,28 @@ public class PlayerDetailPresenter extends BaseDataPresenter<IPlayerDetailView> 
     }
 
     @Override
-    public void getPlayerStatistic(Integer playerId, String filter) {
+    public void getPlayerStatistic(int playerId, int teamId, String property, String value) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
-//            queries.put(Constant.KEY_LEAGUE_ID, String.valueOf(leagueId));
-//            queries.put(Constant.KEY_ORDER_BY, orderBy);
-//            queries.put(Constant.KEY_PAGE, String.valueOf(page));
-//            queries.put(Constant.KEY_PER_PAGE, String.valueOf(perPage));
-//            queries.put(Constant.KEY_WORD, query);
-//            queries.put(Constant.KEY_MAIN_POSITION, String.valueOf(mainPosition));
+
+            JSONArray filter = new JSONArray();
+            JSONObject object = new JSONObject();
+            try {
+                object.put("property", property);
+                object.put("operator", "eq");
+                object.put("value", value);
+
+                filter.put(object);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            queries.put("filter", filter.toString());
 
             mCompositeDisposable.add(RxUtilities.async(
                     v,
-                    dataModule.getApiService().getPlayerStatistic(playerId, filter),
+                    teamId > 0 ? dataModule.getApiService().getPlayerStatisticWithTeam(playerId, teamId, queries)
+                            : dataModule.getApiService().getPlayerStatistic(playerId, queries),
                     new ApiCallback<PlayerStatisticResponse>() {
                         @Override
                         public void onStart() {

@@ -12,12 +12,12 @@ import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.textview.ExtTextView;
 import com.football.adapters.TeamSquadAdapter;
+import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
-import com.football.fantasy.fragments.leagues.team_details.gameplay_option.GameplayOptionFragment;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.TradeFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
@@ -123,7 +123,9 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
         teamSquadAdapter = new TeamSquadAdapter(
                 getContext(),
                 player -> {
-                    PlayerDetailFragment.start(this, player, getString(R.string.team_squad), false);
+                    AloneFragmentActivity.with(this)
+                            .parameters(PlayerDetailFragment.newBundle(getString(R.string.team_squad), player, team.getId()))
+                            .start(PlayerDetailFragment.class);
                 });
         rvPlayer
                 .adapter(teamSquadAdapter)

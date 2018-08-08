@@ -204,7 +204,12 @@ public interface IApiService {
                                                                                            @QueryMap Map<String, String> queries);
 
     @GET(ServiceConfig.PLAYER_STATISTIC)
-    Observable<BaseResponse<PlayerStatisticResponse>> getPlayerStatistic(@Path(ServiceConfig.KEY_ID) Integer playerId, @Query("filter") String filter);
+    Observable<BaseResponse<PlayerStatisticResponse>> getPlayerStatistic(@Path(ServiceConfig.KEY_ID) Integer playerId, @QueryMap Map<String, String> queries);
+
+    @GET(ServiceConfig.PLAYER_STATISTIC_WITH_TEAM)
+    Observable<BaseResponse<PlayerStatisticResponse>> getPlayerStatisticWithTeam(@Path(ServiceConfig.KEY_PLAYER_ID) int playerId,
+                                                                                 @Path(ServiceConfig.KEY_TEAM_ID) int teamId,
+                                                                                 @QueryMap Map<String, String> queries);
 
     /* user */
     @GET(ServiceConfig.GET_PROFILE)

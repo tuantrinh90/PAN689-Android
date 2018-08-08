@@ -19,7 +19,6 @@ import com.football.adapters.PlayerStatisticAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
-import com.football.customizes.lineup.LineupView;
 import com.football.events.PlayerEvent;
 import com.football.fantasy.R;
 import com.football.models.responses.PlayerResponse;
@@ -43,7 +42,17 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
     private static final String KEY_PICK_ENABLE = "PICK_ENABLE";
     private static final String KEY_MAIN_POSITION = "MAIN_POSITION";
     private static final String KEY_ORDER = "ORDER";
+    private static final String KEY_TEAM_ID = "TEAM_ID";
 
+    private static final String KEY_TOTAL = "TOTAL";
+    private static final String KEY_LAST = "LAST";
+    private static final String KEY_SEASON = "SEASON";
+    private static final String KEY_LAST_5_ROUNDS = "LAST_5_ROUNDS";
+    private static final String KEY_LAST_3_ROUNDS = "LAST_3_ROUNDS";
+    private static final String KEY_POINTS = "POINTS";
+
+
+    private static final ExtKeyValuePair DEFAULT_KEY = new ExtKeyValuePair(KEY_TOTAL, "Total statistics");
 
     @BindView(R.id.ivMenu)
     View ivMenu;
@@ -97,18 +106,29 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
     @BindView(R.id.rvStatistics)
     ExtPagingListView rvStatistics;
 
-    private PlayerResponse player;
     private String title;
+    private PlayerResponse player;
     private boolean pickEnable;
     private int mainPosition = PlayerResponse.POSITION_NONE;
     private int order = NONE_ORDER;
+    private int teamId;
 
-    private ExtKeyValuePair keyValuePairKey = new ExtKeyValuePair("[{\"property\":\"total\", \"operator\":\"eq\",\"value\":\"all\"}]", "Total statistics");
+    List<ExtKeyValuePair> valuePairs = new ArrayList<>();
+    private ExtKeyValuePair keyValuePairKey = DEFAULT_KEY;
+
 
     public static void start(Fragment fragment, PlayerResponse player, String title, boolean pickEnable) {
         AloneFragmentActivity.with(fragment)
                 .parameters(newBundle(player, title, pickEnable))
                 .start(PlayerDetailFragment.class);
+    }
+
+    public static Bundle newBundle(String title, PlayerResponse player, int teamId) {
+        Bundle bundle = new Bundle();
+        bundle.putString(KEY_TITLE, title);
+        bundle.putSerializable(KEY_PLAYER, player);
+        bundle.putInt(KEY_TEAM_ID, teamId);
+        return bundle;
     }
 
     public static Bundle newBundle(PlayerResponse player, String title, boolean pickEnable) {
@@ -136,11 +156,49 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
         getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
+        initData();
         initView();
         displayPlayer();
         initRecyclerView();
 
-        presenter.getPlayerStatistic(player.getId(), null);
+        getPlayerStatistic();
+    }
+
+    private void getPlayerStatistic() {
+        String property;
+        String value;
+
+        switch (keyValuePairKey.getKey()) {
+            case KEY_TOTAL:
+                property = "total";
+                value = "all";
+                break;
+            case KEY_LAST:
+                property = "avg";
+                value = "1";
+                break;
+            case KEY_SEASON:
+                property = "avg";
+                value = "all";
+                break;
+            case KEY_LAST_5_ROUNDS:
+                property = "avg";
+                value = "5";
+                break;
+            case KEY_LAST_3_ROUNDS:
+                property = "avg";
+                value = "3";
+                break;
+            case KEY_POINTS:
+                property = "points_per_round";
+                value = "all";
+                break;
+            default:
+                property = "total";
+                value = "all";
+                break;
+        }
+        presenter.getPlayerStatistic(player.getId(), teamId, property, value);
     }
 
     private void initRecyclerView() {
@@ -174,6 +232,16 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
         pickEnable = getArguments().getBoolean(KEY_PICK_ENABLE);
         mainPosition = getArguments().getInt(KEY_MAIN_POSITION);
         order = getArguments().getInt(KEY_ORDER);
+        teamId = getArguments().getInt(KEY_TEAM_ID);
+    }
+
+    void initData() {
+        valuePairs.add(DEFAULT_KEY);
+        valuePairs.add(new ExtKeyValuePair(KEY_LAST, "Last round"));
+        valuePairs.add(new ExtKeyValuePair(KEY_SEASON, "Avg of the season"));
+        valuePairs.add(new ExtKeyValuePair(KEY_LAST_5_ROUNDS, "Avg of Last 5 rounds"));
+        valuePairs.add(new ExtKeyValuePair(KEY_LAST_3_ROUNDS, "Avg of Last 3 rounds"));
+        valuePairs.add(new ExtKeyValuePair(KEY_POINTS, "Points per round"));
     }
 
     void initView() {
@@ -184,6 +252,7 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
         tvFilter.setText(keyValuePairKey.getValue());
     }
 
+    @NonNull
     @Override
     public IPlayerDetailPresenter<IPlayerDetailView> createPresenter() {
         return new PlayerDetailPresenter(getAppComponent());
@@ -203,14 +272,6 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
 
     @OnClick({R.id.selection})
     public void onClicked(View view) {
-        List<ExtKeyValuePair> valuePairs = new ArrayList<>();
-        valuePairs.add(new ExtKeyValuePair("[{\"property\":\"total\", \"operator\":\"eq\",\"value\":\"all\"}]", "Total statistics"));
-        valuePairs.add(new ExtKeyValuePair("[{\"property\":\"avg\", \"operator\":\"eq\",\"value\":\"1\"}]", "Last round"));
-        valuePairs.add(new ExtKeyValuePair("[{\"property\":\"avg\", \"operator\":\"eq\",\"value\":\"all\"}]", "Avg of the season"));
-        valuePairs.add(new ExtKeyValuePair("[{\"property\":\"avg\", \"operator\":\"eq\",\"value\":\"5\"}]", "Avg of Last 5 rounds"));
-        valuePairs.add(new ExtKeyValuePair("[{\"property\":\"avg\", \"operator\":\"eq\",\"value\":\"3\"}]", "Avg of Last 3 rounds"));
-        valuePairs.add(new ExtKeyValuePair("[{\"property\":\"points_per_round\", \"operator\":\"eq\",\"value\":\"all\"}]", "Points per round"));
-
         ExtKeyValuePairDialogFragment.newInstance()
                 .setExtKeyValuePairs(valuePairs)
                 .setValue(keyValuePairKey == null ? "" : keyValuePairKey.getKey())
@@ -254,7 +315,7 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
 
     private void updateValue() {
         tvFilter.setText(keyValuePairKey.getValue());
-        presenter.getPlayerStatistic(player.getId(), keyValuePairKey.getKey());
+        getPlayerStatistic();
     }
 
     @Override

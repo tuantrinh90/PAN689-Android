@@ -27,6 +27,7 @@ public interface ServiceConfig {
     String PROVIDER_TWITTER = "twitter";
 
     String KEY_ID = "id";
+    String KEY_PLAYER_ID = "player_id";
     String KEY_TEAM_ID = "team_id";
     String KEY_LEAGUE_ID = "league_id";
 
