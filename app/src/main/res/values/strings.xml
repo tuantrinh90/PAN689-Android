@@ -259,7 +259,7 @@
     <string name="old_password">Old password</string>
     <string name="new_password">New password</string>
     <string name="confirm_password">Confirm password</string>
-    <string name="err_confirm_password">Confirm password not match new password</string>
+    <string name="err_confirm_password">Confirm password and new password doesn\'t match</string>
     <string name="submit">Submit</string>
     <string name="save_change">Save change</string>
     <string name="completed">Completed</string>

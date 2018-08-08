@@ -20,7 +20,6 @@
             android:layout_weight="1"
             android:padding="0dp"
             android:text="@string/app_name"
-            android:textAllCaps="true"
             app:textViewFontAssetName="@string/font_display_black_italic" />
 
         <FrameLayout
