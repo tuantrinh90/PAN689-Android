@@ -423,6 +423,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
             }
 
             ExtKeyValuePairDialogFragment.newInstance()
+                    .title(getString(R.string.select_season))
                     .setExtKeyValuePairs(valuePairs)
                     .setValue(currentSeason == null ? valuePairs.get(0).getKey() : currentSeason.getKey())
                     .setOnSelectedConsumer(extKeyValuePair -> {
