@@ -263,7 +263,8 @@ public class EditProfileFragment extends BaseMvpFragment<IEditProfileView, IEdit
         ImageLoaderUtils.displayImage(user.getPhoto(), ivAvatar.getImageView());
         calendarDob = DateTimeUtils.convertStringToCalendar(user.getBirthday(), Constant.FORMAT_DATE_SERVER);
         etDob.setContent(DateTimeUtils.convertCalendarToString(calendarDob, Constant.FORMAT_DATE));
-        etGender.setContent(getString(user.getGender() == UserResponse.GENDER_MALE ? R.string.male : R.string.female));
+        Integer gender = user.getGender();
+        etGender.setContent(gender == null ? "" : getString(gender == UserResponse.GENDER_MALE ? R.string.male : R.string.female));
         etAddress.setContent(user.getAddress());
         etPhone.setContent(user.getPhone());
 //        etEmail.setContent(user.getEmail());
