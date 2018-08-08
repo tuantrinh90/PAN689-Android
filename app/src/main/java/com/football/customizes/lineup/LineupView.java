@@ -14,10 +14,11 @@ import com.google.android.flexbox.JustifyContent;
 
 import java8.util.function.BiConsumer;
 
+import static com.football.customizes.lineup.PlayerView.NONE_ORDER;
+
 public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerViewClickListener {
 
     private static final int LINE = 4;
-    public static final int NONE_ORDER = -1;
 
     private Context mContext;
 
@@ -60,7 +61,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         int position = 0;
         for (int line = 0; line < LINE; line++) {
             int playerCount = formation[line]; // số lượng cầu thủ trên 1 hàng
-            for (int order = 0; order < playerCount; order++) {
+            for (int order = PlayerView.ORDER_MINIMUM; order < playerCount + PlayerView.ORDER_MINIMUM; order++) {
                 PlayerView view = createPlayerView(mContext, order, line);
                 displayPlayer(view, (players.length == 0 || players.length <= position) ? null : players[position]);
                 position++;
@@ -69,7 +70,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
 
                 // wrap
                 LayoutParams lp = new LayoutParams(view.getLayoutParams());
-                setFlexItemAttributes(0, lp, order == 0);
+                setFlexItemAttributes(0, lp, order == PlayerView.ORDER_MINIMUM);
                 view.setLayoutParams(lp);
             }
         }
@@ -160,8 +161,8 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
     }
 
     public void removePlayer(PlayerResponse player, int line) {
-        int position = getPosition(player, 3 - line, -1);
-        if (position != -1) {
+        int position = getPosition(player, 3 - line, PlayerView.NONE_ORDER);
+        if (position >= 0) {
             setPlayer(null, position);
         }
     }
@@ -171,7 +172,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         for (int i = 0; i < line; i++) {
             index += formation[i];
         }
-        for (int i = 0; i < formation[line]; i++) {
+        for (int i = 1; i <= formation[line]; i++) {
             if (order != NONE_ORDER) {
                 if (i == order) {
                     return index;

@@ -23,6 +23,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 
+import static com.football.customizes.lineup.PlayerView.NONE_ORDER;
+
 public class LineupPreviewFragment extends BaseMvpFragment<ILineupPreviewView, ITeamPreviewPresenter<ILineupPreviewView>> implements ILineupPreviewView {
 
     private static final String KEY_TEAM = "TEAM_ID";
@@ -117,7 +119,7 @@ public class LineupPreviewFragment extends BaseMvpFragment<ILineupPreviewView, I
     public void displayLineupPlayers(List<PlayerResponse> players) {
         lineupView.notifyDataSetChanged();
         for (PlayerResponse player : players) {
-            lineupView.addPlayer(player, player.getMainPosition(), player.getOrder() == null ? LineupView.NONE_ORDER : player.getOrder());
+            lineupView.addPlayer(player, player.getMainPosition(), player.getOrder() == null ? NONE_ORDER : player.getOrder());
         }
     }
 

@@ -20,6 +20,10 @@ import butterknife.OnClick;
 
 public class PlayerView extends LinearLayout {
 
+    public static final int ORDER_MINIMUM = 1;
+    public static final int NONE_ORDER = -1;
+
+
     @BindView(R.id.ivRemove)
     public ImageView ivRemove;
     @BindView(R.id.ivPlayer)

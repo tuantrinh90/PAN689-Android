@@ -34,6 +34,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.football.customizes.lineup.PlayerView.NONE_ORDER;
+
 public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPlayerDetailPresenter<IPlayerDetailView>> implements IPlayerDetailView {
 
     private static final String KEY_PLAYER = "PLAYER";
@@ -99,7 +101,7 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
     private String title;
     private boolean pickEnable;
     private int mainPosition = PlayerResponse.POSITION_NONE;
-    private int order = LineupView.NONE_ORDER;
+    private int order = NONE_ORDER;
 
     private ExtKeyValuePair keyValuePairKey = new ExtKeyValuePair("[{\"property\":\"total\", \"operator\":\"eq\",\"value\":\"all\"}]", "Total statistics");
 

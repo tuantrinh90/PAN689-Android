@@ -37,6 +37,8 @@ import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 import java8.util.function.BiConsumer;
 
+import static com.football.customizes.lineup.PlayerView.NONE_ORDER;
+
 public class LineUpFragment extends BaseMvpFragment<ILineUpView, ILineUpPresenter<ILineUpView>> implements ILineUpView {
 
     static final String KEY_TEAM_ID = "TEAM_ID";
@@ -214,7 +216,7 @@ public class LineUpFragment extends BaseMvpFragment<ILineUpView, ILineUpPresente
                         switch (event.getAction()) {
                             case PlayerEvent.ACTION_ADD_CLICK:
                                 callback = event.getCallback();
-                                insertToLineUpView(event.getData(), event.getPosition(), event.getOrder() == null ? LineupView.NONE_ORDER : event.getOrder());
+                                insertToLineUpView(event.getData(), event.getPosition(), event.getOrder() == null ? NONE_ORDER : event.getOrder());
                                 break;
                         }
                     }
@@ -231,9 +233,9 @@ public class LineUpFragment extends BaseMvpFragment<ILineUpView, ILineUpPresente
                 }));
     }
 
-    private void insertToLineUpView(PlayerResponse player, int position, int index) {
+    private void insertToLineUpView(PlayerResponse player, int position, int order) {
         if (!lineupView.isFullPosition(position)) {
-            presenter.addPlayer(player, teamId, position, index);
+            presenter.addPlayer(player, teamId, position, order);
         } else {
             callback.accept(false, getString(R.string.message_full_position));
         }
@@ -265,7 +267,7 @@ public class LineUpFragment extends BaseMvpFragment<ILineUpView, ILineUpPresente
     public void displayLineupPlayers(List<PlayerResponse> players) {
         lineupView.notifyDataSetChanged();
         for (PlayerResponse player : players) {
-            lineupView.addPlayer(player, player.getMainPosition(), player.getOrder() == null ? LineupView.NONE_ORDER : player.getOrder());
+            lineupView.addPlayer(player, player.getMainPosition(), player.getOrder() == null ? NONE_ORDER : player.getOrder());
         }
         enableCompleteButton(league.getTeam() != null && !league.getTeam().getCompleted() && lineupView.isSetupComplete());
     }
