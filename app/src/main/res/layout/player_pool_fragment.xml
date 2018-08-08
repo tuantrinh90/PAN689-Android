@@ -33,6 +33,7 @@
                 app:layout_collapseMode="parallax">
 
                 <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvHeader"
                     style="@style/StyleTitleWhite"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -9,7 +9,7 @@
     <string name="field_confirmed">This field must be confirmed</string>
     <string name="field_min_6_character">This field must be more than 6 characters</string>
     <string name="selected_is_invalid">This choice is not valid</string>
-    <string name="internal_exception">Important error</string>
+    <string name="internal_exception">Internal exception</string>
     <string name="login_failure">Login unsuccessfully</string>
     <string name="login_invalid_credentials">Login verification is not valid</string>
     <string name="jwt_failed_to_create_token">Can not create a token</string>

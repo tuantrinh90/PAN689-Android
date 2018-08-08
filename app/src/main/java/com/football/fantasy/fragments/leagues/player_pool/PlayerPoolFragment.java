@@ -42,12 +42,15 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     private static final String TAG = "PlayerPoolFragment";
 
     private static final String KEY_TITLE = "TITLE";
+    private static final String KEY_HEADER_TITLE = "HEADER_TITLE";
     private static final String KEY_TRANSFER = "TRANSFER";
     private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
 
     private static final int REQUEST_FILTER = 100;
     private static final int REQUEST_DISPLAY = 101;
 
+    @BindView(R.id.tvHeader)
+    ExtTextView tvHeader;
     @BindView(R.id.tvSeason)
     ExtTextView tvSeason;
     @BindView(R.id.svSearch)
@@ -74,6 +77,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     LinearLayout option3;
 
     private String title;
+    private String headerTitle;
     private PlayerResponse playerTransfer;
     private int leagueId;
 
@@ -86,21 +90,22 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     private List<SeasonResponse> seasons;
     private String query = "";
 
-    public static void start(Fragment fragment, String title, PlayerResponse transfer, int leagueId) {
+    public static void start(Fragment fragment, String title, String headerTitle, PlayerResponse transfer, int leagueId) {
         AloneFragmentActivity.with(fragment)
-                .parameters(PlayerPoolFragment.newBundle(title, transfer, leagueId))
+                .parameters(PlayerPoolFragment.newBundle(title, headerTitle, transfer, leagueId))
                 .start(PlayerPoolFragment.class);
     }
 
     public static void start(Fragment fragment, String title, PlayerResponse transfer) {
         AloneFragmentActivity.with(fragment)
-                .parameters(PlayerPoolFragment.newBundle(title, transfer, 0))
+                .parameters(PlayerPoolFragment.newBundle(title, "", transfer, 0))
                 .start(PlayerPoolFragment.class);
     }
 
-    private static Bundle newBundle(String title, PlayerResponse transfer, int leagueId) {
+    private static Bundle newBundle(String title, String headerTitle, PlayerResponse transfer, int leagueId) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_TITLE, title);
+        bundle.putString(KEY_HEADER_TITLE, headerTitle);
         bundle.putSerializable(KEY_TRANSFER, transfer);
         bundle.putInt(KEY_LEAGUE_ID, leagueId);
         return bundle;
@@ -128,6 +133,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
 
     private void getDataFromBundle() {
         title = getArguments().getString(KEY_TITLE);
+        headerTitle = getArguments().getString(KEY_HEADER_TITLE);
         playerTransfer = (PlayerResponse) getArguments().getSerializable(KEY_TRANSFER);
         leagueId = getArguments().getInt(KEY_LEAGUE_ID);
     }
@@ -221,6 +227,10 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     }
 
     void initView() {
+        if (!TextUtils.isEmpty(headerTitle)) {
+            tvHeader.setText(headerTitle);
+        }
+
         Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.colorPrimary)));
         Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white)));
 

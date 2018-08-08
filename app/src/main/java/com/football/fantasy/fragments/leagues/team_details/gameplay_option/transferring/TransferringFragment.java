@@ -247,7 +247,7 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
                     AloneFragmentActivity.with(this)
                             .parameters(PlayerDetailFragment.newBundle(
                                     player,
-                                    getString(R.string.player_pool), false))
+                                    getString(R.string.transferring_player), false))
                             .start(PlayerDetailFragment.class);
                 });
         // remove click
@@ -285,7 +285,7 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
 
     private void transferPlayer(PlayerResponse player) {
         // append PlayerPool
-        PlayerPoolFragment.start(this, getString(R.string.transferring_player), player, league.getId());
+        PlayerPoolFragment.start(this, getString(R.string.transferring_player), getString(R.string.player_pool), player, league.getId());
     }
 
     @OnClick({R.id.filter, R.id.display, R.id.option1, R.id.option2, R.id.option3})
