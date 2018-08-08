@@ -262,9 +262,9 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
         if (playerTransfer != null) {
             // update positions
             filterPositions = String.valueOf(playerTransfer.getMainPosition());
-            if (playerTransfer.getMinorPosition() != PlayerResponse.POSITION_NONE) {
-                filterPositions = filterPositions + "," + playerTransfer.getMinorPosition();
-            }
+//            if (playerTransfer.getMinorPosition() != PlayerResponse.POSITION_NONE) {
+//                filterPositions = filterPositions + "," + playerTransfer.getMinorPosition();
+//            }
 
             // bắn về cho MH Transferring Player
             adapter.setOptionAddCallback(player -> {

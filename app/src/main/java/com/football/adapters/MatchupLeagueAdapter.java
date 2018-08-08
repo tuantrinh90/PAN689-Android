@@ -25,14 +25,17 @@ import java.util.List;
 
 import butterknife.BindView;
 import java8.util.function.BiConsumer;
+import java8.util.function.Consumer;
 
 public class MatchupLeagueAdapter extends DefaultAdapter<MatchResponse> {
 
+    private final Consumer<LeagueResponse> resultCallback;
     private final BiConsumer<TeamResponse, LeagueResponse> teamDetailCallback;
     private SparseBooleanArray expandState = new SparseBooleanArray();
 
-    public MatchupLeagueAdapter(Context context, BiConsumer<TeamResponse, LeagueResponse> teamDetailCallback) {
+    public MatchupLeagueAdapter(Context context, Consumer<LeagueResponse> resultCallback, BiConsumer<TeamResponse, LeagueResponse> teamDetailCallback) {
         super(context);
+        this.resultCallback = resultCallback;
         this.teamDetailCallback = teamDetailCallback;
     }
 
@@ -95,6 +98,11 @@ public class MatchupLeagueAdapter extends DefaultAdapter<MatchResponse> {
         holder.ivAvatarTeam2.setOnClickListener(v -> {
             MatchResponse match = getItem(defaultHolder.getAdapterPosition());
             teamDetailCallback.accept(match.getWithTeam(), match.getLeague());
+        });
+
+        holder.buttonResult.setOnClickListener(v -> {
+            MatchResponse match = getItem(defaultHolder.getAdapterPosition());
+            resultCallback.accept(match.getLeague());
         });
     }
 

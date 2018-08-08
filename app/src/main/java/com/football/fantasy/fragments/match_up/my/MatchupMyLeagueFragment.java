@@ -7,6 +7,7 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
 import com.football.models.responses.MatchResponse;
 
@@ -41,6 +42,11 @@ public class MatchupMyLeagueFragment extends BaseMainMvpFragment<IMatchupMyLeagu
     private void initView() {
         MatchupLeagueAdapter adapter = new MatchupLeagueAdapter(
                 getContext(),
+                league -> {
+                    AloneFragmentActivity.with(this)
+                            .parameters(LeagueDetailFragment.newBundle(getString(R.string.match_up), league.getId(), league.getLeagueType(), true ))
+                            .start(LeagueDetailFragment.class);
+                },
                 (team, league) -> {
                     AloneFragmentActivity.with(this)
                             .parameters(TeamDetailFragment.newBundle(team.getId(), league))

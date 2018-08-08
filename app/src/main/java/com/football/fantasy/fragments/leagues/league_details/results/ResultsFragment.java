@@ -33,6 +33,7 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
     static final String TAG = ResultsFragment.class.getSimpleName();
 
     static final String KEY_LEAGUE = "key_leagues";
+    private static final String ALL_ROUND = "All round";
 
     @BindView(R.id.rv_results)
     ExtRecyclerView<MatchResponse> rvResults;
@@ -78,13 +79,14 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
 
     private void initData() {
         valuePairs = new ArrayList<>();
-        valuePairs.add(new ExtKeyValuePair(ROUND_DEFAULT, "Real League"));
+        valuePairs.add(new ExtKeyValuePair(ROUND_DEFAULT, ALL_ROUND));
         for (int i = 0; i < 30; i++) {
             valuePairs.add(new ExtKeyValuePair(String.valueOf(i + 1), "Round " + (i + 1)));
         }
     }
 
     void initView() {
+        tvRound.setText(ALL_ROUND);
         ResultsAdapter adapter = new ResultsAdapter(
                 getContext(),
                 (team, league) -> {
@@ -107,6 +109,7 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
         getResults();
     }
 
+    @NonNull
     @Override
     public IResultsPresenter<IResultsView> createPresenter() {
         return new ResultsPresenter(getAppComponent());
@@ -126,6 +129,7 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
                 .setOnSelectedConsumer(extKeyValuePair -> {
                     if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
                         round = extKeyValuePair.getKey();
+                        tvRound.setText(extKeyValuePair.getValue());
                         refresh();
                     }
                 }).show(getFragmentManager(), null);
@@ -139,17 +143,16 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
     }
 
     @Override
-    public void displayRound(Integer round) {
-        tvRound.setText(getString(R.string.round_number, round));
-    }
-
-    @Override
-    public void displayTime(String startAt) {
-        textTime.setText(DateTimeUtils.convertCalendarToString(DateTimeUtils.convertStringToCalendar(startAt, Constant.FORMAT_DATE_TIME_SERVER), Constant.FORMAT_DATE_TIME));
-    }
-
-    @Override
     public void displayMatches(List<MatchResponse> matches) {
+        // display time
+        if (rvResults.getAdapter().getItemCount() > 0) {
+            textTime.setText(DateTimeUtils.convertCalendarToString(
+                    DateTimeUtils.convertStringToCalendar(
+                            rvResults.getItem(0).getStartAt(),
+                            Constant.FORMAT_DATE_TIME_SERVER),
+                    Constant.FORMAT_DATE_TIME));
+        }
+
         rvResults.addItems(matches);
     }
 }

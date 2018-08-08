@@ -53,6 +53,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     private static final String KEY_LEAGUE_ID = "key_league";
     private static final String KEY_LEAGUE_TYPE = "key_league_type";
     private static final String KEY_INVITATION_ID = "INVITATION_ID";
+    private static final String KEY_OPEN_RESULT = "OPEN_RESULT";
 
     private static final int TEAM_FRAGMENT_INDEX = 1;
 
@@ -61,7 +62,14 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     public static final String PENDING_LEAGUES = "pending_leagues";
 
 
-    private int invitationId;
+    @BindView(R.id.tvTitle)
+    ExtTextView tvTitle;
+    @BindView(R.id.ivMenu)
+    View ivMenu;
+    @BindView(R.id.cvCarouselView)
+    CarouselView cvCarouselView;
+    @BindView(R.id.vpViewPager)
+    ViewPager vpViewPager;
 
     public static Bundle newBundle(String title, int leagueId, String leagueType) {
         Bundle bundle = new Bundle();
@@ -77,19 +85,17 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
         return bundle;
     }
 
-
-    @BindView(R.id.tvTitle)
-    ExtTextView tvTitle;
-    @BindView(R.id.ivMenu)
-    View ivMenu;
-    @BindView(R.id.cvCarouselView)
-    CarouselView cvCarouselView;
-    @BindView(R.id.vpViewPager)
-    ViewPager vpViewPager;
+    public static Bundle newBundle(String title, int leagueId, String leagueType, boolean openResult) {
+        Bundle bundle = newBundle(title, leagueId, leagueType);
+        bundle.putBoolean(KEY_OPEN_RESULT, openResult);
+        return bundle;
+    }
 
     private String title;
     private int leagueId;
     private String leagueType;
+    private int invitationId;
+    private boolean openResult;
 
     private LeagueResponse league;
     private LeagueDetailViewPagerAdapter leagueDetailViewPagerAdapter;
@@ -116,6 +122,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
         leagueId = bundle.getInt(KEY_LEAGUE_ID);
         leagueType = bundle.getString(KEY_LEAGUE_TYPE, "");
         invitationId = bundle.getInt(KEY_INVITATION_ID);
+        openResult = bundle.getBoolean(KEY_OPEN_RESULT);
     }
 
     @NonNull
@@ -334,6 +341,8 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
             }
         });
 
+        vpViewPager.setCurrentItem(openResult ? 3 : 0);
+        openResult = false;
     }
 
     void autoCheckTeamExist(LeagueResponse league) {
