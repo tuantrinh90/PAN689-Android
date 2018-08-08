@@ -25,14 +25,15 @@ import java.util.List;
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import java8.util.function.BiConsumer;
+import java8.util.function.Consumer;
 
 public class ResultsAdapter extends DefaultAdapter<MatchResponse> {
 
-    private final BiConsumer<TeamResponse, LeagueResponse> teamDetailCallback;
+    private final Consumer<TeamResponse> teamDetailCallback;
 
     private SparseBooleanArray expandState = new SparseBooleanArray();
 
-    public ResultsAdapter(Context context, BiConsumer<TeamResponse, LeagueResponse> teamDetailCallback) {
+    public ResultsAdapter(Context context, Consumer<TeamResponse> teamDetailCallback) {
         super(context);
         this.teamDetailCallback = teamDetailCallback;
     }
@@ -87,11 +88,11 @@ public class ResultsAdapter extends DefaultAdapter<MatchResponse> {
 
         holder.ivAvatarTeam1.setOnClickListener(v -> {
             MatchResponse match = getItem(defaultHolder.getAdapterPosition());
-            teamDetailCallback.accept(match.getTeam(), match.getLeague());
+            teamDetailCallback.accept(match.getTeam());
         });
         holder.ivAvatarTeam2.setOnClickListener(v -> {
             MatchResponse match = getItem(defaultHolder.getAdapterPosition());
-            teamDetailCallback.accept(match.getWithTeam(), match.getLeague());
+            teamDetailCallback.accept(match.getWithTeam());
         });
     }
 

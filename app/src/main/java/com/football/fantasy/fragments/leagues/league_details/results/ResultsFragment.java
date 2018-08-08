@@ -89,9 +89,9 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
         tvRound.setText(ALL_ROUND);
         ResultsAdapter adapter = new ResultsAdapter(
                 getContext(),
-                (team, league) -> {
+                (team) -> {
                     AloneFragmentActivity.with(this)
-                            .parameters(TeamDetailFragment.newBundle(team.getId(), league))
+                            .parameters(TeamDetailFragment.newBundle(team.getId(), this.league))
                             .start(TeamDetailFragment.class);
                 });
         rvResults

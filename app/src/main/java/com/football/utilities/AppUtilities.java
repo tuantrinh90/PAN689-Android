@@ -67,7 +67,7 @@ public class AppUtilities {
         if (Math.abs(value) >= oneMio) {
             return df.format(value / oneMio) + " mio";
         }
-        return df.format(value / oneK) + "k";
+        return df.format(value / oneK) + " k";
     }
 
     public static String convertNumber(Long value) {
@@ -113,11 +113,15 @@ public class AppUtilities {
     }
 
     public static String timeLeft(long totalSecs) {
-        long hours = totalSecs / 3600;
+        long days = totalSecs / (3600 * 24);
+        long hours = (totalSecs % (3600 * 24)) / 3600;
         long minutes = (totalSecs % 3600) / 60;
-        long seconds = totalSecs % 60;
 
-        return String.format("%02dh %02d", hours, minutes);
+        if (days > 0) {
+            return String.format("%dd %02dh %02d", days, hours, minutes);
+        } else {
+            return String.format("%02dh %02d", hours, minutes);
+        }
     }
 
     public static String getDayOfWeek(String date) {
