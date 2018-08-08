@@ -89,7 +89,6 @@ public class MainActivity extends BaseAppCompatActivity {
                     // Log and toast
                     String msg = "Token ne: " + token;
                     Log.d(TAG, msg);
-                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                 });
     }
 

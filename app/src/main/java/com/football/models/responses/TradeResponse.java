@@ -33,6 +33,8 @@ public class TradeResponse implements Serializable {
     private Integer totalReview;
     @JsonProperty("total_approval")
     private Integer totalApproval;
+    @JsonProperty("total_rejection")
+    private Integer totalRejection;
     @JsonProperty("status")
     private Integer status;
     @JsonProperty("status_display")
@@ -88,6 +90,10 @@ public class TradeResponse implements Serializable {
 
     public Integer getTotalApproval() {
         return totalApproval;
+    }
+
+    public Integer getTotalRejection() {
+        return totalRejection;
     }
 
     public Integer getStatus() {

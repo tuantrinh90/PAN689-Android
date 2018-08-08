@@ -1,9 +1,11 @@
 package com.football.fantasy.fragments.leagues.team_details.team_squad.trade.proposal_reveiew;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -14,9 +16,14 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.lineup.PlayerView;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.proposal.ProposalFragment;
+import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TradeResponse;
+import com.football.utilities.AppUtilities;
+import com.football.utilities.Constant;
 
 import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.OnClick;
 
 public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView, IProposalReviewPresenter<IProposalReviewView>> implements IProposalReviewView {
@@ -48,6 +55,8 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     PlayerView player22;
     @BindView(R.id.player23)
     PlayerView player23;
+    @BindViews({R.id.player11, R.id.player12, R.id.player13, R.id.player21, R.id.player22, R.id.player23})
+    PlayerView[] playerViews;
 
     private String title;
     private TradeResponse trade;
@@ -107,6 +116,24 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     }
 
     private void initView() {
+        for (PlayerView player : playerViews) {
+            player.setTextColor(ContextCompat.getColor(mActivity, R.color.color_black));
+            player.setPlayer(null);
+            player.setAddable(false);
+            player.setRemovable(false);
+        }
+
+        tvTime.setText(AppUtilities.getTime(trade.getDeadline(), Constant.FORMAT_DATE_TIME_SERVER, Constant.FORMAT_DATE_TIME));
+        tvReject.setText(getString(R.string.rejected, trade.getTotalRejection()));
+        tvApprove.setText(getString(R.string.approved, trade.getTotalApproval()));
+        tvTitleTeam1.setText(trade.getTeam().getName());
+        tvTitleTeam2.setText(trade.getWithTeam().getName());
+        progressBar.setMax(trade.getTotalReview());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            progressBar.setProgress(trade.getTotalRejection(), true);
+        } else {
+            progressBar.setProgress(trade.getTotalRejection());
+        }
     }
 
     @OnClick({R.id.buttonReject, R.id.buttonApprove})

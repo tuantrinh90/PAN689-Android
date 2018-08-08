@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 
@@ -123,6 +124,7 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
         setEnableMakeProposalButton(false);
 
         for (PlayerView player : playerViews) {
+            player.setTextColor(ContextCompat.getColor(mActivity, R.color.color_black));
             player.setPlayer(null);
             player.setAddable(true);
             player.setRemovable(true);
