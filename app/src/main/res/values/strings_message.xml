@@ -34,7 +34,7 @@
     <string name="league_invalid_trade_review">Trade review is not valid</string>
     <string name="league_invalid_gameplay_option">Gameplay option is not valid</string>
     <string name="league_number_user_not_edit">Number of users is not valid</string>
-    <string name="league_invalid_number_user">User is not valid</string>
+    <string name="league_invalid_number_user">Number of users must be higher current number of members</string>
     <string name="league_invalid_scoring_system_no_edit">Scoring system is not valid</string>
     <string name="league_invalid_setup_time_number_user_change">Start time must not be earlier than team setup time</string>
     <string name="league_not_found">Not found</string>

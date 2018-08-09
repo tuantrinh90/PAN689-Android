@@ -23,6 +23,8 @@ import static com.football.utilities.Constant.ROUND_DEFAULT;
 
 public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealLeagueView, IMatchupRealLeaguePresenter<IMatchupRealLeagueView>> implements IMatchupRealLeagueView {
 
+    private static final String VALUE_ALL_ROUND = "ALL ROUND";
+
     @BindView(R.id.rvRealLeague)
     ExtRecyclerView<RealMatch> rvRealLeague;
     @BindView(R.id.tvRound)
@@ -54,13 +56,14 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
 
     private void initData() {
         valuePairs = new ArrayList<>();
-        valuePairs.add(new ExtKeyValuePair(ROUND_DEFAULT, "All round"));
+        valuePairs.add(new ExtKeyValuePair(ROUND_DEFAULT, VALUE_ALL_ROUND));
         for (int i = 0; i < 30; i++) {
             valuePairs.add(new ExtKeyValuePair(String.valueOf(i + 1), "Round " + (i + 1)));
         }
     }
 
     private void initView() {
+        tvRound.setText(VALUE_ALL_ROUND);
         RealMatchAdapter adapter = new RealMatchAdapter(getContext());
         rvRealLeague
                 .adapter(adapter)
