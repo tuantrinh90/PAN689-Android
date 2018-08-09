@@ -37,6 +37,8 @@ public class MatchupRealDataLeaguePresenter extends BaseDataPresenter<IMatchupRe
 
             if (!TextUtils.isEmpty(round) && !round.equals(ROUND_DEFAULT)) {
                 queries.put("round", round);
+            } else {
+                queries.put("round", "0");
             }
             queries.put("page", String.valueOf(page));
             queries.put("orderBy", "end_at");

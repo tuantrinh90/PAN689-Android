@@ -118,9 +118,12 @@ public class AppUtilities {
         long minutes = (totalSecs % 3600) / 60;
 
         if (days > 0) {
-            return String.format("%dd %02dh %02d", days, hours, minutes);
+            return String.format("%dd%02dh", days, hours);
+        } else if (hours > 0) {
+            return String.format("%02dh%02dm", hours, minutes);
         } else {
-            return String.format("%02dh %02d", hours, minutes);
+            long seconds = totalSecs % 60;
+            return String.format("%02dm%02ds", minutes, seconds);
         }
     }
 

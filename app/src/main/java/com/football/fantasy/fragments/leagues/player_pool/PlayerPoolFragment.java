@@ -46,6 +46,8 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     private static final String KEY_TRANSFER = "TRANSFER";
     private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
 
+    private static final int LEAGUE_ID_NONE = 0;
+
     private static final int REQUEST_FILTER = 100;
     private static final int REQUEST_DISPLAY = 101;
 
@@ -98,7 +100,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
 
     public static void start(Fragment fragment, String title, PlayerResponse transfer) {
         AloneFragmentActivity.with(fragment)
-                .parameters(PlayerPoolFragment.newBundle(title, "", transfer, 0))
+                .parameters(PlayerPoolFragment.newBundle(title, "", transfer, LEAGUE_ID_NONE))
                 .start(PlayerPoolFragment.class);
     }
 
@@ -349,7 +351,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
             case R.id.filter:
                 AloneFragmentActivity.with(this)
                         .forResult(REQUEST_FILTER)
-                        .parameters(PlayerPoolFilterFragment.newBundle(TAG, filterPositions, filterClubs, false))
+                        .parameters(PlayerPoolFilterFragment.newBundle(TAG, filterPositions, filterClubs, leagueId != LEAGUE_ID_NONE))
                         .start(PlayerPoolFilterFragment.class);
                 break;
             case R.id.display:

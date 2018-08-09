@@ -303,7 +303,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
     void initBudgetOption() {
         try {
             budgetOptionAdapter = new BudgetOptionAdapter(mActivity, budgetResponses, budgetResponse -> {
-                if (league != null && league.getStatus() == WAITING_FOR_START && !AppUtilities.isSetupTime(league.getTeamSetup())) {
+                if (league != null) {
                     return;
                 }
 
