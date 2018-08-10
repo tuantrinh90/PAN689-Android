@@ -31,7 +31,7 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
     ExtTextView tvRound;
 
     private List<ExtKeyValuePair> valuePairs;
-    private String round = ROUND_DEFAULT;
+    private String round = "";
     private int page;
 
     public static MatchupRealLeagueFragment newInstance() {
@@ -131,6 +131,12 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
         } else {
             rvRealLeague.addItems(realMatches);
         }
+    }
+
+    @Override
+    public void displayRound(Integer round) {
+        this.round = String.valueOf(round);
+        tvRound.setText(valuePairs.get(round).getValue());
     }
 
     @Override

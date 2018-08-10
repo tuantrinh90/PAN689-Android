@@ -9,4 +9,6 @@ public interface IMatchupRealLeagueView extends IBaseMvpView {
     void displayRealMatches(List<RealMatch> realMatches);
 
     void stopLoading();
+
+    void displayRound(Integer round);
 }

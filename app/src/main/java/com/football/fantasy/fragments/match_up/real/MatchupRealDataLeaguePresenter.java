@@ -22,8 +22,6 @@ import io.reactivex.SingleOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.football.utilities.Constant.ROUND_DEFAULT;
-
 public class MatchupRealDataLeaguePresenter extends BaseDataPresenter<IMatchupRealLeagueView> implements IMatchupRealLeaguePresenter<IMatchupRealLeagueView> {
 
     protected MatchupRealDataLeaguePresenter(AppComponent appComponent) {
@@ -35,10 +33,8 @@ public class MatchupRealDataLeaguePresenter extends BaseDataPresenter<IMatchupRe
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
 
-            if (!TextUtils.isEmpty(round) && !round.equals(ROUND_DEFAULT)) {
+            if (!TextUtils.isEmpty(round)) {
                 queries.put("round", round);
-            } else {
-                queries.put("round", "0");
             }
             queries.put("page", String.valueOf(page));
             queries.put("orderBy", "end_at");
@@ -61,6 +57,7 @@ public class MatchupRealDataLeaguePresenter extends BaseDataPresenter<IMatchupRe
                         @Override
                         public void onSuccess(PagingResponse<RealMatchResponse> response) {
                             convertData(response);
+                            v.displayRound(response.getRound());
                         }
 
                         @Override
