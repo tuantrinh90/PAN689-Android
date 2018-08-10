@@ -19,176 +19,183 @@
         android:text="@string/football_fantasy"
         app:textViewFontAssetName="@string/font_display_heavy_italic" />
 
-    <android.support.v4.widget.NestedScrollView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:scrollbars="none">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:scrollbars="none">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="@dimen/padding_layout"
-                android:layout_marginRight="@dimen/padding_layout">
+                android:orientation="vertical">
 
                 <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/home_size_football_leagues"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="@dimen/home_size_cup_margin_right"
-                    android:layout_marginTop="15dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="@dimen/padding_layout"
+                    android:layout_marginRight="@dimen/padding_layout">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/home_size_football_leagues"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="@dimen/home_size_cup_margin_right"
+                        android:layout_marginTop="15dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/padding_layout">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/bg_league" />
+
+                        <com.bon.customview.textview.ExtTextView
+                            android:id="@+id/tvFootballLeagues"
+                            style="@style/StyleMenuBlue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/padding_content"
+                            android:layout_marginLeft="@dimen/home_size_margin_leagues"
+                            android:layout_marginRight="@dimen/padding_content"
+                            android:layout_marginTop="@dimen/padding_content"
+                            android:gravity="left"
+                            android:maxLines="2"
+                            android:paddingRight="@dimen/padding_layout"
+                            android:text="@string/football_leagues_break"
+                            android:textAllCaps="true"
+                            app:textViewFontAssetName="@string/font_display_black_italic" />
+                    </FrameLayout>
+
+                    <ImageView
+                        android:layout_width="@dimen/home_size_cup_width"
+                        android:layout_height="@dimen/home_size_cup_height"
+                        android:layout_gravity="right"
+                        android:layout_marginTop="@dimen/padding_content"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_cups" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="@dimen/padding_layout"
+                        android:layout_marginLeft="@dimen/home_size_margin_leagues"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/home_size_margin_leagues"
+                        android:visibility="visible">
+
+                        <com.bon.customview.textview.ExtTextView
+                            android:id="@+id/tvCreateLeagues"
+                            style="@style/StyleContentWhite"
+                            android:layout_width="@dimen/home_size_button_width_leagues"
+                            android:layout_height="@dimen/home_size_button_height_leagues"
+                            android:layout_gravity="bottom"
+                            android:background="@drawable/bg_home_button_yellow"
+                            android:gravity="center"
+                            android:text="@string/create"
+                            android:textAllCaps="true"
+                            android:textSize="@dimen/font_size_description"
+                            app:textViewFontAssetName="@string/font_display_bold" />
+
+                        <com.bon.customview.textview.ExtTextView
+                            android:id="@+id/tvJoinLeagues"
+                            style="@style/StyleContentWhite"
+                            android:layout_width="@dimen/home_size_button_width_leagues"
+                            android:layout_height="@dimen/home_size_button_height_leagues"
+                            android:layout_marginLeft="@dimen/padding_small"
+                            android:background="@drawable/bg_home_button_green"
+                            android:gravity="center"
+                            android:text="@string/join"
+                            android:textAllCaps="true"
+                            android:textSize="@dimen/font_size_description"
+                            app:textViewFontAssetName="@string/font_display_bold" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/llPlayerList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/home_player_list_height"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="@dimen/padding_layout"
+                    android:gravity="center_vertical"
                     android:orientation="vertical"
-                    android:paddingLeft="@dimen/padding_layout">
+                    android:paddingRight="@dimen/padding_layout">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/bg_league" />
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/bg_player_list" />
 
                     <com.bon.customview.textview.ExtTextView
-                        android:id="@+id/tvFootballLeagues"
-                        style="@style/StyleMenuBlue"
+                        android:id="@+id/tvPlayerList"
+                        style="@style/StyleMenuWhite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
                         android:layout_marginBottom="@dimen/padding_content"
-                        android:layout_marginLeft="@dimen/home_size_margin_leagues"
-                        android:layout_marginRight="@dimen/padding_content"
-                        android:layout_marginTop="@dimen/padding_content"
-                        android:gravity="left"
-                        android:maxLines="2"
-                        android:paddingRight="@dimen/padding_layout"
-                        android:text="@string/football_leagues_break"
+                        android:gravity="end|center_vertical"
+                        android:paddingBottom="@dimen/home_size_football_margin_action"
+                        android:paddingEnd="@dimen/home_size_football_margin_action"
+                        android:paddingStart="@dimen/home_size_football_margin_action"
+                        android:paddingTop="@dimen/home_size_football_margin_action"
+                        android:text="@string/player_list_break"
                         android:textAllCaps="true"
                         app:textViewFontAssetName="@string/font_display_black_italic" />
                 </FrameLayout>
 
-                <ImageView
-                    android:layout_width="@dimen/home_size_cup_width"
-                    android:layout_height="@dimen/home_size_cup_height"
-                    android:layout_gravity="right"
-                    android:layout_marginTop="@dimen/padding_content"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_cups" />
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/tvMyLeagues"
+                    style="@style/StyleTitleWhite"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/bg_null_gray_selector"
+                    android:padding="0dp"
+                    android:text="@string/my_leagues"
+                    android:visibility="gone"
+                    app:textViewFontAssetName="@string/font_display_black_italic" />
 
-                <LinearLayout
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvMyLeagues"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
                     android:layout_marginBottom="@dimen/padding_layout"
-                    android:layout_marginLeft="@dimen/home_size_margin_leagues"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/home_size_margin_leagues"
-                    android:visibility="visible">
-
-                    <com.bon.customview.textview.ExtTextView
-                        android:id="@+id/tvCreateLeagues"
-                        style="@style/StyleContentWhite"
-                        android:layout_width="@dimen/home_size_button_width_leagues"
-                        android:layout_height="@dimen/home_size_button_height_leagues"
-                        android:layout_gravity="bottom"
-                        android:background="@drawable/bg_home_button_yellow"
-                        android:gravity="center"
-                        android:text="@string/create"
-                        android:textAllCaps="true"
-                        android:textSize="@dimen/font_size_description"
-                        app:textViewFontAssetName="@string/font_display_bold" />
-
-                    <com.bon.customview.textview.ExtTextView
-                        android:id="@+id/tvJoinLeagues"
-                        style="@style/StyleContentWhite"
-                        android:layout_width="@dimen/home_size_button_width_leagues"
-                        android:layout_height="@dimen/home_size_button_height_leagues"
-                        android:layout_marginLeft="@dimen/padding_small"
-                        android:background="@drawable/bg_home_button_green"
-                        android:gravity="center"
-                        android:text="@string/join"
-                        android:textAllCaps="true"
-                        android:textSize="@dimen/font_size_description"
-                        app:textViewFontAssetName="@string/font_display_bold" />
-                </LinearLayout>
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/llPlayerList"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/home_player_list_height"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="@dimen/padding_layout"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:paddingRight="@dimen/padding_layout">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/bg_player_list" />
+                    android:layout_marginTop="@dimen/padding_layout"
+                    android:nestedScrollingEnabled="false"
+                    android:visibility="gone"
+                    tools:targetApi="lollipop" />
 
                 <com.bon.customview.textview.ExtTextView
-                    android:id="@+id/tvPlayerList"
-                    style="@style/StyleMenuWhite"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|center_vertical"
-                    android:layout_marginBottom="@dimen/padding_content"
-                    android:gravity="end|center_vertical"
-                    android:paddingBottom="@dimen/home_size_football_margin_action"
-                    android:paddingEnd="@dimen/home_size_football_margin_action"
-                    android:paddingStart="@dimen/home_size_football_margin_action"
-                    android:paddingTop="@dimen/home_size_football_margin_action"
-                    android:text="@string/player_list_break"
-                    android:textAllCaps="true"
+                    android:id="@+id/tvNews"
+                    style="@style/StyleTitleWhite"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/padding_layout"
+                    android:background="@drawable/bg_null_gray_selector"
+                    android:padding="0dp"
+                    android:text="@string/newsResponses"
+                    android:visibility="gone"
                     app:textViewFontAssetName="@string/font_display_black_italic" />
-            </FrameLayout>
 
-            <com.bon.customview.textview.ExtTextView
-                android:id="@+id/tvMyLeagues"
-                style="@style/StyleTitleWhite"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/bg_null_gray_selector"
-                android:padding="0dp"
-                android:text="@string/my_leagues"
-                android:visibility="gone"
-                app:textViewFontAssetName="@string/font_display_black_italic" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvNews"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/padding_layout"
+                    android:layout_marginTop="@dimen/padding_layout"
+                    android:nestedScrollingEnabled="false"
+                    android:visibility="gone"
+                    tools:targetApi="lollipop" />
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvMyLeagues"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_layout"
-                android:layout_marginTop="@dimen/padding_layout"
-                android:nestedScrollingEnabled="false"
-                android:visibility="gone"
-                tools:targetApi="lollipop" />
-
-            <com.bon.customview.textview.ExtTextView
-                android:id="@+id/tvNews"
-                style="@style/StyleTitleWhite"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/padding_layout"
-                android:background="@drawable/bg_null_gray_selector"
-                android:padding="0dp"
-                android:text="@string/newsResponses"
-                android:visibility="gone"
-                app:textViewFontAssetName="@string/font_display_black_italic" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvNews"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_layout"
-                android:layout_marginTop="@dimen/padding_layout"
-                android:nestedScrollingEnabled="false"
-                android:visibility="gone"
-                tools:targetApi="lollipop" />
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

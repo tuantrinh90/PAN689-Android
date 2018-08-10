@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
@@ -62,6 +63,9 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     @BindView(R.id.rvNews)
     RecyclerView rvNews;
 
+    @BindView(R.id.refresh)
+    SwipeRefreshLayout refresh;
+
     NewsAdapter newsAdapter;
     List<NewsResponse> newsResponses;
 
@@ -78,6 +82,8 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
         super.initialized();
         initRecyclerView();
         registerEvent();
+
+        initView();
 
         // load my leagues, only display 5 records
         getMyLeagues();
@@ -127,6 +133,13 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
+    }
+
+    void initView() {
+        refresh.setOnRefreshListener(() -> {
+            getMyLeagues();
+            loadNews();
+        });
     }
 
     private void getMyLeagues() {
@@ -208,6 +221,7 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
 
     @Override
     public void notifyDataSetChangedNews(List<NewsResponse> its) {
+        refresh.setRefreshing(false);
         try {
             rvNews.setVisibility(its != null && its.size() > 0 ? View.VISIBLE : View.GONE);
             newsAdapter.notifyDataSetChanged(its);
@@ -219,6 +233,7 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
 
     @Override
     public void notifyDataSetChangedLeagues(List<LeagueResponse> its) {
+        refresh.setRefreshing(false);
         try {
             rvMyLeagues.setVisibility(its != null && its.size() > 0 ? View.VISIBLE : View.GONE);
             myLeagueRecyclerAdapter.notifyDataSetChanged(its);
