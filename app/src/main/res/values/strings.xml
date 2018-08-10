@@ -186,7 +186,7 @@
     <string name="round">Round</string>
     <string name="round_number">Round %d</string>
     <string name="round_string">Round %s</string>
-    <string name="round_match">%d - %d</string>
+    <string name="round_match">%s - %s</string>
     <string name="point">Point</string>
     <string name="change">Change</string>
     <string name="trade">Trade</string>
