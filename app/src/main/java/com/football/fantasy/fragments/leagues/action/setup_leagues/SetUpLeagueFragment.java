@@ -409,29 +409,31 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
 
     @OnClick(R.id.llTransfer)
     void onClickTransfer() {
-        toggleTransfer(true);
+        if (league == null) {
+            toggleTransfer(true);
+        }
     }
 
     @OnClick(R.id.llDraft)
     void onClickDraft() {
-        toggleTransfer(false);
+        if (league == null) {
+            toggleTransfer(false);
+        }
     }
 
     private void toggleTransfer(boolean active) {
-        if (league != null) {
-            llTransfer.setActivated(active);
-            llDraft.setActivated(!active);
+        llTransfer.setActivated(active);
+        llDraft.setActivated(!active);
 //        llTradeReview.setVisibility(active ? View.GONE : View.VISIBLE);
-            llTradeReview.setVisibility(View.GONE); // always gone
-            lvBudgetOption.setVisibility(active ? View.VISIBLE : View.GONE);
-            rvBudgetOption.setVisibility(active ? View.VISIBLE : View.GONE);
-            lvDraftTime.setVisibility(active ? View.GONE : View.VISIBLE);
-            etDraftTime.setVisibility(active ? View.GONE : View.VISIBLE);
-            lvTimePerDraftPick.setVisibility(active ? View.GONE : View.VISIBLE);
-            etTimePerDraftPick.setVisibility(active ? View.GONE : View.VISIBLE);
-            lvTeamSetupTime.setVisibility(active ? View.VISIBLE : View.GONE);
-            etTeamSetupTime.setVisibility(active ? View.VISIBLE : View.GONE);
-        }
+        llTradeReview.setVisibility(View.GONE); // always gone
+        lvBudgetOption.setVisibility(active ? View.VISIBLE : View.GONE);
+        rvBudgetOption.setVisibility(active ? View.VISIBLE : View.GONE);
+        lvDraftTime.setVisibility(active ? View.GONE : View.VISIBLE);
+        etDraftTime.setVisibility(active ? View.GONE : View.VISIBLE);
+        lvTimePerDraftPick.setVisibility(active ? View.GONE : View.VISIBLE);
+        etTimePerDraftPick.setVisibility(active ? View.GONE : View.VISIBLE);
+        lvTeamSetupTime.setVisibility(active ? View.VISIBLE : View.GONE);
+        etTeamSetupTime.setVisibility(active ? View.VISIBLE : View.GONE);
     }
 
     // numberOfUser info
