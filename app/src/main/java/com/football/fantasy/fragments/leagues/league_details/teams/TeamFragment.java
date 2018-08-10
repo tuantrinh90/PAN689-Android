@@ -33,6 +33,8 @@ public class TeamFragment extends BaseMvpFragment<ITeamView, ITeamPresenter<ITea
     private static final String KEY_LEAGUE = "LEAGUE";
     private static final String KEY_LEAGUE_TYPE = "league_type";
 
+    private boolean isSetupTeam; // = true khi vào league(chưa tạo team) -> tạo team -> bắn về teamFragment
+
     public static TeamFragment newInstance(LeagueResponse leagueId, String leagueType) {
         TeamFragment fragment = new TeamFragment();
         Bundle bundle = new Bundle();

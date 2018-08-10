@@ -166,7 +166,22 @@ public class ProfileFragment extends BaseMainMvpFragment<IProfileView, IProfileP
         tvFullName.setText(user.getName());
         ImageLoaderUtils.displayImage(user.getPhoto(), ivAvatar.getImageView());
         tvDob.setText(AppUtilities.getDate(user.getBirthday(), Constant.FORMAT_DATE_SERVER));
-        tvGender.setText(user.getGender() == UserResponse.GENDER_MALE ? R.string.male : R.string.female);
+        switch (user.getGender()) {
+            case UserResponse.GENDER_FEMALE:
+                tvGender.setText(R.string.female);
+                break;
+
+            case UserResponse.GENDER_MALE:
+                tvGender.setText(R.string.male);
+                break;
+
+            case UserResponse.GENDER_OTHER:
+                tvGender.setText(R.string.other);
+                break;
+
+            default:
+                tvGender.setText("");
+        }
         tvAddress.setText(user.getAddress());
         tvPhone.setText(user.getPhone());
         tvEmail.setText(user.getEmail());

@@ -418,18 +418,20 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
     }
 
     private void toggleTransfer(boolean active) {
-        llTransfer.setActivated(active);
-        llDraft.setActivated(!active);
+        if (league != null) {
+            llTransfer.setActivated(active);
+            llDraft.setActivated(!active);
 //        llTradeReview.setVisibility(active ? View.GONE : View.VISIBLE);
-        llTradeReview.setVisibility(View.GONE); // always gone
-        lvBudgetOption.setVisibility(active ? View.VISIBLE : View.GONE);
-        rvBudgetOption.setVisibility(active ? View.VISIBLE : View.GONE);
-        lvDraftTime.setVisibility(active ? View.GONE : View.VISIBLE);
-        etDraftTime.setVisibility(active ? View.GONE : View.VISIBLE);
-        lvTimePerDraftPick.setVisibility(active ? View.GONE : View.VISIBLE);
-        etTimePerDraftPick.setVisibility(active ? View.GONE : View.VISIBLE);
-        lvTeamSetupTime.setVisibility(active ? View.VISIBLE : View.GONE);
-        etTeamSetupTime.setVisibility(active ? View.VISIBLE : View.GONE);
+            llTradeReview.setVisibility(View.GONE); // always gone
+            lvBudgetOption.setVisibility(active ? View.VISIBLE : View.GONE);
+            rvBudgetOption.setVisibility(active ? View.VISIBLE : View.GONE);
+            lvDraftTime.setVisibility(active ? View.GONE : View.VISIBLE);
+            etDraftTime.setVisibility(active ? View.GONE : View.VISIBLE);
+            lvTimePerDraftPick.setVisibility(active ? View.GONE : View.VISIBLE);
+            etTimePerDraftPick.setVisibility(active ? View.GONE : View.VISIBLE);
+            lvTeamSetupTime.setVisibility(active ? View.VISIBLE : View.GONE);
+            etTeamSetupTime.setVisibility(active ? View.VISIBLE : View.GONE);
+        }
     }
 
     // numberOfUser info

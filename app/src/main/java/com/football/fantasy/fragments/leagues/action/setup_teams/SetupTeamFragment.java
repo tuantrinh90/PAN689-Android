@@ -215,7 +215,7 @@ public class SetupTeamFragment extends BaseMvpFragment<ISetupTeamView, ISetupTea
     @Override
     public void updateTeamSuccess(TeamResponse response) {
         bus.send(new LeagueEvent());
-        bus.send(new TeamEvent(response));
+        bus.send(new TeamEvent(response, true));
         getActivity().finish();
     }
 

@@ -33,7 +33,7 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
     static final String TAG = ResultsFragment.class.getSimpleName();
 
     static final String KEY_LEAGUE = "key_leagues";
-    private static final String ALL_ROUND = "All round";
+    private static final String ALL_ROUND = "All rounds";
 
     @BindView(R.id.rv_results)
     ExtRecyclerView<MatchResponse> rvResults;
