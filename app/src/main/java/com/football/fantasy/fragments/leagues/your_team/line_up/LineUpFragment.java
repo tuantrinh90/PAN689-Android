@@ -326,6 +326,8 @@ public class LineUpFragment extends BaseMvpFragment<ILineUpView, ILineUpPresente
 
     @Override
     public void onCompleteLineup() {
+        enableCompleteButton(false);
+
         bus.send(new TeamEvent(null));
 
         // open viewpager page TeamFragment

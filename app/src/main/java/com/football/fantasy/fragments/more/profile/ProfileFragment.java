@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
@@ -12,6 +13,7 @@ import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageLoaderUtils;
 import com.bon.interfaces.Optional;
+import com.bon.share_preferences.AppPreferences;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
@@ -98,7 +100,9 @@ public class ProfileFragment extends BaseMainMvpFragment<IProfileView, IProfileP
         Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_blue)));
 
         valuePairs.add(new ExtKeyValuePair(KEY_ACTION_EDIT, "Edit"));
-        valuePairs.add(new ExtKeyValuePair(KEY_ACTION_CHANGE_PASSWORD, "Change password"));
+        if (TextUtils.isEmpty(AppPreferences.getInstance(getContext()).getString(Constant.KEY_LOGIN_TYPE))) {
+            valuePairs.add(new ExtKeyValuePair(KEY_ACTION_CHANGE_PASSWORD, "Change password"));
+        }
     }
 
     void registerEvent() {
