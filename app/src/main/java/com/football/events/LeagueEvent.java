@@ -7,6 +7,7 @@ public class LeagueEvent implements IEvent {
 
     public static final int ACTION_UPDATE = 0;
     public static final int ACTION_LEAVE = 1;
+    public static final int ACTION_JOIN = 2;
 
     private int action;
 

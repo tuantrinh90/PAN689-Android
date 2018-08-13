@@ -225,6 +225,22 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
 
     @Override
     public void onAcceptSuccess() {
+        bus.send(new LeagueEvent());
+
+        AloneFragmentActivity.with(this)
+                .parameters(SetupTeamFragment.newBundle(
+                        null,
+                        league.getId(),
+                        mActivity.getTitleToolBar().getText().toString(),
+                        leagueType))
+                .start(SetupTeamFragment.class);
+        mActivity.finish();
+    }
+
+    @Override
+    public void joinSuccess(LeagueResponse league) {
+        bus.send(new LeagueEvent(LeagueEvent.ACTION_JOIN, null));
+
         AloneFragmentActivity.with(this)
                 .parameters(SetupTeamFragment.newBundle(
                         null,
@@ -241,19 +257,5 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
         displayLeague(league);
 
         bus.send(new StartLeagueEvent(league));
-    }
-
-    @Override
-    public void joinSuccess(LeagueResponse league) {
-        bus.send(new LeagueEvent());
-
-        AloneFragmentActivity.with(this)
-                .parameters(SetupTeamFragment.newBundle(
-                        null,
-                        league.getId(),
-                        mActivity.getTitleToolBar().getText().toString(),
-                        leagueType))
-                .start(SetupTeamFragment.class);
-        mActivity.finish();
     }
 }

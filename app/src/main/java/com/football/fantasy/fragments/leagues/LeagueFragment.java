@@ -12,6 +12,7 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
+import com.football.events.LeagueEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_leagues.SetUpLeagueFragment;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.observers.DisposableObserver;
 
 public class LeagueFragment extends BaseMainMvpFragment<ILeagueView, ILeaguePresenter<ILeagueView>> implements ILeagueView {
     static final String TAG = LeagueFragment.class.getSimpleName();
@@ -51,6 +53,30 @@ public class LeagueFragment extends BaseMainMvpFragment<ILeagueView, ILeaguePres
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
         initView();
+        registerEvent();
+    }
+
+    private void registerEvent() {
+        // load my leagues
+        mCompositeDisposable.add(bus.ofType(LeagueEvent.class).subscribeWith(new DisposableObserver<LeagueEvent>() {
+            @Override
+            public void onNext(LeagueEvent leagueEvent) {
+                if (leagueEvent.getAction() == LeagueEvent.ACTION_JOIN) {
+                    vpViewPager.setCurrentItem(MY_LEAGUE);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        }));
+
     }
 
     void initView() {
