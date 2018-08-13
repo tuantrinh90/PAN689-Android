@@ -213,7 +213,7 @@ public interface IApiService {
 
     /* user */
     @GET(ServiceConfig.GET_PROFILE)
-    Observable<BaseResponse<UserResponse>> getProfile(@Path("id") int userId);
+    Observable<BaseResponse<UserResponse>> getProfile();
 
     @POST(ServiceConfig.UPDATE_PROFILE)
     Observable<BaseResponse<UserResponse>> updateProfile(@Body RequestBody body);

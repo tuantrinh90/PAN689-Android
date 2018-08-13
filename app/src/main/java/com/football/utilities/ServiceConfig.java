@@ -100,7 +100,7 @@ public interface ServiceConfig {
     String TRADE_DECISION  = "trade_requests/{id}/decision";
 
     // user
-    String GET_PROFILE = "profile/{id}";
+    String GET_PROFILE = "profile";
     String UPDATE_PROFILE = "profile";
     String CHANGE_PASSWORD = "change_password";
     String SETTINGS = "settings";
