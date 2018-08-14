@@ -66,7 +66,6 @@ public class ForgotPasswordFragment extends BaseMvpFragment<IForgotPasswordView,
 
     @Override
     public void onSuccess(String email) {
-        getActivity().finish();
         Bundle bundle = new Bundle();
         bundle.putString("email", email);
         AloneFragmentActivity.with(this)

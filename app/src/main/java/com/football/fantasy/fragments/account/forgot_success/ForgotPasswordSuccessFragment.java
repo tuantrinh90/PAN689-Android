@@ -44,7 +44,7 @@ public class ForgotPasswordSuccessFragment
 
     @Override
     public void onSuccess() {
-        getActivity().finish();
+//        getActivity().finish();
     }
 
     @OnClick(R.id.tvReSend)
