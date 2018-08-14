@@ -74,7 +74,7 @@ public class RecordFragment extends BaseMvpFragment<IRecordView, IRecordPresente
         RecordAdapter adapter = new RecordAdapter(
                 getContext(),
                 player -> {
-                    PlayerDetailFragment.start(this, player, getString(R.string.record), false);
+                    PlayerDetailFragment.start(this, player, getString(R.string.record));
                 });
         rvRecord.adapter(adapter)
                 .refreshListener(this::refreshData)

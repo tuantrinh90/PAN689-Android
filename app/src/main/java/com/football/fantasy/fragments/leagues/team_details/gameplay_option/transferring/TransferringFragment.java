@@ -247,7 +247,8 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
                     AloneFragmentActivity.with(this)
                             .parameters(PlayerDetailFragment.newBundle(
                                     player,
-                                    getString(R.string.transferring_player), false))
+                                    getString(R.string.transferring_player),
+                                    PlayerDetailFragment.PICK_NONE))
                             .start(PlayerDetailFragment.class);
                 });
         // remove click

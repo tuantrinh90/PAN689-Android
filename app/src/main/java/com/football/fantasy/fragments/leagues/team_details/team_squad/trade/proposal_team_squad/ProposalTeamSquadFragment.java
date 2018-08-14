@@ -122,7 +122,7 @@ public class ProposalTeamSquadFragment extends BaseMvpFragment<IProposalTeamSqua
         TeamSquadAdapter adapter = new TeamSquadAdapter(
                 getContext(),
                 player -> {
-                    PlayerDetailFragment.start(this, player, getString(R.string.team_squad), false);
+                    PlayerDetailFragment.start(this, player, getString(R.string.team_squad));
                 });
         adapter.setAddCallback(
                 player -> {

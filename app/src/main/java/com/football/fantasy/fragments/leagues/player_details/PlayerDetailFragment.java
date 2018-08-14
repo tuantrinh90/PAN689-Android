@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
@@ -39,7 +40,7 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
 
     private static final String KEY_PLAYER = "PLAYER";
     private static final String KEY_TITLE = "TITLE";
-    private static final String KEY_PICK_ENABLE = "PICK_ENABLE";
+    private static final String KEY_PICK_ENABLE = "PICK_PICKED";
     private static final String KEY_MAIN_POSITION = "MAIN_POSITION";
     private static final String KEY_ORDER = "ORDER";
     private static final String KEY_TEAM_ID = "TEAM_ID";
@@ -51,11 +52,18 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
     private static final String KEY_LAST_3_ROUNDS = "LAST_3_ROUNDS";
     private static final String KEY_POINTS = "POINTS";
 
+    public static final int PICK_NONE = -1;
+    public static final int PICK_PICK = 0;
+    public static final int PICK_PICKED = 1;
 
     private static final ExtKeyValuePair DEFAULT_KEY = new ExtKeyValuePair(KEY_TOTAL, "Total statistics");
 
-    @BindView(R.id.ivMenu)
-    View ivMenu;
+    @BindView(R.id.viewPick)
+    View viewPick;
+    @BindView(R.id.ivPick)
+    ImageView ivPick;
+    @BindView(R.id.tvPick)
+    ExtTextView tvPick;
     @BindView(R.id.tvName)
     ExtTextView tvName;
     @BindView(R.id.tvMainPosition)
@@ -108,7 +116,7 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
 
     private String title;
     private PlayerResponse player;
-    private boolean pickEnable;
+    private int pickEnable = PICK_NONE;
     private int mainPosition = PlayerResponse.POSITION_NONE;
     private int order = NONE_ORDER;
     private int teamId;
@@ -116,10 +124,9 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
     List<ExtKeyValuePair> valuePairs = new ArrayList<>();
     private ExtKeyValuePair keyValuePairKey = DEFAULT_KEY;
 
-
-    public static void start(Fragment fragment, PlayerResponse player, String title, boolean pickEnable) {
+    public static void start(Fragment fragment, PlayerResponse player, String title) {
         AloneFragmentActivity.with(fragment)
-                .parameters(newBundle(player, title, pickEnable))
+                .parameters(newBundle(player, title, PICK_NONE))
                 .start(PlayerDetailFragment.class);
     }
 
@@ -131,18 +138,18 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
         return bundle;
     }
 
-    public static Bundle newBundle(PlayerResponse player, String title, boolean pickEnable) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_PLAYER, player);
-        bundle.putString(KEY_TITLE, title);
-        bundle.putBoolean(KEY_PICK_ENABLE, pickEnable);
-        return bundle;
-    }
-
-    public static Bundle newBundle(PlayerResponse player, String title, boolean pickEnable, int mainPosition, int order) {
+    public static Bundle newBundle(PlayerResponse player, String title, int pickEnable, int mainPosition, int order) {
         Bundle bundle = newBundle(player, title, pickEnable);
         bundle.putInt(KEY_MAIN_POSITION, mainPosition);
         bundle.putInt(KEY_ORDER, order);
+        return bundle;
+    }
+
+    public static Bundle newBundle(PlayerResponse player, String title, int pick) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(KEY_PLAYER, player);
+        bundle.putString(KEY_TITLE, title);
+        bundle.putInt(KEY_PICK_ENABLE, pick);
         return bundle;
     }
 
@@ -229,7 +236,7 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
     private void getDataFromBundle() {
         player = (PlayerResponse) getArguments().getSerializable(KEY_PLAYER);
         title = getArguments().getString(KEY_TITLE);
-        pickEnable = getArguments().getBoolean(KEY_PICK_ENABLE);
+        pickEnable = getArguments().getInt(KEY_PICK_ENABLE);
         mainPosition = getArguments().getInt(KEY_MAIN_POSITION);
         order = getArguments().getInt(KEY_ORDER);
         teamId = getArguments().getInt(KEY_TEAM_ID);
@@ -247,9 +254,29 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
     void initView() {
         Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.color_white)));
         Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white_blue)));
-
-        ivMenu.setVisibility(pickEnable ? View.VISIBLE : View.GONE);
         tvFilter.setText(keyValuePairKey.getValue());
+
+        switch (pickEnable) {
+            case PICK_NONE:
+                viewPick.setVisibility(View.GONE);
+                break;
+
+            case PICK_PICK:
+                viewPick.setVisibility(View.VISIBLE);
+                tvPick.setText(getString(R.string.pick));
+                tvPick.setTextColor(ContextCompat.getColor(mActivity, R.color.color_blue_end));
+                ivPick.setColorFilter(ContextCompat.getColor(mActivity, R.color.color_blue_end));
+                viewPick.setBackgroundResource(R.drawable.bg_pick);
+                break;
+
+            case PICK_PICKED:
+                viewPick.setVisibility(View.VISIBLE);
+                tvPick.setText(getString(R.string.picked));
+                tvPick.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white));
+                ivPick.setColorFilter(ContextCompat.getColor(mActivity, R.color.color_white));
+                viewPick.setBackgroundResource(R.drawable.bg_picked);
+                break;
+        }
     }
 
     @NonNull

@@ -206,7 +206,7 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
                                 .parameters(PlayerDetailFragment.newBundle(
                                         player,
                                         getString(R.string.player_list),
-                                        !player.getSelected(),
+                                        player.getSelected() ? PlayerDetailFragment.PICK_PICKED : PlayerDetailFragment.PICK_PICK,
                                         mainPosition,
                                         order))
                                 .start(PlayerDetailFragment.class);

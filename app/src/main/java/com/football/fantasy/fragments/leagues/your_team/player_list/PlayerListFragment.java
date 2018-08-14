@@ -136,7 +136,9 @@ public class PlayerListFragment extends BaseMvpFragment<IPlayerListView, IPlayer
                                 .parameters(PlayerDetailFragment.newBundle(
                                         player,
                                         getString(R.string.player_list),
-                                        !player.getSelected()))
+                                        player.getSelected() ? PlayerDetailFragment.PICK_PICKED : PlayerDetailFragment.PICK_PICK,
+                                        playerPosition == PlayerResponse.POSITION_NONE ? player.getMainPosition() : playerPosition,
+                                        -1))
                                 .start(PlayerDetailFragment.class);
                     },
                     (player, position) -> { // add click

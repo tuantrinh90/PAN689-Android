@@ -1,8 +1,8 @@
 <resources>
     <!--E3:A1:E1:ED:84:E4:16:3A:87:06:01:0A:09:08:79:DC:C2:5D:4D:CB-->
     <!--social-->
-    <string name="facebook_app_id">138085307053883</string>
-    <string name="fb_login_protocol_scheme">fb138085307053883</string>
+    <string name="facebook_app_id">1963122033999975</string>
+    <string name="fb_login_protocol_scheme">fb1963122033999975</string>
     <string name="twitter_api_key">P4cJrXCOyUKRT3STozI81yWM0</string>
     <string name="twitter_secret_key">4H87uKfxfbo5Gt3fvUtpspaatNthJPsbJCv16t76BERjISM7ew</string>
 
@@ -319,4 +319,6 @@
     <string name="select_season">Select season</string>
     <string name="message_maximun_3_columns">The display only supports maximum 3 columns</string>
     <string name="old_password_incorrect">Old password is incorrect</string>
+    <string name="pick">Pick</string>
+    <string name="picked">Picked</string>
 </resources>
