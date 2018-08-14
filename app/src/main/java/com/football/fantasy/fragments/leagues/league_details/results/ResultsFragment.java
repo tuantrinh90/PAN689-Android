@@ -37,6 +37,8 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
 
     @BindView(R.id.rv_results)
     ExtRecyclerView<MatchResponse> rvResults;
+    @BindView(R.id.view_time)
+    View viewTime;
     @BindView(R.id.text_time)
     ExtTextView textTime;
     @BindView(R.id.tvRound)
@@ -151,6 +153,10 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
                             rvResults.getItem(0).getStartAt(),
                             Constant.FORMAT_DATE_TIME_SERVER),
                     Constant.FORMAT_DATE_TIME));
+
+            viewTime.setVisibility(View.VISIBLE);
+        } else {
+            viewTime.setVisibility(View.GONE);
         }
 
         rvResults.addItems(matches);

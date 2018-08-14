@@ -51,6 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        android:id="@+id/view_time"
         android:paddingBottom="@dimen/padding_content"
         android:paddingTop="@dimen/padding_content">
 
@@ -72,7 +73,6 @@
             android:layout_gravity="bottom"
             android:layout_marginRight="@dimen/padding_small"
             android:padding="0dp"
-            android:text="@string/entrants"
             app:textViewFontAssetName="@string/font_display_bold" />
     </LinearLayout>
 
