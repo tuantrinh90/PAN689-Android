@@ -107,8 +107,7 @@ public class ExtRecyclerView<T> extends FrameLayout {
                 recyclerView.addItemDecoration(divider);
 
                 // message no data
-                String message = typedArray.getString(R.styleable.ExtRecyclerView_noDataMessage);
-                this.message = message;
+                this.message = typedArray.getString(R.styleable.ExtRecyclerView_noDataMessage);
             } finally {
                 typedArray.recycle();
             }
