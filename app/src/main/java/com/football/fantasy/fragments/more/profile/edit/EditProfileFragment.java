@@ -195,6 +195,7 @@ public class EditProfileFragment extends BaseMvpFragment<IEditProfileView, IEdit
     private void pickGender() {
         ExtKeyValuePairDialogFragment.newInstance()
                 .setExtKeyValuePairs(new ArrayList<ExtKeyValuePair>() {{
+                    add(new ExtKeyValuePair(String.valueOf(UserResponse.UNDISCLOSED), "Undisclosed"));
                     add(new ExtKeyValuePair(String.valueOf(UserResponse.GENDER_FEMALE), "Female"));
                     add(new ExtKeyValuePair(String.valueOf(UserResponse.GENDER_MALE), "Male"));
                     add(new ExtKeyValuePair(String.valueOf(UserResponse.GENDER_OTHER), "Other"));
@@ -202,7 +203,7 @@ public class EditProfileFragment extends BaseMvpFragment<IEditProfileView, IEdit
                 .setValue(String.valueOf(gender))
                 .setOnSelectedConsumer(pair -> {
                     if (!TextUtils.isEmpty(pair.getKey())) {
-                        etGender.setContent(pair.getValue());
+                        etGender.setContent(pair.getValue().equals("Undisclosed") ? "" : pair.getValue());
                         gender = Integer.valueOf(pair.getKey());
                     }
                 })

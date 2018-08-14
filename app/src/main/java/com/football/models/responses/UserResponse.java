@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 public class UserResponse implements Serializable {
 
+    public static final int UNDISCLOSED = -1;
     public static final int GENDER_FEMALE = 0;
     public static final int GENDER_MALE = 1;
     public static final int GENDER_OTHER = 2;

@@ -233,11 +233,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                 ivImagePick.setImageUri(league.getLogo());
                 rgLeagueType.check(league.getLeagueType().equals(LEAGUE_TYPE_OPEN) ? R.id.rbOpenLeague : R.id.rbPrivateLeague);
 
-                if (league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER)) {
-                    onClickTransfer();
-                } else {
-                    onClickDraft();
-                }
+                toggleTransfer(league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER));
 
                 // transfer mode
                 String valueTransfer = String.format("%02d", league.getNumberOfUser());

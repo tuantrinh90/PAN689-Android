@@ -31,7 +31,7 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
     ExtTextView tvRound;
 
     private List<ExtKeyValuePair> valuePairs;
-    private String round = "";
+    private String round = ROUND_DEFAULT;
     private int page;
 
     public static MatchupRealLeagueFragment newInstance() {
