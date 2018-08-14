@@ -266,6 +266,7 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
         rvInjured
                 .adapter(injuredPlayerAdapter)
                 .layoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false))
+                .noDataMessage("")
                 .build();
 
         displayDisplay();

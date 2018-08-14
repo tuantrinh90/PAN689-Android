@@ -3,6 +3,7 @@ package com.football.customizes.lineup;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.bon.interfaces.Optional;
 import com.football.models.responses.PlayerResponse;
@@ -153,9 +154,12 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         this.players = players;
     }
 
+    private static final String TAG = "LineupView";
+
     public void addPlayer(PlayerResponse player, int line, Integer order) {
         int position = getPosition(null, 3 - line, order);
         if (position != -1) {
+            Log.i(TAG, "addPlayer: " + String.format("line: %d, order: %d, position: %d", line, order, position));
             setPlayer(player, position);
         }
     }

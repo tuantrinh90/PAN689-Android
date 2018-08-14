@@ -39,6 +39,7 @@ public class ExtRecyclerView<T> extends FrameLayout {
 
     @LayoutRes
     private int loadingLayout;
+    private String message;
 
     // listener
     private ExtLoadMoreListener onExtLoadMoreListener = null;
@@ -107,7 +108,7 @@ public class ExtRecyclerView<T> extends FrameLayout {
 
                 // message no data
                 String message = typedArray.getString(R.styleable.ExtRecyclerView_noDataMessage);
-                StringUtils.isNotEmpty(message, s -> tvMessage.setText(s));
+                this.message = message;
             } finally {
                 typedArray.recycle();
             }
@@ -151,6 +152,11 @@ public class ExtRecyclerView<T> extends FrameLayout {
         return this;
     }
 
+    public ExtRecyclerView noDataMessage(String message) {
+        this.message = message;
+        return this;
+    }
+
     public void build() {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mAdapter);
@@ -180,6 +186,7 @@ public class ExtRecyclerView<T> extends FrameLayout {
     public void displayMessage() {
         try {
             tvMessage.setVisibility(mAdapter == null || mAdapter.getItemCount() <= 0 ? VISIBLE : GONE);
+            tvMessage.setText(message);
         } catch (Exception e) {
             e.printStackTrace();
         }
