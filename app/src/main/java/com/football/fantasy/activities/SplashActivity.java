@@ -9,7 +9,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 import com.bon.share_preferences.AppPreferences;
 import com.football.common.activities.BaseAppCompatActivity;
@@ -24,6 +23,8 @@ import com.football.utilities.Constant;
 
 public class SplashActivity extends BaseAppCompatActivity {
 
+    private String deepLinkQuery;
+
     @Override
     protected int getContentViewId() {
         return R.layout.splash_activity;
@@ -35,12 +36,21 @@ public class SplashActivity extends BaseAppCompatActivity {
 
         if (BuildConfig.DEBUG) {
             String TAG = "SplashActivity";
-            Log.i(TAG, "onCreate: " + getDeviceResolution());
+            Intent intent = getIntent();
+            if (intent.getData() != null) {
+                deepLinkQuery = intent.getData().getEncodedQuery();
+            }
         }
 
         new Handler().postDelayed(() -> {
             String token = AppPreferences.getInstance(this).getString(Constant.KEY_TOKEN);
-            startActivity(new Intent(this, TextUtils.isEmpty(token) ? AccountActivity.class : MainActivity.class));
+            Intent intent = new Intent(this, TextUtils.isEmpty(token) ? AccountActivity.class : MainActivity.class);
+
+            if (!TextUtils.isEmpty(deepLinkQuery)) {
+                intent.putExtra(Constant.DEEP_LINK_QUERY, deepLinkQuery);
+            }
+
+            startActivity(intent);
             finish();
         }, 1000);
     }

@@ -29,13 +29,7 @@
             android:configChanges="keyboard|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <data
-                    android:host="open.my.app"
-                    android:scheme="app" />
-            </intent-filter>
-        </activity>
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".activities.MainActivity"

@@ -43,4 +43,5 @@ public interface Constant {
     String ROUND_DEFAULT = "0";
 
 
+    String DEEP_LINK_QUERY = "DEEP_LINK_QUERY";
 }

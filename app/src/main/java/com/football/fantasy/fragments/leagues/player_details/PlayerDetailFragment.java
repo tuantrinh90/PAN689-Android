@@ -310,7 +310,7 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
                 }).show(getFragmentManager(), null);
     }
 
-    @OnClick({R.id.ivMenu})
+    @OnClick({R.id.viewPick})
     public void onMenuClicked(View view) {
         List<ExtKeyValuePair> valuePairs = new ArrayList<>();
         valuePairs.add(new ExtKeyValuePair("Pick", "Pick"));

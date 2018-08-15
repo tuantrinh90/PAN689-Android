@@ -7,7 +7,9 @@ import android.text.TextUtils;
 import com.bon.logger.Logger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import java8.util.function.Consumer;
@@ -166,5 +168,15 @@ public class StringUtils {
         }
 
         return "";
+    }
+
+    public static Map<String, String> stringToMap(String query, String prefix) {
+        String[] keyValuePairs = query.split(prefix);              //split the string to creat key-value pairs
+        Map<String, String> map = new HashMap<>();
+        for (String pair : keyValuePairs) {                   //iterate over the pairs
+            String[] entry = pair.split("=");                   //split the pairs to get key and value
+            map.put(entry[0].trim(), entry[1].trim());          //add them to the hashmap and trim whitespaces
+        }
+        return map;
     }
 }

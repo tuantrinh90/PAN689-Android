@@ -5,21 +5,28 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.bon.util.ActivityUtils;
 import com.bon.util.DialogUtils;
+import com.bon.util.StringUtils;
 import com.football.adapters.StatePagerAdapter;
+import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.activities.BaseAppCompatActivity;
 import com.football.customizes.footers.FooterItem;
 import com.football.events.UnauthorizedEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.home.HomeFragment;
 import com.football.fantasy.fragments.leagues.LeagueFragment;
+import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.fantasy.fragments.match_up.MatchUpFragment;
 import com.football.fantasy.fragments.more.MoreFragment;
 import com.football.fantasy.fragments.notification.NotificationFragment;
+import com.football.utilities.Constant;
 import com.google.firebase.iid.FirebaseInstanceId;
+
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -69,6 +76,20 @@ public class MainActivity extends BaseAppCompatActivity {
         initFragmentDefault();
         initRxBus();
         registerNotification();
+        getDeepLink();
+    }
+
+    private void getDeepLink() {
+        String deepLinkQuery = getIntent().getStringExtra(Constant.DEEP_LINK_QUERY);
+        if (!TextUtils.isEmpty(deepLinkQuery)) {
+            Map<String, String> data = StringUtils.stringToMap(deepLinkQuery, "&");
+            String leagueId = data.get("league_id");
+            if (TextUtils.isDigitsOnly(leagueId)) {
+                AloneFragmentActivity.with(this)
+                        .parameters(LeagueDetailFragment.newBundle(getString(R.string.my_leagues), Integer.parseInt(leagueId), LeagueDetailFragment.MY_LEAGUES))
+                        .start(LeagueDetailFragment.class);
+            }
+        }
     }
 
     private static final String TAG = "MainActivity";

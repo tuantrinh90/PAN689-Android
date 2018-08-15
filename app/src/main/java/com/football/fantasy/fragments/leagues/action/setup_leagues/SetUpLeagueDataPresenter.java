@@ -53,7 +53,7 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
         getOptView().doIfPresent(v -> {
             v.showLoading(true);
             if (hasFile(request)) {
-                upload(request, uploadResponse -> create(request, uploadResponse.getFileMachineName()));
+                upload(request, uploadResponse -> create(request, uploadResponse.getFileName()));
             } else {
                 create(request, "");
             }
@@ -65,7 +65,7 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
         getOptView().doIfPresent(v -> {
             v.showLoading(true);
             if (hasFile(request)) {
-                upload(request, uploadResponse -> update(request, leagueId, uploadResponse.getFileMachineName()));
+                upload(request, uploadResponse -> update(request, leagueId, uploadResponse.getFileName()));
             } else {
                 update(request, leagueId, "");
             }

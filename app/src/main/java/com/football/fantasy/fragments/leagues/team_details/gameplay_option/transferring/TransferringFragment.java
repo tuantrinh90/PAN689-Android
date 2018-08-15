@@ -287,7 +287,7 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
 
     private void transferPlayer(PlayerResponse player) {
         // append PlayerPool
-        PlayerPoolFragment.start(this, getString(R.string.transferring_player), getString(R.string.player_pool), player, league.getId());
+        PlayerPoolFragment.start(this, getString(R.string.transferring_player), getString(R.string.player_pool), player, league.getId(), -1);
     }
 
     @OnClick({R.id.filter, R.id.display, R.id.option1, R.id.option2, R.id.option3})
