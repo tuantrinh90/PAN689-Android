@@ -84,7 +84,7 @@ public class TransferringDataPresenter extends BaseDataPresenter<ITransferringVi
                         public void onSuccess(TeamTransferringResponse response) {
                             v.displayPlayers(response.getPlayers());
                             v.displayInjuredPlayers(response.getInjuredPlayers());
-                            v.displayHeader(response.getTransferPlayerLeftDisplay(), response.getTransferTimeLeft(), response.getTeam().getCurrentBudget());
+                            v.displayHeader(response.getCurrentTransferPlayer(), response.getTransferPlayerLeftDisplay(), response.getTransferTimeLeft(), response.getTeam().getCurrentBudget());
                         }
 
                         @Override

@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.textview.ExtTextView;
+import com.bon.util.DialogUtils;
 import com.football.adapters.InjuredPlayerAdapter;
 import com.football.adapters.PlayerPoolAdapter;
 import com.football.common.activities.AloneFragmentActivity;
@@ -95,6 +96,7 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     private String filterPositions = "";
     private int[] sorts = new int[]{Constant.SORT_NONE, Constant.SORT_NONE, Constant.SORT_NONE}; // -1: NONE, 0: desc, 1: asc
     private List<ExtKeyValuePair> displays = new ArrayList<>();
+    private int currentTransferPlayer;
 
     public static TransferringFragment newInstance(TeamResponse team, LeagueResponse league) {
         TransferringFragment fragment = new TransferringFragment();
@@ -287,7 +289,17 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
 
     private void transferPlayer(PlayerResponse player) {
         // append PlayerPool
-        PlayerPoolFragment.start(this, getString(R.string.transferring_player), getString(R.string.player_pool), player, league.getId(), -1);
+        if (currentTransferPlayer > 0) {
+            PlayerPoolFragment.start(this, getString(R.string.transferring_player), getString(R.string.player_pool), player, league.getId(), -1);
+        } else {
+            DialogUtils.messageBox(mActivity,
+                    0,
+                    getString(R.string.app_name),
+                    getString(R.string.message_transferring_player_left_is_0),
+                    getString(R.string.ok),
+                    (dialog, which) -> {
+                    });
+        }
     }
 
     @OnClick({R.id.filter, R.id.display, R.id.option1, R.id.option2, R.id.option3})
@@ -389,7 +401,8 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     }
 
     @Override
-    public void displayHeader(String transferPlayerLeftDisplay, long transferTimeLeft, long budget) {
+    public void displayHeader(int currentTransferPlayer, String transferPlayerLeftDisplay, long transferTimeLeft, long budget) {
+        this.currentTransferPlayer = currentTransferPlayer;
         tvTransferringPlayerLeftValue.setText(transferPlayerLeftDisplay);
         tvTransferringTimeLeftValue.setText(AppUtilities.timeLeft(transferTimeLeft));
         tvBudgetValue.setText(getString(R.string.money_prefix, AppUtilities.getMoney(budget)));
