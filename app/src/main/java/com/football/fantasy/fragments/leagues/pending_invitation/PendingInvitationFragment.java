@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.bon.customview.listview.ExtPagingListView;
 import com.bon.logger.Logger;
+import com.bon.util.DialogUtils;
 import com.football.adapters.LeaguesAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
@@ -124,7 +125,14 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
                         }
                     },
                     league -> { // reject event
-                        presenter.invitationDecisions(league, Constant.KEY_INVITATION_DECLINE);
+                        DialogUtils.messageBox(mActivity,
+                                0,
+                                getString(R.string.app_name),
+                                getString(R.string.message_reject_invitation),
+                                getString(R.string.ok),
+                                getString(R.string.cancel),
+                                (dialog, which) -> presenter.invitationDecisions(league, Constant.KEY_INVITATION_DECLINE),
+                                (dialog, which) -> dialog.dismiss());
                     },
                     null);
 

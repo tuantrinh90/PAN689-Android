@@ -281,6 +281,7 @@
     <string name="email_alert">Email alert</string>
     <string name="message_delete">message_delete</string>
     <string name="message_not_owner_the_team">You are not owner of the team.</string>
+    <string name="message_reject_invitation">Are you sure you want to reject this invitation?</string>
     <string name="transfer_deadline">Transfer deadline</string>
     <string name="off">Off</string>
     <string name="on">On</string>
