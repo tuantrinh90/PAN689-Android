@@ -23,7 +23,7 @@ import static com.football.utilities.Constant.ROUND_DEFAULT;
 
 public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealLeagueView, IMatchupRealLeaguePresenter<IMatchupRealLeagueView>> implements IMatchupRealLeagueView {
 
-    private static final String VALUE_ALL_ROUND = "ALL ROUND";
+    private static final String VALUE_ALL_ROUND = "ALL ROUNDS";
 
     @BindView(R.id.rvRealLeague)
     ExtRecyclerView<RealMatch> rvRealLeague;

@@ -42,7 +42,7 @@ public class PlayerPoolPresenter extends BaseDataPresenter<IPlayerPoolView> impl
             if (leagueId > 0) {
                 queries.put("league_id", String.valueOf(leagueId));
             }
-            if (playerTransfer.getId() > 0) {
+            if (playerTransfer != null && playerTransfer.getId() > 0) {
                 queries.put("transfer_player_id", String.valueOf(playerTransfer.getId()));
             }
             if (seasonIdToTransfer > 0) {

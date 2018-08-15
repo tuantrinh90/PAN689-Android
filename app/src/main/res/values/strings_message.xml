@@ -11,7 +11,7 @@
     <string name="selected_is_invalid">This choice is not valid</string>
     <string name="internal_exception">Internal exception</string>
     <string name="login_failure">Login unsuccessfully</string>
-    <string name="login_invalid_credentials">Login verification is not valid</string>
+    <string name="login_invalid_credentials">Invalid password, please try again!</string>
     <string name="jwt_failed_to_create_token">Can not create a token</string>
     <string name="register_failure">Email address is already registered, please log in with this email</string>
     <string name="register_user_exist">The user already exists</string>
