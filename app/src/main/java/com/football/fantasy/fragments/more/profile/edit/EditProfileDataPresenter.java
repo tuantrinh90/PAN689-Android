@@ -93,13 +93,15 @@ public class EditProfileDataPresenter extends BaseDataPresenter<IEditProfileView
         MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("first_name", request.getFirstName())
-                .addFormDataPart("last_name", request.getLastName());
+                .addFormDataPart("last_name", request.getLastName())
+                .addFormDataPart("gender", String.valueOf(request.getGender()))
+                .addFormDataPart("address", request.getAddress())
+                .addFormDataPart("phone", request.getPhone())
+                .addFormDataPart("description", request.getDescription());
 
-        addOptionParam(builder, "birthday", request.getBirthday());
-        addOptionParam(builder, "gender", String.valueOf(request.getGender()));
-        addOptionParam(builder, "address", request.getAddress());
-        addOptionParam(builder, "phone", request.getPhone());
-        addOptionParam(builder, "description", request.getDescription());
+        if (!TextUtils.isEmpty(request.getBirthday())) {
+            builder.addFormDataPart("birthday", request.getBirthday());
+        }
 
         File photo = request.getPhoto();
         if (photo != null && photo.exists()) {
@@ -116,12 +118,6 @@ public class EditProfileDataPresenter extends BaseDataPresenter<IEditProfileView
         }
 
         return builder.build();
-    }
-
-    private void addOptionParam(MultipartBody.Builder builder, String key, String value) {
-        if (!TextUtils.isEmpty(value)) {
-            builder.addFormDataPart(key, value);
-        }
     }
 
 }
