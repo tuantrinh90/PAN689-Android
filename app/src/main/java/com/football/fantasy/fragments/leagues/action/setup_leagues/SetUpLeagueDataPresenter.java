@@ -1,6 +1,7 @@
 package com.football.fantasy.fragments.leagues.action.setup_leagues;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.bon.util.StringUtils;
 import com.football.common.presenters.BaseDataPresenter;
@@ -53,7 +54,7 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
         getOptView().doIfPresent(v -> {
             v.showLoading(true);
             if (hasFile(request)) {
-                upload(request, uploadResponse -> create(request, uploadResponse.getFileName()));
+                upload(request, uploadResponse -> create(request, uploadResponse.getFileMachineName()));
             } else {
                 create(request, "");
             }
@@ -65,7 +66,7 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
         getOptView().doIfPresent(v -> {
             v.showLoading(true);
             if (hasFile(request)) {
-                upload(request, uploadResponse -> update(request, leagueId, uploadResponse.getFileName()));
+                upload(request, uploadResponse -> update(request, leagueId, uploadResponse.getFileMachineName()));
             } else {
                 update(request, leagueId, "");
             }
@@ -102,6 +103,7 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
                         @Override
                         public void onSuccess(UploadResponse response) {
                             consumer.accept(response);
+                            Log.d("dd", "onSuccess:  " + response.toString());
                         }
 
                         @Override

@@ -43,4 +43,16 @@ public class UploadResponse {
     public Integer getFileSize() {
         return fileSize;
     }
+
+    @Override
+    public String toString() {
+        return "UploadResponse{" +
+                "url='" + url + '\'' +
+                ", fileName='" + fileName + '\'' +
+                ", fileMachineName='" + fileMachineName + '\'' +
+                ", fileType='" + fileType + '\'' +
+                ", fileMimeType='" + fileMimeType + '\'' +
+                ", fileSize=" + fileSize +
+                '}';
+    }
 }
