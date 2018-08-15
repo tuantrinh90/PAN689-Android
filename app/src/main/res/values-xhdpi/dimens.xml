@@ -15,10 +15,10 @@
     <dimen name="avatar_padding">5dp</dimen>
 
     <!--icon-->
-    <dimen name="icon_tiny">18dp</dimen>
-    <dimen name="icon_small">25dp</dimen>
-    <dimen name="icon_medium">30dp</dimen>
-    <dimen name="icon_large">40dp</dimen>
+    <dimen name="icon_tiny">21dp</dimen>
+    <dimen name="icon_small">30dp</dimen>
+    <dimen name="icon_medium">36dp</dimen>
+    <dimen name="icon_large">48dp</dimen>
 
     <!--home-->
     <dimen name="home_size_button_width_leagues">100dp</dimen>

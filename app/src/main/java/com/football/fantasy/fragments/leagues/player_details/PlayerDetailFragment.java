@@ -236,7 +236,7 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
     private void getDataFromBundle() {
         player = (PlayerResponse) getArguments().getSerializable(KEY_PLAYER);
         title = getArguments().getString(KEY_TITLE);
-        pickEnable = getArguments().getInt(KEY_PICK_ENABLE);
+        pickEnable = getArguments().getInt(KEY_PICK_ENABLE, PICK_NONE);
         mainPosition = getArguments().getInt(KEY_MAIN_POSITION);
         order = getArguments().getInt(KEY_ORDER);
         teamId = getArguments().getInt(KEY_TEAM_ID);
