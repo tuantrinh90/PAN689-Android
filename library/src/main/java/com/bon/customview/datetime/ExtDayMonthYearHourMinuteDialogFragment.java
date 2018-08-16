@@ -318,8 +318,11 @@ public class ExtDayMonthYearHourMinuteDialogFragment extends ExtBaseBottomDialog
 
     public ExtDayMonthYearHourMinuteDialogFragment setValueDate(Calendar defaultDate) {
         this.defaultDate = defaultDate;
+
+        int minutes = defaultDate.get(Calendar.MINUTE) / MINUTE_STEP * MINUTE_STEP;
+
         this.valueDate = DateTimeUtils.getCalendarTime(defaultDate.get(Calendar.YEAR), defaultDate.get(Calendar.MONTH),
-                defaultDate.get(Calendar.DAY_OF_MONTH), defaultDate.get(Calendar.HOUR_OF_DAY), defaultDate.get(Calendar.MINUTE));
+                defaultDate.get(Calendar.DAY_OF_MONTH), defaultDate.get(Calendar.HOUR_OF_DAY), minutes);
         return this;
     }
 

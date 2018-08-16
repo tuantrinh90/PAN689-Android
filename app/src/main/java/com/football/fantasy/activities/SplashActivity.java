@@ -12,7 +12,6 @@ import android.util.DisplayMetrics;
 
 import com.bon.share_preferences.AppPreferences;
 import com.football.common.activities.BaseAppCompatActivity;
-import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
 import com.football.utilities.Constant;
 
@@ -22,8 +21,6 @@ import com.football.utilities.Constant;
  */
 
 public class SplashActivity extends BaseAppCompatActivity {
-
-    private String deepLinkQuery;
 
     @Override
     protected int getContentViewId() {
@@ -38,10 +35,6 @@ public class SplashActivity extends BaseAppCompatActivity {
         new Handler().postDelayed(() -> {
             String token = AppPreferences.getInstance(this).getString(Constant.KEY_TOKEN);
             Intent intent = new Intent(this, TextUtils.isEmpty(token) ? AccountActivity.class : MainActivity.class);
-
-            if (!TextUtils.isEmpty(deepLinkQuery)) {
-                intent.putExtra(Constant.DEEP_LINK_QUERY, deepLinkQuery);
-            }
 
             startActivity(intent);
             finish();

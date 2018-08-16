@@ -604,7 +604,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
             if (budgetResponses != null && budgetResponses.size() > 0) {
                 if (league != null) {
                     StreamSupport.stream(budgetResponses).forEach(n -> {
-                        if (n.getId() == league.getBudgetId()) {
+                        if (n.getId().equals(league.getBudgetId())) {
                             n.setIsActivated(true);
                             budgetResponse = n;
                         } else {
@@ -654,7 +654,6 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                 }
                 case ImageUtils.REQUEST_PICK_CONTENT: {
                     String pathFile = ImageFilePath.getPath(mActivity, data.getData());
-                    Log.e("pathFile", "pathFile:: " + pathFile);
                     StringUtils.isNotEmpty(pathFile, s -> {
                         filePath = new File(s);
                         ivImagePick.setImageUri(ImageUtils.getUriImageDisplayFromFile(filePath));
