@@ -1,5 +1,6 @@
 package com.football.fantasy.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.ViewPager;
@@ -23,7 +24,6 @@ import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragmen
 import com.football.fantasy.fragments.match_up.MatchUpFragment;
 import com.football.fantasy.fragments.more.MoreFragment;
 import com.football.fantasy.fragments.notification.NotificationFragment;
-import com.football.utilities.Constant;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.Map;
@@ -31,6 +31,8 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
+
+import static com.football.utilities.ServiceConfig.DEEP_LINK;
 
 public class MainActivity extends BaseAppCompatActivity {
 
@@ -76,12 +78,18 @@ public class MainActivity extends BaseAppCompatActivity {
         initFragmentDefault();
         initRxBus();
         registerNotification();
-        getDeepLink();
+        getDeepLink(getIntent());
     }
 
-    private void getDeepLink() {
-        String deepLinkQuery = getIntent().getStringExtra(Constant.DEEP_LINK_QUERY);
-        if (!TextUtils.isEmpty(deepLinkQuery)) {
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        getDeepLink(intent);
+    }
+
+    private void getDeepLink(Intent intent) {
+        if (intent.getDataString() != null && intent.getDataString().startsWith(DEEP_LINK)) {
+            String deepLinkQuery = intent.getData().getEncodedQuery();
             Map<String, String> data = StringUtils.stringToMap(deepLinkQuery, "&");
             String leagueId = data.get("league_id");
             if (TextUtils.isDigitsOnly(leagueId)) {

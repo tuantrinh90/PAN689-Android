@@ -15,27 +15,41 @@
         <activity
             android:name=".activities.SplashActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Launcher"
-            android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".activities.AccountActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".activities.MainActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "example://gizmos” -->
+                <data
+                    android:host="com.football"
+                    android:scheme="pan689" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="com.football.common.activities.AloneFragmentActivity"

@@ -11,10 +11,13 @@ public interface ServiceConfig {
 
     // base url
     String BASE_URL = HOST + "api/v1/";
-    String CONTACT = BASE_URL + "admin/posts/frontcms/contact";
-    String FAQ = BASE_URL + "admin/posts/frontcms/faq";
-    String TERMS = BASE_URL + "admin/posts/frontcms/terms_conditions";
-    String PRIVACY_POLICY = BASE_URL + "admin/posts/frontcms/privacy_policy";
+    String CONTACT = HOST + "admin/posts/frontcms/contact";
+    String FAQ = HOST + "admin/posts/frontcms/faq";
+    String TERMS = HOST + "admin/posts/frontcms/terms_conditions";
+    String PRIVACY_POLICY = HOST + "admin/posts/frontcms/privacy_policy";
+
+    String SHARE_APP = HOST + "share_app";
+    String DEEP_LINK = "pan689://com.football";
 
     // retry policy
     boolean RETRY_POLICY = true;

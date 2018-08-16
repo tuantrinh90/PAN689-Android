@@ -34,13 +34,6 @@ public class SplashActivity extends BaseAppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (BuildConfig.DEBUG) {
-            String TAG = "SplashActivity";
-            Intent intent = getIntent();
-            if (intent.getData() != null) {
-                deepLinkQuery = intent.getData().getEncodedQuery();
-            }
-        }
 
         new Handler().postDelayed(() -> {
             String token = AppPreferences.getInstance(this).getString(Constant.KEY_TOKEN);
