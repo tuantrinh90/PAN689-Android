@@ -246,12 +246,10 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
         adapter = new PlayerPoolAdapter(
                 getContext(),
                 player -> { // click event
-                    AloneFragmentActivity.with(this)
-                            .parameters(PlayerDetailFragment.newBundle(
-                                    player,
-                                    getString(R.string.transferring_player),
-                                    PlayerDetailFragment.PICK_NONE))
-                            .start(PlayerDetailFragment.class);
+                    PlayerDetailFragment.start(this,
+                            player,
+                            -1,
+                            getString(R.string.transferring_player));
                 });
         // remove click
         adapter.setOptionDeleteCallback(this::transferPlayer);

@@ -12,7 +12,6 @@ import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.textview.ExtTextView;
 import com.football.adapters.TeamLineupPlayerAdapter;
-import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.lineup.LineupView;
 import com.football.customizes.recyclerview.ExtRecyclerView;
@@ -121,12 +120,12 @@ public class TeamLineUpFragment extends BaseMvpFragment<ITeamLineUpView, ITeamLi
         TeamLineupPlayerAdapter adapter = new TeamLineupPlayerAdapter(
                 getContext(),
                 new ArrayList<>(),
-                player -> AloneFragmentActivity.with(this)
-                        .parameters(PlayerDetailFragment.newBundle(
-                                getString(R.string.team_line_up),
-                                player,
-                                team.getId()))
-                        .start(PlayerDetailFragment.class));
+                player -> {
+                    PlayerDetailFragment.start(this,
+                            player,
+                            team.getId(),
+                            getString(R.string.player_list));
+                });
         rvPlayer
                 .adapter(adapter)
                 .layoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false))

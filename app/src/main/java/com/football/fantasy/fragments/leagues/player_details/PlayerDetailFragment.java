@@ -20,7 +20,6 @@ import com.football.adapters.PlayerStatisticAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
-import com.football.events.PlayerEvent;
 import com.football.fantasy.R;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.PlayerRoundPointResponse;
@@ -34,16 +33,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.football.customizes.lineup.PlayerView.NONE_ORDER;
-
 public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPlayerDetailPresenter<IPlayerDetailView>> implements IPlayerDetailView {
 
     private static final String KEY_PLAYER = "PLAYER";
+    private static final String KEY_TEAM_ID = "TEAM_ID";
     private static final String KEY_TITLE = "TITLE";
     private static final String KEY_PICK_ENABLE = "PICK_PICKED";
-    private static final String KEY_MAIN_POSITION = "MAIN_POSITION";
-    private static final String KEY_ORDER = "ORDER";
-    private static final String KEY_TEAM_ID = "TEAM_ID";
 
     private static final String KEY_TOTAL = "TOTAL";
     private static final String KEY_LAST = "LAST";
@@ -115,39 +110,46 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
     ExtPagingListView rvStatistics;
 
     private String title;
-    private PlayerResponse player;
-    private int pickEnable = PICK_NONE;
-    private int mainPosition = PlayerResponse.POSITION_NONE;
-    private int order = NONE_ORDER;
-    private int teamId;
+    protected PlayerResponse player;
+    protected int pickEnable = PICK_NONE;
+    protected int teamId;
 
     List<ExtKeyValuePair> valuePairs = new ArrayList<>();
     private ExtKeyValuePair keyValuePairKey = DEFAULT_KEY;
 
-    public static void start(Fragment fragment, PlayerResponse player, String title) {
+    // only for view PlayerDetail
+    public static void start(Fragment fragment, PlayerResponse player, int teamId, String title) {
         AloneFragmentActivity.with(fragment)
-                .parameters(newBundle(player, title, PICK_NONE))
+                .parameters(newBundle(player, teamId, title, PICK_NONE))
                 .start(PlayerDetailFragment.class);
     }
 
-    public static Bundle newBundle(String title, PlayerResponse player, int teamId) {
+//    // only for view PlayerDetail & pick
+//    public static void start(Fragment fragment, PlayerResponse player, String title, int pick) {
+//        AloneFragmentActivity.with(fragment)
+//                .parameters(newBundle(player, title, pick))
+//                .start(PlayerDetailFragment.class);
+//    }
+//
+//    // only for view PlayerDetail & teamId
+//    public static void start(Fragment fragment, int teamId, PlayerResponse player, String title) {
+//        AloneFragmentActivity.with(fragment)
+//                .parameters(newBundle(teamId, player, title))
+//                .start(PlayerDetailFragment.class);
+//    }
+//
+//    private static Bundle newBundle(int teamId, PlayerResponse player, String title) {
+//        Bundle bundle = new Bundle();
+//        bundle.putString(KEY_TITLE, title);
+//        bundle.putSerializable(KEY_PLAYER, player);
+//        bundle.putInt(KEY_TEAM_ID, teamId);
+//        return bundle;
+//    }
+
+    protected static Bundle newBundle(PlayerResponse player, int teamId, String title, int pick) {
         Bundle bundle = new Bundle();
-        bundle.putString(KEY_TITLE, title);
         bundle.putSerializable(KEY_PLAYER, player);
         bundle.putInt(KEY_TEAM_ID, teamId);
-        return bundle;
-    }
-
-    public static Bundle newBundle(PlayerResponse player, String title, int pickEnable, int mainPosition, int order) {
-        Bundle bundle = newBundle(player, title, pickEnable);
-        bundle.putInt(KEY_MAIN_POSITION, mainPosition);
-        bundle.putInt(KEY_ORDER, order);
-        return bundle;
-    }
-
-    public static Bundle newBundle(PlayerResponse player, String title, int pick) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_PLAYER, player);
         bundle.putString(KEY_TITLE, title);
         bundle.putInt(KEY_PICK_ENABLE, pick);
         return bundle;
@@ -233,13 +235,10 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
         }
     }
 
-    private void getDataFromBundle() {
+    protected void getDataFromBundle() {
         player = (PlayerResponse) getArguments().getSerializable(KEY_PLAYER);
         title = getArguments().getString(KEY_TITLE);
         pickEnable = getArguments().getInt(KEY_PICK_ENABLE, PICK_NONE);
-        mainPosition = getArguments().getInt(KEY_MAIN_POSITION);
-        order = getArguments().getInt(KEY_ORDER);
-        teamId = getArguments().getInt(KEY_TEAM_ID);
     }
 
     void initData() {
@@ -312,32 +311,8 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
 
     @OnClick({R.id.viewPick})
     public void onMenuClicked(View view) {
-        List<ExtKeyValuePair> valuePairs = new ArrayList<>();
-        valuePairs.add(new ExtKeyValuePair("Pick", "Pick"));
-
-        ExtKeyValuePairDialogFragment.newInstance()
-                .setExtKeyValuePairs(valuePairs)
-                .setValue("")
-                .setOnSelectedConsumer(extKeyValuePair -> {
-                    if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
-                        showLoading(true);
-                        // bắn sang MH Lineup
-                        bus.send(new PlayerEvent.Builder()
-                                .action(PlayerEvent.ACTION_ADD_CLICK)
-                                .position(mainPosition)
-                                .order(order)
-                                .data(player)
-                                .callback((success, message) -> {
-                                    showLoading(false);
-                                    if (success) {
-                                        mActivity.finish();
-                                    } else {
-                                        showMessage(message);
-                                    }
-                                })
-                                .build());
-                    }
-                }).show(getFragmentManager(), null);
+//        bus.send(new TransferEvent(player, player));
+//        mActivity.finish();
     }
 
     private void updateValue() {

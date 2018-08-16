@@ -18,6 +18,7 @@ import com.football.events.PickEvent;
 import com.football.events.PlayerEvent;
 import com.football.events.PlayerQueryEvent;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.player_details.PlayerDetailForLineupFragment;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilterFragment;
 import com.football.models.responses.PlayerResponse;
@@ -202,14 +203,13 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
             playerAdapter = new PlayerAdapter(
                     getContext(),
                     player -> { // item click
-                        AloneFragmentActivity.with(getContext())
-                                .parameters(PlayerDetailFragment.newBundle(
-                                        player,
-                                        getString(R.string.player_list),
-                                        player.getSelected() ? PlayerDetailFragment.PICK_PICKED : PlayerDetailFragment.PICK_PICK,
-                                        mainPosition,
-                                        order))
-                                .start(PlayerDetailFragment.class);
+                        PlayerDetailForLineupFragment.start(this,
+                                player,
+                                -1,
+                                getString(R.string.player_list),
+                                player.getSelected() ? PlayerDetailFragment.PICK_PICKED : PlayerDetailFragment.PICK_PICK,
+                                mainPosition,
+                                order);
                     },
                     (player, position) -> { // add click
                         sendToLineup(player);

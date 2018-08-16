@@ -20,6 +20,7 @@ import com.football.events.PickEvent;
 import com.football.events.PlayerEvent;
 import com.football.events.PlayerQueryEvent;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.player_details.PlayerDetailForLineupFragment;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilterFragment;
 import com.football.models.responses.LeagueResponse;
@@ -33,6 +34,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
+
+import static com.football.customizes.lineup.PlayerView.NONE_ORDER;
+import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_PICK;
+import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_PICKED;
 
 public class PlayerListFragment extends BaseMvpFragment<IPlayerListView, IPlayerListPresenter<IPlayerListView>> implements IPlayerListView {
     private static final String TAG = "PlayerListFragment";
@@ -132,14 +137,14 @@ public class PlayerListFragment extends BaseMvpFragment<IPlayerListView, IPlayer
             playerAdapter = new PlayerAdapter(
                     getContext(),
                     player -> { // item click
-                        AloneFragmentActivity.with(this)
-                                .parameters(PlayerDetailFragment.newBundle(
-                                        player,
-                                        getString(R.string.player_list),
-                                        player.getSelected() ? PlayerDetailFragment.PICK_PICKED : PlayerDetailFragment.PICK_PICK,
-                                        playerPosition == PlayerResponse.POSITION_NONE ? player.getMainPosition() : playerPosition,
-                                        -1))
-                                .start(PlayerDetailFragment.class);
+                        PlayerDetailForLineupFragment.start(
+                                this,
+                                player,
+                                -1,
+                                getString(R.string.line_up),
+                                player.getSelected() ? PICK_PICKED : PICK_PICK,
+                                playerPosition == PlayerResponse.POSITION_NONE ? player.getMainPosition() : playerPosition,
+                                NONE_ORDER);
                     },
                     (player, position) -> { // add click
                         showLoading(true);

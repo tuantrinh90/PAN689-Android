@@ -20,7 +20,7 @@ import com.football.events.PickEvent;
 import com.football.events.PlayerEvent;
 import com.football.events.TeamEvent;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
+import com.football.fantasy.fragments.leagues.player_details.PlayerDetailForLineupFragment;
 import com.football.fantasy.fragments.leagues.your_team.players_popup.PlayerPopupFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
@@ -38,6 +38,8 @@ import io.reactivex.observers.DisposableObserver;
 import java8.util.function.BiConsumer;
 
 import static com.football.customizes.lineup.PlayerView.NONE_ORDER;
+import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_PICK;
+import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_PICKED;
 
 public class LineUpFragment extends BaseMvpFragment<ILineUpView, ILineUpPresenter<ILineUpView>> implements ILineUpView {
 
@@ -183,12 +185,14 @@ public class LineUpFragment extends BaseMvpFragment<ILineUpView, ILineUpPresente
             }
         });
         lineupView.setInfoCallback((player, position, order) -> {
-            AloneFragmentActivity.with(this)
-                    .parameters(PlayerDetailFragment.newBundle(
-                            player,
-                            getString(R.string.line_up),
-                            PlayerDetailFragment.PICK_NONE))
-                    .start(PlayerDetailFragment.class);
+            PlayerDetailForLineupFragment.start(
+                    this,
+                    player,
+                    -1,
+                    getString(R.string.line_up),
+                    player.getSelected() ? PICK_PICKED : PICK_PICK,
+                    position,
+                    order);
         });
         lineupView.setRemoveCallback((player, position, index) -> {
             DialogUtils.messageBox(mActivity,

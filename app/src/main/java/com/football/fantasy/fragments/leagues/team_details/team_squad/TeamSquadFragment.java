@@ -12,7 +12,6 @@ import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.textview.ExtTextView;
 import com.football.adapters.TeamSquadAdapter;
-import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.recyclerview.ExtRecyclerView;
@@ -123,9 +122,10 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
         teamSquadAdapter = new TeamSquadAdapter(
                 getContext(),
                 player -> {
-                    AloneFragmentActivity.with(this)
-                            .parameters(PlayerDetailFragment.newBundle(getString(R.string.team_squad), player, team.getId()))
-                            .start(PlayerDetailFragment.class);
+                    PlayerDetailFragment.start(this,
+                            player,
+                            team.getId(),
+                            getString(R.string.team_squad));
                 });
         rvPlayer
                 .adapter(teamSquadAdapter)

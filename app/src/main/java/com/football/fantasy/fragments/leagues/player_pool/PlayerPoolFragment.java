@@ -23,6 +23,7 @@ import com.football.customizes.searchs.SearchView;
 import com.football.events.PlayerQueryEvent;
 import com.football.events.TransferEvent;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.player_details.PlayerDetailForTransferFragment;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.fantasy.fragments.leagues.player_pool.display.PlayerPoolDisplayFragment;
 import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilterFragment;
@@ -36,6 +37,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
+
+import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_PICK;
+import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_PICKED;
 
 public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayerPoolPresenter<IPlayerPoolView>> implements IPlayerPoolView {
 
@@ -85,6 +89,8 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     private PlayerResponse playerTransfer;
     private int leagueId;
     private int seasonIdToTransfer;
+    private int pickPosition;
+    private int pickOrder;
 
     private int page = Constant.PAGE_START_INDEX;
     private String filterClubs = "";
@@ -259,12 +265,20 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
         adapter = new PlayerPoolAdapter(
                 getContext(),
                 player -> { // click event
-                    AloneFragmentActivity.with(this)
-                            .parameters(PlayerDetailFragment.newBundle(
-                                    player,
-                                    getString(R.string.player_list),
-                                    PlayerDetailFragment.PICK_NONE))
-                            .start(PlayerDetailFragment.class);
+                    if (playerTransfer == null) {
+                        PlayerDetailFragment.start(this,
+                                player,
+                                -1,
+                                getString(R.string.player_list));
+                    } else {
+                        PlayerDetailForTransferFragment.start(
+                                this,
+                                player,
+                                playerTransfer,
+                                -1,
+                                getString(R.string.player_list),
+                                player.getSelected() ? PICK_PICKED : PICK_PICK);
+                    }
                 });
 
         if (playerTransfer != null) {
@@ -309,7 +323,17 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
             showMessage(getString(R.string.message_season_not_found));
             rvPlayer.startLoading();
         } else {
-            presenter.getPlayers(currentSeason.getKey(), leagueId, seasonIdToTransfer, playerTransfer, filterPositions, filterClubs, displayPairs, sorts, page, query);
+            presenter.getPlayers(
+                    currentSeason.getKey(),
+                    leagueId,
+                    seasonIdToTransfer,
+                    playerTransfer,
+                    filterPositions,
+                    filterClubs,
+                    displayPairs,
+                    sorts,
+                    page,
+                    query);
         }
     }
 
