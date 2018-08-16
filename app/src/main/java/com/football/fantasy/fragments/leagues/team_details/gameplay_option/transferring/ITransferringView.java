@@ -10,7 +10,7 @@ public interface ITransferringView extends IBaseMvpView {
 
     void displayInjuredPlayers(List<PlayerResponse> injuredPlayers);
 
-    void displayHeader(int currentTransferPlayer, String transferPlayerLeftDisplay, long transferTimeLeft, long budget);
+    void displayHeader(boolean canTransfer, String transferPlayerLeftDisplay, long transferTimeLeft, long budget);
 
     void transferSuccess();
 

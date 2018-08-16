@@ -1,15 +1,20 @@
 package com.football.fantasy.fragments.more;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bon.util.DialogUtils;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
+import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
 import com.football.fantasy.activities.AccountActivity;
 import com.football.fantasy.fragments.more.profile.ProfileFragment;
@@ -18,6 +23,10 @@ import com.football.fantasy.fragments.web_view.WebViewFragment;
 import com.football.utilities.ServiceConfig;
 
 import butterknife.OnClick;
+import butterknife.OnLongClick;
+
+import static com.football.utilities.ServiceConfig.DEEP_LINK;
+import static com.football.utilities.ServiceConfig.SHARE_APP;
 
 public class MoreFragment extends BaseMainMvpFragment<IMoreView, IMorePresenter<IMoreView>> implements IMoreView {
 
@@ -46,13 +55,6 @@ public class MoreFragment extends BaseMainMvpFragment<IMoreView, IMorePresenter<
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.profile:
-//                if (BuildConfig.DEBUG) {
-//                    ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-//                    ClipData clip = ClipData.newPlainText("share", HOST + "share_app?url=app://com.football/gizmos?league_id=22525");
-//                    clipboard.setPrimaryClip(clip);
-//                    Toast.makeText(mMainActivity, "Copied", Toast.LENGTH_SHORT).show();
-//                } else {
-//                }
                 AloneFragmentActivity
                         .with(this)
                         .start(ProfileFragment.class);
@@ -81,6 +83,18 @@ public class MoreFragment extends BaseMainMvpFragment<IMoreView, IMorePresenter<
                 break;
         }
 
+    }
+
+    @OnLongClick(R.id.profile)
+    public boolean onLongClicked(View view) {
+        if (BuildConfig.DEBUG) {
+            ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("share", SHARE_APP + "?url=" + DEEP_LINK +"?league_id=1");
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(mMainActivity, "Copied", Toast.LENGTH_SHORT).show();
+        } else {
+        }
+        return true;
     }
 
     @Override

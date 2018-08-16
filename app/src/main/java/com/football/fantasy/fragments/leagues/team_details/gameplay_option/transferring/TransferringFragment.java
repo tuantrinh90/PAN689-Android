@@ -96,7 +96,7 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     private String filterPositions = "";
     private int[] sorts = new int[]{Constant.SORT_NONE, Constant.SORT_NONE, Constant.SORT_NONE}; // -1: NONE, 0: desc, 1: asc
     private List<ExtKeyValuePair> displays = new ArrayList<>();
-    private int currentTransferPlayer;
+    private boolean canTransfer;
 
     public static TransferringFragment newInstance(TeamResponse team, LeagueResponse league) {
         TransferringFragment fragment = new TransferringFragment();
@@ -289,7 +289,7 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
 
     private void transferPlayer(PlayerResponse player) {
         // append PlayerPool
-        if (currentTransferPlayer > 0) {
+        if (canTransfer) {
             PlayerPoolFragment.start(this, getString(R.string.transferring_player), getString(R.string.player_pool), player, league.getId(), -1);
         } else {
             DialogUtils.messageBox(mActivity,
@@ -401,8 +401,8 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     }
 
     @Override
-    public void displayHeader(int currentTransferPlayer, String transferPlayerLeftDisplay, long transferTimeLeft, long budget) {
-        this.currentTransferPlayer = currentTransferPlayer;
+    public void displayHeader(boolean canTransfer, String transferPlayerLeftDisplay, long transferTimeLeft, long budget) {
+        this.canTransfer = canTransfer;
         tvTransferringPlayerLeftValue.setText(transferPlayerLeftDisplay);
         tvTransferringTimeLeftValue.setText(AppUtilities.timeLeft(transferTimeLeft));
         tvBudgetValue.setText(getString(R.string.money_prefix, AppUtilities.getMoney(budget)));
