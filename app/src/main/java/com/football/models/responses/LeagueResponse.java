@@ -65,6 +65,8 @@ public class LeagueResponse implements Serializable {
     private String scoringSystemDisplay;
     @JsonProperty("start_at")
     private String startAt;
+    @JsonProperty("end_at")
+    private String endAt;
     @JsonProperty("real_round_start")
     private Integer realRoundStart;
     @JsonProperty("real_round_end")
@@ -256,6 +258,10 @@ public class LeagueResponse implements Serializable {
     @JsonIgnore
     public Calendar getStartAtCalendar() {
         return DateTimeUtils.convertStringToCalendar(startAt, Constant.FORMAT_DATE_TIME_SERVER);
+    }
+    @JsonIgnore
+    public Calendar getEndAtCalendar() {
+        return DateTimeUtils.convertStringToCalendar(endAt, Constant.FORMAT_DATE_TIME_SERVER);
     }
 
     @JsonIgnore

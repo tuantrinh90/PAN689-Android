@@ -25,6 +25,8 @@ import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.utilities.AppUtilities;
 
+import java.util.Calendar;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
@@ -181,10 +183,12 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
                 break;
             case R.id.llGamePlayOption:
                 if (AppUtilities.isOwner(getContext(), team.getUserId())) {
-                    if (league.getStatus() == LeagueResponse.ON_GOING) {
-                        GameplayOptionFragment.start(this, getString(R.string.team_details), team, league);
+                    Calendar currentCalendar = Calendar.getInstance();
+                    if (currentCalendar.after(league.getTransferDeadlineCalendar()) && currentCalendar.before(league.getEndAtCalendar())) {
+                        //You can't transfer player until this round ends
+                        showMessage(R.string.message_can_not_transfer, R.string.ok, null);
                     } else {
-                        showMessage(R.string.start_league_before_team_setup_time, R.string.ok, null);
+                        GameplayOptionFragment.start(this, getString(R.string.team_details), team, league);
                     }
                 } else {
                     showMessage(R.string.message_not_owner_the_team, R.string.ok, null);
