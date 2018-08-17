@@ -184,7 +184,9 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
             case R.id.llGamePlayOption:
                 if (AppUtilities.isOwner(getContext(), team.getUserId())) {
                     Calendar currentCalendar = Calendar.getInstance();
-                    if (currentCalendar.after(league.getTransferDeadlineCalendar()) && currentCalendar.before(league.getEndAtCalendar())) {
+                    if (team.getCurrentRound() != null
+                            && currentCalendar.after(team.getCurrentRound().getTransferDeadlineCalendar())
+                            && currentCalendar.before(team.getCurrentRound().getEndAtCalendar())) {
                         //You can't transfer player until this round ends
                         showMessage(R.string.message_can_not_transfer, R.string.ok, null);
                     } else {

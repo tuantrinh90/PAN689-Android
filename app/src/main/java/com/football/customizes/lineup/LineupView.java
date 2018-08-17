@@ -248,7 +248,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         int maxPlayers = formation[3 - position];
         int counter = 0;
         for (PlayerResponse player : players) {
-            if (player != null && player.getMainPosition().equals(position)) {
+            if (player != null && player.getMainPosition() == position) {
                 counter++;
                 if (maxPlayers == counter) {
                     return true;

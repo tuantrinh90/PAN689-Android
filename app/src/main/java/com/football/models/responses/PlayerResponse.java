@@ -73,13 +73,13 @@ public class PlayerResponse implements Serializable {
     public static final int POSITION_ATTACKER = 3;
 
     @JsonProperty("id")
-    private Integer id;
+    private int id;
     @JsonProperty("created_at")
     private String createdAt;
     @JsonProperty("updated_at")
     private String updatedAt;
     @JsonProperty("real_club_id")
-    private Integer realClubId;
+    private int realClubId;
     @JsonProperty("real_club")
     private RealClubResponse realClub;
     @JsonProperty("name")
@@ -99,54 +99,54 @@ public class PlayerResponse implements Serializable {
     @JsonProperty("is_attacker")
     private Boolean isAttacker;
     @JsonProperty("main_position")
-    private Integer mainPosition;
+    private int mainPosition;
     @JsonProperty("minor_position")
-    private Integer minorPosition;
+    private int minorPosition;
     @JsonProperty("transfer_value")
     private Long transferValue;
     @JsonProperty("point_last_round")
-    private Integer pointLastRound;
+    private int pointLastRound;
     @JsonProperty("is_selected")
     private Boolean isSelected;
     @JsonProperty("goals")
-    private Integer goals;
+    private int goals;
     @JsonProperty("assists")
-    private Integer assists;
+    private int assists;
     @JsonProperty("clean_sheet")
-    private Integer cleanSheet;
+    private int cleanSheet;
     @JsonProperty("duels_they_win")
-    private Integer duelsTheyWin;
+    private int duelsTheyWin;
     @JsonProperty("passes")
-    private Integer passes;
+    private int passes;
     @JsonProperty("shots")
-    private Integer shots;
+    private int shots;
     @JsonProperty("saves")
-    private Integer saves;
+    private int saves;
     @JsonProperty("yellow_cards")
-    private Integer yellowCards;
+    private int yellowCards;
     @JsonProperty("dribbles")
-    private Integer dribbles;
+    private int dribbles;
     @JsonProperty("turnovers")
-    private Integer turnovers;
+    private int turnovers;
     @JsonProperty("balls_recovered")
-    private Integer ballsRecovered;
+    private int ballsRecovered;
     @JsonProperty("fouls_committed")
-    private Integer foulsCommitted;
+    private int foulsCommitted;
     @JsonProperty("point")
-    private Integer point;
+    private int point;
     @JsonProperty("position")
-    private Integer position;
+    private int position;
     @JsonProperty("order")
     private Integer order;
 
     public PlayerResponse() {
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -166,11 +166,11 @@ public class PlayerResponse implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public Integer getRealClubId() {
-        return realClubId == null ? 0 : realClubId;
+    public int getRealClubId() {
+        return realClubId;
     }
 
-    public void setRealClubId(Integer realClubId) {
+    public void setRealClubId(int realClubId) {
         this.realClubId = realClubId;
     }
 
@@ -219,11 +219,11 @@ public class PlayerResponse implements Serializable {
         return getInjured() ? context.getString(R.string.injured) : "";
     }
 
-    public Integer getMainPosition() {
-        return mainPosition == null ? POSITION_NONE : mainPosition;
+    public int getMainPosition() {
+        return mainPosition;
     }
 
-    public void setMainPosition(Integer mainPosition) {
+    public void setMainPosition(int mainPosition) {
         this.mainPosition = mainPosition;
     }
 
@@ -237,11 +237,11 @@ public class PlayerResponse implements Serializable {
         return getPositionText(getMainPosition(), false);
     }
 
-    public Integer getMinorPosition() {
-        return minorPosition == null ? POSITION_NONE : minorPosition;
+    public int getMinorPosition() {
+        return minorPosition;
     }
 
-    public void setMinorPosition(Integer minorPosition) {
+    public void setMinorPosition(int minorPosition) {
         this.minorPosition = minorPosition;
     }
 
@@ -268,11 +268,11 @@ public class PlayerResponse implements Serializable {
         return AppUtilities.getMoney(getTransferValue());
     }
 
-    public Integer getPointLastRound() {
+    public int getPointLastRound() {
         return pointLastRound;
     }
 
-    public void setPointLastRound(Integer pointLastRound) {
+    public void setPointLastRound(int pointLastRound) {
         this.pointLastRound = pointLastRound;
     }
 
@@ -285,23 +285,21 @@ public class PlayerResponse implements Serializable {
     }
 
     @JsonIgnore
-    public String getPositionText(Integer position, boolean fullText) {
+    public String getPositionText(int position, boolean fullText) {
         String result = "";
-        if (position != null) {
-            switch (position) {
-                case POSITION_GOALKEEPER:
-                    result = fullText ? "Goalkeeper" : "G";
-                    break;
-                case POSITION_DEFENDER:
-                    result = fullText ? "Defender" : "D";
-                    break;
-                case POSITION_MIDFIELDER:
-                    result = fullText ? "Midfielder" : "M";
-                    break;
-                case POSITION_ATTACKER:
-                    result = fullText ? "Attacker" : "A";
-                    break;
-            }
+        switch (position) {
+            case POSITION_GOALKEEPER:
+                result = fullText ? "Goalkeeper" : "G";
+                break;
+            case POSITION_DEFENDER:
+                result = fullText ? "Defender" : "D";
+                break;
+            case POSITION_MIDFIELDER:
+                result = fullText ? "Midfielder" : "M";
+                break;
+            case POSITION_ATTACKER:
+                result = fullText ? "Attacker" : "A";
+                break;
         }
 
         return result;
@@ -345,59 +343,59 @@ public class PlayerResponse implements Serializable {
         return isAttacker;
     }
 
-    public Integer getGoals() {
+    public int getGoals() {
         return goals;
     }
 
-    public Integer getAssists() {
+    public int getAssists() {
         return assists;
     }
 
-    public Integer getCleanSheet() {
+    public int getCleanSheet() {
         return cleanSheet;
     }
 
-    public Integer getDuelsTheyWin() {
+    public int getDuelsTheyWin() {
         return duelsTheyWin;
     }
 
-    public Integer getPasses() {
+    public int getPasses() {
         return passes;
     }
 
-    public Integer getShots() {
+    public int getShots() {
         return shots;
     }
 
-    public Integer getSaves() {
+    public int getSaves() {
         return saves;
     }
 
-    public Integer getYellowCards() {
+    public int getYellowCards() {
         return yellowCards;
     }
 
-    public Integer getDribbles() {
+    public int getDribbles() {
         return dribbles;
     }
 
-    public Integer getTurnovers() {
+    public int getTurnovers() {
         return turnovers;
     }
 
-    public Integer getBallsRecovered() {
+    public int getBallsRecovered() {
         return ballsRecovered;
     }
 
-    public Integer getFoulsCommitted() {
+    public int getFoulsCommitted() {
         return foulsCommitted;
     }
 
-    public Integer getPoint() {
+    public int getPoint() {
         return point;
     }
 
-    public Integer getPosition() {
+    public int getPosition() {
         return position;
     }
 

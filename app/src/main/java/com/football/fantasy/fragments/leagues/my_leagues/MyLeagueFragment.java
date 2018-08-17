@@ -166,6 +166,8 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
     public void showLoadingPagingListView(boolean isLoading) {
         if (!isLoading) {
             rvLeague.stopLoading();
+        } else {
+            rvLeague.startLoading();
         }
     }
 

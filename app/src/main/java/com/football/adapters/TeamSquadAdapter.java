@@ -43,6 +43,7 @@ public class TeamSquadAdapter extends DefaultAdapter<PlayerResponse> {
 
         ImageLoaderUtils.displayImage(data.getPhoto(), holder.ivAvatar);
         holder.tvName.setText(data.getName());
+        holder.tvValue.setText(String.valueOf(data.getPoint()));
 
         holder.tvPositionPrimary.setBackground(data.getPositionBackground(context, data.getMainPosition()));
         holder.tvPositionPrimary.setText(data.getMainPositionText());

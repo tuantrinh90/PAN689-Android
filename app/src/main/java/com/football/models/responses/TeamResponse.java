@@ -50,6 +50,9 @@ public class TeamResponse implements Serializable {
     @JsonProperty("trade_request_left_display")
     private String tradeRequestLeftDisplay;
 
+    @JsonProperty("current_round")
+    private TeamRoundResponse currentRound;
+
     @JsonIgnore
     private boolean isChecked;
 
@@ -203,6 +206,10 @@ public class TeamResponse implements Serializable {
 
     public String getTradeRequestLeftDisplay() {
         return tradeRequestLeftDisplay;
+    }
+
+    public TeamRoundResponse getCurrentRound() {
+        return currentRound;
     }
 
     @Override
