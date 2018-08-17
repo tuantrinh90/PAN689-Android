@@ -473,6 +473,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
                             currentSeason = extKeyValuePair;
                             updateValue();
                             refreshState();
+                            getPlayers();
                         }
                     }).show(getFragmentManager(), null);
         }

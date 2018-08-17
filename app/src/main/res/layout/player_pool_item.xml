@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/padding_layout"
+    android:paddingTop="@dimen/padding_layout"
     android:background="@drawable/bg_null_gray_selector"
     android:gravity="center_vertical"
     android:orientation="horizontal"
@@ -186,7 +186,6 @@
 
         <View
             style="@style/Line"
-            android:layout_marginBottom="@dimen/padding_content"
             android:layout_marginTop="@dimen/padding_content" />
     </LinearLayout>
 </LinearLayout>
