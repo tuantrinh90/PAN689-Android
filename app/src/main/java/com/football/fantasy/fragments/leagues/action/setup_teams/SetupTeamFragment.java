@@ -45,15 +45,12 @@ public class SetupTeamFragment extends BaseMvpFragment<ISetupTeamView, ISetupTea
     private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
     private static final String KEY_TEAM = "TEAM";
     private static final String FROM_LEAGUES_TITLE = "LEAGUE_TITLE";
-    private static final String FROM_LEAGUES_TYPE = "LEAGUE_TYPE";
 
-    public static Bundle newBundle(TeamResponse team, int leagueId,
-                                   String leagueTitle, String leagueType) {
+    public static Bundle newBundle(TeamResponse team, int leagueId, String leagueTitle) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_LEAGUE_ID, leagueId);
         if (team != null) bundle.putSerializable(KEY_TEAM, team);
         bundle.putString(FROM_LEAGUES_TITLE, leagueTitle);
-        bundle.putString(FROM_LEAGUES_TYPE, leagueType);
         return bundle;
     }
 
@@ -70,7 +67,6 @@ public class SetupTeamFragment extends BaseMvpFragment<ISetupTeamView, ISetupTea
     private int leagueId;
 
     private String leagueTitle;
-    private String leagueType;
 
     private File filePath;
 
@@ -95,7 +91,6 @@ public class SetupTeamFragment extends BaseMvpFragment<ISetupTeamView, ISetupTea
                 team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
             }
             leagueTitle = getArguments().getString(FROM_LEAGUES_TITLE);
-            leagueType = getArguments().getString(FROM_LEAGUES_TYPE);
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
@@ -221,7 +216,7 @@ public class SetupTeamFragment extends BaseMvpFragment<ISetupTeamView, ISetupTea
 
     private void goLeagueDetail() {
         AloneFragmentActivity.with(this)
-                .parameters(LeagueDetailFragment.newBundle(leagueTitle, leagueId, leagueType))
+                .parameters(LeagueDetailFragment.newBundle(leagueTitle, leagueId, LeagueDetailFragment.MY_LEAGUES))
                 .start(LeagueDetailFragment.class);
         getActivity().finish();
     }

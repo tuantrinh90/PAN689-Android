@@ -631,8 +631,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                 .parameters(SetupTeamFragment.newBundle(
                         null,
                         league.getId(),
-                        leagueTitle,
-                        leagueType))
+                        leagueTitle))
                 .start(SetupTeamFragment.class);
         getActivity().finish();
     }

@@ -17,10 +17,9 @@ import com.football.customizes.images.CircleImageViewApp;
 import com.football.events.TeamEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
-import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
+import com.football.fantasy.fragments.leagues.team_details.gameplay_option.GameplayOptionFragment;
 import com.football.fantasy.fragments.leagues.team_details.team_lineup.TeamLineUpFragment;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.TeamSquadFragment;
-import com.football.fantasy.fragments.leagues.team_details.gameplay_option.GameplayOptionFragment;
 import com.football.fantasy.fragments.leagues.team_details.team_statistics.TeamStatisticFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
@@ -159,8 +158,7 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
                 .parameters(SetupTeamFragment.newBundle(
                         team,
                         league.getId(),
-                        mActivity.getTitleToolBar().getText().toString(),
-                        LeagueDetailFragment.MY_LEAGUES))
+                        mActivity.getTitleToolBar().getText().toString()))
                 .start(SetupTeamFragment.class);
     }
 

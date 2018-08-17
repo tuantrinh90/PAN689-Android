@@ -195,8 +195,7 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
                 .parameters(SetupTeamFragment.newBundle(
                         null,
                         league.getId(),
-                        getString(R.string.pending_invitation),
-                        LeagueDetailFragment.PENDING_LEAGUES))
+                        getString(R.string.pending_invitation)))
                 .start(SetupTeamFragment.class);
     }
 }

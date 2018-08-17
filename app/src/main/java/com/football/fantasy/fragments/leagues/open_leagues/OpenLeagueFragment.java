@@ -239,8 +239,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
                 .parameters(SetupTeamFragment.newBundle(
                         null,
                         league.getId(),
-                        getString(R.string.open_leagues),
-                        LeagueDetailFragment.OPEN_LEAGUES))
+                        getString(R.string.open_leagues)))
                 .start(SetupTeamFragment.class);
     }
 

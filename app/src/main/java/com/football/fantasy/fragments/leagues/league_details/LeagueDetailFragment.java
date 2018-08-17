@@ -359,8 +359,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
                 .parameters(SetupTeamFragment.newBundle(
                         null,
                         leagueId,
-                        mActivity.getTitleToolBar().getText().toString(),
-                        LeagueDetailFragment.MY_LEAGUES))
+                        mActivity.getTitleToolBar().getText().toString()))
                 .start(SetupTeamFragment.class);
         mActivity.finish();
     }

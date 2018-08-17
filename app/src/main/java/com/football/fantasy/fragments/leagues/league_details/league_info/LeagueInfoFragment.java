@@ -108,7 +108,7 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
                     .parameters(SetupTeamFragment.newBundle(
                             null,
                             league.getId(),
-                            getString(R.string.league_information), leagueType))
+                            getString(R.string.league_information)))
                     .start(SetupTeamFragment.class);
         } else {
             if (league.getStatus().equals(LeagueResponse.WAITING_FOR_START)) {
@@ -231,8 +231,7 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
                 .parameters(SetupTeamFragment.newBundle(
                         null,
                         league.getId(),
-                        mActivity.getTitleToolBar().getText().toString(),
-                        leagueType))
+                        mActivity.getTitleToolBar().getText().toString()))
                 .start(SetupTeamFragment.class);
         mActivity.finish();
     }
@@ -245,8 +244,7 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
                 .parameters(SetupTeamFragment.newBundle(
                         null,
                         league.getId(),
-                        mActivity.getTitleToolBar().getText().toString(),
-                        leagueType))
+                        mActivity.getTitleToolBar().getText().toString()))
                 .start(SetupTeamFragment.class);
         mActivity.finish();
     }
