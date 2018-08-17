@@ -43,10 +43,19 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
 
     private LeaguesAdapter mAdapter;
 
-    String orderBy = "desc";
-    int page;
-    String query = "";
-    String numberOfUser = Constant.NUMBER_OF_USER_ALL;
+    private String orderBy = "desc";
+    private int page;
+    private String query = "";
+    private String numberOfUser = Constant.NUMBER_OF_USER_ALL;
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && !numberOfUser.equals(Constant.NUMBER_OF_USER_ALL)) {
+            numberOfUser = Constant.NUMBER_OF_USER_ALL;
+            getOpenLeagues();
+        }
+    }
 
     @Override
     public int getResourceId() {
