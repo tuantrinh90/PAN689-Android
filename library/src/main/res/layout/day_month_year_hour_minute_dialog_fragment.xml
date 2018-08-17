@@ -59,7 +59,7 @@
                 style="@style/StyleContent"
                 android:gravity="center"
                 android:text="@string/month"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <com.bon.customview.numberpicker.ExtNumberPicker
                 android:id="@+id/numPickerMonth"
@@ -79,7 +79,7 @@
                 style="@style/StyleContent"
                 android:gravity="center"
                 android:text="@string/day"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <com.bon.customview.numberpicker.ExtNumberPicker
                 android:id="@+id/numPickerDay"
@@ -99,7 +99,7 @@
                 style="@style/StyleContent"
                 android:gravity="center"
                 android:text="@string/year"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <com.bon.customview.numberpicker.ExtNumberPicker
                 android:id="@+id/numPickerYear"
@@ -131,7 +131,7 @@
                 style="@style/StyleContent"
                 android:gravity="center"
                 android:text="@string/hour"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <com.bon.customview.numberpicker.ExtNumberPicker
                 android:id="@+id/numPickerHour"
@@ -151,7 +151,7 @@
                 style="@style/StyleContent"
                 android:gravity="center"
                 android:text="@string/minute"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <com.bon.customview.numberpicker.ExtNumberPicker
                 android:id="@+id/numPickerMinute"
