@@ -165,9 +165,9 @@ public class ExtRecyclerView<T> extends FrameLayout {
         }
 
         // perPage
-        if (perPage != 0) {
-            recyclerView.setItemViewCacheSize(perPage);
-        }
+//        if (perPage != 0) {
+//            recyclerView.setItemViewCacheSize(perPage);
+//        }
 
         endlessScrollListener = new EndlessScrollListener(recyclerView.getLayoutManager()) {
             @Override

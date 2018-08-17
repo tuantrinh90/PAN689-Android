@@ -28,7 +28,7 @@ public class ResultsPresenter extends BaseDataPresenter<IResultsView> implements
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
 
-            if (!TextUtils.isEmpty(round) && !round.equals(ROUND_DEFAULT)) {
+            if (!TextUtils.isEmpty(round)) {
                 queries.put("round", round);
             }
 
@@ -49,6 +49,7 @@ public class ResultsPresenter extends BaseDataPresenter<IResultsView> implements
                         @Override
                         public void onSuccess(PagingResponse<MatchResponse> response) {
                             v.displayMatches(response.getData());
+                            v.displayRound(response.getRound());
                         }
 
                         @Override

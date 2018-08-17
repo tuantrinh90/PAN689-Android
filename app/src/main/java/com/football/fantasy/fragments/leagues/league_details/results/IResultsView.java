@@ -8,4 +8,5 @@ import java.util.List;
 public interface IResultsView extends IBaseMvpView {
     void displayMatches(List<MatchResponse> matches);
 
+    void displayRound(int round);
 }

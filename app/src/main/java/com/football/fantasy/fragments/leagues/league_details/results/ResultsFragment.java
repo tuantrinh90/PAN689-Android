@@ -44,7 +44,7 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
     @BindView(R.id.tvRound)
     ExtTextView tvRound;
 
-    private String round = ROUND_DEFAULT;
+    private String round = "";
     private List<ExtKeyValuePair> valuePairs;
 
     public static ResultsFragment newInstance(LeagueResponse leagueResponse) {
@@ -160,5 +160,11 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
         }
 
         rvResults.addItems(matches);
+    }
+
+    @Override
+    public void displayRound(int round) {
+        this.round = String.valueOf(round);
+        tvRound.setText(valuePairs.get(round).getValue());
     }
 }

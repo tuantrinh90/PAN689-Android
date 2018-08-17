@@ -23,7 +23,7 @@ public class PagingResponse<T> implements Serializable {
     @JsonProperty("to")
     private Integer to;
     @JsonProperty("round")
-    private Integer round;
+    private int round;
     @JsonProperty("start_at")
     private String startAt;
     @JsonProperty("end_at")
@@ -95,7 +95,7 @@ public class PagingResponse<T> implements Serializable {
         this.to = to;
     }
 
-    public Integer getRound() {
+    public int getRound() {
         return round;
     }
 
