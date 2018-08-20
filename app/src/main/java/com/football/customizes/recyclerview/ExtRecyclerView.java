@@ -11,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -19,7 +20,6 @@ import com.bon.customview.listview.listener.ExtLoadMoreListener;
 import com.bon.customview.listview.listener.ExtRefreshListener;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
-import com.bon.util.StringUtils;
 import com.football.fantasy.R;
 
 import java.util.List;
@@ -164,17 +164,12 @@ public class ExtRecyclerView<T> extends FrameLayout {
             rfLayout.setEnabled(false);
         }
 
-        // perPage
-//        if (perPage != 0) {
-//            recyclerView.setItemViewCacheSize(perPage);
-//        }
-
         endlessScrollListener = new EndlessScrollListener(recyclerView.getLayoutManager()) {
             @Override
             public void onLoadMore(int page) {
+                Log.d(TAG, "onLoadMore: " + page);
                 if (onExtLoadMoreListener != null) {
                     onExtLoadMoreListener.onLoadMore();
-//                    recyclerView.post(() -> mAdapter.addLoading());
                 }
             }
         };
@@ -232,6 +227,24 @@ public class ExtRecyclerView<T> extends FrameLayout {
             // add loading
             if (items.size() == perPage || items.size() != 0) {
                 items.add(null);
+            }
+        }
+        mAdapter.addItems(items);
+        displayMessage();
+    }
+
+    public void addItemsWithLoading(List<T> items) {
+        stopLoading();
+        if (onExtLoadMoreListener != null) {
+            removeLoading();
+
+            // add loading
+            if (items.size() == perPage || items.size() != 0) {
+                items.add(null);
+            } else {
+                items.add(null);
+                endlessScrollListener.increaseCurrentPage();
+                endlessScrollListener.onLoadMore(endlessScrollListener.getCurrentPage());
             }
         }
         mAdapter.addItems(items);

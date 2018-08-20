@@ -2,6 +2,7 @@ package com.football.fantasy.fragments.match_up.real;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
@@ -126,8 +127,8 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
             adapter.getItem(lastIndex).addRealMatchResponse(firstRealMatch.getResponses());
 
             // add to rv
-            rvRealLeague.addItems(realMatches);
             rvRealLeague.getAdapter().notifyItemChanged(lastIndex);
+            rvRealLeague.addItemsWithLoading(realMatches);
         } else {
             rvRealLeague.addItems(realMatches);
         }
