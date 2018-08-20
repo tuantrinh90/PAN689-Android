@@ -52,7 +52,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     private static final String KEY_LEAGUE_ID = "key_league";
     private static final String KEY_LEAGUE_TYPE = "key_league_type";
     private static final String KEY_INVITATION_ID = "INVITATION_ID";
-    private static final String KEY_OPEN_RESULT = "OPEN_RESULT";
+    private static final String KEY_OPEN_ROUND = "OPEN_RESULT";
 
     private static final int TEAM_FRAGMENT_INDEX = 1;
 
@@ -84,9 +84,9 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
         return bundle;
     }
 
-    public static Bundle newBundle(String title, int leagueId, String leagueType, boolean openResult) {
-        Bundle bundle = newBundle(title, leagueId, leagueType);
-        bundle.putBoolean(KEY_OPEN_RESULT, openResult);
+    public static Bundle newBundle(String title, int leagueId, int round) {
+        Bundle bundle = newBundle(title, leagueId, MY_LEAGUES);
+        bundle.putInt(KEY_OPEN_ROUND, round);
         return bundle;
     }
 
@@ -94,7 +94,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     private int leagueId;
     private String leagueType;
     private int invitationId;
-    private boolean openResult;
+    private int openRound;
 
     private LeagueResponse league;
     private LeagueDetailViewPagerAdapter leagueDetailViewPagerAdapter;
@@ -121,7 +121,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
         leagueId = bundle.getInt(KEY_LEAGUE_ID);
         leagueType = bundle.getString(KEY_LEAGUE_TYPE, "");
         invitationId = bundle.getInt(KEY_INVITATION_ID);
-        openResult = bundle.getBoolean(KEY_OPEN_RESULT);
+        openRound = bundle.getInt(KEY_OPEN_ROUND);
     }
 
     @NonNull
@@ -340,8 +340,14 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
             }
         });
 
-        vpViewPager.setCurrentItem(openResult ? 3 : 0);
-        openResult = false;
+        if (openRound > 0) {
+            try {
+                vpViewPager.setCurrentItem(3);
+                ((ResultsFragment) leagueDetailViewPagerAdapter.getItem(3)).displayRound(openRound);
+            } catch (Exception e) {
+
+            }
+        }
     }
 
     void autoCheckTeamExist(LeagueResponse league) {

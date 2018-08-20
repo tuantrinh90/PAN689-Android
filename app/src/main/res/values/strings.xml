@@ -286,6 +286,7 @@
     <string name="message_delete">message_delete</string>
     <string name="message_not_owner_the_team">You are not owner of the team.</string>
     <string name="message_can_not_transfer">You can\'t transfer player until this round ends</string>
+    <string name="message_can_not_transfer_all_round_end">All rounds come to an end. You cannot transfer players</string>
     <string name="message_reject_invitation">Are you sure you want to reject this invitation?</string>
     <string name="transfer_deadline">Transfer deadline</string>
     <string name="off">Off</string>

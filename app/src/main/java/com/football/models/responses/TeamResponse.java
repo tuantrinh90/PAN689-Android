@@ -52,6 +52,8 @@ public class TeamResponse implements Serializable {
 
     @JsonProperty("current_round")
     private TeamRoundResponse currentRound;
+    @JsonProperty("last_round")
+    private TeamRoundResponse lastRound;
 
     @JsonIgnore
     private boolean isChecked;
@@ -210,6 +212,10 @@ public class TeamResponse implements Serializable {
 
     public TeamRoundResponse getCurrentRound() {
         return currentRound;
+    }
+
+    public TeamRoundResponse getLastRound() {
+        return lastRound;
     }
 
     @Override
