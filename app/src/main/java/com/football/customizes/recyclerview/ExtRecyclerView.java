@@ -10,8 +10,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -108,6 +108,9 @@ public class ExtRecyclerView<T> extends FrameLayout {
 
                 // message no data
                 this.message = typedArray.getString(R.styleable.ExtRecyclerView_noDataMessage);
+                if (TextUtils.isEmpty(message)) {
+                    message = context.getString(R.string.no_data);
+                }
             } finally {
                 typedArray.recycle();
             }
@@ -167,7 +170,6 @@ public class ExtRecyclerView<T> extends FrameLayout {
         endlessScrollListener = new EndlessScrollListener(recyclerView.getLayoutManager()) {
             @Override
             public void onLoadMore(int page) {
-                Log.d(TAG, "onLoadMore: " + page);
                 if (onExtLoadMoreListener != null) {
                     onExtLoadMoreListener.onLoadMore();
                 }
