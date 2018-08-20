@@ -15,6 +15,7 @@ public interface ServiceConfig {
     String FAQ = HOST + "admin/posts/frontcms/faq";
     String TERMS = HOST + "admin/posts/frontcms/terms_conditions";
     String PRIVACY_POLICY = HOST + "admin/posts/frontcms/privacy_policy";
+    String GAME_RULES = HOST + "admin/posts/frontcms/game_rules";
 
     String SHARE_APP = HOST + "share_app";
     String DEEP_LINK = "pan689://com.football";

@@ -63,7 +63,7 @@ public class MoreFragment extends BaseMainMvpFragment<IMoreView, IMorePresenter<
                 SettingsFragment.start(this);
                 break;
             case R.id.gamerules:
-//                WebViewFragment.start(this, getString(R.string.more), ServiceConfig.CONTACT);
+                WebViewFragment.start(this, getString(R.string.more), ServiceConfig.GAME_RULES);
                 break;
             case R.id.how_it_works:
                 WebViewFragment.start(this, getString(R.string.more), ServiceConfig.FAQ);
@@ -89,10 +89,9 @@ public class MoreFragment extends BaseMainMvpFragment<IMoreView, IMorePresenter<
     public boolean onLongClicked(View view) {
         if (BuildConfig.DEBUG) {
             ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("share", SHARE_APP + "?url=" + DEEP_LINK +"?league_id=1");
+            ClipData clip = ClipData.newPlainText("share", SHARE_APP + "?url=" + DEEP_LINK + "?league_id=1");
             clipboard.setPrimaryClip(clip);
             Toast.makeText(mMainActivity, "Copied", Toast.LENGTH_SHORT).show();
-        } else {
         }
         return true;
     }
