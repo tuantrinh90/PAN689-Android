@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -68,13 +67,11 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
     private static final String TAG = SetUpLeagueFragment.class.getSimpleName();
     private static final String KEY_LEAGUE = "league";
     private static final String KEY_LEAGUE_TITLE = "league_title";
-    private static final String KEY_LEAGUE_TYPE = "league_type";
 
-    public static Bundle newBundle(LeagueResponse leagueResponse, String leagueTitle, String leagueType) {
+    public static Bundle newBundle(LeagueResponse leagueResponse, String leagueTitle) {
         Bundle bundle = new Bundle();
         if (leagueResponse != null) bundle.putSerializable(KEY_LEAGUE, leagueResponse);
         bundle.putString(KEY_LEAGUE_TITLE, leagueTitle);
-        bundle.putString(KEY_LEAGUE_TYPE, leagueType);
         return bundle;
     }
 
@@ -178,8 +175,8 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
 
     private int leagueId;
     private String leagueTitle;
-    private String leagueType;
 
+    private int inputChangedId; // edt cuối cùng đã thay đổi
     private BudgetOptionAdapter budgetOptionAdapter;
     private List<BudgetResponse> budgetResponses;
     private BudgetResponse budgetResponse;
@@ -207,7 +204,6 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
             league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
         }
         leagueTitle = getArguments().getString(KEY_LEAGUE_TITLE);
-        leagueType = getArguments().getString(KEY_LEAGUE_TYPE);
     }
 
     void loadData() {
@@ -499,6 +495,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                 .setValueDate(calendarTeamSetupTime == null ? Calendar.getInstance() : calendarTeamSetupTime)
                 .setConditionFunction(calendar -> calendar.getTimeInMillis() >= Calendar.getInstance().getTimeInMillis())
                 .setCalendarConsumer(calendar -> {
+                    inputChangedId = R.id.etTeamSetupTime;
                     calendarTeamSetupTime = calendar;
                     if (calendarStartTime == null) {
                         calendarStartTime = DateTimeUtils.getCalendarNoTime(calendarTeamSetupTime.getTimeInMillis());
@@ -515,6 +512,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                 .setValueDate(calendarStartTime == null ? Calendar.getInstance() : calendarStartTime)
                 .setConditionFunction(calendar -> calendar.getTimeInMillis() >= Calendar.getInstance().getTimeInMillis())
                 .setCalendarConsumer(calendar -> {
+                    inputChangedId = R.id.etStartTime;
                     calendarStartTime = calendar;
                     if (calendarTeamSetupTime == null) {
                         calendarTeamSetupTime = DateTimeUtils.getCalendarNoTime(calendarStartTime.getTimeInMillis());
@@ -571,7 +569,11 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
             } else {
                 etTeamSetupTime.setError(null);
                 if (calendarStartTime.getTimeInMillis() < calendarTeamSetupTime.getTimeInMillis()) {
-                    etTeamSetupTime.setError(getString(R.string.league_invalid_setup_time));
+                    if (inputChangedId == R.id.etStartTime) {
+                        etStartTime.setError(getString(R.string.league_invalid_start_time));
+                    } else {
+                        etTeamSetupTime.setError(getString(R.string.league_invalid_setup_time));
+                    }
                     result = false;
                 }
             }

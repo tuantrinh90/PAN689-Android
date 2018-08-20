@@ -259,6 +259,7 @@ public class LeagueResponse implements Serializable {
     public Calendar getStartAtCalendar() {
         return DateTimeUtils.convertStringToCalendar(startAt, Constant.FORMAT_DATE_TIME_SERVER);
     }
+
     @JsonIgnore
     public Calendar getEndAtCalendar() {
         return DateTimeUtils.convertStringToCalendar(endAt, Constant.FORMAT_DATE_TIME_SERVER);
@@ -350,18 +351,21 @@ public class LeagueResponse implements Serializable {
                 }
 
                 long division = time / 1000;
-                result = division + " " + context.getString(R.string.second) + " " + des;
+                result = division + " " + context.getString(R.string.seconds) + " " + des;
 
                 if (division > 60) {
-                    result = division / 60 + " " + context.getString(R.string.minute) + " " + des;
+                    long s = division / 60;
+                    result = s + " " + context.getString(s > 1 ? R.string.minutes : R.string.minutes_) + " " + des;
                 }
 
                 if (division > 60 * 60) {
-                    result = division / 60 / 60 + " " + context.getString(R.string.hour) + " " + des;
+                    long h = division / 60 / 60;
+                    result = h + " " + context.getString(h > 1 ? R.string.hours : R.string.hours_) + " " + des;
                 }
 
                 if (division > 60 * 60 * 24) {
-                    result = division / 60 / 60 / 24 + " " + context.getString(R.string.day) + " " + des;
+                    long d = division / 60 / 60 / 24;
+                    result = d + " " + context.getString(d > 1 ? R.string.days : R.string.days_) + " " + des;
                 }
 
                 return result;

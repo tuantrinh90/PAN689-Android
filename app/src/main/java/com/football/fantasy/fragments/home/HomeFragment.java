@@ -190,7 +190,7 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     @OnClick(R.id.tvCreateLeagues)
     void onClickCreateLeagues() {
         AloneFragmentActivity.with(this)
-                .parameters(SetUpLeagueFragment.newBundle(null, getString(R.string.home), LeagueDetailFragment.MY_LEAGUES))
+                .parameters(SetUpLeagueFragment.newBundle(null, getString(R.string.home)))
                 .start(SetUpLeagueFragment.class);
     }
 

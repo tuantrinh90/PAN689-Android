@@ -33,7 +33,6 @@ import com.football.fantasy.fragments.leagues.league_details.ranking.RankingFrag
 import com.football.fantasy.fragments.leagues.league_details.results.ResultsFragment;
 import com.football.fantasy.fragments.leagues.league_details.successor.SuccessorFragment;
 import com.football.fantasy.fragments.leagues.league_details.teams.TeamFragment;
-import com.football.fantasy.fragments.leagues.league_details.trade_review.TradeReviewFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.utilities.AppUtilities;
@@ -219,7 +218,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
                             // edit
                             if (extKeyValuePair.getValue().equalsIgnoreCase(getString(R.string.edit))) {
                                 AloneFragmentActivity.with(LeagueDetailFragment.this)
-                                        .parameters(SetUpLeagueFragment.newBundle(league, title, leagueType))
+                                        .parameters(SetUpLeagueFragment.newBundle(league, title))
                                         .start(SetUpLeagueFragment.class);
                             }
 
