@@ -566,6 +566,8 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
         if (llTransfer.isActivated()) {
             if (etTeamSetupTime.isEmpty(mActivity)) {
                 result = false;
+            } else if (etStartTime.isEmpty(mActivity)) {
+                result = false;
             } else {
                 etTeamSetupTime.setError(null);
                 if (calendarStartTime.getTimeInMillis() < calendarTeamSetupTime.getTimeInMillis()) {
@@ -580,6 +582,8 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
         } else {
             if (etDraftTime.isEmpty(mActivity)) {
                 result = false;
+            } else if (etStartTime.isEmpty(mActivity)) {
+                result = false;
             } else {
                 etDraftTime.setError(null);
                 if (calendarStartTime.getTimeInMillis() < calendarDraftTime.getTimeInMillis()) {
@@ -587,11 +591,6 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                     result = false;
                 }
             }
-        }
-
-        //startAt
-        if (etStartTime.isEmpty(mActivity)) {
-            result = false;
         }
 
         return result;
