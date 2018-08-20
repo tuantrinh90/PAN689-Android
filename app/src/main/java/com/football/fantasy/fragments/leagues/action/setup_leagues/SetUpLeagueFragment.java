@@ -408,6 +408,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
 
     @OnClick(R.id.llDraft)
     void onClickDraft() {
+        if (true) return; // todo: open late
         if (league == null) {
             toggleTransfer(false);
         }
