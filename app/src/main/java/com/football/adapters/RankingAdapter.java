@@ -41,13 +41,9 @@ public class RankingAdapter extends DefaultAdapter<RankingResponse> {
         holder.textLose.setText(String.valueOf(data.getResult().getLose()));
         holder.textPts.setText(String.valueOf(data.getResult().getPoints()));
 
-
-        holder.textNumber.setText(String.valueOf(data.getRank()));
-
-        holder.textNumber.setVisibility(data.getRank() > 3 ? View.VISIBLE : View.GONE);
-        holder.imageNumber.setVisibility(data.getRank() <= 3 ? View.VISIBLE : View.GONE);
-
-        if (data.getRank() > 3) {
+        if (data.getRank() <= 3) {
+            holder.textNumber.setVisibility(View.GONE);
+            holder.imageNumber.setVisibility(View.VISIBLE);
             if (data.getRank() == 1) {
                 holder.imageNumber.setImageResource(R.drawable.ic_number_one);
             } else if (data.getRank() == 2) {
@@ -55,6 +51,10 @@ public class RankingAdapter extends DefaultAdapter<RankingResponse> {
             } else if (data.getRank() == 3) {
                 holder.imageNumber.setImageResource(R.drawable.ic_number_three);
             }
+        } else {
+            holder.textNumber.setText(String.valueOf(data.getRank()));
+            holder.textNumber.setVisibility(View.VISIBLE);
+            holder.imageNumber.setVisibility(View.GONE);
         }
     }
 

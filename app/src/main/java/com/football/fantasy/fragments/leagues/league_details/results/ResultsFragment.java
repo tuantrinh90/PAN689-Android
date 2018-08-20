@@ -35,6 +35,8 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
     static final String KEY_LEAGUE = "key_leagues";
     private static final String ALL_ROUND = "All rounds";
 
+    private static final int MAX_ROUND = 22;
+
     @BindView(R.id.rv_results)
     ExtRecyclerView<MatchResponse> rvResults;
     @BindView(R.id.view_time)
@@ -82,7 +84,7 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
     private void initData() {
         valuePairs = new ArrayList<>();
         valuePairs.add(new ExtKeyValuePair(ROUND_DEFAULT, ALL_ROUND));
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < MAX_ROUND; i++) {
             valuePairs.add(new ExtKeyValuePair(String.valueOf(i + 1), "Round " + (i + 1)));
         }
     }
@@ -146,6 +148,7 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
 
     @Override
     public void displayMatches(List<MatchResponse> matches) {
+        rvResults.addItems(matches);
         // display time
         if (rvResults.getAdapter().getItemCount() > 0) {
             textTime.setText(DateTimeUtils.convertCalendarToString(
@@ -158,8 +161,6 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
         } else {
             viewTime.setVisibility(View.GONE);
         }
-
-        rvResults.addItems(matches);
     }
 
     @Override

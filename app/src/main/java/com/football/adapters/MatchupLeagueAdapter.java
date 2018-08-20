@@ -69,8 +69,8 @@ public class MatchupLeagueAdapter extends DefaultAdapter<MatchResponse> {
         holder.tvRound.setText(context.getString(R.string.round_number, data.getRound()));
 
         // round match
-        String match1 = data.getTeam().getTotalPoint() != -1 ? String.valueOf(data.getTeam().getTotalPoint()) : "";
-        String match2 = data.getWithTeam().getTotalPoint() != -1 ? String.valueOf(data.getWithTeam().getTotalPoint()) : "";
+        String match1 = data.getTeam().getPoint() != -1 ? String.valueOf(data.getTeam().getPoint()) : "";
+        String match2 = data.getWithTeam().getPoint() != -1 ? String.valueOf(data.getWithTeam().getPoint()) : "";
         holder.tvRoundMatch.setText(context.getString(R.string.round_match, match1, match2));
 
         // state

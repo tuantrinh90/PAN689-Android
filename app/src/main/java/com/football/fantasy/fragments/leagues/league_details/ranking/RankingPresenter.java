@@ -6,7 +6,6 @@ import com.football.fantasy.R;
 import com.football.listeners.ApiCallback;
 import com.football.models.PagingResponse;
 import com.football.models.responses.RankingResponse;
-import com.football.models.responses.ResultResponse;
 import com.football.utilities.RxUtilities;
 
 import java.util.HashMap;

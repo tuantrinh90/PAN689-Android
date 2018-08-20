@@ -2,7 +2,6 @@ package com.football.fantasy.fragments.match_up.real;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
@@ -25,6 +24,8 @@ import static com.football.utilities.Constant.ROUND_DEFAULT;
 public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealLeagueView, IMatchupRealLeaguePresenter<IMatchupRealLeagueView>> implements IMatchupRealLeagueView {
 
     private static final String VALUE_ALL_ROUND = "ALL ROUNDS";
+
+    private static final int MAX_ROUND = 30;
 
     @BindView(R.id.rvRealLeague)
     ExtRecyclerView<RealMatch> rvRealLeague;
@@ -58,7 +59,7 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
     private void initData() {
         valuePairs = new ArrayList<>();
         valuePairs.add(new ExtKeyValuePair(ROUND_DEFAULT, VALUE_ALL_ROUND));
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < MAX_ROUND; i++) {
             valuePairs.add(new ExtKeyValuePair(String.valueOf(i + 1), "Round " + (i + 1)));
         }
     }
