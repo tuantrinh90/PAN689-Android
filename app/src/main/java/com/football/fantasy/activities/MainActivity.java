@@ -14,7 +14,6 @@ import com.bon.util.DialogUtils;
 import com.bon.util.StringUtils;
 import com.football.adapters.StatePagerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
-import com.football.common.activities.BaseAppCompatActivity;
 import com.football.customizes.footers.FooterItem;
 import com.football.events.UnauthorizedEvent;
 import com.football.fantasy.R;
@@ -34,7 +33,7 @@ import io.reactivex.observers.DisposableObserver;
 
 import static com.football.utilities.ServiceConfig.DEEP_LINK;
 
-public class MainActivity extends BaseAppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     public static final int HOME = 0;
     public static final int LEAGUES = 1;

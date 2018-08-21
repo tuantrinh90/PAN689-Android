@@ -13,7 +13,6 @@ import android.view.WindowManager;
 
 import com.bon.logger.Logger;
 import com.football.adapters.AccountViewPagerAdapter;
-import com.football.common.activities.BaseAppCompatActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
@@ -27,7 +26,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import io.reactivex.observers.DisposableObserver;
 
-public class AccountActivity extends BaseAppCompatActivity {
+public class AccountActivity extends BaseActivity {
     private static final String TAG = AccountActivity.class.getSimpleName();
 
     @BindView(R.id.cvCarousel)
@@ -81,13 +80,13 @@ public class AccountActivity extends BaseAppCompatActivity {
 
             registerEvent();
         } catch (Exception e) {
-            Logger.e(TAG,e);
+            Logger.e(TAG, e);
         }
     }
 
-    void registerEvent(){
+    void registerEvent() {
         try {
-            mCompositeDisposable.add(bus.ofType(SignInEvent.class).subscribeWith(new DisposableObserver<SignInEvent>(){
+            mCompositeDisposable.add(bus.ofType(SignInEvent.class).subscribeWith(new DisposableObserver<SignInEvent>() {
                 @Override
                 public void onNext(SignInEvent signInEvent) {
                     openSignin();
@@ -104,7 +103,7 @@ public class AccountActivity extends BaseAppCompatActivity {
                 }
             }));
         } catch (Exception e) {
-            Logger.e(TAG,e);
+            Logger.e(TAG, e);
         }
     }
 

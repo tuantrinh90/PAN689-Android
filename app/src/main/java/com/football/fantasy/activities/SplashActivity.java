@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 
 import com.bon.share_preferences.AppPreferences;
-import com.football.common.activities.BaseAppCompatActivity;
 import com.football.fantasy.R;
 import com.football.utilities.Constant;
 
@@ -20,7 +19,7 @@ import com.football.utilities.Constant;
  * Created by HungND on 3/2/18.
  */
 
-public class SplashActivity extends BaseAppCompatActivity {
+public class SplashActivity extends BaseActivity {
 
     @Override
     protected int getContentViewId() {

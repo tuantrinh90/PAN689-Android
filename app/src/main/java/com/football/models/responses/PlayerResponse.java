@@ -107,7 +107,7 @@ public class PlayerResponse implements Serializable {
     @JsonProperty("point_last_round")
     private int pointLastRound;
     @JsonProperty("is_selected")
-    private Boolean isSelected;
+    private boolean isSelected;
     @JsonProperty("goals")
     private int goals;
     @JsonProperty("assists")

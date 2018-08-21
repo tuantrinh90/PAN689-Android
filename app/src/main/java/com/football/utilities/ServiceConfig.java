@@ -5,9 +5,9 @@ package com.football.utilities;
  */
 
 public interface ServiceConfig {
-//    String HOST = "http://192.168.1.46/";
+    String HOST = "http://192.168.1.38/";
 //    String HOST = "http://192.168.1.150/";
-    String HOST = "http://52.77.241.109/";
+//    String HOST = "http://52.77.241.109/";
 
     // base url
     String BASE_URL = HOST + "api/v1/";
