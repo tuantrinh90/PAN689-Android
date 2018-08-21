@@ -122,7 +122,9 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
 
         registerBus();
         initView();
-        getTeamPlayers();
+
+        showLoading(true);
+        refreshData();
     }
 
     private void getDataFromBundle() {
@@ -199,28 +201,6 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
         }
     }
 
-    private void displayDisplay() {
-        ((PlayerPoolAdapter) rvPlayer.getAdapter()).setOptions(
-                displays.size() > 0 ? displays.get(0).getKey() : "",
-                displays.size() > 1 ? displays.get(1).getKey() : "",
-                displays.size() > 2 ? displays.get(2).getKey() : "");
-        if (displays.size() > 0) {
-            tvOption1.setText(displays.get(0).getValue());
-        }
-        option1.setVisibility(displays.size() > 0 ? View.VISIBLE : View.INVISIBLE);
-
-        if (displays.size() > 1) {
-            tvOption2.setText(displays.get(1).getValue());
-        }
-        option2.setVisibility(displays.size() > 1 ? View.VISIBLE : View.INVISIBLE);
-
-        if (displays.size() > 2) {
-            tvOption3.setText(displays.get(2).getValue());
-        }
-        option3.setVisibility(displays.size() > 2 ? View.VISIBLE : View.INVISIBLE);
-        rvPlayer.notifyDataSetChanged();
-    }
-
     private void initView() {
         boolean isTransfer = league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER);
         if (isTransfer) {
@@ -271,6 +251,28 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
                 .build();
 
         displayDisplay();
+    }
+
+    private void displayDisplay() {
+        ((PlayerPoolAdapter) rvPlayer.getAdapter()).setOptions(
+                displays.size() > 0 ? displays.get(0).getKey() : "",
+                displays.size() > 1 ? displays.get(1).getKey() : "",
+                displays.size() > 2 ? displays.get(2).getKey() : "");
+        if (displays.size() > 0) {
+            tvOption1.setText(displays.get(0).getValue());
+        }
+        option1.setVisibility(displays.size() > 0 ? View.VISIBLE : View.INVISIBLE);
+
+        if (displays.size() > 1) {
+            tvOption2.setText(displays.get(1).getValue());
+        }
+        option2.setVisibility(displays.size() > 1 ? View.VISIBLE : View.INVISIBLE);
+
+        if (displays.size() > 2) {
+            tvOption3.setText(displays.get(2).getValue());
+        }
+        option3.setVisibility(displays.size() > 2 ? View.VISIBLE : View.INVISIBLE);
+        rvPlayer.notifyDataSetChanged();
     }
 
     private void refreshData() {

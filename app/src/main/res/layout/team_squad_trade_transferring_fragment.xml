@@ -74,7 +74,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="0dp"
-                            android:text="@string/injured"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvTransferringPlayerLeft"
                             app:textViewFontAssetName="@string/font_display_heavy" />
@@ -121,7 +120,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="0dp"
-                            android:text="@string/injured"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvTransferringTimeLeft"
                             app:textViewFontAssetName="@string/font_display_heavy" />
@@ -168,7 +166,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="0dp"
-                            android:text="@string/injured"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvBudget"
                             app:textViewFontAssetName="@string/font_display_heavy" />

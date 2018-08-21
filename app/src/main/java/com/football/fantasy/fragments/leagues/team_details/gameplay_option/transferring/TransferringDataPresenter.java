@@ -78,6 +78,7 @@ public class TransferringDataPresenter extends BaseDataPresenter<ITransferringVi
 
                         @Override
                         public void onComplete() {
+                            v.showLoading(false);
                         }
 
                         @Override
