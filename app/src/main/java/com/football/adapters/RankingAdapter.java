@@ -41,7 +41,7 @@ public class RankingAdapter extends DefaultAdapter<RankingResponse> {
         holder.textLose.setText(String.valueOf(data.getResult().getLose()));
         holder.textPts.setText(String.valueOf(data.getResult().getPoints()));
 
-        if (data.getRank() <= 3) {
+        if (data.getRank() <= 3 && data.getRank() > 0) {
             holder.textNumber.setVisibility(View.GONE);
             holder.imageNumber.setVisibility(View.VISIBLE);
             if (data.getRank() == 1) {
