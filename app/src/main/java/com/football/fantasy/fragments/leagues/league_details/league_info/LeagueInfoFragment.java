@@ -118,7 +118,7 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
             } else {
                 league.getTeam().setUserId(league.getUserId());
                 AloneFragmentActivity.with(this)
-                        .parameters(TeamDetailFragment.newBundle(league.getTeam().getId(), league))
+                        .parameters(TeamDetailFragment.newBundle(getString(R.string.league_information), league.getTeam().getId(), league))
                         .start(TeamDetailFragment.class);
             }
         }

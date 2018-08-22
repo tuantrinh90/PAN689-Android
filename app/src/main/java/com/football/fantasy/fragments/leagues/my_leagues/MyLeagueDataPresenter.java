@@ -7,6 +7,9 @@ import com.football.models.PagingResponse;
 import com.football.models.responses.LeagueResponse;
 import com.football.utilities.RxUtilities;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MyLeagueDataPresenter extends BaseDataPresenter<IMyLeagueView> implements IMyLeaguePresenter<IMyLeagueView> {
     /**
      * @param appComponent
@@ -18,27 +21,33 @@ public class MyLeagueDataPresenter extends BaseDataPresenter<IMyLeagueView> impl
     @Override
     public void getMyLeagues(int page) {
         getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().getMyLeagues(page), new ApiCallback<PagingResponse<LeagueResponse>>() {
-                @Override
-                public void onStart() {
-                    v.showLoadingPagingListView(true);
-                }
+            Map<String, String> queries = new HashMap<>();
+            queries.put("page", String.valueOf(page));
 
-                @Override
-                public void onComplete() {
-                    v.showLoadingPagingListView(false);
-                }
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().getMyLeagues(queries),
+                    new ApiCallback<PagingResponse<LeagueResponse>>() {
+                        @Override
+                        public void onStart() {
+                            v.showLoadingPagingListView(true);
+                        }
 
-                @Override
-                public void onSuccess(PagingResponse<LeagueResponse> leagueResponsePagingResponse) {
-                    v.displayLeagues(leagueResponsePagingResponse.getData());
-                }
+                        @Override
+                        public void onComplete() {
+                            v.showLoadingPagingListView(false);
+                        }
 
-                @Override
-                public void onError(String error) {
-                    v.showMessage(error);
-                }
-            }));
+                        @Override
+                        public void onSuccess(PagingResponse<LeagueResponse> leagueResponsePagingResponse) {
+                            v.displayLeagues(leagueResponsePagingResponse.getData());
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            v.showMessage(error);
+                        }
+                    }));
         });
     }
 }

@@ -37,6 +37,7 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
 
     private static final String TAG = "TeamDetailFragment";
 
+    private static final String KEY_TITLE = "TITLE";
     private static final String KEY_TEAM_ID = "TEAM_ID";
     private static final String KEY_LEAGUE = "LEAGUE_ID";
 
@@ -67,13 +68,15 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
     @BindView(R.id.tvGamePlayOption)
     ExtTextView tvGamePlayOption;
 
+    private String title;
     private int teamId;
     private LeagueResponse league;
 
     private TeamResponse team;
 
-    public static Bundle newBundle(int teamId, LeagueResponse league) {
+    public static Bundle newBundle(String title, int teamId, LeagueResponse league) {
         Bundle bundle = new Bundle();
+        bundle.putString(KEY_TITLE, title);
         bundle.putInt(KEY_TEAM_ID, teamId);
         bundle.putSerializable(KEY_LEAGUE, league);
         return bundle;
@@ -106,6 +109,7 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
 
     private void getDataFromBundle() {
         assert getArguments() != null;
+        title = getArguments().getString(KEY_TITLE);
         teamId = getArguments().getInt(KEY_TEAM_ID);
         league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
     }
@@ -117,8 +121,8 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
     }
 
     @Override
-    public int getTitleId() {
-        return R.string.league_details;
+    public String getTitleString() {
+        return title;
     }
 
     @Override

@@ -131,7 +131,7 @@ public interface IApiService {
     Observable<BaseResponse<StopResponse>> stopLeague(@Path(ServiceConfig.KEY_ID) int leagueId);
 
     @GET(ServiceConfig.MY_LEAGUES)
-    Observable<BaseResponse<PagingResponse<LeagueResponse>>> getMyLeagues(@Query(Constant.KEY_PAGE) int page);
+    Observable<BaseResponse<PagingResponse<LeagueResponse>>> getMyLeagues(@QueryMap Map<String, String> queries);
 
     @GET(ServiceConfig.MY_MATCH_RESULTS)
     Observable<BaseResponse<PagingResponse<MatchResponse>>> getMyMatchResults(@QueryMap Map<String, String> queries);

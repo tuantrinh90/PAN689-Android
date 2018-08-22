@@ -9,6 +9,9 @@ import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.NewsResponse;
 import com.football.utilities.RxUtilities;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class HomeDataPresenter extends BaseDataPresenter<IHomeView> implements IHomePresenter<IHomeView> {
     /**
      * @param appComponent
@@ -20,7 +23,13 @@ public class HomeDataPresenter extends BaseDataPresenter<IHomeView> implements I
     @Override
     public void getMyLeagues(int page) {
         getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().getMyLeagues(page),
+            Map<String, String> queries = new HashMap<>();
+            queries.put("page", String.valueOf(page));
+            queries.put("max_number_user", String.valueOf(5));
+
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().getMyLeagues(queries),
                     new ApiCallback<PagingResponse<LeagueResponse>>() {
                         @Override
                         public void onSuccess(PagingResponse<LeagueResponse> leagueResponsePagingResponse) {

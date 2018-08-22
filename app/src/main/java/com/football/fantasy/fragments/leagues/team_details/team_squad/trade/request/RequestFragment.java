@@ -83,7 +83,7 @@ public class RequestFragment extends BaseMvpFragment<IRequestView, IRequestPrese
                 },
                 team -> {
                     AloneFragmentActivity.with(this)
-                            .parameters(TeamDetailFragment.newBundle(team.getId(), league))
+                            .parameters(TeamDetailFragment.newBundle(getString(R.string.trade_request), team.getId(), league))
                             .start(TeamDetailFragment.class);
                 });
         rvRequest

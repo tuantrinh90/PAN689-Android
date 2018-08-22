@@ -49,7 +49,7 @@ public class MatchupMyLeagueFragment extends BaseMainMvpFragment<IMatchupMyLeagu
                 },
                 (team, league) -> {
                     AloneFragmentActivity.with(this)
-                            .parameters(TeamDetailFragment.newBundle(team.getId(), league))
+                            .parameters(TeamDetailFragment.newBundle(getString(R.string.match_up), team.getId(), league))
                             .start(TeamDetailFragment.class);
                 });
         // init recyclerView

@@ -95,7 +95,7 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
                 getContext(),
                 (team) -> {
                     AloneFragmentActivity.with(this)
-                            .parameters(TeamDetailFragment.newBundle(team.getId(), this.league))
+                            .parameters(TeamDetailFragment.newBundle(getString(R.string.results), team.getId(), this.league))
                             .start(TeamDetailFragment.class);
                 });
         rvResults
