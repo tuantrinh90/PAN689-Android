@@ -89,9 +89,9 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
-        getDataFromBundle();
         registerEvent();
 
         initView();

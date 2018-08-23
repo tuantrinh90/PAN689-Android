@@ -16,6 +16,7 @@ import com.football.adapters.PlayerPoolAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
+import com.football.customizes.textview.ExtTextViewCountdown;
 import com.football.events.PlayerQueryEvent;
 import com.football.events.TransferEvent;
 import com.football.fantasy.R;
@@ -85,7 +86,7 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     @BindView(R.id.tvTransferringPlayerLeftValue)
     ExtTextView tvTransferringPlayerLeftValue;
     @BindView(R.id.tvTransferringTimeLeftValue)
-    ExtTextView tvTransferringTimeLeftValue;
+    ExtTextViewCountdown tvTransferringTimeLeftValue;
     @BindView(R.id.tvBudgetValue)
     ExtTextView tvBudgetValue;
 
@@ -404,7 +405,8 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     public void displayHeader(boolean canTransfer, String transferPlayerLeftDisplay, long transferTimeLeft, long budget) {
         this.canTransfer = canTransfer;
         tvTransferringPlayerLeftValue.setText(transferPlayerLeftDisplay);
-        tvTransferringTimeLeftValue.setText(AppUtilities.timeLeft(transferTimeLeft));
+        tvTransferringTimeLeftValue.setTime(transferTimeLeft);
+        tvTransferringTimeLeftValue.start();
         tvBudgetValue.setText(getString(R.string.money_prefix, AppUtilities.getMoney(budget)));
     }
 

@@ -114,7 +114,7 @@
                             app:layout_constraintStart_toEndOf="@+id/tvTransferringTimeLeft"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <com.bon.customview.textview.ExtTextView
+                        <com.football.customizes.textview.ExtTextViewCountdown
                             android:id="@+id/tvTransferringTimeLeftValue"
                             style="@style/StyleContentBlue"
                             android:layout_width="wrap_content"
