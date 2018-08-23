@@ -8,6 +8,8 @@ import com.football.listeners.ApiCallback;
 import com.football.models.BaseResponse;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
+import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -22,6 +24,7 @@ public class RxUtilities {
     public static <T> Disposable async(@NonNull IBaseMvpView mvpView, @NonNull Observable<BaseResponse<T>> observable, ApiCallback<T> apiCallback) {
         Optional.from(apiCallback).doIfPresent(c -> c.onStart());
         return observable.compose(mvpView.bindUntilEvent(FragmentEvent.DESTROY_VIEW))
+                .delay(500, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<BaseResponse<T>>() {

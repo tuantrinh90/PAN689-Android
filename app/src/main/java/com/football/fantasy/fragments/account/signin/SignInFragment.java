@@ -73,7 +73,7 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
 
     void initView() {
         if (BuildConfig.DEBUG) {
-            etEmail.setContent("t@a.com");
+            etEmail.setContent("123@yopmail.com");
             etPassword.setContent("123456");
 
 //            etEmail.setContent("toannx2@yopmail.com");

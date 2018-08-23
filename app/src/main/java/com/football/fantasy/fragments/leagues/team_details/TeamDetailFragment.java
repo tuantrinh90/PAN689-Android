@@ -193,7 +193,7 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
                             && currentCalendar.before(team.getCurrentRound().getEndAtCalendar())) {
                         //You can't transfer player until this round ends
                         showMessage(R.string.message_can_not_transfer, R.string.ok, null);
-                    } else if (currentCalendar.after(team.getLastRound().getTransferDeadlineCalendar())) {
+                    } else if (team.getLastRound() != null && currentCalendar.after(team.getLastRound().getTransferDeadlineCalendar())) {
                         showMessage(R.string.message_can_not_transfer_all_round_end, R.string.ok, null);
                     } else {
                         GameplayOptionFragment.start(this, getString(R.string.team_details), team, league);
