@@ -47,6 +47,7 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
     ExtTextView tvRound;
 
     private String round = "";
+    private int totalRound = MAX_ROUND;
     private List<ExtKeyValuePair> valuePairs;
 
     public static ResultsFragment newInstance(LeagueResponse leagueResponse) {
@@ -83,10 +84,6 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
 
     private void initData() {
         valuePairs = new ArrayList<>();
-        valuePairs.add(new ExtKeyValuePair(ROUND_DEFAULT, ALL_ROUND));
-        for (int i = 0; i < MAX_ROUND; i++) {
-            valuePairs.add(new ExtKeyValuePair(String.valueOf(i + 1), "Round " + (i + 1)));
-        }
     }
 
     void initView() {
@@ -127,6 +124,7 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
 
     @OnClick(R.id.round)
     public void onRoundClicked() {
+
         ExtKeyValuePairDialogFragment.newInstance()
                 .setValue(round)
                 .setExtKeyValuePairs(valuePairs)
@@ -167,5 +165,16 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
     public void displayRound(int round) {
         this.round = String.valueOf(round);
         tvRound.setText(valuePairs.get(round).getValue());
+    }
+
+    @Override
+    public void displayTotalRound(int totalRound) {
+        this.totalRound = totalRound;
+
+        valuePairs.clear();
+        valuePairs.add(new ExtKeyValuePair(ROUND_DEFAULT, ALL_ROUND));
+        for (int i = 0; i < totalRound; i++) {
+            valuePairs.add(new ExtKeyValuePair(String.valueOf(i + 1), "Round " + (i + 1)));
+        }
     }
 }

@@ -98,6 +98,7 @@ public interface ServiceConfig {
     String COMPLETE_LINEUP = "teams/{id}/complete_lineup";
     String CHANGE_TEAM_FORMATION = "teams/{id}/change_formation";
     String TEAM_PITCH_VIEW = "teams/{id}/pitchview";
+    String ROUNDS_OF_LEAGUE = "leagues/{id}/rounds_of_league"; // never used
 
     // trade request
     String TRADE_REQUESTS = "trade_requests";

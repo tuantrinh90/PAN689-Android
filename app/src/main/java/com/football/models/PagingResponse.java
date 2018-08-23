@@ -24,6 +24,8 @@ public class PagingResponse<T> implements Serializable {
     private Integer to;
     @JsonProperty("round")
     private int round;
+    @JsonProperty("total_round")
+    private int totalRound;
     @JsonProperty("start_at")
     private String startAt;
     @JsonProperty("end_at")
@@ -97,6 +99,10 @@ public class PagingResponse<T> implements Serializable {
 
     public int getRound() {
         return round;
+    }
+
+    public int getTotalRound() {
+        return totalRound;
     }
 
     public String getStartAt() {

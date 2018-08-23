@@ -9,4 +9,7 @@ public interface IResultsView extends IBaseMvpView {
     void displayMatches(List<MatchResponse> matches);
 
     void displayRound(int round);
+
+    void displayTotalRound(int totalRound);
+
 }
