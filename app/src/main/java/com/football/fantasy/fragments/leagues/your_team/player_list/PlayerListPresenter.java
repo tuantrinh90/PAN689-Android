@@ -32,7 +32,7 @@ public class PlayerListPresenter extends BaseDataPresenter<IPlayerListView> impl
     }
 
     @Override
-    public void getPlayers(int leagueId, boolean valueSortDesc, int page, String query, String filterPositions, String filterClubs, boolean newPlayers) {
+    public void getPlayers(int leagueId, boolean valueSortDesc, int page, String query, String filterPositions, String filterClubs) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
             queries.put(Constant.KEY_LEAGUE_ID, String.valueOf(leagueId));
@@ -83,7 +83,7 @@ public class PlayerListPresenter extends BaseDataPresenter<IPlayerListView> impl
 
                         @Override
                         public void onSuccess(ExtPagingResponse<PlayerResponse> response) {
-                            v.displayPlayers(response.getData(), newPlayers);
+                            v.displayPlayers(response.getData());
                             v.displayStatistic(response.getStatistic());
                         }
 

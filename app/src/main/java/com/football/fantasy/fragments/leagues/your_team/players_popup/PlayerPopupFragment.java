@@ -102,10 +102,7 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
                             if (event.getTag() == PlayerQueryEvent.TAG_FILTER) {
                                 filterClubs = event.getClub();
 
-                                // get items
-                                rvPlayer.clear();
-                                rvPlayer.startLoading();
-                                getPlayers();
+                                refresh();
                             }
                         }
 
@@ -286,6 +283,7 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
     }
 
     private void refresh() {
+        page = 1;
         rvPlayer.clear();
         rvPlayer.startLoading();
         getPlayers();

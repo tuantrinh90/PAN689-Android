@@ -21,7 +21,6 @@ import com.football.events.PlayerEvent;
 import com.football.events.PlayerQueryEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailForLineupFragment;
-import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilterFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
@@ -172,22 +171,23 @@ public class PlayerListFragment extends BaseMvpFragment<IPlayerListView, IPlayer
             rvPlayer.adapter(playerAdapter)
                     .loadMoreListener(() -> {
                         page++;
-                        getPlayers(false);
+                        getPlayers();
                     })
-                    .refreshListener(() -> {
-                        page = 1;
-                        rvPlayer.clear();
-                        rvPlayer.startLoading();
-                        getPlayers(false);
-                    })
+                    .refreshListener(this::refresh)
                     .build();
 
             // load data
-            rvPlayer.startLoading();
-            getPlayers(false);
+            refresh();
         } catch (Resources.NotFoundException e) {
             Logger.e(TAG, e);
         }
+    }
+
+    private void refresh() {
+        page = 1;
+        rvPlayer.clear();
+        rvPlayer.startLoading();
+        getPlayers();
     }
 
     void displayTime() {
@@ -218,10 +218,7 @@ public class PlayerListFragment extends BaseMvpFragment<IPlayerListView, IPlayer
                                     filterClubs = event.getClub();
                                     filterPositions = event.getPosition();
 
-                                    // get items
-                                    rvPlayer.clear();
-                                    rvPlayer.startLoading();
-                                    getPlayers(true);
+                                    refresh();
                                 }
                         }
 
@@ -273,17 +270,11 @@ public class PlayerListFragment extends BaseMvpFragment<IPlayerListView, IPlayer
 
     void onPerformSearch(String q) {
         query = q;
-        rvPlayer.clear();
-        rvPlayer.startLoading();
-        page = 1;
-        getPlayers(false);
+        refresh();
     }
 
     @Override
-    public void displayPlayers(List<PlayerResponse> data, boolean newPlayers) {
-        if (newPlayers) {
-            rvPlayer.clear();
-        }
+    public void displayPlayers(List<PlayerResponse> data) {
         rvPlayer.addItems(data);
     }
 
@@ -335,10 +326,7 @@ public class PlayerListFragment extends BaseMvpFragment<IPlayerListView, IPlayer
                     filterPositions = String.valueOf(StatisticView.Position.ATTACKER);
                     break;
             }
-            page = 1;
-            rvPlayer.clear();
-            rvPlayer.startLoading();
-            getPlayers(true);
+            refresh();
         }
     }
 
@@ -349,14 +337,11 @@ public class PlayerListFragment extends BaseMvpFragment<IPlayerListView, IPlayer
     }
 
     private void toggleSort() {
-        page = 1;
-        rvPlayer.clear();
-        rvPlayer.startLoading();
         sortDesc = !sortDesc;
-        getPlayers(true);
+        refresh();
     }
 
-    private void getPlayers(boolean newPlayers) {
-        presenter.getPlayers(league.getId(), sortDesc, page, query, filterPositions, filterClubs, newPlayers);
+    private void getPlayers() {
+        presenter.getPlayers(league.getId(), sortDesc, page, query, filterPositions, filterClubs);
     }
 }
