@@ -226,4 +226,7 @@ public interface IApiService {
 
     @POST(ServiceConfig.SETTINGS)
     Observable<BaseResponse<SettingsResponse>> changeSettings(@Body RequestBody body);
+
+    @POST(ServiceConfig.DEVICE_OF_USER)
+    Observable<BaseResponse<Object>> updateDeviceOfUser(@Body RequestBody body);
 }

@@ -37,7 +37,7 @@
     <!--leagueResponses-->
     <dimen name="leagues_margin_action_button">15dp</dimen>
     <dimen name="leagues_margin">10dp</dimen>
-    <dimen name="leagues_margin_number">30dp</dimen>
+    <dimen name="leagues_margin_number">20dp</dimen>
     <dimen name="leagues_margin_join">30dp</dimen>
     <dimen name="leagues_size_number_width">60dp</dimen>
     <dimen name="leagues_size_number_number">55dp</dimen>

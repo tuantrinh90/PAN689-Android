@@ -1,6 +1,7 @@
 package com.football.fantasy.fragments.home;
 
 import android.net.Uri;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
@@ -9,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -30,6 +32,7 @@ import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragmen
 import com.football.fantasy.fragments.leagues.player_pool.PlayerPoolFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.NewsResponse;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.List;
 
@@ -80,7 +83,7 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     @Override
     protected void initialized() {
         super.initialized();
-        initRecyclerView();
+        registerNotification();
         registerEvent();
 
         initView();
@@ -90,6 +93,29 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
 
         // load news
         loadNews();
+    }
+
+    void registerNotification() {
+        // Get token
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "getInstanceId failed", task.getException());
+                        return;
+                    }
+
+                    long deviceId = 0;
+                    try {
+                        deviceId = Settings.Secure.getLong(getContext().getContentResolver(),
+                                Settings.Secure.ANDROID_ID);
+                    } catch (Settings.SettingNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    // Get new Instance ID token
+                    String token = task.getResult().getToken();
+                    presenter.updateDeviceOfUser(String.valueOf(deviceId), token);
+                });
     }
 
     void registerEvent() {
@@ -136,6 +162,7 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     }
 
     void initView() {
+        initRecyclerView();
         refresh.setOnRefreshListener(() -> {
             getMyLeagues();
             loadNews();

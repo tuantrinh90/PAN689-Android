@@ -110,5 +110,6 @@ public interface ServiceConfig {
     String UPDATE_PROFILE = "profile";
     String CHANGE_PASSWORD = "change_password";
     String SETTINGS = "settings";
+    String DEVICE_OF_USER = "updateDeviceOfUser";
 
 }

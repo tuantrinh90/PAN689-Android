@@ -15,7 +15,6 @@ import com.football.customizes.match_up.MatchupTextItem;
 import com.football.customizes.recyclerview.DefaultAdapter;
 import com.football.customizes.recyclerview.DefaultHolder;
 import com.football.fantasy.R;
-import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.MatchResponse;
 import com.football.models.responses.PlayerStatisticMetaResponse;
 import com.football.models.responses.TeamResponse;
@@ -24,7 +23,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
-import java8.util.function.BiConsumer;
 import java8.util.function.Consumer;
 
 public class ResultsAdapter extends DefaultAdapter<MatchResponse> {
@@ -64,7 +62,9 @@ public class ResultsAdapter extends DefaultAdapter<MatchResponse> {
         holder.tvTitleTeam2.setText(data.getWithTeam().getName());
 
         // round match
-        holder.tvRoundMatch.setText(mContext.getString(R.string.round_match, data.getTeam().getPoint(), data.getWithTeam().getPoint()));
+        String match1 = data.getTeam().getPoint() != -1 ? String.valueOf(data.getTeam().getPoint()) : "";
+        String match2 = data.getWithTeam().getPoint() != -1 ? String.valueOf(data.getWithTeam().getPoint()) : "";
+        holder.tvRoundMatch.setText(mContext.getString(R.string.round_match, match1, match2));
 
         // state
         if (expandState.get(position)) {

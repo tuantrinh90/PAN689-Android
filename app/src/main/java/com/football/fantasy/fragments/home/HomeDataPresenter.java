@@ -12,12 +12,30 @@ import com.football.utilities.RxUtilities;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+
 public class HomeDataPresenter extends BaseDataPresenter<IHomeView> implements IHomePresenter<IHomeView> {
     /**
      * @param appComponent
      */
     protected HomeDataPresenter(AppComponent appComponent) {
         super(appComponent);
+    }
+
+    @Override
+    public void updateDeviceOfUser(String deviceId, String token) {
+        getOptView().doIfPresent(v -> {
+            RequestBody body = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("device_id", deviceId)
+                    .addFormDataPart("token", token)
+                    .addFormDataPart("type", "Android")
+                    .build();
+
+            mCompositeDisposable.add(RxUtilities.async(v,
+                    dataModule.getApiService().updateDeviceOfUser(body), null));
+        });
     }
 
     @Override

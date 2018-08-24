@@ -7,7 +7,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.bon.util.ActivityUtils;
 import com.bon.util.DialogUtils;
@@ -23,7 +22,6 @@ import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragmen
 import com.football.fantasy.fragments.match_up.MatchUpFragment;
 import com.football.fantasy.fragments.more.MoreFragment;
 import com.football.fantasy.fragments.notification.NotificationFragment;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.Map;
 
@@ -76,7 +74,6 @@ public class MainActivity extends BaseActivity {
         initViewPager();
         initFragmentDefault();
         initRxBus();
-        registerNotification();
         getDeepLink(getIntent());
     }
 
@@ -97,26 +94,6 @@ public class MainActivity extends BaseActivity {
                         .start(LeagueDetailFragment.class);
             }
         }
-    }
-
-    private static final String TAG = "MainActivity";
-
-    void registerNotification() {
-        // Get token
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(task -> {
-                    if (!task.isSuccessful()) {
-                        Log.w(TAG, "getInstanceId failed", task.getException());
-                        return;
-                    }
-
-                    // Get new Instance ID token
-                    String token = task.getResult().getToken();
-
-                    // Log and toast
-                    String msg = "Token ne: " + token;
-                    Log.d(TAG, msg);
-                });
     }
 
     private void initViewPager() {

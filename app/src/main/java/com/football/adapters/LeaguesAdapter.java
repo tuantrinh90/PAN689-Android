@@ -76,12 +76,9 @@ public class LeaguesAdapter extends DefaultAdapter<LeagueResponse> {
                         R.drawable.ic_arrow_down_white_small);
             }
 
-            holder.tvNumber.setText(String.valueOf(league.getRank()));
-
-            holder.tvNumber.setVisibility(league.getRank() > 3 ? View.VISIBLE : View.GONE);
-            holder.ivNumber.setVisibility(league.getRank() <= 3 ? View.VISIBLE : View.GONE);
-
-            if (league.getRank() > 3) {
+            if (league.getRank() <= 3 && league.getRank() > 0) {
+                holder.tvNumber.setVisibility(View.GONE);
+                holder.ivNumber.setVisibility(View.VISIBLE);
                 if (league.getRank() == 1) {
                     holder.ivNumber.setImageResource(R.drawable.ic_number_one);
                 } else if (league.getRank() == 2) {
@@ -89,6 +86,10 @@ public class LeaguesAdapter extends DefaultAdapter<LeagueResponse> {
                 } else if (league.getRank() == 3) {
                     holder.ivNumber.setImageResource(R.drawable.ic_number_three);
                 }
+            } else {
+                holder.tvNumber.setText(String.valueOf(league.getRank()));
+                holder.tvNumber.setVisibility(View.VISIBLE);
+                holder.ivNumber.setVisibility(View.GONE);
             }
         }
 
