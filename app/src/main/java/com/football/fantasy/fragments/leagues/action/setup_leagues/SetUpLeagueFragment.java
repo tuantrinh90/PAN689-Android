@@ -262,6 +262,11 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                         }
                     }
                 }
+            } else {
+                // time
+                calendarStartTime = Calendar.getInstance();
+                calendarDraftTime = Calendar.getInstance();
+                calendarTeamSetupTime = Calendar.getInstance();
             }
         } catch (Exception e) {
             Logger.e(TAG, e);
@@ -408,7 +413,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
 
     @OnClick(R.id.llDraft)
     void onClickDraft() {
-        if (true) return; // todo: open late
+//        if (true) return; // open late
         if (league == null) {
             toggleTransfer(false);
         }
@@ -469,7 +474,13 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                 .setValueDate(calendarDraftTime == null ? Calendar.getInstance() : calendarDraftTime)
                 .setConditionFunction(calendar -> calendar.getTimeInMillis() >= Calendar.getInstance().getTimeInMillis())
                 .setCalendarConsumer(calendar -> {
-                    calendarDraftTime = calendar;
+                    calendarDraftTime.setTime(calendar.getTime());
+
+                    // set default for start time
+                    int draftEstimate = AppUtilities.getDraftEstimate(Integer.valueOf(etNumberOfUser.getContent()), Integer.valueOf(etTimePerDraftPick.getContent()));
+                    calendarStartTime = calendar;
+                    calendarStartTime.add(Calendar.MINUTE, draftEstimate);
+
                     formatDateTime();
                 }).show(getFragmentManager(), null);
     }
@@ -550,6 +561,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
         leagueRequest.setTeamSetup(DateTimeUtils.convertCalendarToString(calendarTeamSetupTime, Constant.FORMAT_DATE_TIME_SERVER));
         leagueRequest.setStartAt(DateTimeUtils.convertCalendarToString(calendarStartTime, Constant.FORMAT_DATE_TIME_SERVER));
         leagueRequest.setDraftTime(DateTimeUtils.convertCalendarToString(calendarDraftTime, Constant.FORMAT_DATE_TIME_SERVER));
+        leagueRequest.setTimeToPick(Integer.valueOf(etTimePerDraftPick.getContent()));
         leagueRequest.setDescription(etDescription.getContent());
         return leagueRequest;
     }

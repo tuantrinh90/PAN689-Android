@@ -169,7 +169,7 @@ public class SetUpLeagueDataPresenter extends BaseDataPresenter<ISetupLeagueView
                 .addFormDataPart("team_setup", request.getTeamSetup())
                 .addFormDataPart("trade_review", request.getTradeReview())
                 .addFormDataPart("draft_time", request.getDraftTime())
-                .addFormDataPart("time_to_pick", request.getTimeToPick());
+                .addFormDataPart("time_to_pick", String.valueOf(request.getTimeToPick()));
 
         if (!TextUtils.isEmpty(url)) {
             builder.addFormDataPart("logo", url);

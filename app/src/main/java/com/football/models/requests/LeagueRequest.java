@@ -12,7 +12,7 @@ public class LeagueRequest {
     private String tradeReview = "";
     private String scoringSystem = "";
     private String draftTime = "";
-    private String timeToPick = "";
+    private int timeToPick;
     private String startAt = "";
     private String description = "";
     private String teamSetup = "";
@@ -124,11 +124,11 @@ public class LeagueRequest {
         this.draftTime = draftTime;
     }
 
-    public String getTimeToPick() {
+    public int getTimeToPick() {
         return timeToPick;
     }
 
-    public void setTimeToPick(String timeToPick) {
+    public void setTimeToPick(int timeToPick) {
         this.timeToPick = timeToPick;
     }
 

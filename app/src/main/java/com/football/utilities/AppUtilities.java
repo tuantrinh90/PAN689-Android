@@ -146,4 +146,14 @@ public class AppUtilities {
         Calendar calendar = DateTimeUtils.convertStringToCalendar(time, formatCurrent);
         return DateTimeUtils.convertCalendarToString(calendar, formatTarget);
     }
+
+    public static int getDraftEstimate(int numberOfUser, int timePerDraftPick) {
+        int value = numberOfUser * 18 * timePerDraftPick / 60 + 1;
+        if (value % 15 == 0) {
+            return value;
+        } else {
+            value += 15 - value % 15;
+            return value;
+        }
+    }
 }
