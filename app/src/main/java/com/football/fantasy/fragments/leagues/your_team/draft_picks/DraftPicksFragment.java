@@ -24,7 +24,7 @@ public class DraftPicksFragment extends BaseMvpFragment<IDraftPicksView, IDraftP
 
     @Override
     public int getResourceId() {
-        return R.layout.draft_teams_fragment;
+        return R.layout.draft_picks_fragment;
     }
 
     @Override

@@ -66,7 +66,7 @@ public class YourTeamFragment extends BaseMvpFragment<IYourTeamView, IYourTeamPr
         cvCarouselView.setTextAllCaps(false)
                 .setFontPath(getString(R.string.font_display_heavy_italic))
                 .setAdapter(mActivity, new ArrayList<Carousel>() {{
-                    add(new Carousel(getString(R.string.line_up), true));
+                    add(new Carousel(getString(R.string.lineup), true));
                     add(new Carousel(getString(R.string.player_list), false));
                     add(new Carousel(getString(R.string.team_list), false));
                 }}, R.color.color_blue, R.color.color_content, position -> {

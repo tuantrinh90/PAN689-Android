@@ -189,7 +189,7 @@ public class LineUpFragment extends BaseMvpFragment<ILineUpView, ILineUpPresente
                     this,
                     player,
                     -1,
-                    getString(R.string.line_up),
+                    getString(R.string.lineup),
                     player.getSelected() ? PICK_PICKED : PICK_PICK,
                     position,
                     order);

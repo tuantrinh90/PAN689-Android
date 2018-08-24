@@ -170,7 +170,7 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
 
     @Override
     public int getTitleId() {
-        return R.string.line_up;
+        return R.string.lineup;
     }
 
     @Override

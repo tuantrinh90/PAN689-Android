@@ -168,7 +168,8 @@
 
     <!--app-->
     <string name="create_your_team">Create your team</string>
-    <string name="line_up">Lineup</string>
+    <string name="lineup">Lineup</string>
+    <string name="line_up">Line up</string>
     <string name="player_list">Player list</string>
     <string name="team_list">Team list</string>
     <string name="league_details">League details</string>

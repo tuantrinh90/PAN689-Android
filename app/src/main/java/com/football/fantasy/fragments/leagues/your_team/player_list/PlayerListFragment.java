@@ -140,7 +140,7 @@ public class PlayerListFragment extends BaseMvpFragment<IPlayerListView, IPlayer
                                 this,
                                 player,
                                 -1,
-                                getString(R.string.line_up),
+                                getString(R.string.lineup),
                                 player.getSelected() ? PICK_PICKED : PICK_PICK,
                                 playerPosition == PlayerResponse.POSITION_NONE ? player.getMainPosition() : playerPosition,
                                 NONE_ORDER);
