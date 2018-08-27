@@ -1,4 +1,4 @@
-package com.football.fantasy.fragments.leagues.your_team.draft_teams;
+package com.football.fantasy.fragments.leagues.your_team.draft_teamlist.draft_teams;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -45,6 +45,7 @@ public class DraftTeamsFragment extends BaseMvpFragment<IDraftTeamsView, IDraftT
         bindButterKnife(view);
         getDataFromBundle();
         initView();
+        getTeams();
         registerBus();
     }
 

@@ -1,4 +1,4 @@
-package com.football.fantasy.fragments.leagues.your_team.draft_picks;
+package com.football.fantasy.fragments.leagues.your_team.draft_teamlist.draft_picks;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,11 +8,18 @@ import android.view.View;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.fantasy.R;
 import com.football.models.responses.LeagueResponse;
+import com.football.models.responses.PickHistoryResponse;
+
+import java.util.List;
 
 public class DraftPicksFragment extends BaseMvpFragment<IDraftPicksView, IDraftPicksPresenter<IDraftPicksView>> implements IDraftPicksView {
     private static final String TAG = DraftPicksFragment.class.getSimpleName();
 
     static final String KEY_LEAGUE = "LEAGUE";
+
+    private LeagueResponse league;
+
+    private int page = 1;
 
     public static DraftPicksFragment newInstance(LeagueResponse league) {
         DraftPicksFragment fragment = new DraftPicksFragment();
@@ -33,19 +40,26 @@ public class DraftPicksFragment extends BaseMvpFragment<IDraftPicksView, IDraftP
         bindButterKnife(view);
         getDataFromBundle();
         initView();
+        getPickHistories();
         registerBus();
     }
 
     private void getDataFromBundle() {
         Bundle bundle = getArguments();
         if (bundle != null) {
+            league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
         }
     }
 
     void initView() {
     }
 
+    private void getPickHistories() {
+        presenter.getPickHistories(league.getId(), page);
+    }
+
     private void refresh() {
+        page = 1;
     }
 
     @NonNull
@@ -64,4 +78,8 @@ public class DraftPicksFragment extends BaseMvpFragment<IDraftPicksView, IDraftP
         }
     }
 
+    @Override
+    public void displayPickHistories(List<PickHistoryResponse> pickHistories) {
+
+    }
 }

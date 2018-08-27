@@ -1,4 +1,4 @@
-package com.football.fantasy.fragments.leagues.your_team.draft_teams;
+package com.football.fantasy.fragments.leagues.your_team.draft_teamlist.draft_teams;
 
 import com.football.common.views.IBaseMvpView;
 import com.football.models.responses.TeamResponse;

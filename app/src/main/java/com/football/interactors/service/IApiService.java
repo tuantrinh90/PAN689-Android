@@ -10,6 +10,7 @@ import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.LineupResponse;
 import com.football.models.responses.MatchResponse;
 import com.football.models.responses.NewsResponse;
+import com.football.models.responses.PickHistoryResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.PlayerStatisticResponse;
 import com.football.models.responses.PropsPlayerResponse;
@@ -141,6 +142,9 @@ public interface IApiService {
 
     @GET(ServiceConfig.TEAM_RESULTS)
     Observable<BaseResponse<PagingResponse<RankingResponse>>> getTeamResults(@Path(ServiceConfig.KEY_ID) int leagueId, @QueryMap Map<String, String> queries);
+
+    @GET(ServiceConfig.PICK_HISTORIES)
+    Observable<BaseResponse<PagingResponse<PickHistoryResponse>>> getPickHistories(@Path(ServiceConfig.KEY_ID) int leagueId, @QueryMap Map<String, String> queries);
 
     @GET(ServiceConfig.LEAGUE_DETAIL)
     Observable<BaseResponse<LeagueResponse>> getLeagueDetail(@Path(ServiceConfig.KEY_ID) Integer leagueId);

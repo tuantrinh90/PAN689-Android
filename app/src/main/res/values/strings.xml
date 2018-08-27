@@ -330,4 +330,7 @@
     <string name="old_password_incorrect">Old password is incorrect</string>
     <string name="pick">Pick</string>
     <string name="picked">Picked</string>
+    <string name="team">Team</string>
+    <string name="picks">Picks</string>
+    <string name="number_order">#%d</string>
 </resources>

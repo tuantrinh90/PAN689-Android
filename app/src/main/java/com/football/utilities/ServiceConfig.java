@@ -68,6 +68,7 @@ public interface ServiceConfig {
     String MY_MATCH_RESULTS = "leagues/get_my_match_results";
     String MATCH_RESULTS = "leagues/{id}/get_match_results";
     String TEAM_RESULTS = "leagues/{id}/get_team_results";
+    String PICK_HISTORIES = "leagues/{id}/pick_histories";
 
     // player
     String REAL_CLUB = "real_clubs";
@@ -110,6 +111,6 @@ public interface ServiceConfig {
     String UPDATE_PROFILE = "profile";
     String CHANGE_PASSWORD = "change_password";
     String SETTINGS = "settings";
-    String DEVICE_OF_USER = "updateDeviceOfUser";
+    String DEVICE_OF_USER = "update_device_of_user";
 
 }

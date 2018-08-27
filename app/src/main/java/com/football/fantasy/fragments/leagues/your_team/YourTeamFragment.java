@@ -14,6 +14,7 @@ import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
 import com.football.events.LineupEvent;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.your_team.draft_teamlist.DraftTeamListFragment;
 import com.football.fantasy.fragments.leagues.your_team.line_up.LineUpFragment;
 import com.football.fantasy.fragments.leagues.your_team.player_list.PlayerListFragment;
 import com.football.fantasy.fragments.leagues.your_team.team_list.TeamListFragment;
@@ -79,7 +80,8 @@ public class YourTeamFragment extends BaseMvpFragment<IYourTeamView, IYourTeamPr
                     league.getTeam() == null ? 0 : league.getTeam().getId()
             ).setChildFragment(true));
             add(PlayerListFragment.newInstance(league).setChildFragment(true));
-            add(TeamListFragment.newInstance(league).setChildFragment(true));
+//            add(TeamListFragment.newInstance(league).setChildFragment(true));
+            add(DraftTeamListFragment.newInstance(league).setChildFragment(true));
         }}));
         vpViewPager.setOffscreenPageLimit(3);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

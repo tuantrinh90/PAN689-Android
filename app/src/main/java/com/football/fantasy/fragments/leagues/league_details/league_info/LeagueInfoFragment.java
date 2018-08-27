@@ -13,6 +13,7 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.events.LeagueEvent;
 import com.football.events.StartLeagueEvent;
+import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
 import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
@@ -111,7 +112,7 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
                             getString(R.string.league_information)))
                     .start(SetupTeamFragment.class);
         } else {
-            if (league.getStatus().equals(LeagueResponse.WAITING_FOR_START)) {
+            if (league.getStatus().equals(LeagueResponse.WAITING_FOR_START) || BuildConfig.DEBUG) { // todo: sửa lại ở đây
                 AloneFragmentActivity.with(this)
                         .parameters(YourTeamFragment.newBundle(league))
                         .start(YourTeamFragment.class);

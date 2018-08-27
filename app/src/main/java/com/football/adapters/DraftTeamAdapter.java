@@ -44,6 +44,7 @@ public class DraftTeamAdapter extends DefaultAdapter<TeamResponse> {
         ImageLoaderUtils.displayImage(data.getLogo(), holder.ivAvatar);
         holder.tvTeam.setText(data.getName());
         holder.tvOwner.setText(AppUtilities.getNameOrMe(holder.itemView.getContext(), data));
+        holder.textOrder.setText(mContext.getString(R.string.number_order, position + 1));
 
         holder.itemView.setOnClickListener(v -> {
             detailCallback.accept(data);

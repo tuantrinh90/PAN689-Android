@@ -509,9 +509,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                 .setCalendarConsumer(calendar -> {
                     inputChangedId = R.id.etTeamSetupTime;
                     calendarTeamSetupTime = calendar;
-                    if (calendarStartTime == null) {
-                        calendarStartTime = DateTimeUtils.getCalendarNoTime(calendarTeamSetupTime.getTimeInMillis());
-                    }
+                    calendarStartTime = DateTimeUtils.getCalendarNoTime(calendar.getTimeInMillis());
                     formatDateTime();
                 }).show(getFragmentManager(), null);
     }
