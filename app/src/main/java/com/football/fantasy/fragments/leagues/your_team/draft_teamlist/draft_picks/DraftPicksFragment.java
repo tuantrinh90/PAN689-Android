@@ -3,6 +3,7 @@ package com.football.fantasy.fragments.leagues.your_team.draft_teamlist.draft_pi
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import com.football.common.fragments.BaseMvpFragment;
@@ -80,6 +81,6 @@ public class DraftPicksFragment extends BaseMvpFragment<IDraftPicksView, IDraftP
 
     @Override
     public void displayPickHistories(List<PickHistoryResponse> pickHistories) {
-
+        Log.d(TAG, "displayPickHistories: " + pickHistories.size());
     }
 }

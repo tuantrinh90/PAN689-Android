@@ -13,7 +13,7 @@
         android:layout_marginTop="@dimen/padding_layout">
 
         <LinearLayout
-            android:id="@+id/llTransfer"
+            android:id="@+id/llTeam"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -23,6 +23,7 @@
             android:padding="@dimen/padding_layout">
 
             <com.bon.customview.textview.ExtTextView
+                android:id="@+id/text_team"
                 style="@style/StyleContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -39,7 +40,7 @@
             android:layout_height="0dp" />
 
         <LinearLayout
-            android:id="@+id/llDraft"
+            android:id="@+id/llPicks"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/padding_small"
@@ -51,6 +52,7 @@
             android:padding="@dimen/padding_layout">
 
             <com.bon.customview.textview.ExtTextView
+                android:id="@+id/text_picks"
                 style="@style/StyleContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
