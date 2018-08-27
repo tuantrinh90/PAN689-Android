@@ -156,6 +156,9 @@ dependencies {
         transitive = true
     }
 
+    // socket
+    implementation "com.github.nkzawa:socket.io-client:${rootProject.ext.socketIO}"
+
     // crashlytics
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.3@aar') {
         transitive = true

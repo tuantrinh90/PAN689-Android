@@ -48,6 +48,7 @@ ext {
     easyLoginVer = 'v0.6'
     facebookVer = '4.24.0'
     twitterVer = '3.3.0@aar'
+    socketIO = '0.3.0'
 
     // notifcation
     firebaseMessagingVer = '17.1.0'

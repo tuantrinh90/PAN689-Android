@@ -5,6 +5,7 @@ package com.football.utilities;
  */
 
 public interface ServiceConfig {
+    String SOCKET_BASE_URL = "http://192.168.1.150/";
     String HOST = "http://192.168.1.150/";
 //    String HOST = "http://52.77.241.109/";
 

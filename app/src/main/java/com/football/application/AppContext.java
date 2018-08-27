@@ -11,6 +11,11 @@ import com.football.di.DaggerAppComponent;
 import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
 import com.football.utilities.FragmentUtils;
+import com.football.utilities.ServiceConfig;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+
+import java.net.URISyntaxException;
 
 import java8.util.function.Consumer;
 
@@ -22,8 +27,15 @@ public class AppContext extends ExtApplication {
     private static final String TAG = AppContext.class.getSimpleName();
 
     private AppComponent component;
+    private Socket mSocket;
 
-    private int myId;
+    {
+        try {
+            mSocket = IO.socket(ServiceConfig.SOCKET_BASE_URL);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public void onCreate() {
@@ -98,11 +110,8 @@ public class AppContext extends ExtApplication {
         return component;
     }
 
-    public int getMyId() {
-        return myId;
+    public Socket getSocket() {
+        return mSocket;
     }
 
-    public void setMyId(int myId) {
-        this.myId = myId;
-    }
 }
