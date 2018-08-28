@@ -10,7 +10,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/padding_layout"
         android:layout_marginRight="@dimen/padding_layout"
-        android:layout_marginTop="@dimen/padding_layout">
+        android:layout_marginTop="@dimen/padding_layout"
+        android:paddingLeft="@dimen/padding_layout"
+        android:paddingRight="@dimen/padding_layout">
 
         <LinearLayout
             android:id="@+id/llTeam"

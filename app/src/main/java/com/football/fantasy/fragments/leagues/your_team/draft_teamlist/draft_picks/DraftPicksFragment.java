@@ -3,20 +3,26 @@ package com.football.fantasy.fragments.leagues.your_team.draft_teamlist.draft_pi
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 
+import com.football.adapters.PickHistoryAdapter;
 import com.football.common.fragments.BaseMvpFragment;
+import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PickHistoryResponse;
 
 import java.util.List;
 
+import butterknife.BindView;
+
 public class DraftPicksFragment extends BaseMvpFragment<IDraftPicksView, IDraftPicksPresenter<IDraftPicksView>> implements IDraftPicksView {
     private static final String TAG = DraftPicksFragment.class.getSimpleName();
 
     static final String KEY_LEAGUE = "LEAGUE";
+
+    @BindView(R.id.rv_picks)
+    ExtRecyclerView<PickHistoryResponse> rvPicks;
 
     private LeagueResponse league;
 
@@ -53,6 +59,11 @@ public class DraftPicksFragment extends BaseMvpFragment<IDraftPicksView, IDraftP
     }
 
     void initView() {
+        PickHistoryAdapter adapter = new PickHistoryAdapter(getContext());
+        rvPicks.adapter(adapter)
+                .refreshListener(this::refresh)
+                .loadMoreListener(this::loadMore)
+                .build();
     }
 
     private void getPickHistories() {
@@ -61,6 +72,14 @@ public class DraftPicksFragment extends BaseMvpFragment<IDraftPicksView, IDraftP
 
     private void refresh() {
         page = 1;
+        rvPicks.clear();
+        rvPicks.startLoading();
+        getPickHistories();
+    }
+
+    private void loadMore() {
+        page++;
+        getPickHistories();
     }
 
     @NonNull
@@ -72,15 +91,8 @@ public class DraftPicksFragment extends BaseMvpFragment<IDraftPicksView, IDraftP
     private void registerBus() {
     }
 
-
-    @Override
-    public void showLoadingPagingListView(boolean isLoading) {
-        if (!isLoading) {
-        }
-    }
-
     @Override
     public void displayPickHistories(List<PickHistoryResponse> pickHistories) {
-        Log.d(TAG, "displayPickHistories: " + pickHistories.size());
+        rvPicks.addItems(pickHistories);
     }
 }

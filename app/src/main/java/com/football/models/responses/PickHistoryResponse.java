@@ -14,7 +14,7 @@ public class PickHistoryResponse implements Serializable {
     @JsonProperty("team_id")
     private Integer teamId;
     @JsonProperty("team")
-    private TeamRoundResponse team;
+    private TeamResponse team;
     @JsonProperty("player_id")
     private Integer playerId;
     @JsonProperty("player")
@@ -40,7 +40,7 @@ public class PickHistoryResponse implements Serializable {
         return teamId;
     }
 
-    public TeamRoundResponse getTeam() {
+    public TeamResponse getTeam() {
         return team;
     }
 
