@@ -5,7 +5,7 @@ package com.football.utilities;
  */
 
 public interface ServiceConfig {
-    String SOCKET_BASE_URL = "http://192.168.1.150/";
+    String SOCKET_URL = "http://192.168.1.150:3333";
     String HOST = "http://192.168.1.150/";
 //    String HOST = "http://52.77.241.109/";
 
@@ -105,7 +105,7 @@ public interface ServiceConfig {
     // trade request
     String TRADE_REQUESTS = "trade_requests";
     String TRADE_REVIEW = "trade_requests/get_results";
-    String TRADE_DECISION  = "trade_requests/{id}/decision";
+    String TRADE_DECISION = "trade_requests/{id}/decision";
 
     // user
     String GET_PROFILE = "profile";

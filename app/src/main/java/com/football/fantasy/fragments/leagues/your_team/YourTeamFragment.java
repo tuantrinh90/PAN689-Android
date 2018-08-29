@@ -13,9 +13,11 @@ import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
 import com.football.events.LineupEvent;
+import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.your_team.draft_teamlist.DraftTeamListFragment;
-import com.football.fantasy.fragments.leagues.your_team.line_up.LineUpFragment;
+import com.football.fantasy.fragments.leagues.your_team.line_up.draft.LineupDraftFragment;
+import com.football.fantasy.fragments.leagues.your_team.line_up.transfer.LineupTransferFragment;
 import com.football.fantasy.fragments.leagues.your_team.player_list.PlayerListFragment;
 import com.football.fantasy.fragments.leagues.your_team.team_list.TeamListFragment;
 import com.football.models.responses.LeagueResponse;
@@ -76,12 +78,12 @@ public class YourTeamFragment extends BaseMvpFragment<IYourTeamView, IYourTeamPr
                 });
 
         vpViewPager.setAdapter(new YourTeamViewPagerAdapter(getFragmentManager(), new ArrayList<BaseMvpFragment>() {{
-            add(LineUpFragment.newInstance(league,
-                    league.getTeam() == null ? 0 : league.getTeam().getId()
-            ).setChildFragment(true));
+            add(league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER) ? LineupTransferFragment.newInstance(league, league.getTeam() == null ? 0 : league.getTeam().getId()).setChildFragment(true)
+                    : LineupDraftFragment.newInstance(league, league.getTeam() == null ? 0 : league.getTeam().getId()).setChildFragment(true));
             add(PlayerListFragment.newInstance(league).setChildFragment(true));
-//            add(TeamListFragment.newInstance(league).setChildFragment(true));
-            add(DraftTeamListFragment.newInstance(league).setChildFragment(true));
+            add(league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER) || BuildConfig.DEBUG ? // todo: remove
+                    TeamListFragment.newInstance(league).setChildFragment(true) :
+                    DraftTeamListFragment.newInstance(league).setChildFragment(true));
         }}));
         vpViewPager.setOffscreenPageLimit(3);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

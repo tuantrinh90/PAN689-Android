@@ -9,16 +9,13 @@ import android.widget.ProgressBar;
 import android.widget.TableRow;
 
 import com.bon.customview.textview.ExtTextView;
-import com.bon.util.DateTimeUtils;
 import com.bon.util.DialogUtils;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.lineup.LineupView;
 import com.football.customizes.lineup.StatisticView;
-import com.football.events.LineupEvent;
 import com.football.events.PickEvent;
 import com.football.events.PlayerEvent;
-import com.football.events.TeamEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailForLineupFragment;
 import com.football.fantasy.fragments.leagues.your_team.players_popup.PlayerPopupFragment;
@@ -27,13 +24,11 @@ import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.StatisticResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.utilities.AppUtilities;
-import com.football.utilities.Constant;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
-import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 import java8.util.function.BiConsumer;
 
@@ -41,67 +36,67 @@ import static com.football.customizes.lineup.PlayerView.NONE_ORDER;
 import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_PICK;
 import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_PICKED;
 
-public class LineUpFragment extends BaseMvpFragment<ILineUpView, ILineUpPresenter<ILineUpView>> implements ILineUpView {
+public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPresenter<V>> extends BaseMvpFragment<V, P> implements ILineUpView {
 
-    static final String KEY_TEAM_ID = "TEAM_ID";
-    private static final String KEY_LEAGUE = "LEAGUE_ID";
+    protected static final String KEY_TEAM_ID = "TEAM_ID";
+    protected static final String KEY_LEAGUE = "LEAGUE_ID";
     private BiConsumer<Boolean, String> callback;
 
 
-    public static LineUpFragment newInstance(LeagueResponse league, Integer teamId) {
-        LineUpFragment fragment = new LineUpFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_LEAGUE, league);
-        bundle.putInt(KEY_TEAM_ID, teamId);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
+//    public static LineUpFragment newInstance(LeagueResponse league, Integer teamId) {
+//        LineUpFragment fragment = new LineUpFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable(KEY_LEAGUE, league);
+//        bundle.putInt(KEY_TEAM_ID, teamId);
+//        fragment.setArguments(bundle);
+//        return fragment;
+//    }
 
     @BindView(R.id.tvTimeLabel)
-    ExtTextView tvTimeLabel;
+    protected ExtTextView tvTimeLabel;
     @BindView(R.id.tvTime)
-    ExtTextView tvTime;
+    protected ExtTextView tvTime;
     @BindView(R.id.lineupView)
-    LineupView lineupView;
+    protected LineupView lineupView;
     @BindView(R.id.svGoalkeeper)
-    StatisticView svGoalkeeper;
+    protected StatisticView svGoalkeeper;
     @BindView(R.id.svDefender)
-    StatisticView svDefender;
+    protected StatisticView svDefender;
     @BindView(R.id.svMidfielder)
-    StatisticView svMidfielder;
+    protected StatisticView svMidfielder;
     @BindView(R.id.svAttacker)
-    StatisticView svAttacker;
+    protected StatisticView svAttacker;
     @BindView(R.id.tvBudget)
-    ExtTextView tvBudget;
+    protected ExtTextView tvBudget;
     @BindView(R.id.tvComplete)
-    ExtTextView tvComplete;
+    protected ExtTextView tvComplete;
 
     @BindView(R.id.transfer_header)
-    TableRow transferHeader;
+    protected TableRow transferHeader;
     @BindView(R.id.tvDraftCurrentTimeLeft)
-    ExtTextView tvDraftCurrentTimeLeft;
+    protected ExtTextView tvDraftCurrentTimeLeft;
     @BindView(R.id.tvDraftCurrentTeam)
-    ExtTextView tvDraftCurrentTeam;
+    protected ExtTextView tvDraftCurrentTeam;
     @BindView(R.id.tvDraftNextTeam)
-    ExtTextView tvDraftNextTeam;
+    protected ExtTextView tvDraftNextTeam;
     @BindView(R.id.header_item_1)
-    LinearLayout headerItem1;
+    protected LinearLayout headerItem1;
     @BindView(R.id.tvDraftYourTeam)
-    ExtTextView tvDraftYourTeam;
+    protected ExtTextView tvDraftYourTeam;
     @BindView(R.id.tvDraftYourTurnTimeLeft)
-    ExtTextView tvDraftYourTurnTimeLeft;
+    protected ExtTextView tvDraftYourTurnTimeLeft;
     @BindView(R.id.tvDraftEndTurn)
-    ExtTextView tvDraftEndTurn;
+    protected ExtTextView tvDraftEndTurn;
     @BindView(R.id.progress_draft)
-    ProgressBar progressDraft;
+    protected ProgressBar progressDraft;
     @BindView(R.id.draft_header)
-    LinearLayout draftHeader;
+    protected LinearLayout draftHeader;
     @BindView(R.id.transfer_bottom)
-    LinearLayout transferBottom;
+    protected LinearLayout transferBottom;
 
 
-    private LeagueResponse league;
-    private int teamId;
+    protected LeagueResponse league;
+    protected int teamId;
 
     @Override
     public int getResourceId() {
@@ -110,10 +105,11 @@ public class LineUpFragment extends BaseMvpFragment<ILineUpView, ILineUpPresente
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
-        getDataFromBundle();
         initView();
+        setupLineupView();
         registerEvent();
 
         presenter.getLineup(teamId);
@@ -128,46 +124,16 @@ public class LineUpFragment extends BaseMvpFragment<ILineUpView, ILineUpPresente
         }
     }
 
-    void initView() {
-
+    protected void initView() {
         if (league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER)) {
             transferHeader.setVisibility(View.VISIBLE);
             transferBottom.setVisibility(View.VISIBLE);
             draftHeader.setVisibility(View.GONE);
-            setupTransferMode();
         } else {
             transferHeader.setVisibility(View.GONE);
             transferBottom.setVisibility(View.GONE);
             draftHeader.setVisibility(View.VISIBLE);
-            setupDraftMode();
         }
-
-        setupLineupView();
-    }
-
-    private void setupTransferMode() {
-        boolean isSetupTime = AppUtilities.isSetupTime(league.getTeamSetup());
-        if (isSetupTime) {
-            lineupView.setEditable(true);
-            lineupView.setAddable(true);
-            lineupView.setRemovable(true);
-            tvTimeLabel.setText(R.string.team_setup_time);
-            tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
-            enableCompleteButton(false);
-
-        } else {
-            lineupView.setEditable(false);
-            lineupView.setAddable(true);
-            lineupView.setRemovable(false);
-            tvTimeLabel.setText(R.string.start_time);
-            tvTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
-
-            // hide complete button
-            tvComplete.setVisibility(View.GONE);
-        }
-    }
-
-    private void setupDraftMode() {
 
     }
 
@@ -207,11 +173,9 @@ public class LineUpFragment extends BaseMvpFragment<ILineUpView, ILineUpPresente
         });
     }
 
-    private void enableCompleteButton(boolean enable) {
-        // disable button complete
-        boolean realEnable = AppUtilities.isSetupTime(league.getTeamSetup()) && enable;
-        tvComplete.setEnabled(realEnable);
-        tvComplete.setBackgroundResource(realEnable ? R.drawable.bg_button_yellow : R.drawable.bg_button_gray);
+
+    private void setupDraftMode() {
+
     }
 
     void registerEvent() {
@@ -248,26 +212,9 @@ public class LineUpFragment extends BaseMvpFragment<ILineUpView, ILineUpPresente
         }
     }
 
-    @Override
-    public ILineUpPresenter<ILineUpView> createPresenter() {
-        return new LineUpPresenter(getAppComponent());
-    }
-
-    @OnClick(R.id.tvComplete)
-    public void onCompleteClicked() {
-        showMessage(R.string.message_confirm_complete, R.string.yes, R.string.no,
-                aVoid -> presenter.completeLineup(teamId), null);
-    }
-
     @OnCheckedChanged({R.id.switch_display})
     public void onCheckedChanged(CompoundButton button, boolean checked) {
         lineupView.displayByName(!checked);
-    }
-
-    @Override
-    public void displayTeamState(TeamResponse team) {
-        // display budget
-        tvBudget.setText(getString(R.string.money_prefix, team.getCurrentBudgetValue()));
     }
 
     @Override
@@ -276,7 +223,7 @@ public class LineUpFragment extends BaseMvpFragment<ILineUpView, ILineUpPresente
         for (PlayerResponse player : players) {
             lineupView.addPlayer(player, player.getMainPosition(), player.getOrder() == null ? NONE_ORDER : player.getOrder());
         }
-        enableCompleteButton(league.getTeam() != null && !league.getTeam().getCompleted() && lineupView.isSetupComplete());
+//        enableCompleteButton(league.getTeam() != null && !league.getTeam().getCompleted() && lineupView.isSetupComplete());
     }
 
     @Override
@@ -289,19 +236,13 @@ public class LineUpFragment extends BaseMvpFragment<ILineUpView, ILineUpPresente
 
     @Override
     public void onAddPlayer(TeamResponse team, PlayerResponse player, int order) {
-        bus.send(new PickEvent(PickEvent.ACTION_PICK, player.getId()));
-
         lineupView.addPlayer(player, player.getMainPosition(), order);
-
-        if (lineupView.isSetupComplete()) {
-            enableCompleteButton(true);
-        }
+        bus.send(new PickEvent(PickEvent.ACTION_PICK, player.getId()));
     }
 
     @Override
     public void onRemovePlayer(TeamResponse team, PlayerResponse player) {
         lineupView.removePlayer(player, player.getMainPosition());
-        enableCompleteButton(false);
         bus.send(new PickEvent(PickEvent.ACTION_REMOVE, player.getId()));
     }
 
@@ -331,15 +272,4 @@ public class LineUpFragment extends BaseMvpFragment<ILineUpView, ILineUpPresente
         }
     }
 
-    @Override
-    public void onCompleteLineup() {
-        enableCompleteButton(false);
-
-        bus.send(new TeamEvent(null));
-
-        // open viewpager page TeamFragment
-        bus.send(new LineupEvent());
-
-//        mActivity.finish();
-    }
 }

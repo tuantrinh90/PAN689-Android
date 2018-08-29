@@ -112,7 +112,7 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
                             getString(R.string.league_information)))
                     .start(SetupTeamFragment.class);
         } else {
-            if (league.getStatus().equals(LeagueResponse.WAITING_FOR_START) || BuildConfig.DEBUG) { // todo: sửa lại ở đây
+            if (league.getStatus().equals(LeagueResponse.WAITING_FOR_START)) {
                 AloneFragmentActivity.with(this)
                         .parameters(YourTeamFragment.newBundle(league))
                         .start(YourTeamFragment.class);

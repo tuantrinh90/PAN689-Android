@@ -171,6 +171,8 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
         add(new ExtKeyValuePair("30", "30"));
         add(new ExtKeyValuePair("45", "45"));
         add(new ExtKeyValuePair("60", "60"));
+        add(new ExtKeyValuePair("90", "90"));
+        add(new ExtKeyValuePair("120", "120"));
     }};
 
     private int leagueId;

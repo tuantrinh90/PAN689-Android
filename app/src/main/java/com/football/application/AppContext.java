@@ -2,6 +2,7 @@ package com.football.application;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.bon.application.ExtApplication;
 import com.bon.logger.Logger;
@@ -31,9 +32,8 @@ public class AppContext extends ExtApplication {
 
     {
         try {
-            mSocket = IO.socket(ServiceConfig.SOCKET_BASE_URL);
+            mSocket = IO.socket(ServiceConfig.SOCKET_URL);
         } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -112,6 +112,46 @@ public class AppContext extends ExtApplication {
 
     public Socket getSocket() {
         return mSocket;
+    }
+
+    public void connectSocket(String token) {
+        try {
+            IO.Options options = new IO.Options();
+            options.query = "token=" + token;
+
+            mSocket = IO.socket(ServiceConfig.SOCKET_URL, options);
+            mSocket.on(Socket.EVENT_CONNECT, args -> {
+                Log.e("args", "EVENT_CONNECT::args:: " + argsToString(args));
+
+            }).on(Socket.EVENT_CONNECT_ERROR, args -> {
+                Log.e("args", "EVENT_CONNECT_ERROR::args:: " + argsToString(args));
+                //dd
+            }).on(Socket.EVENT_CONNECT_TIMEOUT, args -> {
+                Log.e("args", "EVENT_CONNECT_TIMEOUT::args:: " + argsToString(args));
+                //đ
+            }).on(Socket.EVENT_ERROR, args -> {
+                Log.e("args", "EVENT_ERROR::args:: " + argsToString(args));
+            });
+            mSocket.connect();
+        } catch (URISyntaxException e) {
+            Log.e(TAG, "connectSocket: ", e);
+        }
+    }
+
+    private String argsToString(Object... args) {
+        StringBuilder s = new StringBuilder();
+        if (args.length > 0) {
+            for (Object arg : args) {
+                s.append(arg);
+            }
+        }
+        return s.toString();
+    }
+
+    public void disconnect() {
+        if (mSocket != null) {
+            mSocket.disconnect();
+        }
     }
 
 }

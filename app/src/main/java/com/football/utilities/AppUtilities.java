@@ -101,7 +101,7 @@ public class AppUtilities {
     }
 
     public static boolean isSetupTime(String setupTime) {
-        return System.currentTimeMillis() < AppUtilities.getTimestamp(setupTime);
+        return !TextUtils.isEmpty(setupTime) && System.currentTimeMillis() < AppUtilities.getTimestamp(setupTime);
     }
 
     public static boolean isStartLeagueEnable(LeagueResponse league) {

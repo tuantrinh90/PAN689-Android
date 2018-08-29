@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface ILineUpView extends IBaseMvpView {
 
-    void displayTeamState(TeamResponse team);
 
     void displayLineupPlayers(List<PlayerResponse> players);
 
@@ -23,6 +22,5 @@ public interface ILineUpView extends IBaseMvpView {
 
     void updateStatistic(int position, int value);
 
-    void onCompleteLineup();
 
 }
