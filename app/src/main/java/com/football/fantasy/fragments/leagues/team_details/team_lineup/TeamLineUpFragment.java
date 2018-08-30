@@ -24,6 +24,7 @@ import com.football.utilities.AppUtilities;
 import com.google.android.flexbox.AlignContent;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -138,13 +139,22 @@ public class TeamLineUpFragment extends BaseMvpFragment<ITeamLineUpView, ITeamLi
                         .filter(predicate -> {
                             Integer mainPos = predicate.getMainPosition();
                             Integer minorPos = predicate.getMinorPosition();
-                            return (mainPos != null && mainPos.equals(position)) || (minorPos != null && minorPos.equals(position));
+                            return mainPos.equals(position) || minorPos.equals(position);
                         })
                         .collect(Collectors.toList());
         new SelectDialog()
                 .setPlayers(players)
                 .setClickCallback(player -> {
-                    presenter.addPlayerToPitchView(team.getId(), team.getRound(), fromPlayer, player, position, order);
+                    // currentTime > deadline
+                    Calendar currentTime = Calendar.getInstance();
+                    Calendar deadline = team.getCurrentRound().getTransferDeadlineCalendar();
+                    if (currentTime.after(deadline)) {
+                        presenter.addPlayerToPitchView(team.getId(), team.getRound(), fromPlayer, player, position, order);
+                    } else {
+                        showMessage(R.string.message_can_not_change_position_after_real_match_start, R.string.ok, null);
+                    }
+
+                    // else show message
                 })
                 .show(getChildFragmentManager(), null);
     }

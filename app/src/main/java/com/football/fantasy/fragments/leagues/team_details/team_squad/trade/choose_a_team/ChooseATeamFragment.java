@@ -134,6 +134,9 @@ public class ChooseATeamFragment extends BaseMvpFragment<IChooseATeamView, IChoo
     @Override
     public void displayTeams(List<TeamResponse> teams) {
         // filter other team
-        rvTeam.addItems(StreamSupport.stream(teams).filter(team -> team.getId() != myTeamId).collect(Collectors.toList()));
+        List<TeamResponse> teamList = StreamSupport.stream(teams)
+                .filter(team -> team.getId() != myTeamId)
+                .collect(Collectors.toList());
+        rvTeam.addItems(teamList);
     }
 }

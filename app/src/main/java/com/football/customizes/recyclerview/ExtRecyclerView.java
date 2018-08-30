@@ -69,7 +69,9 @@ public class ExtRecyclerView<T> extends FrameLayout {
             // refresh layout
             rfLayout = view.findViewById(R.id.rf_layout);
             rfLayout.setOnRefreshListener(() -> {
-                endlessScrollListener.resetState();
+                if (endlessScrollListener != null) {
+                    endlessScrollListener.resetState();
+                }
                 tvMessage.setVisibility(GONE);
                 Optional.from(onExtRefreshListener).doIfPresent(ExtRefreshListener::onRefresh);
             });

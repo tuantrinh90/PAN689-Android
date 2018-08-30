@@ -32,6 +32,7 @@ import com.football.customizes.images.CircleImageViewApp;
 import com.football.customizes.labels.LabelView;
 import com.football.customizes.recyclerview.deco.GridSpacingItemDecoration;
 import com.football.events.LeagueEvent;
+import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
 import com.football.models.requests.LeagueRequest;
@@ -415,7 +416,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
 
     @OnClick(R.id.llDraft)
     void onClickDraft() {
-//        if (true) return; // open late
+        if (!BuildConfig.DEBUG) return; // open late
         if (league == null) {
             toggleTransfer(false);
         }

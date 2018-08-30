@@ -104,13 +104,8 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
                         return;
                     }
 
-                    long deviceId = 0;
-                    try {
-                        deviceId = Settings.Secure.getLong(getContext().getContentResolver(),
-                                Settings.Secure.ANDROID_ID);
-                    } catch (Settings.SettingNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                    String deviceId = Settings.Secure.getString(getContext().getContentResolver(),
+                            Settings.Secure.ANDROID_ID);
 
                     // Get new Instance ID token
                     String token = task.getResult().getToken();

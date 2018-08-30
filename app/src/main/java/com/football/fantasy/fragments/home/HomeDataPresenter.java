@@ -30,7 +30,7 @@ public class HomeDataPresenter extends BaseDataPresenter<IHomeView> implements I
                     .setType(MultipartBody.FORM)
                     .addFormDataPart("device_id", deviceId)
                     .addFormDataPart("token", token)
-                    .addFormDataPart("type", "Android")
+                    .addFormDataPart("type", "1")
                     .build();
 
             mCompositeDisposable.add(RxUtilities.async(v,

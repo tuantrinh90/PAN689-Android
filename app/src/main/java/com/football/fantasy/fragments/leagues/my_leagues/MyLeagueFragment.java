@@ -85,16 +85,7 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
                     .subscribeWith(new DisposableObserver<StopLeagueEvent>() {
                         @Override
                         public void onNext(StopLeagueEvent stopLeagueEvent) {
-                            try {
-                                List<LeagueResponse> leagues = mAdapter.getDataSet();
-                                if (leagues != null && leagues.size() > 0) {
-                                    leagues = StreamSupport.stream(leagues).filter(n -> n.getId() != stopLeagueEvent.getLeagueId()).collect(Collectors.toList());
-                                    rvLeague.clear();
-                                    rvLeague.addItems(leagues);
-                                }
-                            } catch (Exception e) {
-                                Logger.e(TAG, e);
-                            }
+                            reloadLeague(stopLeagueEvent.getLeagueId());
                         }
 
                         @Override
@@ -107,6 +98,20 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
 
                         }
                     }));
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        }
+    }
+
+    private void reloadLeague(int leagueId) {
+        try {
+            List<LeagueResponse> leagues = mAdapter.getDataSet();
+            if (leagues != null && leagues.size() > 0) {
+                leagues = StreamSupport.stream(leagues).filter(n -> n != null && n.getId() != leagueId).collect(Collectors.toList());
+                rvLeague.clear();
+                rvLeague.addItems(leagues);
+                rvLeague.removeLoading();
+            }
         } catch (Exception e) {
             Logger.e(TAG, e);
         }

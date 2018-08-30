@@ -81,7 +81,8 @@ public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccesso
                     .refreshListener(() -> {
                         rvRecyclerView.clear();
                         getTeams();
-                    });
+                    })
+                    .build();
 
             // load data
             getTeams();
@@ -94,6 +95,7 @@ public class SuccessorFragment extends BaseMvpFragment<ISuccessorView, ISuccesso
         presenter.getTeams(league.getId(), league.getOwner() ? league.getTeam().getId() : -1);
     }
 
+    @NonNull
     @Override
     public ISuccessorPresenter<ISuccessorView> createPresenter() {
         return new SuccessorPresenter(getAppComponent());
