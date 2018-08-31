@@ -290,7 +290,7 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
 
     private void transferPlayer(PlayerResponse player) {
         // append PlayerPool
-        if (canTransfer) {
+        if (tvTransferringTimeLeftValue.isRunning()) {
             PlayerPoolFragment.start(this, getString(R.string.transferring_player), getString(R.string.player_pool), player, league.getId(), -1);
         } else {
             DialogUtils.messageBox(mActivity,

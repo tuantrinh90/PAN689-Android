@@ -60,4 +60,7 @@ public class ExtTextViewCountdown extends ExtTextView {
         starting = false;
     }
 
+    public boolean isRunning() {
+        return time > 0;
+    }
 }
