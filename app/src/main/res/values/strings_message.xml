@@ -49,7 +49,7 @@
     <string name="post_not_found">Post is not found</string>
     <string name="maximum_5_leagues">You can only join maximum 5 leagues at a time</string>
     <string name="current_budget_is_not_enough">Budget is not enough</string>
-    <string name="this_league_is_already_full_of_entrants">this_league_is_already_full_of_entrants</string>
+    <string name="this_league_is_already_full_of_entrants">This league is already full of entrants</string>
     <string name="the_name_has_already_been_taken">Another team with same name is existing</string>
     <string name="message_max_team_name">The Team name must be less than 40 characters</string>
     <string name="message_exist_league">message_exist_league</string>
@@ -64,5 +64,6 @@
     <string name="password_current_failure">Current password failure</string>
     <string name="max_number_user">You have reached maximum number of leagues</string>
     <string name="not_found_team_round">All rounds come to an end</string>
+    <string name="can_not_transfer_player_util_this_round_ends">You can\'t transfer more. Transferring player left is 0</string>
 
 </resources>

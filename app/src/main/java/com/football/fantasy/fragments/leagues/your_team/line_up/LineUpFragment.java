@@ -206,6 +206,9 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
 
     private void insertToLineUpView(PlayerResponse player, int position, int order) {
         if (!lineupView.isFullPosition(position)) {
+            if (order == NONE_ORDER) {
+                order = lineupView.getOrder(position);
+            }
             presenter.addPlayer(player, teamId, position, order);
         } else {
             callback.accept(false, getString(R.string.message_full_position));

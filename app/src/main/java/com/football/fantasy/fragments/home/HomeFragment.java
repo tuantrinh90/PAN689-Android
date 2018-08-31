@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -98,18 +97,13 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     void registerNotification() {
         // Get token
         FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(task -> {
-                    if (!task.isSuccessful()) {
-                        Log.w(TAG, "getInstanceId failed", task.getException());
-                        return;
-                    }
-
+                .addOnSuccessListener(getActivity(), result -> {
                     String deviceId = Settings.Secure.getString(getContext().getContentResolver(),
                             Settings.Secure.ANDROID_ID);
 
                     // Get new Instance ID token
-                    String token = task.getResult().getToken();
-                    presenter.updateDeviceOfUser(String.valueOf(deviceId), token);
+                    String token = result.getToken();
+                    presenter.updateDeviceOfUser(deviceId, token);
                 });
     }
 

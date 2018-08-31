@@ -189,6 +189,21 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         return -1;
     }
 
+    public int getOrder(int line) {
+        line = 3 - line;
+        int index = 0;
+        for (int i = 0; i < line; i++) {
+            index += formation[i];
+        }
+        for (int i = 1; i <= formation[line]; i++) {
+            if (players[index] == null) {
+                return i;
+            }
+            index++;
+        }
+        return -1;
+    }
+
     public void setPlayer(PlayerResponse player, int position) {
         this.players[position] = player;
         PlayerView view = (PlayerView) getChildAt(position);
