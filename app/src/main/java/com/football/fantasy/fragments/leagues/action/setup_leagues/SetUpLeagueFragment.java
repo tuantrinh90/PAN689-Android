@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -479,10 +480,12 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                 .setCalendarConsumer(calendar -> {
                     calendarDraftTime.setTime(calendar.getTime());
 
-                    // set default for start time
-                    int draftEstimate = AppUtilities.getDraftEstimate(Integer.valueOf(etNumberOfUser.getContent()), Integer.valueOf(etTimePerDraftPick.getContent()));
-                    calendarStartTime = calendar;
-                    calendarStartTime.add(Calendar.MINUTE, draftEstimate);
+                    if (TextUtils.isEmpty(etStartTime.getContent())) {
+                        // set default for start time
+                        int draftEstimate = AppUtilities.getDraftEstimate(Integer.valueOf(etNumberOfUser.getContent()), Integer.valueOf(etTimePerDraftPick.getContent()));
+                        calendarStartTime = calendar;
+                        calendarStartTime.add(Calendar.MINUTE, draftEstimate);
+                    }
 
                     formatDateTime();
                 }).show(getFragmentManager(), null);

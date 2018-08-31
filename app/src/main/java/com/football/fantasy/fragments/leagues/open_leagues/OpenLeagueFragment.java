@@ -81,10 +81,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
                 @Override
                 public void onNext(LeagueEvent leagueEvent) {
                     try {
-                        page = 1;
-                        rvLeague.clear();
-                        rvLeague.startLoading();
-                        getOpenLeagues();
+                        refresh();
                     } catch (Exception e) {
                         Logger.e(TAG, e);
                     }
@@ -237,6 +234,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
     @Override
     public void displayLeagues(List<LeagueResponse> its) {
         rvLeague.addItems(its);
+        rvLeague.stopLoading();
     }
 
     @Override
