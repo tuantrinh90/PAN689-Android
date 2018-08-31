@@ -125,7 +125,8 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
                     PlayerDetailFragment.start(this,
                             player,
                             team.getId(),
-                            getString(R.string.team_squad));
+                            getString(R.string.team_squad),
+                            league.getGameplayOption());
                 });
         rvPlayer
                 .adapter(teamSquadAdapter)

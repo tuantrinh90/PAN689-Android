@@ -230,7 +230,8 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
                     PlayerDetailFragment.start(this,
                             player,
                             -1,
-                            getString(R.string.transferring_player));
+                            getString(R.string.transferring_player),
+                            league.getGameplayOption());
                 });
         // remove click
         adapter.setOptionDeleteCallback(this::transferPlayer);

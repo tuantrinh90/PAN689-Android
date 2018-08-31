@@ -33,12 +33,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
+
 public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPlayerDetailPresenter<IPlayerDetailView>> implements IPlayerDetailView {
 
     private static final String KEY_PLAYER = "PLAYER";
     private static final String KEY_TEAM_ID = "TEAM_ID";
     private static final String KEY_TITLE = "TITLE";
     private static final String KEY_PICK_ENABLE = "PICK_PICKED";
+    private static final String KEY_GAMEPLAY_OPTION = "GAMEPLAY_OPTION";
 
     private static final String KEY_TOTAL = "TOTAL";
     private static final String KEY_LAST = "LAST";
@@ -109,49 +112,32 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
     @BindView(R.id.rvStatistics)
     ExtPagingListView rvStatistics;
 
+    @BindView(R.id.budget)
+    View budget;
+
     private String title;
     protected PlayerResponse player;
     protected int pickEnable = PICK_NONE;
     protected int teamId;
+    private String gameplayOption;
 
     List<ExtKeyValuePair> valuePairs = new ArrayList<>();
     private ExtKeyValuePair keyValuePairKey = DEFAULT_KEY;
 
     // only for view PlayerDetail
-    public static void start(Fragment fragment, PlayerResponse player, int teamId, String title) {
+    public static void start(Fragment fragment, PlayerResponse player, int teamId, String title, String gameplayOption) {
         AloneFragmentActivity.with(fragment)
-                .parameters(newBundle(player, teamId, title, PICK_NONE))
+                .parameters(newBundle(player, teamId, title, PICK_NONE, gameplayOption))
                 .start(PlayerDetailFragment.class);
     }
 
-//    // only for view PlayerDetail & pick
-//    public static void start(Fragment fragment, PlayerResponse player, String title, int pick) {
-//        AloneFragmentActivity.with(fragment)
-//                .parameters(newBundle(player, title, pick))
-//                .start(PlayerDetailFragment.class);
-//    }
-//
-//    // only for view PlayerDetail & teamId
-//    public static void start(Fragment fragment, int teamId, PlayerResponse player, String title) {
-//        AloneFragmentActivity.with(fragment)
-//                .parameters(newBundle(teamId, player, title))
-//                .start(PlayerDetailFragment.class);
-//    }
-//
-//    private static Bundle newBundle(int teamId, PlayerResponse player, String title) {
-//        Bundle bundle = new Bundle();
-//        bundle.putString(KEY_TITLE, title);
-//        bundle.putSerializable(KEY_PLAYER, player);
-//        bundle.putInt(KEY_TEAM_ID, teamId);
-//        return bundle;
-//    }
-
-    protected static Bundle newBundle(PlayerResponse player, int teamId, String title, int pick) {
+    protected static Bundle newBundle(PlayerResponse player, int teamId, String title, int pick, String gameplayOption) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_PLAYER, player);
         bundle.putInt(KEY_TEAM_ID, teamId);
         bundle.putString(KEY_TITLE, title);
         bundle.putInt(KEY_PICK_ENABLE, pick);
+        bundle.putString(KEY_GAMEPLAY_OPTION, gameplayOption);
         return bundle;
     }
 
@@ -240,6 +226,7 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
         title = getArguments().getString(KEY_TITLE);
         teamId = getArguments().getInt(KEY_TEAM_ID);
         pickEnable = getArguments().getInt(KEY_PICK_ENABLE, PICK_NONE);
+        gameplayOption = getArguments().getString(KEY_GAMEPLAY_OPTION, GAMEPLAY_OPTION_TRANSFER);
     }
 
     void initData() {
@@ -277,6 +264,9 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
                 viewPick.setBackgroundResource(R.drawable.bg_picked);
                 break;
         }
+
+        boolean isTransfer = gameplayOption.equals(GAMEPLAY_OPTION_TRANSFER);
+        budget.setVisibility(isTransfer ? View.VISIBLE : View.GONE);
     }
 
     @NonNull

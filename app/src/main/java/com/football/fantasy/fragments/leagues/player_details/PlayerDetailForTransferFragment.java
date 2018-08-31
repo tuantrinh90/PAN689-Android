@@ -17,8 +17,8 @@ public class PlayerDetailForTransferFragment extends PlayerDetailFragment {
 
     // only for transfer
     public static void start(Fragment fragment, PlayerResponse playerFrom, PlayerResponse playerTo, int teamId, String title,
-                             int pickEnable) {
-        Bundle bundle = newBundle(playerFrom, teamId, title, pickEnable);
+                             int pickEnable, String gameplayOption) {
+        Bundle bundle = newBundle(playerFrom, teamId, title, pickEnable, gameplayOption);
         bundle.putSerializable(KEY_PLAYER_TO, playerTo);
         AloneFragmentActivity.with(fragment)
                 .parameters(bundle)

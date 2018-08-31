@@ -26,6 +26,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
+
 public class ProposalTeamSquadFragment extends BaseMvpFragment<IProposalTeamSquadView, IProposalTeamSquadPresenter<IProposalTeamSquadView>> implements IProposalTeamSquadView {
 
     private static final String KEY_TEAM = "TEAM";
@@ -126,7 +128,8 @@ public class ProposalTeamSquadFragment extends BaseMvpFragment<IProposalTeamSqua
                             this,
                             player,
                             teamId,
-                            getString(R.string.team_squad));
+                            getString(R.string.team_squad),
+                            GAMEPLAY_OPTION_TRANSFER);
                 });
         adapter.setAddCallback(
                 player -> {

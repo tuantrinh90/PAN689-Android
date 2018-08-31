@@ -21,6 +21,7 @@ import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailForLineupFragment;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilterFragment;
+import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.utilities.Constant;
 
@@ -47,7 +48,7 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
 
     PlayerAdapter playerAdapter;
 
-    private int leagueId = 0;
+    private LeagueResponse league;
     private int page = 1;
     private String query = "";
     private Integer mainPosition = null;
@@ -60,11 +61,11 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
         return new PlayerPopupFragment();
     }
 
-    public static Bundle newBundle(int position, Integer order, int leagueId) {
+    public static Bundle newBundle(int position, Integer order, LeagueResponse league) {
         Bundle args = new Bundle();
         args.putInt(KEY_POSITION, position);
         args.putInt(KEY_ORDER, order);
-        args.putInt(KEY_LEAGUE_ID, leagueId);
+        args.putSerializable(KEY_LEAGUE_ID, league);
         return args;
     }
 
@@ -87,7 +88,7 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
         Bundle bundle = getArguments();
         if (bundle != null) {
             order = bundle.getInt(KEY_ORDER);
-            leagueId = bundle.getInt(KEY_LEAGUE_ID);
+            league = (LeagueResponse) bundle.getSerializable(KEY_LEAGUE_ID);
             mainPosition = bundle.getInt(KEY_POSITION);
         }
     }
@@ -204,6 +205,7 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
                                 player,
                                 -1,
                                 getString(R.string.player_list),
+                                league.getGameplayOption(),
                                 player.getSelected() ? PlayerDetailFragment.PICK_PICKED : PlayerDetailFragment.PICK_PICK,
                                 mainPosition,
                                 order);
@@ -240,7 +242,7 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
     }
 
     private void getPlayers() {
-        presenter.getPlayers(leagueId, valueDirection, page, query, mainPosition, filterClubs);
+        presenter.getPlayers(league.getId(), valueDirection, page, query, mainPosition, filterClubs);
     }
 
     @OnClick(R.id.sortValue)

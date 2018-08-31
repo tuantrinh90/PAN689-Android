@@ -57,6 +57,8 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
     ExtTextView tvPoints;
     @BindView(R.id.tvBudget)
     ExtTextView tvBudget;
+    @BindView(R.id.llBudget)
+    View budget;
     @BindView(R.id.tvDescription)
     ExtTextView tvDescription;
     @BindView(R.id.llTeamLineUp)
@@ -100,7 +102,9 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
     }
 
     private void initView() {
-        tvGamePlayOption.setText(getString(league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER) ? R.string.transfer : R.string.waving));
+        boolean isTransfer = league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER);
+        tvGamePlayOption.setText(getString(isTransfer ? R.string.transfer : R.string.waving));
+        budget.setVisibility(isTransfer ? View.VISIBLE : View.GONE);
     }
 
     private void getTeam() {

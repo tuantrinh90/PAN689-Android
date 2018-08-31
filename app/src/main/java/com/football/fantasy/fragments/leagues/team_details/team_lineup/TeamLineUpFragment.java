@@ -32,6 +32,8 @@ import butterknife.OnClick;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 
+import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
+
 public class TeamLineUpFragment extends BaseMvpFragment<ITeamLineUpView, ITeamLineUpPresenter<ITeamLineUpView>> implements ITeamLineUpView {
 
     private static final String KEY_TITLE = "TITLE";
@@ -125,7 +127,8 @@ public class TeamLineUpFragment extends BaseMvpFragment<ITeamLineUpView, ITeamLi
                     PlayerDetailFragment.start(this,
                             player,
                             team.getId(),
-                            getString(R.string.player_list));
+                            getString(R.string.player_list),
+                            GAMEPLAY_OPTION_TRANSFER);
                 });
         rvPlayer
                 .adapter(adapter)

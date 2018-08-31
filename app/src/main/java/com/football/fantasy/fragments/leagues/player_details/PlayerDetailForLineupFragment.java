@@ -21,9 +21,9 @@ public class PlayerDetailForLineupFragment extends PlayerDetailFragment {
 
 
     // only for view lineup
-    public static void start(Fragment fragment, PlayerResponse player, int teamId, String title,
+    public static void start(Fragment fragment, PlayerResponse player, int teamId, String title, String gameplayOption,
                              int pickEnable, int mainPosition, int order) {
-        Bundle bundle = newBundle(player, teamId, title, pickEnable);
+        Bundle bundle = newBundle(player, teamId, title, pickEnable, gameplayOption);
         bundle.putInt(KEY_MAIN_POSITION, mainPosition);
         bundle.putInt(KEY_ORDER, order);
         AloneFragmentActivity.with(fragment)

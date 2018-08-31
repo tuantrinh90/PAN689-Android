@@ -163,11 +163,13 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/budget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:layout_marginStart="30dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <com.bon.customview.textview.ExtTextView
                     android:id="@+id/tvValue"

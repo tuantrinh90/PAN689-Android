@@ -144,7 +144,7 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
             boolean isSetupTime = AppUtilities.isSetupTime(league.getTeamSetup());
             if (isSetupTime) {
                 AloneFragmentActivity.with(this)
-                        .parameters(PlayerPopupFragment.newBundle(position, order, league.getId()))
+                        .parameters(PlayerPopupFragment.newBundle(position, order, league))
                         .start(PlayerPopupFragment.class);
             } else {
                 showMessage(getString(R.string.message_pick_after_team_setup_time));
@@ -156,6 +156,7 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
                     player,
                     -1,
                     getString(R.string.lineup),
+                    league.getGameplayOption(),
                     player.getSelected() ? PICK_PICKED : PICK_PICK,
                     position,
                     order);

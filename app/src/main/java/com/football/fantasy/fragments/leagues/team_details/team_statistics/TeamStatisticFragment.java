@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
+
 public class TeamStatisticFragment extends BaseMvpFragment<ITeamStatisticView, ITeamStatisticPresenter<ITeamStatisticView>> implements ITeamStatisticView {
 
     private static final String KEY_TITLE = "TITLE";
@@ -42,6 +44,8 @@ public class TeamStatisticFragment extends BaseMvpFragment<ITeamStatisticView, I
     ExtTextView tvPoints;
     @BindView(R.id.tvBudget)
     ExtTextView tvBudget;
+    @BindView(R.id.budget)
+    View budget;
     @BindView(R.id.lvData)
     ExtPagingListView lvData;
 
@@ -91,6 +95,8 @@ public class TeamStatisticFragment extends BaseMvpFragment<ITeamStatisticView, I
         Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.colorPrimary)));
         Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white)));
 
+        boolean isTransfer = league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER);
+        budget.setVisibility(isTransfer ? View.VISIBLE : View.GONE);
     }
 
     void initData() {

@@ -141,6 +141,7 @@ public class PlayerListFragment extends BaseMvpFragment<IPlayerListView, IPlayer
                                 player,
                                 -1,
                                 getString(R.string.lineup),
+                                league.getGameplayOption(),
                                 player.getSelected() ? PICK_PICKED : PICK_PICK,
                                 playerPosition == PlayerResponse.POSITION_NONE ? player.getMainPosition() : playerPosition,
                                 NONE_ORDER);
