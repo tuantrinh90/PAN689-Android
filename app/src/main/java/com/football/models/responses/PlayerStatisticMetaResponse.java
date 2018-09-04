@@ -6,81 +6,81 @@ import java.io.Serializable;
 
 public class PlayerStatisticMetaResponse implements Serializable {
     @JsonProperty("goals")
-    private Integer goals;
+    private float goals;
     @JsonProperty("assists")
-    private Integer assists;
+    private float assists;
     @JsonProperty("clean_sheet")
-    private Integer cleanSheet;
+    private float cleanSheet;
     @JsonProperty("duels_they_win")
-    private Integer duelsTheyWin;
+    private float duelsTheyWin;
     @JsonProperty("passes")
-    private Integer passes;
+    private float passes;
     @JsonProperty("shots")
-    private Integer shots;
+    private float shots;
     @JsonProperty("saves")
-    private Integer saves;
+    private float saves;
     @JsonProperty("yellow_cards")
-    private Integer yellowCards;
+    private float yellowCards;
     @JsonProperty("dribbles")
-    private Integer dribbles;
+    private float dribbles;
     @JsonProperty("turnovers")
-    private Integer turnovers;
+    private float turnovers;
     @JsonProperty("balls_recovered")
-    private Integer ballsRecovered;
+    private float ballsRecovered;
     @JsonProperty("fouls_committed")
-    private Integer foulsCommitted;
+    private float foulsCommitted;
     @JsonProperty("point")
-    private Integer point;
+    private float point;
 
     public Integer getGoals() {
-        return goals;
+        return Math.round(goals);
     }
 
     public Integer getAssists() {
-        return assists;
+        return Math.round(assists);
     }
 
     public Integer getCleanSheet() {
-        return cleanSheet;
+        return Math.round(cleanSheet);
     }
 
     public Integer getDuelsTheyWin() {
-        return duelsTheyWin;
+        return Math.round(duelsTheyWin);
     }
 
     public Integer getPasses() {
-        return passes;
+        return Math.round(passes);
     }
 
     public Integer getShots() {
-        return shots;
+        return Math.round(shots);
     }
 
     public Integer getSaves() {
-        return saves;
+        return Math.round(saves);
     }
 
     public Integer getYellowCards() {
-        return yellowCards;
+        return Math.round(yellowCards);
     }
 
     public Integer getDribbles() {
-        return dribbles;
+        return Math.round(dribbles);
     }
 
     public Integer getTurnovers() {
-        return turnovers;
+        return Math.round(turnovers);
     }
 
     public Integer getBallsRecovered() {
-        return ballsRecovered;
+        return Math.round(ballsRecovered);
     }
 
     public Integer getFoulsCommitted() {
-        return foulsCommitted;
+        return Math.round(foulsCommitted);
     }
 
     public Integer getPoint() {
-        return point;
+        return Math.round(point);
     }
 }
