@@ -13,7 +13,6 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.events.LeagueEvent;
 import com.football.events.StartLeagueEvent;
-import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
 import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
@@ -50,6 +49,8 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
     ExtTextView tvGamePlayOptions;
     @BindView(R.id.tvBudget)
     ExtTextView tvBudget;
+    @BindView(R.id.tvBudgetValue)
+    ExtTextView tvBudgetValue;
     @BindView(R.id.tvScoringSystem)
     ExtTextView tvScoringSystem;
     @BindView(R.id.tvDescription)
@@ -176,9 +177,15 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
             tvMaxNumberOfTeam.setText(String.valueOf(league.getNumberOfUser()));
             tvGamePlayOptions.setText(league.getGameplayOptionDisplay());
 
-            tvBudget.setText(getString(R.string.budget_value,
-                    (league.getBudgetOption() != null ? league.getBudgetOption().getName() : "") + "",
-                    (league.getBudgetOption() != null ? league.getBudgetOption().getValueDisplay() + "" : "")));
+            if (league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER)) {
+                tvBudgetValue.setText(getString(R.string.budget_value,
+                        (league.getBudgetOption() != null ? league.getBudgetOption().getName() : "") + "",
+                        (league.getBudgetOption() != null ? league.getBudgetOption().getValueDisplay() + "" : "")));
+                tvBudget.setText(R.string.budget);
+            } else {
+                tvBudget.setText(R.string.time_per_draft_pick);
+                tvBudgetValue.setText(DateTimeUtils.convertCalendarToString(league.getDraftTimeCalendar(), Constant.FORMAT_DATE_TIME));
+            }
             tvScoringSystem.setText(league.getScoringSystemDisplay());
             tvDescription.setText(league.getDescription());
 
