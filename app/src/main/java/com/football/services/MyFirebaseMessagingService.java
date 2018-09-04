@@ -40,11 +40,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             // Check if message contains a notification payload.
             if (remoteMessage.getNotification() != null) {
-                Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+                Log.d(TAG, "onMessageReceived#title: " + remoteMessage.getNotification().getTitle());
+                Log.d(TAG, "onMessageReceived#Body: " + remoteMessage.getNotification().getBody());
                 sendNotification(
                         TextUtils.isDigitsOnly(id) ? Integer.valueOf(id) : -1,
                         action,
                         TextUtils.isDigitsOnly(id) ? Integer.valueOf(leagueId) : -1,
+                        remoteMessage.getNotification().getTitle(),
                         remoteMessage.getNotification().getBody());
             }
 
@@ -55,7 +57,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
     // [END receive_message]
 
-    private void sendNotification(int id, String action, int leagueId, String messageBody) {
+    private void sendNotification(int id, String action, int leagueId, String title, String messageBody) {
         Intent intent = getIntentByAction(action, leagueId);
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -67,7 +69,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channelId)
                         .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle(action)
+                        .setContentTitle(title)
                         .setContentText(messageBody)
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)
