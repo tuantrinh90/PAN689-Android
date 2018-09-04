@@ -86,6 +86,7 @@ public class InviteFriendFragment extends BaseMvpFragment<IInviteFriendView, IIn
                 rvFriend.setVisibility(StringUtils.isEmpty(query) ? View.GONE : View.VISIBLE);
                 llInvite.setVisibility(StringUtils.isEmpty(query) ? View.VISIBLE : View.GONE);
                 rvFriend.clear();
+                rvFriend.startLoading();
                 page = 1;
                 getFriends(query.trim());
             });
@@ -156,12 +157,12 @@ public class InviteFriendFragment extends BaseMvpFragment<IInviteFriendView, IIn
 
     @Override
     public void showLoadingPagingListView(boolean isLoading) {
-        Optional.from(rvFriend).doIfPresent(rv -> {
-            if (isLoading) {
-                rv.startLoading();
-            } else {
-                rv.stopLoading();
-            }
-        });
+//        Optional.from(rvFriend).doIfPresent(rv -> {
+//            if (isLoading) {
+//                rv.startLoading();
+//            } else {
+//                rv.stopLoading();
+//            }
+//        });
     }
 }

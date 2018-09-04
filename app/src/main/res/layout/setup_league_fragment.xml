@@ -304,7 +304,7 @@
                 android:layout_marginTop="@dimen/padding_layout"
                 android:padding="@dimen/padding_layout"
                 app:labelViewInfo="false"
-                app:labelViewLabel="@string/draft_time"
+                app:labelViewLabel="@string/team_setup_time"
                 app:labelViewRequired="true" />
 
             <com.football.customizes.edittext_app.EditTextApp
