@@ -186,6 +186,7 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
         ExtKeyValuePairDialogFragment.newInstance()
                 .setValue(currentDirection.getKey())
                 .setExtKeyValuePairs(directions)
+                .title("Select type")
                 .setOnSelectedConsumer(extKeyValuePair -> {
                     if (extKeyValuePair != null && !TextUtils.isEmpty(extKeyValuePair.getKey())) {
                         currentDirection = extKeyValuePair;
