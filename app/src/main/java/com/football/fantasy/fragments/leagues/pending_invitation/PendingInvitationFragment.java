@@ -110,7 +110,7 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
                     LeaguesAdapter.PENDING_INVITATIONS,
                     league -> { // click event
                         AloneFragmentActivity.with(this)
-                                .parameters(LeagueDetailFragment.newBundle(
+                                .parameters(LeagueDetailFragment.newBundleForInvitation(
                                         getString(R.string.pending_invitation),
                                         league.getId(),
                                         LeagueDetailFragment.PENDING_LEAGUES,

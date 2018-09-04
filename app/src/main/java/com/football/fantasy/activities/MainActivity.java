@@ -22,6 +22,7 @@ import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragmen
 import com.football.fantasy.fragments.match_up.MatchUpFragment;
 import com.football.fantasy.fragments.more.MoreFragment;
 import com.football.fantasy.fragments.notification.NotificationFragment;
+import com.football.services.NotificationKey;
 
 import java.util.Map;
 
@@ -32,6 +33,9 @@ import io.reactivex.observers.DisposableObserver;
 import static com.football.utilities.ServiceConfig.DEEP_LINK;
 
 public class MainActivity extends BaseActivity {
+
+    public static final String KEY_ACTION = "ACTION";
+    public static final String KEY_LEAGUE_ID = "LEAGUE_ID";
 
     public static final int HOME = 0;
     public static final int LEAGUES = 1;
@@ -75,12 +79,15 @@ public class MainActivity extends BaseActivity {
         initFragmentDefault();
         initRxBus();
         getDeepLink(getIntent());
+        handleIntent(getIntent());
+
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         getDeepLink(intent);
+        handleIntent(intent);
     }
 
     private void getDeepLink(Intent intent) {
@@ -92,6 +99,31 @@ public class MainActivity extends BaseActivity {
                 AloneFragmentActivity.with(this)
                         .parameters(LeagueDetailFragment.newBundle(getString(R.string.my_leagues), Integer.parseInt(leagueId), LeagueDetailFragment.MY_LEAGUES))
                         .start(LeagueDetailFragment.class);
+            }
+        }
+    }
+
+    private void handleIntent(Intent intent) {
+        if (intent != null && !TextUtils.isEmpty(intent.getAction())) {
+            String action = intent.getStringExtra(KEY_ACTION);
+            int leagueId = intent.getIntExtra(KEY_LEAGUE_ID, -1);
+            switch (action) {
+                case NotificationKey.USER_LEFT_LEAGUE:
+                    AloneFragmentActivity.with(this)
+                            .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, -1))
+                            .start(LeagueDetailFragment.class);
+                    break;
+                case NotificationKey.USER_JOINED_LEAGUE:
+                case NotificationKey.USER_ACCEPT_INVITE:
+                case NotificationKey.USER_REJECT_INVITE:
+                    AloneFragmentActivity.with(this)
+                            .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, LeagueDetailFragment.TEAM_FRAGMENT_INDEX))
+                            .start(LeagueDetailFragment.class);
+                    break;
+
+                case NotificationKey.USER_RECEIVE_INVITE:
+
+                    break;
             }
         }
     }

@@ -53,8 +53,10 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     private static final String KEY_LEAGUE_TYPE = "key_league_type";
     private static final String KEY_INVITATION_ID = "INVITATION_ID";
     private static final String KEY_OPEN_ROUND = "OPEN_RESULT";
+    private static final String KEY_FRAGMENT_INDEX = "FRAGMENT_INDEX";
 
-    private static final int TEAM_FRAGMENT_INDEX = 1;
+    public static final int TEAM_FRAGMENT_INDEX = 1;
+    public static final int RESULT_FRAGMENT_INDEX = 3;
 
     public static final String OPEN_LEAGUES = "open_leagues";
     public static final String MY_LEAGUES = "my_leagues";
@@ -78,7 +80,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
         return bundle;
     }
 
-    public static Bundle newBundle(String title, int leagueId, String leagueType, int invitationId) {
+    public static Bundle newBundleForInvitation(String title, int leagueId, String leagueType, int invitationId) {
         Bundle bundle = newBundle(title, leagueId, leagueType);
         bundle.putInt(KEY_INVITATION_ID, invitationId);
         return bundle;
@@ -90,11 +92,18 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
         return bundle;
     }
 
+    public static Bundle newBundleForNotification(String title, int leagueId, int index) {
+        Bundle bundle = newBundle(title, leagueId, MY_LEAGUES);
+        bundle.putInt(KEY_FRAGMENT_INDEX, index);
+        return bundle;
+    }
+
     private String title;
     private int leagueId;
     private String leagueType;
     private int invitationId;
     private int openRound;
+    private int fragmentIndex;
 
     private LeagueResponse league;
     private LeagueDetailViewPagerAdapter leagueDetailViewPagerAdapter;
@@ -122,6 +131,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
         leagueType = bundle.getString(KEY_LEAGUE_TYPE, "");
         invitationId = bundle.getInt(KEY_INVITATION_ID);
         openRound = bundle.getInt(KEY_OPEN_ROUND);
+        fragmentIndex = bundle.getInt(KEY_FRAGMENT_INDEX, -1);
     }
 
     @NonNull
@@ -339,14 +349,15 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
 
             }
         });
+        try {
+            if (fragmentIndex != -1) {
+                vpViewPager.setCurrentItem(fragmentIndex);
 
-        if (openRound > 0) {
-            try {
-                vpViewPager.setCurrentItem(3);
-                ((ResultsFragment) leagueDetailViewPagerAdapter.getItem(3)).displayRound(openRound);
-            } catch (Exception e) {
-
+            } else if (openRound > 0) {
+                vpViewPager.setCurrentItem(RESULT_FRAGMENT_INDEX);
+                ((ResultsFragment) leagueDetailViewPagerAdapter.getItem(RESULT_FRAGMENT_INDEX)).displayRound(openRound);
             }
+        } catch (Exception e) {
         }
     }
 

@@ -56,7 +56,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     // [END receive_message]
 
     private void sendNotification(int id, String action, int leagueId, String messageBody) {
-        Intent intent = getIntentByAction(action);
+        Intent intent = getIntentByAction(action, leagueId);
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
@@ -67,7 +67,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channelId)
                         .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle("FCM Message")
+                        .setContentTitle(action)
                         .setContentText(messageBody)
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)
@@ -91,9 +91,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    private Intent getIntentByAction(String action) {
+    private Intent getIntentByAction(String action, int leagueId) {
+        Intent intent;
         switch (action) {
-
+            case NotificationKey.USER_LEFT_LEAGUE:
+                intent = new Intent(this, MainActivity.class);
+                intent.putExtra(MainActivity.KEY_ACTION, action);
+                intent.putExtra(MainActivity.KEY_LEAGUE_ID, leagueId);
+                return intent;
 
             default:
                 return new Intent(this, MainActivity.class);
