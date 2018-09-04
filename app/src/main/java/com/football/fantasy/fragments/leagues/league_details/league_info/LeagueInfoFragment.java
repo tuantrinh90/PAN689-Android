@@ -171,13 +171,15 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
         }
 
         try {
+            boolean isTransfer = league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER);
+
             tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
             ImageLoaderUtils.displayImage(league.getLogo(), ivLeague);
             tvLeagueType.setText(league.getLeagueTypeDisplay());
             tvMaxNumberOfTeam.setText(String.valueOf(league.getNumberOfUser()));
             tvGamePlayOptions.setText(league.getGameplayOptionDisplay());
 
-            if (league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER)) {
+            if (isTransfer) {
                 tvBudgetValue.setText(getString(R.string.budget_value,
                         (league.getBudgetOption() != null ? league.getBudgetOption().getName() : "") + "",
                         (league.getBudgetOption() != null ? league.getBudgetOption().getValueDisplay() + "" : "")));
@@ -199,7 +201,7 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
             }
 
             // show button join leagues
-            if (!league.getOwner() && !league.getIsJoined() && AppUtilities.isSetupTime(league.getTeamSetup())) {
+            if (!league.getOwner() && !league.getIsJoined() && AppUtilities.isSetupTime(isTransfer ? league.getTeamSetup() : league.getDraftTime())) {
                 tvJoinLeague.setVisibility(View.VISIBLE);
             }
 
@@ -210,9 +212,9 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
 
             // line up my team
             if (league.getStatus() == LeagueResponse.WAITING_FOR_START) {
-                if (AppUtilities.isSetupTime(league.getTeamSetup())) {
+                if (AppUtilities.isSetupTime(isTransfer ? league.getTeamSetup() : league.getDraftTime())) {
                     tvTimeLabel.setText(R.string.team_setup_time);
-                    tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
+                    tvTime.setText(DateTimeUtils.convertCalendarToString(isTransfer ? league.getTeamSetUpCalendar() : league.getDraftTimeCalendar(), Constant.FORMAT_DATE_TIME));
                 } else {
                     tvTimeLabel.setText(R.string.start_time);
                     tvTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));

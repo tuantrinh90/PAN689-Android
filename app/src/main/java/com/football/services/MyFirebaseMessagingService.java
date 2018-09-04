@@ -10,6 +10,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.football.fantasy.R;
@@ -37,21 +38,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String action = payload.get("action");
             String leagueId = payload.get("league_id");
 
-            if (/* Check if data needs to be processed by long running job */ true) {
-                // For long-running tasks (10 seconds or more) use Firebase Job Dispatcher.
-//                scheduleJob();
-                Log.d(TAG, "onMessageReceived: schedule job");
-            } else {
-                // Handle message within 10 seconds
-                handleNow();
+            // Check if message contains a notification payload.
+            if (remoteMessage.getNotification() != null) {
+                Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+                sendNotification(
+                        TextUtils.isDigitsOnly(id) ? Integer.valueOf(id) : -1,
+                        action,
+                        TextUtils.isDigitsOnly(id) ? Integer.valueOf(leagueId) : -1,
+                        remoteMessage.getNotification().getBody());
             }
 
-        }
-
-        // Check if message contains a notification payload.
-        if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
-            sendNotification(1, remoteMessage.getNotification().getBody());
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM
@@ -59,33 +55,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
     // [END receive_message]
 
+    private void sendNotification(int id, String action, int leagueId, String messageBody) {
+        Intent intent = getIntentByAction(action);
 
-    /**
-     * Handle time allotted to BroadcastReceivers.
-     */
-    private void handleNow() {
-        Log.d(TAG, "Short lived task is done.");
-    }
-
-    /**
-     * Persist token to third-party servers.
-     * <p>
-     * Modify this method to associate the user's FCM InstanceID token with any server-side account
-     * maintained by your application.
-     *
-     * @param token The new token.
-     */
-    private void sendRegistrationToServer(String token) {
-        // TODO: Implement this method to send token to your app server.
-    }
-
-    /**
-     * Create and show a simple notification containing the received FCM message.
-     *
-     * @param messageBody FCM message body received.
-     */
-    private void sendNotification(int id, String messageBody) {
-        Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
@@ -116,6 +88,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         if (notificationManager != null) {
             notificationManager.notify(id /* ID of notification */, notificationBuilder.build());
+        }
+    }
+
+    private Intent getIntentByAction(String action) {
+        switch (action) {
+
+
+            default:
+                return new Intent(this, MainActivity.class);
         }
     }
 }

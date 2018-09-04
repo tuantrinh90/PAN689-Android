@@ -150,14 +150,14 @@ public class TeamLineUpFragment extends BaseMvpFragment<ITeamLineUpView, ITeamLi
                 .setClickCallback(player -> {
                     // currentTime > deadline
                     Calendar currentTime = Calendar.getInstance();
-                    Calendar deadline = team.getCurrentRound().getTransferDeadlineCalendar();
-                    if (currentTime.after(deadline)) {
+                    Calendar deadline = team.getCurrentRound() != null ? team.getCurrentRound().getTransferDeadlineCalendar() : null;
+                    if (deadline == null) {
+                        showMessage(R.string.message_can_not_change_position_after_real_match_start, R.string.ok, null);
+                    } else if (currentTime.after(deadline)) {
                         presenter.addPlayerToPitchView(team.getId(), team.getRound(), fromPlayer, player, position, order);
                     } else {
                         showMessage(R.string.message_can_not_change_position_after_real_match_start, R.string.ok, null);
                     }
-
-                    // else show message
                 })
                 .show(getChildFragmentManager(), null);
     }
