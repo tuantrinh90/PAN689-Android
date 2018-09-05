@@ -29,9 +29,4 @@ public class LineupDraftDataPresenter extends LineUpPresenter<ILineupDraftView> 
     public void removePlayer(PlayerResponse player, int position, int teamId) {
 
     }
-
-    @Override
-    public String getToken(AppContext appContext) {
-        return AppPreferences.getInstance(appContext).getString(Constant.KEY_TOKEN);
-    }
 }

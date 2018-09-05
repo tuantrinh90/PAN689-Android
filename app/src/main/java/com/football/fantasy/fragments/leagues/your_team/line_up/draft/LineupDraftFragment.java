@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.football.fantasy.fragments.leagues.your_team.line_up.LineUpFragment;
 import com.football.models.responses.LeagueResponse;
+import com.football.utilities.SocketEventKey;
 import com.github.nkzawa.socketio.client.Ack;
 
 public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineupDraftPresenter<ILineupDraftView>> implements ILineupDraftView {
@@ -34,19 +35,18 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getAppContext().connectSocket(presenter.getToken(getAppContext()));
-
-        Log.d(TAG, "socket.connected: " + getAppContext().getSocket().connected());
+        registerSocket();
     }
 
     @Override
     public void onDestroy() {
+        getAppContext().off(SocketEventKey.EVENT_CHANGE_TURN);
         super.onDestroy();
-        getAppContext().disconnect();
     }
 
-    private Ack join = (Ack) args -> {
-        Log.d(TAG, "join: " + "emit success");
-        Toast.makeText(mActivity, "emit success", Toast.LENGTH_SHORT).show();
-    };
+    private void registerSocket() {
+        getAppContext().getSocket().on(SocketEventKey.EVENT_CHANGE_TURN, args -> {
+            Log.i(SocketEventKey.EVENT_CHANGE_TURN, "registerSocket: ");
+        });
+    }
 }

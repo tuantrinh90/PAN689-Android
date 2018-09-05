@@ -1,6 +1,7 @@
 package com.football.fantasy.fragments.match_up.my;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.football.adapters.MatchupLeagueAdapter;
 import com.football.common.activities.AloneFragmentActivity;
@@ -10,6 +11,7 @@ import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
 import com.football.models.responses.MatchResponse;
+import com.football.utilities.SocketEventKey;
 
 import java.util.List;
 
@@ -37,6 +39,13 @@ public class MatchupMyLeagueFragment extends BaseMainMvpFragment<IMatchupMyLeagu
         page = 1;
         getMatchResults();
         rvMyLeague.startLoading();
+        registerSocket();
+    }
+
+    @Override
+    public void onDestroyView() {
+        getAppContext().off(SocketEventKey.EVENT_MY_MATCH_RESULTS);
+        super.onDestroyView();
     }
 
     private void initView() {
@@ -73,6 +82,12 @@ public class MatchupMyLeagueFragment extends BaseMainMvpFragment<IMatchupMyLeagu
         presenter.getMatchResults(page);
     }
 
+    private void registerSocket() {
+        getAppContext().getSocket().on(SocketEventKey.EVENT_MY_MATCH_RESULTS, args -> {
+            Log.d(SocketEventKey.EVENT_MY_MATCH_RESULTS, "registerSocket: ");
+            mActivity.runOnUiThread(this::refresh);
+        });
+    }
 
     @NonNull
     @Override

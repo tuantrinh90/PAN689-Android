@@ -81,6 +81,14 @@ public class MainActivity extends BaseActivity {
         getDeepLink(getIntent());
         handleIntent(getIntent());
 
+        // register socket
+        getAppContext().connectSocket();
+    }
+
+    @Override
+    protected void onDestroy() {
+        getAppContext().disconnect();
+        super.onDestroy();
     }
 
     @Override
@@ -104,7 +112,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void handleIntent(Intent intent) {
-        if (intent != null && !TextUtils.isEmpty(intent.getAction())) {
+        if (intent != null && !TextUtils.isEmpty(intent.getStringExtra(KEY_ACTION))) {
             String action = intent.getStringExtra(KEY_ACTION);
             int leagueId = intent.getIntExtra(KEY_LEAGUE_ID, -1);
             switch (action) {

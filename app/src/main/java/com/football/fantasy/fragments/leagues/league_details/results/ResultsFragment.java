@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
@@ -20,6 +21,7 @@ import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.MatchResponse;
 import com.football.utilities.Constant;
+import com.football.utilities.SocketEventKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +78,14 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
         initView();
 
         getResults();
+
+        registerSocket();
+    }
+
+    @Override
+    public void onDestroy() {
+        getAppContext().off(SocketEventKey.EVENT_MATCH_RESULTS);
+        super.onDestroy();
     }
 
     void getDataFromBundle() {
@@ -103,6 +113,13 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
 
     private void getResults() {
         presenter.getMatchResults(league.getId(), round);
+    }
+
+    private void registerSocket() {
+        getAppContext().getSocket().on(SocketEventKey.EVENT_MATCH_RESULTS, args -> {
+            Log.d(SocketEventKey.EVENT_MATCH_RESULTS, "registerSocket: ");
+            mActivity.runOnUiThread(this::refresh);
+        });
     }
 
     private void refresh() {

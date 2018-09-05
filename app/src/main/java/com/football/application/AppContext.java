@@ -6,13 +6,16 @@ import android.util.Log;
 
 import com.bon.application.ExtApplication;
 import com.bon.logger.Logger;
+import com.bon.share_preferences.AppPreferences;
 import com.football.di.AppComponent;
 import com.football.di.AppModule;
 import com.football.di.DaggerAppComponent;
 import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
+import com.football.utilities.Constant;
 import com.football.utilities.FragmentUtils;
 import com.football.utilities.ServiceConfig;
+import com.football.utilities.SocketEventKey;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 
@@ -30,12 +33,12 @@ public class AppContext extends ExtApplication {
     private AppComponent component;
     private Socket mSocket;
 
-    {
-        try {
-            mSocket = IO.socket(ServiceConfig.SOCKET_URL);
-        } catch (URISyntaxException e) {
-        }
-    }
+//    {
+//        try {
+//            mSocket = IO.socket(ServiceConfig.SOCKET_URL);
+//        } catch (URISyntaxException e) {
+//        }
+//    }
 
     @Override
     public void onCreate() {
@@ -114,12 +117,13 @@ public class AppContext extends ExtApplication {
         return mSocket;
     }
 
-    public void connectSocket(String token) {
+    public void connectSocket() {
         try {
+            String token = AppPreferences.getInstance(this).getString(Constant.KEY_TOKEN);
             IO.Options options = new IO.Options();
             options.query = "token=" + token;
 
-            mSocket = IO.socket(ServiceConfig.SOCKET_URL, options);
+            mSocket = IO.socket(ServiceConfig.SOCKET_URL);
             mSocket.on(Socket.EVENT_CONNECT, args -> {
                 Log.e("args", "EVENT_CONNECT::args:: " + argsToString(args));
 
@@ -146,6 +150,12 @@ public class AppContext extends ExtApplication {
             }
         }
         return s.toString();
+    }
+
+    public void off(String event) {
+        if (mSocket != null) {
+            mSocket.off(event);
+        }
     }
 
     public void disconnect() {

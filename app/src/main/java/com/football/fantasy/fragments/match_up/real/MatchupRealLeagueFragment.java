@@ -2,6 +2,7 @@ package com.football.fantasy.fragments.match_up.real;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
@@ -12,6 +13,10 @@ import com.football.customizes.recyclerview.DefaultAdapter;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 import com.football.models.responses.RealMatch;
+import com.football.utilities.SocketEventKey;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +59,21 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
         page = 1;
         getRealMatches();
         rvRealLeague.startLoading();
+
+        // register socket
+        registerSocket();
+    }
+
+    @Override
+    public void onDestroyView() {
+        getAppContext().off(SocketEventKey.EVENT_REAL_MATCHES);
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+//        getAppContext().off(SocketEventKey.EVENT_REAL_MATCHES);
+        super.onDestroy();
     }
 
     private void initData() {
@@ -76,6 +96,20 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
                     getRealMatches();
                 })
                 .build();
+    }
+
+    private void registerSocket() {
+        JSONObject room = new JSONObject();
+        try {
+            room.put("room", "");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        getAppContext().getSocket().emit("join_room", room);
+        getAppContext().getSocket().on(SocketEventKey.EVENT_REAL_MATCHES, args -> {
+            Log.i(SocketEventKey.EVENT_REAL_MATCHES, "registerSocket: ");
+            mActivity.runOnUiThread(this::refresh);
+        });
     }
 
     private void refresh() {
