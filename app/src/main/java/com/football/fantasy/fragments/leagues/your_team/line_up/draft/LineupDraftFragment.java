@@ -43,8 +43,8 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         getAppContext().off(SocketEventKey.EVENT_CHANGE_TURN);
+        super.onDestroyView();
     }
 
     private void registerSocket() {
