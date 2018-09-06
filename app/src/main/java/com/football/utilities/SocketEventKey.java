@@ -2,6 +2,11 @@ package com.football.utilities;
 
 public class SocketEventKey {
 
+    // emit
+    public static final String EVENT_JOIN_ROOM = "join_room";
+
+
+    // on
     public static final String EVENT_REAL_MATCHES = "event_real_matches";
     public static final String EVENT_MY_MATCH_RESULTS = "event_my_match_results";
     public static final String EVENT_MATCH_RESULTS = "event_match_results";

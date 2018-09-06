@@ -5,12 +5,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
+import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.your_team.line_up.LineUpFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.utilities.SocketEventKey;
-import com.github.nkzawa.socketio.client.Ack;
+
+import butterknife.OnClick;
 
 public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineupDraftPresenter<ILineupDraftView>> implements ILineupDraftView {
 
@@ -25,28 +26,39 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         return fragment;
     }
 
-
     @NonNull
     @Override
     public ILineupDraftPresenter<ILineupDraftView> createPresenter() {
-        return new LineupDraftDataPresenter(getAppComponent());
+        return new LineupDraftPresenter(getAppComponent());
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         registerSocket();
+
+        // join league
+        presenter.joinRoom();
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroyView() {
+        super.onDestroyView();
         getAppContext().off(SocketEventKey.EVENT_CHANGE_TURN);
-        super.onDestroy();
     }
 
     private void registerSocket() {
         getAppContext().getSocket().on(SocketEventKey.EVENT_CHANGE_TURN, args -> {
-            Log.i(SocketEventKey.EVENT_CHANGE_TURN, "registerSocket: ");
+            Log.i(SocketEventKey.EVENT_CHANGE_TURN, ": " + args);
         });
+    }
+
+    @OnClick({R.id.tvDraftEndTurn})
+    public void onClicked(View view) {
+        switch (view.getId()) {
+            case R.id.tvDraftEndTurn:
+
+                break;
+        }
     }
 }

@@ -30,7 +30,7 @@ public class LineupTransferFragment extends LineUpFragment<ILineupTransferView, 
     @NonNull
     @Override
     public ILineupTransferPresenter<ILineupTransferView> createPresenter() {
-        return new LineupTransferDataPresenter(getAppComponent());
+        return new LineupTransferPresenter(getAppComponent());
     }
 
     @Override

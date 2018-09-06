@@ -43,14 +43,13 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
     private BiConsumer<Boolean, String> callback;
 
 
-//    public static LineUpFragment newInstance(LeagueResponse league, Integer teamId) {
-//        LineUpFragment fragment = new LineUpFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(KEY_LEAGUE, league);
-//        bundle.putInt(KEY_TEAM_ID, teamId);
-//        fragment.setArguments(bundle);
-//        return fragment;
-//    }
+    public static LineUpFragment newInstance(LineUpFragment fragment, LeagueResponse league, Integer teamId) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(KEY_LEAGUE, league);
+        bundle.putInt(KEY_TEAM_ID, teamId);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     @BindView(R.id.tvTimeLabel)
     protected ExtTextView tvTimeLabel;

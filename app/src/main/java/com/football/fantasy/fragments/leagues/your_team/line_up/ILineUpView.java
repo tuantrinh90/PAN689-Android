@@ -22,5 +22,4 @@ public interface ILineUpView extends IBaseMvpView {
 
     void updateStatistic(int position, int value);
 
-
 }

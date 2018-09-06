@@ -12,4 +12,5 @@ public interface ILineUpPresenter<V extends IBaseMvpView> extends IBaseDataPrese
 
     void removePlayer(PlayerResponse player, int position, int teamId);
 
+    void completeLineup(int teamId);
 }

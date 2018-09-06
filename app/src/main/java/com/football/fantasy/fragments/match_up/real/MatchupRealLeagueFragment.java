@@ -70,12 +70,6 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
         super.onDestroyView();
     }
 
-    @Override
-    public void onDestroy() {
-//        getAppContext().off(SocketEventKey.EVENT_REAL_MATCHES);
-        super.onDestroy();
-    }
-
     private void initData() {
         valuePairs = new ArrayList<>();
         valuePairs.add(new ExtKeyValuePair(ROUND_DEFAULT, VALUE_ALL_ROUND));

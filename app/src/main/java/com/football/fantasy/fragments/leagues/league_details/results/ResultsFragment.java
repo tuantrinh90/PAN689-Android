@@ -83,9 +83,9 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroyView() {
         getAppContext().off(SocketEventKey.EVENT_MATCH_RESULTS);
-        super.onDestroy();
+        super.onDestroyView();
     }
 
     void getDataFromBundle() {

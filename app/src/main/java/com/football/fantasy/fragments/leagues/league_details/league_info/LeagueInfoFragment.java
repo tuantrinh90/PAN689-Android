@@ -227,6 +227,8 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
 
             } else if (league.getStatus() == LeagueResponse.FINISHED) {
                 tvSetupTeam.setVisibility(View.GONE);
+                tvTimeLabel.setText(R.string.transfer_deadline);
+                tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTransferDeadlineCalendar(), Constant.FORMAT_DATE_TIME));
             }
         } catch (Exception e) {
             Logger.e(TAG, e);

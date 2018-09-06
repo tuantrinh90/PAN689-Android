@@ -34,7 +34,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
             Map<String, String> payload = remoteMessage.getData();
-            String id = payload.get("id");
+            String id = TextUtils.isEmpty(payload.get("id")) ? "-1" : payload.get("id");
             String action = payload.get("action");
             String leagueId = payload.get("league_id");
 
