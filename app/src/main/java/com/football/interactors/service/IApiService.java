@@ -10,6 +10,7 @@ import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.LineupResponse;
 import com.football.models.responses.MatchResponse;
 import com.football.models.responses.NewsResponse;
+import com.football.models.responses.NotificationResponse;
 import com.football.models.responses.PickHistoryResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.PlayerStatisticResponse;
@@ -233,4 +234,7 @@ public interface IApiService {
 
     @POST(ServiceConfig.DEVICE_OF_USER)
     Observable<BaseResponse<Object>> updateDeviceOfUser(@Body RequestBody body);
+
+    @GET(ServiceConfig.NOTIFICATIONS)
+    Observable<BaseResponse<PagingResponse<NotificationResponse>>> getNotifications(@QueryMap Map<String, String> queries);
 }

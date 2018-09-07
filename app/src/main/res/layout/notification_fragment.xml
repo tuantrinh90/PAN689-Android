@@ -11,12 +11,9 @@
         android:text="@string/notification"
         app:textViewFontAssetName="@string/font_display_heavy_italic" />
 
-    <com.football.customizes.textview.ExtTextViewCountdown
-        android:id="@+id/tvTimeLeft"
-        style="@style/StyleContentBlue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="0dp"
-        app:textViewFontAssetName="@string/font_display_heavy" />
+    <com.football.customizes.recyclerview.ExtRecyclerView
+        android:id="@+id/rv_notification"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>
