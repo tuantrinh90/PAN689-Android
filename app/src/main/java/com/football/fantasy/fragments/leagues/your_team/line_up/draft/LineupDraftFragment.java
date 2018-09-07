@@ -43,6 +43,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
 
     @Override
     public void onDestroyView() {
+        getAppContext().off(SocketEventKey.EVENT_CHANGE_LINEUP);
         getAppContext().off(SocketEventKey.EVENT_CHANGE_TURN);
         super.onDestroyView();
     }
@@ -50,6 +51,10 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     private void registerSocket() {
         getAppContext().getSocket().on(SocketEventKey.EVENT_CHANGE_TURN, args -> {
             Log.i(SocketEventKey.EVENT_CHANGE_TURN, ": " + args);
+        });
+
+        getAppContext().getSocket().on(SocketEventKey.EVENT_CHANGE_LINEUP, args -> {
+            Log.i(SocketEventKey.EVENT_CHANGE_LINEUP, ": " + args);
         });
     }
 
