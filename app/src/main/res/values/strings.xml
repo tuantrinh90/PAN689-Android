@@ -316,6 +316,7 @@
     <string name="trade_proposal">Trade proposal</string>
     <string name="trade_proposal_description">Choose players on both team to make proposal</string>
     <string name="total_players">%d players</string>
+    <string name="total_player">%d player</string>
     <string name="make_proposal">Make proposal</string>
     <string name="proceed">Proceed</string>
     <string name="approve">Approve</string>
@@ -334,4 +335,5 @@
     <string name="team">Team</string>
     <string name="picks">Picks</string>
     <string name="number_order">#%d</string>
+    <string name="my_profile">My Profile</string>
 </resources>

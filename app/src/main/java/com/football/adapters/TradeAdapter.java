@@ -50,7 +50,7 @@ public class TradeAdapter extends DefaultAdapter<TradeResponse> {
         holder.tvTitleTeam2.setText(data.getWithTeam().getName());
 
         holder.tvTime.setText(AppUtilities.getTime(data.getDeadline(), Constant.FORMAT_DATE_TIME_SERVER, Constant.FORMAT_DATE_TIME));
-        holder.tvPlayers.setText(mContext.getString(R.string.total_players, data.getTotalPlayer()));
+        holder.tvPlayers.setText(mContext.getString(data.getTotalPlayer() > 1 ? R.string.total_players : R.string.total_player, data.getTotalPlayer()));
 
         holder.itemView.setOnClickListener(v -> {
             TradeResponse trade = getItem(defaultHolder.getAdapterPosition());

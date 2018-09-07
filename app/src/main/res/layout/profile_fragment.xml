@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -24,7 +23,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:padding="0dp"
-                android:text="My Profile"
+                android:text="@string/my_profile"
                 android:textAllCaps="true"
                 app:textViewFontAssetName="@string/font_display_black_italic" />
 
@@ -71,7 +70,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="0dp"
-                    android:text="@string/fullname"
                     app:textViewFontAssetName="@string/font_display_bold" />
 
             </LinearLayout>
@@ -98,8 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="0dp"
-            app:textAllCaps="true"
-            tools:text="13/04/2018" />
+            app:textAllCaps="true" />
 
         <View
             style="@style/Line"
@@ -120,8 +117,7 @@
             style="@style/StyleContentContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="0dp"
-            tools:text="Male" />
+            android:padding="0dp" />
 
         <View
             style="@style/Line"
@@ -142,8 +138,7 @@
             style="@style/StyleContentContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="0dp"
-            tools:text="12 floor" />
+            android:padding="0dp" />
 
         <View
             style="@style/Line"
@@ -165,8 +160,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="0dp"
-            app:textAllCaps="true"
-            tools:text="+8412345689" />
+            app:textAllCaps="true" />
 
         <View
             style="@style/Line"
@@ -187,8 +181,7 @@
             style="@style/StyleContentContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="0dp"
-            tools:text="toannx@gmail.com" />
+            android:padding="0dp" />
 
         <View
             style="@style/Line"
@@ -209,8 +202,7 @@
             style="@style/StyleContentContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="0dp"
-            tools:text="@string/introduction" />
+            android:padding="0dp" />
 
         <View
             style="@style/Line"

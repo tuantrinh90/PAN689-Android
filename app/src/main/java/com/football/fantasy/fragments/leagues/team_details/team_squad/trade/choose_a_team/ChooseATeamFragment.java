@@ -120,13 +120,10 @@ public class ChooseATeamFragment extends BaseMvpFragment<IChooseATeamView, IChoo
                 break;
 
             case R.id.tvDone:
+            case R.id.buttonProceed:
                 TeamResponse team = ((TeamSelectAdapter) rvTeam.getAdapter()).getTeamSelected();
                 ProposalFragment.start(getContext(), myTeamId, team.getId());
                 mActivity.finish();
-                break;
-
-            case R.id.buttonProceed:
-
                 break;
         }
     }

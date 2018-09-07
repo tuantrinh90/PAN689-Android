@@ -14,6 +14,7 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.lineup.PlayerView;
 import com.football.events.PlayerEvent;
+import com.football.events.RequestProposalEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.proposal_team_squad.ProposalTeamSquadFragment;
 import com.football.models.responses.PlayerResponse;
@@ -84,7 +85,7 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
     @NonNull
     @Override
     public IProposalPresenter<IProposalView> createPresenter() {
-        return new ProposalDataPresenter(getAppComponent());
+        return new ProposalPresenter(getAppComponent());
     }
 
     @Override
@@ -239,6 +240,7 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
 
     @Override
     public void submitSuccess(TradeResponse response) {
-
+        bus.send(new RequestProposalEvent());
+        mActivity.finish();
     }
 }

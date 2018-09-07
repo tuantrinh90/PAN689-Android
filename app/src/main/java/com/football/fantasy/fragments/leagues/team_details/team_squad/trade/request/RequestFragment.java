@@ -9,6 +9,7 @@ import com.football.adapters.TradeAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
+import com.football.events.RequestProposalEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.proposal_reveiew.ProposalReviewFragment;
@@ -18,6 +19,7 @@ import com.football.models.responses.TradeResponse;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.observers.DisposableObserver;
 
 public class RequestFragment extends BaseMvpFragment<IRequestView, IRequestPresenter<IRequestView>> implements IRequestView {
 
@@ -61,6 +63,8 @@ public class RequestFragment extends BaseMvpFragment<IRequestView, IRequestPrese
 
         initRecyclerView();
         getTradeRequests();
+
+        registerBus();
     }
 
     private void getDataFromBundle() {
@@ -94,6 +98,31 @@ public class RequestFragment extends BaseMvpFragment<IRequestView, IRequestPrese
                     getTradeRequests();
                 })
                 .build();
+    }
+
+    private void registerBus() {
+        try {
+            // action add click on PlayerList
+            mCompositeDisposable.add(bus.ofType(RequestProposalEvent.class)
+                    .subscribeWith(new DisposableObserver<RequestProposalEvent>() {
+                        @Override
+                        public void onNext(RequestProposalEvent event) {
+                            refreshData();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    }));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void getTradeRequests() {

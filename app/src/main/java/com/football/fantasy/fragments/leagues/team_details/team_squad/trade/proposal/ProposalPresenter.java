@@ -8,11 +8,11 @@ import com.football.utilities.RxUtilities;
 
 import okhttp3.MultipartBody;
 
-public class ProposalDataPresenter extends BaseDataPresenter<IProposalView> implements IProposalPresenter<IProposalView> {
+public class ProposalPresenter extends BaseDataPresenter<IProposalView> implements IProposalPresenter<IProposalView> {
     /**
      * @param appComponent
      */
-    protected ProposalDataPresenter(AppComponent appComponent) {
+    protected ProposalPresenter(AppComponent appComponent) {
         super(appComponent);
     }
 
