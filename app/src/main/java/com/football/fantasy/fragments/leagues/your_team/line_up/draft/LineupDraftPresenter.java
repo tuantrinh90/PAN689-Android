@@ -40,10 +40,10 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
     }
 
     @Override
-    public void joinRoom() {
+    public void joinRoom(int leagueId) {
         JSONObject room = new JSONObject();
         try {
-            room.put("room", "");
+            room.put("room", leagueId);
         } catch (JSONException e) {
             e.printStackTrace();
         }

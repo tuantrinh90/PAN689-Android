@@ -336,4 +336,5 @@
     <string name="picks">Picks</string>
     <string name="number_order">#%d</string>
     <string name="my_profile">My Profile</string>
+    <string name="team_setup_time_start_in">Team setup time start in:</string>
 </resources>

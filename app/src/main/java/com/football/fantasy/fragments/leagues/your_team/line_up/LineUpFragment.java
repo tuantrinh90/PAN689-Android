@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TableRow;
 
 import com.bon.customview.textview.ExtTextView;
@@ -14,6 +13,8 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.lineup.LineupView;
 import com.football.customizes.lineup.StatisticView;
+import com.football.customizes.progress.ExtProgress;
+import com.football.customizes.textview.ExtTextViewCountdown;
 import com.football.events.PickEvent;
 import com.football.events.PlayerEvent;
 import com.football.fantasy.R;
@@ -73,13 +74,11 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
     @BindView(R.id.transfer_header)
     protected TableRow transferHeader;
     @BindView(R.id.tvDraftCurrentTimeLeft)
-    protected ExtTextView tvDraftCurrentTimeLeft;
+    protected ExtTextViewCountdown tvDraftCurrentTimeLeft;
     @BindView(R.id.tvDraftCurrentTeam)
     protected ExtTextView tvDraftCurrentTeam;
     @BindView(R.id.tvDraftNextTeam)
     protected ExtTextView tvDraftNextTeam;
-    @BindView(R.id.header_item_1)
-    protected LinearLayout headerItem1;
     @BindView(R.id.tvDraftYourTeam)
     protected ExtTextView tvDraftYourTeam;
     @BindView(R.id.tvDraftYourTurnTimeLeft)
@@ -87,7 +86,7 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
     @BindView(R.id.tvDraftEndTurn)
     protected ExtTextView tvDraftEndTurn;
     @BindView(R.id.progress_draft)
-    protected ProgressBar progressDraft;
+    protected ExtProgress progressDraft;
     @BindView(R.id.draft_header)
     protected LinearLayout draftHeader;
     @BindView(R.id.transfer_bottom)

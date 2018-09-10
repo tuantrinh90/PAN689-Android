@@ -127,6 +127,19 @@ public class AppUtilities {
         }
     }
 
+    public static String timeLeft2(long totalSecs) {
+        long days = totalSecs / (3600 * 24);
+        long hours = (totalSecs % (3600 * 24)) / 3600;
+        long minutes = (totalSecs % 3600) / 60;
+
+        if (days > 0) {
+            return String.format("%dd:%02dh", days, hours);
+        } else {
+            long seconds = totalSecs % 60;
+            return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        }
+    }
+
     public static String getDayOfWeek(String date) {
         Calendar calendar = DateTimeUtils.convertStringToCalendar(date, Constant.FORMAT_DATE_TIME_SERVER);
         return DateTimeUtils.convertCalendarToString(calendar, Constant.FORMAT_DAY_OF_WEEK);

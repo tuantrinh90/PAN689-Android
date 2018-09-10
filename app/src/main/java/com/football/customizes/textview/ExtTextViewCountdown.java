@@ -9,11 +9,16 @@ import com.football.utilities.AppUtilities;
 
 public class ExtTextViewCountdown extends ExtTextView {
 
+    public static final int FORMAT_TEXT_HOURS = 0;
+    public static final int FORMAT_NUMBER_HOURS = 1;
+
+    private boolean isAttached;
     private Handler mHandler = new Handler();
     private Runnable mRunnable;
     private long time;
     private long interval = 1;
     private boolean starting;
+    private int formatType = FORMAT_TEXT_HOURS; // FORMAT_TEXT_HOURS: 2h30m, FORMAT_NUMBER_HOURS: 02:30:30
 
     public ExtTextViewCountdown(Context context) {
         super(context);
@@ -28,20 +33,35 @@ public class ExtTextViewCountdown extends ExtTextView {
     }
 
     @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        isAttached = true;
+        if (starting && time <= 0) {
+            setText();
+        }
+    }
+
+    @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        stop();
+        isAttached = false;
     }
 
     public void setTime(long time) {
         this.time = time;
     }
 
+    public void setFormatType(int formatType) {
+        this.formatType = formatType;
+    }
+
     public void start() {
         if (mRunnable == null) {
             mRunnable = () -> {
                 starting = true;
-                setText(AppUtilities.timeLeft(time));
+                if (isAttached) {
+                    setText();
+                }
                 mHandler.postDelayed(mRunnable, 1000);
                 time -= interval;
                 if (time < 0) {
@@ -53,6 +73,10 @@ public class ExtTextViewCountdown extends ExtTextView {
         if (!starting) {
             mHandler.postDelayed(mRunnable, 1000);
         }
+    }
+
+    private void setText() {
+        setText(formatType == FORMAT_TEXT_HOURS ? AppUtilities.timeLeft(time) : AppUtilities.timeLeft2(time));
     }
 
     public void stop() {
