@@ -267,10 +267,21 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                     }
                 }
             } else {
-                // time
-                calendarStartTime = Calendar.getInstance();
-                calendarDraftTime = Calendar.getInstance();
-                calendarTeamSetupTime = Calendar.getInstance();
+
+                if (BuildConfig.DEBUG) { // todo: delete late
+                    calendarDraftTime = Calendar.getInstance();
+                    calendarDraftTime.add(Calendar.MINUTE, 3);
+
+                    calendarStartTime = Calendar.getInstance();
+                    calendarStartTime.add(Calendar.MINUTE, 5);
+
+                    formatDateTime();
+                } else {
+                    // time
+                    calendarStartTime = Calendar.getInstance();
+                    calendarDraftTime = Calendar.getInstance();
+                    calendarTeamSetupTime = Calendar.getInstance();
+                }
             }
         } catch (Exception e) {
             Logger.e(TAG, e);

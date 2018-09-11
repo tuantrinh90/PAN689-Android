@@ -84,9 +84,11 @@ public abstract class ExtBaseActivity extends AppCompatActivity {
      */
     public void showProgressDialog() {
         try {
-            this.progressDialog = new ProgressDialogUtils();
-            this.progressDialog.setMessage(getString(com.bon.library.R.string.loading));
-            this.progressDialog.show(this);
+            if (progressDialog == null || !progressDialog.isShowing()) {
+                this.progressDialog = new ProgressDialogUtils();
+                this.progressDialog.setMessage(getString(com.bon.library.R.string.loading));
+                this.progressDialog.show(this);
+            }
         } catch (Exception ex) {
             Logger.e(TAG, ex);
         }

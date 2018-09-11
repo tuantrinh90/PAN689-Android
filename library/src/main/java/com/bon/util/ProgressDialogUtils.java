@@ -60,6 +60,10 @@ public class ProgressDialogUtils {
         return this;
     }
 
+    public boolean isShowing() {
+        return progressDialog.isShowing();
+    }
+
     /**
      * show progress bar
      *

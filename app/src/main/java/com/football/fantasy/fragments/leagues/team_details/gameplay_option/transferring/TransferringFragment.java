@@ -128,6 +128,12 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
         refreshData();
     }
 
+    @Override
+    public void onDestroyView() {
+        tvTransferringTimeLeftValue.onDestroyView();
+        super.onDestroyView();
+    }
+
     private void getDataFromBundle() {
         team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
         league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);

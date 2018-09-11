@@ -12,7 +12,6 @@ public class ExtTextViewCountdown extends ExtTextView {
     public static final int FORMAT_TEXT_HOURS = 0;
     public static final int FORMAT_NUMBER_HOURS = 1;
 
-    private boolean isAttached;
     private Handler mHandler = new Handler();
     private Runnable mRunnable;
     private long time;
@@ -32,19 +31,8 @@ public class ExtTextViewCountdown extends ExtTextView {
         super(context, attrs, defStyle);
     }
 
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        isAttached = true;
-        if (starting && time <= 0) {
-            setText();
-        }
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        isAttached = false;
+    public void onDestroyView() {
+        stop();
     }
 
     public void setTime(long time) {
@@ -59,9 +47,7 @@ public class ExtTextViewCountdown extends ExtTextView {
         if (mRunnable == null) {
             mRunnable = () -> {
                 starting = true;
-                if (isAttached) {
-                    setText();
-                }
+                setText();
                 mHandler.postDelayed(mRunnable, 1000);
                 time -= interval;
                 if (time < 0) {

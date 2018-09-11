@@ -1,5 +1,6 @@
 package com.football.common.activities;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import com.bon.customview.textview.ExtTextView;
 import com.bon.event_bus.IEvent;
 import com.bon.event_bus.RxBus;
 import com.bon.interfaces.Optional;
+import com.bon.util.DialogUtils;
 import com.bon.util.KeyboardUtils;
 import com.football.application.AppContext;
 import com.football.common.actions.IToolbarAction;
@@ -27,6 +29,7 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.reactivex.disposables.CompositeDisposable;
+import java8.util.function.Consumer;
 
 /**
  * Created by dangpp on 2/21/2018.
@@ -61,6 +64,8 @@ public abstract class BaseAppCompatActivity extends ExtBaseActivity implements I
 
     // rx permission
     RxPermissions rxPermissions;
+
+    private AlertDialog messageBox;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -190,5 +195,20 @@ public abstract class BaseAppCompatActivity extends ExtBaseActivity implements I
      */
     public ExtTextView getTitleToolBar() {
         return tvTitleToolBar;
+    }
+
+    public void showMessage(String message, int ok, Consumer<Void> consumer) {
+        if (messageBox == null || !messageBox.isShowing()) {
+            messageBox = DialogUtils.messageBox(this, getString(R.string.app_name), message, getString(ok),
+                    (dialog, which) -> Optional.from(consumer).doIfPresent(c -> c.accept(null)));
+        }
+    }
+
+    public void showMessage(String message, int ok, int cancel, Consumer<Void> okConsumer, Consumer<Void> cancelConsumer) {
+        if (messageBox == null || !messageBox.isShowing()) {
+            messageBox = DialogUtils.messageBox(this, 0, getString(R.string.app_name), message, getString(ok), getString(cancel),
+                    (dialog, which) -> Optional.from(okConsumer).doIfPresent(c -> c.accept(null)),
+                    (dialog, which) -> Optional.from(cancelConsumer).doIfPresent(c -> c.accept(null)));
+        }
     }
 }

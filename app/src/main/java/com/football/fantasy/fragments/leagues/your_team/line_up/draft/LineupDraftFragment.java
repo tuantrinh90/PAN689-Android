@@ -10,14 +10,19 @@ import com.football.customizes.textview.ExtTextViewCountdown;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.your_team.line_up.LineUpFragment;
 import com.football.models.responses.ChangeTurnResponse;
+import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TurnResponse;
 import com.football.utilities.SocketEventKey;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.football.customizes.lineup.PlayerView.NONE_ORDER;
 import static com.football.utilities.Constant.MAX_SECONDS_CHANGE_TURN;
 
 public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineupDraftPresenter<ILineupDraftView>> implements ILineupDraftView {
@@ -55,6 +60,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     public void onDestroyView() {
         getAppContext().off(SocketEventKey.EVENT_CHANGE_LINEUP);
         getAppContext().off(SocketEventKey.EVENT_CHANGE_TURN);
+        textCountdown.onDestroyView();
         super.onDestroyView();
     }
 
@@ -73,45 +79,58 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
 
     private void registerSocket() {
         getAppContext().getSocket().on(SocketEventKey.EVENT_CHANGE_TURN, args -> {
-            Log.i(SocketEventKey.EVENT_CHANGE_TURN, ": " + args);
-            draftCountdown.setVisibility(View.GONE);
-            draftTurn.setVisibility(View.VISIBLE);
+            Log.i(SocketEventKey.EVENT_CHANGE_TURN, "");
+            Gson gson = new Gson();
+            mActivity.runOnUiThread(() -> {
+                draftCountdown.setVisibility(View.GONE);
+                draftTurn.setVisibility(View.VISIBLE);
 
-            if (args != null && args.length > 0) {
-                ChangeTurnResponse response = (ChangeTurnResponse) args[0];
-                TurnResponse current = response.getCurrent();
-                TurnResponse next = response.getNext();
+                if (args != null && args.length > 0) {
+                    JSONObject jsonObject = (JSONObject) args[0];
+                    Log.i(TAG, "EVENT_CHANGE_TURN: " + jsonObject.toString());
+                    ChangeTurnResponse response = gson.fromJson(jsonObject.toString(), ChangeTurnResponse.class);
+                    TurnResponse current = response.getCurrent();
+                    TurnResponse next = response.getNext();
 
-                // if your turn
-                if (current.getTeamId() == teamId) {
-                    draftYourTurn.setVisibility(View.VISIBLE);
-                    draftTeam.setVisibility(View.GONE);
+                    // if your turn
+                    if (current.getTeam().getId() == teamId) {
+                        draftYourTurn.setVisibility(View.VISIBLE);
+                        draftTeam.setVisibility(View.GONE);
 
-                    // your turn view
-                    progressDraft.setProgress(current.getDraftTimeLeft());
-                    progressDraft.setMax(MAX_SECONDS_CHANGE_TURN);
-                    progressDraft.start();
+                        // your turn view
+                        progressDraft.setProgress(current.getDraftTimeLeft());
+                        progressDraft.setMax(MAX_SECONDS_CHANGE_TURN);
+                        progressDraft.start();
+                    } else {
+                        draftYourTurn.setVisibility(View.GONE);
+                        draftTeam.setVisibility(View.VISIBLE);
+
+                        // current view
+                        tvDraftCurrentTimeLeft.setTime(current.getDraftTimeLeft());
+                        tvDraftCurrentTimeLeft.setFormatType(ExtTextViewCountdown.FORMAT_NUMBER_HOURS);
+                        tvDraftCurrentTimeLeft.start();
+                        tvDraftCurrentTeam.setText(current.getTeam().getName());
+                    }
+
+                    // next view
+                    tvDraftNextTeam.setText(next.getTeam().getName());
                 } else {
-                    draftYourTurn.setVisibility(View.GONE);
-                    draftTeam.setVisibility(View.VISIBLE);
-
-                    // current view
-                    tvDraftCurrentTimeLeft.setTime(current.getDraftTimeLeft());
-                    tvDraftCurrentTimeLeft.start();
-                    tvDraftCurrentTeam.setText(current.getTeam().getName());
+                    Log.e(TAG, "registerSocket: args are null");
                 }
-
-                // next view
-                tvDraftNextTeam.setText(next.getTeam().getName());
-            } else {
-                Log.e(TAG, "registerSocket: args are null");
-            }
-
+            });
         });
 
         getAppContext().getSocket().on(SocketEventKey.EVENT_CHANGE_LINEUP, args -> {
-            Log.i(SocketEventKey.EVENT_CHANGE_LINEUP, ": " + args);
-            presenter.getLineup(teamId);
+            Log.i(SocketEventKey.EVENT_CHANGE_LINEUP, "");
+            if (args != null && args.length > 0) {
+                Log.i(TAG, "EVENT_CHANGE_LINEUP: " + args[0].toString());
+                mActivity.runOnUiThread(() -> {
+                    Gson gson = new Gson();
+                    PlayerResponse player = gson.fromJson(args[0].toString(), PlayerResponse.class);
+                    lineupView.addPlayer(player, player.getMainPosition(), player.getOrder() == null ? NONE_ORDER : player.getOrder());
+//                    displayStatistic();
+                });
+            }
         });
     }
 

@@ -13,7 +13,7 @@ public class TeamStatisticResponse implements Serializable {
     @JsonProperty("total_point")
     private Integer totalPoint;
     @JsonProperty("current_budget")
-    private Long currentBudget;
+    private long currentBudget;
     @JsonProperty("league")
     private LeagueResponse league;
     @JsonProperty("rounds")
@@ -31,7 +31,7 @@ public class TeamStatisticResponse implements Serializable {
         return totalPoint;
     }
 
-    public Long getCurrentBudget() {
+    public long getCurrentBudget() {
         return currentBudget;
     }
 

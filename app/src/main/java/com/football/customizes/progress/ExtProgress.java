@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.widget.ProgressBar;
 
+// TODO: 9/10/2018 chua xu ly onDetached
 public class ExtProgress extends ProgressBar {
 
     private Handler mHandler = new Handler();
