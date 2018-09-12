@@ -85,6 +85,13 @@
 
                 </LinearLayout>
 
+                <ProgressBar
+                    android:id="@+id/draft_loading"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+
                 <LinearLayout
                     android:id="@+id/draft_turn"
                     android:layout_width="match_parent"
@@ -187,7 +194,7 @@
                                 android:textAllCaps="true"
                                 app:textViewFontAssetName="@string/font_display_bold" />
 
-                            <com.bon.customview.textview.ExtTextView
+                            <com.football.customizes.textview.ExtTextViewCountdown
                                 android:id="@+id/tvDraftYourTurnTimeLeft"
                                 style="@style/StyleContent"
                                 android:layout_width="wrap_content"

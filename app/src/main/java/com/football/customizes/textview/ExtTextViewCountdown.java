@@ -7,17 +7,22 @@ import android.util.AttributeSet;
 import com.bon.customview.textview.ExtTextView;
 import com.football.utilities.AppUtilities;
 
+import java8.util.function.Consumer;
+
 public class ExtTextViewCountdown extends ExtTextView {
 
     public static final int FORMAT_TEXT_HOURS = 0;
     public static final int FORMAT_NUMBER_HOURS = 1;
+    public static final int FORMAT_NUMBER_SECONDS_ONLY = 3;
 
     private Handler mHandler = new Handler();
     private Runnable mRunnable;
-    private long time;
+    private long time; // seconds
     private long interval = 1;
     private boolean starting;
     private int formatType = FORMAT_TEXT_HOURS; // FORMAT_TEXT_HOURS: 2h30m, FORMAT_NUMBER_HOURS: 02:30:30
+
+    private Consumer<Void> timeoutCallback;
 
     public ExtTextViewCountdown(Context context) {
         super(context);
@@ -43,6 +48,10 @@ public class ExtTextViewCountdown extends ExtTextView {
         this.formatType = formatType;
     }
 
+    public void setTimeoutCallback(Consumer<Void> timeoutCallback) {
+        this.timeoutCallback = timeoutCallback;
+    }
+
     public void start() {
         if (mRunnable == null) {
             mRunnable = () -> {
@@ -50,22 +59,39 @@ public class ExtTextViewCountdown extends ExtTextView {
                 setText();
                 mHandler.postDelayed(mRunnable, 1000);
                 time -= interval;
-                if (time < 0) {
+                if (time <= 0) {
+                    if (timeoutCallback != null) {
+                        timeoutCallback.accept(null);
+                    }
                     stop();
                 }
             };
         }
 
         if (!starting) {
+            setText();
             mHandler.postDelayed(mRunnable, 1000);
         }
     }
 
     private void setText() {
-        setText(formatType == FORMAT_TEXT_HOURS ? AppUtilities.timeLeft(time) : AppUtilities.timeLeft2(time));
+        switch (formatType) {
+            case FORMAT_TEXT_HOURS:
+                setText(AppUtilities.timeLeft(time));
+                break;
+
+            case FORMAT_NUMBER_HOURS:
+                setText(AppUtilities.timeLeft2(time));
+                break;
+
+            case FORMAT_NUMBER_SECONDS_ONLY:
+                setText(String.valueOf(time));
+                break;
+        }
     }
 
     public void stop() {
+        timeoutCallback = null;
         mHandler.removeCallbacks(mRunnable);
         starting = false;
     }

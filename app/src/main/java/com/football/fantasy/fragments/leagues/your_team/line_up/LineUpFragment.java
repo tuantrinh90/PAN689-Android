@@ -82,7 +82,7 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
     @BindView(R.id.tvDraftYourTeam)
     protected ExtTextView tvDraftYourTeam;
     @BindView(R.id.tvDraftYourTurnTimeLeft)
-    protected ExtTextView tvDraftYourTurnTimeLeft;
+    protected ExtTextViewCountdown tvDraftYourTurnTimeLeft;
     @BindView(R.id.tvDraftEndTurn)
     protected ExtTextView tvDraftEndTurn;
     @BindView(R.id.progress_draft)

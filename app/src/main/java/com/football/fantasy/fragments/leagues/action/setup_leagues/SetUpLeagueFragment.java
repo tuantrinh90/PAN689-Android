@@ -270,10 +270,10 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
 
                 if (BuildConfig.DEBUG) { // todo: delete late
                     calendarDraftTime = Calendar.getInstance();
-                    calendarDraftTime.add(Calendar.MINUTE, 3);
+                    calendarDraftTime.add(Calendar.MINUTE, 1);
 
                     calendarStartTime = Calendar.getInstance();
-                    calendarStartTime.add(Calendar.MINUTE, 5);
+                    calendarStartTime.add(Calendar.MINUTE, 60);
 
                     formatDateTime();
                 } else {
