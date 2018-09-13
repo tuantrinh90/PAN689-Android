@@ -390,6 +390,23 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
         sorts[index] = Constant.SORT_NONE;
     }
 
+    @OnClick({R.id.ivMoreTransferringPlayerLeft, R.id.ivMoreTransferringTimeLeft, R.id.ivMoreBudget})
+    public void oInfoClicked(View view) {
+        boolean isTransfer = league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER);
+
+        switch (view.getId()) {
+            case R.id.ivMoreTransferringPlayerLeft:
+                showMessage(getString(isTransfer ? R.string.message_info_transferring_player_left : R.string.message_info_waving_player_left));
+                break;
+            case R.id.ivMoreTransferringTimeLeft:
+                showMessage(getString(isTransfer ? R.string.message_info_transferring_time_left : R.string.message_info_waving_time_left));
+                break;
+            case R.id.ivMoreBudget:
+                showMessage(getString(R.string.message_info_budget));
+                break;
+        }
+    }
+
     @Override
     public void showLoadingPagingListView(boolean isLoading) {
         if (!isLoading) {

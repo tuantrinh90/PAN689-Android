@@ -337,4 +337,22 @@
     <string name="number_order">#%d</string>
     <string name="my_profile">My Profile</string>
     <string name="team_setup_time_start_in">Team setup time start in:</string>
+    <string name="message_info_league_type">League type includes: Open league and private league. Open league will be shown to all users on list of open leagues and free to join and invite. Private league will not shown on list of open league. Only Owner can invite other users to join</string>
+    <string name="message_info_gameplay_option">Gameplay option includes: Budget mode and Draft mode. In Budget mode, each user will be granted specific budget to shopping. In Draft mode, user can pick 18 players for his team without budget</string>
+    <string name="message_info_number_of_user">Maximum number of users in league -n . League can\'t start without at least (n-1) users. If one team is missing at start of league, Panna will add an autmatically generated team. </string>
+    <string name="message_info_budget_option">Budget option in Transfer mode. There are three type of budget. Users can\'t shop exceeding his granted budget.</string>
+    <string name="message_info_scoring_system">Scoring system includes regular football points (3,1,0) and point per stats. Regular football points: win gets 3 points, draw gets 1 point, loss gets 0 point. Point per stats: points in all matchs will be accumulated</string>
+    <string name="message_info_team_setup_time_transfer">Team setup time is deadline for users to setup his team. If not, team will be randomized. Team setup time can\'t be later than start time. If league can\'t gather minimum number of users before this point. League will be canceled. Exception when only one team is missing at start of league, Panna will add an autmatically generated team.</string>
+    <string name="message_info_start_time_transfer">Start time is time when league will be started automatically if owner do nothing. Start time can\'t be earlier than team setup time.</string>
+    <string name="message_info_team_setup_time_draft">Team setup time is start time for users to setup his team. Team setup time must be earlier than start time at least estimated time for setup team ((number of user x time per draft pick x 18)/60 + 1) minutes. If league can\'t gather minimum number of users before this point. League will be canceled</string>
+    <string name="message_info_start_time_draft">Start time is time when league will be started automatically if owner do nothing. Start time must be later than team setup time at least estimated time for setup team ((number of user x time per draft pick x 18)/60 + 1) minutes</string>
+    <string name="message_info_time_per_draft">Time per draft pick is time for user to pick one player in his turn in setup team.</string>
+    <string name="message_info_transferring_player_left">Maximum number of transfer for each user depends on number of users in league. For 4/6/8/10/12 users are respectively 1/2/3/4/5 number of transfers</string>
+    <string name="message_info_transferring_time_left">Transferring time left is time remaining till transfer deadline. This time will be counted down and reset when new round starts</string>
+    <string name="message_info_budget">Budget remaining of user. Users can\'t transfer exceeding his budget.</string>
+    <string name="message_info_number_of_trade_left">Maximum number of trade is maximum number of successful transaction proposed by user. It depends on number of users in league.  For 4/6/8/10/12 users are respectively 1/2/3/4/5 number of trades</string>
+    <string name="message_info_waving_player_left">Maximum number of waiving for each user depends on number of users in league. For 4//6//8//10//12 users are respectively 1//2//3//4//5 number of transfers</string>
+    <string name="message_info_waving_time_left">Waiving time left is time remaining till waiving deadline. This time will be counted down and reset when new round starts</string>
+    <string name="message_info_player_detail">All points of this player will be accumulated from the player joins the team.</string>
+    <string name="message_info_transfer_waving_deadline">Transfer/waiving deadline is deadline for user to implement transfer/waiving player from player pool. This time is 30 minutes prior to start of first real match in coming round.  This time will be reset when new round starts</string>
 </resources>

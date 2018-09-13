@@ -50,6 +50,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import java8.util.stream.StreamSupport;
@@ -69,6 +70,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
     private static final String TAG = SetUpLeagueFragment.class.getSimpleName();
     private static final String KEY_LEAGUE = "league";
     private static final String KEY_LEAGUE_TITLE = "league_title";
+    Unbinder unbinder;
 
     public static Bundle newBundle(LeagueResponse leagueResponse, String leagueTitle) {
         Bundle bundle = new Bundle();
@@ -83,8 +85,6 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
     EditTextApp etLeagueName;
     @BindView(R.id.ivImagePick)
     CircleImageViewApp ivImagePick;
-    @BindView(R.id.lvLeagueType)
-    LabelView lvLeagueType;
     @BindView(R.id.rgLeagueType)
     RadioGroup rgLeagueType;
     @BindView(R.id.rbOpenLeague)
@@ -375,6 +375,46 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
         return getArguments() == null || !getArguments().containsKey(KEY_LEAGUE);
     }
 
+    // info click
+
+    @OnClick({R.id.lvLeagueType, R.id.lvGamePlayOption, R.id.lvNumberOfUsers, R.id.lvBudgetOption,
+            R.id.lvTradeReviewSetting, R.id.lvScoringSystem, R.id.lvDraftTime, R.id.lvTimePerDraftPick,
+            R.id.lvTeamSetupTime, R.id.lvStartTime})
+    public void onInfoClick(View view) {
+        switch (view.getId()) {
+            case R.id.lvLeagueType:
+                showMessage(getString(R.string.message_info_league_type));
+                break;
+            case R.id.lvGamePlayOption:
+                showMessage(getString(R.string.message_info_gameplay_option));
+                break;
+            case R.id.lvNumberOfUsers:
+                showMessage(getString(R.string.message_info_number_of_user));
+                break;
+            case R.id.lvBudgetOption:
+                showMessage(getString(R.string.message_info_budget_option));
+                break;
+            case R.id.lvTradeReviewSetting:
+//                showMessage(getString());
+                break;
+            case R.id.lvScoringSystem:
+                showMessage(getString(R.string.message_info_scoring_system));
+                break;
+            case R.id.lvDraftTime:
+                showMessage(getString(R.string.message_info_team_setup_time_draft));
+                break;
+            case R.id.lvTimePerDraftPick:
+                showMessage(getString(R.string.message_info_time_per_draft));
+                break;
+            case R.id.lvTeamSetupTime:
+                showMessage(getString(R.string.message_info_team_setup_time_transfer));
+                break;
+            case R.id.lvStartTime:
+                showMessage(getString(llDraft.isActivated() ? R.string.message_info_start_time_draft : R.string.message_info_start_time_transfer));
+                break;
+        }
+    }
+
     @OnClick(R.id.ivImagePick)
     void onClickImagePick() {
         mActivity.getRxPermissions().request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -460,7 +500,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                 .setExtKeyValuePairs(valuePairsNumberOfUser)
                 .setValue(keyValuePairNumberOfUser.getKey())
                 .setOnSelectedConsumer(extKeyValuePair -> {
-                    if (!android.text.TextUtils.isEmpty(extKeyValuePair.getKey())) {
+                    if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
                         keyValuePairNumberOfUser = extKeyValuePair;
                         setUpdateNumberOfUser();
                     }
@@ -508,7 +548,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                 .setExtKeyValuePairs(valuePairsTimePerDraft)
                 .setValue(keyValuePairTimePerDraft.getKey())
                 .setOnSelectedConsumer(extKeyValuePair -> {
-                    if (!android.text.TextUtils.isEmpty(extKeyValuePair.getKey())) {
+                    if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
                         keyValuePairTimePerDraft = extKeyValuePair;
                         setUpdateTimePerDraft();
                     }

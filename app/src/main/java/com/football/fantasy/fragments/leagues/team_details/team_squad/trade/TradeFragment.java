@@ -140,6 +140,11 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
         });
     }
 
+    @OnClick(R.id.ivMoreNumberOfTradeLeft)
+    public void onInfoClick() {
+        showMessage(getString(R.string.message_info_number_of_trade_left));
+    }
+
     @OnClick(R.id.ivAdd)
     public void onAddClicked() {
         ChooseATeamFragment.start(getContext(), league.getId(), team.getId());

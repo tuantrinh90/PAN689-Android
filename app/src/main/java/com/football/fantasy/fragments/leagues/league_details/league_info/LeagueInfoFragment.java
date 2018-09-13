@@ -35,6 +35,8 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
 
     @BindView(R.id.tvTimeLabel)
     ExtTextView tvTimeLabel;
+    @BindView(R.id.ivInfoTransferDeadline)
+    View ivInfoTransferDeadline;
     @BindView(R.id.tvTime)
     ExtTextView tvTime;
     @BindView(R.id.ivLeague)
@@ -101,6 +103,11 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
     @Override
     public ILeagueInfoPresenter<ILeagueInfoView> createPresenter() {
         return new LeagueInfoDataPresenter(getAppComponent());
+    }
+
+    @OnClick(R.id.ivInfoTransferDeadline)
+    void onInfoClicked() {
+        showMessage(getString(R.string.message_info_transfer_waving_deadline));
     }
 
     @OnClick(R.id.tvSetupTeam)
@@ -224,6 +231,9 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
                 tvSetupTeam.setText(R.string.lineup_my_team);
                 tvTimeLabel.setText(R.string.transfer_deadline);
                 tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTransferDeadlineCalendar(), Constant.FORMAT_DATE_TIME));
+
+                // visible info transfer deadline
+                ivInfoTransferDeadline.setVisibility(View.VISIBLE);
 
             } else if (league.getStatus() == LeagueResponse.FINISHED) {
                 tvSetupTeam.setVisibility(View.GONE);

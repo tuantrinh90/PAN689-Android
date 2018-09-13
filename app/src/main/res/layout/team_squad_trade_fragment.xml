@@ -39,7 +39,7 @@
                 app:textViewFontAssetName="@string/font_display_heavy" />
 
             <ImageView
-                android:id="@+id/ivMoreTransferringPlayerLeft"
+                android:id="@+id/ivMoreNumberOfTradeLeft"
                 android:layout_width="@dimen/icon_tiny"
                 android:layout_height="@dimen/icon_tiny"
                 android:layout_marginLeft="@dimen/padding_content"

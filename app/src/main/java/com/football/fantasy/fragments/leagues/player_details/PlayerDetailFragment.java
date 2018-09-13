@@ -56,6 +56,8 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
 
     private static final ExtKeyValuePair DEFAULT_KEY = new ExtKeyValuePair(KEY_TOTAL, "Total statistics");
 
+    @BindView(R.id.ivInfo)
+    View ivInfo;
     @BindView(R.id.viewPick)
     View viewPick;
     @BindView(R.id.ivPick)
@@ -246,6 +248,7 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
         switch (pickEnable) {
             case PICK_NONE:
                 viewPick.setVisibility(View.GONE);
+                ivInfo.setVisibility(View.VISIBLE);
                 break;
 
             case PICK_PICK:
@@ -285,6 +288,11 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
         super.initToolbar(supportActionBar);
         supportActionBar.setDisplayHomeAsUpEnabled(true);
         supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_blue);
+    }
+
+    @OnClick({R.id.ivInfo})
+    public void onInfoClicked() {
+       showMessage(getString(R.string.message_info_player_detail));
     }
 
     @OnClick({R.id.selection})
