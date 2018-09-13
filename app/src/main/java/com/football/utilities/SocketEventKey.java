@@ -4,6 +4,7 @@ public class SocketEventKey {
 
     // emit
     public static final String EVENT_JOIN_ROOM = "join_room";
+    public static final String EVENT_LEAVE_ROOM = "leave_room";
 
 
     // on

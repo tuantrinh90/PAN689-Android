@@ -11,6 +11,8 @@ import java8.util.function.Consumer;
 
 public class ExtTextViewCountdown extends ExtTextView {
 
+    private static final String TAG = "ExtTextViewCountdown";
+
     public static final int FORMAT_TEXT_HOURS = 0;
     public static final int FORMAT_NUMBER_HOURS = 1;
     public static final int FORMAT_NUMBER_SECONDS_ONLY = 3;
@@ -25,15 +27,31 @@ public class ExtTextViewCountdown extends ExtTextView {
     private Consumer<Void> timeoutCallback;
 
     public ExtTextViewCountdown(Context context) {
-        super(context);
+        super(context, null, 0);
     }
 
     public ExtTextViewCountdown(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        super(context, attrs, 0);
     }
 
     public ExtTextViewCountdown(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        init();
+    }
+
+    private void init() {
+        mRunnable = () -> {
+            starting = true;
+            setText();
+            time -= interval;
+            if (time < 0) {
+                if (timeoutCallback != null) {
+                    timeoutCallback.accept(null);
+                }
+                stop();
+            }
+            mHandler.postDelayed(mRunnable, 1000);
+        };
     }
 
     public void onDestroyView() {
@@ -53,25 +71,18 @@ public class ExtTextViewCountdown extends ExtTextView {
     }
 
     public void start() {
-        if (mRunnable == null) {
-            mRunnable = () -> {
-                starting = true;
-                setText();
-                mHandler.postDelayed(mRunnable, 1000);
-                time -= interval;
-                if (time <= 0) {
-                    if (timeoutCallback != null) {
-                        timeoutCallback.accept(null);
-                    }
-                    stop();
-                }
-            };
-        }
-
         if (!starting) {
+            mHandler.removeCallbacks(mRunnable);
+            init();
             setText();
             mHandler.postDelayed(mRunnable, 1000);
         }
+    }
+
+    public void reset() {
+        starting = false;
+        mHandler.removeCallbacks(mRunnable);
+        start();
     }
 
     private void setText() {

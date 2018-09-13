@@ -62,6 +62,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     public void onDestroyView() {
         getAppContext().off(SocketEventKey.EVENT_CHANGE_LINEUP);
         getAppContext().off(SocketEventKey.EVENT_CHANGE_TURN);
+        presenter.leaveLeague(league.getId());
         textCountdown.onDestroyView();
         tvDraftYourTurnTimeLeft.onDestroyView();
         tvDraftCurrentTimeLeft.onDestroyView();
@@ -130,12 +131,12 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                 draftTeam.setVisibility(View.GONE);
 
                 // your turn view
-                tvDraftYourTurnTimeLeft.setTimeoutCallback(aVoid -> {
-                    setTurn(next, null, MAX_SECONDS_CHANGE_TURN);
-                });
                 tvDraftYourTurnTimeLeft.setTime(timeLeft);
                 tvDraftYourTurnTimeLeft.setFormatType(ExtTextViewCountdown.FORMAT_NUMBER_SECONDS_ONLY);
                 tvDraftYourTurnTimeLeft.start();
+                tvDraftYourTurnTimeLeft.setTimeoutCallback(aVoid -> {
+                    setTurn(next, null, MAX_SECONDS_CHANGE_TURN);
+                });
 
                 progressDraft.setProgress(timeLeft);
                 progressDraft.setMax(MAX_SECONDS_CHANGE_TURN);
@@ -145,12 +146,12 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                 draftTeam.setVisibility(View.VISIBLE);
 
                 // current view
-                tvDraftCurrentTimeLeft.setTimeoutCallback(aVoid -> {
-                    setTurn(next, null, MAX_SECONDS_CHANGE_TURN);
-                });
                 tvDraftCurrentTimeLeft.setTime(timeLeft);
                 tvDraftCurrentTimeLeft.setFormatType(ExtTextViewCountdown.FORMAT_NUMBER_HOURS);
                 tvDraftCurrentTimeLeft.start();
+                tvDraftCurrentTimeLeft.setTimeoutCallback(aVoid -> {
+                    setTurn(next, null, MAX_SECONDS_CHANGE_TURN);
+                });
                 tvDraftCurrentTeam.setText(current.getTeam().getName());
             }
         }

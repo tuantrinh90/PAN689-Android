@@ -60,4 +60,15 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
         getOptView().get().getAppActivity().getAppContext().getSocket().emit(SocketEventKey.EVENT_JOIN_ROOM, room);
 
     }
+
+    @Override
+    public void leaveLeague(int leagueId) {
+        JSONObject room = new JSONObject();
+        try {
+            room.put("room", "room_" + leagueId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        getOptView().get().getAppActivity().getAppContext().getSocket().emit(SocketEventKey.EVENT_LEAVE_ROOM, room);
+    }
 }
