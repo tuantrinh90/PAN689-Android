@@ -138,9 +138,13 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                     setTurn(next, null, MAX_SECONDS_CHANGE_TURN);
                 });
 
+                // progress
                 progressDraft.setProgress(timeLeft);
                 progressDraft.setMax(MAX_SECONDS_CHANGE_TURN);
                 progressDraft.start();
+
+                // enable lineupView
+                enableLineupView(true);
             } else {
                 draftYourTurn.setVisibility(View.GONE);
                 draftTeam.setVisibility(View.VISIBLE);
@@ -153,11 +157,17 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                     setTurn(next, null, MAX_SECONDS_CHANGE_TURN);
                 });
                 tvDraftCurrentTeam.setText(current.getTeam().getName());
+
+                enableLineupView(false);
             }
         }
 
         // next view
         tvDraftNextTeam.setText(next != null ? next.getTeam().getName() : "");
+    }
+
+    private void enableLineupView(boolean enable) {
+        lineupView.setAddable(enable);
     }
 
     @OnClick({R.id.tvDraftEndTurn})

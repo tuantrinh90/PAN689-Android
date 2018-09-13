@@ -79,12 +79,6 @@ public class ExtTextViewCountdown extends ExtTextView {
         }
     }
 
-    public void reset() {
-        starting = false;
-        mHandler.removeCallbacks(mRunnable);
-        start();
-    }
-
     private void setText() {
         switch (formatType) {
             case FORMAT_TEXT_HOURS:

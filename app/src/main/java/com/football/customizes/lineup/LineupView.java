@@ -33,6 +33,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
     private boolean editable = false; // có thể edit player
     private boolean removable = false; // có thể remove player
     private boolean addable = false; // có thể add player
+    private boolean onlyOne = false; // chỉ được pick 1 lần duy nhất, dành cho chế độ draft
 
     public LineupView(Context context) {
         this(context, null);
@@ -257,6 +258,10 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
 
     public void setAddable(boolean addable) {
         this.addable = addable;
+    }
+
+    public void setOnlyOne(boolean onlyOne) {
+        this.onlyOne = onlyOne;
     }
 
     public boolean isFullPosition(int position) {
