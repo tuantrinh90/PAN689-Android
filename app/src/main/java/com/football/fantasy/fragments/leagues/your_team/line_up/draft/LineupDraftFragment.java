@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.bon.jackson.JacksonUtils;
+import com.football.customizes.progress.ExtProgress;
 import com.football.customizes.textview.ExtTextViewCountdown;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.your_team.line_up.LineUpFragment;
@@ -41,6 +42,8 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     View draftYourTurn;
     @BindView(R.id.text_countdown)
     ExtTextViewCountdown textCountdown;
+    @BindView(R.id.progress_draft)
+    ExtProgress progressDraft;
 
     @NonNull
     @Override
@@ -66,6 +69,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         textCountdown.onDestroyView();
         tvDraftYourTurnTimeLeft.onDestroyView();
         tvDraftCurrentTimeLeft.onDestroyView();
+        progressDraft.onDestroyView();
         super.onDestroyView();
     }
 

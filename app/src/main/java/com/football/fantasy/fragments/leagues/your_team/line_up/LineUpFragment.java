@@ -85,8 +85,6 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
     protected ExtTextViewCountdown tvDraftYourTurnTimeLeft;
     @BindView(R.id.tvDraftEndTurn)
     protected ExtTextView tvDraftEndTurn;
-    @BindView(R.id.progress_draft)
-    protected ExtProgress progressDraft;
     @BindView(R.id.draft_header)
     protected LinearLayout draftHeader;
     @BindView(R.id.transfer_bottom)
@@ -170,11 +168,6 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
                     (dialog, which) -> {
                     });
         });
-    }
-
-
-    private void setupDraftMode() {
-
     }
 
     void registerEvent() {
