@@ -97,7 +97,6 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     private String filterPositions = "";
     private int[] sorts = new int[]{Constant.SORT_NONE, Constant.SORT_NONE, Constant.SORT_NONE}; // -1: NONE, 0: desc, 1: asc
     private List<ExtKeyValuePair> displays = new ArrayList<>();
-    private boolean canTransfer;
 
     public static TransferringFragment newInstance(TeamResponse team, LeagueResponse league) {
         TransferringFragment fragment = new TransferringFragment();
@@ -427,7 +426,6 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
 
     @Override
     public void displayHeader(boolean canTransfer, String transferPlayerLeftDisplay, long transferTimeLeft, long budget) {
-        this.canTransfer = canTransfer;
         tvTransferringPlayerLeftValue.setText(transferPlayerLeftDisplay);
         tvTransferringTimeLeftValue.setTime(transferTimeLeft);
         tvTransferringTimeLeftValue.start();

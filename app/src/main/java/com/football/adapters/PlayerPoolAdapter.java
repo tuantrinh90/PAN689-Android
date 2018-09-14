@@ -107,8 +107,19 @@ public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
                 break;
             case PlayerResponse.Options.POINT:
                 value = String.valueOf(data.getPoint());
-                ivOption.setVisibility(View.VISIBLE);
                 // set ivOption up or down here
+                if (data.getPoint() == 0) {
+                    ivOption.setVisibility(View.GONE);
+                } else if (data.getPoint() < 0) {
+                    ivOption.setVisibility(View.VISIBLE);
+                    ivOption.setBackgroundResource(R.drawable.bg_circle_red);
+                    ivOption.setImageResource(R.drawable.ic_arrow_downward_white_small);
+                } else if (data.getPoint() > 0) {
+                    ivOption.setVisibility(View.VISIBLE);
+                    ivOption.setBackgroundResource(R.drawable.bg_circle_green);
+                    ivOption.setImageResource(R.drawable.ic_arrow_upward_white_small);
+                }
+
                 break;
             case PlayerResponse.Options.GOALS:
                 value = String.valueOf(data.getGoals());

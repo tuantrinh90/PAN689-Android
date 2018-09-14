@@ -169,9 +169,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
         add(new ExtKeyValuePair("12", "12"));
     }};
     private List<ExtKeyValuePair> valuePairsTimePerDraft = new ArrayList<ExtKeyValuePair>() {{
-        add(new ExtKeyValuePair("15", "15"));
         add(new ExtKeyValuePair("30", "30"));
-        add(new ExtKeyValuePair("45", "45"));
         add(new ExtKeyValuePair("60", "60"));
         add(new ExtKeyValuePair("90", "90"));
         add(new ExtKeyValuePair("120", "120"));
@@ -244,7 +242,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                 keyValuePairTimePerDraft = new ExtKeyValuePair(valueDraft, valueDraft);
 
                 // disable etNumberOfUser after setupTime
-                etNumberOfUser.setEnabled(league.getStatus() == WAITING_FOR_START && AppUtilities.isSetupTime(league.getTeamSetup()));
+                etNumberOfUser.setEnabled(league.getStatus() == WAITING_FOR_START);
 
                 etNumberOfUser.setContent(valueTransfer);
                 etTimePerDraftPick.setContent(valueDraft);

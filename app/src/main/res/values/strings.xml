@@ -291,6 +291,7 @@
     <string name="message_reject_invitation">Are you sure you want to reject this invitation?</string>
     <string name="message_can_not_change_position_after_real_match_start">You can\'t change position of player after his real match starts</string>
     <string name="transfer_deadline">Transfer deadline</string>
+    <string name="waiving_deadline">Waiving deadline</string>
     <string name="off">Off</string>
     <string name="on">On</string>
     <string name="not_enough_teams">Not enough teams to start league</string>

@@ -39,6 +39,7 @@ public class TeamStatisticAdapter extends DefaultAdapter<RoundResponse> {
 
         if (position == 0 || data.getPoint() == 0) {
             holder.ivChange.setVisibility(View.GONE);
+
             holder.tvChange.setText("-");
         } else if (data.getPoint() < 0) {
             holder.ivChange.setVisibility(View.VISIBLE);

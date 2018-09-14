@@ -229,7 +229,7 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
 
             } else if (league.getStatus() == LeagueResponse.ON_GOING) {
                 tvSetupTeam.setText(R.string.lineup_my_team);
-                tvTimeLabel.setText(R.string.transfer_deadline);
+                tvTimeLabel.setText(isTransfer ? R.string.transfer_deadline : R.string.waiving_deadline);
                 tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTransferDeadlineCalendar(), Constant.FORMAT_DATE_TIME));
 
                 // visible info transfer deadline
@@ -237,7 +237,7 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
 
             } else if (league.getStatus() == LeagueResponse.FINISHED) {
                 tvSetupTeam.setVisibility(View.GONE);
-                tvTimeLabel.setText(R.string.transfer_deadline);
+                tvTimeLabel.setText(isTransfer ? R.string.transfer_deadline : R.string.waiving_deadline);
                 tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTransferDeadlineCalendar(), Constant.FORMAT_DATE_TIME));
             }
         } catch (Exception e) {

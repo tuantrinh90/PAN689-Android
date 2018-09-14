@@ -147,7 +147,7 @@ public class TeamFragment extends BaseMvpFragment<ITeamView, ITeamPresenter<ITea
             }
 
         } else if (league.getStatus() == LeagueResponse.ON_GOING) {
-            tvTimeLabel.setText(R.string.transfer_deadline);
+            tvTimeLabel.setText(isTransfer ? R.string.transfer_deadline : R.string.waiving_deadline);
             tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTransferDeadlineCalendar(), Constant.FORMAT_DATE_TIME));
         }
     }

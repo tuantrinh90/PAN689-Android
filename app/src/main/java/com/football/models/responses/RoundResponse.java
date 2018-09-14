@@ -7,21 +7,21 @@ import java.io.Serializable;
 public class RoundResponse implements Serializable {
 
     @JsonProperty("round")
-    private Integer round;
+    private int round;
     @JsonProperty("point")
-    private Integer point;
+    private int point;
     @JsonProperty("change")
-    private Integer change;
+    private int change;
 
-    public Integer getRound() {
+    public int getRound() {
         return round;
     }
 
-    public Integer getPoint() {
+    public int getPoint() {
         return point;
     }
 
-    public Integer getChange() {
+    public int getChange() {
         return change;
     }
 
