@@ -323,6 +323,8 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
             mvpFragments.add(ResultsFragment.newInstance(league).setChildFragment(true));
             mvpFragments.add(TradeReviewFragment.newInstance(league).setChildFragment(true));
         } else if (league.getStatus() == LeagueResponse.FINISHED) {
+            carousels.add(new Carousel(getString(R.string.ranking), false));
+            carousels.add(new Carousel(getString(R.string.results), false));
 
             mvpFragments.add(RankingFragment.newInstance(league).setChildFragment(true));
             mvpFragments.add(ResultsFragment.newInstance(league).setChildFragment(true));

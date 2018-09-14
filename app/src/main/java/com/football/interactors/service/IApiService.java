@@ -102,7 +102,7 @@ public interface IApiService {
     Observable<BaseResponse<TradeResponse>> submitTradeRequests(@Body RequestBody requestBody);
 
     @GET(ServiceConfig.TRADE_REVIEW)
-    Observable<BaseResponse<TradeResponse>> getTradeReviews(@Body RequestBody requestBody);
+    Observable<BaseResponse<PagingResponse<TradeResponse>>> getTradeReviews(@QueryMap Map<String, String> queries);
 
     @POST(ServiceConfig.TRADE_DECISION)
     Observable<BaseResponse<TradeResponse>> submitTradeDecision(@Path(ServiceConfig.KEY_ID) int requestId, @Body RequestBody requestBody);
