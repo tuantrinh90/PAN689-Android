@@ -65,7 +65,7 @@
                         android:padding="0dp"
                         android:text="@string/play_match"
                         android:textAllCaps="true"
-                        android:textSize="@dimen/font_bubble"
+                        android:textSize="@dimen/font_size_small"
                         app:textViewFontAssetName="@string/font_display_heavy" />
 
                     <com.bon.customview.textview.ExtTextView
@@ -77,7 +77,7 @@
                         android:padding="0dp"
                         android:text="@string/win"
                         android:textAllCaps="true"
-                        android:textSize="@dimen/font_bubble"
+                        android:textSize="@dimen/font_size_small"
                         app:textViewFontAssetName="@string/font_display_heavy" />
 
                     <com.bon.customview.textview.ExtTextView
@@ -89,7 +89,7 @@
                         android:padding="0dp"
                         android:text="@string/draw"
                         android:textAllCaps="true"
-                        android:textSize="@dimen/font_bubble"
+                        android:textSize="@dimen/font_size_small"
                         app:textViewFontAssetName="@string/font_display_heavy" />
 
                     <com.bon.customview.textview.ExtTextView
@@ -101,7 +101,7 @@
                         android:padding="0dp"
                         android:text="@string/lose"
                         android:textAllCaps="true"
-                        android:textSize="@dimen/font_bubble"
+                        android:textSize="@dimen/font_size_small"
                         app:textViewFontAssetName="@string/font_display_heavy" />
 
                     <com.bon.customview.textview.ExtTextView
@@ -113,7 +113,7 @@
                         android:padding="0dp"
                         android:text="@string/pts"
                         android:textAllCaps="true"
-                        android:textSize="@dimen/font_bubble"
+                        android:textSize="@dimen/font_size_small"
                         app:textViewFontAssetName="@string/font_display_heavy" />
 
                 </LinearLayout>
