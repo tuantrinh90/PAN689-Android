@@ -22,7 +22,6 @@
             android:layout_height="@dimen/icon_medium"
             android:background="@drawable/bg_circle_yellow"
             android:gravity="center"
-            android:text="01"
             android:padding="0dp"
             android:textColor="@color/color_white"
             app:textViewFontAssetName="@string/font_display_bold" />

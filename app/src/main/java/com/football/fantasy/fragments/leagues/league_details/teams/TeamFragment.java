@@ -136,10 +136,11 @@ public class TeamFragment extends BaseMvpFragment<ITeamView, ITeamPresenter<ITea
 
     void displayTime() {
         // line up my team
+        boolean isTransfer = league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER);
         if (league.getStatus() == LeagueResponse.WAITING_FOR_START) {
-            if (AppUtilities.isSetupTime(league.getTeamSetup())) {
+            if (AppUtilities.isSetupTime(isTransfer ? league.getTeamSetup() : league.getDraftTime())) {
                 tvTimeLabel.setText(R.string.team_setup_time);
-                tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
+                tvTime.setText(DateTimeUtils.convertCalendarToString(isTransfer ? league.getTeamSetUpCalendar() : league.getDraftTimeCalendar(), Constant.FORMAT_DATE_TIME));
             } else {
                 tvTimeLabel.setText(R.string.start_time);
                 tvTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));

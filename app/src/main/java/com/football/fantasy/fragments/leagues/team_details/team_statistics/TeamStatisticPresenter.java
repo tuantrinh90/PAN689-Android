@@ -21,22 +21,13 @@ public class TeamStatisticPresenter extends BaseDataPresenter<ITeamStatisticView
                     dataModule.getApiService().getTeamStatistic(teamId),
                     new ApiCallback<TeamStatisticResponse>() {
                         @Override
-                        public void onStart() {
-                            v.showLoading(true);
-                        }
-
-                        @Override
-                        public void onComplete() {
-                            v.showLoading(false);
-                        }
-
-                        @Override
                         public void onSuccess(TeamStatisticResponse response) {
                             v.displayTeamStatistic(response);
                         }
 
                         @Override
                         public void onError(String e) {
+                            v.showLoadingPagingListView(false);
                             v.showMessage(e);
                         }
                     }));

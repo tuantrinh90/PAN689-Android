@@ -5,4 +5,5 @@ import com.football.models.responses.TeamStatisticResponse;
 
 public interface ITeamStatisticView extends IBaseMvpView {
     void displayTeamStatistic(TeamStatisticResponse teamStatistic);
+
 }

@@ -8,20 +8,19 @@ import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.interfaces.Optional;
 import com.football.adapters.TeamStatisticAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
+import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.TeamSquadFragment;
 import com.football.models.responses.LeagueResponse;
+import com.football.models.responses.RoundResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.models.responses.TeamStatisticResponse;
 import com.football.utilities.AppUtilities;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -46,15 +45,12 @@ public class TeamStatisticFragment extends BaseMvpFragment<ITeamStatisticView, I
     ExtTextView tvBudget;
     @BindView(R.id.budget)
     View budget;
-    @BindView(R.id.lvData)
-    ExtPagingListView lvData;
+    @BindView(R.id.rv_statistic)
+    ExtRecyclerView<RoundResponse> rvStatistic;
 
     private String title;
     private TeamResponse team;
     private LeagueResponse league;
-
-    TeamStatisticAdapter teamStatisticAdapter;
-
 
     public static Bundle newBundle(String title, TeamResponse team, LeagueResponse league) {
         Bundle bundle = new Bundle();
@@ -100,14 +96,19 @@ public class TeamStatisticFragment extends BaseMvpFragment<ITeamStatisticView, I
     }
 
     void initData() {
-        teamStatisticAdapter = new TeamStatisticAdapter(mActivity, new ArrayList<>());
-        lvData.init(mActivity, teamStatisticAdapter);
+        TeamStatisticAdapter adapter = new TeamStatisticAdapter(mActivity);
+        rvStatistic
+                .adapter(adapter)
+                .refreshListener(() -> {
+                    rvStatistic.startLoading();
+                    rvStatistic.clear();
+                    getTeamStatistic();
+                })
+                .build();
     }
 
     private void getTeamStatistic() {
-        lvData.startLoading();
         presenter.getTeamStatistic(team.getId());
-
     }
 
     @Override
@@ -123,9 +124,13 @@ public class TeamStatisticFragment extends BaseMvpFragment<ITeamStatisticView, I
     }
 
     @Override
+    public void showLoadingPagingListView(boolean isLoading) {
+        if (!isLoading) rvStatistic.stopLoading();
+    }
+
+    @Override
     public void displayTeamStatistic(TeamStatisticResponse teamStatistic) {
-        Optional.from(lvData).doIfPresent(rv -> rv.addNewItems(teamStatistic.getRounds()));
-        lvData.stopLoading();
+        rvStatistic.addItems(teamStatistic.getRounds());
 
         tvPoints.setText(AppUtilities.convertNumber(Long.valueOf(teamStatistic.getTotalPoint())));
         tvBudget.setText(getString(R.string.money_prefix, AppUtilities.getMoney(teamStatistic.getCurrentBudget())));

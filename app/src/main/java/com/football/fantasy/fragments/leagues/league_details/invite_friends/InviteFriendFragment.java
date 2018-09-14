@@ -28,14 +28,14 @@ public class InviteFriendFragment extends BaseMvpFragment<IInviteFriendView, IIn
     private static final String TAG = InviteFriendFragment.class.getSimpleName();
     private static final String KEY_LEAGUE = "LEAGUE";
     private static final String KEY_LEAGUE_TYPE = "league_type";
-    private static final String KEY_START_TIME = "START_TIME";
+    private static final String KEY_STARTED = "KEY_STARTED";
 
-    public static InviteFriendFragment newInstance(LeagueResponse league, String leagueType, boolean startTime) {
+    public static InviteFriendFragment newInstance(LeagueResponse league, String leagueType, boolean started) {
         InviteFriendFragment fragment = new InviteFriendFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_LEAGUE, league);
         bundle.putString(KEY_LEAGUE_TYPE, leagueType);
-        bundle.putBoolean(KEY_START_TIME, startTime);
+        bundle.putBoolean(KEY_STARTED, started);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -47,7 +47,7 @@ public class InviteFriendFragment extends BaseMvpFragment<IInviteFriendView, IIn
     @BindView(R.id.llInvite)
     LinearLayout llInvite;
 
-    private boolean startTime;
+    private boolean started;
 
     String leagueType;
     private LeagueResponse league;
@@ -76,7 +76,7 @@ public class InviteFriendFragment extends BaseMvpFragment<IInviteFriendView, IIn
         Bundle bundle = getArguments();
         league = (LeagueResponse) bundle.getSerializable(KEY_LEAGUE);
         leagueType = bundle.getString(KEY_LEAGUE_TYPE);
-        startTime = bundle.getBoolean(KEY_START_TIME);
+        started = bundle.getBoolean(KEY_STARTED);
     }
 
     void initView() {
@@ -103,7 +103,7 @@ public class InviteFriendFragment extends BaseMvpFragment<IInviteFriendView, IIn
                             presenter.inviteFriend(league.getId(), friend.getId());
                         }
                     },
-                    startTime);
+                    started);
 
             rvFriend
                     .adapter(inviteFriendAdapter)

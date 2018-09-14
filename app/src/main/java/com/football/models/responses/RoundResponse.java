@@ -25,7 +25,4 @@ public class RoundResponse implements Serializable {
         return change;
     }
 
-    public boolean isIncrease() {
-        return point > 0;
-    }
 }
