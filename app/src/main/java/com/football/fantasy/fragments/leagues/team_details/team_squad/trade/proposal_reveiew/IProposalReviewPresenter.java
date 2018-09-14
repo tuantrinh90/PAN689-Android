@@ -6,4 +6,6 @@ import com.football.common.views.IBaseMvpView;
 public interface IProposalReviewPresenter<V extends IBaseMvpView> extends IBaseDataPresenter<V> {
 
     void submitDecision(int requestId, int teamId, int status);
+
+    void cancelDecision(int requestId);
 }

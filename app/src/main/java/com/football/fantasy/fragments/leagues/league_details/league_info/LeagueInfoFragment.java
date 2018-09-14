@@ -193,7 +193,7 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
                 tvBudget.setText(R.string.budget);
             } else {
                 tvBudget.setText(R.string.time_per_draft_pick);
-                tvBudgetValue.setText(DateTimeUtils.convertCalendarToString(league.getDraftTimeCalendar(), Constant.FORMAT_DATE_TIME));
+                tvBudgetValue.setText(String.valueOf(league.getTimeToPick()));
             }
             tvScoringSystem.setText(league.getScoringSystemDisplay());
             tvDescription.setText(league.getDescription());

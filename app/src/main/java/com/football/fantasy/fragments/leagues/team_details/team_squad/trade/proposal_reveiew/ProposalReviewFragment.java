@@ -16,8 +16,7 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.lineup.PlayerView;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.proposal.ProposalFragment;
-import com.football.models.responses.PlayerResponse;
+import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.request.RequestFragment;
 import com.football.models.responses.TradeResponse;
 import com.football.utilities.AppUtilities;
 import com.football.utilities.Constant;
@@ -30,6 +29,7 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
 
     private static final String KEY_TRADE = "TRADE";
     private static final String KEY_TITLE = "TITLE";
+    private static final String KEY_TYPE = "TYPE";
 
     @BindView(R.id.tvTime)
     ExtTextView tvTime;
@@ -57,20 +57,26 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     PlayerView player23;
     @BindViews({R.id.player11, R.id.player12, R.id.player13, R.id.player21, R.id.player22, R.id.player23})
     PlayerView[] playerViews;
+    @BindView(R.id.to_you)
+    View toYou;
+    @BindView(R.id.by_you)
+    View byYou;
 
     private String title;
     private TradeResponse trade;
+    private int type;
 
-    public static void start(Context context, String title, TradeResponse trade) {
+    public static void start(Context context, String title, TradeResponse trade, int type) {
         AloneFragmentActivity.with(context)
-                .parameters(ProposalReviewFragment.newBundle(title, trade))
+                .parameters(ProposalReviewFragment.newBundle(title, trade, type))
                 .start(ProposalReviewFragment.class);
     }
 
-    private static Bundle newBundle(String title, TradeResponse trade) {
+    private static Bundle newBundle(String title, TradeResponse trade, int type) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_TITLE, title);
         bundle.putSerializable(KEY_TRADE, trade);
+        bundle.putInt(KEY_TYPE, type);
         return bundle;
     }
 
@@ -92,6 +98,7 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     private void getDataFromBundle() {
         title = getArguments().getString(KEY_TITLE);
         trade = (TradeResponse) getArguments().getSerializable(KEY_TRADE);
+        type = getArguments().getInt(KEY_TYPE);
     }
 
     @Override
@@ -116,6 +123,14 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     }
 
     private void initView() {
+        if (type == RequestFragment.REQUEST_FROM) {
+            byYou.setVisibility(View.VISIBLE);
+            toYou.setVisibility(View.GONE);
+        } else {
+            byYou.setVisibility(View.GONE);
+            toYou.setVisibility(View.VISIBLE);
+        }
+
         for (PlayerView player : playerViews) {
             player.setTextColor(ContextCompat.getColor(mActivity, R.color.color_black));
             player.setPlayer(null);
@@ -136,7 +151,7 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
         }
     }
 
-    @OnClick({R.id.buttonReject, R.id.buttonApprove})
+    @OnClick({R.id.buttonReject, R.id.buttonApprove, R.id.buttonCancel})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.buttonReject:
@@ -150,6 +165,7 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
                             decision(TradeResponse.DECISION_REJECT);
                         }, null);
                 break;
+
             case R.id.buttonApprove:
                 DialogUtils.messageBox(mActivity,
                         0,
@@ -159,6 +175,18 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
                         getString(R.string.cancel),
                         (dialog, which) -> {
                             decision(TradeResponse.DECISION_ACCEPT);
+                        }, null);
+                break;
+
+            case R.id.buttonCancel:
+                DialogUtils.messageBox(mActivity,
+                        0,
+                        getString(R.string.app_name),
+                        getString(R.string.message_confirm_proposal_cancelled),
+                        getString(R.string.ok),
+                        getString(R.string.cancel),
+                        (dialog, which) -> {
+                            presenter.cancelDecision(trade.getId());
                         }, null);
                 break;
         }

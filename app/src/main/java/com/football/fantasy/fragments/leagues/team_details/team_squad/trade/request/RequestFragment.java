@@ -83,7 +83,7 @@ public class RequestFragment extends BaseMvpFragment<IRequestView, IRequestPrese
         TradeAdapter adapter = new TradeAdapter(
                 getContext(),
                 trade -> {
-                    ProposalReviewFragment.start(getContext(), getString(R.string.trade_request), trade);
+                    ProposalReviewFragment.start(getContext(), getString(R.string.trade_request), trade, type);
                 },
                 team -> {
                     AloneFragmentActivity.with(this)

@@ -107,6 +107,9 @@ public interface IApiService {
     @POST(ServiceConfig.TRADE_DECISION)
     Observable<BaseResponse<TradeResponse>> submitTradeDecision(@Path(ServiceConfig.KEY_ID) int requestId, @Body RequestBody requestBody);
 
+    @POST(ServiceConfig.TRADE_CANCEL)
+    Observable<BaseResponse<TradeResponse>> cancelTradeDecision(@Path(ServiceConfig.KEY_ID) int requestId, @Body RequestBody requestBody);
+
 
     @POST(ServiceConfig.CHANGE_TEAM_FORMATION)
     Observable<BaseResponse<TeamPitchViewResponse>> changeTeamFormation(@Path(ServiceConfig.KEY_ID) int teamId, @Body RequestBody requestBody);

@@ -148,7 +148,7 @@ public class TeamLineUpFragment extends BaseMvpFragment<ITeamLineUpView, ITeamLi
         new SelectDialog()
                 .setPlayers(players)
                 .setClickCallback(player -> {
-                    // currentTime > deadline
+                    // currentTime > deadline // todo: chờ tái hiện 544
                     Calendar currentTime = Calendar.getInstance();
                     Calendar deadline = team.getCurrentRound() != null ? team.getCurrentRound().getTransferDeadlineCalendar() : null;
                     if (deadline == null) {

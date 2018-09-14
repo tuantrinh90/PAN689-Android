@@ -50,4 +50,37 @@ public class ProposalDataReviewPresenter extends BaseDataPresenter<IProposalRevi
                     }));
         });
     }
+
+    @Override
+    public void cancelDecision(int requestId) {
+        getOptView().doIfPresent(v -> {
+            MultipartBody.Builder builder = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM);
+
+            mCompositeDisposable.add(RxUtilities.async(v,
+                    dataModule.getApiService().cancelTradeDecision(requestId, builder.build()),
+                    new ApiCallback<TradeResponse>() {
+                        @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
+
+                        @Override
+                        public void onSuccess(TradeResponse response) {
+                            v.submitSuccess(response);
+                        }
+
+                        @Override
+                        public void onError(String e) {
+                            v.showLoading(false);
+                            v.showMessage(e);
+                        }
+                    }));
+        });
+    }
 }

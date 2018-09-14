@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners
+        android:bottomLeftRadius="@dimen/radius_view"
+        android:bottomRightRadius="@dimen/radius_view" />
+    <gradient
+        android:angle="-90"
+        android:endColor="@color/color_yellow_button_selector"
+        android:startColor="@color/color_yellow_start" />
+</shape>

@@ -33,6 +33,7 @@ import com.football.fantasy.fragments.leagues.league_details.ranking.RankingFrag
 import com.football.fantasy.fragments.leagues.league_details.results.ResultsFragment;
 import com.football.fantasy.fragments.leagues.league_details.successor.SuccessorFragment;
 import com.football.fantasy.fragments.leagues.league_details.teams.TeamFragment;
+import com.football.fantasy.fragments.leagues.league_details.trade_review.TradeReviewFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.utilities.AppUtilities;
@@ -316,11 +317,15 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
         } else if (league.getStatus() == LeagueResponse.ON_GOING) {
             carousels.add(new Carousel(getString(R.string.ranking), false));
             carousels.add(new Carousel(getString(R.string.results), false));
-//            carousels.add(new Carousel(getString(R.string.trade_review), false));
+            carousels.add(new Carousel(getString(R.string.trade_review), false));
 
             mvpFragments.add(RankingFragment.newInstance(league).setChildFragment(true));
             mvpFragments.add(ResultsFragment.newInstance(league).setChildFragment(true));
-//            mvpFragments.add(TradeReviewFragment.newInstance(league).setChildFragment(true));
+            mvpFragments.add(TradeReviewFragment.newInstance(league).setChildFragment(true));
+        } else if (league.getStatus() == LeagueResponse.FINISHED) {
+
+            mvpFragments.add(RankingFragment.newInstance(league).setChildFragment(true));
+            mvpFragments.add(ResultsFragment.newInstance(league).setChildFragment(true));
         }
 
         // carousel view

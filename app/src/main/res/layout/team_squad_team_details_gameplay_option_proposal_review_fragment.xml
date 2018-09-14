@@ -262,11 +262,34 @@
             android:layout_marginLeft="@dimen/padding_layout"
             android:layout_marginRight="@dimen/padding_layout">
 
+            <com.bon.customview.shadowlayout.ShadowLayout
+                android:id="@+id/by_you"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/padding_layout"
+                app:shadowLayoutCornerRadius="@dimen/component_radius"
+                android:visibility="visible"
+                app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
+                app:shadowLayoutShadowColor="@color/color_shadow">
+
+                <com.bon.customview.textview.ExtTextView
+                    android:id="@+id/buttonCancel"
+                    style="@style/StyleButton"
+                    android:background="@drawable/bg_button_red"
+                    android:minEms="8"
+                    android:text="@string/cancel"
+                    android:textAllCaps="true"
+                    app:textViewFontAssetName="@string/font_display_black" />
+            </com.bon.customview.shadowlayout.ShadowLayout>
+
             <LinearLayout
+                android:id="@+id/to_you"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_margin="@dimen/padding_layout">
+                android:layout_margin="@dimen/padding_layout"
+                android:visibility="gone">
 
                 <com.bon.customview.shadowlayout.ShadowLayout
                     android:layout_width="0dp"
