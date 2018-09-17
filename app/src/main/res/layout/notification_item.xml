@@ -46,7 +46,7 @@
                 android:layout_width="@dimen/icon_small"
                 android:layout_height="@dimen/icon_small"
                 android:layout_gravity="center"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@drawable/ic_noti_warning" />
 
         </FrameLayout>
 

@@ -11,7 +11,11 @@ public class NotificationResponse implements Serializable {
     public static final String TYPE_REJECT = "reject";
     public static final String TYPE_EMAIL = "email";
     public static final String TYPE_LEAGUE = "league";
+    public static final String TYPE_LEAGUE_START = "league_start";
+    public static final String TYPE_LEAGUE_FINISH = "league_finish";
     public static final String TYPE_WARNING = "warning";
+
+
 
     @JsonProperty("id")
     private Integer id;

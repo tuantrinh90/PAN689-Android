@@ -45,35 +45,43 @@ public class NotificationAdapter extends DefaultAdapter<NotificationResponse> {
 
         holder.textContent.setText(Html.fromHtml(data.getTitle()));
         holder.textTime.setText(AppUtilities.getRelativeTimeSpanString(data.getNotificationTime()));
-        displayType(holder, data.getType(), data.getKey().getAction());
+        displayType(holder, data.getType());
     }
 
-    private void displayType(NotificationHolder holder, String type, String action) {
-        // display background
+    private void displayType(NotificationHolder holder, String type) {
+        // display background & icon
         switch (type) {
             case NotificationResponse.TYPE_INFO:
                 holder.iconBackground.setBackgroundResource(R.drawable.bg_green_button_radius);
+                holder.icon.setImageResource(R.drawable.ic_noti_info);
                 break;
             case NotificationResponse.TYPE_ACCEPT:
                 holder.iconBackground.setBackgroundResource(R.drawable.bg_blue_button_radius);
+                holder.icon.setImageResource(R.drawable.ic_noti_check);
                 break;
             case NotificationResponse.TYPE_REJECT:
                 holder.iconBackground.setBackgroundResource(R.drawable.bg_red_button_radius);
+                holder.icon.setImageResource(R.drawable.ic_noti_close);
                 break;
             case NotificationResponse.TYPE_EMAIL:
                 holder.iconBackground.setBackgroundResource(R.drawable.bg_green_button_radius);
+                holder.icon.setImageResource(R.drawable.ic_noti_email);
                 break;
             case NotificationResponse.TYPE_LEAGUE:
                 holder.iconBackground.setBackgroundResource(R.drawable.bg_green_button_radius);
+                holder.icon.setImageResource(R.drawable.ic_noti_league_start);
+                break;
+            case NotificationResponse.TYPE_LEAGUE_START:
+                holder.iconBackground.setBackgroundResource(R.drawable.bg_green_button_radius);
+                holder.icon.setImageResource(R.drawable.ic_noti_league_start);
+                break;
+            case NotificationResponse.TYPE_LEAGUE_FINISH:
+                holder.iconBackground.setBackgroundResource(R.drawable.bg_green_button_radius);
+                holder.icon.setImageResource(R.drawable.ic_noti_league_finish);
                 break;
             case NotificationResponse.TYPE_WARNING:
                 holder.iconBackground.setBackgroundResource(R.drawable.bg_type_warning_radius);
-                break;
-        }
-
-        // todo: display icon
-        switch (action) {
-            case "":
+                holder.icon.setImageResource(R.drawable.ic_noti_warning);
                 break;
         }
     }
@@ -92,7 +100,6 @@ public class NotificationAdapter extends DefaultAdapter<NotificationResponse> {
         ImageView icon;
         @BindView(R.id.icon_background)
         FrameLayout iconBackground;
-
 
         public NotificationHolder(View itemView) {
             super(itemView);

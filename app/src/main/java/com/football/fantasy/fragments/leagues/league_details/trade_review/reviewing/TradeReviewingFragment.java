@@ -27,10 +27,12 @@ public class TradeReviewingFragment extends BaseMvpFragment<ITradeReviewingView,
 
 
     public static TradeReviewingFragment newInstance(LeagueResponse league) {
-        TradeReviewingFragment fragment =  new TradeReviewingFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_LEAGUE, league);
-//        fragment.
+        Bundle args = new Bundle();
+        args.putSerializable(KEY_LEAGUE, league);
+
+        TradeReviewingFragment fragment = new TradeReviewingFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     private LeagueResponse league;

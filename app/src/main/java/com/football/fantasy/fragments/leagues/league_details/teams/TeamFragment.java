@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.bon.customview.textview.ExtTextView;
-import com.bon.interfaces.Optional;
 import com.bon.logger.Logger;
 import com.bon.util.DateTimeUtils;
 import com.bon.util.DialogUtils;
@@ -33,8 +32,6 @@ public class TeamFragment extends BaseMvpFragment<ITeamView, ITeamPresenter<ITea
     private static final String KEY_LEAGUE = "LEAGUE";
     private static final String KEY_LEAGUE_TYPE = "league_type";
 
-    private boolean isSetupTeam; // = true khi vào league(chưa tạo team) -> tạo team -> bắn về teamFragment
-
     public static TeamFragment newInstance(LeagueResponse leagueId, String leagueType) {
         TeamFragment fragment = new TeamFragment();
         Bundle bundle = new Bundle();
@@ -43,7 +40,6 @@ public class TeamFragment extends BaseMvpFragment<ITeamView, ITeamPresenter<ITea
         fragment.setArguments(bundle);
         return fragment;
     }
-
 
     @BindView(R.id.tvTimeLabel)
     ExtTextView tvTimeLabel;
@@ -124,10 +120,7 @@ public class TeamFragment extends BaseMvpFragment<ITeamView, ITeamPresenter<ITea
             teamAdapter.removeVisible(league.getStatus() == LeagueResponse.WAITING_FOR_START);
             rvTeam.
                     adapter(teamAdapter)
-                    .refreshListener(() -> {
-                        Optional.from(rvTeam).doIfPresent(ExtRecyclerView::clear);
-                        getTeams();
-                    })
+                    .refreshListener(this::refresh)
                     .build();
         } catch (Exception e) {
             Logger.e(TAG, e);
@@ -156,6 +149,12 @@ public class TeamFragment extends BaseMvpFragment<ITeamView, ITeamPresenter<ITea
         presenter.getTeams(league.getId());
     }
 
+    private void refresh() {
+        rvTeam.clear();
+        rvTeam.startLoading();
+        getTeams();
+    }
+
     @NonNull
     @Override
     public ITeamPresenter<ITeamView> createPresenter() {
@@ -164,25 +163,16 @@ public class TeamFragment extends BaseMvpFragment<ITeamView, ITeamPresenter<ITea
 
     @Override
     public void displayTeams(List<TeamResponse> teams) {
-        Optional.from(rvTeam).doIfPresent(rv -> {
-            rv.clear();
-            rv.addItems(teams);
-        });
+        rvTeam.addItems(teams);
+    }
+
+    @Override
+    public void hideLoading() {
+        rvTeam.stopLoading();
     }
 
     @Override
     public void removeSuccess(int teamId) {
-        getTeams();
-    }
-
-    @Override
-    public void showLoadingPagingListView(boolean isLoading) {
-        Optional.from(rvTeam).doIfPresent(rv -> {
-            if (isLoading) {
-                rvTeam.startLoading();
-            } else {
-                rvTeam.stopLoading();
-            }
-        });
+        refresh();
     }
 }

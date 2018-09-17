@@ -31,13 +31,8 @@ public class TeamDataPresenter extends BaseDataPresenter<ITeamView> implements I
                     dataModule.getApiService().getTeams(leagueId),
                     new ApiCallback<PagingResponse<TeamResponse>>() {
                         @Override
-                        public void onStart() {
-                            v.showLoadingPagingListView(true);
-                        }
-
-                        @Override
                         public void onComplete() {
-                            v.showLoadingPagingListView(false);
+                            v.hideLoading();
                         }
 
                         @Override
@@ -47,7 +42,6 @@ public class TeamDataPresenter extends BaseDataPresenter<ITeamView> implements I
 
                         @Override
                         public void onError(String e) {
-                            v.displayTeams(null);
                             v.showMessage(e);
                         }
                     });
