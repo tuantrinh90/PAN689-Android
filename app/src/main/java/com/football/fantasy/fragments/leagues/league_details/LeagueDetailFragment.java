@@ -56,8 +56,11 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     private static final String KEY_OPEN_ROUND = "OPEN_RESULT";
     private static final String KEY_FRAGMENT_INDEX = "FRAGMENT_INDEX";
 
+    public static final int LEAGUE_INFORMATION = 0;
     public static final int TEAM_FRAGMENT_INDEX = 1;
     public static final int RESULT_FRAGMENT_INDEX = 3;
+    public static final int SETUP_TEAM = 10;
+    public static final int EDIT_LEAGUE = 11;
 
     public static final String OPEN_LEAGUES = "open_leagues";
     public static final String MY_LEAGUES = "my_leagues";
@@ -358,8 +361,22 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
         });
         try {
             if (fragmentIndex != -1) {
-                vpViewPager.setCurrentItem(fragmentIndex);
+                if (fragmentIndex >= 10) {
+                    switch (fragmentIndex) {
+                        case SETUP_TEAM:
+                            ((LeagueInfoFragment) leagueDetailViewPagerAdapter.getItem(LEAGUE_INFORMATION)).openSetupTeam();
+                            break;
 
+                        case EDIT_LEAGUE:
+                            AloneFragmentActivity.with(LeagueDetailFragment.this)
+                                    .parameters(SetUpLeagueFragment.newBundle(league, getString(R.string.league_details)))
+                                    .start(SetUpLeagueFragment.class);
+                            break;
+                    }
+
+                } else {
+                    vpViewPager.setCurrentItem(fragmentIndex);
+                }
             } else if (openRound > 0) {
                 vpViewPager.setCurrentItem(RESULT_FRAGMENT_INDEX);
                 ((ResultsFragment) leagueDetailViewPagerAdapter.getItem(RESULT_FRAGMENT_INDEX)).displayRound(openRound);

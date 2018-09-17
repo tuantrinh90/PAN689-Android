@@ -45,7 +45,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 sendNotification(
                         TextUtils.isDigitsOnly(id) ? Integer.valueOf(id) : -1,
                         action,
-                        TextUtils.isDigitsOnly(id) ? Integer.valueOf(leagueId) : -1,
+                        TextUtils.isDigitsOnly(leagueId) ? Integer.valueOf(leagueId) : -1,
                         remoteMessage.getNotification().getTitle(),
                         remoteMessage.getNotification().getBody());
             }
@@ -95,15 +95,31 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private Intent getIntentByAction(String action, int leagueId) {
         Intent intent;
-        switch (action) {
-            case NotificationKey.USER_LEFT_LEAGUE:
-                intent = new Intent(this, MainActivity.class);
-                intent.putExtra(MainActivity.KEY_ACTION, action);
-                intent.putExtra(MainActivity.KEY_LEAGUE_ID, leagueId);
-                return intent;
 
-            default:
-                return new Intent(this, MainActivity.class);
-        }
+        intent = new Intent(this, MainActivity.class);
+        intent.putExtra(MainActivity.KEY_ACTION, action);
+        intent.putExtra(MainActivity.KEY_LEAGUE_ID, leagueId);
+        return intent;
+
+//        switch (action) {
+//            case USER_LEFT_LEAGUE:
+//                intent = new Intent(this, MainActivity.class);
+//                intent.putExtra(MainActivity.KEY_ACTION, action);
+//                intent.putExtra(MainActivity.KEY_LEAGUE_ID, leagueId);
+//                return intent;
+//
+//            case USER_JOINED_LEAGUE:
+//            case USER_ACCEPT_INVITE:
+//            case USER_REJECT_INVITE:
+//                intent = new Intent(this, MainActivity.class);
+//                intent.putExtra(MainActivity.KEY_ACTION, action);
+//                intent.putExtra(MainActivity.KEY_LEAGUE_ID, leagueId);
+//                return intent;
+//
+//            case USER_RECEIVE_INVITE:
+//
+//            default:
+//                return new Intent(this, MainActivity.class);
+//        }
     }
 }

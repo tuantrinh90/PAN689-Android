@@ -134,4 +134,12 @@ public class LeagueFragment extends BaseMainMvpFragment<ILeagueView, ILeaguePres
     public void openOpenLeague() {
         vpViewPager.setCurrentItem(OPEN_LEAGUE);
     }
+
+    public void openInvitation() {
+        vpViewPager.setCurrentItem(PENDING_INVITATION);
+    }
+
+    public void openMyLeague() {
+        vpViewPager.setCurrentItem(MY_LEAGUE);
+    }
 }

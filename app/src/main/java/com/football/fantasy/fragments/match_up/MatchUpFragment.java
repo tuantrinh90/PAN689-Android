@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import com.football.adapters.PagerAdapter;
 import com.football.adapters.StatePagerAdapter;
 import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.carousels.Carousel;
@@ -20,6 +19,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 
 public class MatchUpFragment extends BaseMainMvpFragment<IMatchUpView, IMatchUpPresenter<IMatchUpView>> implements IMatchUpView {
+
+    private static final int REAL_LEAGUE_INDEX = 0;
+
     public static MatchUpFragment newInstance() {
         return new MatchUpFragment();
     }
@@ -80,4 +82,7 @@ public class MatchUpFragment extends BaseMainMvpFragment<IMatchUpView, IMatchUpP
         });
     }
 
+    public void openRealLeague() {
+        vpViewPager.setCurrentItem(REAL_LEAGUE_INDEX);
+    }
 }

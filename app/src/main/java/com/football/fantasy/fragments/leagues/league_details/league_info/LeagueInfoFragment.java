@@ -278,4 +278,10 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
 
         bus.send(new StartLeagueEvent(league));
     }
+
+    public void openSetupTeam() {
+        AloneFragmentActivity.with(this)
+                .parameters(YourTeamFragment.newBundle(league))
+                .start(YourTeamFragment.class);
+    }
 }
