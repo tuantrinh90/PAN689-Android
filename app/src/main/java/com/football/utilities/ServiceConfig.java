@@ -116,7 +116,7 @@ public interface ServiceConfig {
     String DEVICE_OF_USER = "update_device_of_user";
 
     // notification
-    String NOTIFICATIONS = "update_device_of_user"; // todo: fix late
+    String NOTIFICATIONS = "notifications";
 
 
 }

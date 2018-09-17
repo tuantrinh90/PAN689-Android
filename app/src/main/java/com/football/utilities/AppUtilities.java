@@ -2,6 +2,7 @@ package com.football.utilities;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -169,5 +170,15 @@ public class AppUtilities {
             value += 15 - value % 15;
             return value;
         }
+    }
+
+    public static CharSequence getRelativeTimeSpanString(String time) {
+        Calendar calendar = DateTimeUtils.convertStringToCalendar(time, Constant.FORMAT_DATE_TIME_SERVER);
+        return calendar != null ?
+                DateUtils.getRelativeTimeSpanString(
+                        calendar.getTimeInMillis(),
+                        System.currentTimeMillis(),
+                        DateUtils.MINUTE_IN_MILLIS)
+                : "";
     }
 }

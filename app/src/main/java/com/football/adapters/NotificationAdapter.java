@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.Html;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bon.customview.textview.ExtTextView;
@@ -34,14 +36,46 @@ public class NotificationAdapter extends DefaultAdapter<NotificationResponse> {
     @Override
     protected void onBindViewHolder(@NonNull DefaultHolder defaultHolder, NotificationResponse data, int position) {
         NotificationHolder holder = (NotificationHolder) defaultHolder;
-        if (position == 0 || !getItem(position - 1).getCreatedDate().equals(data.getCreatedDate())) {
+        if (position == 0 || !getItem(position - 1).getNotificationDate().equals(data.getNotificationDate())) {
             holder.header.setVisibility(View.VISIBLE);
-            holder.textDate.setText(AppUtilities.getDate(data.getCreatedAt()));
+            holder.textDate.setText(AppUtilities.getDate(data.getNotificationTime()));
         } else {
             holder.header.setVisibility(View.GONE);
         }
 
-        holder.textContent.setText(Html.fromHtml(data.getTitleHtml()));
+        holder.textContent.setText(Html.fromHtml(data.getTitle()));
+        holder.textTime.setText(AppUtilities.getRelativeTimeSpanString(data.getNotificationTime()));
+        displayType(holder, data.getType(), data.getKey().getAction());
+    }
+
+    private void displayType(NotificationHolder holder, String type, String action) {
+        // display background
+        switch (type) {
+            case NotificationResponse.TYPE_INFO:
+                holder.iconBackground.setBackgroundResource(R.drawable.bg_green_button_radius);
+                break;
+            case NotificationResponse.TYPE_ACCEPT:
+                holder.iconBackground.setBackgroundResource(R.drawable.bg_blue_button_radius);
+                break;
+            case NotificationResponse.TYPE_REJECT:
+                holder.iconBackground.setBackgroundResource(R.drawable.bg_red_button_radius);
+                break;
+            case NotificationResponse.TYPE_EMAIL:
+                holder.iconBackground.setBackgroundResource(R.drawable.bg_green_button_radius);
+                break;
+            case NotificationResponse.TYPE_LEAGUE:
+                holder.iconBackground.setBackgroundResource(R.drawable.bg_green_button_radius);
+                break;
+            case NotificationResponse.TYPE_WARNING:
+                holder.iconBackground.setBackgroundResource(R.drawable.bg_type_warning_radius);
+                break;
+        }
+
+        // todo: display icon
+        switch (action) {
+            case "":
+                break;
+        }
     }
 
     static class NotificationHolder extends DefaultHolder {
@@ -54,6 +88,11 @@ public class NotificationAdapter extends DefaultAdapter<NotificationResponse> {
         ExtTextView textContent;
         @BindView(R.id.text_time)
         ExtTextView textTime;
+        @BindView(R.id.image_icon)
+        ImageView icon;
+        @BindView(R.id.icon_background)
+        FrameLayout iconBackground;
+
 
         public NotificationHolder(View itemView) {
             super(itemView);

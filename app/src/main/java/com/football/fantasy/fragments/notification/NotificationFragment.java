@@ -59,7 +59,7 @@ public class NotificationFragment extends BaseMvpFragment<INotificationView, INo
     }
 
     private void getNotifications() {
-//        presenter.getNotification(page);
+        presenter.getNotification(page);
     }
 
     private void refresh() {
