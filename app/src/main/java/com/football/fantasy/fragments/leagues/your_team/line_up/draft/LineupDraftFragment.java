@@ -86,7 +86,8 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             textCountdown.start();
         } else {
             draftCountdown.setVisibility(View.GONE);
-            draftTurn.setVisibility(View.VISIBLE);
+            draftTurn.setVisibility(View.GONE);
+            draftLoading.setVisibility(View.VISIBLE);
         }
     }
 
@@ -98,7 +99,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                 draftTurn.setVisibility(View.VISIBLE);
                 draftLoading.setVisibility(View.GONE);
 
-                if (args != null && args.length > 0) {
+                if (args != null && args.length > 0 && args[0] != null) {
                     JSONObject jsonObject = (JSONObject) args[0];
                     Log.i(TAG, "EVENT_CHANGE_TURN: " + jsonObject.toString());
                     ChangeTurnResponse response = JacksonUtils.convertJsonToObject(jsonObject.toString(), ChangeTurnResponse.class);
@@ -108,20 +109,22 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                         setTurn(current, next, current.getDraftTimeLeft());
                     }
                 } else {
-                    Log.e(TAG, "registerSocket: args are null");
+                    Log.e(TAG, "SocketEventKey.EVENT_CHANGE_TURN: args are null");
                 }
             });
         });
 
         getAppContext().getSocket().on(SocketEventKey.EVENT_CHANGE_LINEUP, args -> {
             Log.i(SocketEventKey.EVENT_CHANGE_LINEUP, "");
-            if (args != null && args.length > 0) {
+            if (args != null && args.length > 0 && args[0] != null) {
                 Log.i(TAG, "EVENT_CHANGE_LINEUP: " + args[0].toString());
                 mActivity.runOnUiThread(() -> {
                     PlayerResponse player = JacksonUtils.convertJsonToObject(args[0].toString(), PlayerResponse.class);
                     lineupView.addPlayer(player, player.getMainPosition(), player.getOrder() == null ? NONE_ORDER : player.getOrder());
                     updateStatistic(player.getMainPosition(), 1);
                 });
+            } else {
+                Log.e(TAG, "SocketEventKey.EVENT_CHANGE_LINEUP: args are null");
             }
         });
     }
