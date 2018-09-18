@@ -20,6 +20,8 @@ import com.football.fantasy.fragments.home.HomeFragment;
 import com.football.fantasy.fragments.leagues.LeagueFragment;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
+import com.football.fantasy.fragments.leagues.player_pool.PlayerPoolFragment;
+import com.football.fantasy.fragments.leagues.team_details.team_squad.TeamSquadFragment;
 import com.football.fantasy.fragments.match_up.MatchUpFragment;
 import com.football.fantasy.fragments.more.MoreFragment;
 import com.football.fantasy.fragments.notification.NotificationFragment;
@@ -34,6 +36,7 @@ import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANS
 import static com.football.services.NotificationKey.BEFORE_START_TIME_2H;
 import static com.football.services.NotificationKey.BEFORE_TEAM_SETUP_TIME_1H;
 import static com.football.services.NotificationKey.BEFORE_TEAM_SETUP_TIME_2H;
+import static com.football.services.NotificationKey.BEFORE_TRANSFER_DEADLINE_2H;
 import static com.football.services.NotificationKey.CANCEL_LEAGUE_SINCE_LACK_MEMBER;
 import static com.football.services.NotificationKey.CANCEL_LEAGUE_SINCE_OWNER;
 import static com.football.services.NotificationKey.CHANGE_LEAGUE_NAME;
@@ -42,22 +45,32 @@ import static com.football.services.NotificationKey.CHANGE_TEAM_NAME;
 import static com.football.services.NotificationKey.COMPLETE_SETUP_TEAM;
 import static com.football.services.NotificationKey.EDIT_LEAGUE;
 import static com.football.services.NotificationKey.FULL_TEAM;
+import static com.football.services.NotificationKey.LEAGUE_FINISH;
+import static com.football.services.NotificationKey.LEAGUE_FINISH_FOR_CHAMPION;
+import static com.football.services.NotificationKey.NEWEST_GAME_RESULT;
+import static com.football.services.NotificationKey.NEWEST_REAL_RESULT;
+import static com.football.services.NotificationKey.NEW_TRADE_PROPOSAL;
 import static com.football.services.NotificationKey.OWNER_DELETE_MEMBER;
+import static com.football.services.NotificationKey.PLAYER_HAS_LEFT;
 import static com.football.services.NotificationKey.PLAYER_INJURED;
 import static com.football.services.NotificationKey.PLAYER_NEW_JOIN;
 import static com.football.services.NotificationKey.RANDOM_TEAM;
+import static com.football.services.NotificationKey.SCORE_OF_REAL_MATCH_HAS_BEEN_ADJUSTED;
 import static com.football.services.NotificationKey.START_LEAGUE;
 import static com.football.services.NotificationKey.TEAM_SETUP_TIME;
+import static com.football.services.NotificationKey.TIME_REAL_MATCH_CHANGED;
 import static com.football.services.NotificationKey.USER_ACCEPT_INVITE;
 import static com.football.services.NotificationKey.USER_JOINED_LEAGUE;
 import static com.football.services.NotificationKey.USER_LEFT_LEAGUE;
 import static com.football.services.NotificationKey.USER_RECEIVE_INVITE;
 import static com.football.services.NotificationKey.USER_REJECT_INVITE;
+import static com.football.services.NotificationKey.VALUE_OF_PLAYER_CHANGED;
 import static com.football.utilities.ServiceConfig.DEEP_LINK;
 
 public class MainActivity extends BaseActivity {
 
     public static final String KEY_ACTION = "ACTION";
+    public static final String KEY_TEAM_NAME = "TEAM_NAME";
     public static final String KEY_LEAGUE_ID = "LEAGUE_ID";
     public static final String KEY_TEAM_ID = "TEAM_ID";
     public static final String KEY_PLAYER_ID = "PLAYER_ID";
@@ -139,6 +152,7 @@ public class MainActivity extends BaseActivity {
     private void handleIntent(Intent intent) {
         if (intent != null && !TextUtils.isEmpty(intent.getStringExtra(KEY_ACTION))) {
             String action = intent.getStringExtra(KEY_ACTION);
+            String teamName = intent.getStringExtra(KEY_TEAM_NAME);
             int leagueId = intent.getIntExtra(KEY_LEAGUE_ID, -1);
             int teamId = intent.getIntExtra(KEY_TEAM_ID, -1);
             int playerId = intent.getIntExtra(KEY_PLAYER_ID, -1);
@@ -149,8 +163,9 @@ public class MainActivity extends BaseActivity {
                 case EDIT_LEAGUE:
                 case CHANGE_LEAGUE_NAME:
                 case CHANGE_TEAM_NAME: // action này chưa hiểu lắm
+                case BEFORE_TRANSFER_DEADLINE_2H:
                     AloneFragmentActivity.with(this)
-                            .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, -1))
+                            .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, -1))
                             .start(LeagueDetailFragment.class);
                     break;
 
@@ -160,8 +175,24 @@ public class MainActivity extends BaseActivity {
                 case USER_REJECT_INVITE:
                 case CHANGE_OWNER_LEAGUE:
                     AloneFragmentActivity.with(this)
-                            .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, LeagueDetailFragment.TEAM_FRAGMENT_INDEX))
+                            .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, LeagueDetailFragment.TEAM_FRAGMENT_INDEX))
                             .start(LeagueDetailFragment.class);
+                    break;
+
+                // League detail - ranking
+                case LEAGUE_FINISH:
+                case LEAGUE_FINISH_FOR_CHAMPION:
+                    AloneFragmentActivity.with(this)
+                            .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, LeagueDetailFragment.RANKING))
+                            .start(LeagueDetailFragment.class);
+                    break;
+
+                // LeagueDetail - Team squad
+                case PLAYER_INJURED:
+                    // go LeagueDetail -> TeamSquad
+                    AloneFragmentActivity.with(this)
+                            .parameters(TeamSquadFragment.newBundle(teamId, getString(R.string.home)))
+                            .start(TeamSquadFragment.class);
                     break;
 
                 // League invitation
@@ -200,6 +231,7 @@ public class MainActivity extends BaseActivity {
                 case CANCEL_LEAGUE_SINCE_LACK_MEMBER:
                 case CANCEL_LEAGUE_SINCE_OWNER:
                 case OWNER_DELETE_MEMBER:
+                case NEWEST_GAME_RESULT:
                     viewPager.setCurrentItem(LEAGUES);
                     if (mPagerAdapter.getItem(LEAGUES) instanceof LeagueFragment) {
                         ((LeagueFragment) mPagerAdapter.getItem(LEAGUES)).openMyLeague();
@@ -208,20 +240,18 @@ public class MainActivity extends BaseActivity {
 
                 // Matchup - real league
                 case START_LEAGUE:
+                case NEWEST_REAL_RESULT:
+                case TIME_REAL_MATCH_CHANGED:
+                case SCORE_OF_REAL_MATCH_HAS_BEEN_ADJUSTED:
                     viewPager.setCurrentItem(MATCH_UP);
                     if (mPagerAdapter.getItem(MATCH_UP) instanceof MatchUpFragment) {
                         ((MatchUpFragment) mPagerAdapter.getItem(MATCH_UP)).openRealLeague();
                     }
                     break;
 
-                // Team squad
-                case PLAYER_INJURED:
-                    // go LeagueDetail -> TeamSquad
-                    // todo: chưa làm
-                    break;
-
                 // Player detail
                 case PLAYER_NEW_JOIN:
+                case VALUE_OF_PLAYER_CHANGED:
                     AloneFragmentActivity.with(this)
                             .parameters(PlayerDetailFragment.newBundle(playerId,
                                     -1,
@@ -230,6 +260,17 @@ public class MainActivity extends BaseActivity {
                                     GAMEPLAY_OPTION_TRANSFER))
                             .start(PlayerDetailFragment.class);
                     break;
+
+                // Player pool
+                case PLAYER_HAS_LEFT:
+                    PlayerPoolFragment.start(this, getString(R.string.home));
+                    break;
+
+                // Accept/Reject screen
+                case NEW_TRADE_PROPOSAL:
+
+                    break;
+
             }
         }
     }

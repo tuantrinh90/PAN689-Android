@@ -93,9 +93,10 @@ public class AppUtilities {
     public static long getTimestamp(String date) {
         try {
             SimpleDateFormat df = new SimpleDateFormat(Constant.FORMAT_DATE_TIME_SERVER);
-            if (TextUtils.isEmpty(date)) return 0;
-            Date parsedDate = df.parse(date);
-            return parsedDate.getTime();
+            if (!TextUtils.isEmpty(date)) {
+                Date parsedDate = df.parse(date);
+                return parsedDate.getTime();
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }

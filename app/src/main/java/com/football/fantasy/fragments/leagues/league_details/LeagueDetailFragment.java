@@ -55,10 +55,13 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     private static final String KEY_INVITATION_ID = "INVITATION_ID";
     private static final String KEY_OPEN_ROUND = "OPEN_RESULT";
     private static final String KEY_FRAGMENT_INDEX = "FRAGMENT_INDEX";
+    private static final String KEY_TEAM_ID = "TEAM_ID";
 
     public static final int LEAGUE_INFORMATION = 0;
     public static final int TEAM_FRAGMENT_INDEX = 1;
+    public static final int RANKING = 2;
     public static final int RESULT_FRAGMENT_INDEX = 3;
+
     public static final int SETUP_TEAM = 10;
     public static final int EDIT_LEAGUE = 11;
 
@@ -373,7 +376,6 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
                                     .start(SetUpLeagueFragment.class);
                             break;
                     }
-
                 } else {
                     vpViewPager.setCurrentItem(fragmentIndex);
                 }

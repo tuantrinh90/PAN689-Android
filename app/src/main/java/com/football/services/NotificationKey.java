@@ -32,6 +32,6 @@ public class NotificationKey {
     public static final String SCORE_OF_REAL_MATCH_HAS_BEEN_ADJUSTED = "score_of_real_match_has_been_adjusted";
     public static final String LEAGUE_FINISH = "league_finish";
     public static final String LEAGUE_FINISH_FOR_CHAMPION = "league_finish_for_champion";
-    public static final String PICK_NEW_PLAYER = "pick_new_player";
+    public static final String NEW_TRADE_PROPOSAL = "new_trade_proposal";
 
 }

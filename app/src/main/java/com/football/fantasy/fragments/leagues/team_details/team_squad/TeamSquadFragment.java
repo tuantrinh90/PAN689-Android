@@ -18,9 +18,7 @@ import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.TradeFragment;
-import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
-import com.football.models.responses.TeamResponse;
 import com.football.models.responses.TeamSquadResponse;
 
 import java.util.ArrayList;
@@ -33,9 +31,8 @@ import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANS
 
 public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSquadPresenter<ITeamSquadView>> implements ITeamSquadView {
 
-    private static final String KEY_TEAM = "TEAM";
+    private static final String KEY_TEAM_ID = "TEAM_ID";
     private static final String KEY_TITLE = "TITLE";
-    private static final String KEY_LEAGUE = "LEAGUE";
 
     @BindView(R.id.tvTitle)
     ExtTextView tvTitle;
@@ -48,9 +45,9 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
     @BindView(R.id.rvPlayer)
     ExtRecyclerView<PlayerResponse> rvPlayer;
 
-    private TeamResponse team;
+    private int teamId;
     private String title;
-    private LeagueResponse league;
+    private TeamSquadResponse teamSquad;
 
     TeamSquadAdapter teamSquadAdapter;
 
@@ -59,11 +56,10 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
     private List<ExtKeyValuePair> directions;
     private ExtKeyValuePair currentDirection;
 
-    public static Bundle newBundle(TeamResponse team, String title, LeagueResponse league) {
+    public static Bundle newBundle(int teamId, String title) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_TEAM, team);
+        bundle.putInt(KEY_TEAM_ID, teamId);
         bundle.putString(KEY_TITLE, title);
-        bundle.putSerializable(KEY_LEAGUE, league);
         return bundle;
     }
 
@@ -77,7 +73,6 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
         getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
-        initView();
         initData();
         getTeamSquad();
     }
@@ -110,23 +105,22 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
     }
 
     private void getDataFromBundle() {
-        team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
+        teamId = getArguments().getInt(KEY_TEAM_ID);
         title = getArguments().getString(KEY_TITLE);
-        league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
     }
 
-    void initView() {
+    void initViews(String gamePlayOption) {
         // setVisible Trade button
-        llTrade.setVisibility(league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER) ? View.INVISIBLE : View.VISIBLE);
+        llTrade.setVisibility(gamePlayOption.equals(GAMEPLAY_OPTION_TRANSFER) ? View.INVISIBLE : View.VISIBLE);
 
         teamSquadAdapter = new TeamSquadAdapter(
                 getContext(),
                 player -> {
                     PlayerDetailFragment.start(this,
                             player.getId(),
-                            team.getId(),
+                            teamId,
                             getString(R.string.team_squad),
-                            league.getGameplayOption());
+                            gamePlayOption);
                 });
         rvPlayer
                 .adapter(teamSquadAdapter)
@@ -144,7 +138,7 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
 
     private void getTeamSquad() {
         rvPlayer.startLoading();
-        presenter.getTeamSquad(team.getId(), currentProperty.getKey(), currentDirection.getKey());
+        presenter.getTeamSquad(teamId, currentProperty.getKey(), currentDirection.getKey());
     }
 
     @NonNull
@@ -162,7 +156,7 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
 
     @OnClick(R.id.llTrade)
     void onClickTrade() {
-        TradeFragment.start(this, getString(R.string.team_squad), team, league);
+        TradeFragment.start(this, getString(R.string.team_squad), teamId, teamSquad.getLeague());
     }
 
     @OnClick(R.id.tvSortByColumn)
@@ -199,8 +193,16 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
     }
 
     @Override
+    public void displayViews(String gameplayOption) {
+        // chỉ initView 1 lần thôi
+        if (teamSquad == null) {
+            initViews(gameplayOption);
+        }
+    }
+
+    @Override
     public void displayTeamSquad(TeamSquadResponse response) {
-        rvPlayer.stopLoading();
+        teamSquad = response;
         rvPlayer.addItems(response.getPlayers());
     }
 }

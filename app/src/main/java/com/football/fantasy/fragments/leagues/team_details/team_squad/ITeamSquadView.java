@@ -4,5 +4,8 @@ import com.football.common.views.IBaseMvpView;
 import com.football.models.responses.TeamSquadResponse;
 
 public interface ITeamSquadView extends IBaseMvpView {
+    void displayViews(String gameplayOption);
+
     void displayTeamSquad(TeamSquadResponse response);
+
 }

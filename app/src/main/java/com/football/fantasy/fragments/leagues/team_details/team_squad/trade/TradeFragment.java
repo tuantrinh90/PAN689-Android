@@ -29,7 +29,7 @@ import butterknife.OnClick;
 
 public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<ITradeView>> implements ITradeView {
 
-    private static final String KEY_TEAM = "TEAM";
+    private static final String KEY_TEAM_ID = "TEAM_ID";
     private static final String KEY_TITLE = "TITLE";
     private static final String KEY_LEAGUE = "LEAGUE";
 
@@ -40,19 +40,19 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
     @BindView(R.id.vpViewPager)
     ViewPager vpViewPager;
 
-    private TeamResponse team;
+    private int teamId;
     private String title;
     private LeagueResponse league;
 
-    public static void start(Fragment fragment, String title, TeamResponse team, LeagueResponse league) {
+    public static void start(Fragment fragment, String title, int teamId, LeagueResponse league) {
         AloneFragmentActivity.with(fragment)
-                .parameters(TradeFragment.newBundle(title, team, league))
+                .parameters(TradeFragment.newBundle(title, teamId, league))
                 .start(TradeFragment.class);
     }
 
-    private static Bundle newBundle(String title, TeamResponse team, LeagueResponse league) {
+    private static Bundle newBundle(String title, int teamId, LeagueResponse league) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_TEAM, team);
+        bundle.putSerializable(KEY_TEAM_ID, teamId);
         bundle.putString(KEY_TITLE, title);
         bundle.putSerializable(KEY_LEAGUE, league);
         return bundle;
@@ -70,10 +70,15 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
         bindButterKnife(view);
 
         initView();
+        getTeamDetail(teamId);
+    }
+
+    private void getTeamDetail(int teamId) {
+        presenter.getTeamDetail(teamId);
     }
 
     private void getDataFromBundle() {
-        team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
+        teamId = getArguments().getInt(KEY_TEAM_ID);
         title = getArguments().getString(KEY_TITLE);
         league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
     }
@@ -103,7 +108,6 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
     }
 
     void initView() {
-        tvNumberOfTradeLeft.setText(team.getTradeRequestLeftDisplay());
         initPages();
     }
 
@@ -119,8 +123,8 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
 
         // view pager
         StatePagerAdapter mAdapter = new StatePagerAdapter(getChildFragmentManager());
-        mAdapter.addFragment(RequestFragment.newInstance(RequestFragment.REQUEST_FROM, league, team.getId()).setChildFragment(true));
-        mAdapter.addFragment(RequestFragment.newInstance(RequestFragment.REQUEST_TO, league, team.getId()).setChildFragment(true));
+        mAdapter.addFragment(RequestFragment.newInstance(RequestFragment.REQUEST_FROM, league, teamId).setChildFragment(true));
+        mAdapter.addFragment(RequestFragment.newInstance(RequestFragment.REQUEST_TO, league, teamId).setChildFragment(true));
         vpViewPager.setAdapter(mAdapter);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -147,6 +151,11 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
 
     @OnClick(R.id.ivAdd)
     public void onAddClicked() {
-        ChooseATeamFragment.start(getContext(), league.getId(), team.getId());
+        ChooseATeamFragment.start(getContext(), league.getId(), teamId);
+    }
+
+    @Override
+    public void displayTeam(TeamResponse team) {
+        tvNumberOfTradeLeft.setText(team.getTradeRequestLeftDisplay());
     }
 }
