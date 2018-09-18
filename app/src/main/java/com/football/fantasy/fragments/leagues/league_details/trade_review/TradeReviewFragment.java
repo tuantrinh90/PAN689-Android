@@ -14,6 +14,7 @@ import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.league_details.trade_review.results.TradeResultsFragment;
 import com.football.fantasy.fragments.leagues.league_details.trade_review.reviewing.TradeReviewingFragment;
 import com.football.models.responses.LeagueResponse;
+import com.football.models.responses.TradeResponse;
 
 import java.util.ArrayList;
 
@@ -81,8 +82,8 @@ public class TradeReviewFragment extends BaseMvpFragment<ITradeReviewView, ITrad
         buttonTeamSelected(true);
 
         viewPager.setAdapter(new YourTeamViewPagerAdapter(getFragmentManager(), new ArrayList<BaseMvpFragment>() {{
-            add(TradeReviewingFragment.newInstance(league).setChildFragment(true));
-            add(TradeResultsFragment.newInstance().setChildFragment(true));
+            add(TradeReviewingFragment.newInstance(TradeResponse.TYPE_REVIEWING, league).setChildFragment(true));
+            add(TradeReviewingFragment.newInstance(TradeResponse.TYPE_REVIEWED, league).setChildFragment(true));
         }}));
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

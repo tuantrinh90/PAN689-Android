@@ -7,8 +7,17 @@ import java.util.List;
 
 public class TradeResponse implements Serializable {
 
-    public static final int DECISION_REJECT = -1;
-    public static final int DECISION_ACCEPT = 1;
+    public static final String TYPE_REVIEWING = "reviewing";
+    public static final String TYPE_REVIEWED = "reviewed";
+
+    // for reviewing
+    public static final int STATUS_REJECT = -1;
+    public static final int STATUS_ACCEPT = 1;
+
+    // for reviewed
+    public static final int STATUS_FAILED = -1;
+    public static final int STATUS_PENDING = 0;
+    public static final int STATUS_SUCCESSFUL = 1;
 
     @JsonProperty("id")
     private Integer id;

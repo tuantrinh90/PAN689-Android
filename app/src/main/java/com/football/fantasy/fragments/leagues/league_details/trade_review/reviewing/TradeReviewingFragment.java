@@ -19,15 +19,16 @@ import butterknife.BindView;
 // Get trade review results
 public class TradeReviewingFragment extends BaseMvpFragment<ITradeReviewingView, ITradeReviewingPresenter<ITradeReviewingView>> implements ITradeReviewingView {
 
+    private static final String KEY_TYPE = "TYPE";
     private static final String KEY_LEAGUE = "LEAGUE";
 
 
     @BindView(R.id.rv_reviews)
     ExtRecyclerView<TradeResponse> rvReviews;
 
-
-    public static TradeReviewingFragment newInstance(LeagueResponse league) {
+    public static TradeReviewingFragment newInstance(String type, LeagueResponse league) {
         Bundle args = new Bundle();
+        args.putString(KEY_TYPE, type);
         args.putSerializable(KEY_LEAGUE, league);
 
         TradeReviewingFragment fragment = new TradeReviewingFragment();
@@ -35,6 +36,7 @@ public class TradeReviewingFragment extends BaseMvpFragment<ITradeReviewingView,
         return fragment;
     }
 
+    private String type;
     private LeagueResponse league;
     private int page = 1;
 
@@ -55,6 +57,7 @@ public class TradeReviewingFragment extends BaseMvpFragment<ITradeReviewingView,
     }
 
     private void getDataFromBundle() {
+        type = getArguments().getString(KEY_TYPE);
         league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
     }
 
@@ -65,7 +68,7 @@ public class TradeReviewingFragment extends BaseMvpFragment<ITradeReviewingView,
     }
 
     private void initRecyclerView() {
-        TradeReviewingAdapter adapter = new TradeReviewingAdapter(getContext());
+        TradeReviewingAdapter adapter = new TradeReviewingAdapter(getContext(), type);
         rvReviews
                 .adapter(adapter)
                 .refreshListener(this::refresh)
@@ -77,7 +80,7 @@ public class TradeReviewingFragment extends BaseMvpFragment<ITradeReviewingView,
     }
 
     private void getTradeRequests() {
-        presenter.getReviews(league.getId(), page);
+        presenter.getReviews(league.getId(), page, type);
     }
 
     private void refresh() {

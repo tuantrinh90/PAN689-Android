@@ -5,6 +5,6 @@ import com.football.common.views.IBaseMvpView;
 
 public interface ITradeReviewingPresenter<V extends IBaseMvpView> extends IBaseDataPresenter<V> {
 
-    void getReviews(int leagueId, int page);
+    void getReviews(int leagueId, int page, String type);
 
 }

@@ -138,6 +138,14 @@
 
         </FrameLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:background="@color/color_line"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+
         <LinearLayout
             android:id="@+id/llBottomStatus"
             android:layout_width="match_parent"
@@ -146,8 +154,36 @@
             android:background="@drawable/bg_blue_gradient_radius_bottom"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:paddingLeft="@dimen/padding_layout"
+            android:paddingRight="@dimen/padding_layout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/frameLayout">
+
+            <ImageView
+                android:id="@+id/image_icon"
+                android:layout_width="@dimen/icon_small"
+                android:layout_height="@dimen/icon_small"
+                android:layout_gravity="center_vertical"
+                app:srcCompat="@drawable/ic_check_green_24_px" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvStatus"
+                style="@style/StyleDescriptionWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/deadline"
+                app:textViewFontAssetName="@string/font_display_bold" />
+
+            <com.bon.customview.textview.ExtTextView
+                android:id="@+id/tvDeadline"
+                style="@style/StyleDescriptionWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:padding="0dp"
+                android:text="@string/deadline"
+                app:textViewFontAssetName="@string/font_display_bold" />
 
             <com.bon.customview.textview.ExtTextView
                 android:id="@+id/tvDescription"

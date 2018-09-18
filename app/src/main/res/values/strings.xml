@@ -326,6 +326,8 @@
     <string name="time_left">Time left:</string>
     <string name="rejected">Rejected %d</string>
     <string name="approved">%d Approved</string>
+    <string name="rejected_">Rejected</string>
+    <string name="approved_">Approved</string>
     <string name="message_confirm_proposal_reject">This proposal has been rejected</string>
     <string name="message_confirm_proposal_approved">This proposal has been approved</string>
     <string name="message_confirm_proposal_cancelled">This proposal has been cancelled</string>

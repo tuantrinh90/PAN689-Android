@@ -208,7 +208,7 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
                         getString(R.string.ok),
                         getString(R.string.cancel),
                         (dialog, which) -> {
-                            decision(TradeResponse.DECISION_REJECT);
+                            decision(TradeResponse.STATUS_REJECT);
                         }, null);
                 break;
 
@@ -220,7 +220,7 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
                         getString(R.string.ok),
                         getString(R.string.cancel),
                         (dialog, which) -> {
-                            decision(TradeResponse.DECISION_ACCEPT);
+                            decision(TradeResponse.STATUS_ACCEPT);
                         }, null);
                 break;
 

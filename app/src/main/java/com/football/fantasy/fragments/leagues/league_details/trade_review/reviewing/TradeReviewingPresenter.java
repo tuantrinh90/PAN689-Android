@@ -19,11 +19,12 @@ public class TradeReviewingPresenter extends BaseDataPresenter<ITradeReviewingVi
     }
 
     @Override
-    public void getReviews(int leagueId, int page) {
+    public void getReviews(int leagueId, int page, String type) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
             queries.put("page", String.valueOf(page));
             queries.put("league_id", String.valueOf(leagueId));
+            queries.put("type", type);
             mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().getTradeReviews(queries),
                     new ApiCallback<PagingResponse<TradeResponse>>() {

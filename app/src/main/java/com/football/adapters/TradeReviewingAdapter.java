@@ -2,7 +2,9 @@ package com.football.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageLoaderUtils;
@@ -18,8 +20,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TradeReviewingAdapter extends DefaultAdapter<TradeResponse> {
 
-    public TradeReviewingAdapter(Context context) {
+    private final String type;
+
+    public TradeReviewingAdapter(Context context, String type) {
         super(context);
+        this.type = type;
     }
 
     @Override
@@ -45,18 +50,67 @@ public class TradeReviewingAdapter extends DefaultAdapter<TradeResponse> {
         holder.tvTime.setText(AppUtilities.getTime(data.getDeadline(), Constant.FORMAT_DATE_TIME_SERVER, Constant.FORMAT_DATE_TIME));
         holder.tvPlayers.setText(mContext.getString(data.getTotalPlayer() > 1 ? R.string.total_players : R.string.total_player, data.getTotalPlayer()));
 
-        holder.itemView.setOnClickListener(v -> {
-            TradeResponse trade = getItem(defaultHolder.getAdapterPosition());
-//            itemCallback.accept(trade);
-        });
-        holder.ivAvatarTeam1.setOnClickListener(v -> {
-            TradeResponse trade = getItem(defaultHolder.getAdapterPosition());
-//            teamDetailCallback.accept(trade.getTeam());
-        });
-        holder.ivAvatarTeam2.setOnClickListener(v -> {
-            TradeResponse trade = getItem(defaultHolder.getAdapterPosition());
-//            teamDetailCallback.accept(trade.getWithTeam());
-        });
+        // gone all views
+        holder.tvDeadline.setVisibility(View.GONE);
+        holder.tvDescription.setVisibility(View.GONE);
+        holder.imageIcon.setVisibility(View.GONE);
+        holder.tvStatus.setVisibility(View.GONE);
+
+        if (type.equals(TradeResponse.TYPE_REVIEWING)) {
+            displayReviewingStatus(holder, data);
+        } else {
+            displayReviewedStatus(holder, data);
+        }
+    }
+
+    private void displayReviewingStatus(TradeReviewingHolder holder, TradeResponse data) {
+        if (data.getStatus() == TradeResponse.STATUS_ACCEPT) {
+            holder.imageIcon.setVisibility(View.VISIBLE);
+            holder.tvStatus.setVisibility(View.VISIBLE);
+
+            holder.imageIcon.setImageResource(R.drawable.ic_check_green_24_px);
+            holder.tvStatus.setText(mContext.getString(R.string.approved_));
+            holder.tvStatus.setTextColor(ContextCompat.getColor(mContext, R.color.color_green));
+            holder.bottom.setBackgroundResource(0);
+
+        } else if (data.getStatus() == TradeResponse.STATUS_REJECT) {
+            holder.imageIcon.setVisibility(View.VISIBLE);
+            holder.tvStatus.setVisibility(View.VISIBLE);
+
+            holder.imageIcon.setImageResource(R.drawable.ic_close_red_24_px);
+            holder.tvStatus.setText(mContext.getString(R.string.rejected_));
+            holder.tvStatus.setTextColor(ContextCompat.getColor(mContext, R.color.color_red));
+            holder.bottom.setBackgroundResource(0);
+
+        } else {
+            holder.tvDeadline.setVisibility(View.VISIBLE);
+            holder.tvDescription.setVisibility(View.VISIBLE);
+
+            holder.tvDescription.setText(AppUtilities.getDate(data.getDeadline()));
+            holder.tvDescription.setTextColor(ContextCompat.getColor(mContext, R.color.color_white));
+            holder.bottom.setBackgroundResource(R.drawable.bg_blue_gradient_radius_bottom);
+        }
+    }
+
+    private void displayReviewedStatus(TradeReviewingHolder holder, TradeResponse data) {
+        if (data.getStatus() == TradeResponse.STATUS_SUCCESSFUL) {
+            holder.imageIcon.setVisibility(View.VISIBLE);
+            holder.tvStatus.setVisibility(View.VISIBLE);
+
+            holder.imageIcon.setImageResource(R.drawable.ic_check_white_24_px);
+            holder.tvStatus.setText(mContext.getString(R.string.approved_));
+            holder.tvStatus.setTextColor(ContextCompat.getColor(mContext, R.color.color_white));
+            holder.bottom.setBackgroundResource(R.drawable.bg_green_gradient_radius_bottom);
+
+        } else if (data.getStatus() == TradeResponse.STATUS_FAILED) {
+            holder.imageIcon.setVisibility(View.VISIBLE);
+            holder.tvStatus.setVisibility(View.VISIBLE);
+
+            holder.imageIcon.setImageResource(R.drawable.ic_close_white_24_px);
+            holder.tvStatus.setText(mContext.getString(R.string.rejected_));
+            holder.tvStatus.setTextColor(ContextCompat.getColor(mContext, R.color.color_white));
+            holder.bottom.setBackgroundResource(R.drawable.bg_red_gradient_radius_bottom);
+        }
     }
 
     static class TradeReviewingHolder extends DefaultHolder {
@@ -73,6 +127,16 @@ public class TradeReviewingAdapter extends DefaultAdapter<TradeResponse> {
         ExtTextView tvTitleTeam1;
         @BindView(R.id.tvTitleTeam2)
         ExtTextView tvTitleTeam2;
+        @BindView(R.id.tvDescription)
+        ExtTextView tvDescription;
+        @BindView(R.id.tvDeadline)
+        ExtTextView tvDeadline;
+        @BindView(R.id.tvStatus)
+        ExtTextView tvStatus;
+        @BindView(R.id.image_icon)
+        ImageView imageIcon;
+        @BindView(R.id.llBottomStatus)
+        View bottom;
 
         public TradeReviewingHolder(View itemView) {
             super(itemView);
