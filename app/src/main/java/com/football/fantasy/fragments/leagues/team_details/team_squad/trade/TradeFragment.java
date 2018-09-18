@@ -20,7 +20,6 @@ import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.choose_a_team.ChooseATeamFragment;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.request.RequestFragment;
 import com.football.models.responses.LeagueResponse;
-import com.football.models.responses.TeamResponse;
 
 import java.util.ArrayList;
 
@@ -70,11 +69,6 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
         bindButterKnife(view);
 
         initView();
-        getTeamDetail(teamId);
-    }
-
-    private void getTeamDetail(int teamId) {
-        presenter.getTeamDetail(teamId);
     }
 
     private void getDataFromBundle() {
@@ -144,6 +138,10 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
         });
     }
 
+    public void displayTradeRequestLeftDisplay(String tradeRequestLeftDisplay) {
+        tvNumberOfTradeLeft.setText(tradeRequestLeftDisplay);
+    }
+
     @OnClick(R.id.ivMoreNumberOfTradeLeft)
     public void onInfoClick() {
         showMessage(getString(R.string.message_info_number_of_trade_left));
@@ -152,10 +150,5 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
     @OnClick(R.id.ivAdd)
     public void onAddClicked() {
         ChooseATeamFragment.start(getContext(), league.getId(), teamId);
-    }
-
-    @Override
-    public void displayTeam(TeamResponse team) {
-        tvNumberOfTradeLeft.setText(team.getTradeRequestLeftDisplay());
     }
 }

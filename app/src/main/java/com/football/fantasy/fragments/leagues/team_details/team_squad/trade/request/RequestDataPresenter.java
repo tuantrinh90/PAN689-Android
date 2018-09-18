@@ -43,6 +43,7 @@ public class RequestDataPresenter extends BaseDataPresenter<IRequestView> implem
 
                         @Override
                         public void onSuccess(PagingResponse<TradeResponse> response) {
+                            v.displayTradeRequestLeftDisplay(response.getTradeRequestLeftDisplay());
                             v.displayTrades(response.getData());
                         }
 

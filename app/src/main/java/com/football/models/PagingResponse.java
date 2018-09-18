@@ -30,6 +30,12 @@ public class PagingResponse<T> implements Serializable {
     private String startAt;
     @JsonProperty("end_at")
     private String endAt;
+    @JsonProperty("trade_request_left_display")
+    private String tradeRequestLeftDisplay;
+    @JsonProperty("max_trade_request")
+    private int maxTradeRequest;
+    @JsonProperty("current_trade_request")
+    private int currentTradeRequest;
     @JsonProperty("data")
     private List<T> data;
 
@@ -111,6 +117,18 @@ public class PagingResponse<T> implements Serializable {
 
     public String getEndAt() {
         return endAt;
+    }
+
+    public String getTradeRequestLeftDisplay() {
+        return tradeRequestLeftDisplay;
+    }
+
+    public int getMaxTradeRequest() {
+        return maxTradeRequest;
+    }
+
+    public int getCurrentTradeRequest() {
+        return currentTradeRequest;
     }
 
     public List<T> getData() {
