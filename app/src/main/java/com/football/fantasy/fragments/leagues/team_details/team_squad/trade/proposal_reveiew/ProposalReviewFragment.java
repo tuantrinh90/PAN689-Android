@@ -149,6 +149,9 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
             displayViewToYou();
         }
 
+        tvTitleTeam1.setText(trade.getTeam().getName());
+        tvTitleTeam2.setText(trade.getWithTeam().getName());
+
         for (PlayerView player : playerViews) {
             player.setTextColor(ContextCompat.getColor(mActivity, R.color.color_black));
             player.setPlayer(null);
@@ -161,8 +164,6 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
         tvDeadline.setText(AppUtilities.getTime(trade.getDeadline(), Constant.FORMAT_DATE_TIME_SERVER, Constant.FORMAT_DATE_TIME));
         tvReject.setText(getString(R.string.rejected, trade.getTotalRejection()));
         tvApprove.setText(getString(R.string.approved, trade.getTotalApproval()));
-        tvTitleTeam1.setText(trade.getTeam().getName());
-        tvTitleTeam2.setText(trade.getWithTeam().getName());
         progressBar.setMax(trade.getTotalReview());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             progressBar.setProgress(trade.getTotalRejection(), true);
