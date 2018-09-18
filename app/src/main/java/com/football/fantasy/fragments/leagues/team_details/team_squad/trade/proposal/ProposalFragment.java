@@ -29,6 +29,8 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
 
     private static final String KEY_FROM_TEAM_ID = "TEAM";
     private static final String KEY_TO_TEAM_ID = "TO_TEAM";
+    private static final String KEY_FROM_TEAM_NAME = "FROM_TEAM_NAME";
+    private static final String KEY_TO_TEAM_NAME = "TO_TEAM_NAME";
 
     private static final int MY_TEAM_INDEX_1 = 0;
     private static final int MY_TEAM_INDEX_2 = 1;
@@ -41,6 +43,8 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
     ExtTextView tvCancel;
     @BindView(R.id.tvTitleTeam1)
     ExtTextView tvTitleTeam1;
+    @BindView(R.id.tvTitleTeam2)
+    ExtTextView tvTitleTeam2;
     @BindViews({R.id.player11, R.id.player12, R.id.player13, R.id.player21, R.id.player22, R.id.player23})
     PlayerView[] playerViews;
     @BindView(R.id.buttonMakeProposal)
@@ -48,17 +52,21 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
 
     private int fromTeamId;
     private int toTeamId;
+    private String fromTeamName;
+    private String toTeamName;
 
-    public static void start(Context context, int fromTeam, int toTeam) {
+    public static void start(Context context, int fromTeam, String fromTeamName, int toTeam, String toTeamName) {
         AloneFragmentActivity.with(context)
-                .parameters(ProposalFragment.newBundle(fromTeam, toTeam))
+                .parameters(ProposalFragment.newBundle(fromTeam, fromTeamName, toTeam, toTeamName))
                 .start(ProposalFragment.class);
     }
 
-    private static Bundle newBundle(int fromTeam, int toTeam) {
+    private static Bundle newBundle(int fromTeam, String fromTeamName, int toTeam, String toTeamName) {
         Bundle bundle = new Bundle();
         bundle.putInt(KEY_FROM_TEAM_ID, fromTeam);
+        bundle.putString(KEY_FROM_TEAM_NAME, fromTeamName);
         bundle.putInt(KEY_TO_TEAM_ID, toTeam);
+        bundle.putString(KEY_TO_TEAM_NAME, toTeamName);
         return bundle;
     }
 
@@ -80,6 +88,8 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
     private void getDataFromBundle() {
         fromTeamId = getArguments().getInt(KEY_FROM_TEAM_ID);
         toTeamId = getArguments().getInt(KEY_TO_TEAM_ID);
+        fromTeamName = getArguments().getString(KEY_FROM_TEAM_NAME);
+        toTeamName = getArguments().getString(KEY_TO_TEAM_NAME);
     }
 
     @NonNull
@@ -122,6 +132,9 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
     }
 
     private void initView() {
+        tvTitleTeam1.setText(fromTeamName);
+        tvTitleTeam2.setText(toTeamName);
+
         setEnableMakeProposalButton(false);
 
         for (PlayerView player : playerViews) {

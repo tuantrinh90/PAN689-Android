@@ -26,7 +26,7 @@ public class RequestDataPresenter extends BaseDataPresenter<IRequestView> implem
             queries.put("page", String.valueOf(page));
             queries.put("league_id", String.valueOf(leagueId));
             queries.put("team_id", String.valueOf(teamId));
-            queries.put("type", type == RequestFragment.REQUEST_FROM ? "out" : "in");
+            queries.put("type", type == RequestFragment.REQUEST_BY_YOU ? "out" : "in");
 
             mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().getTradeRequests(queries),

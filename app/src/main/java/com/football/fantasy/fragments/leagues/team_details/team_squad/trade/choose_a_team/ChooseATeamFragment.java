@@ -41,6 +41,8 @@ public class ChooseATeamFragment extends BaseMvpFragment<IChooseATeamView, IChoo
     private int leagueId;
     private int myTeamId;
 
+    private TeamResponse myTeam;
+
     public static void start(Context context, int leagueId, int myTeamId) {
         AloneFragmentActivity.with(context)
                 .parameters(ChooseATeamFragment.newBundle(leagueId, myTeamId))
@@ -94,7 +96,6 @@ public class ChooseATeamFragment extends BaseMvpFragment<IChooseATeamView, IChoo
                 getContext(),
                 aVoid -> {
                     // set visibility view
-                    tvDone.setVisibility(View.VISIBLE);
                     setEnableMakeProceedButton(true);
                 });
 
@@ -104,6 +105,7 @@ public class ChooseATeamFragment extends BaseMvpFragment<IChooseATeamView, IChoo
     }
 
     private void getTeams() {
+        rvTeam.startLoading();
         presenter.getTeams(leagueId);
     }
 
@@ -122,7 +124,7 @@ public class ChooseATeamFragment extends BaseMvpFragment<IChooseATeamView, IChoo
             case R.id.tvDone:
             case R.id.buttonProceed:
                 TeamResponse team = ((TeamSelectAdapter) rvTeam.getAdapter()).getTeamSelected();
-                ProposalFragment.start(getContext(), myTeamId, team.getId());
+                ProposalFragment.start(getContext(), myTeam.getId(), myTeam.getName(), team.getId(), team.getName());
                 mActivity.finish();
                 break;
         }
@@ -132,7 +134,14 @@ public class ChooseATeamFragment extends BaseMvpFragment<IChooseATeamView, IChoo
     public void displayTeams(List<TeamResponse> teams) {
         // filter other team
         List<TeamResponse> teamList = StreamSupport.stream(teams)
-                .filter(team -> team.getId() != myTeamId)
+                .filter(team -> {
+                    if (team.getId() != myTeamId) {
+                        return true;
+                    } else {
+                        myTeam = team;
+                        return false;
+                    }
+                })
                 .collect(Collectors.toList());
         rvTeam.addItems(teamList);
     }

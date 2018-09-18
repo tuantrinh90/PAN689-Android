@@ -60,6 +60,7 @@ public class ExtTextViewCountdown extends ExtTextView {
 
     public void setTime(long time) {
         this.time = time;
+        setText();
     }
 
     public void setFormatType(int formatType) {

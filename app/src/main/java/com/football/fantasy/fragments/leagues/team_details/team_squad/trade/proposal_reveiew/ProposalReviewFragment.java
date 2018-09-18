@@ -11,15 +11,19 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.bon.customview.textview.ExtTextView;
+import com.bon.util.DateTimeUtils;
 import com.bon.util.DialogUtils;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.lineup.PlayerView;
+import com.football.customizes.textview.ExtTextViewCountdown;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.request.RequestFragment;
 import com.football.models.responses.TradeResponse;
 import com.football.utilities.AppUtilities;
 import com.football.utilities.Constant;
+
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.BindViews;
@@ -31,8 +35,8 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     private static final String KEY_TITLE = "TITLE";
     private static final String KEY_TYPE = "TYPE";
 
-    @BindView(R.id.tvTime)
-    ExtTextView tvTime;
+    @BindView(R.id.tvDeadline)
+    ExtTextView tvDeadline;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
     @BindView(R.id.tvReject)
@@ -57,10 +61,16 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     PlayerView player23;
     @BindViews({R.id.player11, R.id.player12, R.id.player13, R.id.player21, R.id.player22, R.id.player23})
     PlayerView[] playerViews;
-    @BindView(R.id.to_you)
-    View toYou;
-    @BindView(R.id.by_you)
-    View byYou;
+    @BindView(R.id.to_you_buttons)
+    View toYouButton;
+    @BindView(R.id.by_you_buttons)
+    View byYouButton;
+    @BindView(R.id.header_by_you)
+    View headerByYou;
+    @BindView(R.id.header_to_you)
+    View headerToYou;
+    @BindView(R.id.tvTimeLeft)
+    ExtTextViewCountdown tvTimeLeft;
 
     private String title;
     private TradeResponse trade;
@@ -123,12 +133,20 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     }
 
     private void initView() {
-        if (type == RequestFragment.REQUEST_FROM) {
-            byYou.setVisibility(View.VISIBLE);
-            toYou.setVisibility(View.GONE);
+        if (type == RequestFragment.REQUEST_BY_YOU) {
+            byYouButton.setVisibility(View.VISIBLE);
+            toYouButton.setVisibility(View.GONE);
+            headerByYou.setVisibility(View.VISIBLE);
+            headerToYou.setVisibility(View.GONE);
+
+            displayViewByYou();
         } else {
-            byYou.setVisibility(View.GONE);
-            toYou.setVisibility(View.VISIBLE);
+            byYouButton.setVisibility(View.GONE);
+            toYouButton.setVisibility(View.VISIBLE);
+            headerByYou.setVisibility(View.GONE);
+            headerToYou.setVisibility(View.VISIBLE);
+
+            displayViewToYou();
         }
 
         for (PlayerView player : playerViews) {
@@ -137,8 +155,10 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
             player.setAddable(false);
             player.setRemovable(false);
         }
+    }
 
-        tvTime.setText(AppUtilities.getTime(trade.getDeadline(), Constant.FORMAT_DATE_TIME_SERVER, Constant.FORMAT_DATE_TIME));
+    private void displayViewByYou() {
+        tvDeadline.setText(AppUtilities.getTime(trade.getDeadline(), Constant.FORMAT_DATE_TIME_SERVER, Constant.FORMAT_DATE_TIME));
         tvReject.setText(getString(R.string.rejected, trade.getTotalRejection()));
         tvApprove.setText(getString(R.string.approved, trade.getTotalApproval()));
         tvTitleTeam1.setText(trade.getTeam().getName());
@@ -149,6 +169,12 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
         } else {
             progressBar.setProgress(trade.getTotalRejection());
         }
+    }
+
+    private void displayViewToYou() {
+        Calendar deadline = DateTimeUtils.convertStringToCalendar(trade.getDeadline(), Constant.FORMAT_DATE_TIME_SERVER);
+        Calendar current = Calendar.getInstance();
+        tvTimeLeft.setTime(deadline.getTimeInMillis() / 1000 - current.getTimeInMillis() / 1000);
     }
 
     @OnClick({R.id.buttonReject, R.id.buttonApprove, R.id.buttonCancel})

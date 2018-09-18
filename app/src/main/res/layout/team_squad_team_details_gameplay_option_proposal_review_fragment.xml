@@ -28,65 +28,98 @@
                 app:textViewFontAssetName="@string/font_display_black_italic" />
 
             <LinearLayout
+                android:id="@+id/header_by_you"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_content"
-                android:gravity="center_horizontal|center_vertical">
+                android:orientation="vertical">
 
-                <com.bon.customview.textview.ExtTextView
-                    style="@style/StyleDescriptionGray"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:text="@string/deadline"
-                    android:textColor="@color/color_content"
-                    app:textViewFontAssetName="@string/font_display_bold" />
+                    android:layout_marginTop="@dimen/padding_content"
+                    android:gravity="center_horizontal|center_vertical">
 
-                <com.bon.customview.textview.ExtTextView
-                    android:id="@+id/tvTime"
-                    style="@style/StyleDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="0dp"
-                    android:text="12/12/2018 15:15" />
+                    <com.bon.customview.textview.ExtTextView
+                        style="@style/StyleDescriptionGray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:text="@string/deadline"
+                        android:textColor="@color/color_content"
+                        app:textViewFontAssetName="@string/font_display_bold" />
+
+                    <com.bon.customview.textview.ExtTextView
+                        android:id="@+id/tvDeadline"
+                        style="@style/StyleDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="0dp" />
+
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/carousel_item_dot_height"
+                    android:progress="25"
+                    android:progressDrawable="@drawable/progress_bar_trade_preview" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.bon.customview.textview.ExtTextView
+                        android:id="@+id/tvReject"
+                        style="@style/StyleDescriptionGray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:text="@string/rejected"
+                        app:textViewFontAssetName="@string/font_display_bold" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <com.bon.customview.textview.ExtTextView
+                        android:id="@+id/tvApprove"
+                        style="@style/StyleDescriptionGray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:text="@string/approved"
+                        app:textViewFontAssetName="@string/font_display_bold" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/carousel_item_dot_height"
-                android:progress="25"
-                android:progressDrawable="@drawable/progress_bar_trade_preview" />
-
             <LinearLayout
+                android:id="@+id/header_to_you"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <com.bon.customview.textview.ExtTextView
-                    android:id="@+id/tvReject"
                     style="@style/StyleDescriptionGray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:text="@string/rejected"
+                    android:padding="0dp"
+                    android:text="@string/time_left"
+                    android:textColor="@color/color_content"
                     app:textViewFontAssetName="@string/font_display_bold" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <com.bon.customview.textview.ExtTextView
-                    android:id="@+id/tvApprove"
-                    style="@style/StyleDescriptionGray"
+                <com.football.customizes.textview.ExtTextViewCountdown
+                    android:id="@+id/tvTimeLeft"
+                    style="@style/StyleDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:text="@string/approved"
-                    app:textViewFontAssetName="@string/font_display_bold" />
-
+                    android:layout_gravity="center_vertical"
+                    android:padding="0dp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -263,13 +296,13 @@
             android:layout_marginRight="@dimen/padding_layout">
 
             <com.bon.customview.shadowlayout.ShadowLayout
-                android:id="@+id/by_you"
+                android:id="@+id/by_you_buttons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="@dimen/padding_layout"
-                app:shadowLayoutCornerRadius="@dimen/component_radius"
                 android:visibility="visible"
+                app:shadowLayoutCornerRadius="@dimen/component_radius"
                 app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
                 app:shadowLayoutShadowColor="@color/color_shadow">
 
@@ -284,7 +317,7 @@
             </com.bon.customview.shadowlayout.ShadowLayout>
 
             <LinearLayout
-                android:id="@+id/to_you"
+                android:id="@+id/to_you_buttons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"

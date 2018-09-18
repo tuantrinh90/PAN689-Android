@@ -24,8 +24,8 @@ import io.reactivex.observers.DisposableObserver;
 
 public class RequestFragment extends BaseMvpFragment<IRequestView, IRequestPresenter<IRequestView>> implements IRequestView {
 
-    public static final int REQUEST_FROM = 0;
-    public static final int REQUEST_TO = 1;
+    public static final int REQUEST_BY_YOU = 0;
+    public static final int REQUEST_TO_YOU = 1;
 
     private static final String KEY_TYPE = "TYPE";
     private static final String KEY_LEAGUE = "LEAGUE";
