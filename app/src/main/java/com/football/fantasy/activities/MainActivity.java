@@ -187,7 +187,7 @@ public class MainActivity extends BaseActivity {
                             .start(LeagueDetailFragment.class);
                     break;
 
-                // LeagueDetail - Team squad
+                // Team squad
                 case PLAYER_INJURED:
                     // go LeagueDetail -> TeamSquad
                     AloneFragmentActivity.with(this)
