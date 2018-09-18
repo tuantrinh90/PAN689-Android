@@ -3,6 +3,7 @@ package com.football.models.responses;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class TradeResponse implements Serializable {
 
@@ -43,6 +44,8 @@ public class TradeResponse implements Serializable {
     private String decisionAt;
     @JsonProperty("total_player")
     private int totalPlayer;
+    @JsonProperty("items")
+    private List<TradeDetailResponse> items;
 
     public Integer getId() {
         return id;
@@ -110,5 +113,9 @@ public class TradeResponse implements Serializable {
 
     public int getTotalPlayer() {
         return totalPlayer;
+    }
+
+    public List<TradeDetailResponse> getItems() {
+        return items;
     }
 }

@@ -18,16 +18,19 @@ import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.lineup.PlayerView;
 import com.football.customizes.textview.ExtTextViewCountdown;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.request.RequestFragment;
+import com.football.models.responses.PlayerResponse;
+import com.football.models.responses.TradeDetailResponse;
 import com.football.models.responses.TradeResponse;
 import com.football.utilities.AppUtilities;
 import com.football.utilities.Constant;
 
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
-import butterknife.BindViews;
 import butterknife.OnClick;
+
+import static com.football.fantasy.fragments.leagues.team_details.team_squad.trade.request.RequestFragment.REQUEST_BY_YOU;
 
 public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView, IProposalReviewPresenter<IProposalReviewView>> implements IProposalReviewView {
 
@@ -59,8 +62,6 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     PlayerView player22;
     @BindView(R.id.player23)
     PlayerView player23;
-    @BindViews({R.id.player11, R.id.player12, R.id.player13, R.id.player21, R.id.player22, R.id.player23})
-    PlayerView[] playerViews;
     @BindView(R.id.to_you_buttons)
     View toYouButton;
     @BindView(R.id.by_you_buttons)
@@ -133,7 +134,7 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     }
 
     private void initView() {
-        if (type == RequestFragment.REQUEST_BY_YOU) {
+        if (type == REQUEST_BY_YOU) {
             byYouButton.setVisibility(View.VISIBLE);
             toYouButton.setVisibility(View.GONE);
             headerByYou.setVisibility(View.VISIBLE);
@@ -152,12 +153,30 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
         tvTitleTeam1.setText(trade.getTeam().getName());
         tvTitleTeam2.setText(trade.getWithTeam().getName());
 
-        for (PlayerView player : playerViews) {
-            player.setTextColor(ContextCompat.getColor(mActivity, R.color.color_black));
-            player.setPlayer(null);
-            player.setAddable(false);
-            player.setRemovable(false);
+        displayPlayerViews();
+    }
+
+    private void displayPlayerViews() {
+
+        PlayerView[] playerViews1st = new PlayerView[]{player11, player21};
+        PlayerView[] playerViews2nd = new PlayerView[]{player12, player22};
+        PlayerView[] playerViews3rd = new PlayerView[]{player13, player23};
+        PlayerView[][] playerViews = new PlayerView[][]{playerViews1st, playerViews2nd, playerViews3rd};
+
+        // trade items
+        List<TradeDetailResponse> tradeItems = trade.getItems();
+        for (int i = 0, playerViewsLength = playerViews.length; i < playerViewsLength; i++) {
+            displayPlayer(playerViews[i][0], tradeItems.size() > i ? tradeItems.get(i).getFromPlayer() : null);
+            displayPlayer(playerViews[i][1], tradeItems.size() > i ? tradeItems.get(i).getToPlayer() : null);
         }
+    }
+
+    private void displayPlayer(PlayerView playerView, PlayerResponse player) {
+        playerView.setTextColor(ContextCompat.getColor(mActivity, R.color.color_black));
+        if (player != null) playerView.setPosition(player.getMainPosition());
+        playerView.setPlayer(player);
+        playerView.setAddable(false);
+        playerView.setRemovable(false);
     }
 
     private void displayViewByYou() {
