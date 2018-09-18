@@ -13,6 +13,7 @@ import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.your_team.line_up.LineUpFragment;
 import com.football.models.responses.ChangeTurnResponse;
 import com.football.models.responses.PlayerResponse;
+import com.football.models.responses.TeamResponse;
 import com.football.models.responses.TurnResponse;
 import com.football.utilities.SocketEventKey;
 
@@ -44,6 +45,8 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     ExtTextViewCountdown textCountdown;
     @BindView(R.id.progress_draft)
     ExtProgress progressDraft;
+
+    private boolean pickEnable = false;
 
     @NonNull
     @Override
@@ -129,13 +132,12 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         });
     }
 
-
     private void setTurn(TurnResponse current, TurnResponse next, int timeLeft) {
         if (current != null) {
             // if your turn
             if (current.getTeam().getId() == teamId) {
                 draftYourTurn.setVisibility(View.VISIBLE);
-                draftTeam.setVisibility(View.GONE);
+                draftTeam.setVisibility(View.VISIBLE);
 
                 // your turn view
                 tvDraftYourTurnTimeLeft.setTime(timeLeft);
@@ -175,13 +177,20 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
 
     private void enableLineupView(boolean enable) {
         lineupView.setAddable(enable);
+        lineupView.setPickDraftMode(enable);
+    }
+
+    @Override
+    public void onAddPlayer(TeamResponse team, PlayerResponse player, int order) {
+        lineupView.setPlayerFocus(player);
+        super.onAddPlayer(team, player, order);
     }
 
     @OnClick({R.id.tvDraftEndTurn})
     public void onClicked(View view) {
         switch (view.getId()) {
             case R.id.tvDraftEndTurn:
-
+                lineupView.getPlayerFocus();
                 break;
         }
     }

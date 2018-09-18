@@ -1,11 +1,9 @@
 package com.football.customizes.lineup;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import com.bon.interfaces.Optional;
 import com.football.models.responses.PlayerResponse;
 import com.football.utilities.function.TriConsumer;
 import com.google.android.flexbox.AlignItems;
@@ -33,7 +31,8 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
     private boolean editable = false; // có thể edit player
     private boolean removable = false; // có thể remove player
     private boolean addable = false; // có thể add player
-    private boolean onlyOne = false; // chỉ được pick 1 lần duy nhất, dành cho chế độ draft
+    private boolean pickDraftMode = false; // chỉ được pick 1 lần duy nhất, dành cho chế độ draft
+    private PlayerResponse playerFocus = null; // chỉ được pick 1 lần duy nhất, dành cho chế độ draft
 
     public LineupView(Context context) {
         this(context, null);
@@ -79,6 +78,9 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
     }
 
     private void displayPlayer(PlayerView view, PlayerResponse player) {
+        if (pickDraftMode) {
+            view.setRemovable(player != null);
+        }
         view.setPlayer(player);
     }
 
@@ -90,7 +92,6 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         lp.setWrapBefore(isWrapBefore);
     }
 
-    @NonNull
     private PlayerView createPlayerView(Context context, int order, int line) {
         PlayerView playerView = new PlayerView(context);
         playerView.setOrder(order);
@@ -213,22 +214,22 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
 
     @Override
     public void onRemove(PlayerView view, PlayerResponse player, int position, int order) {
-        Optional.from(removeCallback).doIfPresent(c -> c.accept(player, 3 - position, order));
+        if (removable && removeCallback != null) removeCallback.accept(player, 3 - position, order);
     }
 
     @Override
     public void onAddPlayer(PlayerView view, int position, int order) {
-        Optional.from(addCallback).doIfPresent(c -> c.accept(3 - position, order));
+        if (addable && addCallback != null) addCallback.accept(3 - position, order);
     }
 
     @Override
     public void onClickPlayer(PlayerView view, PlayerResponse player, int position, int order) {
-        Optional.from(infoCallback).doIfPresent(c -> c.accept(player, 3 - position, order));
+        if (infoCallback != null) infoCallback.accept(player, 3 - position, order);
     }
 
     @Override
     public void onEdit(PlayerView view, PlayerResponse player, int position, int order) {
-        Optional.from(editCallback).doIfPresent(c -> c.accept(player, 3 - position, order));
+        if (editable && editCallback != null) addCallback.accept(3 - position, order);
     }
 
     public void clear() {
@@ -260,8 +261,16 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
         this.addable = addable;
     }
 
-    public void setOnlyOne(boolean onlyOne) {
-        this.onlyOne = onlyOne;
+    public void setPickDraftMode(boolean pickDraftMode) {
+        this.pickDraftMode = pickDraftMode;
+    }
+
+    public void setPlayerFocus(PlayerResponse playerFocus) {
+        this.playerFocus = playerFocus;
+    }
+
+    public PlayerResponse getPlayerFocus() {
+        return playerFocus;
     }
 
     public boolean isFullPosition(int position) {
