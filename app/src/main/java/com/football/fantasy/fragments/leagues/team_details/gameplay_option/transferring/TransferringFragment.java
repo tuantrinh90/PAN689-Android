@@ -233,7 +233,7 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
                 getContext(),
                 player -> { // click event
                     PlayerDetailFragment.start(this,
-                            player,
+                            player.getId(),
                             -1,
                             getString(R.string.transferring_player),
                             league.getGameplayOption());

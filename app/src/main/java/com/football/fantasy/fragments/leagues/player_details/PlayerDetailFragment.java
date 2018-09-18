@@ -37,7 +37,7 @@ import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANS
 
 public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPlayerDetailPresenter<IPlayerDetailView>> implements IPlayerDetailView {
 
-    private static final String KEY_PLAYER = "PLAYER";
+    private static final String KEY_PLAYER_ID = "PLAYER_ID";
     private static final String KEY_TEAM_ID = "TEAM_ID";
     private static final String KEY_TITLE = "TITLE";
     private static final String KEY_PICK_ENABLE = "PICK_PICKED";
@@ -118,24 +118,26 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
     View budget;
 
     private String title;
-    protected PlayerResponse player;
+    protected int playerId;
     protected int pickEnable = PICK_NONE;
     protected int teamId;
     private String gameplayOption;
+
+    protected PlayerResponse player;
 
     List<ExtKeyValuePair> valuePairs = new ArrayList<>();
     private ExtKeyValuePair keyValuePairKey = DEFAULT_KEY;
 
     // only for view PlayerDetail
-    public static void start(Fragment fragment, PlayerResponse player, int teamId, String title, String gameplayOption) {
+    public static void start(Fragment fragment, int playerId, int teamId, String title, String gameplayOption) {
         AloneFragmentActivity.with(fragment)
-                .parameters(newBundle(player, teamId, title, PICK_NONE, gameplayOption))
+                .parameters(newBundle(playerId, teamId, title, PICK_NONE, gameplayOption))
                 .start(PlayerDetailFragment.class);
     }
 
-    protected static Bundle newBundle(PlayerResponse player, int teamId, String title, int pick, String gameplayOption) {
+    public static Bundle newBundle(int playerId, int teamId, String title, int pick, String gameplayOption) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_PLAYER, player);
+        bundle.putInt(KEY_PLAYER_ID, playerId);
         bundle.putInt(KEY_TEAM_ID, teamId);
         bundle.putString(KEY_TITLE, title);
         bundle.putInt(KEY_PICK_ENABLE, pick);
@@ -155,10 +157,14 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
         bindButterKnife(view);
         initData();
         initView();
-        displayPlayer();
         initRecyclerView();
 
+        getPlayerDetail();
         getPlayerStatistic();
+    }
+
+    private void getPlayerDetail() {
+        presenter.getPlayerDetail(playerId);
     }
 
     private void getPlayerStatistic() {
@@ -195,7 +201,7 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
                 value = "all";
                 break;
         }
-        presenter.getPlayerStatistic(player.getId(), teamId, property, value);
+        presenter.getPlayerStatistic(playerId, teamId, property, value);
     }
 
     private void initRecyclerView() {
@@ -211,20 +217,8 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
                 });
     }
 
-    private void displayPlayer() {
-        if (player != null) {
-            tvName.setText(player.getName());
-            AppUtilities.displayPlayerPosition(tvMainPosition, player.getMainPosition(), player.getMainPositionFullText());
-            AppUtilities.displayPlayerPosition(tvMinorPosition, player.getMinorPosition(), player.getMinorPositionFullText());
-            tvValue.setText(getString(R.string.money_prefix, player.getTransferValueDisplay()));
-            ImageLoaderUtils.displayImage(player.getPhoto(), ivAvatar.getImageView());
-            tvState.setVisibility(player.getInjured() ? View.VISIBLE : View.GONE);
-            tvState.setText(player.getInjuredText(getContext()));
-        }
-    }
-
     protected void getDataFromBundle() {
-        player = (PlayerResponse) getArguments().getSerializable(KEY_PLAYER);
+        playerId = getArguments().getInt(KEY_PLAYER_ID);
         title = getArguments().getString(KEY_TITLE);
         teamId = getArguments().getInt(KEY_TEAM_ID);
         pickEnable = getArguments().getInt(KEY_PICK_ENABLE, PICK_NONE);
@@ -317,6 +311,19 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
     private void updateValue() {
         tvFilter.setText(keyValuePairKey.getValue());
         getPlayerStatistic();
+    }
+
+    @Override
+    public void displayPlayer(PlayerResponse player) {
+        this.player = player;
+
+        tvName.setText(player.getName());
+        AppUtilities.displayPlayerPosition(tvMainPosition, player.getMainPosition(), player.getMainPositionFullText());
+        AppUtilities.displayPlayerPosition(tvMinorPosition, player.getMinorPosition(), player.getMinorPositionFullText());
+        tvValue.setText(getString(R.string.money_prefix, player.getTransferValueDisplay()));
+        ImageLoaderUtils.displayImage(player.getPhoto(), ivAvatar.getImageView());
+        tvState.setVisibility(player.getInjured() ? View.VISIBLE : View.GONE);
+        tvState.setText(player.getInjuredText(getContext()));
     }
 
     @Override

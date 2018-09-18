@@ -440,4 +440,9 @@ public class PlayerResponse implements Serializable {
                 ", point=" + point +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof PlayerResponse && ((PlayerResponse) obj).id == id;
+    }
 }

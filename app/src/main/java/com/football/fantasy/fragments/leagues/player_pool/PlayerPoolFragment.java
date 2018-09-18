@@ -268,7 +268,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
                 player -> { // click event
                     if (playerTransfer == null) {
                         PlayerDetailFragment.start(this,
-                                player,
+                                player.getId(),
                                 -1,
                                 getString(R.string.player_list),
                                 GAMEPLAY_OPTION_TRANSFER);

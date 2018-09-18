@@ -211,6 +211,9 @@ public interface IApiService {
     Observable<BaseResponse<PagingResponse<TransferHistoryResponse>>> getTransferHistories(@Path(ServiceConfig.KEY_ID) int teamId,
                                                                                            @QueryMap Map<String, String> queries);
 
+    @GET(ServiceConfig.PLAYER_DETAIL)
+    Observable<BaseResponse<PlayerResponse>> getPlayerDetail(@Path(ServiceConfig.KEY_ID) int playerId);
+
     @GET(ServiceConfig.PLAYER_STATISTIC)
     Observable<BaseResponse<PlayerStatisticResponse>> getPlayerStatistic(@Path(ServiceConfig.KEY_ID) Integer playerId, @QueryMap Map<String, String> queries);
 

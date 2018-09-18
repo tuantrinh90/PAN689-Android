@@ -75,7 +75,7 @@ public class RecordFragment extends BaseMvpFragment<IRecordView, IRecordPresente
                 getContext(),
                 player -> {
                     PlayerDetailFragment.start(this,
-                            player,
+                            player.getId(),
                             -1,
                             getString(R.string.record),
                             league.getGameplayOption());

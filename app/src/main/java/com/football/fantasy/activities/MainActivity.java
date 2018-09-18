@@ -19,6 +19,7 @@ import com.football.fantasy.R;
 import com.football.fantasy.fragments.home.HomeFragment;
 import com.football.fantasy.fragments.leagues.LeagueFragment;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
+import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.fantasy.fragments.match_up.MatchUpFragment;
 import com.football.fantasy.fragments.more.MoreFragment;
 import com.football.fantasy.fragments.notification.NotificationFragment;
@@ -29,6 +30,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 
+import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
 import static com.football.services.NotificationKey.BEFORE_START_TIME_2H;
 import static com.football.services.NotificationKey.BEFORE_TEAM_SETUP_TIME_1H;
 import static com.football.services.NotificationKey.BEFORE_TEAM_SETUP_TIME_2H;
@@ -42,6 +44,7 @@ import static com.football.services.NotificationKey.EDIT_LEAGUE;
 import static com.football.services.NotificationKey.FULL_TEAM;
 import static com.football.services.NotificationKey.OWNER_DELETE_MEMBER;
 import static com.football.services.NotificationKey.PLAYER_INJURED;
+import static com.football.services.NotificationKey.PLAYER_NEW_JOIN;
 import static com.football.services.NotificationKey.RANDOM_TEAM;
 import static com.football.services.NotificationKey.START_LEAGUE;
 import static com.football.services.NotificationKey.TEAM_SETUP_TIME;
@@ -57,6 +60,7 @@ public class MainActivity extends BaseActivity {
     public static final String KEY_ACTION = "ACTION";
     public static final String KEY_LEAGUE_ID = "LEAGUE_ID";
     public static final String KEY_TEAM_ID = "TEAM_ID";
+    public static final String KEY_PLAYER_ID = "PLAYER_ID";
 
     public static final int HOME = 0;
     public static final int LEAGUES = 1;
@@ -137,6 +141,7 @@ public class MainActivity extends BaseActivity {
             String action = intent.getStringExtra(KEY_ACTION);
             int leagueId = intent.getIntExtra(KEY_LEAGUE_ID, -1);
             int teamId = intent.getIntExtra(KEY_TEAM_ID, -1);
+            int playerId = intent.getIntExtra(KEY_PLAYER_ID, -1);
             switch (action) {
                 // League detail
                 case USER_LEFT_LEAGUE:
@@ -213,6 +218,17 @@ public class MainActivity extends BaseActivity {
                 case PLAYER_INJURED:
                     // go LeagueDetail -> TeamSquad
                     // todo: chưa làm
+                    break;
+
+                // Player detail
+                case PLAYER_NEW_JOIN:
+                    AloneFragmentActivity.with(this)
+                            .parameters(PlayerDetailFragment.newBundle(playerId,
+                                    -1,
+                                    getString(R.string.home),
+                                    PlayerDetailFragment.PICK_NONE,
+                                    GAMEPLAY_OPTION_TRANSFER))
+                            .start(PlayerDetailFragment.class);
                     break;
             }
         }

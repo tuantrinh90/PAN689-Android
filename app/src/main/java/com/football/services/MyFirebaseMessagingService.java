@@ -34,18 +34,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
             Map<String, String> payload = remoteMessage.getData();
-            String id = TextUtils.isEmpty(payload.get("id")) ? "-1" : payload.get("id");
-            String action = payload.get("action");
-            String leagueId = payload.get("league_id");
 
             // Check if message contains a notification payload.
             if (remoteMessage.getNotification() != null) {
                 Log.d(TAG, "onMessageReceived#title: " + remoteMessage.getNotification().getTitle());
                 Log.d(TAG, "onMessageReceived#Body: " + remoteMessage.getNotification().getBody());
                 sendNotification(
-                        TextUtils.isDigitsOnly(id) ? Integer.valueOf(id) : -1,
-                        action,
-                        TextUtils.isDigitsOnly(leagueId) ? Integer.valueOf(leagueId) : -1,
+                        payload,
                         remoteMessage.getNotification().getTitle(),
                         remoteMessage.getNotification().getBody());
             }
@@ -57,8 +52,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
     // [END receive_message]
 
-    private void sendNotification(int id, String action, int leagueId, String title, String messageBody) {
-        Intent intent = getIntentByAction(action, leagueId);
+    private void sendNotification(Map<String, String> payload, String title, String messageBody) {
+        Intent intent = getIntentByAction(payload);
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
@@ -89,37 +84,34 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         if (notificationManager != null) {
-            notificationManager.notify(id /* ID of notification */, notificationBuilder.build());
+            notificationManager.notify(-1 /* ID of notification */, notificationBuilder.build());
         }
     }
 
-    private Intent getIntentByAction(String action, int leagueId) {
+    private Intent getIntentByAction(Map<String, String> payload) {
+        String id = TextUtils.isEmpty(payload.get("id")) ? "-1" : payload.get("id");
+        String action = payload.get("action");
+        int leagueId = getInt(payload, "league_id");
+        int teamId = getInt(payload, "team_id");
+        int playerId = getInt(payload, "player_id");
+
         Intent intent;
 
         intent = new Intent(this, MainActivity.class);
         intent.putExtra(MainActivity.KEY_ACTION, action);
         intent.putExtra(MainActivity.KEY_LEAGUE_ID, leagueId);
+        intent.putExtra(MainActivity.KEY_TEAM_ID, teamId);
+        intent.putExtra(MainActivity.KEY_PLAYER_ID, playerId);
         return intent;
+    }
 
-//        switch (action) {
-//            case USER_LEFT_LEAGUE:
-//                intent = new Intent(this, MainActivity.class);
-//                intent.putExtra(MainActivity.KEY_ACTION, action);
-//                intent.putExtra(MainActivity.KEY_LEAGUE_ID, leagueId);
-//                return intent;
-//
-//            case USER_JOINED_LEAGUE:
-//            case USER_ACCEPT_INVITE:
-//            case USER_REJECT_INVITE:
-//                intent = new Intent(this, MainActivity.class);
-//                intent.putExtra(MainActivity.KEY_ACTION, action);
-//                intent.putExtra(MainActivity.KEY_LEAGUE_ID, leagueId);
-//                return intent;
-//
-//            case USER_RECEIVE_INVITE:
-//
-//            default:
-//                return new Intent(this, MainActivity.class);
-//        }
+    private int getInt(Map<String, String> payload, String key) {
+        if (payload.containsKey(key)) {
+            String value = payload.get(key);
+            if (TextUtils.isDigitsOnly(value)) {
+                return Integer.valueOf(value);
+            }
+        }
+        return -1;
     }
 }

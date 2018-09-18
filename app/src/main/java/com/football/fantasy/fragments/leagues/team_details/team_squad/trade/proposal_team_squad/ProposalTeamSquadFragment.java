@@ -126,7 +126,7 @@ public class ProposalTeamSquadFragment extends BaseMvpFragment<IProposalTeamSqua
                 player -> {
                     PlayerDetailFragment.start(
                             this,
-                            player,
+                            player.getId(),
                             teamId,
                             getString(R.string.team_squad),
                             GAMEPLAY_OPTION_TRANSFER);

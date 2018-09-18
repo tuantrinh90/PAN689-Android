@@ -125,7 +125,7 @@ public class TeamLineUpFragment extends BaseMvpFragment<ITeamLineUpView, ITeamLi
                 new ArrayList<>(),
                 player -> {
                     PlayerDetailFragment.start(this,
-                            player,
+                            player.getId(),
                             team.getId(),
                             getString(R.string.player_list),
                             GAMEPLAY_OPTION_TRANSFER);

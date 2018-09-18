@@ -3,6 +3,7 @@ package com.football.fantasy.fragments.leagues.player_details;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
+import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.PlayerStatisticResponse;
 import com.football.utilities.RxUtilities;
 
@@ -19,6 +20,36 @@ public class PlayerDetailPresenter extends BaseDataPresenter<IPlayerDetailView> 
      */
     public PlayerDetailPresenter(AppComponent appComponent) {
         super(appComponent);
+    }
+
+    @Override
+    public void getPlayerDetail(int playerId) {
+        getOptView().doIfPresent(v -> {
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().getPlayerDetail(playerId),
+                    new ApiCallback<PlayerResponse>() {
+                        @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
+
+                        @Override
+                        public void onSuccess(PlayerResponse response) {
+                           v.displayPlayer(response);
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            v.showMessage(error);
+                        }
+                    }));
+        });
     }
 
     @Override

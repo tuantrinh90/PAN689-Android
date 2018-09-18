@@ -123,7 +123,7 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
                 getContext(),
                 player -> {
                     PlayerDetailFragment.start(this,
-                            player,
+                            player.getId(),
                             team.getId(),
                             getString(R.string.team_squad),
                             league.getGameplayOption());
