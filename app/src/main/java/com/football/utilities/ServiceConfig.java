@@ -41,7 +41,7 @@ public interface ServiceConfig {
     String REGISTER = "auth/register";
     String LOGIN = "login";
     String LOGIN_SOCIAL = "auth/social";
-    String LOGOUT = "users/logout";
+    String LOGOUT = "logout";
     String FORGOT_PASSWORD = "users/forgot";
 
     // file

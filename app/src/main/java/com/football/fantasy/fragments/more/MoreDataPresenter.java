@@ -5,8 +5,12 @@ import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.helpers.sociallogin.facebook.FacebookHelper;
 import com.football.helpers.sociallogin.google.GoogleHelper;
+import com.football.listeners.ApiCallback;
 import com.football.utilities.Constant;
+import com.football.utilities.RxUtilities;
 import com.football.utilities.ServiceConfig;
+
+import okhttp3.MultipartBody;
 
 public class MoreDataPresenter extends BaseDataPresenter<IMoreView> implements IMorePresenter<IMoreView> {
     /**
@@ -20,25 +24,49 @@ public class MoreDataPresenter extends BaseDataPresenter<IMoreView> implements I
     public void logout() {
         getOptView().doIfPresent(v -> {
             String provider = AppPreferences.getInstance(v.getAppActivity().getAppContext()).getString(Constant.KEY_LOGIN_TYPE);
-            switch (provider) {
-                case ServiceConfig.PROVIDER_FACEBOOK:
-                    FacebookHelper.quickSignOut();
-                    break;
+            String deviceToken = AppPreferences.getInstance(v.getAppActivity().getAppContext()).getString(Constant.KEY_DEVICE_TOKEN);
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().logout(new MultipartBody.Builder()
+                            .setType(MultipartBody.FORM)
+                            .addFormDataPart("device_token", deviceToken)
+                            .build()),
+                    new ApiCallback<Object>() {
+                        @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
 
-                case ServiceConfig.PROVIDER_GOOGLE:
-                    GoogleHelper.quickSignOut(v.getAppActivity());
-                    break;
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
 
-                case ServiceConfig.PROVIDER_TWITTER:
-                default:
-                    break;
-            }
-            handleLogout(v);
+                        @Override
+                        public void onSuccess(Object o) {
+                            switch (provider) {
+                                case ServiceConfig.PROVIDER_FACEBOOK:
+                                    FacebookHelper.quickSignOut();
+                                    break;
+
+                                case ServiceConfig.PROVIDER_GOOGLE:
+                                    GoogleHelper.quickSignOut(v.getAppActivity());
+                                    break;
+
+                                case ServiceConfig.PROVIDER_TWITTER:
+                                default:
+                                    break;
+                            }
+
+                            AppPreferences.getInstance(v.getAppActivity()).clearCache();
+                            v.logout();
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            v.showMessage(error);
+                        }
+                    }));
         });
-    }
-
-    private void handleLogout(IMoreView v) {
-        AppPreferences.getInstance(v.getAppActivity()).clearCache();
-        v.logout();
     }
 }

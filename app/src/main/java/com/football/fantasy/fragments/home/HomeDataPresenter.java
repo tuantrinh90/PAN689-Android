@@ -1,12 +1,14 @@
 package com.football.fantasy.fragments.home;
 
 import com.bon.customview.listview.ExtPagingListView;
+import com.bon.share_preferences.AppPreferences;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
 import com.football.models.PagingResponse;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.NewsResponse;
+import com.football.utilities.Constant;
 import com.football.utilities.RxUtilities;
 
 import java.util.HashMap;
@@ -32,6 +34,9 @@ public class HomeDataPresenter extends BaseDataPresenter<IHomeView> implements I
                     .addFormDataPart("token", token)
                     .addFormDataPart("type", "1")
                     .build();
+
+            // save device token
+            AppPreferences.getInstance(v.getAppActivity().getAppContext()).putString(Constant.KEY_DEVICE_TOKEN, token);
 
             mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().updateDeviceOfUser(body), null));

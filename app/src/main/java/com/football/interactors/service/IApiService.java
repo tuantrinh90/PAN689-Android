@@ -56,8 +56,8 @@ public interface IApiService {
     @POST(ServiceConfig.LOGIN_SOCIAL)
     Observable<BaseResponse<UserResponse>> loginSocial(@Body RequestBody body);
 
-    @GET(ServiceConfig.LOGOUT)
-    Observable<BaseResponse<UserResponse>> logout();
+    @POST(ServiceConfig.LOGOUT)
+    Observable<BaseResponse<Object>> logout(@Body RequestBody body);
 
     @POST(ServiceConfig.FORGOT_PASSWORD)
     Observable<BaseResponse<Object>> forgotPassword(@Body RequestBody body);
