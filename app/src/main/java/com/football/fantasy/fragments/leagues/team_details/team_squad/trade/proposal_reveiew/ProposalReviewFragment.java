@@ -17,7 +17,6 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.lineup.PlayerView;
 import com.football.customizes.textview.ExtTextViewCountdown;
-import com.football.events.RequestProposalEvent;
 import com.football.events.TradeEvent;
 import com.football.fantasy.R;
 import com.football.models.responses.PlayerResponse;
@@ -33,6 +32,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.football.fantasy.fragments.leagues.team_details.team_squad.trade.request.RequestFragment.REQUEST_BY_YOU;
+import static com.football.fantasy.fragments.leagues.team_details.team_squad.trade.request.RequestFragment.REQUEST_TO_YOU;
 
 public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView, IProposalReviewPresenter<IProposalReviewView>> implements IProposalReviewView {
 
@@ -85,6 +85,12 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
                 .start(ProposalReviewFragment.class);
     }
 
+    public static void start(Context context, String title, TradeResponse trade) {
+        AloneFragmentActivity.with(context)
+                .parameters(ProposalReviewFragment.newBundle(title, trade, -1))
+                .start(ProposalReviewFragment.class);
+    }
+
     private static Bundle newBundle(String title, TradeResponse trade, int type) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_TITLE, title);
@@ -111,7 +117,7 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     private void getDataFromBundle() {
         title = getArguments().getString(KEY_TITLE);
         trade = (TradeResponse) getArguments().getSerializable(KEY_TRADE);
-        type = getArguments().getInt(KEY_TYPE);
+        type = getArguments().getInt(KEY_TYPE, -1);
     }
 
     @Override
@@ -136,20 +142,30 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     }
 
     private void initView() {
+        // || (type == -1 && trade.getStatus().equals(TradeResponse.STATUS_SUCCESSFUL))
+        byYouButton.setVisibility(View.GONE);
+        toYouButton.setVisibility(View.GONE);
+        headerByYou.setVisibility(View.GONE);
+        headerToYou.setVisibility(View.GONE);
+
         if (type == REQUEST_BY_YOU) {
             byYouButton.setVisibility(View.VISIBLE);
-            toYouButton.setVisibility(View.GONE);
             headerByYou.setVisibility(View.VISIBLE);
-            headerToYou.setVisibility(View.GONE);
 
             displayViewByYou();
-        } else {
-            byYouButton.setVisibility(View.GONE);
+        } else if (type == REQUEST_TO_YOU) {
             toYouButton.setVisibility(View.VISIBLE);
-            headerByYou.setVisibility(View.GONE);
             headerToYou.setVisibility(View.VISIBLE);
 
             displayViewToYou();
+        } else if (!trade.getStatus().equals(TradeResponse.STATUS_SUCCESSFUL)) {
+            toYouButton.setVisibility(View.VISIBLE);
+            headerToYou.setVisibility(View.VISIBLE);
+
+            displayViewToYou();
+        } else {
+            headerByYou.setVisibility(View.VISIBLE);
+            displayViewByYou();
         }
 
         tvTitleTeam1.setText(trade.getTeam().getName());
@@ -159,7 +175,6 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     }
 
     private void displayPlayerViews() {
-
         PlayerView[] playerViews1st = new PlayerView[]{player11, player21};
         PlayerView[] playerViews2nd = new PlayerView[]{player12, player22};
         PlayerView[] playerViews3rd = new PlayerView[]{player13, player23};
@@ -246,7 +261,7 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
 
     @Override
     public void submitSuccess(TradeResponse response) {
-        bus.send(new RequestProposalEvent());
+        bus.send(new TradeEvent());
 
         mActivity.finish();
     }

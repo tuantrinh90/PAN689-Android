@@ -17,14 +17,17 @@ import com.football.utilities.Constant;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
+import java8.util.function.Consumer;
 
 public class TradeReviewingAdapter extends DefaultAdapter<TradeResponse> {
 
     private final String type;
+    private final Consumer<TradeResponse> itemCallback;
 
-    public TradeReviewingAdapter(Context context, String type) {
+    public TradeReviewingAdapter(Context context, String type, Consumer<TradeResponse> itemCallback) {
         super(context);
         this.type = type;
+        this.itemCallback = itemCallback;
     }
 
     @Override
@@ -61,6 +64,7 @@ public class TradeReviewingAdapter extends DefaultAdapter<TradeResponse> {
         } else {
             displayReviewedStatus(holder, data);
         }
+        holder.itemView.setOnClickListener(v -> itemCallback.accept(data));
     }
 
     private void displayReviewingStatus(TradeReviewingHolder holder, TradeResponse data) {

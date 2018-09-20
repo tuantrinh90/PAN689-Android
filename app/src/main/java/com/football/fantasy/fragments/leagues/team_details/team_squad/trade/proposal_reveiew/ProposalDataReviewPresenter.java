@@ -21,8 +21,8 @@ public class ProposalDataReviewPresenter extends BaseDataPresenter<IProposalRevi
         getOptView().doIfPresent(v -> {
             MultipartBody.Builder builder = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
-                    .addFormDataPart("status", String.valueOf(status))
-                    .addFormDataPart("team_id", String.valueOf(teamId));
+                    .addFormDataPart("status", String.valueOf(status));
+//                    .addFormDataPart("team_id", String.valueOf(teamId));
 
             mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().submitTradeDecision(requestId, builder.build()),

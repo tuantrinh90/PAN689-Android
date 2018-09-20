@@ -8,13 +8,16 @@ import android.view.View;
 import com.football.adapters.TradeReviewingAdapter;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
+import com.football.events.RequestProposalEvent;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.proposal_reveiew.ProposalReviewFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TradeResponse;
 
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.observers.DisposableObserver;
 
 // Get trade review results
 public class SubTradeReviewFragment extends BaseMvpFragment<ISubTradeReviewView, ISubTradeReviewPresenter<ISubTradeReviewView>> implements ISubTradeReviewView {
@@ -54,6 +57,8 @@ public class SubTradeReviewFragment extends BaseMvpFragment<ISubTradeReviewView,
         initRecyclerView();
 
         getTradeRequests();
+
+        registerBus();
     }
 
     private void getDataFromBundle() {
@@ -68,7 +73,14 @@ public class SubTradeReviewFragment extends BaseMvpFragment<ISubTradeReviewView,
     }
 
     private void initRecyclerView() {
-        TradeReviewingAdapter adapter = new TradeReviewingAdapter(getContext(), type);
+        TradeReviewingAdapter adapter = new TradeReviewingAdapter(
+                getContext(),
+                type,
+                trade -> {
+                    if (type.equals(TradeResponse.TYPE_REVIEWING)) {
+                        ProposalReviewFragment.start(getContext(), getString(R.string.trade_request), trade);
+                    }
+                });
         rvReviews
                 .adapter(adapter)
                 .refreshListener(this::refresh)
@@ -88,6 +100,31 @@ public class SubTradeReviewFragment extends BaseMvpFragment<ISubTradeReviewView,
         rvReviews.clear();
         rvReviews.startLoading();
         getTradeRequests();
+    }
+
+    private void registerBus() {
+        try {
+            // action add click on PlayerList
+            mCompositeDisposable.add(bus.ofType(RequestProposalEvent.class)
+                    .subscribeWith(new DisposableObserver<RequestProposalEvent>() {
+                        @Override
+                        public void onNext(RequestProposalEvent event) {
+                            refresh();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    }));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
