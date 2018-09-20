@@ -11,7 +11,7 @@ public interface ILineupTransferView extends ILineUpView {
 
     void checkCompleted(boolean firstCheck);
 
-    void onCompleteLineup();
+    void completeLineupSuccess();
 
 
 }

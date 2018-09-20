@@ -12,13 +12,13 @@ import okhttp3.MultipartBody;
 
 public abstract class LineUpPresenter<V extends ILineUpView> extends BaseDataPresenter<V> implements ILineUpPresenter<V> {
 
-    protected abstract void onLineupSuccess(LineupResponse response);
+    protected abstract void setLineup(LineupResponse response);
 
-    protected abstract void onAddPlaySuccess(PropsPlayerResponse response, PlayerResponse player, int position, int order);
+    protected abstract void addPlaySuccess(PropsPlayerResponse response, PlayerResponse player, int position, int order);
 
-    protected abstract void onRemovePlayerSuccess(PropsPlayerResponse response, PlayerResponse player, int position);
+    protected abstract void removePlayerSuccess(PropsPlayerResponse response, PlayerResponse player, int position);
 
-    protected abstract void onCompleteLineup();
+    protected abstract void completeLineupSuccess();
 
     /**
      * @param appComponent
@@ -46,7 +46,7 @@ public abstract class LineUpPresenter<V extends ILineUpView> extends BaseDataPre
 
                         @Override
                         public void onSuccess(LineupResponse response) {
-                            onLineupSuccess(response);
+                            setLineup(response);
                         }
 
                         @Override
@@ -71,15 +71,17 @@ public abstract class LineUpPresenter<V extends ILineUpView> extends BaseDataPre
                     new ApiCallback<PropsPlayerResponse>() {
                         @Override
                         public void onStart() {
+                            v.showLoading(true);
                         }
 
                         @Override
                         public void onComplete() {
+                            v.showLoading(false);
                         }
 
                         @Override
                         public void onSuccess(PropsPlayerResponse response) {
-                            onAddPlaySuccess(response, player, position, order);
+                            addPlaySuccess(response, player, position, order);
                         }
 
                         @Override
@@ -113,7 +115,7 @@ public abstract class LineUpPresenter<V extends ILineUpView> extends BaseDataPre
 
                         @Override
                         public void onSuccess(PropsPlayerResponse response) {
-                            onRemovePlayerSuccess(response, player, position);
+                            removePlayerSuccess(response, player, position);
                         }
 
                         @Override
@@ -144,7 +146,7 @@ public abstract class LineUpPresenter<V extends ILineUpView> extends BaseDataPre
 
                         @Override
                         public void onSuccess(Object response) {
-                            onCompleteLineup();
+                            completeLineupSuccess();
                         }
 
                         @Override

@@ -9,14 +9,13 @@ import java.util.List;
 
 public interface ILineUpView extends IBaseMvpView {
 
-
     void displayLineupPlayers(List<PlayerResponse> players);
 
     void displayStatistic(StatisticResponse statistic);
 
-    void onAddPlayer(TeamResponse team, PlayerResponse player, int order);
+    void addPlayerSuccess(TeamResponse team, PlayerResponse player, int order);
 
-    void onRemovePlayer(TeamResponse team, PlayerResponse player);
+    void removePlayerSuccess(TeamResponse team, PlayerResponse player);
 
     void handleCallback(boolean success, String error);
 

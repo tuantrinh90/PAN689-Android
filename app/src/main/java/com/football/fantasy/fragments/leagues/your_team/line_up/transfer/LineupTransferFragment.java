@@ -5,16 +5,23 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.bon.util.DateTimeUtils;
+import com.bon.util.DialogUtils;
+import com.football.common.activities.AloneFragmentActivity;
+import com.football.customizes.lineup.PlayerView;
 import com.football.events.LineupEvent;
 import com.football.events.TeamEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.your_team.line_up.LineUpFragment;
+import com.football.fantasy.fragments.leagues.your_team.players_popup.PlayerPopupFragment;
 import com.football.models.responses.LeagueResponse;
+import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.utilities.AppUtilities;
 import com.football.utilities.Constant;
 
 import butterknife.OnClick;
+
+import static com.football.customizes.lineup.PlayerView.NONE_ORDER;
 
 public class LineupTransferFragment extends LineUpFragment<ILineupTransferView, ILineupTransferPresenter<ILineupTransferView>> implements ILineupTransferView {
 
@@ -37,6 +44,43 @@ public class LineupTransferFragment extends LineUpFragment<ILineupTransferView, 
     protected void initView() {
         super.initView();
         setupTransferMode();
+    }
+
+    @Override
+    protected void onLineupViewAddClicked(PlayerView playerView, int position, int order) {
+        boolean isSetupTime = AppUtilities.isSetupTime(league.getTeamSetup());
+        if (isSetupTime) {
+            AloneFragmentActivity.with(this)
+                    .parameters(PlayerPopupFragment.newBundle(position, order, league))
+                    .start(PlayerPopupFragment.class);
+        } else {
+            showMessage(getString(R.string.message_pick_after_team_setup_time));
+        }
+    }
+
+    @Override
+    protected void onAddClickedFromPopup(PlayerResponse player, int position, int order) {
+        if (!lineupView.isFullPosition(position)) {
+            if (order == NONE_ORDER) {
+                order = lineupView.getOrder(position);
+            }
+            presenter.addPlayer(player, teamId, position, order);
+        } else {
+            callback.accept(false, getString(R.string.message_full_position));
+        }
+    }
+
+    @Override
+    protected void onLineupViewRemoveClicked(PlayerResponse player, int position, int index) {
+        DialogUtils.messageBox(mActivity,
+                0,
+                getString(R.string.app_name),
+                getString(R.string.message_confirm_remove_lineup_player),
+                getString(R.string.ok),
+                getString(R.string.cancel),
+                (dialog, which) -> presenter.removePlayer(player, position, teamId),
+                (dialog, which) -> {
+                });
     }
 
     private void setupTransferMode() {
@@ -81,7 +125,7 @@ public class LineupTransferFragment extends LineUpFragment<ILineupTransferView, 
     }
 
     @Override
-    public void onCompleteLineup() {
+    public void completeLineupSuccess() {
         bus.send(new TeamEvent(null));
 
         // open viewpager page TeamFragment

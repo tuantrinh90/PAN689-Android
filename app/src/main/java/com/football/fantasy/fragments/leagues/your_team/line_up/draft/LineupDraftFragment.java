@@ -8,13 +8,16 @@ import android.view.View;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.jackson.JacksonUtils;
+import com.bon.util.DialogUtils;
+import com.football.common.activities.AloneFragmentActivity;
+import com.football.customizes.lineup.PlayerView;
 import com.football.customizes.progress.ExtProgress;
 import com.football.customizes.textview.ExtTextViewCountdown;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.your_team.line_up.LineUpFragment;
+import com.football.fantasy.fragments.leagues.your_team.players_popup.PlayerPopupFragment;
 import com.football.models.responses.ChangeTurnResponse;
 import com.football.models.responses.PlayerResponse;
-import com.football.models.responses.TeamResponse;
 import com.football.models.responses.TurnResponse;
 import com.football.utilities.SocketEventKey;
 
@@ -47,6 +50,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     @BindView(R.id.progress_draft)
     ExtProgress progressDraft;
 
+    private PlayerView playerViewSelected;
     private boolean pickEnable = false;
 
     @NonNull
@@ -163,11 +167,17 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             enableLineupView(true);
 
             setYourTurn(timeLeft);
+
+            // set current team's Name
+            tvDraftCurrentTeam.setText("YOUR TURN");
         } else {
             goneYourTurn();
 
             // disable lineupView
             enableLineupView(false);
+
+            // set current team's Name
+            tvDraftCurrentTeam.setText(current != null ? current.getTeam().getName() : "null");
         }
 
         // countdown Current 00:00:00
@@ -177,9 +187,6 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         tvDraftCurrentTimeLeft.setTimeoutCallback(aVoid -> {
             setTurn(next, null, MAX_SECONDS_CHANGE_TURN);
         });
-
-        // set current team's Name
-        tvDraftCurrentTeam.setText(current != null ? current.getTeam().getName() : "null");
 
         // set next team's name
         tvDraftNextTeam.setText(next != null ? next.getTeam().getName() : "null");
@@ -192,6 +199,10 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     }
 
     private void goneYourTurn() {
+        if (playerViewSelected != null) {
+            playerViewSelected.setRemovable(false);
+            playerViewSelected = null;
+        }
         tvDraftEndTurn.setVisibility(View.GONE);
         progressDraft.setVisibility(View.VISIBLE);
         tvDraftYourTurnTimeUnit.setVisibility(View.VISIBLE);
@@ -199,21 +210,17 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
 
     private void enableLineupView(boolean enable) {
         lineupView.setAddable(enable);
-        lineupView.setPickDraftMode(enable);
         pickEnable = enable;
-    }
-
-    @Override
-    public void onAddPlayer(TeamResponse team, PlayerResponse player, int order) {
-        lineupView.setPlayerFocus(player);
-        super.onAddPlayer(team, player, order);
     }
 
     @OnClick({R.id.tvDraftEndTurn})
     public void onClicked(View view) {
         switch (view.getId()) {
             case R.id.tvDraftEndTurn:
-                lineupView.getPlayerFocus();
+                if (playerViewSelected != null) {
+                    presenter.addPlayer(playerViewSelected.getPlayer(), teamId, playerViewSelected.getPosition(), playerViewSelected.getOrder());
+                    playerViewSelected = null;
+                }
                 break;
         }
     }
@@ -225,5 +232,41 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         } else {
             presenter.joinDraftPick(league.getId());
         }
+    }
+
+    @Override
+    protected void onLineupViewAddClicked(PlayerView playerView, int position, int order) {
+        if (playerViewSelected == null) {
+            AloneFragmentActivity.with(this)
+                    .parameters(PlayerPopupFragment.newBundle(position, order, league))
+                    .start(PlayerPopupFragment.class);
+        }
+    }
+
+    @Override
+    protected void onAddClickedFromPopup(PlayerResponse player, int position, int order) {
+        playerViewSelected = lineupView.addPlayer(player, player.getMainPosition(), order);
+        playerViewSelected.setRemovable(true);
+        playerViewSelected.setAddable(false);
+        callback.accept(true, "");
+        callback = null;
+    }
+
+    @Override
+    protected void onLineupViewRemoveClicked(PlayerResponse player, int position, int index) {
+        DialogUtils.messageBox(mActivity,
+                0,
+                getString(R.string.app_name),
+                getString(R.string.message_confirm_remove_lineup_player),
+                getString(R.string.ok),
+                getString(R.string.cancel),
+                (dialog, which) -> {
+                    if (playerViewSelected != null) {
+                        playerViewSelected.setPlayer(null);
+                        playerViewSelected = null;
+                    }
+                },
+                (dialog, which) -> {
+                });
     }
 }

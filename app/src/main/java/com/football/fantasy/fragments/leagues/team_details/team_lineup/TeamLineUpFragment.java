@@ -113,7 +113,7 @@ public class TeamLineUpFragment extends BaseMvpFragment<ITeamLineUpView, ITeamLi
         formation.setEnabled(owner);
 
         lineupView.setJustifyContent(AlignContent.SPACE_AROUND);
-        lineupView.setAddCallback((position, order) -> handlePlayerClicked(null, position, order));
+        lineupView.setAddCallback((playerView, position, order) -> handlePlayerClicked(null, position, order));
         lineupView.setEditCallback(this::handlePlayerClicked);
         lineupView.setFormation(formationValue);
         lineupView.setPlayers(new PlayerResponse[TEAM_PLAYER_SIZE]);

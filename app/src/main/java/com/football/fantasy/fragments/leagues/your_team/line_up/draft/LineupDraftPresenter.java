@@ -16,7 +16,7 @@ import org.json.JSONObject;
 public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> implements ILineupDraftPresenter<ILineupDraftView> {
 
     @Override
-    protected void onLineupSuccess(LineupResponse response) {
+    protected void setLineup(LineupResponse response) {
         getOptView().doIfPresent(v -> {
             v.displayLineupPlayers(response.getPlayers());
             v.displayStatistic(response.getStatistic());
@@ -24,24 +24,24 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
     }
 
     @Override
-    protected void onAddPlaySuccess(PropsPlayerResponse response, PlayerResponse player, int position, int order) {
+    protected void addPlaySuccess(PropsPlayerResponse response, PlayerResponse player, int position, int order) {
         getOptView().doIfPresent(v -> {
             v.updateStatistic(position == PlayerResponse.POSITION_NONE ? player.getMainPosition() : position, 1);
             v.handleCallback(true, "");
-            v.onAddPlayer(response.getTeam(), player, order);
+            v.addPlayerSuccess(response.getTeam(), player, order);
         });
     }
 
     @Override
-    protected void onRemovePlayerSuccess(PropsPlayerResponse response, PlayerResponse player, int position) {
+    protected void removePlayerSuccess(PropsPlayerResponse response, PlayerResponse player, int position) {
         getOptView().doIfPresent(v -> {
             v.updateStatistic(position, -1);
-            v.onRemovePlayer(response.getTeam(), player);
+            v.removePlayerSuccess(response.getTeam(), player);
         });
     }
 
     @Override
-    protected void onCompleteLineup() {
+    protected void completeLineupSuccess() {
 
     }
 

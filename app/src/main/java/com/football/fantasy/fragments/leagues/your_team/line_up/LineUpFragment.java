@@ -8,22 +8,19 @@ import android.widget.LinearLayout;
 import android.widget.TableRow;
 
 import com.bon.customview.textview.ExtTextView;
-import com.bon.util.DialogUtils;
-import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.lineup.LineupView;
+import com.football.customizes.lineup.PlayerView;
 import com.football.customizes.lineup.StatisticView;
 import com.football.customizes.textview.ExtTextViewCountdown;
 import com.football.events.PickEvent;
 import com.football.events.PlayerEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailForLineupFragment;
-import com.football.fantasy.fragments.leagues.your_team.players_popup.PlayerPopupFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.StatisticResponse;
 import com.football.models.responses.TeamResponse;
-import com.football.utilities.AppUtilities;
 
 import java.util.List;
 
@@ -40,7 +37,7 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
 
     protected static final String KEY_TEAM_ID = "TEAM_ID";
     protected static final String KEY_LEAGUE = "LEAGUE_ID";
-    private BiConsumer<Boolean, String> callback;
+    protected BiConsumer<Boolean, String> callback;
 
 
     public static LineUpFragment newInstance(LineUpFragment fragment, LeagueResponse league, Integer teamId) {
@@ -133,38 +130,17 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
     private void setupLineupView() {
         // setup lineupView
         lineupView.setupLineup(new PlayerResponse[18], new int[]{4, 6, 6, 2});
-        lineupView.setAddCallback((position, order) -> {
-            boolean isSetupTime = AppUtilities.isSetupTime(league.getTeamSetup());
-            if (isSetupTime) {
-                AloneFragmentActivity.with(this)
-                        .parameters(PlayerPopupFragment.newBundle(position, order, league))
-                        .start(PlayerPopupFragment.class);
-            } else {
-                showMessage(getString(R.string.message_pick_after_team_setup_time));
-            }
-        });
-        lineupView.setInfoCallback((player, position, order) -> {
-            PlayerDetailForLineupFragment.start(
-                    this,
-                    player,
-                    -1,
-                    getString(R.string.lineup),
-                    league.getGameplayOption(),
-                    player.getSelected() ? PICK_PICKED : PICK_PICK,
-                    position,
-                    order);
-        });
-        lineupView.setRemoveCallback((player, position, index) -> {
-            DialogUtils.messageBox(mActivity,
-                    0,
-                    getString(R.string.app_name),
-                    getString(R.string.message_confirm_remove_lineup_player),
-                    getString(R.string.ok),
-                    getString(R.string.cancel),
-                    (dialog, which) -> presenter.removePlayer(player, position, teamId),
-                    (dialog, which) -> {
-                    });
-        });
+        lineupView.setAddCallback(this::onLineupViewAddClicked);
+        lineupView.setInfoCallback((player, position, order) -> PlayerDetailForLineupFragment.start(
+                this,
+                player,
+                -1,
+                getString(R.string.lineup),
+                league.getGameplayOption(),
+                player.getSelected() ? PICK_PICKED : PICK_PICK,
+                position,
+                order));
+        lineupView.setRemoveCallback(this::onLineupViewRemoveClicked);
     }
 
     void registerEvent() {
@@ -176,7 +152,7 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
                         switch (event.getAction()) {
                             case PlayerEvent.ACTION_ADD_CLICK:
                                 callback = event.getCallback();
-                                insertToLineUpView(event.getData(), event.getPosition(), event.getOrder() == null ? NONE_ORDER : event.getOrder());
+                                onAddClickedFromPopup(event.getData(), event.getPosition(), event.getOrder() == null ? NONE_ORDER : event.getOrder());
                                 break;
                         }
                     }
@@ -191,17 +167,6 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
 
                     }
                 }));
-    }
-
-    private void insertToLineUpView(PlayerResponse player, int position, int order) {
-        if (!lineupView.isFullPosition(position)) {
-            if (order == NONE_ORDER) {
-                order = lineupView.getOrder(position);
-            }
-            presenter.addPlayer(player, teamId, position, order);
-        } else {
-            callback.accept(false, getString(R.string.message_full_position));
-        }
     }
 
     @OnCheckedChanged({R.id.switch_display})
@@ -227,13 +192,13 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
     }
 
     @Override
-    public void onAddPlayer(TeamResponse team, PlayerResponse player, int order) {
+    public void addPlayerSuccess(TeamResponse team, PlayerResponse player, int order) {
         lineupView.addPlayer(player, player.getMainPosition(), order);
         bus.send(new PickEvent(PickEvent.ACTION_PICK, player.getId()));
     }
 
     @Override
-    public void onRemovePlayer(TeamResponse team, PlayerResponse player) {
+    public void removePlayerSuccess(TeamResponse team, PlayerResponse player) {
         lineupView.removePlayer(player, player.getMainPosition());
         bus.send(new PickEvent(PickEvent.ACTION_REMOVE, player.getId()));
     }
@@ -264,4 +229,10 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
         }
     }
 
+    protected abstract void onLineupViewAddClicked(PlayerView playerView, int position, int order);
+
+    // player được bắn về từ popup
+    protected abstract void onAddClickedFromPopup(PlayerResponse player, int position, int order);
+
+    protected abstract void onLineupViewRemoveClicked(PlayerResponse player, int position, int index);
 }
