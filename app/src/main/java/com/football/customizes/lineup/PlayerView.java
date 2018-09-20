@@ -154,7 +154,7 @@ public class PlayerView extends LinearLayout {
 
     public void setRemovable(boolean removable) {
         this.removable = removable;
-        ivRemove.setVisibility(removable ? VISIBLE : GONE);
+        ivRemove.setVisibility(player != null && removable ? VISIBLE : GONE);
     }
 
     public void setEditable(boolean editable) {

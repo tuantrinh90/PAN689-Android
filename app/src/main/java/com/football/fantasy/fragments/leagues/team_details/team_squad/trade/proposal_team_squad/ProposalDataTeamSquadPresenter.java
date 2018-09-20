@@ -3,7 +3,7 @@ package com.football.fantasy.fragments.leagues.team_details.team_squad.trade.pro
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
-import com.football.models.responses.LineupResponse;
+import com.football.models.responses.TeamSquadResponse;
 import com.football.utilities.RxUtilities;
 
 import org.json.JSONArray;
@@ -39,12 +39,13 @@ public class ProposalDataTeamSquadPresenter extends BaseDataPresenter<IProposalT
             if (sortArray.length() > 0) {
                 queries.put("sort", sortArray.toString());
             }
+            queries.put("mode", "trade ");
             mCompositeDisposable.add(RxUtilities.async(
                     v,
-                    dataModule.getApiService().getLineup(teamId),
-                    new ApiCallback<LineupResponse>() {
+                    dataModule.getApiService().getTeamSquad(teamId, queries),
+                    new ApiCallback<TeamSquadResponse>() {
                         @Override
-                        public void onSuccess(LineupResponse response) {
+                        public void onSuccess(TeamSquadResponse response) {
                             v.displayPlayers(response.getPlayers());
                         }
 

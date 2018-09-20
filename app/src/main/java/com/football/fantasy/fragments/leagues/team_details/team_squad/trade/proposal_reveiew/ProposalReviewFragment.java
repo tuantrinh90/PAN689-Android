@@ -17,6 +17,8 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.lineup.PlayerView;
 import com.football.customizes.textview.ExtTextViewCountdown;
+import com.football.events.RequestProposalEvent;
+import com.football.events.TradeEvent;
 import com.football.fantasy.R;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TradeDetailResponse;
@@ -244,6 +246,8 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
 
     @Override
     public void submitSuccess(TradeResponse response) {
+        bus.send(new RequestProposalEvent());
+
         mActivity.finish();
     }
 }

@@ -138,6 +138,8 @@ public class PlayerResponse implements Serializable {
     private int position;
     @JsonProperty("order")
     private Integer order;
+    @JsonProperty("is_trading")
+    private boolean isTrading;
 
     public PlayerResponse() {
     }
@@ -401,6 +403,10 @@ public class PlayerResponse implements Serializable {
 
     public Integer getOrder() {
         return order;
+    }
+
+    public boolean isTrading() {
+        return isTrading;
     }
 
     @Override

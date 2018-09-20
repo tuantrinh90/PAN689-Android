@@ -13,13 +13,14 @@ import com.football.fantasy.R;
 import com.football.models.responses.TeamResponse;
 
 import butterknife.BindView;
+import java8.util.function.Consumer;
 
 public class TeamSelectAdapter extends DefaultAdapter<TeamResponse> {
 
-    private java8.util.function.Consumer<Void> clickConsumer;
+    private Consumer<Void> clickConsumer;
     private int lastSelected = -1;
 
-    public TeamSelectAdapter(Context context, java8.util.function.Consumer<Void> clickConsumer) {
+    public TeamSelectAdapter(Context context, Consumer<Void> clickConsumer) {
         super(context);
         this.clickConsumer = clickConsumer;
     }
@@ -41,7 +42,7 @@ public class TeamSelectAdapter extends DefaultAdapter<TeamResponse> {
         holder.rbRadioButton.setChecked(data.isChecked());
         holder.ivAvatar.setImageUri(data.getLogo());
         holder.tvTeam.setText(data.getName());
-        holder.tvDescription.setText(data.getDescription());
+        holder.tvDescription.setText(data.getName());
         holder.itemView.setOnClickListener(v -> {
             if (lastSelected != position) {
                 if (lastSelected != -1) {

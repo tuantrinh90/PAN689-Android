@@ -56,7 +56,7 @@ public class TeamSquadAdapter extends DefaultAdapter<PlayerResponse> {
         holder.tvInjured.setText(data.getInjuredText(context));
         holder.tvInjured.setVisibility(data.getInjured() ? View.VISIBLE : View.GONE);
 
-        holder.ivAdd.setVisibility(addCallback != null ? View.VISIBLE : View.GONE);
+        holder.ivAdd.setVisibility(!data.isTrading() && addCallback != null ? View.VISIBLE : View.GONE);
 
         holder.itemView.setOnClickListener(v -> clickCallback.accept(getItem(defaultHolder.getAdapterPosition())));
         holder.ivAdd.setOnClickListener(v -> addCallback.accept(getItem(defaultHolder.getAdapterPosition())));

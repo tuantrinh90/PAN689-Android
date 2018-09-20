@@ -20,6 +20,9 @@ import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.prop
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TradeResponse;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.OnClick;
@@ -172,24 +175,30 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
     }
 
     private void onAddPlayer(PlayerView view) {
+        ArrayList<Integer> ids = new ArrayList<>();
+        for (PlayerView playerView : playerViews) {
+            if (playerView.getPlayer() !=  null) {
+                ids.add(playerView.getPlayer().getId());
+            }
+        }
         switch (view.getId()) {
             case R.id.player11:
-                ProposalTeamSquadFragment.start(getContext(), fromTeamId, MY_TEAM_INDEX_1);
+                ProposalTeamSquadFragment.start(getContext(), fromTeamId, fromTeamName, MY_TEAM_INDEX_1, ids);
                 break;
             case R.id.player12:
-                ProposalTeamSquadFragment.start(getContext(), fromTeamId, MY_TEAM_INDEX_2);
+                ProposalTeamSquadFragment.start(getContext(), fromTeamId, fromTeamName, MY_TEAM_INDEX_2, ids);
                 break;
             case R.id.player13:
-                ProposalTeamSquadFragment.start(getContext(), fromTeamId, MY_TEAM_INDEX_3);
+                ProposalTeamSquadFragment.start(getContext(), fromTeamId, fromTeamName, MY_TEAM_INDEX_3, ids);
                 break;
             case R.id.player21:
-                ProposalTeamSquadFragment.start(getContext(), toTeamId, OTHER_TEAM_INDEX_1);
+                ProposalTeamSquadFragment.start(getContext(), toTeamId, toTeamName, OTHER_TEAM_INDEX_1, ids);
                 break;
             case R.id.player22:
-                ProposalTeamSquadFragment.start(getContext(), toTeamId, OTHER_TEAM_INDEX_2);
+                ProposalTeamSquadFragment.start(getContext(), toTeamId, toTeamName, OTHER_TEAM_INDEX_2, ids);
                 break;
             case R.id.player23:
-                ProposalTeamSquadFragment.start(getContext(), toTeamId, OTHER_TEAM_INDEX_3);
+                ProposalTeamSquadFragment.start(getContext(), toTeamId, toTeamName, OTHER_TEAM_INDEX_3, ids);
                 break;
         }
     }

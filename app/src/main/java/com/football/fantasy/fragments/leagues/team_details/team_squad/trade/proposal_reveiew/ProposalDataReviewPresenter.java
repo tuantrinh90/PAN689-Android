@@ -54,11 +54,8 @@ public class ProposalDataReviewPresenter extends BaseDataPresenter<IProposalRevi
     @Override
     public void cancelDecision(int requestId) {
         getOptView().doIfPresent(v -> {
-            MultipartBody.Builder builder = new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM);
-
             mCompositeDisposable.add(RxUtilities.async(v,
-                    dataModule.getApiService().cancelTradeDecision(requestId, builder.build()),
+                    dataModule.getApiService().cancelTradeDecision(requestId),
                     new ApiCallback<TradeResponse>() {
                         @Override
                         public void onStart() {

@@ -40,7 +40,7 @@ public class LineupTransferFragment extends LineUpFragment<ILineupTransferView, 
     }
 
     private void setupTransferMode() {
-        boolean isSetupTime = AppUtilities.isSetupTime(league.getTeamSetup());
+        boolean isSetupTime = league.getStatus().equals(LeagueResponse.WAITING_FOR_START);
         if (isSetupTime) {
             lineupView.setEditable(true);
             lineupView.setAddable(true);
@@ -77,7 +77,7 @@ public class LineupTransferFragment extends LineUpFragment<ILineupTransferView, 
 
     @Override
     public void checkCompleted(boolean firstCheck) {
-        enableCompleteButton(lineupView.isSetupComplete() || (firstCheck && league != null && !league.getTeam().getCompleted()));
+        enableCompleteButton(lineupView.isSetupComplete() || (firstCheck && league != null && league.getTeam().getCompleted()));
     }
 
     @Override

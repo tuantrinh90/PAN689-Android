@@ -68,6 +68,7 @@ public class ChooseATeamFragment extends BaseMvpFragment<IChooseATeamView, IChoo
         bindButterKnife(view);
 
         initView();
+        rvTeam.startLoading();
         getTeams();
     }
 
@@ -98,14 +99,12 @@ public class ChooseATeamFragment extends BaseMvpFragment<IChooseATeamView, IChoo
                     // set visibility view
                     setEnableMakeProceedButton(true);
                 });
-
         rvTeam
                 .adapter(adapter)
                 .build();
     }
 
     private void getTeams() {
-        rvTeam.startLoading();
         presenter.getTeams(leagueId);
     }
 

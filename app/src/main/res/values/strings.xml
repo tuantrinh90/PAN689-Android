@@ -99,6 +99,7 @@
     <string name="max_number_of_team">Max number of teams</string>
     <string name="budget">Budget</string>
     <string name="budget_value">%s (€%s mio)</string>
+    <string name="time_per_draft_pick_value">%d seconds</string>
     <string name="start_league">Start League</string>
     <string name="team_setup_time">Team setup time</string>
     <string name="remove">Remove</string>
@@ -330,7 +331,7 @@
     <string name="approved_">Approved</string>
     <string name="message_confirm_proposal_reject">This proposal has been rejected</string>
     <string name="message_confirm_proposal_approved">This proposal has been approved</string>
-    <string name="message_confirm_proposal_cancelled">This proposal has been cancelled</string>
+    <string name="message_confirm_proposal_cancelled">Are you sure want to cancel this proposal?</string>
     <string name="select_round">Select Round</string>
     <string name="select_season">Select season</string>
     <string name="message_maximun_3_columns">The display only supports maximum 3 columns</string>
