@@ -30,6 +30,7 @@ public class MoreDataPresenter extends BaseDataPresenter<IMoreView> implements I
                     dataModule.getApiService().logout(new MultipartBody.Builder()
                             .setType(MultipartBody.FORM)
                             .addFormDataPart("device_token", deviceToken)
+                            .addFormDataPart("type", "1")
                             .build()),
                     new ApiCallback<Object>() {
                         @Override

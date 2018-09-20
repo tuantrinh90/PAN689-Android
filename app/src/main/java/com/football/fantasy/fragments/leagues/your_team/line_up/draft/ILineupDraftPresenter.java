@@ -8,4 +8,8 @@ public interface ILineupDraftPresenter<V extends ILineUpView> extends ILineUpPre
     void joinRoom(int leagueId);
 
     void leaveLeague(int leagueId);
+
+    void joinDraftPick(int leagueId);
+
+    void endCountdown(int leagueId);
 }

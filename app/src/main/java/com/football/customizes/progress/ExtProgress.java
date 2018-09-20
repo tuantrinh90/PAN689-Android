@@ -1,15 +1,15 @@
 package com.football.customizes.progress;
 
 import android.content.Context;
-import android.os.Handler;
+import android.os.CountDownTimer;
 import android.util.AttributeSet;
 import android.widget.ProgressBar;
 
 public class ExtProgress extends ProgressBar {
 
-    private Handler mHandler = new Handler();
-    private Runnable mRunnable;
-    private boolean starting;
+    private CountDownTimer timer;
+    private boolean timerRunning;
+    private long currentDuration;
 
     public ExtProgress(Context context) {
         super(context);
@@ -24,14 +24,25 @@ public class ExtProgress extends ProgressBar {
     }
 
     private void init() {
-        mRunnable = () -> {
-            starting = true;
-            setProgress(getProgress() - 1);
-            mHandler.postDelayed(mRunnable, 1000);
-            if (getProgress() <= 0) {
-                stop();
-            }
-        };
+//        mRunnable = () -> {
+//            starting = true;
+//            setProgress(getProgress() - 1);
+//            mHandler.postDelayed(mRunnable, 1000);
+//            if (getProgress() < 0) {
+//                stop();
+//            }
+//        };
+    }
+
+    @Override
+    public synchronized void setProgress(int progress) {
+        super.setProgress(progress * 1000);
+        currentDuration = progress * 1000;
+    }
+
+    @Override
+    public synchronized void setMax(int max) {
+        super.setMax(max * 1000);
     }
 
     public void onDestroyView() {
@@ -39,15 +50,32 @@ public class ExtProgress extends ProgressBar {
     }
 
     public void start() {
-        if (!starting) {
-            mHandler.removeCallbacks(mRunnable);
-            init();
-            mHandler.postDelayed(mRunnable, 1000);
+        if (timerRunning) {
+            return;
         }
+
+        timerRunning = true;
+        timer = new CountDownTimer(currentDuration, 100) {
+            @Override
+            public void onTick(long millis) {
+                currentDuration = millis;
+                setProgress((int) (currentDuration));
+            }
+
+            @Override
+            public void onFinish() {
+                stop();
+            }
+        };
+        timer.start();
     }
 
     public void stop() {
-        mHandler.removeCallbacks(mRunnable);
-        starting = false;
+        if (!timerRunning) {
+            return;
+        }
+
+        timerRunning = false;
+        timer.cancel();
     }
 }

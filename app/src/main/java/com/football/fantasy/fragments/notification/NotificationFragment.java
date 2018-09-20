@@ -34,10 +34,13 @@ public class NotificationFragment extends BaseMvpFragment<INotificationView, INo
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
+    }
 
+    @Override
+    protected void initialized() {
+        super.initialized();
         initRecyclerView();
-
-        getNotifications();
+        refresh();
     }
 
     @NonNull

@@ -70,6 +70,8 @@ public interface ServiceConfig {
     String MATCH_RESULTS = "leagues/{id}/get_match_results";
     String TEAM_RESULTS = "leagues/{id}/get_team_results";
     String PICK_HISTORIES = "leagues/{id}/pick_histories";
+    String END_COUNT_DOWN = "leagues/{id}/end_countdown";
+    String JOIN_DRAFT_PICK = "leagues/{id}/join_draft";
 
     // player
     String REAL_CLUB = "real_clubs";

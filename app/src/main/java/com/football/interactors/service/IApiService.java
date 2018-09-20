@@ -3,6 +3,7 @@ package com.football.interactors.service;
 import com.football.models.BaseResponse;
 import com.football.models.ExtPagingResponse;
 import com.football.models.PagingResponse;
+import com.football.models.responses.DraftCountdownResponse;
 import com.football.models.responses.FormResponse;
 import com.football.models.responses.FriendResponse;
 import com.football.models.responses.InviteResponse;
@@ -69,7 +70,7 @@ public interface IApiService {
     Observable<BaseResponse<PagingResponse<LeagueResponse>>> getPendingInvitations(@Query(Constant.KEY_PAGE) int page, @Query(Constant.KEY_PER_PAGE) int perPage);
 
     @POST(ServiceConfig.INVITATION_DECISION)
-    Observable<BaseResponse<Object>> invitationDecision(@Path("id") int id, @Body RequestBody body);
+    Observable<BaseResponse<Object>> invitationDecision(@Path(ServiceConfig.KEY_ID) int id, @Body RequestBody body);
 
     @GET(ServiceConfig.HOME_NEWS)
     Observable<BaseResponse<PagingResponse<NewsResponse>>> getHomeNews(@Query(Constant.KEY_PAGE) int page, @Query(Constant.KEY_PER_PAGE) int perPage);
@@ -149,6 +150,12 @@ public interface IApiService {
 
     @GET(ServiceConfig.PICK_HISTORIES)
     Observable<BaseResponse<PagingResponse<PickHistoryResponse>>> getPickHistories(@Path(ServiceConfig.KEY_ID) int leagueId, @QueryMap Map<String, String> queries);
+
+    @GET(ServiceConfig.END_COUNT_DOWN)
+    Observable<BaseResponse<DraftCountdownResponse>> endCountdown(@Path(ServiceConfig.KEY_ID) int leagueId);
+
+    @GET(ServiceConfig.JOIN_DRAFT_PICK)
+    Observable<BaseResponse<Object>> joinDraftPick(@Path(ServiceConfig.KEY_ID) int leagueId);
 
     @GET(ServiceConfig.LEAGUE_DETAIL)
     Observable<BaseResponse<LeagueResponse>> getLeagueDetail(@Path(ServiceConfig.KEY_ID) Integer leagueId);

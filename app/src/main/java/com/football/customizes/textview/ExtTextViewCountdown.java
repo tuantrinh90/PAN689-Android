@@ -1,7 +1,7 @@
 package com.football.customizes.textview;
 
 import android.content.Context;
-import android.os.Handler;
+import android.os.CountDownTimer;
 import android.util.AttributeSet;
 
 import com.bon.customview.textview.ExtTextView;
@@ -17,14 +17,12 @@ public class ExtTextViewCountdown extends ExtTextView {
     public static final int FORMAT_NUMBER_HOURS = 1;
     public static final int FORMAT_NUMBER_SECONDS_ONLY = 3;
 
-    private Handler mHandler = new Handler();
-    private Runnable mRunnable;
-    private long time; // seconds
-    private long interval = 1;
-    private boolean starting;
     private int formatType = FORMAT_TEXT_HOURS; // FORMAT_TEXT_HOURS: 2h30m, FORMAT_NUMBER_HOURS: 02:30:30
 
     private Consumer<Void> timeoutCallback;
+    private CountDownTimer timer;
+    private boolean timerRunning;
+    private long currentDuration;
 
     public ExtTextViewCountdown(Context context) {
         super(context, null, 0);
@@ -40,26 +38,15 @@ public class ExtTextViewCountdown extends ExtTextView {
     }
 
     private void init() {
-        mRunnable = () -> {
-            starting = true;
-            setText();
-            time -= interval;
-            if (time < 0) {
-                if (timeoutCallback != null) {
-                    timeoutCallback.accept(null);
-                }
-                stop();
-            }
-            mHandler.postDelayed(mRunnable, 1000);
-        };
     }
 
     public void onDestroyView() {
+        timeoutCallback = null;
         stop();
     }
 
     public void setTime(long time) {
-        this.time = time;
+        this.currentDuration = time * 1000;
         setText();
     }
 
@@ -72,37 +59,56 @@ public class ExtTextViewCountdown extends ExtTextView {
     }
 
     public void start() {
-        if (!starting) {
-            mHandler.removeCallbacks(mRunnable);
-            init();
-            setText();
-            mHandler.postDelayed(mRunnable, 1000);
+        if (timerRunning) {
+            return;
         }
+
+        timerRunning = true;
+        timer = new CountDownTimer(currentDuration, 100) {
+            @Override
+            public void onTick(long millis) {
+                currentDuration = millis;
+                setText();
+            }
+
+            @Override
+            public void onFinish() {
+                stop();
+                if (timeoutCallback != null) {
+                    timeoutCallback.accept(null);
+                }
+
+            }
+        };
+        timer.start();
     }
 
     private void setText() {
         switch (formatType) {
             case FORMAT_TEXT_HOURS:
-                setText(AppUtilities.timeLeft(time));
+                setText(AppUtilities.timeLeft(currentDuration / 1000));
                 break;
 
             case FORMAT_NUMBER_HOURS:
-                setText(AppUtilities.timeLeft2(time));
+                setText(AppUtilities.timeLeft2(currentDuration / 1000));
                 break;
 
             case FORMAT_NUMBER_SECONDS_ONLY:
-                setText(String.valueOf(time));
+                setText(String.valueOf(currentDuration / 1000));
                 break;
         }
     }
 
     public void stop() {
-        timeoutCallback = null;
-        mHandler.removeCallbacks(mRunnable);
-        starting = false;
+        if (!timerRunning) {
+            return;
+        }
+
+        timerRunning = false;
+        timer.cancel();
     }
 
     public boolean isRunning() {
-        return time > 0;
+        return timerRunning;
     }
 }

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
+import com.bon.customview.textview.ExtTextView;
 import com.bon.jackson.JacksonUtils;
 import com.football.customizes.progress.ExtProgress;
 import com.football.customizes.textview.ExtTextViewCountdown;
@@ -39,10 +40,10 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     View draftTurn;
     @BindView(R.id.draft_team)
     View draftTeam;
-    @BindView(R.id.draft_your_turn)
-    View draftYourTurn;
     @BindView(R.id.text_countdown)
     ExtTextViewCountdown textCountdown;
+    @BindView(R.id.tvDraftYourTurnTimeUnit)
+    ExtTextView tvDraftYourTurnTimeUnit;
     @BindView(R.id.progress_draft)
     ExtProgress progressDraft;
 
@@ -57,8 +58,8 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initHeader();
         registerSocket();
+        presenter.endCountdown(league.getId());
 
         // join league
         presenter.joinRoom(league.getId());
@@ -76,15 +77,16 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         super.onDestroyView();
     }
 
-    private void initHeader() {
+    private void initHeader(int draftTimeLeft) {
         if (league.getDraftTimeCalendar().after(Calendar.getInstance())) {
             draftCountdown.setVisibility(View.VISIBLE);
             draftTurn.setVisibility(View.GONE);
             textCountdown.setTimeoutCallback(aVoid -> {
                 draftCountdown.setVisibility(View.GONE);
                 draftLoading.setVisibility(View.VISIBLE);
+                presenter.joinDraftPick(league.getId());
             });
-            textCountdown.setTime(league.getDraftTimeCalendar().getTimeInMillis() / 1000 - Calendar.getInstance().getTimeInMillis() / 1000);
+            textCountdown.setTime(draftTimeLeft);
             textCountdown.setFormatType(ExtTextViewCountdown.FORMAT_NUMBER_HOURS);
             textCountdown.start();
         } else {
@@ -98,6 +100,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         getAppContext().getSocket().on(SocketEventKey.EVENT_CHANGE_TURN, args -> {
             Log.i(SocketEventKey.EVENT_CHANGE_TURN, "");
             mActivity.runOnUiThread(() -> {
+                textCountdown.stop();
                 draftCountdown.setVisibility(View.GONE);
                 draftTurn.setVisibility(View.VISIBLE);
                 draftLoading.setVisibility(View.GONE);
@@ -119,65 +122,85 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
 
         getAppContext().getSocket().on(SocketEventKey.EVENT_CHANGE_LINEUP, args -> {
             Log.i(SocketEventKey.EVENT_CHANGE_LINEUP, "");
-            if (args != null && args.length > 0 && args[0] != null) {
+            if (pickEnable && args != null && args.length > 0 && args[0] != null) {
                 Log.i(TAG, "EVENT_CHANGE_LINEUP: " + args[0].toString());
                 mActivity.runOnUiThread(() -> {
+                    textCountdown.stop();
+
                     PlayerResponse player = JacksonUtils.convertJsonToObject(args[0].toString(), PlayerResponse.class);
                     lineupView.addPlayer(player, player.getMainPosition(), player.getOrder() == null ? NONE_ORDER : player.getOrder());
                     updateStatistic(player.getMainPosition(), 1);
                 });
             } else {
-                Log.e(TAG, "SocketEventKey.EVENT_CHANGE_LINEUP: args are null");
+                Log.e(TAG, "SocketEventKey.EVENT_CHANGE_LINEUP: not your turn");
             }
         });
     }
 
+    private void setYourTurn(int timeLeft) {
+        // countdown YOUR TURN _s
+        tvDraftYourTurnTimeLeft.setTime(timeLeft);
+        tvDraftYourTurnTimeLeft.setFormatType(ExtTextViewCountdown.FORMAT_NUMBER_SECONDS_ONLY);
+        tvDraftYourTurnTimeLeft.start();
+        tvDraftYourTurnTimeLeft.setTimeoutCallback(aVoid -> {
+//            setYourTurn();
+        });
+
+        // progress
+        progressDraft.setProgress(timeLeft);
+        progressDraft.setMax(MAX_SECONDS_CHANGE_TURN);
+        progressDraft.start();
+
+    }
+
     private void setTurn(TurnResponse current, TurnResponse next, int timeLeft) {
-        if (current != null) {
-            // if your turn
-            if (current.getTeam().getId() == teamId) {
-                draftYourTurn.setVisibility(View.VISIBLE);
-                draftTeam.setVisibility(View.VISIBLE);
+        draftTeam.setVisibility(View.VISIBLE);
+        // if your turn, visible view
+        if (current != null && current.getTeam().getId() == teamId) {
+            visibleYourTurn();
 
-                // your turn view
-                tvDraftYourTurnTimeLeft.setTime(timeLeft);
-                tvDraftYourTurnTimeLeft.setFormatType(ExtTextViewCountdown.FORMAT_NUMBER_SECONDS_ONLY);
-                tvDraftYourTurnTimeLeft.start();
-                tvDraftYourTurnTimeLeft.setTimeoutCallback(aVoid -> {
-                    setTurn(next, null, MAX_SECONDS_CHANGE_TURN);
-                });
+            // enable lineupView
+            enableLineupView(true);
 
-                // progress
-                progressDraft.setProgress(timeLeft);
-                progressDraft.setMax(MAX_SECONDS_CHANGE_TURN);
-                progressDraft.start();
+            setYourTurn(timeLeft);
+        } else {
+            goneYourTurn();
 
-                // enable lineupView
-                enableLineupView(true);
-            } else {
-                draftYourTurn.setVisibility(View.GONE);
-                draftTeam.setVisibility(View.VISIBLE);
-
-                // current view
-                tvDraftCurrentTimeLeft.setTime(timeLeft);
-                tvDraftCurrentTimeLeft.setFormatType(ExtTextViewCountdown.FORMAT_NUMBER_HOURS);
-                tvDraftCurrentTimeLeft.start();
-                tvDraftCurrentTimeLeft.setTimeoutCallback(aVoid -> {
-                    setTurn(next, null, MAX_SECONDS_CHANGE_TURN);
-                });
-                tvDraftCurrentTeam.setText(current.getTeam().getName());
-
-                enableLineupView(false);
-            }
+            // disable lineupView
+            enableLineupView(false);
         }
 
-        // next view
-        tvDraftNextTeam.setText(next != null ? next.getTeam().getName() : "");
+        // countdown Current 00:00:00
+        tvDraftCurrentTimeLeft.setTime(timeLeft);
+        tvDraftCurrentTimeLeft.setFormatType(ExtTextViewCountdown.FORMAT_NUMBER_HOURS);
+        tvDraftCurrentTimeLeft.start();
+        tvDraftCurrentTimeLeft.setTimeoutCallback(aVoid -> {
+            setTurn(next, null, MAX_SECONDS_CHANGE_TURN);
+        });
+
+        // set current team's Name
+        tvDraftCurrentTeam.setText(current != null ? current.getTeam().getName() : "null");
+
+        // set next team's name
+        tvDraftNextTeam.setText(next != null ? next.getTeam().getName() : "null");
+    }
+
+    private void visibleYourTurn() {
+        tvDraftEndTurn.setVisibility(View.VISIBLE);
+        progressDraft.setVisibility(View.GONE);
+        tvDraftYourTurnTimeUnit.setVisibility(View.GONE);
+    }
+
+    private void goneYourTurn() {
+        tvDraftEndTurn.setVisibility(View.GONE);
+        progressDraft.setVisibility(View.VISIBLE);
+        tvDraftYourTurnTimeUnit.setVisibility(View.VISIBLE);
     }
 
     private void enableLineupView(boolean enable) {
         lineupView.setAddable(enable);
         lineupView.setPickDraftMode(enable);
+        pickEnable = enable;
     }
 
     @Override
@@ -192,6 +215,15 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             case R.id.tvDraftEndTurn:
                 lineupView.getPlayerFocus();
                 break;
+        }
+    }
+
+    @Override
+    public void setCountdown(int draftTimeLeft) {
+        if (draftTimeLeft > 0) {
+            initHeader(draftTimeLeft);
+        } else {
+            presenter.joinDraftPick(league.getId());
         }
     }
 }

@@ -2,9 +2,12 @@ package com.football.fantasy.fragments.leagues.your_team.line_up.draft;
 
 import com.football.di.AppComponent;
 import com.football.fantasy.fragments.leagues.your_team.line_up.LineUpPresenter;
+import com.football.listeners.ApiCallback;
+import com.football.models.responses.DraftCountdownResponse;
 import com.football.models.responses.LineupResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.PropsPlayerResponse;
+import com.football.utilities.RxUtilities;
 import com.football.utilities.SocketEventKey;
 
 import org.json.JSONException;
@@ -70,5 +73,64 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
             e.printStackTrace();
         }
         getOptView().get().getAppActivity().getAppContext().getSocket().emit(SocketEventKey.EVENT_LEAVE_ROOM, room);
+    }
+
+    @Override
+    public void joinDraftPick(int leagueId) {
+        getOptView().doIfPresent(v -> {
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().joinDraftPick(leagueId),
+                    new ApiCallback<Object>() {
+                        @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
+
+                        @Override
+                        public void onSuccess(Object response) {
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            v.showMessage(error);
+                        }
+                    }));
+        });
+    }
+
+    @Override
+    public void endCountdown(int leagueId) {
+        getOptView().doIfPresent(v -> {
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().endCountdown(leagueId),
+                    new ApiCallback<DraftCountdownResponse>() {
+                        @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
+
+                        @Override
+                        public void onSuccess(DraftCountdownResponse response) {
+                            v.setCountdown(response.getDraftTimeLeft());
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            v.showMessage(error);
+                        }
+                    }));
+        });
     }
 }

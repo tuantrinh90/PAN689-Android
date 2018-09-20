@@ -176,7 +176,6 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/draft_your_turn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
@@ -186,7 +185,6 @@
                             android:layout_height="wrap_content">
 
                             <com.bon.customview.textview.ExtTextView
-                                android:id="@+id/tvDraftYourTeam"
                                 style="@style/StyleDescription"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -206,6 +204,7 @@
                                 app:textViewFontAssetName="@string/font_display_bold" />
 
                             <com.bon.customview.textview.ExtTextView
+                                android:id="@+id/tvDraftYourTurnTimeUnit"
                                 style="@style/StyleDescriptionGray"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
