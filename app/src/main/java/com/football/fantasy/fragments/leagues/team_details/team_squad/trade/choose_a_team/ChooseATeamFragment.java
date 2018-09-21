@@ -13,7 +13,7 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.proposal.ProposalFragment;
+import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.proposal.TradeProposalFragment;
 import com.football.models.responses.TeamResponse;
 
 import java.util.List;
@@ -123,7 +123,7 @@ public class ChooseATeamFragment extends BaseMvpFragment<IChooseATeamView, IChoo
             case R.id.tvDone:
             case R.id.buttonProceed:
                 TeamResponse team = ((TeamSelectAdapter) rvTeam.getAdapter()).getTeamSelected();
-                ProposalFragment.start(getContext(), myTeam.getId(), myTeam.getName(), team.getId(), team.getName());
+                TradeProposalFragment.start(getContext(), myTeam.getId(), myTeam.getName(), team.getId(), team.getName());
                 mActivity.finish();
                 break;
         }

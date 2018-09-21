@@ -130,10 +130,10 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                 Log.i(TAG, "EVENT_CHANGE_LINEUP: " + args[0].toString());
                 mActivity.runOnUiThread(() -> {
                     textCountdown.stop();
-
-                    PlayerResponse player = JacksonUtils.convertJsonToObject(args[0].toString(), PlayerResponse.class);
-                    lineupView.addPlayer(player, player.getMainPosition(), player.getOrder() == null ? NONE_ORDER : player.getOrder());
-                    updateStatistic(player.getMainPosition(), 1);
+                    presenter.getLineup(teamId);
+//                    PlayerResponse player = JacksonUtils.convertJsonToObject(args[0].toString(), PlayerResponse.class);
+//                    lineupView.addPlayer(player, player.getMainPosition(), player.getOrder() == null ? NONE_ORDER : player.getOrder());
+//                    updateStatistic(player.getMainPosition(), 1);
                 });
             } else {
                 Log.e(TAG, "SocketEventKey.EVENT_CHANGE_LINEUP: not your turn");

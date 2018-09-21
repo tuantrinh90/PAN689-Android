@@ -69,11 +69,12 @@ import static com.football.utilities.ServiceConfig.DEEP_LINK;
 
 public class MainActivity extends BaseActivity {
 
-    public static final String KEY_ACTION = "ACTION";
-    public static final String KEY_TEAM_NAME = "TEAM_NAME";
-    public static final String KEY_LEAGUE_ID = "LEAGUE_ID";
-    public static final String KEY_TEAM_ID = "TEAM_ID";
-    public static final String KEY_PLAYER_ID = "PLAYER_ID";
+    public static final String KEY_ACTION = "action";
+    public static final String KEY_TEAM_NAME = "team_name";
+    public static final String KEY_LEAGUE_ID = "league_id";
+    public static final String KEY_MY_TEAM_ID = "my_team_id";
+    public static final String KEY_TEAM_ID = "team_id";
+    public static final String KEY_PLAYER_ID = "player_id";
 
     public static final int HOME = 0;
     public static final int LEAGUES = 1;
@@ -149,13 +150,21 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    private static final String TAG = "MainActivity";
+
     private void handleIntent(Intent intent) {
         if (intent != null && !TextUtils.isEmpty(intent.getStringExtra(KEY_ACTION))) {
             String action = intent.getStringExtra(KEY_ACTION);
             String teamName = intent.getStringExtra(KEY_TEAM_NAME);
-            int leagueId = intent.getIntExtra(KEY_LEAGUE_ID, -1);
-            int teamId = intent.getIntExtra(KEY_TEAM_ID, -1);
-            int playerId = intent.getIntExtra(KEY_PLAYER_ID, -1);
+            String _leagueId = intent.getStringExtra(KEY_LEAGUE_ID);
+            String _myTeamId = intent.getStringExtra(KEY_MY_TEAM_ID);
+            String _teamId = intent.getStringExtra(KEY_TEAM_ID);
+            String _playerId = intent.getStringExtra(KEY_PLAYER_ID);
+
+            int leagueId = getInteger(_leagueId);
+            int teamId = getInteger(_teamId);
+            int playerId = getInteger(_playerId);
+
             switch (action) {
                 // League detail
                 case USER_LEFT_LEAGUE:
@@ -191,7 +200,7 @@ public class MainActivity extends BaseActivity {
                 case PLAYER_INJURED:
                     // go LeagueDetail -> TeamSquad
                     AloneFragmentActivity.with(this)
-                            .parameters(TeamSquadFragment.newBundle(teamId, getString(R.string.home)))
+                            .parameters(TeamSquadFragment.newBundle(teamId, teamName, getString(R.string.home)))
                             .start(TeamSquadFragment.class);
                     break;
 
@@ -273,6 +282,10 @@ public class MainActivity extends BaseActivity {
 
             }
         }
+    }
+
+    private int getInteger(String value) {
+        return !TextUtils.isEmpty(value) && TextUtils.isDigitsOnly(value) ? Integer.parseInt(value) : -1;
     }
 
     private void initViewPager() {

@@ -3,6 +3,6 @@ package com.football.fantasy.fragments.leagues.team_details.team_squad.trade.pro
 import com.football.common.views.IBaseMvpView;
 import com.football.models.responses.TradeResponse;
 
-public interface IProposalView extends IBaseMvpView {
+public interface ITradeProposalView extends IBaseMvpView {
     void submitSuccess(TradeResponse response);
 }

@@ -18,19 +18,21 @@ import com.football.customizes.carousels.Carousel;
 import com.football.customizes.carousels.CarouselView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.choose_a_team.ChooseATeamFragment;
+import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.proposal.TradeProposalFragment;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.request.RequestFragment;
-import com.football.models.responses.LeagueResponse;
+import com.football.models.responses.TeamSquadResponse;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<ITradeView>> implements ITradeView {
+public class TradeRequestFragment extends BaseMvpFragment<ITradeRequestView, ITradeRequestPresenter<ITradeRequestView>> implements ITradeRequestView {
 
-    private static final String KEY_TEAM_ID = "TEAM_ID";
     private static final String KEY_TITLE = "TITLE";
-    private static final String KEY_LEAGUE = "LEAGUE";
+    private static final String KEY_TEAM_ID = "TEAM_ID";
+    private static final String KEY_TEAM_NAME = "TEAM_NAME";
+    private static final String KEY_TEAM_SQUAD = "TEAM_SQUAD";
 
     @BindView(R.id.tvNumberOfTradeLeft)
     ExtTextView tvNumberOfTradeLeft;
@@ -39,21 +41,26 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
     @BindView(R.id.vpViewPager)
     ViewPager vpViewPager;
 
-    private int teamId;
     private String title;
-    private LeagueResponse league;
+    private int teamId;
+    private String teamName;
+    private TeamSquadResponse teamSquad;
+    private int maxTradeRequest;
+    private int currentTradeRequest;
+    private int pendingTradeRequest;
 
-    public static void start(Fragment fragment, String title, int teamId, LeagueResponse league) {
+    public static void start(Fragment fragment, String title, int teamId, String teamName, TeamSquadResponse teamSquad) {
         AloneFragmentActivity.with(fragment)
-                .parameters(TradeFragment.newBundle(title, teamId, league))
-                .start(TradeFragment.class);
+                .parameters(TradeRequestFragment.newBundle(title, teamId, teamName, teamSquad))
+                .start(TradeRequestFragment.class);
     }
 
-    private static Bundle newBundle(String title, int teamId, LeagueResponse league) {
+    private static Bundle newBundle(String title, int teamId, String teamName, TeamSquadResponse teamSquad) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_TEAM_ID, teamId);
         bundle.putString(KEY_TITLE, title);
-        bundle.putSerializable(KEY_LEAGUE, league);
+        bundle.putInt(KEY_TEAM_ID, teamId);
+        bundle.putString(KEY_TEAM_NAME, teamName);
+        bundle.putSerializable(KEY_TEAM_SQUAD, teamSquad);
         return bundle;
     }
 
@@ -72,9 +79,10 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
     }
 
     private void getDataFromBundle() {
-        teamId = getArguments().getInt(KEY_TEAM_ID);
         title = getArguments().getString(KEY_TITLE);
-        league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
+        teamId = getArguments().getInt(KEY_TEAM_ID);
+        teamName = getArguments().getString(KEY_TEAM_NAME);
+        teamSquad = (TeamSquadResponse) getArguments().getSerializable(KEY_TEAM_SQUAD);
     }
 
     @Override
@@ -92,8 +100,8 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
 
     @NonNull
     @Override
-    public ITradePresenter<ITradeView> createPresenter() {
-        return new TradeDataPresenter(getAppComponent());
+    public ITradeRequestPresenter<ITradeRequestView> createPresenter() {
+        return new TradeRequestPresenter(getAppComponent());
     }
 
     void initBackgroundToolbar() {
@@ -117,8 +125,8 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
 
         // view pager
         StatePagerAdapter mAdapter = new StatePagerAdapter(getChildFragmentManager());
-        mAdapter.addFragment(RequestFragment.newInstance(RequestFragment.REQUEST_BY_YOU, league, teamId).setChildFragment(true));
-        mAdapter.addFragment(RequestFragment.newInstance(RequestFragment.REQUEST_TO_YOU, league, teamId).setChildFragment(true));
+        mAdapter.addFragment(RequestFragment.newInstance(RequestFragment.REQUEST_BY_YOU, teamSquad.getLeague(), teamId).setChildFragment(true));
+        mAdapter.addFragment(RequestFragment.newInstance(RequestFragment.REQUEST_TO_YOU, teamSquad.getLeague(), teamId).setChildFragment(true));
         vpViewPager.setAdapter(mAdapter);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -138,8 +146,13 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
         });
     }
 
-    public void displayTradeRequestLeftDisplay(String tradeRequestLeftDisplay) {
+    public void displayTradeRequestLeftDisplay(String tradeRequestLeftDisplay, int pendingTradeRequest, int currentTradeRequest, int maxTradeRequest) {
         tvNumberOfTradeLeft.setText(tradeRequestLeftDisplay);
+        this.pendingTradeRequest = pendingTradeRequest;
+        this.currentTradeRequest = currentTradeRequest;
+        this.maxTradeRequest = maxTradeRequest;
+
+
     }
 
     @OnClick(R.id.ivMoreNumberOfTradeLeft)
@@ -149,6 +162,14 @@ public class TradeFragment extends BaseMvpFragment<ITradeView, ITradePresenter<I
 
     @OnClick(R.id.ivAdd)
     public void onAddClicked() {
-        ChooseATeamFragment.start(getContext(), league.getId(), teamId);
+        if (pendingTradeRequest > maxTradeRequest) {
+            showMessage(getString(R.string.pending_trade_request_max));
+        } else if (maxTradeRequest - currentTradeRequest <= 0) {
+            showMessage("currentTradeRequest <= 0");
+        } else if (teamSquad.getMyTeam().getId() == teamId) {
+            ChooseATeamFragment.start(getContext(), teamSquad.getLeague().getId(), teamSquad.getMyTeam().getId());
+        } else {
+            TradeProposalFragment.start(getContext(), teamSquad.getMyTeam().getId(), teamSquad.getMyTeam().getName(), teamId, teamName);
+        }
     }
 }

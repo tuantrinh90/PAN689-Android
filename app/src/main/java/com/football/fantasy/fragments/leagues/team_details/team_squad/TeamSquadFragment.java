@@ -17,7 +17,7 @@ import com.football.customizes.edittext_app.EditTextApp;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
-import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.TradeFragment;
+import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.TradeRequestFragment;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TeamSquadResponse;
 
@@ -31,6 +31,7 @@ import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANS
 
 public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSquadPresenter<ITeamSquadView>> implements ITeamSquadView {
 
+    private static final String KEY_TEAM_NAME = "TEAM_NAME";
     private static final String KEY_TEAM_ID = "TEAM_ID";
     private static final String KEY_TITLE = "TITLE";
 
@@ -46,6 +47,7 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
     ExtRecyclerView<PlayerResponse> rvPlayer;
 
     private int teamId;
+    private String teamName;
     private String title;
     private TeamSquadResponse teamSquad;
 
@@ -56,8 +58,9 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
     private List<ExtKeyValuePair> directions;
     private ExtKeyValuePair currentDirection;
 
-    public static Bundle newBundle(int teamId, String title) {
+    public static Bundle newBundle(int teamId, String teamName, String title) {
         Bundle bundle = new Bundle();
+        bundle.putString(KEY_TEAM_NAME, teamName);
         bundle.putInt(KEY_TEAM_ID, teamId);
         bundle.putString(KEY_TITLE, title);
         return bundle;
@@ -105,6 +108,7 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
     }
 
     private void getDataFromBundle() {
+        teamName = getArguments().getString(KEY_TEAM_NAME);
         teamId = getArguments().getInt(KEY_TEAM_ID);
         title = getArguments().getString(KEY_TITLE);
     }
@@ -156,7 +160,7 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
 
     @OnClick(R.id.llTrade)
     void onClickTrade() {
-        TradeFragment.start(this, getString(R.string.team_squad), teamId, teamSquad.getLeague());
+        TradeRequestFragment.start(this, getString(R.string.team_squad), teamId, teamName, teamSquad);
     }
 
     @OnClick(R.id.tvSortByColumn)

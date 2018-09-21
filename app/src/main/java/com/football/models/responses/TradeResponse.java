@@ -27,6 +27,8 @@ public class TradeResponse implements Serializable {
     private String updatedAt;
     @JsonProperty("deadline")
     private String deadline;
+    @JsonProperty("review_deadline")
+    private String reviewDeadline;
     @JsonProperty("league_id")
     private Integer leagueId;
     @JsonProperty("round")
@@ -70,6 +72,10 @@ public class TradeResponse implements Serializable {
 
     public String getDeadline() {
         return deadline;
+    }
+
+    public String getReviewDeadline() {
+        return reviewDeadline;
     }
 
     public Integer getLeagueId() {

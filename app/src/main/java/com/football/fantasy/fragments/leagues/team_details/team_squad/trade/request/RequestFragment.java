@@ -12,7 +12,7 @@ import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.events.RequestProposalEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
-import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.TradeFragment;
+import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.TradeRequestFragment;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.proposal_reveiew.ProposalReviewFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TradeResponse;
@@ -137,9 +137,9 @@ public class RequestFragment extends BaseMvpFragment<IRequestView, IRequestPrese
     }
 
     @Override
-    public void displayTradeRequestLeftDisplay(String tradeRequestLeftDisplay) {
-        if (getParentFragment() instanceof TradeFragment) {
-            ((TradeFragment) getParentFragment()).displayTradeRequestLeftDisplay(tradeRequestLeftDisplay);
+    public void displayTradeRequestLeftDisplay(String tradeRequestLeftDisplay, int pendingTradeRequest, int currentTradeRequest, int maxTradeRequest) {
+        if (getParentFragment() instanceof TradeRequestFragment) {
+            ((TradeRequestFragment) getParentFragment()).displayTradeRequestLeftDisplay(tradeRequestLeftDisplay, pendingTradeRequest, currentTradeRequest, maxTradeRequest);
         }
     }
 

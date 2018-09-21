@@ -209,7 +209,7 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
             case R.id.llTeamSquad:
                 if (team.getCompleted()) {
                     AloneFragmentActivity.with(this)
-                            .parameters(TeamSquadFragment.newBundle(team.getId(), team.getName()))
+                            .parameters(TeamSquadFragment.newBundle(team.getId(), team.getName(), getString(R.string.team_details)))
                             .start(TeamSquadFragment.class);
                 } else {
                     showMessage(getString(R.string.message_team_lineup_is_not_completed_yet));

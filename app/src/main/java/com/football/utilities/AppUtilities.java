@@ -1,5 +1,6 @@
 package com.football.utilities;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -18,8 +19,22 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class AppUtilities {
+    public static boolean isAppRunning(final Context context, final String packageName) {
+        final ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        final List<ActivityManager.RunningAppProcessInfo> procInfos = activityManager.getRunningAppProcesses();
+        if (procInfos != null) {
+            for (final ActivityManager.RunningAppProcessInfo processInfo : procInfos) {
+                if (processInfo.processName.equals(packageName)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * @return
      */

@@ -18,6 +18,8 @@ public class TeamSquadResponse implements Serializable {
     private LeagueResponse league;
     @JsonProperty("players")
     private List<PlayerResponse> players;
+    @JsonProperty("my_team")
+    private TeamResponse myTeam;
 
     public Integer getId() {
         return id;
@@ -41,5 +43,9 @@ public class TeamSquadResponse implements Serializable {
 
     public List<PlayerResponse> getPlayers() {
         return players;
+    }
+
+    public TeamResponse getMyTeam() {
+        return myTeam;
     }
 }

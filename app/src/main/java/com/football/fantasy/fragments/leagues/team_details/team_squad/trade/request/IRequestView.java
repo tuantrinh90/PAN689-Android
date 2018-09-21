@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IRequestView extends IBaseMvpView {
 
-    void displayTradeRequestLeftDisplay(String tradeRequestLeftDisplay);
+    void displayTradeRequestLeftDisplay(String tradeRequestLeftDisplay, int pendingTradeRequest, int currentTradeRequest, int maxTradeRequest);
 
     void displayTrades(List<TradeResponse> trades);
 

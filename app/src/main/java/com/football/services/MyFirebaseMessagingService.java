@@ -93,6 +93,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String action = payload.get("action");
         String teamName = payload.get("team_name");
         int leagueId = getInt(payload, "league_id");
+        int myTeamId = getInt(payload, "my_team_id"); // todo: chwa có dữ liệu cho thằng này
         int teamId = getInt(payload, "team_id");
         int playerId = getInt(payload, "player_id");
 
@@ -102,6 +103,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         intent.putExtra(MainActivity.KEY_ACTION, action);
         intent.putExtra(MainActivity.KEY_TEAM_NAME, teamName);
         intent.putExtra(MainActivity.KEY_LEAGUE_ID, leagueId);
+        intent.putExtra(MainActivity.KEY_MY_TEAM_ID, myTeamId);
         intent.putExtra(MainActivity.KEY_TEAM_ID, teamId);
         intent.putExtra(MainActivity.KEY_PLAYER_ID, playerId);
         return intent;

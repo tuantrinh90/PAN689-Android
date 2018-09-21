@@ -197,7 +197,7 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     }
 
     private void displayViewByYou() {
-        tvDeadline.setText(AppUtilities.getTime(trade.getDeadline(), Constant.FORMAT_DATE_TIME_SERVER, Constant.FORMAT_DATE_TIME));
+        tvDeadline.setText(AppUtilities.getTime(trade.getReviewDeadline(), Constant.FORMAT_DATE_TIME_SERVER, Constant.FORMAT_DATE_TIME));
         tvReject.setText(getString(R.string.rejected, trade.getTotalRejection()));
         tvApprove.setText(getString(R.string.approved, trade.getTotalApproval()));
         progressBar.setMax(trade.getTotalReview());
@@ -209,7 +209,7 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     }
 
     private void displayViewToYou() {
-        Calendar deadline = DateTimeUtils.convertStringToCalendar(trade.getDeadline(), Constant.FORMAT_DATE_TIME_SERVER);
+        Calendar deadline = DateTimeUtils.convertStringToCalendar(trade.getReviewDeadline(), Constant.FORMAT_DATE_TIME_SERVER);
         Calendar current = Calendar.getInstance();
         tvTimeLeft.setTime(deadline.getTimeInMillis() / 1000 - current.getTimeInMillis() / 1000);
     }

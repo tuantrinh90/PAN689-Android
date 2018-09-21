@@ -21,14 +21,13 @@ import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TradeResponse;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 
-public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPresenter<IProposalView>> implements IProposalView {
+public class TradeProposalFragment extends BaseMvpFragment<ITradeProposalView, ITradeProposalPresenter<ITradeProposalView>> implements ITradeProposalView {
 
     private static final String KEY_FROM_TEAM_ID = "TEAM";
     private static final String KEY_TO_TEAM_ID = "TO_TEAM";
@@ -60,8 +59,8 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
 
     public static void start(Context context, int fromTeam, String fromTeamName, int toTeam, String toTeamName) {
         AloneFragmentActivity.with(context)
-                .parameters(ProposalFragment.newBundle(fromTeam, fromTeamName, toTeam, toTeamName))
-                .start(ProposalFragment.class);
+                .parameters(TradeProposalFragment.newBundle(fromTeam, fromTeamName, toTeam, toTeamName))
+                .start(TradeProposalFragment.class);
     }
 
     private static Bundle newBundle(int fromTeam, String fromTeamName, int toTeam, String toTeamName) {
@@ -97,8 +96,8 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
 
     @NonNull
     @Override
-    public IProposalPresenter<IProposalView> createPresenter() {
-        return new ProposalPresenter(getAppComponent());
+    public ITradeProposalPresenter<ITradeProposalView> createPresenter() {
+        return new TradeProposalPresenter(getAppComponent());
     }
 
     @Override
@@ -148,12 +147,12 @@ public class ProposalFragment extends BaseMvpFragment<IProposalView, IProposalPr
             player.setOnPlayerViewClickListener(new PlayerView.OnPlayerViewClickListener() {
                 @Override
                 public void onRemove(PlayerView view, PlayerResponse player, int position, int order) {
-                    ProposalFragment.this.onRemove(view);
+                    TradeProposalFragment.this.onRemove(view);
                 }
 
                 @Override
                 public void onAddPlayer(PlayerView view, int position, int order) {
-                    ProposalFragment.this.onAddPlayer(view);
+                    TradeProposalFragment.this.onAddPlayer(view);
                 }
 
                 @Override
