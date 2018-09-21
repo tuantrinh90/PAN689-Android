@@ -22,7 +22,7 @@ import com.football.events.TransferEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.fantasy.fragments.leagues.player_pool.PlayerPoolFragment;
-import com.football.fantasy.fragments.leagues.player_pool.display.PlayerPoolDisplayFragment;
+import com.football.fantasy.fragments.leagues.player_pool.display.DisplayConfigFragment;
 import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilterFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
@@ -224,9 +224,9 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
         }
 
         // display default
-        displays.add(PlayerPoolDisplayFragment.OPTION_DISPLAY_DEFAULT_1);
-        displays.add(PlayerPoolDisplayFragment.OPTION_DISPLAY_DEFAULT_2);
-        displays.add(PlayerPoolDisplayFragment.OPTION_DISPLAY_DEFAULT_3);
+        displays.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_1);
+        displays.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_2);
+        displays.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_3);
 
         PlayerPoolAdapter adapter;
         adapter = new PlayerPoolAdapter(
@@ -325,8 +325,8 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
                 }
                 AloneFragmentActivity.with(this)
                         .forResult(REQUEST_DISPLAY)
-                        .parameters(PlayerPoolDisplayFragment.newBundle(TAG, displays.toString()))
-                        .start(PlayerPoolDisplayFragment.class);
+                        .parameters(DisplayConfigFragment.newBundle(TAG, displays.toString()))
+                        .start(DisplayConfigFragment.class);
                 break;
 
             case R.id.option1:

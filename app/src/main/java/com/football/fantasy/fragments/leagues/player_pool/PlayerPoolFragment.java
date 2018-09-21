@@ -26,7 +26,7 @@ import com.football.events.TransferEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailForTransferFragment;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
-import com.football.fantasy.fragments.leagues.player_pool.display.PlayerPoolDisplayFragment;
+import com.football.fantasy.fragments.leagues.player_pool.display.DisplayConfigFragment;
 import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilterFragment;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.SeasonResponse;
@@ -91,8 +91,6 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     private PlayerResponse playerTransfer;
     private int leagueId;
     private int seasonIdToTransfer;
-    private int pickPosition;
-    private int pickOrder;
 
     private int page = Constant.PAGE_START_INDEX;
     private String filterClubs = "";
@@ -265,9 +263,9 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     void initData() {
 
         // display default
-        displayPairs.add(PlayerPoolDisplayFragment.OPTION_DISPLAY_DEFAULT_1);
-        displayPairs.add(PlayerPoolDisplayFragment.OPTION_DISPLAY_DEFAULT_2);
-        displayPairs.add(PlayerPoolDisplayFragment.OPTION_DISPLAY_DEFAULT_3);
+        displayPairs.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_1);
+        displayPairs.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_2);
+        displayPairs.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_3);
 
         PlayerPoolAdapter adapter;
         adapter = new PlayerPoolAdapter(
@@ -401,8 +399,8 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
                 }
                 AloneFragmentActivity.with(this)
                         .forResult(REQUEST_DISPLAY)
-                        .parameters(PlayerPoolDisplayFragment.newBundle(TAG, displays.toString()))
-                        .start(PlayerPoolDisplayFragment.class);
+                        .parameters(DisplayConfigFragment.newBundle(TAG, displays.toString()))
+                        .start(DisplayConfigFragment.class);
                 break;
 
             case R.id.option1:

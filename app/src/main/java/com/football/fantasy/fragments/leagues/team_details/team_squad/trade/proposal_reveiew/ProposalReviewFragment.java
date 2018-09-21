@@ -209,7 +209,8 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     }
 
     private void displayViewToYou() {
-        Calendar deadline = DateTimeUtils.convertStringToCalendar(trade.getReviewDeadline(), Constant.FORMAT_DATE_TIME_SERVER);
+        Calendar deadline = DateTimeUtils.convertStringToCalendar(trade.getReviewDeadline() == null ?
+                trade.getDeadline() : trade.getReviewDeadline(), Constant.FORMAT_DATE_TIME_SERVER);
         Calendar current = Calendar.getInstance();
         tvTimeLeft.setTime(deadline.getTimeInMillis() / 1000 - current.getTimeInMillis() / 1000);
     }

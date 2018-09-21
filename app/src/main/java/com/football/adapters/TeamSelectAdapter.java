@@ -42,7 +42,7 @@ public class TeamSelectAdapter extends DefaultAdapter<TeamResponse> {
         holder.rbRadioButton.setChecked(data.isChecked());
         holder.ivAvatar.setImageUri(data.getLogo());
         holder.tvTeam.setText(data.getName());
-        holder.tvDescription.setText(data.getName());
+        holder.tvDescription.setText(data.getUser().getName());
         holder.itemView.setOnClickListener(v -> {
             if (lastSelected != position) {
                 if (lastSelected != -1) {

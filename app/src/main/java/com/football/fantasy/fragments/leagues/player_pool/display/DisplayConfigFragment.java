@@ -37,7 +37,7 @@ import static com.football.models.responses.PlayerResponse.Options.TURNOVERS;
 import static com.football.models.responses.PlayerResponse.Options.VALUE;
 import static com.football.models.responses.PlayerResponse.Options.YELLOW_CARDS;
 
-public class PlayerPoolDisplayFragment extends BaseMvpFragment<IPlayerPoolDisplayView, IPlayerPoolDisplayPresenter<IPlayerPoolDisplayView>> implements IPlayerPoolDisplayView {
+public class DisplayConfigFragment extends BaseMvpFragment<IDisplayConfigView, IDisplayConfigPresenter<IDisplayConfigView>> implements IDisplayConfigView {
 
     private static final String KEY_FROM = "FROM";
 
@@ -133,8 +133,8 @@ public class PlayerPoolDisplayFragment extends BaseMvpFragment<IPlayerPoolDispla
 
     @NonNull
     @Override
-    public IPlayerPoolDisplayPresenter<IPlayerPoolDisplayView> createPresenter() {
-        return new PlayerPoolDisplayPresenter(getAppComponent());
+    public IDisplayConfigPresenter<IDisplayConfigView> createPresenter() {
+        return new DisplayConfigPresenter(getAppComponent());
     }
 
     @Override
