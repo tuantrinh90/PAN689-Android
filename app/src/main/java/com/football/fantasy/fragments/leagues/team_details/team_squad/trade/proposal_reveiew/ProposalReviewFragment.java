@@ -149,16 +149,16 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
         headerToYou.setVisibility(View.GONE);
 
         if (type == REQUEST_BY_YOU) {
+            headerByYou.setVisibility(View.VISIBLE);
             if (!isApproved()) {
                 byYouButton.setVisibility(View.VISIBLE);
-                headerByYou.setVisibility(View.VISIBLE);
             }
 
             displayViewByYou();
         } else if (type == REQUEST_TO_YOU) {
+            headerToYou.setVisibility(View.VISIBLE);
             if (!isApproved()) {
                 toYouButton.setVisibility(View.VISIBLE);
-                headerToYou.setVisibility(View.VISIBLE);
             }
 
             displayViewToYou();
