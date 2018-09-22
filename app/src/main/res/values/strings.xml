@@ -363,4 +363,7 @@
     <string name="message_info_transfer_waving_deadline">Transfer/waiving deadline is deadline for user to implement transfer/waiving player from player pool. This time is 30 minutes prior to start of first real match in coming round.  This time will be reset when new round starts</string>
     <string name="reviewing">Reviewing</string>
     <string name="pending_trade_request_max">You cannot send proposal because all your remaining requests are pending</string>
+    <string name="can_not_update_number_of_user">can_not_update_number_of_user</string>
+    <string name="can_not_update_time_per_draft">can_not_update_time_per_draft</string>
+    <string name="can_not_update_team_setup_time">can_not_update_team_setup_time</string>
 </resources>

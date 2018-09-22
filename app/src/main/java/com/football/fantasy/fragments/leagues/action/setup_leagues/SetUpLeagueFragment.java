@@ -239,12 +239,6 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                 String valueDraft = String.format("%02d", league.getTimeToPick());
                 keyValuePairTimePerDraft = new ExtKeyValuePair(valueDraft, valueDraft);
 
-                // disable etNumberOfUser after setupTime
-                boolean isWaiting = league.getStatus() == WAITING_FOR_START;
-                etNumberOfUser.setEnabled(isWaiting);
-                etTimePerDraftPick.setEnabled(isWaiting);
-                etTeamSetupTime.setEnabled(isWaiting);
-
                 etNumberOfUser.setContent(valueTransfer);
                 etTimePerDraftPick.setContent(valueDraft);
                 rgScoringSystem.check(league.getScoringSystem().equals(SCORING_SYSTEM_REGULAR) ? R.id.rbRegular : R.id.rbPointPerStats);
@@ -331,6 +325,10 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
         } catch (Exception e) {
             Logger.e(TAG, e);
         }
+    }
+
+    private boolean isNotWaitingForStart() {
+        return league != null && league.getStatus() != WAITING_FOR_START;
     }
 
     @NonNull
@@ -505,6 +503,11 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
 
     @OnClick(R.id.etNumberOfUser)
     void onClickNumberOfUser() {
+        if (isNotWaitingForStart()) {
+            showMessage(getString(R.string.can_not_update_number_of_user)); //todo: fix message late
+            return;
+        }
+
         ExtKeyValuePairDialogFragment.newInstance()
                 .setExtKeyValuePairs(valuePairsNumberOfUser)
                 .setValue(keyValuePairNumberOfUser.getKey())
@@ -547,6 +550,11 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
 
     @OnClick(R.id.etTimePerDraftPick)
     void onClickTimePerDraftPick() {
+        if (isNotWaitingForStart()) {
+            showMessage(getString(R.string.can_not_update_time_per_draft)); //todo: fix message late
+            return;
+        }
+
         ExtKeyValuePairDialogFragment.newInstance()
                 .setExtKeyValuePairs(valuePairsTimePerDraft)
                 .setValue(keyValuePairTimePerDraft.getKey())
@@ -563,6 +571,11 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
 
     @OnClick(R.id.etTeamSetupTime)
     void onClickTeamSetupTime() {
+        if (isNotWaitingForStart()) {
+            showMessage(getString(R.string.can_not_update_team_setup_time)); //todo: fix message late
+            return;
+        }
+
         ExtDayMonthYearHourMinuteDialogFragment.newInstance()
                 .setMinDate(AppUtilities.getMinCalendar())
                 .setMaxDate(AppUtilities.getMaxCalendar())
