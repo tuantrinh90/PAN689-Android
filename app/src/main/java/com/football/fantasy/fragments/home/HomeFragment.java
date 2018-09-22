@@ -258,4 +258,9 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
             Logger.e(TAG, e);
         }
     }
+
+    @Override
+    public void stopLoading() {
+        refresh.setRefreshing(false);
+    }
 }

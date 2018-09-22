@@ -10,4 +10,6 @@ public interface IHomeView extends IBaseMvpView {
     void notifyDataSetChangedNews(List<NewsResponse> its);
 
     void notifyDataSetChangedLeagues(List<LeagueResponse> its);
+
+    void stopLoading();
 }

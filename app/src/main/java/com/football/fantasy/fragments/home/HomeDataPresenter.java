@@ -55,6 +55,11 @@ public class HomeDataPresenter extends BaseDataPresenter<IHomeView> implements I
                     dataModule.getApiService().getMyLeagues(queries),
                     new ApiCallback<PagingResponse<LeagueResponse>>() {
                         @Override
+                        public void onComplete() {
+                            v.stopLoading();
+                        }
+
+                        @Override
                         public void onSuccess(PagingResponse<LeagueResponse> leagueResponsePagingResponse) {
                             v.notifyDataSetChangedLeagues(leagueResponsePagingResponse.getData());
                         }
@@ -70,17 +75,25 @@ public class HomeDataPresenter extends BaseDataPresenter<IHomeView> implements I
     @Override
     public void getNews(int page) {
         getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().getHomeNews(page, ExtPagingListView.NUMBER_PER_PAGE), new ApiCallback<PagingResponse<NewsResponse>>() {
-                @Override
-                public void onSuccess(PagingResponse<NewsResponse> newsResponsePagingResponse) {
-                    v.notifyDataSetChangedNews(newsResponsePagingResponse.getData());
-                }
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().getHomeNews(page, ExtPagingListView.NUMBER_PER_PAGE),
+                    new ApiCallback<PagingResponse<NewsResponse>>() {
+                        @Override
+                        public void onComplete() {
+                            v.stopLoading();
+                        }
 
-                @Override
-                public void onError(String error) {
-                    v.showMessage(error);
-                }
-            }));
+                        @Override
+                        public void onSuccess(PagingResponse<NewsResponse> newsResponsePagingResponse) {
+                            v.notifyDataSetChangedNews(newsResponsePagingResponse.getData());
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            v.showMessage(error);
+                        }
+                    }));
         });
     }
 }

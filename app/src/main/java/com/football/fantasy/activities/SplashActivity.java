@@ -29,11 +29,10 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         new Handler().postDelayed(() -> {
             String token = AppPreferences.getInstance(this).getString(Constant.KEY_TOKEN);
-            Intent intent = new Intent(this, TextUtils.isEmpty(token) ? AccountActivity.class : MainActivity.class);
+            Intent intent = getIntent();
+            intent.setClass(this, TextUtils.isEmpty(token) ? AccountActivity.class : MainActivity.class);
 
             startActivity(intent);
             finish();
