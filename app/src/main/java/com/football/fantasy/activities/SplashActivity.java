@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 
 import com.bon.share_preferences.AppPreferences;
+import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
 import com.football.utilities.Constant;
 
@@ -32,7 +33,7 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(() -> {
             String token = AppPreferences.getInstance(this).getString(Constant.KEY_TOKEN);
             Intent intent = getIntent();
-            intent.setClass(this, TextUtils.isEmpty(token) ? AccountActivity.class : MainActivity.class);
+            intent.setClass(this, !TextUtils.isEmpty(token) || BuildConfig.DEBUG ? MainActivity.class : AccountActivity.class); // todo: sửa lại sau
 
             startActivity(intent);
             finish();

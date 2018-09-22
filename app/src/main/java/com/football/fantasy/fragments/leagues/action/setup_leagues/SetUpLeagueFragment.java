@@ -50,7 +50,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import java8.util.stream.StreamSupport;
@@ -70,7 +69,6 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
     private static final String TAG = SetUpLeagueFragment.class.getSimpleName();
     private static final String KEY_LEAGUE = "league";
     private static final String KEY_LEAGUE_TITLE = "league_title";
-    Unbinder unbinder;
 
     public static Bundle newBundle(LeagueResponse leagueResponse, String leagueTitle) {
         Bundle bundle = new Bundle();
@@ -160,7 +158,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
     private Calendar calendarStartTime;
     private Calendar calendarTeamSetupTime;
     private ExtKeyValuePair keyValuePairNumberOfUser = new ExtKeyValuePair("6", "06");
-    private ExtKeyValuePair keyValuePairTimePerDraft = new ExtKeyValuePair("30", "30");
+    private ExtKeyValuePair keyValuePairTimePerDraft = new ExtKeyValuePair("30", "30 seconds");
     private List<ExtKeyValuePair> valuePairsNumberOfUser = new ArrayList<ExtKeyValuePair>() {{
         add(new ExtKeyValuePair("4", "04"));
         add(new ExtKeyValuePair("6", "06"));
@@ -362,6 +360,16 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
         etTimePerDraftPick.setContent(keyValuePairTimePerDraft.getValue());
     }
 
+    private void calculateStartTime() {
+        // set default for start time
+        int draftEstimate = AppUtilities.getDraftEstimate(
+                Integer.valueOf(keyValuePairNumberOfUser.getKey()),
+                Integer.valueOf(keyValuePairTimePerDraft.getKey()));
+        calendarStartTime.setTime(calendarDraftTime.getTime());
+        calendarStartTime.add(Calendar.MINUTE, draftEstimate);
+        etStartTime.setContent(DateTimeUtils.convertCalendarToString(calendarStartTime, Constant.FORMAT_DATE_TIME));
+    }
+
     void formatDateTime() {
         try {
             etDraftTime.setContent(DateTimeUtils.convertCalendarToString(calendarDraftTime, Constant.FORMAT_DATE_TIME));
@@ -504,6 +512,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                     if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
                         keyValuePairNumberOfUser = extKeyValuePair;
                         setUpdateNumberOfUser();
+                        calculateStartTime();
                     }
                 })
                 .show(getFragmentManager(), null);
@@ -531,15 +540,8 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                 .setConditionFunction(calendar -> calendar.getTimeInMillis() >= Calendar.getInstance().getTimeInMillis())
                 .setCalendarConsumer(calendar -> {
                     calendarDraftTime.setTime(calendar.getTime());
-
-                    if (TextUtils.isEmpty(etStartTime.getContent())) {
-                        // set default for start time
-                        int draftEstimate = AppUtilities.getDraftEstimate(Integer.valueOf(etNumberOfUser.getContent()), Integer.valueOf(etTimePerDraftPick.getContent()));
-                        calendarStartTime = calendar;
-                        calendarStartTime.add(Calendar.MINUTE, draftEstimate);
-                    }
-
-                    formatDateTime();
+                    etDraftTime.setContent(DateTimeUtils.convertCalendarToString(calendarDraftTime, Constant.FORMAT_DATE_TIME));
+                    calculateStartTime();
                 }).show(getFragmentManager(), null);
     }
 
@@ -552,7 +554,9 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                     if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
                         keyValuePairTimePerDraft = extKeyValuePair;
                         setUpdateTimePerDraft();
+                        calculateStartTime();
                     }
+
                 })
                 .show(getFragmentManager(), null);
     }
@@ -568,7 +572,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                     inputChangedId = R.id.etTeamSetupTime;
                     calendarTeamSetupTime = calendar;
                     calendarStartTime = DateTimeUtils.getCalendarNoTime(calendar.getTimeInMillis());
-                    formatDateTime();
+                    etStartTime.setContent(DateTimeUtils.convertCalendarToString(calendarStartTime, Constant.FORMAT_DATE_TIME));
                 }).show(getFragmentManager(), null);
     }
 
@@ -585,7 +589,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                     if (calendarTeamSetupTime == null) {
                         calendarTeamSetupTime = DateTimeUtils.getCalendarNoTime(calendarStartTime.getTimeInMillis());
                     }
-                    formatDateTime();
+                    etStartTime.setContent(DateTimeUtils.convertCalendarToString(calendarStartTime, Constant.FORMAT_DATE_TIME));
                 }).show(getFragmentManager(), null);
     }
 
