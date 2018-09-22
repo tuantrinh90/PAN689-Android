@@ -18,6 +18,7 @@ import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.TradeRequestFragment;
+import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TeamSquadResponse;
 
@@ -34,6 +35,7 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
     private static final String KEY_TEAM_NAME = "TEAM_NAME";
     private static final String KEY_TEAM_ID = "TEAM_ID";
     private static final String KEY_TITLE = "TITLE";
+    private static final String KEY_STATUS = "STATUS";
 
     @BindView(R.id.tvTitle)
     ExtTextView tvTitle;
@@ -49,6 +51,8 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
     private int teamId;
     private String teamName;
     private String title;
+    private int status;
+
     private TeamSquadResponse teamSquad;
 
     TeamSquadAdapter teamSquadAdapter;
@@ -58,11 +62,12 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
     private List<ExtKeyValuePair> directions;
     private ExtKeyValuePair currentDirection;
 
-    public static Bundle newBundle(int teamId, String teamName, String title) {
+    public static Bundle newBundle(String title, int teamId, String teamName, int status) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_TEAM_NAME, teamName);
         bundle.putInt(KEY_TEAM_ID, teamId);
         bundle.putString(KEY_TITLE, title);
+        bundle.putInt(KEY_STATUS, status);
         return bundle;
     }
 
@@ -108,14 +113,15 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
     }
 
     private void getDataFromBundle() {
-        teamName = getArguments().getString(KEY_TEAM_NAME);
-        teamId = getArguments().getInt(KEY_TEAM_ID);
         title = getArguments().getString(KEY_TITLE);
+        teamId = getArguments().getInt(KEY_TEAM_ID);
+        teamName = getArguments().getString(KEY_TEAM_NAME);
+        status = getArguments().getInt(KEY_STATUS);
     }
 
     void initViews(String gamePlayOption) {
         // setVisible Trade button
-        llTrade.setVisibility(gamePlayOption.equals(GAMEPLAY_OPTION_TRANSFER) ? View.INVISIBLE : View.VISIBLE);
+        llTrade.setVisibility(gamePlayOption.equals(GAMEPLAY_OPTION_TRANSFER) || status == LeagueResponse.FINISHED ? View.INVISIBLE : View.VISIBLE);
 
         teamSquadAdapter = new TeamSquadAdapter(
                 getContext(),

@@ -200,7 +200,7 @@ public class MainActivity extends BaseActivity {
                 case PLAYER_INJURED:
                     // go LeagueDetail -> TeamSquad
                     AloneFragmentActivity.with(this)
-                            .parameters(TeamSquadFragment.newBundle(teamId, teamName, getString(R.string.home)))
+                            .parameters(TeamSquadFragment.newBundle(getString(R.string.home), teamId, teamName, -1)) // todo: cần server trả về League.status
                             .start(TeamSquadFragment.class);
                     break;
 
