@@ -149,29 +149,38 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
         headerToYou.setVisibility(View.GONE);
 
         if (type == REQUEST_BY_YOU) {
-            byYouButton.setVisibility(View.VISIBLE);
-            headerByYou.setVisibility(View.VISIBLE);
+            if (!isApproved()) {
+                byYouButton.setVisibility(View.VISIBLE);
+                headerByYou.setVisibility(View.VISIBLE);
+            }
 
             displayViewByYou();
         } else if (type == REQUEST_TO_YOU) {
+            if (!isApproved()) {
+                toYouButton.setVisibility(View.VISIBLE);
+                headerToYou.setVisibility(View.VISIBLE);
+            }
+
+            displayViewToYou();
+        } else if (!isApproved()) {
             toYouButton.setVisibility(View.VISIBLE);
             headerToYou.setVisibility(View.VISIBLE);
 
             displayViewToYou();
-        } else if (!trade.getStatus().equals(TradeResponse.STATUS_SUCCESSFUL)) {
-            toYouButton.setVisibility(View.VISIBLE);
-            headerToYou.setVisibility(View.VISIBLE);
-
-            displayViewToYou();
-        } else {
-            headerByYou.setVisibility(View.VISIBLE);
+        } else if (isApproved()) {
             displayViewByYou();
+        } else {
+            // isPending
         }
 
         tvTitleTeam1.setText(trade.getTeam().getName());
         tvTitleTeam2.setText(trade.getWithTeam().getName());
 
         displayPlayerViews();
+    }
+
+    private boolean isApproved() {
+        return trade.getStatus().equals(TradeResponse.STATUS_SUCCESSFUL);
     }
 
     private void displayPlayerViews() {
