@@ -186,7 +186,7 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
                         public void onNext(TransferEvent event) {
                             if (event.getAction() == TransferEvent.SENDER) {
                                 presenter.transferPlayer(team.getId(),
-                                        "transfer",
+                                        league.getGameplayOption(),
                                         event.getFromPlayer(),
                                         event.getToPlayer());
                             }
@@ -331,7 +331,7 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
                 }
                 AloneFragmentActivity.with(this)
                         .forResult(REQUEST_DISPLAY)
-                        .parameters(DisplayConfigFragment.newBundle(TAG, displays.toString()))
+                        .parameters(DisplayConfigFragment.newBundle(league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER), TAG, displays.toString()))
                         .start(DisplayConfigFragment.class);
                 break;
 

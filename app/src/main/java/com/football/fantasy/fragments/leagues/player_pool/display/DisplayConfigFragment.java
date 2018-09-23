@@ -39,14 +39,15 @@ import static com.football.models.responses.PlayerResponse.Options.YELLOW_CARDS;
 
 public class DisplayConfigFragment extends BaseMvpFragment<IDisplayConfigView, IDisplayConfigPresenter<IDisplayConfigView>> implements IDisplayConfigView {
 
+    private static final String KEY_TRANSFER_MODE = "TRANSFER_MODE";
     private static final String KEY_FROM = "FROM";
+    private static final String KEY_DISPLAY = "DISPLAY";
 
     public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_1 = new ExtKeyValuePair(VALUE, "Value", true); // selected = sort by desc
     public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_2 = new ExtKeyValuePair(POINT, "Point", true);
     public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_3 = new ExtKeyValuePair(GOALS, "Goals", true);
     public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_4 = new ExtKeyValuePair(ASSISTS, "Assists", true);
 
-    private static final String KEY_DISPLAY = "DISPLAY";
 
     @BindView(R.id.tvHeader)
     ExtTextView tvHeader;
@@ -59,11 +60,13 @@ public class DisplayConfigFragment extends BaseMvpFragment<IDisplayConfigView, I
     FilterAdapter filterAdapter;
 
     private int checkCount = 0;
+    private boolean transferMode;
     private String filterDisplays;
     private String from;
 
-    public static Bundle newBundle(String from, String filterDisplays) {
+    public static Bundle newBundle(boolean transferMode, String from, String filterDisplays) {
         Bundle bundle = new Bundle();
+        bundle.putBoolean(KEY_TRANSFER_MODE, transferMode);
         bundle.putString(KEY_FROM, from);
         bundle.putString(KEY_DISPLAY, filterDisplays);
         return bundle;
@@ -83,6 +86,7 @@ public class DisplayConfigFragment extends BaseMvpFragment<IDisplayConfigView, I
     }
 
     private void getDataFromBundle() {
+        transferMode = getArguments().getBoolean(KEY_TRANSFER_MODE);
         from = getArguments().getString(KEY_FROM);
         filterDisplays = getArguments().getString(KEY_DISPLAY);
     }
@@ -90,7 +94,9 @@ public class DisplayConfigFragment extends BaseMvpFragment<IDisplayConfigView, I
     void initView() {
         // display
         keyValuePairs = new ArrayList<>();
-        keyValuePairs.add(new ExtKeyValuePair(VALUE, "Value", filterDisplays.contains(VALUE)));
+        if (transferMode) {
+            keyValuePairs.add(new ExtKeyValuePair(VALUE, "Value", filterDisplays.contains(VALUE)));
+        }
         keyValuePairs.add(new ExtKeyValuePair(POINT, "Point", filterDisplays.contains(POINT)));
         keyValuePairs.add(new ExtKeyValuePair(GOALS, "Goals", filterDisplays.contains(GOALS)));
         keyValuePairs.add(new ExtKeyValuePair(ASSISTS, "Assists", filterDisplays.contains(ASSISTS)));

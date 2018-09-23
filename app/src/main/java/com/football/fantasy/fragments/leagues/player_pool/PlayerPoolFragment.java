@@ -399,7 +399,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
                 }
                 AloneFragmentActivity.with(this)
                         .forResult(REQUEST_DISPLAY)
-                        .parameters(DisplayConfigFragment.newBundle(TAG, displays.toString()))
+                        .parameters(DisplayConfigFragment.newBundle(true, TAG, displays.toString()))
                         .start(DisplayConfigFragment.class);
                 break;
 

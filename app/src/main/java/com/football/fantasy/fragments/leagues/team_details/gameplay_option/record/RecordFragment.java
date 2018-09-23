@@ -8,6 +8,7 @@ import android.view.View;
 import com.football.adapters.RecordAdapter;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
+import com.football.events.TransferEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.models.responses.LeagueResponse;
@@ -17,6 +18,7 @@ import com.football.models.responses.TransferHistoryResponse;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.observers.DisposableObserver;
 
 import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
 
@@ -57,6 +59,30 @@ public class RecordFragment extends BaseMvpFragment<IRecordView, IRecordPresente
 
         initRecyclerView();
         getTransferHistories();
+        registerEvent();
+    }
+
+    private void registerEvent() {
+        // action add click on PlayerList
+        mCompositeDisposable.add(bus.ofType(TransferEvent.class)
+                .subscribeWith(new DisposableObserver<TransferEvent>() {
+                    @Override
+                    public void onNext(TransferEvent event) {
+                        if (event.getAction() == TransferEvent.RECEIVER) {
+                            refreshData();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                }));
     }
 
     private void getDataFromBundle() {
