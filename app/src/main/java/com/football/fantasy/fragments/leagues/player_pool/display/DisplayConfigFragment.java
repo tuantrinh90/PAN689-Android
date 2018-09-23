@@ -44,6 +44,7 @@ public class DisplayConfigFragment extends BaseMvpFragment<IDisplayConfigView, I
     public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_1 = new ExtKeyValuePair(VALUE, "Value", true); // selected = sort by desc
     public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_2 = new ExtKeyValuePair(POINT, "Point", true);
     public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_3 = new ExtKeyValuePair(GOALS, "Goals", true);
+    public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_4 = new ExtKeyValuePair(ASSISTS, "Assists", true);
 
     private static final String KEY_DISPLAY = "DISPLAY";
 

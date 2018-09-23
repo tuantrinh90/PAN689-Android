@@ -38,6 +38,7 @@ import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 
 import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
+import static com.football.models.responses.PlayerResponse.Options.ASSISTS;
 import static com.football.models.responses.PlayerResponse.Options.GOALS;
 import static com.football.models.responses.PlayerResponse.Options.POINT;
 import static com.football.models.responses.PlayerResponse.Options.VALUE;
@@ -224,9 +225,10 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
         }
 
         // display default
-        displays.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_1);
+        if (isTransfer) displays.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_1);
         displays.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_2);
         displays.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_3);
+        if (!isTransfer) displays.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_4);
 
         PlayerPoolAdapter adapter;
         adapter = new PlayerPoolAdapter(
@@ -240,7 +242,11 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
                 });
         // remove click
         adapter.setOptionDeleteCallback(this::transferPlayer);
-        adapter.setOptions(VALUE, POINT, GOALS);
+        if (isTransfer) {
+            adapter.setOptions(VALUE, POINT, GOALS);
+        } else {
+            adapter.setOptions(POINT, GOALS, ASSISTS);
+        }
 
         rvPlayer.adapter(adapter)
                 .refreshListener(this::refreshData)
