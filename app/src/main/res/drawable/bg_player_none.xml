@@ -12,10 +12,10 @@
         </shape>
     </item>
     <item
+        android:gravity="center"
+        android:bottom="@dimen/padding_status_bar"
+        android:drawable="@drawable/ic_add_gray"
         android:left="@dimen/padding_status_bar"
-        android:right="@dimen/padding_status_bar">
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/ic_add_green_g" />
-    </item>
+        android:right="@dimen/padding_status_bar"
+        android:top="@dimen/padding_status_bar" />
 </layer-list>
