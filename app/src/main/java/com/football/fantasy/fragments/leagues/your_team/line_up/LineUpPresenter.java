@@ -62,12 +62,13 @@ public abstract class LineUpPresenter<V extends ILineUpView> extends BaseDataPre
         getOptView().doIfPresent(v -> {
             mCompositeDisposable.add(RxUtilities.async(
                     v,
-                    dataModule.getApiService().addPlayer(new MultipartBody.Builder()
-                            .setType(MultipartBody.FORM)
-                            .addFormDataPart("team_id", String.valueOf(teamId))
-                            .addFormDataPart("player_id", String.valueOf(player.getId()))
-                            .addFormDataPart("order", String.valueOf(order))
-                            .build()),
+                    dataModule.getApiService().addPlayer(player.getId(),
+                            new MultipartBody.Builder()
+                                    .setType(MultipartBody.FORM)
+                                    .addFormDataPart("team_id", String.valueOf(teamId))
+                                    .addFormDataPart("player_id", String.valueOf(player.getId()))
+                                    .addFormDataPart("order", String.valueOf(order))
+                                    .build()),
                     new ApiCallback<PropsPlayerResponse>() {
                         @Override
                         public void onStart() {
@@ -97,11 +98,13 @@ public abstract class LineUpPresenter<V extends ILineUpView> extends BaseDataPre
         getOptView().doIfPresent(v -> {
             mCompositeDisposable.add(RxUtilities.async(
                     v,
-                    dataModule.getApiService().removePlayer(new MultipartBody.Builder()
-                            .setType(MultipartBody.FORM)
-                            .addFormDataPart("team_id", String.valueOf(teamId))
-                            .addFormDataPart("player_id", String.valueOf(player.getId()))
-                            .build()),
+                    dataModule.getApiService().removePlayer(
+                            player.getId(),
+                            new MultipartBody.Builder()
+                                    .setType(MultipartBody.FORM)
+                                    .addFormDataPart("team_id", String.valueOf(teamId))
+                                    .addFormDataPart("player_id", String.valueOf(player.getId()))
+                                    .build()),
                     new ApiCallback<PropsPlayerResponse>() {
                         @Override
                         public void onStart() {

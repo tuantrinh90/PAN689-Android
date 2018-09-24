@@ -92,8 +92,8 @@ public interface ServiceConfig {
     String UPDATE_TEAM = "teams/{id}";
     String TEAM_DETAIL = "teams/{id}";
     String TEAM_LINEUP = "teams/lineup/{id}";
-    String ADD_PLAYER = "teams/add_player";
-    String REMOVE_PLAYER = "teams/remove_player";
+    String ADD_PLAYER = "teams/{id}/add_player";
+    String REMOVE_PLAYER = "teams/{id}/remove_player";
     String TEAM_TRANSFERRING = "teams/{id}/transfer_player_list";
     String TRANSFER_PLAYER = "teams/{id}/transfer_player";
     String TRANSFER_HISTORIES = "teams/{id}/transfer_histories";

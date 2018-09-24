@@ -256,6 +256,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         playerViewSelected.setAddable(false);
         callback.accept(true, "");
         callback = null;
+        presenter.addPlayer(player, teamId, position, order);
     }
 
     @Override
@@ -270,6 +271,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                     if (playerViewSelected != null) {
                         playerViewSelected.setPlayer(null);
                         playerViewSelected = null;
+                        presenter.removePlayer(player, position, index);
                     }
                 },
                 (dialog, which) -> {

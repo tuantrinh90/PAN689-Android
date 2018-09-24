@@ -201,10 +201,10 @@ public interface IApiService {
     Observable<BaseResponse<Object>> completeLineup(@Path(ServiceConfig.KEY_ID) int teamId);
 
     @POST(ServiceConfig.ADD_PLAYER)
-    Observable<BaseResponse<PropsPlayerResponse>> addPlayer(@Body RequestBody body);
+    Observable<BaseResponse<PropsPlayerResponse>> addPlayer(@Path(ServiceConfig.KEY_ID) int teamId, @Body RequestBody body);
 
     @POST(ServiceConfig.REMOVE_PLAYER)
-    Observable<BaseResponse<PropsPlayerResponse>> removePlayer(@Body RequestBody body);
+    Observable<BaseResponse<PropsPlayerResponse>> removePlayer(@Path(ServiceConfig.KEY_ID) int teamId, @Body RequestBody body);
 
     @GET(ServiceConfig.TEAM_TRANSFERRING)
     Observable<BaseResponse<TeamTransferringResponse>> getTeamTransferring(@Path(ServiceConfig.KEY_ID) int teamId,

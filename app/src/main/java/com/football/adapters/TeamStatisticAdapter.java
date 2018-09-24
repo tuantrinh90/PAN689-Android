@@ -37,17 +37,17 @@ public class TeamStatisticAdapter extends DefaultAdapter<RoundResponse> {
         holder.tvRound.setText(String.format("%02d", data.getRound()));
         holder.tvPoint.setText(String.valueOf(data.getPoint()));
 
-        if (position == 0 || data.getPoint() == 0) {
+        if (position == 0 || data.getChange() == 0) {
             holder.ivChange.setVisibility(View.GONE);
 
             holder.tvChange.setText("-");
-        } else if (data.getPoint() < 0) {
+        } else if (data.getChange() < 0) {
             holder.ivChange.setVisibility(View.VISIBLE);
             holder.ivChange.setBackgroundResource(R.drawable.bg_circle_red);
             holder.ivChange.setImageResource(R.drawable.ic_arrow_down_white);
 
             holder.tvChange.setText(String.valueOf(data.getChange()));
-        } else if (data.getPoint() > 0) {
+        } else if (data.getChange() > 0) {
             holder.ivChange.setVisibility(View.VISIBLE);
             holder.ivChange.setBackgroundResource(R.drawable.bg_circle_green);
             holder.ivChange.setImageResource(R.drawable.ic_arrow_upward_white_small);
