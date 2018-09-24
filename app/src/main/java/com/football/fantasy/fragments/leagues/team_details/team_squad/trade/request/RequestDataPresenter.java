@@ -39,6 +39,7 @@ public class RequestDataPresenter extends BaseDataPresenter<IRequestView> implem
                         @Override
                         public void onComplete() {
                             v.showLoadingPagingListView(false);
+                            v.stopLoading();
                         }
 
                         @Override

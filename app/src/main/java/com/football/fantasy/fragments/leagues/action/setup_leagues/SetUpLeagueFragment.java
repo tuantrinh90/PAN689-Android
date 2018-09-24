@@ -634,7 +634,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
         leagueRequest.setTeamSetup(DateTimeUtils.convertCalendarToString(calendarTeamSetupTime, Constant.FORMAT_DATE_TIME_SERVER));
         leagueRequest.setStartAt(DateTimeUtils.convertCalendarToString(calendarStartTime, Constant.FORMAT_DATE_TIME_SERVER));
         leagueRequest.setDraftTime(DateTimeUtils.convertCalendarToString(calendarDraftTime, Constant.FORMAT_DATE_TIME_SERVER));
-        leagueRequest.setTimeToPick(Integer.valueOf(etTimePerDraftPick.getContent()));
+        leagueRequest.setTimeToPick(Integer.valueOf(keyValuePairTimePerDraft.getKey()));
         leagueRequest.setDescription(etDescription.getContent());
         return leagueRequest;
     }

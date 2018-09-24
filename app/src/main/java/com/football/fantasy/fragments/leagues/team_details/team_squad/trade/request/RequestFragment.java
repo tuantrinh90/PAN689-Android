@@ -147,4 +147,9 @@ public class RequestFragment extends BaseMvpFragment<IRequestView, IRequestPrese
     public void displayTrades(List<TradeResponse> trades) {
         rvRequest.addItems(trades);
     }
+
+    @Override
+    public void stopLoading() {
+        rvRequest.stopLoading();
+    }
 }

@@ -162,7 +162,7 @@ public class TradeRequestFragment extends BaseMvpFragment<ITradeRequestView, ITr
 
     @OnClick(R.id.ivAdd)
     public void onAddClicked() {
-        if (pendingTradeRequest > maxTradeRequest) {
+        if (pendingTradeRequest >= maxTradeRequest) {
             showMessage(getString(R.string.pending_trade_request_max));
         } else if (maxTradeRequest - currentTradeRequest <= 0) {
             showMessage("currentTradeRequest <= 0");

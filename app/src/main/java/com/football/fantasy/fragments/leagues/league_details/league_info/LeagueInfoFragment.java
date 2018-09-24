@@ -230,7 +230,7 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
             } else if (league.getStatus() == LeagueResponse.ON_GOING) {
                 tvSetupTeam.setText(R.string.lineup_my_team);
                 tvTimeLabel.setText(isTransfer ? R.string.transfer_deadline : R.string.waiving_deadline);
-                tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTransferDeadlineCalendar(), Constant.FORMAT_DATE_TIME));
+                tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTransferDeadlineCalendar(), Constant.FORMAT_DATE_TIME)); // dùng cho cả transfer và draft
 
                 // visible info transfer deadline
                 ivInfoTransferDeadline.setVisibility(View.VISIBLE);

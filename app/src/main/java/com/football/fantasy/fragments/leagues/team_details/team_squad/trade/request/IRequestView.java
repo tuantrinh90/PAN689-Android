@@ -11,4 +11,5 @@ public interface IRequestView extends IBaseMvpView {
 
     void displayTrades(List<TradeResponse> trades);
 
+    void stopLoading();
 }
