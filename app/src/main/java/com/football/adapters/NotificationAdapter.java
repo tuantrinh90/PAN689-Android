@@ -16,11 +16,15 @@ import com.football.models.responses.NotificationResponse;
 import com.football.utilities.AppUtilities;
 
 import butterknife.BindView;
+import java8.util.function.Consumer;
 
 public class NotificationAdapter extends DefaultAdapter<NotificationResponse> {
 
-    public NotificationAdapter(Context context) {
+    private final Consumer<NotificationResponse> callback;
+
+    public NotificationAdapter(Context context, Consumer<NotificationResponse> callback) {
         super(context);
+        this.callback = callback;
     }
 
     @Override
@@ -46,6 +50,8 @@ public class NotificationAdapter extends DefaultAdapter<NotificationResponse> {
         holder.textContent.setText(Html.fromHtml(data.getTitle()));
         holder.textTime.setText(AppUtilities.getRelativeTimeSpanString(data.getNotificationTime()));
         displayType(holder, data.getType());
+
+        holder.itemView.setOnClickListener(v -> callback.accept(data));
     }
 
     private void displayType(NotificationHolder holder, String type) {

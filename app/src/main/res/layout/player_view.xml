@@ -23,8 +23,7 @@
             android:background="@drawable/bg_player_a"
             android:clickable="true"
             android:focusable="true"
-            android:padding="@dimen/player_border"
-            android:src="@drawable/ic_player_sample" />
+            android:padding="@dimen/player_border" />
 
         <ImageView
             android:id="@+id/ivRemove"

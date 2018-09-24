@@ -65,7 +65,7 @@ public class PlayerAdapter extends DefaultAdapter<PlayerResponse> {
         holder.ivAdd.setVisibility(visibleAddButton);
         if (visibleAddButton == View.VISIBLE) {
             boolean checked = data.getSelected();
-            holder.ivAdd.setImageResource(checked ? R.drawable.ic_tick : R.drawable.ic_add_white_small);
+            holder.ivAdd.setImageResource(checked ? R.drawable.ic_tick : R.drawable.ic_add_white);
             holder.ivAdd.setBackgroundResource(checked ? R.drawable.bg_circle_white_border : R.drawable.bg_circle_yellow);
 
             mDisposable.add(RxView.clicks(holder.ivAdd).subscribe(o -> {

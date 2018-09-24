@@ -113,7 +113,7 @@ public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
                 } else if (data.getPoint() < 0) {
                     ivOption.setVisibility(View.VISIBLE);
                     ivOption.setBackgroundResource(R.drawable.bg_circle_red);
-                    ivOption.setImageResource(R.drawable.ic_arrow_downward_white_small);
+                    ivOption.setImageResource(R.drawable.ic_arrow_down_white);
                 } else if (data.getPoint() > 0) {
                     ivOption.setVisibility(View.VISIBLE);
                     ivOption.setBackgroundResource(R.drawable.bg_circle_green);

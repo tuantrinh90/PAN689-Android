@@ -27,16 +27,16 @@
                 android:id="@+id/profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_layout"
-                android:layout_marginTop="@dimen/padding_layout"
+                android:layout_marginBottom="@dimen/padding_content"
+                android:layout_marginTop="@dimen/padding_content"
                 android:background="@drawable/bg_border_white"
                 android:clickable="true"
                 android:focusable="true"
                 android:padding="@dimen/padding_layout">
 
                 <ImageView
-                    android:layout_width="@dimen/icon_large"
-                    android:layout_height="@dimen/icon_large"
+                    android:layout_width="@dimen/icon_medium"
+                    android:layout_height="@dimen/icon_medium"
                     android:layout_marginLeft="@dimen/padding_layout"
                     android:layout_marginRight="@dimen/padding_layout"
                     android:src="@drawable/ic_more_profile" />
@@ -54,16 +54,16 @@
                 android:id="@+id/settings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_layout"
-                android:layout_marginTop="@dimen/padding_layout"
+                android:layout_marginBottom="@dimen/padding_content"
+                android:layout_marginTop="@dimen/padding_content"
                 android:background="@drawable/bg_border_white"
                 android:clickable="true"
                 android:focusable="true"
                 android:padding="@dimen/padding_layout">
 
                 <ImageView
-                    android:layout_width="@dimen/icon_large"
-                    android:layout_height="@dimen/icon_large"
+                    android:layout_width="@dimen/icon_medium"
+                    android:layout_height="@dimen/icon_medium"
                     android:layout_marginLeft="@dimen/padding_layout"
                     android:layout_marginRight="@dimen/padding_layout"
                     android:src="@drawable/ic_more_setting" />
@@ -81,16 +81,16 @@
                 android:id="@+id/gamerules"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_layout"
-                android:layout_marginTop="@dimen/padding_layout"
+                android:layout_marginBottom="@dimen/padding_content"
+                android:layout_marginTop="@dimen/padding_content"
                 android:background="@drawable/bg_border_white"
                 android:clickable="true"
                 android:focusable="true"
                 android:padding="@dimen/padding_layout">
 
                 <ImageView
-                    android:layout_width="@dimen/icon_large"
-                    android:layout_height="@dimen/icon_large"
+                    android:layout_width="@dimen/icon_medium"
+                    android:layout_height="@dimen/icon_medium"
                     android:layout_marginLeft="@dimen/padding_layout"
                     android:layout_marginRight="@dimen/padding_layout"
                     android:src="@drawable/ic_more_gamerule" />
@@ -104,21 +104,20 @@
 
             </LinearLayout>
 
-
             <LinearLayout
                 android:id="@+id/how_it_works"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_layout"
-                android:layout_marginTop="@dimen/padding_layout"
+                android:layout_marginBottom="@dimen/padding_content"
+                android:layout_marginTop="@dimen/padding_content"
                 android:background="@drawable/bg_border_white"
                 android:clickable="true"
                 android:focusable="true"
                 android:padding="@dimen/padding_layout">
 
                 <ImageView
-                    android:layout_width="@dimen/icon_large"
-                    android:layout_height="@dimen/icon_large"
+                    android:layout_width="@dimen/icon_medium"
+                    android:layout_height="@dimen/icon_medium"
                     android:layout_marginLeft="@dimen/padding_layout"
                     android:layout_marginRight="@dimen/padding_layout"
                     android:src="@drawable/ic_more_works" />
@@ -136,16 +135,16 @@
                 android:id="@+id/contact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_layout"
-                android:layout_marginTop="@dimen/padding_layout"
+                android:layout_marginBottom="@dimen/padding_content"
+                android:layout_marginTop="@dimen/padding_content"
                 android:background="@drawable/bg_border_white"
                 android:clickable="true"
                 android:focusable="true"
                 android:padding="@dimen/padding_layout">
 
                 <ImageView
-                    android:layout_width="@dimen/icon_large"
-                    android:layout_height="@dimen/icon_large"
+                    android:layout_width="@dimen/icon_medium"
+                    android:layout_height="@dimen/icon_medium"
                     android:layout_marginLeft="@dimen/padding_layout"
                     android:layout_marginRight="@dimen/padding_layout"
                     android:src="@drawable/ic_more_contact" />
@@ -163,16 +162,16 @@
                 android:id="@+id/logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_layout"
-                android:layout_marginTop="@dimen/padding_layout"
+                android:layout_marginBottom="@dimen/padding_content"
+                android:layout_marginTop="@dimen/padding_content"
                 android:background="@drawable/bg_border_yellow_gradient"
                 android:clickable="true"
                 android:focusable="true"
                 android:padding="@dimen/padding_layout">
 
                 <ImageView
-                    android:layout_width="@dimen/icon_large"
-                    android:layout_height="@dimen/icon_large"
+                    android:layout_width="@dimen/icon_medium"
+                    android:layout_height="@dimen/icon_medium"
                     android:layout_marginLeft="@dimen/padding_layout"
                     android:layout_marginRight="@dimen/padding_layout"
                     android:src="@drawable/ic_more_logout" />

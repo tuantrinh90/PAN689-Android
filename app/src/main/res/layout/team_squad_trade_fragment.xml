@@ -71,7 +71,7 @@
                     style="@style/FloatingActionButton"
                     android:layout_marginTop="@dimen/shadow_layout_dxy_normal"
                     android:background="@drawable/bg_button_float_action"
-                    android:src="@drawable/ic_add_white_small" />
+                    app:srcCompat="@drawable/ic_add_white" />
             </com.bon.customview.shadowlayout.ShadowLayout>
 
         </LinearLayout>

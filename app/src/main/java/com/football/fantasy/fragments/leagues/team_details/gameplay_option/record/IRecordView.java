@@ -8,4 +8,5 @@ import java.util.List;
 public interface IRecordView extends IBaseMvpView {
     void displayHistories(List<TransferHistoryResponse> histories);
 
+    void stopLoading();
 }

@@ -44,7 +44,7 @@ public class TeamStatisticAdapter extends DefaultAdapter<RoundResponse> {
         } else if (data.getPoint() < 0) {
             holder.ivChange.setVisibility(View.VISIBLE);
             holder.ivChange.setBackgroundResource(R.drawable.bg_circle_red);
-            holder.ivChange.setImageResource(R.drawable.ic_arrow_downward_white_small);
+            holder.ivChange.setImageResource(R.drawable.ic_arrow_down_white);
 
             holder.tvChange.setText(String.valueOf(data.getChange()));
         } else if (data.getPoint() > 0) {

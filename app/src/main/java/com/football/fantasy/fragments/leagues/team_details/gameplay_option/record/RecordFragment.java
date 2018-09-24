@@ -20,8 +20,6 @@ import java.util.List;
 import butterknife.BindView;
 import io.reactivex.observers.DisposableObserver;
 
-import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
-
 public class RecordFragment extends BaseMvpFragment<IRecordView, IRecordPresenter<IRecordView>> implements IRecordView {
 
     private static final String KEY_TEAM = "TEAM";
@@ -99,6 +97,7 @@ public class RecordFragment extends BaseMvpFragment<IRecordView, IRecordPresente
     void initRecyclerView() {
         RecordAdapter adapter = new RecordAdapter(
                 getContext(),
+                league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER),
                 player -> {
                     PlayerDetailFragment.start(this,
                             player.getId(),
@@ -122,8 +121,7 @@ public class RecordFragment extends BaseMvpFragment<IRecordView, IRecordPresente
     }
 
     private void getTransferHistories() {
-        boolean isTransfer = league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER);
-        presenter.getTransferHistories(team.getId(), isTransfer ? "transfer" : "draft", page);
+        presenter.getTransferHistories(team.getId(), league.getGameplayOption(), page);
     }
 
     @Override
@@ -136,5 +134,10 @@ public class RecordFragment extends BaseMvpFragment<IRecordView, IRecordPresente
     @Override
     public void displayHistories(List<TransferHistoryResponse> histories) {
         rvRecord.addItems(histories);
+    }
+
+    @Override
+    public void stopLoading() {
+        rvRecord.stopLoading();
     }
 }

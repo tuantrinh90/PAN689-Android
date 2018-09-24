@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.bon.util.ActivityUtils;
 import com.bon.util.DialogUtils;
@@ -15,6 +16,7 @@ import com.football.adapters.StatePagerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.customizes.footers.FooterItem;
 import com.football.events.UnauthorizedEvent;
+import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.home.HomeFragment;
 import com.football.fantasy.fragments.leagues.LeagueFragment;
@@ -166,122 +168,131 @@ public class MainActivity extends BaseActivity {
             int myTeamId = getInteger(_myTeamId);
             int playerId = getInteger(_playerId);
 
-            switch (action) {
-                // League detail
-                case USER_LEFT_LEAGUE:
-                case BEFORE_START_TIME_2H:
-                case EDIT_LEAGUE:
-                case CHANGE_LEAGUE_NAME:
-                case CHANGE_TEAM_NAME: // action này chưa hiểu lắm
-                case BEFORE_TRANSFER_DEADLINE_2H:
-                    AloneFragmentActivity.with(this)
-                            .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, -1))
-                            .start(LeagueDetailFragment.class);
-                    break;
+            handleAction(action, leagueId, teamId, teamName, myTeamId, playerId);
+        }
+    }
 
-                // League detail - Tab team
-                case USER_JOINED_LEAGUE:
-                case USER_ACCEPT_INVITE:
-                case USER_REJECT_INVITE:
-                case CHANGE_OWNER_LEAGUE:
-                    AloneFragmentActivity.with(this)
-                            .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, LeagueDetailFragment.TEAM_FRAGMENT_INDEX))
-                            .start(LeagueDetailFragment.class);
-                    break;
+    public void handleAction(String action, int leagueId, int teamId, String teamName, int myTeamId, int playerId) {
+        switch (action) {
+            // League detail
+            case USER_LEFT_LEAGUE:
+            case BEFORE_START_TIME_2H:
+            case EDIT_LEAGUE:
+            case CHANGE_LEAGUE_NAME:
+            case CHANGE_TEAM_NAME: // action này chưa hiểu lắm
+            case BEFORE_TRANSFER_DEADLINE_2H:
+                AloneFragmentActivity.with(this)
+                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, -1))
+                        .start(LeagueDetailFragment.class);
+                break;
 
-                // League detail - ranking
-                case LEAGUE_FINISH:
-                case LEAGUE_FINISH_FOR_CHAMPION:
-                    AloneFragmentActivity.with(this)
-                            .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, LeagueDetailFragment.RANKING))
-                            .start(LeagueDetailFragment.class);
-                    break;
+            // League detail - Tab team
+            case USER_JOINED_LEAGUE:
+            case USER_ACCEPT_INVITE:
+            case USER_REJECT_INVITE:
+            case CHANGE_OWNER_LEAGUE:
+                AloneFragmentActivity.with(this)
+                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, LeagueDetailFragment.TEAM_FRAGMENT_INDEX))
+                        .start(LeagueDetailFragment.class);
+                break;
 
-                // Team squad
-                case PLAYER_INJURED:
-                    // go LeagueDetail -> TeamSquad
-                    AloneFragmentActivity.with(this)
-                            .parameters(TeamSquadFragment.newBundle(getString(R.string.home), myTeamId, teamId, teamName, -1)) // todo: cần server trả về League.status
-                            .start(TeamSquadFragment.class);
-                    break;
+            // League detail - ranking
+            case LEAGUE_FINISH:
+            case LEAGUE_FINISH_FOR_CHAMPION:
+                AloneFragmentActivity.with(this)
+                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, LeagueDetailFragment.RANKING))
+                        .start(LeagueDetailFragment.class);
+                break;
 
-                // League invitation
-                case USER_RECEIVE_INVITE:
-                    viewPager.setCurrentItem(LEAGUES);
-                    if (mPagerAdapter.getItem(LEAGUES) instanceof LeagueFragment) {
-                        ((LeagueFragment) mPagerAdapter.getItem(LEAGUES)).openInvitation();
-                    }
-                    break;
+            // Team squad
+            case PLAYER_INJURED:
+                // go LeagueDetail -> TeamSquad
+                AloneFragmentActivity.with(this)
+                        .parameters(TeamSquadFragment.newBundle(getString(R.string.home), myTeamId, teamId, teamName, -1)) // todo: cần server trả về League.status
+                        .start(TeamSquadFragment.class);
+                break;
 
-                // Setup team - screen Lineup
-                case TEAM_SETUP_TIME:
-                case BEFORE_TEAM_SETUP_TIME_2H:
-                case RANDOM_TEAM:
-                    AloneFragmentActivity.with(this)
-                            .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, LeagueDetailFragment.SETUP_TEAM))
-                            .start(LeagueDetailFragment.class);
-                    break;
+            // League invitation
+            case USER_RECEIVE_INVITE:
+                viewPager.setCurrentItem(LEAGUES);
+                if (mPagerAdapter.getItem(LEAGUES) instanceof LeagueFragment) {
+                    ((LeagueFragment) mPagerAdapter.getItem(LEAGUES)).openInvitation();
+                }
+                break;
 
-                // Setup team - tab team list
-                case FULL_TEAM:
-                case COMPLETE_SETUP_TEAM:
-                    AloneFragmentActivity.with(this)
-                            .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, LeagueDetailFragment.TEAM_FRAGMENT_INDEX))
-                            .start(LeagueDetailFragment.class);
-                    break;
+            // Setup team - screen Lineup
+            case TEAM_SETUP_TIME:
+            case BEFORE_TEAM_SETUP_TIME_2H:
+            case RANDOM_TEAM:
+                AloneFragmentActivity.with(this)
+                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, LeagueDetailFragment.SETUP_TEAM))
+                        .start(LeagueDetailFragment.class);
+                break;
 
-                // Edit league
-                case BEFORE_TEAM_SETUP_TIME_1H:
-                    AloneFragmentActivity.with(this)
-                            .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, LeagueDetailFragment.EDIT_LEAGUE))
-                            .start(LeagueDetailFragment.class);
-                    break;
+            // Setup team - tab team list
+            case FULL_TEAM:
+            case COMPLETE_SETUP_TEAM:
+                AloneFragmentActivity.with(this)
+                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, LeagueDetailFragment.TEAM_FRAGMENT_INDEX))
+                        .start(LeagueDetailFragment.class);
+                break;
 
-                // My league
-                case CANCEL_LEAGUE_SINCE_LACK_MEMBER:
-                case CANCEL_LEAGUE_SINCE_OWNER:
-                case OWNER_DELETE_MEMBER:
-                case NEWEST_GAME_RESULT:
-                    viewPager.setCurrentItem(LEAGUES);
-                    if (mPagerAdapter.getItem(LEAGUES) instanceof LeagueFragment) {
-                        ((LeagueFragment) mPagerAdapter.getItem(LEAGUES)).openMyLeague();
-                    }
-                    break;
+            // Edit league
+            case BEFORE_TEAM_SETUP_TIME_1H:
+                AloneFragmentActivity.with(this)
+                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, LeagueDetailFragment.EDIT_LEAGUE))
+                        .start(LeagueDetailFragment.class);
+                break;
 
-                // Matchup - real league
-                case START_LEAGUE:
-                case NEWEST_REAL_RESULT:
-                case TIME_REAL_MATCH_CHANGED:
-                case SCORE_OF_REAL_MATCH_HAS_BEEN_ADJUSTED:
-                    viewPager.setCurrentItem(MATCH_UP);
-                    if (mPagerAdapter.getItem(MATCH_UP) instanceof MatchUpFragment) {
-                        ((MatchUpFragment) mPagerAdapter.getItem(MATCH_UP)).openRealLeague();
-                    }
-                    break;
+            // My league
+            case CANCEL_LEAGUE_SINCE_LACK_MEMBER:
+            case CANCEL_LEAGUE_SINCE_OWNER:
+            case OWNER_DELETE_MEMBER:
+            case NEWEST_GAME_RESULT:
+                viewPager.setCurrentItem(LEAGUES);
+                if (mPagerAdapter.getItem(LEAGUES) instanceof LeagueFragment) {
+                    ((LeagueFragment) mPagerAdapter.getItem(LEAGUES)).openMyLeague();
+                }
+                break;
 
-                // Player detail
-                case PLAYER_NEW_JOIN:
-                case VALUE_OF_PLAYER_CHANGED:
-                    AloneFragmentActivity.with(this)
-                            .parameters(PlayerDetailFragment.newBundle(playerId,
-                                    -1,
-                                    getString(R.string.home),
-                                    PlayerDetailFragment.PICK_NONE,
-                                    GAMEPLAY_OPTION_TRANSFER))
-                            .start(PlayerDetailFragment.class);
-                    break;
+            // Matchup - real league
+            case START_LEAGUE:
+            case NEWEST_REAL_RESULT:
+            case TIME_REAL_MATCH_CHANGED:
+            case SCORE_OF_REAL_MATCH_HAS_BEEN_ADJUSTED:
+                viewPager.setCurrentItem(MATCH_UP);
+                if (mPagerAdapter.getItem(MATCH_UP) instanceof MatchUpFragment) {
+                    ((MatchUpFragment) mPagerAdapter.getItem(MATCH_UP)).openRealLeague();
+                }
+                break;
 
-                // Player pool
-                case PLAYER_HAS_LEFT:
-                    PlayerPoolFragment.start(this, getString(R.string.home));
-                    break;
+            // Player detail
+            case PLAYER_NEW_JOIN:
+            case VALUE_OF_PLAYER_CHANGED:
+                AloneFragmentActivity.with(this)
+                        .parameters(PlayerDetailFragment.newBundle(playerId,
+                                -1,
+                                getString(R.string.home),
+                                PlayerDetailFragment.PICK_NONE,
+                                GAMEPLAY_OPTION_TRANSFER))
+                        .start(PlayerDetailFragment.class);
+                break;
 
-                // Accept/Reject screen
-                case NEW_TRADE_PROPOSAL:
+            // Player pool
+            case PLAYER_HAS_LEFT:
+                PlayerPoolFragment.start(this, getString(R.string.home));
+                break;
 
-                    break;
+            // Accept/Reject screen
+            case NEW_TRADE_PROPOSAL:
 
-            }
+                break;
+
+            default:
+                if (BuildConfig.DEBUG)
+                    Toast.makeText(this, "Chưa làm action " + action, Toast.LENGTH_SHORT).show();
+                break;
+
         }
     }
 

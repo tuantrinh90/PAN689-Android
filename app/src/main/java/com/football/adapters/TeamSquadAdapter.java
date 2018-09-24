@@ -60,7 +60,7 @@ public class TeamSquadAdapter extends DefaultAdapter<PlayerResponse> {
         boolean b = !data.isTrading() && addCallback != null;
         holder.ivAdd.setVisibility(addCallback != null ? View.VISIBLE : View.GONE);
         holder.ivAdd.setEnabled(b);
-        holder.ivAdd.setImageResource(b ? R.drawable.ic_add_white_small : R.drawable.ic_check_green_24_px);
+        holder.ivAdd.setImageResource(b ? R.drawable.ic_add_white : R.drawable.ic_check_green_24_px);
         holder.ivAdd.setBackgroundResource(b ? R.drawable.bg_circle_yellow : 0);
 
         holder.itemView.setOnClickListener(v -> clickCallback.accept(getItem(defaultHolder.getAdapterPosition())));

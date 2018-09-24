@@ -9,6 +9,7 @@ import com.football.adapters.NotificationAdapter;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
+import com.football.fantasy.activities.MainActivity;
 import com.football.models.responses.NotificationResponse;
 
 import java.util.List;
@@ -50,7 +51,18 @@ public class NotificationFragment extends BaseMvpFragment<INotificationView, INo
     }
 
     private void initRecyclerView() {
-        NotificationAdapter adapter = new NotificationAdapter(getContext());
+        NotificationAdapter adapter = new NotificationAdapter(
+                getContext(),
+                notification -> {
+                    NotificationResponse.Key key = notification.getKey();
+                    ((MainActivity) mActivity).handleAction(
+                            key.getAction(),
+                            key.getLeagueId(),
+                            key.getTeamId(),
+                            key.getTeamName(),
+                            key.getMyTeamId(),
+                            key.getPlayerId());
+                });
         rvNotification
                 .adapter(adapter)
                 .refreshListener(this::refresh)

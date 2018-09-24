@@ -21,9 +21,11 @@ import java8.util.function.Consumer;
 public class RecordAdapter extends DefaultAdapter<TransferHistoryResponse> {
 
     private Consumer<PlayerResponse> clickConsumer;
+    private final boolean transferMode;
 
-    public RecordAdapter(Context context, Consumer<PlayerResponse> clickConsumer) {
+    public RecordAdapter(Context context,  boolean transferMode, Consumer<PlayerResponse> clickConsumer) {
         super(context);
+        this.transferMode = transferMode;
         this.clickConsumer = clickConsumer;
     }
 
@@ -61,6 +63,9 @@ public class RecordAdapter extends DefaultAdapter<TransferHistoryResponse> {
         holder.tvTransferFee.setText(holder.itemView.getContext().getString(R.string.money_prefix, data.getTransferFeeValue()));
         holder.tvTime.setText(DateTimeUtils.convertCalendarToString(DateTimeUtils.convertStringToCalendar(data.getTransferAt(), Constant.FORMAT_DATE_TIME_SERVER), Constant.FORMAT_DATE));
 
+        holder.tvLabelTransfer.setVisibility(transferMode ? View.VISIBLE : View.GONE);
+        holder.tvTransferFee.setVisibility(transferMode ? View.VISIBLE : View.GONE);
+
         holder.itemView.setOnClickListener(v -> {
             TransferHistoryResponse response = getItem(defaultHolder.getAdapterPosition());
             clickConsumer.accept(response.getFromPlayer());
@@ -76,6 +81,8 @@ public class RecordAdapter extends DefaultAdapter<TransferHistoryResponse> {
         CircleImageView ivAvatar;
         @BindView(R.id.tvName)
         ExtTextView tvName;
+        @BindView(R.id.tvLabelTransfer)
+        ExtTextView tvLabelTransfer;
         @BindView(R.id.tvTransferFee)
         ExtTextView tvTransferFee;
         @BindView(R.id.tvStatus)

@@ -73,7 +73,7 @@ public class LeaguesAdapter extends DefaultAdapter<LeagueResponse> {
                 holder.ivUpOrDown.setBackgroundResource(rankStatus > 0 ? R.drawable.bg_green_arrow_up_circle :
                         R.drawable.bg_green_arrow_down_red);
                 holder.ivUpOrDown.setImageResource(rankStatus > 0 ? R.drawable.ic_arrow_upward_white_small :
-                        R.drawable.ic_arrow_down_white_small);
+                        R.drawable.ic_arrow_down_white);
             }
 
             if (league.getRank() <= 3 && league.getRank() > 0) {

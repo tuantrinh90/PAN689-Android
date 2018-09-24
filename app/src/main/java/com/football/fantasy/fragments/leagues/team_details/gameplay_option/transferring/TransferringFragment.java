@@ -305,7 +305,7 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     private void transferPlayer(PlayerResponse player) {
         // append PlayerPool
         if (tvTransferringTimeLeftValue.isRunning()) {
-            if (currentTransfer <= 0) {
+            if (currentTransfer <= 0 || true) { // todo: check lại xem có cần check currentTransfer ko hoặc logic ở đây thế nào?
                 PlayerPoolFragment.start(
                         this,
                         getString(R.string.transferring_player),

@@ -137,6 +137,6 @@
             android:layout_marginTop="@dimen/padding_small"
             android:background="@drawable/bg_circle_yellow"
             android:padding="@dimen/padding_content"
-            android:src="@drawable/ic_add_white_small" />
+            app:srcCompat="@drawable/ic_add_white" />
     </LinearLayout>
 </LinearLayout>

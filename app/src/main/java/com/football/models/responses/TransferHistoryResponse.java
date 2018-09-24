@@ -12,21 +12,21 @@ public class TransferHistoryResponse implements Serializable {
     public static final int STATUS_IN = 1;
 
     @JsonProperty("id")
-    private Integer id;
+    private int id;
     @JsonProperty("created_at")
     private String createdAt;
     @JsonProperty("updated_at")
     private String updatedAt;
     @JsonProperty("from_player_id")
-    private Integer fromPlayerId;
+    private int fromPlayerId;
     @JsonProperty("from_player")
     private PlayerResponse fromPlayer;
     @JsonProperty("to_player_id")
-    private Integer toPlayerId;
+    private int toPlayerId;
     @JsonProperty("to_player")
     private PlayerResponse toPlayer;
     @JsonProperty("status")
-    private Integer status;
+    private int status;
     @JsonProperty("status_display")
     private String statusDisplay;
     @JsonProperty("transfer_fee")
@@ -34,11 +34,11 @@ public class TransferHistoryResponse implements Serializable {
     @JsonProperty("transfer_at")
     private String transferAt;
     @JsonProperty("with_team_id")
-    private Integer withTeamId;
+    private int withTeamId;
     @JsonProperty("with_team")
-    private Integer withTeam;
+    private TeamResponse withTeam;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -50,7 +50,7 @@ public class TransferHistoryResponse implements Serializable {
         return updatedAt;
     }
 
-    public Integer getFromPlayerId() {
+    public int getFromPlayerId() {
         return fromPlayerId;
     }
 
@@ -58,7 +58,7 @@ public class TransferHistoryResponse implements Serializable {
         return fromPlayer;
     }
 
-    public Integer getToPlayerId() {
+    public int getToPlayerId() {
         return toPlayerId;
     }
 
@@ -66,7 +66,7 @@ public class TransferHistoryResponse implements Serializable {
         return toPlayer;
     }
 
-    public Integer getStatus() {
+    public int getStatus() {
         return status;
     }
 
@@ -86,11 +86,11 @@ public class TransferHistoryResponse implements Serializable {
         return transferAt;
     }
 
-    public Integer getWithTeamId() {
+    public int getWithTeamId() {
         return withTeamId;
     }
 
-    public Integer getWithTeam() {
+    public TeamResponse getWithTeam() {
         return withTeam;
     }
 }

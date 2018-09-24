@@ -36,6 +36,7 @@ public class RecordDataPresenter extends BaseDataPresenter<IRecordView> implemen
 
                         @Override
                         public void onComplete() {
+                            v.stopLoading();
                         }
 
                         @Override

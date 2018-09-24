@@ -16,9 +16,8 @@ public class NotificationResponse implements Serializable {
     public static final String TYPE_WARNING = "warning";
 
 
-
     @JsonProperty("id")
-    private Integer id;
+    private int id;
     @JsonProperty("notification_time")
     private String notificationTime;
     @JsonProperty("key")
@@ -28,7 +27,7 @@ public class NotificationResponse implements Serializable {
     @JsonProperty("type")
     private String type;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -60,17 +59,41 @@ public class NotificationResponse implements Serializable {
 
     public static class Key implements Serializable {
 
-        @JsonProperty("league_id")
-        private Integer leagueId;
         @JsonProperty("action")
         private String action;
+        @JsonProperty("league_id")
+        private int leagueId;
+        @JsonProperty("team_name")
+        private String teamName;
+        @JsonProperty("my_team_id")
+        private int myTeamId;
+        @JsonProperty("team_id")
+        private int teamId;
+        @JsonProperty("player_id")
+        private int playerId;
 
-        public Integer getLeagueId() {
+        public int getLeagueId() {
             return leagueId;
         }
 
         public String getAction() {
             return action;
+        }
+
+        public String getTeamName() {
+            return teamName;
+        }
+
+        public int getMyTeamId() {
+            return myTeamId;
+        }
+
+        public int getTeamId() {
+            return teamId;
+        }
+
+        public int getPlayerId() {
+            return playerId;
         }
     }
 }
