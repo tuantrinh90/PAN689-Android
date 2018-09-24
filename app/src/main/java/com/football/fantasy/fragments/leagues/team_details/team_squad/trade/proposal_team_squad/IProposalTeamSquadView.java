@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface IProposalTeamSquadView extends IBaseMvpView {
     void displayPlayers(List<PlayerResponse> players);
+
+    void stopLoading();
 }

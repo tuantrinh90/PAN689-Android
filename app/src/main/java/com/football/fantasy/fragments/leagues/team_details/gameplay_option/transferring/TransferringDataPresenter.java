@@ -87,7 +87,8 @@ public class TransferringDataPresenter extends BaseDataPresenter<ITransferringVi
                             v.displayInjuredPlayers(response.getInjuredPlayers());
                             v.displayHeader(
                                     response.getCurrentTransferPlayer() < response.getMaxTransferPlayer(),
-                                    response.getTransferPlayerLeftDisplay(),
+                                    response.getCurrentTransferPlayer(),
+                                    response.getMaxTransferPlayer(),
                                     response.getTransferTimeLeft(),
                                     response.getTeam().getCurrentBudget());
                         }

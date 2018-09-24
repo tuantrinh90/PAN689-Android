@@ -3,6 +3,7 @@ package com.football.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageLoaderUtils;
@@ -56,7 +57,11 @@ public class TeamSquadAdapter extends DefaultAdapter<PlayerResponse> {
         holder.tvInjured.setText(data.getInjuredText(context));
         holder.tvInjured.setVisibility(data.getInjured() ? View.VISIBLE : View.GONE);
 
-        holder.ivAdd.setVisibility(!data.isTrading() && addCallback != null ? View.VISIBLE : View.GONE);
+        boolean b = !data.isTrading() && addCallback != null;
+        holder.ivAdd.setVisibility(addCallback != null ? View.VISIBLE : View.GONE);
+        holder.ivAdd.setEnabled(b);
+        holder.ivAdd.setImageResource(b ? R.drawable.ic_add_white_small : R.drawable.ic_check_green_24_px);
+        holder.ivAdd.setBackgroundResource(b ? R.drawable.bg_circle_yellow : 0);
 
         holder.itemView.setOnClickListener(v -> clickCallback.accept(getItem(defaultHolder.getAdapterPosition())));
         holder.ivAdd.setOnClickListener(v -> addCallback.accept(getItem(defaultHolder.getAdapterPosition())));
@@ -80,7 +85,7 @@ public class TeamSquadAdapter extends DefaultAdapter<PlayerResponse> {
         @BindView(R.id.tvValue)
         ExtTextView tvValue;
         @BindView(R.id.ivAdd)
-        View ivAdd;
+        ImageView ivAdd;
 
         public TeamSquadHolder(View itemView) {
             super(itemView);

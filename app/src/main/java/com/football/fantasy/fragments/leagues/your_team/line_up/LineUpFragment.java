@@ -16,7 +16,6 @@ import com.football.customizes.textview.ExtTextViewCountdown;
 import com.football.events.PickEvent;
 import com.football.events.PlayerEvent;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.leagues.player_details.PlayerDetailForLineupFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.StatisticResponse;
@@ -30,8 +29,6 @@ import io.reactivex.observers.DisposableObserver;
 import java8.util.function.BiConsumer;
 
 import static com.football.customizes.lineup.PlayerView.NONE_ORDER;
-import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_PICK;
-import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_PICKED;
 
 public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPresenter<V>> extends BaseMvpFragment<V, P> implements ILineUpView {
 
@@ -131,15 +128,7 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
         // setup lineupView
         lineupView.setupLineup(new PlayerResponse[18], new int[]{4, 6, 6, 2});
         lineupView.setAddCallback(this::onLineupViewAddClicked);
-        lineupView.setInfoCallback((player, position, order) -> PlayerDetailForLineupFragment.start(
-                this,
-                player,
-                -1,
-                getString(R.string.lineup),
-                league.getGameplayOption(),
-                player.getSelected() ? PICK_PICKED : PICK_PICK,
-                position,
-                order));
+        lineupView.setInfoCallback(this::onLineupViewInfoClicked);
         lineupView.setRemoveCallback(this::onLineupViewRemoveClicked);
     }
 
@@ -235,4 +224,8 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
     protected abstract void onAddClickedFromPopup(PlayerResponse player, int position, int order);
 
     protected abstract void onLineupViewRemoveClicked(PlayerResponse player, int position, int index);
+
+    protected abstract void onLineupViewInfoClicked(PlayerResponse player, int position, int order);
+
+
 }

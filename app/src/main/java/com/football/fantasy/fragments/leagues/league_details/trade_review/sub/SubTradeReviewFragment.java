@@ -9,6 +9,7 @@ import com.football.adapters.TradeReviewingAdapter;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.events.RequestProposalEvent;
+import com.football.events.TradeEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.proposal_reveiew.ProposalReviewFragment;
 import com.football.models.responses.LeagueResponse;
@@ -109,6 +110,24 @@ public class SubTradeReviewFragment extends BaseMvpFragment<ISubTradeReviewView,
                     .subscribeWith(new DisposableObserver<RequestProposalEvent>() {
                         @Override
                         public void onNext(RequestProposalEvent event) {
+                            refresh();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    }));
+            // action add click on PlayerList
+            mCompositeDisposable.add(bus.ofType(TradeEvent.class)
+                    .subscribeWith(new DisposableObserver<TradeEvent>() {
+                        @Override
+                        public void onNext(TradeEvent event) {
                             refresh();
                         }
 

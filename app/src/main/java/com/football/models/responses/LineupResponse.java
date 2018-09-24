@@ -15,6 +15,8 @@ public class LineupResponse implements Serializable {
     private List<PlayerResponse> players;
     @JsonProperty("statistic")
     private StatisticResponse statistic;
+    @JsonProperty("your_turn")
+    private PickTurnResponse yourTurn;
 
     public TeamResponse getTeam() {
         return team;
@@ -30,5 +32,9 @@ public class LineupResponse implements Serializable {
 
     public StatisticResponse getStatistic() {
         return statistic;
+    }
+
+    public PickTurnResponse getYourTurn() {
+        return yourTurn;
     }
 }

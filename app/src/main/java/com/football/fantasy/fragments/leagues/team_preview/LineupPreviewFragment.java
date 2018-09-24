@@ -14,6 +14,7 @@ import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.lineup.LineupView;
 import com.football.customizes.lineup.StatisticView;
 import com.football.fantasy.R;
+import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.StatisticResponse;
 import com.football.models.responses.TeamResponse;
@@ -27,7 +28,8 @@ import static com.football.customizes.lineup.PlayerView.NONE_ORDER;
 
 public class LineupPreviewFragment extends BaseMvpFragment<ILineupPreviewView, ITeamPreviewPresenter<ILineupPreviewView>> implements ILineupPreviewView {
 
-    private static final String KEY_TEAM = "TEAM_ID";
+    private static final String KEY_TEAM = "TEAM";
+    private static final String KEY_GAMEPLAY = "GAMEPLAY";
 
     @BindView(R.id.tvTitle)
     ExtTextView tvTitle;
@@ -44,17 +46,22 @@ public class LineupPreviewFragment extends BaseMvpFragment<ILineupPreviewView, I
     @BindView(R.id.tvBudget)
     ExtTextView tvBudget;
 
-    private TeamResponse team;
+    @BindView(R.id.bottom)
+    View bottom;
 
-    public static void start(Fragment fragment, TeamResponse team) {
+    private TeamResponse team;
+    private String gameplay;
+
+    public static void start(Fragment fragment, TeamResponse team, String gameplay) {
         AloneFragmentActivity.with(fragment)
-                .parameters(LineupPreviewFragment.newBundle(team))
+                .parameters(LineupPreviewFragment.newBundle(team, gameplay))
                 .start(LineupPreviewFragment.class);
     }
 
-    private static Bundle newBundle(TeamResponse team) {
+    private static Bundle newBundle(TeamResponse team, String gameplay) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_TEAM, team);
+        bundle.putString(KEY_GAMEPLAY, gameplay);
         return bundle;
     }
 
@@ -75,6 +82,7 @@ public class LineupPreviewFragment extends BaseMvpFragment<ILineupPreviewView, I
 
     private void getDataFromBundle() {
         team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
+        gameplay = getArguments().getString(KEY_GAMEPLAY);
     }
 
     @NonNull
@@ -96,6 +104,8 @@ public class LineupPreviewFragment extends BaseMvpFragment<ILineupPreviewView, I
     }
 
     private void initView() {
+        bottom.setVisibility(gameplay.equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER) ? View.VISIBLE : View.GONE);
+
         tvTitle.setText(team.getName());
 
         lineupView.setEditable(false);

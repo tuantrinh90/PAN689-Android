@@ -94,6 +94,8 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     private TeamResponse team;
     private LeagueResponse league;
 
+    private int currentTransfer;
+
     private String filterClubs = "";
     private String filterPositions = "";
     private int[] sorts = new int[]{Constant.SORT_NONE, Constant.SORT_NONE, Constant.SORT_NONE}; // -1: NONE, 0: desc, 1: asc
@@ -303,7 +305,18 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     private void transferPlayer(PlayerResponse player) {
         // append PlayerPool
         if (tvTransferringTimeLeftValue.isRunning()) {
-            PlayerPoolFragment.start(this, getString(R.string.transferring_player), getString(R.string.player_pool), player, league.getId(), -1);
+            if (currentTransfer <= 0) {
+                PlayerPoolFragment.start(
+                        this,
+                        getString(R.string.transferring_player),
+                        getString(R.string.player_pool),
+                        player,
+                        league.getId(),
+                        -1,
+                        league.getGameplayOption());
+            } else {
+                showMessage(getString(R.string.transferring_player_left_less_than_1));
+            }
         } else {
             DialogUtils.messageBox(mActivity,
                     0,
@@ -431,8 +444,9 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     }
 
     @Override
-    public void displayHeader(boolean canTransfer, String transferPlayerLeftDisplay, long transferTimeLeft, long budget) {
-        tvTransferringPlayerLeftValue.setText(transferPlayerLeftDisplay);
+    public void displayHeader(boolean canTransfer, int current, int max, long transferTimeLeft, long budget) {
+        currentTransfer = current;
+        tvTransferringPlayerLeftValue.setText(current + "/" + max);
         tvTransferringTimeLeftValue.setTime(transferTimeLeft);
         tvTransferringTimeLeftValue.start();
         tvBudgetValue.setText(getString(R.string.money_prefix, AppUtilities.getMoney(budget)));

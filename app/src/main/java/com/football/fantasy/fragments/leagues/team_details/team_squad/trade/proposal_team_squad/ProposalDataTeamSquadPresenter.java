@@ -39,11 +39,16 @@ public class ProposalDataTeamSquadPresenter extends BaseDataPresenter<IProposalT
             if (sortArray.length() > 0) {
                 queries.put("sort", sortArray.toString());
             }
-            queries.put("mode", "trade ");
+            queries.put("mode", "trade");
             mCompositeDisposable.add(RxUtilities.async(
                     v,
                     dataModule.getApiService().getTeamSquad(teamId, queries),
                     new ApiCallback<TeamSquadResponse>() {
+                        @Override
+                        public void onComplete() {
+                            v.stopLoading();
+                        }
+
                         @Override
                         public void onSuccess(TeamSquadResponse response) {
                             v.displayPlayers(response.getPlayers());

@@ -75,7 +75,7 @@ public class TeamListFragment extends BaseMvpFragment<ITeamListView, ITeamListPr
                 getContext(),
                 league.getOwner(),
                 team -> { // handle click
-                    LineupPreviewFragment.start(this, team);
+                    LineupPreviewFragment.start(this, team, LeagueResponse.GAMEPLAY_OPTION_TRANSFER);
                 },
                 null);
         rvTeam.adapter(teamAdapter)

@@ -302,7 +302,7 @@
     <string name="message_permission_image">Require permission to access, press OK to log in setting</string>
     <string name="current">Current</string>
     <string name="next">Next</string>
-    <string name="your_turn">Your turn</string>
+    <string name="your_turn">Your turn:</string>
     <string name="end_turn">End turn</string>
     <string name="play_match">Matches</string>
     <string name="win">Win</string>
@@ -360,10 +360,12 @@
     <string name="message_info_waving_player_left">Maximum number of waiving for each user depends on number of users in league. For 4//6//8//10//12 users are respectively 1//2//3//4//5 number of transfers</string>
     <string name="message_info_waving_time_left">Waiving time left is time remaining till waiving deadline. This time will be counted down and reset when new round starts</string>
     <string name="message_info_player_detail">All points of this player will be accumulated from the player joins the team.</string>
-    <string name="message_info_transfer_waving_deadline">Transfer/waiving deadline is deadline for user to implement transfer/waiving player from player pool. This time is 30 minutes prior to start of first real match in coming round.  This time will be reset when new round starts</string>
+    <string name="message_info_transfer_deadline">Transfer deadline is deadline for user to implement transfer player from player pool. This time is 30 minutes prior to start of first real match in coming round.  This time will be reset when new round starts</string>
+    <string name="message_info_waving_deadline">Waiving deadline is deadline for user to implement waiving player from player pool. This time is 30 minutes prior to start of first real match in coming round.  This time will be reset when new round starts</string>
     <string name="reviewing">Reviewing</string>
     <string name="pending_trade_request_max">You cannot send proposal because all your remaining requests are pending</string>
     <string name="can_not_update_number_of_user">can_not_update_number_of_user</string>
     <string name="can_not_update_time_per_draft">can_not_update_time_per_draft</string>
     <string name="can_not_update_team_setup_time">can_not_update_team_setup_time</string>
+    <string name="transferring_player_left_less_than_1"><![CDATA[currentTransfer <= 0]]></string>
 </resources>

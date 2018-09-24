@@ -30,6 +30,7 @@ import butterknife.OnClick;
 public class TradeRequestFragment extends BaseMvpFragment<ITradeRequestView, ITradeRequestPresenter<ITradeRequestView>> implements ITradeRequestView {
 
     private static final String KEY_TITLE = "TITLE";
+    private static final String KEY_MY_TEAM_ID = "MY_TEAM_ID";
     private static final String KEY_TEAM_ID = "TEAM_ID";
     private static final String KEY_TEAM_NAME = "TEAM_NAME";
     private static final String KEY_TEAM_SQUAD = "TEAM_SQUAD";
@@ -42,6 +43,7 @@ public class TradeRequestFragment extends BaseMvpFragment<ITradeRequestView, ITr
     ViewPager vpViewPager;
 
     private String title;
+    private int myTeamId;
     private int teamId;
     private String teamName;
     private TeamSquadResponse teamSquad;
@@ -49,15 +51,16 @@ public class TradeRequestFragment extends BaseMvpFragment<ITradeRequestView, ITr
     private int currentTradeRequest;
     private int pendingTradeRequest;
 
-    public static void start(Fragment fragment, String title, int teamId, String teamName, TeamSquadResponse teamSquad) {
+    public static void start(Fragment fragment, String title, int myTeamId, int teamId, String teamName, TeamSquadResponse teamSquad) {
         AloneFragmentActivity.with(fragment)
-                .parameters(TradeRequestFragment.newBundle(title, teamId, teamName, teamSquad))
+                .parameters(TradeRequestFragment.newBundle(title, myTeamId, teamId, teamName, teamSquad))
                 .start(TradeRequestFragment.class);
     }
 
-    private static Bundle newBundle(String title, int teamId, String teamName, TeamSquadResponse teamSquad) {
+    private static Bundle newBundle(String title, int myTeamId, int teamId, String teamName, TeamSquadResponse teamSquad) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_TITLE, title);
+        bundle.putInt(KEY_MY_TEAM_ID, myTeamId);
         bundle.putInt(KEY_TEAM_ID, teamId);
         bundle.putString(KEY_TEAM_NAME, teamName);
         bundle.putSerializable(KEY_TEAM_SQUAD, teamSquad);
@@ -80,6 +83,7 @@ public class TradeRequestFragment extends BaseMvpFragment<ITradeRequestView, ITr
 
     private void getDataFromBundle() {
         title = getArguments().getString(KEY_TITLE);
+        myTeamId = getArguments().getInt(KEY_MY_TEAM_ID);
         teamId = getArguments().getInt(KEY_TEAM_ID);
         teamName = getArguments().getString(KEY_TEAM_NAME);
         teamSquad = (TeamSquadResponse) getArguments().getSerializable(KEY_TEAM_SQUAD);
@@ -125,8 +129,8 @@ public class TradeRequestFragment extends BaseMvpFragment<ITradeRequestView, ITr
 
         // view pager
         StatePagerAdapter mAdapter = new StatePagerAdapter(getChildFragmentManager());
-        mAdapter.addFragment(RequestFragment.newInstance(RequestFragment.REQUEST_BY_YOU, teamSquad.getLeague(), teamId).setChildFragment(true));
-        mAdapter.addFragment(RequestFragment.newInstance(RequestFragment.REQUEST_TO_YOU, teamSquad.getLeague(), teamId).setChildFragment(true));
+        mAdapter.addFragment(RequestFragment.newInstance(RequestFragment.REQUEST_BY_YOU, teamSquad.getLeague(), myTeamId).setChildFragment(true));
+        mAdapter.addFragment(RequestFragment.newInstance(RequestFragment.REQUEST_TO_YOU, teamSquad.getLeague(), myTeamId).setChildFragment(true));
         vpViewPager.setAdapter(mAdapter);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -151,8 +155,6 @@ public class TradeRequestFragment extends BaseMvpFragment<ITradeRequestView, ITr
         this.pendingTradeRequest = pendingTradeRequest;
         this.currentTradeRequest = currentTradeRequest;
         this.maxTradeRequest = maxTradeRequest;
-
-
     }
 
     @OnClick(R.id.ivMoreNumberOfTradeLeft)

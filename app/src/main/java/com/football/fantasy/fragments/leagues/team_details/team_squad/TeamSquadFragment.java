@@ -33,6 +33,7 @@ import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANS
 public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSquadPresenter<ITeamSquadView>> implements ITeamSquadView {
 
     private static final String KEY_TEAM_NAME = "TEAM_NAME";
+    private static final String KEY_MY_TEAM_ID = "MY_TEAM_ID";
     private static final String KEY_TEAM_ID = "TEAM_ID";
     private static final String KEY_TITLE = "TITLE";
     private static final String KEY_STATUS = "STATUS";
@@ -48,6 +49,7 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
     @BindView(R.id.rvPlayer)
     ExtRecyclerView<PlayerResponse> rvPlayer;
 
+    private int myTeamId;
     private int teamId;
     private String teamName;
     private String title;
@@ -62,9 +64,10 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
     private List<ExtKeyValuePair> directions;
     private ExtKeyValuePair currentDirection;
 
-    public static Bundle newBundle(String title, int teamId, String teamName, int status) {
+    public static Bundle newBundle(String title, int myTeamId, int teamId, String teamName, int status) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_TEAM_NAME, teamName);
+        bundle.putInt(KEY_MY_TEAM_ID, myTeamId);
         bundle.putInt(KEY_TEAM_ID, teamId);
         bundle.putString(KEY_TITLE, title);
         bundle.putInt(KEY_STATUS, status);
@@ -114,6 +117,7 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
 
     private void getDataFromBundle() {
         title = getArguments().getString(KEY_TITLE);
+        myTeamId = getArguments().getInt(KEY_MY_TEAM_ID);
         teamId = getArguments().getInt(KEY_TEAM_ID);
         teamName = getArguments().getString(KEY_TEAM_NAME);
         status = getArguments().getInt(KEY_STATUS);
@@ -166,7 +170,7 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
 
     @OnClick(R.id.llTrade)
     void onClickTrade() {
-        TradeRequestFragment.start(this, getString(R.string.team_squad), teamId, teamName, teamSquad);
+        TradeRequestFragment.start(this, getString(R.string.team_squad), myTeamId, teamId, teamName, teamSquad);
     }
 
     @OnClick(R.id.tvSortByColumn)

@@ -9,6 +9,7 @@ import com.football.adapters.DraftTeamAdapter;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.team_preview.LineupPreviewFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
 
@@ -60,10 +61,9 @@ public class DraftTeamsFragment extends BaseMvpFragment<IDraftTeamsView, IDraftT
         DraftTeamAdapter adapter = new DraftTeamAdapter(
                 getContext(),
                 team -> {
-
                 },
                 team -> {
-
+                    LineupPreviewFragment.start(DraftTeamsFragment.this, team, LeagueResponse.GAMEPLAY_OPTION_DRAFT);
                 });
         rvTeam.adapter(adapter)
                 .refreshListener(this::refresh)

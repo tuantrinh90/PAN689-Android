@@ -36,7 +36,7 @@ public class ExtProgress extends ProgressBar {
 
     @Override
     public synchronized void setProgress(int progress) {
-        super.setProgress(progress * 1000);
+        super.setProgress(progress);
         currentDuration = progress * 1000;
     }
 

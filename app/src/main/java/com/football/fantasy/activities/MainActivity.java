@@ -163,6 +163,7 @@ public class MainActivity extends BaseActivity {
 
             int leagueId = getInteger(_leagueId);
             int teamId = getInteger(_teamId);
+            int myTeamId = getInteger(_myTeamId);
             int playerId = getInteger(_playerId);
 
             switch (action) {
@@ -200,7 +201,7 @@ public class MainActivity extends BaseActivity {
                 case PLAYER_INJURED:
                     // go LeagueDetail -> TeamSquad
                     AloneFragmentActivity.with(this)
-                            .parameters(TeamSquadFragment.newBundle(getString(R.string.home), teamId, teamName, -1)) // todo: cần server trả về League.status
+                            .parameters(TeamSquadFragment.newBundle(getString(R.string.home), myTeamId, teamId, teamName, -1)) // todo: cần server trả về League.status
                             .start(TeamSquadFragment.class);
                     break;
 

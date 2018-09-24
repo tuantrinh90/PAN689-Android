@@ -328,7 +328,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
     }
 
     private boolean isNotWaitingForStart() {
-        return league != null && league.getStatus() != WAITING_FOR_START;
+        return league != null && (league.getStatus() != WAITING_FOR_START || System.currentTimeMillis() < AppUtilities.getTimestamp(league.getStartAt()));
     }
 
     @NonNull
@@ -359,13 +359,15 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
     }
 
     private void calculateStartTime() {
-        // set default for start time
-        int draftEstimate = AppUtilities.getDraftEstimate(
-                Integer.valueOf(keyValuePairNumberOfUser.getKey()),
-                Integer.valueOf(keyValuePairTimePerDraft.getKey()));
-        calendarStartTime.setTime(calendarDraftTime.getTime());
-        calendarStartTime.add(Calendar.MINUTE, draftEstimate);
-        etStartTime.setContent(DateTimeUtils.convertCalendarToString(calendarStartTime, Constant.FORMAT_DATE_TIME));
+        if (llDraft.isActivated()) {
+            // set default for start time
+            int draftEstimate = AppUtilities.getDraftEstimate(
+                    Integer.valueOf(keyValuePairNumberOfUser.getKey()),
+                    Integer.valueOf(keyValuePairTimePerDraft.getKey()));
+            calendarStartTime.setTime(calendarDraftTime.getTime());
+            calendarStartTime.add(Calendar.MINUTE, draftEstimate);
+            etStartTime.setContent(DateTimeUtils.convertCalendarToString(calendarStartTime, Constant.FORMAT_DATE_TIME));
+        }
     }
 
     void formatDateTime() {
@@ -424,7 +426,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
 
     @OnClick(R.id.ivImagePick)
     void onClickImagePick() {
-        mActivity.getRxPermissions().request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+        mCompositeDisposable.add(mActivity.getRxPermissions().request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<Boolean>() {
                     @Override
@@ -459,7 +461,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                     public void onComplete() {
 
                     }
-                });
+                }));
     }
 
     @OnClick(R.id.lvGamePlayOption)
@@ -504,7 +506,6 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
     @OnClick(R.id.etNumberOfUser)
     void onClickNumberOfUser() {
         if (isNotWaitingForStart()) {
-            showMessage(getString(R.string.can_not_update_number_of_user)); //todo: fix message late
             return;
         }
 
@@ -515,6 +516,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                     if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
                         keyValuePairNumberOfUser = extKeyValuePair;
                         setUpdateNumberOfUser();
+
                         calculateStartTime();
                     }
                 })
@@ -551,7 +553,6 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
     @OnClick(R.id.etTimePerDraftPick)
     void onClickTimePerDraftPick() {
         if (isNotWaitingForStart()) {
-            showMessage(getString(R.string.can_not_update_time_per_draft)); //todo: fix message late
             return;
         }
 
@@ -572,7 +573,6 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
     @OnClick(R.id.etTeamSetupTime)
     void onClickTeamSetupTime() {
         if (isNotWaitingForStart()) {
-            showMessage(getString(R.string.can_not_update_team_setup_time)); //todo: fix message late
             return;
         }
 
@@ -584,8 +584,8 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                 .setCalendarConsumer(calendar -> {
                     inputChangedId = R.id.etTeamSetupTime;
                     calendarTeamSetupTime = calendar;
-                    calendarStartTime = DateTimeUtils.getCalendarNoTime(calendar.getTimeInMillis());
-                    etStartTime.setContent(DateTimeUtils.convertCalendarToString(calendarStartTime, Constant.FORMAT_DATE_TIME));
+                    calendarTeamSetupTime = DateTimeUtils.getCalendarNoTime(calendar.getTimeInMillis());
+                    etTeamSetupTime.setContent(DateTimeUtils.convertCalendarToString(calendarTeamSetupTime, Constant.FORMAT_DATE_TIME));
                 }).show(getFragmentManager(), null);
     }
 
@@ -720,13 +720,13 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                         league.getId(),
                         leagueTitle))
                 .start(SetupTeamFragment.class);
-        getActivity().finish();
+        mActivity.finish();
     }
 
     @Override
     public void updateSuccess(LeagueResponse league) {
         bus.send(new LeagueEvent(LeagueEvent.ACTION_UPDATE, league));
-        getActivity().finish();
+        mActivity.finish();
     }
 
     @Override

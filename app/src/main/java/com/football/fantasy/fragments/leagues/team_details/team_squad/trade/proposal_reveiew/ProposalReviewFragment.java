@@ -180,7 +180,7 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     }
 
     private boolean isApproved() {
-        return trade.getStatus().equals(TradeResponse.STATUS_SUCCESSFUL);
+        return trade.getReviewStatus() == TradeResponse.STATUS_SUCCESSFUL;
     }
 
     private void displayPlayerViews() {

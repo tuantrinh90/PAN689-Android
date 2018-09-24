@@ -16,4 +16,5 @@ public class SocketEventKey {
     public static final String EVENT_ADD_PLAYER = "event_add_player";
     public static final String EVENT_CHANGE_LINEUP = "event_change_lineup";
     public static final String EVENT_TRANSFER_TIME_LEFT = "event_transfer_time_left";
+    public static final String EVENT_END_TURN = "event_end_turn";
 }

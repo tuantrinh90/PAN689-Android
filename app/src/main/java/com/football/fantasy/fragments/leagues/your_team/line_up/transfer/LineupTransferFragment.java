@@ -11,6 +11,7 @@ import com.football.customizes.lineup.PlayerView;
 import com.football.events.LineupEvent;
 import com.football.events.TeamEvent;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.player_details.PlayerDetailForLineupFragment;
 import com.football.fantasy.fragments.leagues.your_team.line_up.LineUpFragment;
 import com.football.fantasy.fragments.leagues.your_team.players_popup.PlayerPopupFragment;
 import com.football.models.responses.LeagueResponse;
@@ -22,6 +23,8 @@ import com.football.utilities.Constant;
 import butterknife.OnClick;
 
 import static com.football.customizes.lineup.PlayerView.NONE_ORDER;
+import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_PICK;
+import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_PICKED;
 
 public class LineupTransferFragment extends LineUpFragment<ILineupTransferView, ILineupTransferPresenter<ILineupTransferView>> implements ILineupTransferView {
 
@@ -81,6 +84,19 @@ public class LineupTransferFragment extends LineUpFragment<ILineupTransferView, 
                 (dialog, which) -> presenter.removePlayer(player, position, teamId),
                 (dialog, which) -> {
                 });
+    }
+
+    @Override
+    protected void onLineupViewInfoClicked(PlayerResponse player, int position, int order) {
+        PlayerDetailForLineupFragment.start(
+                this,
+                player,
+                -1,
+                getString(R.string.lineup),
+                league.getGameplayOption(),
+                player.getSelected() ? PICK_PICKED : PICK_PICK,
+                position,
+                order);
     }
 
     private void setupTransferMode() {

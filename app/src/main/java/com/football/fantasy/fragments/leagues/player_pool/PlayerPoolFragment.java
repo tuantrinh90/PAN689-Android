@@ -41,6 +41,7 @@ import io.reactivex.observers.DisposableObserver;
 
 import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_PICK;
 import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_PICKED;
+import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_DRAFT;
 import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
 
 public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayerPoolPresenter<IPlayerPoolView>> implements IPlayerPoolView {
@@ -52,6 +53,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     private static final String KEY_TRANSFER = "TRANSFER";
     private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
     private static final String KEY_SEASON_ID_TO_TRANSFER = "SEASON_ID_TO_TRANSFER";
+    private static final String KEY_GAMEPLAY = "GAMEPLAY";
 
     private static final int LEAGUE_ID_NONE = 0;
     private static final int SEASON_ID_NONE = 0;
@@ -91,6 +93,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     private PlayerResponse playerTransfer;
     private int leagueId;
     private int seasonIdToTransfer;
+    private String gameplay;
 
     private int page = Constant.PAGE_START_INDEX;
     private String filterClubs = "";
@@ -101,31 +104,32 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     private List<SeasonResponse> seasons;
     private String query = "";
 
-    public static void start(Fragment fragment, String title, String headerTitle, PlayerResponse transfer, int leagueId, int seasonId) {
+    public static void start(Fragment fragment, String title, String headerTitle, PlayerResponse transfer, int leagueId, int seasonId, String gameplay) {
         AloneFragmentActivity.with(fragment)
-                .parameters(PlayerPoolFragment.newBundle(title, headerTitle, transfer, leagueId, seasonId))
+                .parameters(PlayerPoolFragment.newBundle(title, headerTitle, transfer, leagueId, seasonId, gameplay))
                 .start(PlayerPoolFragment.class);
     }
 
     public static void start(Fragment fragment, String title) {
         AloneFragmentActivity.with(fragment)
-                .parameters(PlayerPoolFragment.newBundle(title, "", null, LEAGUE_ID_NONE, SEASON_ID_NONE))
+                .parameters(PlayerPoolFragment.newBundle(title, "", null, LEAGUE_ID_NONE, SEASON_ID_NONE, ""))
                 .start(PlayerPoolFragment.class);
     }
 
     public static void start(Context context, String title) {
         AloneFragmentActivity.with(context)
-                .parameters(PlayerPoolFragment.newBundle(title, "", null, LEAGUE_ID_NONE, SEASON_ID_NONE))
+                .parameters(PlayerPoolFragment.newBundle(title, "", null, LEAGUE_ID_NONE, SEASON_ID_NONE, ""))
                 .start(PlayerPoolFragment.class);
     }
 
-    private static Bundle newBundle(String title, String headerTitle, PlayerResponse transfer, int leagueId, int seasonId) {
+    private static Bundle newBundle(String title, String headerTitle, PlayerResponse transfer, int leagueId, int seasonId, String gameplay) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_TITLE, title);
         bundle.putString(KEY_HEADER_TITLE, headerTitle);
         bundle.putSerializable(KEY_TRANSFER, transfer);
         bundle.putInt(KEY_LEAGUE_ID, leagueId);
         bundle.putInt(KEY_SEASON_ID_TO_TRANSFER, seasonId);
+        bundle.putString(KEY_GAMEPLAY, gameplay);
         return bundle;
     }
 
@@ -155,6 +159,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
         playerTransfer = (PlayerResponse) getArguments().getSerializable(KEY_TRANSFER);
         leagueId = getArguments().getInt(KEY_LEAGUE_ID);
         seasonIdToTransfer = getArguments().getInt(KEY_SEASON_ID_TO_TRANSFER);
+        gameplay = getArguments().getString(KEY_GAMEPLAY);
     }
 
     private void registerBus() {
@@ -263,9 +268,11 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     void initData() {
 
         // display default
-        displayPairs.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_1);
+        boolean isTransfer = !gameplay.equals(GAMEPLAY_OPTION_DRAFT);
+        if (isTransfer) displayPairs.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_1);
         displayPairs.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_2);
         displayPairs.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_3);
+        if (!isTransfer) displayPairs.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_4);
 
         PlayerPoolAdapter adapter;
         adapter = new PlayerPoolAdapter(
@@ -399,7 +406,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
                 }
                 AloneFragmentActivity.with(this)
                         .forResult(REQUEST_DISPLAY)
-                        .parameters(DisplayConfigFragment.newBundle(true, TAG, displays.toString()))
+                        .parameters(DisplayConfigFragment.newBundle(!gameplay.equals(GAMEPLAY_OPTION_DRAFT), TAG, displays.toString()))
                         .start(DisplayConfigFragment.class);
                 break;
 

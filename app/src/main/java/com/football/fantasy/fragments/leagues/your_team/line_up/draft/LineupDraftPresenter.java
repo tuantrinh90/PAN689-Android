@@ -18,6 +18,8 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
     @Override
     protected void setLineup(LineupResponse response) {
         getOptView().doIfPresent(v -> {
+            if (response.getYourTurn() != null)
+                v.displayYourTurn(response.getYourTurn());
             v.displayLineupPlayers(response.getPlayers());
             v.displayStatistic(response.getStatistic());
         });
@@ -94,6 +96,7 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
 
                         @Override
                         public void onSuccess(Object response) {
+
                         }
 
                         @Override

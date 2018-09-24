@@ -107,7 +107,8 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
 
     @OnClick(R.id.ivInfoTransferDeadline)
     void onInfoClicked() {
-        showMessage(getString(R.string.message_info_transfer_waving_deadline));
+        boolean isTransfer = league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER);
+        showMessage(getString(isTransfer ? R.string.message_info_transfer_deadline : R.string.message_info_waving_deadline));
     }
 
     @OnClick(R.id.tvSetupTeam)

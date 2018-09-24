@@ -57,6 +57,8 @@ public class TradeResponse implements Serializable {
     private int totalPlayer;
     @JsonProperty("items")
     private List<TradeDetailResponse> items;
+    @JsonProperty("review_status")
+    private int reviewStatus;
 
     public Integer getId() {
         return id;
@@ -132,5 +134,9 @@ public class TradeResponse implements Serializable {
 
     public List<TradeDetailResponse> getItems() {
         return items;
+    }
+
+    public int getReviewStatus() {
+        return reviewStatus;
     }
 }

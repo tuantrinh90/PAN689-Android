@@ -206,4 +206,9 @@ public class ProposalTeamSquadFragment extends BaseMvpFragment<IProposalTeamSqua
     public void displayPlayers(List<PlayerResponse> players) {
         rvPlayer.addItems(StreamSupport.stream(players).filter(player -> !ids.contains(player.getId())).collect(Collectors.toList()));
     }
+
+    @Override
+    public void stopLoading() {
+        rvPlayer.stopLoading();
+    }
 }
