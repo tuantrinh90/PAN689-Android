@@ -8,4 +8,5 @@ public interface ITeamSquadView extends IBaseMvpView {
 
     void displayTeamSquad(TeamSquadResponse response);
 
+    void handleAction();
 }

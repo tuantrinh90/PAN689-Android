@@ -25,8 +25,8 @@ public class TradeReviewFragment extends BaseMvpFragment<ITradeReviewView, ITrad
 
     static final String KEY_LEAGUE = "key_leagues";
 
-    private static final int INDEX_REVIEWING = 0;
-    private static final int INDEX_RESULTS = 1;
+    public static final int INDEX_REVIEWING = 0;
+    public static final int INDEX_RESULTS = 1;
 
     @BindView(R.id.text_reviewing)
     ExtTextView textReviewing;
@@ -39,6 +39,9 @@ public class TradeReviewFragment extends BaseMvpFragment<ITradeReviewView, ITrad
     @BindView(R.id.view_pager)
     ViewPager viewPager;
 
+    private int index;
+    private int previewTradeId;
+
     public static TradeReviewFragment newInstance(LeagueResponse league) {
 
         Bundle args = new Bundle();
@@ -49,7 +52,7 @@ public class TradeReviewFragment extends BaseMvpFragment<ITradeReviewView, ITrad
         return fragment;
     }
 
-    public static Bundle newBundle(LeagueResponse leagueResponse) {
+    private static Bundle newBundle(LeagueResponse leagueResponse) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_LEAGUE, leagueResponse);
         return bundle;
@@ -78,8 +81,8 @@ public class TradeReviewFragment extends BaseMvpFragment<ITradeReviewView, ITrad
         buttonTeamSelected(true);
 
         viewPager.setAdapter(new YourTeamViewPagerAdapter(getFragmentManager(), new ArrayList<BaseMvpFragment>() {{
-            add(SubTradeReviewFragment.newInstance(TradeResponse.TYPE_REVIEWING, league).setChildFragment(true));
-            add(SubTradeReviewFragment.newInstance(TradeResponse.TYPE_REVIEWED, league).setChildFragment(true));
+            add(SubTradeReviewFragment.newInstance(TradeResponse.TYPE_REVIEWING, league, previewTradeId).setChildFragment(true));
+            add(SubTradeReviewFragment.newInstance(TradeResponse.TYPE_REVIEWED, league, previewTradeId).setChildFragment(true));
         }}));
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -98,6 +101,9 @@ public class TradeReviewFragment extends BaseMvpFragment<ITradeReviewView, ITrad
 
             }
         });
+        if (index > 0) {
+            viewPager.setCurrentItem(index);
+        }
     }
 
 
@@ -131,5 +137,14 @@ public class TradeReviewFragment extends BaseMvpFragment<ITradeReviewView, ITrad
                 viewPager.setCurrentItem(INDEX_RESULTS);
                 break;
         }
+    }
+
+    public void openFragment(int index) {
+        this.index = index;
+        viewPager.setCurrentItem(index);
+    }
+
+    public void openTradeProposalReview(int tradeId) {
+        previewTradeId = tradeId;
     }
 }

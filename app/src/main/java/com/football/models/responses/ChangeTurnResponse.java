@@ -12,6 +12,8 @@ public class ChangeTurnResponse implements Serializable {
     private TurnResponse current;
     @JsonProperty("next")
     private TurnResponse next;
+    @JsonProperty("next2")
+    private TurnResponse next2;
 
     public TurnResponse getPrevious() {
         return previous;
@@ -23,5 +25,9 @@ public class ChangeTurnResponse implements Serializable {
 
     public TurnResponse getNext() {
         return next;
+    }
+
+    public TurnResponse getNext2() {
+        return next2;
     }
 }

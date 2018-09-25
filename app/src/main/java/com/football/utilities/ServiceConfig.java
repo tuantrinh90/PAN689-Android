@@ -103,6 +103,7 @@ public interface ServiceConfig {
     String CHANGE_TEAM_FORMATION = "teams/{id}/change_formation";
     String TEAM_PITCH_VIEW = "teams/{id}/pitchview";
     String ROUNDS_OF_LEAGUE = "leagues/{id}/rounds_of_league"; // never used
+    String END_TURN = "teams/{id}/end_turn";
 
     // trade request
     String TRADE_REQUESTS = "trade_requests";

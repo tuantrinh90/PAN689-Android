@@ -96,6 +96,10 @@ public interface IApiService {
     @POST(ServiceConfig.TEAM_PITCH_VIEW)
     Observable<BaseResponse<TeamPitchViewResponse>> updatePitchView(@Path(ServiceConfig.KEY_ID) int playerId, @Body RequestBody requestBody, @QueryMap Map<String, String> queries);
 
+    @POST(ServiceConfig.END_TURN)
+    Observable<BaseResponse<Object>> endTurn(@Path(ServiceConfig.KEY_ID) int teamId, @Body RequestBody requestBody);
+
+
     @GET(ServiceConfig.TRADE_REQUESTS)
     Observable<BaseResponse<PagingResponse<TradeResponse>>> getTradeRequests(@QueryMap Map<String, String> queries);
 

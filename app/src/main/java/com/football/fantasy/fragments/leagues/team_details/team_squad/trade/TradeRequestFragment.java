@@ -34,6 +34,10 @@ public class TradeRequestFragment extends BaseMvpFragment<ITradeRequestView, ITr
     private static final String KEY_TEAM_ID = "TEAM_ID";
     private static final String KEY_TEAM_NAME = "TEAM_NAME";
     private static final String KEY_TEAM_SQUAD = "TEAM_SQUAD";
+    private static final String KEY_TAB_INDEX = "TAB_INDEX";
+
+    public static final int REQUEST_BY_YOU_INDEX = 0;
+    public static final int REQUEST_TO_YOU_INDEX = 1;
 
     @BindView(R.id.tvNumberOfTradeLeft)
     ExtTextView tvNumberOfTradeLeft;
@@ -47,23 +51,26 @@ public class TradeRequestFragment extends BaseMvpFragment<ITradeRequestView, ITr
     private int teamId;
     private String teamName;
     private TeamSquadResponse teamSquad;
+    private int tabIndex;
+
     private int maxTradeRequest;
     private int currentTradeRequest;
     private int pendingTradeRequest;
 
-    public static void start(Fragment fragment, String title, int myTeamId, int teamId, String teamName, TeamSquadResponse teamSquad) {
+    public static void start(Fragment fragment, String title, int myTeamId, int teamId, String teamName, TeamSquadResponse teamSquad, int tabIndex) {
         AloneFragmentActivity.with(fragment)
-                .parameters(TradeRequestFragment.newBundle(title, myTeamId, teamId, teamName, teamSquad))
+                .parameters(TradeRequestFragment.newBundle(title, myTeamId, teamId, teamName, teamSquad, tabIndex))
                 .start(TradeRequestFragment.class);
     }
 
-    private static Bundle newBundle(String title, int myTeamId, int teamId, String teamName, TeamSquadResponse teamSquad) {
+    private static Bundle newBundle(String title, int myTeamId, int teamId, String teamName, TeamSquadResponse teamSquad, int tabIndex) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_TITLE, title);
         bundle.putInt(KEY_MY_TEAM_ID, myTeamId);
         bundle.putInt(KEY_TEAM_ID, teamId);
         bundle.putString(KEY_TEAM_NAME, teamName);
         bundle.putSerializable(KEY_TEAM_SQUAD, teamSquad);
+        bundle.putInt(KEY_TAB_INDEX, tabIndex);
         return bundle;
     }
 
@@ -87,6 +94,7 @@ public class TradeRequestFragment extends BaseMvpFragment<ITradeRequestView, ITr
         teamId = getArguments().getInt(KEY_TEAM_ID);
         teamName = getArguments().getString(KEY_TEAM_NAME);
         teamSquad = (TeamSquadResponse) getArguments().getSerializable(KEY_TEAM_SQUAD);
+        tabIndex = getArguments().getInt(KEY_TAB_INDEX);
     }
 
     @Override
@@ -115,6 +123,10 @@ public class TradeRequestFragment extends BaseMvpFragment<ITradeRequestView, ITr
 
     void initView() {
         initPages();
+
+        if (tabIndex != -1) {
+            vpViewPager.setCurrentItem(tabIndex);
+        }
     }
 
     private void initPages() {

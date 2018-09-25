@@ -25,15 +25,17 @@ public class SubTradeReviewFragment extends BaseMvpFragment<ISubTradeReviewView,
 
     private static final String KEY_TYPE = "TYPE";
     private static final String KEY_LEAGUE = "LEAGUE";
+    private static final String KEY_PREVIEW_TRADE_ID = "PREVIEW_TRADE_ID";
 
 
     @BindView(R.id.rv_reviews)
     ExtRecyclerView<TradeResponse> rvReviews;
 
-    public static SubTradeReviewFragment newInstance(String type, LeagueResponse league) {
+    public static SubTradeReviewFragment newInstance(String type, LeagueResponse league, int previewTradeId) {
         Bundle args = new Bundle();
         args.putString(KEY_TYPE, type);
         args.putSerializable(KEY_LEAGUE, league);
+        args.putInt(KEY_PREVIEW_TRADE_ID, previewTradeId);
 
         SubTradeReviewFragment fragment = new SubTradeReviewFragment();
         fragment.setArguments(args);
@@ -42,6 +44,8 @@ public class SubTradeReviewFragment extends BaseMvpFragment<ISubTradeReviewView,
 
     private String type;
     private LeagueResponse league;
+    private int previewTradeId;
+
     private int page = 1;
 
     @Override
@@ -65,6 +69,7 @@ public class SubTradeReviewFragment extends BaseMvpFragment<ISubTradeReviewView,
     private void getDataFromBundle() {
         type = getArguments().getString(KEY_TYPE);
         league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
+        previewTradeId = getArguments().getInt(KEY_PREVIEW_TRADE_ID);
     }
 
     @NonNull
@@ -79,6 +84,8 @@ public class SubTradeReviewFragment extends BaseMvpFragment<ISubTradeReviewView,
                 type,
                 trade -> {
                     if (type.equals(TradeResponse.TYPE_REVIEWING)) {
+                        ProposalReviewFragment.start(getContext(), getString(R.string.trade_request), trade);
+                    } else {
                         ProposalReviewFragment.start(getContext(), getString(R.string.trade_request), trade);
                     }
                 });

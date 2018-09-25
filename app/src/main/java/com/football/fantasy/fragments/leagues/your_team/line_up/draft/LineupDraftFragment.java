@@ -54,6 +54,8 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
 
     private PlayerView playerViewSelected;
     private boolean pickEnable = false;
+    private int currentRequestId;
+    private TurnResponse currentTurn;
 
     @NonNull
     @Override
@@ -105,25 +107,27 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     private void registerSocket() {
         getAppContext().getSocket().on(SocketEventKey.EVENT_CHANGE_TURN, args -> {
             Log.i(SocketEventKey.EVENT_CHANGE_TURN, "");
-            mActivity.runOnUiThread(() -> {
-                textCountdown.stop();
-                draftCountdown.setVisibility(View.GONE);
-                draftTurn.setVisibility(View.VISIBLE);
-                draftLoading.setVisibility(View.GONE);
+            if (args != null && args.length > 0 && args[0] != null) {
+                JSONObject jsonObject = (JSONObject) args[0];
+                ChangeTurnResponse response = JacksonUtils.convertJsonToObject(jsonObject.toString(), ChangeTurnResponse.class);
+                Log.i(TAG, "EVENT_CHANGE_TURN: " + jsonObject.toString());
+                if (response != null && currentRequestId != response.getCurrent().getId()) {
+                    currentRequestId = response.getCurrent().getId();
+                    currentTurn = response.getCurrent();
+                    TurnResponse next = response.getNext();
+                    TurnResponse next2 = response.getNext2();
+                    mActivity.runOnUiThread(() -> {
+                        textCountdown.stop();
+                        draftCountdown.setVisibility(View.GONE);
+                        draftTurn.setVisibility(View.VISIBLE);
+                        draftLoading.setVisibility(View.GONE);
 
-                if (args != null && args.length > 0 && args[0] != null) {
-                    JSONObject jsonObject = (JSONObject) args[0];
-                    Log.i(TAG, "EVENT_CHANGE_TURN: " + jsonObject.toString());
-                    ChangeTurnResponse response = JacksonUtils.convertJsonToObject(jsonObject.toString(), ChangeTurnResponse.class);
-                    if (response != null) {
-                        TurnResponse current = response.getCurrent();
-                        TurnResponse next = response.getNext();
-                        setTurn(current, next, current.getDraftTimeLeft());
-                    }
-                } else {
-                    Log.e(TAG, "SocketEventKey.EVENT_CHANGE_TURN: args are null");
+                        setTurn(currentTurn, next, next2, currentTurn.getDraftTimeLeft());
+                    });
                 }
-            });
+            } else {
+                Log.e(TAG, "SocketEventKey.EVENT_CHANGE_TURN: args are null");
+            }
         });
 
         getAppContext().getSocket().on(SocketEventKey.EVENT_CHANGE_LINEUP, args -> {
@@ -145,12 +149,13 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         getAppContext().getSocket().on(SocketEventKey.EVENT_END_TURN, args -> {
             Log.i(SocketEventKey.EVENT_END_TURN, "");
             mActivity.runOnUiThread(() -> {
-                draftHeader.setVisibility(View.GONE);
+//                draftHeader.setVisibility(View.GONE);
             });
         });
     }
 
-    private void setTurn(TurnResponse current, TurnResponse next, int timeLeft) {
+    private void setTurn(TurnResponse current, TurnResponse next, TurnResponse next2, int timeLeft) {
+        currentTurn = current;
         draftTeam.setVisibility(View.VISIBLE);
         // if your turn, visible view
         if (current != null && current.getTeam().getId() == teamId) {
@@ -159,7 +164,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             // enable lineupView
             enableLineupView(true);
 
-            // set current team's Name
+            // set currentTurn team's Name
             tvDraftCurrentTeam.setText("YOUR TURN");
         } else {
             setYourTurn(false);
@@ -167,7 +172,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             // disable lineupView
             enableLineupView(false);
 
-            // set current team's Name
+            // set currentTurn team's Name
             tvDraftCurrentTeam.setText(current != null ? current.getTeam().getName() : "null");
         }
 
@@ -176,7 +181,11 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         tvDraftCurrentTimeLeft.setFormatType(ExtTextViewCountdown.FORMAT_NUMBER_HOURS);
         tvDraftCurrentTimeLeft.start();
         tvDraftCurrentTimeLeft.setTimeoutCallback(aVoid -> {
-            setTurn(next, null, MAX_SECONDS_CHANGE_TURN);
+            setTurn(next, next2, null, MAX_SECONDS_CHANGE_TURN);
+
+            // call End turn
+            endTurn();
+            presenter.joinDraftPick(league.getId());
         });
 
         // set next team's name
@@ -206,14 +215,17 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         pickEnable = enable;
     }
 
+    private void endTurn() {
+        if (currentTurn != null) {
+            presenter.endTurn(teamId, currentTurn.getRound(), currentTurn.getOrder());
+        }
+    }
+
     @OnClick({R.id.tvDraftEndTurn})
     public void onClicked(View view) {
         switch (view.getId()) {
             case R.id.tvDraftEndTurn:
-                if (playerViewSelected != null) {
-                    presenter.addPlayer(playerViewSelected.getPlayer(), teamId, playerViewSelected.getPosition(), playerViewSelected.getOrder());
-                    playerViewSelected = null;
-                }
+                endTurn();
                 break;
         }
     }

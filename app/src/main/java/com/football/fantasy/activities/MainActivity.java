@@ -61,11 +61,19 @@ import static com.football.services.NotificationKey.SCORE_OF_REAL_MATCH_HAS_BEEN
 import static com.football.services.NotificationKey.START_LEAGUE;
 import static com.football.services.NotificationKey.TEAM_SETUP_TIME;
 import static com.football.services.NotificationKey.TIME_REAL_MATCH_CHANGED;
+import static com.football.services.NotificationKey.TRADE_PROPOSAL_APPROVED;
+import static com.football.services.NotificationKey.TRADE_PROPOSAL_CANCELLED;
+import static com.football.services.NotificationKey.TRADE_PROPOSAL_INVALID;
+import static com.football.services.NotificationKey.TRADE_PROPOSAL_REJECTED;
+import static com.football.services.NotificationKey.TRANSACTION_RESULT;
+import static com.football.services.NotificationKey.TWO_HOURS_TO_REVIEW;
+import static com.football.services.NotificationKey.TWO_HOURS_TO_TRADE_PROPOSAL_DEADLINE;
 import static com.football.services.NotificationKey.USER_ACCEPT_INVITE;
 import static com.football.services.NotificationKey.USER_JOINED_LEAGUE;
 import static com.football.services.NotificationKey.USER_LEFT_LEAGUE;
 import static com.football.services.NotificationKey.USER_RECEIVE_INVITE;
 import static com.football.services.NotificationKey.USER_REJECT_INVITE;
+import static com.football.services.NotificationKey.USER_TRANSACTION_RESULT;
 import static com.football.services.NotificationKey.VALUE_OF_PLAYER_CHANGED;
 import static com.football.utilities.ServiceConfig.DEEP_LINK;
 
@@ -74,6 +82,7 @@ public class MainActivity extends BaseActivity {
     public static final String KEY_ACTION = "action";
     public static final String KEY_TEAM_NAME = "team_name";
     public static final String KEY_LEAGUE_ID = "league_id";
+    public static final String KEY_LEAGUE_STATUS = "league_status";
     public static final String KEY_MY_TEAM_ID = "my_team_id";
     public static final String KEY_TEAM_ID = "team_id";
     public static final String KEY_PLAYER_ID = "player_id";
@@ -158,16 +167,17 @@ public class MainActivity extends BaseActivity {
         if (intent != null && !TextUtils.isEmpty(intent.getStringExtra(KEY_ACTION))) {
             String action = intent.getStringExtra(KEY_ACTION);
             String teamName = intent.getStringExtra(KEY_TEAM_NAME);
-            int leagueId = intent.getIntExtra(KEY_LEAGUE_ID, -1);
-            int myTeamId = intent.getIntExtra(KEY_MY_TEAM_ID, -1);
-            int teamId = intent.getIntExtra(KEY_TEAM_ID, -1);
-            int playerId = intent.getIntExtra(KEY_PLAYER_ID, -1);
+            int leagueId = getInteger(intent, KEY_LEAGUE_ID);
+            int leagueStatus = getInteger(intent, KEY_LEAGUE_STATUS); // todo: cần server trả về League.status: FINISH, ON_GOING
+            int myTeamId = getInteger(intent, KEY_MY_TEAM_ID);
+            int teamId = getInteger(intent, KEY_TEAM_ID);
+            int playerId = getInteger(intent, KEY_PLAYER_ID);
 
-            handleAction(action, leagueId, teamId, teamName, myTeamId, playerId);
+            handleAction(action, leagueId, leagueStatus, teamId, teamName, myTeamId, playerId);
         }
     }
 
-    public void handleAction(String action, int leagueId, int teamId, String teamName, int myTeamId, int playerId) {
+    public void handleAction(String action, int leagueId, int leagueStatus, int teamId, String teamName, int myTeamId, int playerId) {
         switch (action) {
             // League detail
             case USER_LEFT_LEAGUE:
@@ -177,7 +187,7 @@ public class MainActivity extends BaseActivity {
             case CHANGE_TEAM_NAME: // action này chưa hiểu lắm
             case BEFORE_TRANSFER_DEADLINE_2H:
                 AloneFragmentActivity.with(this)
-                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, -1))
+                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, -1, action))
                         .start(LeagueDetailFragment.class);
                 break;
 
@@ -187,7 +197,7 @@ public class MainActivity extends BaseActivity {
             case USER_REJECT_INVITE:
             case CHANGE_OWNER_LEAGUE:
                 AloneFragmentActivity.with(this)
-                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, LeagueDetailFragment.TEAM_FRAGMENT_INDEX))
+                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, LeagueDetailFragment.TEAM_FRAGMENT_INDEX, action))
                         .start(LeagueDetailFragment.class);
                 break;
 
@@ -195,7 +205,7 @@ public class MainActivity extends BaseActivity {
             case LEAGUE_FINISH:
             case LEAGUE_FINISH_FOR_CHAMPION:
                 AloneFragmentActivity.with(this)
-                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, LeagueDetailFragment.RANKING))
+                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, LeagueDetailFragment.RANKING, action))
                         .start(LeagueDetailFragment.class);
                 break;
 
@@ -203,7 +213,7 @@ public class MainActivity extends BaseActivity {
             case PLAYER_INJURED:
                 // go LeagueDetail -> TeamSquad
                 AloneFragmentActivity.with(this)
-                        .parameters(TeamSquadFragment.newBundle(getString(R.string.home), myTeamId, teamId, teamName, -1)) // todo: cần server trả về League.status
+                        .parameters(TeamSquadFragment.newBundle(getString(R.string.home), myTeamId, teamId, teamName, leagueStatus, action))
                         .start(TeamSquadFragment.class);
                 break;
 
@@ -220,7 +230,7 @@ public class MainActivity extends BaseActivity {
             case BEFORE_TEAM_SETUP_TIME_2H:
             case RANDOM_TEAM:
                 AloneFragmentActivity.with(this)
-                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, LeagueDetailFragment.SETUP_TEAM))
+                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, LeagueDetailFragment.SETUP_TEAM, action))
                         .start(LeagueDetailFragment.class);
                 break;
 
@@ -228,14 +238,14 @@ public class MainActivity extends BaseActivity {
             case FULL_TEAM:
             case COMPLETE_SETUP_TEAM:
                 AloneFragmentActivity.with(this)
-                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, LeagueDetailFragment.TEAM_FRAGMENT_INDEX))
+                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, LeagueDetailFragment.TEAM_FRAGMENT_INDEX, action))
                         .start(LeagueDetailFragment.class);
                 break;
 
             // Edit league
             case BEFORE_TEAM_SETUP_TIME_1H:
                 AloneFragmentActivity.with(this)
-                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, LeagueDetailFragment.EDIT_LEAGUE))
+                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, LeagueDetailFragment.EDIT_LEAGUE, action))
                         .start(LeagueDetailFragment.class);
                 break;
 
@@ -280,7 +290,28 @@ public class MainActivity extends BaseActivity {
 
             // Accept/Reject screen
             case NEW_TRADE_PROPOSAL:
+            case TWO_HOURS_TO_TRADE_PROPOSAL_DEADLINE:
+                // TODO: chưa làm
+                break;
 
+            // Trade proposal - List - tab request to you
+            case TRADE_PROPOSAL_CANCELLED:
+            case TRADE_PROPOSAL_REJECTED:
+            case TRADE_PROPOSAL_INVALID:
+                // TeamSquad -> TradeRequestFragment -> RequestFragment
+                AloneFragmentActivity.with(this)
+                        .parameters(TeamSquadFragment.newBundle(getString(R.string.home), myTeamId, teamId, teamName, leagueStatus, action))
+                        .start(TeamSquadFragment.class);
+                break;
+
+            // League detail - trade review
+            case TRANSACTION_RESULT:
+            case USER_TRANSACTION_RESULT:
+            case TWO_HOURS_TO_REVIEW:
+            case TRADE_PROPOSAL_APPROVED:
+                AloneFragmentActivity.with(this)
+                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, LeagueDetailFragment.TRADE_REVIEW, action))
+                        .start(LeagueDetailFragment.class);
                 break;
 
             default:
@@ -290,8 +321,16 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private int getInteger(String value) {
-        return !TextUtils.isEmpty(value) && TextUtils.isDigitsOnly(value) ? Integer.parseInt(value) : -1;
+    private int getInteger(Intent intent, String key) {
+        if (intent.hasExtra(key)) {
+            int value = intent.getIntExtra(key, -1);
+            if (value == -1) {
+                String string = intent.getStringExtra(key);
+                value = !TextUtils.isEmpty(string) && TextUtils.isDigitsOnly(string) ? Integer.parseInt(string) : -1;
+            }
+            return value;
+        }
+        return -1;
     }
 
     private void initViewPager() {

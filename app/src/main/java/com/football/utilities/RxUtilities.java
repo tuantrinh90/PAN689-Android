@@ -55,4 +55,40 @@ public class RxUtilities {
                     }
                 });
     }
+
+    public static <T> Disposable asyncDelay(@NonNull IBaseMvpView mvpView, @NonNull Observable<BaseResponse<T>> observable, ApiCallback<T> apiCallback, long milisecondsDelay) {
+        Optional.from(apiCallback).doIfPresent(c -> c.onStart());
+        return observable.compose(mvpView.bindUntilEvent(FragmentEvent.DESTROY_VIEW))
+                .debounce(milisecondsDelay, TimeUnit.MILLISECONDS)
+                .distinctUntilChanged()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<BaseResponse<T>>() {
+                    @Override
+                    public void onNext(BaseResponse<T> response) {
+                        Optional.from(apiCallback).doIfPresent(c -> {
+                            Optional.from(response).doIfPresent(r -> {
+                                if (r.isSuccess()) {
+                                    c.onSuccess(r.getResponse());
+                                } else {
+                                    c.onError(ErrorHelper.getBaseErrorText(mvpView, ErrorHelper.getErrorBodyApp(r.getMessage())));
+                                }
+                            });
+                        });
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Optional.from(apiCallback).doIfPresent(c -> {
+                            c.onError(ErrorHelper.getBaseErrorText(mvpView, ErrorHelper.createErrorBody(e)));
+                            c.onComplete();
+                        });
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Optional.from(apiCallback).doIfPresent(c -> c.onComplete());
+                    }
+                });
+    }
 }

@@ -13,6 +13,8 @@ import com.football.utilities.SocketEventKey;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import okhttp3.MultipartBody;
+
 public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> implements ILineupDraftPresenter<ILineupDraftView> {
 
     @Override
@@ -115,16 +117,6 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
                     dataModule.getApiService().endCountdown(leagueId),
                     new ApiCallback<DraftCountdownResponse>() {
                         @Override
-                        public void onStart() {
-                            v.showLoading(true);
-                        }
-
-                        @Override
-                        public void onComplete() {
-                            v.showLoading(false);
-                        }
-
-                        @Override
                         public void onSuccess(DraftCountdownResponse response) {
                             v.setCountdown(response.getDraftTimeLeft());
                         }
@@ -134,6 +126,21 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
                             v.showMessage(error);
                         }
                     }));
+        });
+    }
+
+    @Override
+    public void endTurn(int teamId, int pickRound, int pickOrder) {
+        getOptView().doIfPresent(v -> {
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().endTurn(teamId,
+                            new MultipartBody.Builder()
+                                    .setType(MultipartBody.FORM)
+                                    .addFormDataPart("pick_round", String.valueOf(pickRound))
+                                    .addFormDataPart("pick_order", String.valueOf(pickOrder))
+                                    .build()),
+                    null));
         });
     }
 }

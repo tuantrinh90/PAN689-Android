@@ -45,7 +45,10 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 
+import static com.football.fantasy.fragments.leagues.league_details.trade_review.TradeReviewFragment.INDEX_RESULTS;
 import static com.football.models.responses.LeagueResponse.LEAGUE_TYPE_OPEN;
+import static com.football.services.NotificationKey.TWO_HOURS_TO_REVIEW;
+import static com.football.services.NotificationKey.USER_TRANSACTION_RESULT;
 
 public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILeagueDetailPresenter<ILeagueDetailView>> implements ILeagueDetailView {
     private static final String TAG = LeagueDetailFragment.class.getSimpleName();
@@ -55,12 +58,14 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     private static final String KEY_INVITATION_ID = "INVITATION_ID";
     private static final String KEY_OPEN_ROUND = "OPEN_RESULT";
     private static final String KEY_FRAGMENT_INDEX = "FRAGMENT_INDEX";
+    private static final String KEY_ACTION = "ACTION";
     private static final String KEY_TEAM_ID = "TEAM_ID";
 
     public static final int LEAGUE_INFORMATION = 0;
     public static final int TEAM_FRAGMENT_INDEX = 1;
     public static final int RANKING = 2;
     public static final int RESULT_FRAGMENT_INDEX = 3;
+    public static final int TRADE_REVIEW = 4;
 
     public static final int SETUP_TEAM = 10;
     public static final int EDIT_LEAGUE = 11;
@@ -78,6 +83,19 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     CarouselView cvCarouselView;
     @BindView(R.id.vpViewPager)
     ViewPager vpViewPager;
+
+    private String title;
+    private int leagueId;
+    private String leagueType;
+    private int invitationId;
+    private int openRound;
+    private int fragmentIndex;
+    private String action;
+
+    private LeagueResponse league;
+    private LeagueDetailViewPagerAdapter leagueDetailViewPagerAdapter;
+    private List<ExtKeyValuePair> valuePairs = new ArrayList<>();
+
 
     public static Bundle newBundle(String title, int leagueId, String leagueType) {
         Bundle bundle = new Bundle();
@@ -99,22 +117,12 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
         return bundle;
     }
 
-    public static Bundle newBundleForNotification(String title, int leagueId, int index) {
+    public static Bundle newBundleForNotification(String title, int leagueId, int index, String action) {
         Bundle bundle = newBundle(title, leagueId, MY_LEAGUES);
         bundle.putInt(KEY_FRAGMENT_INDEX, index);
+        bundle.putString(KEY_ACTION, action);
         return bundle;
     }
-
-    private String title;
-    private int leagueId;
-    private String leagueType;
-    private int invitationId;
-    private int openRound;
-    private int fragmentIndex;
-
-    private LeagueResponse league;
-    private LeagueDetailViewPagerAdapter leagueDetailViewPagerAdapter;
-    private List<ExtKeyValuePair> valuePairs = new ArrayList<>();
 
     @Override
     public int getResourceId() {
@@ -139,6 +147,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
         invitationId = bundle.getInt(KEY_INVITATION_ID);
         openRound = bundle.getInt(KEY_OPEN_ROUND);
         fragmentIndex = bundle.getInt(KEY_FRAGMENT_INDEX, -1);
+        action = bundle.getString(KEY_ACTION);
     }
 
     @NonNull
@@ -378,6 +387,12 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
                     }
                 } else {
                     vpViewPager.setCurrentItem(fragmentIndex);
+                    if (action.equals(USER_TRANSACTION_RESULT) && leagueDetailViewPagerAdapter.getItem(fragmentIndex) instanceof TradeReviewFragment) {
+                        ((TradeReviewFragment) leagueDetailViewPagerAdapter.getItem(fragmentIndex)).openFragment(INDEX_RESULTS);
+
+                    } else if (action.equals(TWO_HOURS_TO_REVIEW) && leagueDetailViewPagerAdapter.getItem(fragmentIndex) instanceof TradeReviewFragment) {
+                        ((TradeReviewFragment) leagueDetailViewPagerAdapter.getItem(fragmentIndex)).openTradeProposalReview(-1);
+                    }
                 }
             } else if (openRound > 0) {
                 vpViewPager.setCurrentItem(RESULT_FRAGMENT_INDEX);

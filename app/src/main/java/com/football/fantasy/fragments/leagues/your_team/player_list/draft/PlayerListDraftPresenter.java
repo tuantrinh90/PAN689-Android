@@ -67,7 +67,7 @@ public class PlayerListDraftPresenter extends PlayerListPresenter<IPlayerListDra
                 mCompositeDisposable.remove(disposableGetPlayers);
             }
 
-            disposableGetPlayers = RxUtilities.async(
+            disposableGetPlayers = RxUtilities.asyncDelay(
                     v,
                     dataModule.getApiService().getPlayerList(queries),
                     new ApiCallback<ExtPagingResponse<PlayerResponse>>() {
@@ -91,7 +91,8 @@ public class PlayerListDraftPresenter extends PlayerListPresenter<IPlayerListDra
                         public void onError(String error) {
                             v.showMessage(error);
                         }
-                    });
+                    },
+                    3000);
             mCompositeDisposable.add(disposableGetPlayers);
         });
     }

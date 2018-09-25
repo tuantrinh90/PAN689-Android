@@ -58,6 +58,7 @@ public class NotificationFragment extends BaseMvpFragment<INotificationView, INo
                     ((MainActivity) mActivity).handleAction(
                             key.getAction(),
                             key.getLeagueId(),
+                            key.getLeagueStatus(),
                             key.getTeamId(),
                             key.getTeamName(),
                             key.getMyTeamId(),

@@ -63,6 +63,8 @@ public class NotificationResponse implements Serializable {
         private String action;
         @JsonProperty("league_id")
         private int leagueId;
+        @JsonProperty("league_status")
+        private int leagueStatus;
         @JsonProperty("team_name")
         private String teamName;
         @JsonProperty("my_team_id")
@@ -74,6 +76,10 @@ public class NotificationResponse implements Serializable {
 
         public int getLeagueId() {
             return leagueId;
+        }
+
+        public int getLeagueStatus() {
+            return leagueStatus;
         }
 
         public String getAction() {

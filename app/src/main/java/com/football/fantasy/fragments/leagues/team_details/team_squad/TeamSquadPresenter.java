@@ -47,6 +47,7 @@ public class TeamSquadPresenter extends BaseDataPresenter<ITeamSquadView> implem
                         public void onSuccess(TeamSquadResponse response) {
                             v.displayViews(response.getLeague().getGameplayOption());
                             v.displayTeamSquad(response);
+                            v.handleAction();
                         }
 
                         @Override
