@@ -28,6 +28,7 @@ public class PlayerAdapter extends DefaultAdapter<PlayerResponse> {
     private final CompositeDisposable mDisposable = new CompositeDisposable();
 
     private int visibleAddButton = View.VISIBLE;
+    private int visibleValue = View.VISIBLE;
 
     private final Consumer<PlayerResponse> clickCallback;
     private final BiConsumer<PlayerResponse, Integer> addCallback;
@@ -62,6 +63,7 @@ public class PlayerAdapter extends DefaultAdapter<PlayerResponse> {
         AppUtilities.displayPlayerPosition(holder.tvPositionPrimary, data.getMainPosition(), data.getMainPositionText());
         AppUtilities.displayPlayerPosition(holder.tvPositionSecond, data.getMinorPosition(), data.getMinorPositionText());
 
+        holder.tvTransferValue.setVisibility(visibleValue);
         holder.ivAdd.setVisibility(visibleAddButton);
         if (visibleAddButton == View.VISIBLE) {
             boolean checked = data.getSelected();
@@ -84,6 +86,10 @@ public class PlayerAdapter extends DefaultAdapter<PlayerResponse> {
 
     public void setVisibleAddButton(int visibleAddButton) {
         this.visibleAddButton = visibleAddButton;
+    }
+
+    public void setVisibleValue(int visibleValue) {
+        this.visibleValue = visibleValue;
     }
 
     public int findPlayerById(int playerId) {

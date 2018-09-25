@@ -138,9 +138,9 @@ public class LeaguesAdapter extends DefaultAdapter<LeagueResponse> {
         @BindView(R.id.llBottomAction)
         LinearLayout llBottomAction;
         @BindView(R.id.tvCheck)
-        ImageView tvCheck;
+        View tvCheck;
         @BindView(R.id.tvClose)
-        ImageView tvClose;
+        View tvClose;
         @BindView(R.id.llNumber)
         FrameLayout llNumber;
         @BindView(R.id.ivUpOrDown)

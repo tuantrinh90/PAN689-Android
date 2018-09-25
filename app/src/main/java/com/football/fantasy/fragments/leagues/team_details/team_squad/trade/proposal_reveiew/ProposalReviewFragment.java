@@ -271,6 +271,7 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
 
     @Override
     public void submitSuccess(TradeResponse response) {
+        // bắn cho RequestFragment và TradeReview-LeagueDetail
         bus.send(new TradeEvent());
 
         mActivity.finish();

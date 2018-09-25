@@ -158,15 +158,10 @@ public class MainActivity extends BaseActivity {
         if (intent != null && !TextUtils.isEmpty(intent.getStringExtra(KEY_ACTION))) {
             String action = intent.getStringExtra(KEY_ACTION);
             String teamName = intent.getStringExtra(KEY_TEAM_NAME);
-            String _leagueId = intent.getStringExtra(KEY_LEAGUE_ID);
-            String _myTeamId = intent.getStringExtra(KEY_MY_TEAM_ID);
-            String _teamId = intent.getStringExtra(KEY_TEAM_ID);
-            String _playerId = intent.getStringExtra(KEY_PLAYER_ID);
-
-            int leagueId = getInteger(_leagueId);
-            int teamId = getInteger(_teamId);
-            int myTeamId = getInteger(_myTeamId);
-            int playerId = getInteger(_playerId);
+            int leagueId = intent.getIntExtra(KEY_LEAGUE_ID, -1);
+            int myTeamId = intent.getIntExtra(KEY_MY_TEAM_ID, -1);
+            int teamId = intent.getIntExtra(KEY_TEAM_ID, -1);
+            int playerId = intent.getIntExtra(KEY_PLAYER_ID, -1);
 
             handleAction(action, leagueId, teamId, teamName, myTeamId, playerId);
         }
@@ -292,7 +287,6 @@ public class MainActivity extends BaseActivity {
                 if (BuildConfig.DEBUG)
                     Toast.makeText(this, "Chưa làm action " + action, Toast.LENGTH_SHORT).show();
                 break;
-
         }
     }
 

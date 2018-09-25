@@ -498,11 +498,6 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
         etTeamSetupTime.setVisibility(active ? View.VISIBLE : View.GONE);
     }
 
-    // numberOfUser info
-    @OnClick(R.id.lvNumberOfUsers)
-    void onClickNumberOfUsers() {
-    }
-
     @OnClick(R.id.etNumberOfUser)
     void onClickNumberOfUser() {
         if (isNotWaitingForStart()) {

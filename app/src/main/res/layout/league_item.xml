@@ -167,7 +167,7 @@
                 <ImageView
                     android:id="@+id/ivSchedule"
                     style="@style/IconMedium"
-                    android:src="@drawable/ic_schedule_white" />
+                    app:srcCompat="@drawable/ic_schedule_white_24_px" />
 
                 <com.bon.customview.textview.ExtTextView
                     android:id="@+id/tvDescription"
@@ -189,23 +189,34 @@
         android:layout_marginBottom="@dimen/leagues_margin_join"
         android:layout_marginRight="@dimen/padding_small"
         android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="visible">
 
-        <ImageView
+        <FrameLayout
             android:id="@+id/tvCheck"
             style="@style/FloatingActionButton"
-            android:background="@drawable/bg_button_check"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_check_white" />
+            android:background="@drawable/bg_button_check">
 
-        <ImageView
+            <ImageView
+                style="@style/IconTiny"
+                android:layout_gravity="center"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/ic_check_white_24_px" />
+
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/tvClose"
             style="@style/FloatingActionButton"
             android:layout_marginLeft="@dimen/padding_layout"
             android:layout_marginRight="@dimen/padding_layout"
-            android:background="@drawable/bg_button_close"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_close_white" />
+            android:background="@drawable/bg_button_close">
+
+            <ImageView
+                style="@style/IconTiny"
+                android:layout_gravity="center"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/ic_close_white_24_px" />
+        </FrameLayout>
     </LinearLayout>
 
     <FrameLayout
@@ -215,7 +226,7 @@
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="@dimen/padding_layout"
         android:layout_marginRight="@dimen/leagues_margin_number"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/ivNumber"
@@ -248,8 +259,8 @@
             android:background="@drawable/bg_green_arrow_up_circle"
             android:padding="@dimen/padding_content"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_arrow_upward_white_small"
-            android:visibility="visible" />
+            android:visibility="visible"
+            app:srcCompat="@drawable/ic_arrow_upward_white_small" />
     </FrameLayout>
 
     <com.bon.customview.textview.ExtTextView

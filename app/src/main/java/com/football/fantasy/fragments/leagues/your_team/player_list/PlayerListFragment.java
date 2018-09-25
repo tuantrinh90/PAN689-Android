@@ -82,7 +82,7 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
     private String filterPositions = null;
     private String filterClubs = "";
 
-    private PlayerAdapter playerAdapter;
+    protected PlayerAdapter playerAdapter;
 
     @Override
     public int getResourceId() {
@@ -105,7 +105,7 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
         }
     }
 
-    void initView() {
+    protected void initView() {
         displayTime();
 
         try {
@@ -182,7 +182,7 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
         }
     }
 
-    private void refresh() {
+    protected void refresh() {
         page = 1;
         rvPlayer.clear();
         rvPlayer.startLoading();

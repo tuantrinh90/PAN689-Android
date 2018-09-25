@@ -45,7 +45,7 @@
             style="@style/IconTiny"
             android:background="@drawable/bg_null_gray_selector"
             android:visibility="gone"
-            android:src="@drawable/ic_close_blue" />
+            app:srcCompat="@drawable/ic_close_blue_24_px" />
     </LinearLayout>
 
     <ImageView

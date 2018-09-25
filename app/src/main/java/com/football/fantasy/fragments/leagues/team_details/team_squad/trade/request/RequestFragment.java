@@ -9,7 +9,7 @@ import com.football.adapters.TradeAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
-import com.football.events.RequestProposalEvent;
+import com.football.events.TradeEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.TradeRequestFragment;
@@ -104,10 +104,10 @@ public class RequestFragment extends BaseMvpFragment<IRequestView, IRequestPrese
     private void registerBus() {
         try {
             // action add click on PlayerList
-            mCompositeDisposable.add(bus.ofType(RequestProposalEvent.class)
-                    .subscribeWith(new DisposableObserver<RequestProposalEvent>() {
+            mCompositeDisposable.add(bus.ofType(TradeEvent.class)
+                    .subscribeWith(new DisposableObserver<TradeEvent>() {
                         @Override
-                        public void onNext(RequestProposalEvent event) {
+                        public void onNext(TradeEvent event) {
                             refreshData();
                         }
 

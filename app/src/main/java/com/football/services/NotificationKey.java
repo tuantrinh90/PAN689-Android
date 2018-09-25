@@ -33,5 +33,15 @@ public class NotificationKey {
     public static final String LEAGUE_FINISH = "league_finish";
     public static final String LEAGUE_FINISH_FOR_CHAMPION = "league_finish_for_champion";
     public static final String NEW_TRADE_PROPOSAL = "new_trade_proposal";
+    public static final String TRADE_PROPOSAL_CANCELLED = "trade_proposal_cancelled";
+    public static final String trade_proposal_rejected = "trade_proposal_rejected";
+    public static final String trade_proposal_approved = "trade_proposal_approved";
+    public static final String two_hours_to_trade_proposal_deadline = "two_hours_to_trade_proposal_deadline";
+    public static final String trade_proposal_invalid = "trade_proposal_invalid";
+    public static final String transaction_result = "transaction_result";
+    public static final String two_hours_to_review = "two_hours_to_review";
+    public static final String user_transaction_result = "user_transaction_result";
+    public static final String league_finish = "league_finish";
+    public static final String league_finish_for_champion = "league_finish_for_champion";
 
 }

@@ -46,7 +46,7 @@
                         android:layout_height="@dimen/icon_tiny"
                         android:layout_marginLeft="@dimen/padding_content"
                         android:layout_marginRight="@dimen/padding_content"
-                        android:src="@drawable/ic_info_black"
+                        app:srcCompat="@drawable/ic_info_outline_black"
                         android:visibility="gone" />
 
                 </LinearLayout>

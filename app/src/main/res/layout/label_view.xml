@@ -12,8 +12,8 @@
         style="@style/StyleDescriptionContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAllCaps="false"
         android:padding="0dp"
+        android:textAllCaps="false"
         app:textViewFontAssetName="@string/font_display_bold"
         tools:text="@string/app_name" />
 
@@ -31,6 +31,6 @@
         style="@style/IconTiny"
         android:layout_marginLeft="@dimen/padding_layout"
         android:background="@drawable/bg_null_gray_selector"
-        android:src="@drawable/ic_info_black" />
+        app:srcCompat="@drawable/ic_info_outline_black" />
 
 </LinearLayout>

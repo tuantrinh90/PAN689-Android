@@ -44,7 +44,7 @@
                 android:layout_height="@dimen/icon_tiny"
                 android:layout_marginLeft="@dimen/padding_content"
                 android:layout_marginRight="@dimen/padding_content"
-                android:src="@drawable/ic_info_outline_white" />
+                app:srcCompat="@drawable/ic_info_outline_white" />
 
             <com.bon.customview.textview.ExtTextView
                 android:id="@+id/tvNumberOfTradeLeft"

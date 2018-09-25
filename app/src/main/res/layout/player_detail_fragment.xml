@@ -27,7 +27,7 @@
             android:id="@+id/ivInfo"
             android:layout_width="@dimen/icon_tiny"
             android:layout_height="@dimen/icon_tiny"
-            android:src="@drawable/ic_info_black"
+            app:srcCompat="@drawable/ic_info_outline_black"
             android:visibility="gone" />
 
         <LinearLayout
@@ -50,8 +50,7 @@
                 android:layout_marginEnd="@dimen/padding_content_small"
                 android:layout_marginRight="@dimen/padding_content_small"
                 android:contentDescription="@null"
-                android:src="@drawable/ic_checkmark"
-                android:tint="@color/color_blue_end" />
+                app:srcCompat="@drawable/ic_check_blue_24_px" />
 
             <com.bon.customview.textview.ExtTextView
                 android:id="@+id/tvPick"

@@ -2,16 +2,25 @@ package com.football.fantasy.fragments.leagues.your_team.player_list.draft;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.View;
 
+import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.your_team.player_list.PlayerListFragment;
 import com.football.utilities.SocketEventKey;
 
+import butterknife.BindView;
+
 public class PlayerListDraftFragment extends PlayerListFragment<IPlayerListDraftView, IPlayerListDraftPresenter<IPlayerListDraftView>> implements IPlayerListDraftView {
 
-    @Override
-    protected void initialized() {
-        super.initialized();
+    @BindView(R.id.sortValue)
+    View sortValue;
 
+    @Override
+    protected void initView() {
+        super.initView();
+
+        playerAdapter.setVisibleValue(View.GONE);
+        sortValue.setVisibility(View.GONE);
         registerSocket();
     }
 
@@ -35,6 +44,7 @@ public class PlayerListDraftFragment extends PlayerListFragment<IPlayerListDraft
     private void registerSocket() {
         getAppContext().getSocket().on(SocketEventKey.EVENT_ADD_PLAYER, args -> {
             Log.i(SocketEventKey.EVENT_ADD_PLAYER, "registerSocket: ");
+            refresh();
         });
     }
 }

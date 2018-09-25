@@ -64,9 +64,9 @@
                             android:id="@+id/ivMoreTransferringPlayerLeft"
                             android:layout_width="@dimen/icon_tiny"
                             android:layout_height="@dimen/icon_tiny"
-                            android:src="@drawable/ic_info_outline_white"
                             app:layout_constraintStart_toEndOf="@+id/tvTransferringPlayerLeft"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_info_outline_white" />
 
                         <com.bon.customview.textview.ExtTextView
                             android:id="@+id/tvTransferringPlayerLeftValue"
@@ -110,9 +110,9 @@
                             android:id="@+id/ivMoreTransferringTimeLeft"
                             android:layout_width="@dimen/icon_tiny"
                             android:layout_height="@dimen/icon_tiny"
-                            android:src="@drawable/ic_info_outline_white"
                             app:layout_constraintStart_toEndOf="@+id/tvTransferringTimeLeft"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_info_outline_white" />
 
                         <com.football.customizes.textview.ExtTextViewCountdown
                             android:id="@+id/tvTransferringTimeLeftValue"
@@ -156,9 +156,9 @@
                             android:layout_height="@dimen/icon_tiny"
                             android:layout_marginLeft="@dimen/padding_content"
                             android:layout_marginStart="@dimen/padding_content"
-                            android:src="@drawable/ic_info_outline_white"
                             app:layout_constraintStart_toEndOf="@+id/tvBudget"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_info_outline_white" />
 
                         <com.bon.customview.textview.ExtTextView
                             android:id="@+id/tvBudgetValue"
