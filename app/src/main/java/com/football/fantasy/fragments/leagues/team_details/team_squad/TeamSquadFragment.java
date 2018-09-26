@@ -134,7 +134,7 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
         teamId = getArguments().getInt(KEY_TEAM_ID);
         teamName = getArguments().getString(KEY_TEAM_NAME);
         leagueStatus = getArguments().getInt(KEY_LEAGUE_STATUS);
-        action = getArguments().getString(KEY_ACTION);
+        action = getArguments().getString(KEY_ACTION, "");
     }
 
     void initViews(String gamePlayOption) {
@@ -236,6 +236,7 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
 
     @Override
     public void handleAction() {
+        if (TextUtils.isEmpty(action)) return;
         switch (action) {
             case TRADE_PROPOSAL_CANCELLED:
             case TRADE_PROPOSAL_INVALID:

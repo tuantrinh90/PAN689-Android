@@ -34,8 +34,8 @@ import com.football.fantasy.fragments.leagues.league_details.results.ResultsFrag
 import com.football.fantasy.fragments.leagues.league_details.successor.SuccessorFragment;
 import com.football.fantasy.fragments.leagues.league_details.teams.TeamFragment;
 import com.football.fantasy.fragments.leagues.league_details.trade_review.TradeReviewFragment;
+import com.football.fantasy.fragments.leagues.your_team.YourTeamFragment;
 import com.football.models.responses.LeagueResponse;
-import com.football.models.responses.TeamResponse;
 import com.football.utilities.AppUtilities;
 
 import java.util.ArrayList;
@@ -283,8 +283,6 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     @Override
     public void displayMenu(LeagueResponse league) {
         this.league = league;
-        // auto create team if owner or joined
-        autoCheckTeamExist(league);
 
         ivMenu.setVisibility(View.GONE);
 
@@ -402,16 +400,19 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
         }
     }
 
-    void autoCheckTeamExist(LeagueResponse league) {
-        if (league.getOwner() || league.getIsJoined()) {
-            TeamResponse team = league.getTeam();
-            if (team == null) {
-                createTeam();
-            }
+    @Override
+    public void displayLeague(LeagueResponse league) {
+        try {
+            // load info
+            Optional.from(tvTitle).doIfPresent(t -> t.setText(league.getName()));
+
+        } catch (Exception e) {
+            Logger.e(TAG, e);
         }
     }
 
-    void createTeam() {
+    @Override
+    public void goCreateTeam() {
         AloneFragmentActivity.with(mActivity)
                 .parameters(SetupTeamFragment.newBundle(
                         null,
@@ -422,14 +423,10 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     }
 
     @Override
-    public void displayLeague(LeagueResponse league) {
-        try {
-            // load info
-            Optional.from(tvTitle).doIfPresent(t -> t.setText(league.getName()));
-
-        } catch (Exception e) {
-            Logger.e(TAG, e);
-        }
+    public void goLineup() {
+        AloneFragmentActivity.with(this)
+                .parameters(YourTeamFragment.newBundle(league))
+                .start(YourTeamFragment.class);
     }
 
     @Override

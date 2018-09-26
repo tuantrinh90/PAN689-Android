@@ -47,6 +47,8 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     View draftTeam;
     @BindView(R.id.text_countdown)
     ExtTextViewCountdown textCountdown;
+    @BindView(R.id.tvDraftYourTurnTimeLeft)
+    ExtTextViewCountdown tvDraftYourTurnTimeLeft;
     @BindView(R.id.tvDraftYourTurnTimeUnit)
     ExtTextView tvDraftYourTurnTimeUnit;
     @BindView(R.id.progress_draft)
@@ -113,7 +115,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                 Log.i(TAG, "EVENT_CHANGE_TURN: " + jsonObject.toString());
                 if (response != null && currentRequestId != response.getCurrent().getId()) {
                     currentRequestId = response.getCurrent().getId();
-                    currentTurn = response.getCurrent();
+                    TurnResponse current = response.getCurrent();
                     TurnResponse next = response.getNext();
                     TurnResponse next2 = response.getNext2();
                     mActivity.runOnUiThread(() -> {
@@ -122,7 +124,11 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                         draftTurn.setVisibility(View.VISIBLE);
                         draftLoading.setVisibility(View.GONE);
 
-                        setTurn(currentTurn, next, next2, currentTurn.getDraftTimeLeft());
+                        // remove old callback
+                        tvDraftCurrentTimeLeft.setTimeoutCallback(null);
+
+                        setTurn(current, next, next2, current.getDraftTimeLeft(), false);
+
                     });
                 }
             } else {
@@ -137,9 +143,6 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                 mActivity.runOnUiThread(() -> {
                     textCountdown.stop();
                     presenter.getLineup(teamId);
-//                    PlayerResponse player = JacksonUtils.convertJsonToObject(args[0].toString(), PlayerResponse.class);
-//                    lineupView.addPlayer(player, player.getMainPosition(), player.getOrder() == null ? NONE_ORDER : player.getOrder());
-//                    updateStatistic(player.getMainPosition(), 1);
                 });
             } else {
                 Log.e(TAG, "SocketEventKey.EVENT_CHANGE_LINEUP: not your turn");
@@ -148,17 +151,23 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
 
         getAppContext().getSocket().on(SocketEventKey.EVENT_END_TURN, args -> {
             Log.i(SocketEventKey.EVENT_END_TURN, "");
-            mActivity.runOnUiThread(() -> {
-//                draftHeader.setVisibility(View.GONE);
+            if (mActivity != null) mActivity.runOnUiThread(() -> {
+                draftHeader.setVisibility(View.GONE);
+                pickEnable = false;
+//                showMessage("Xong roi nha", R.string.ok, avoid -> {
+//                    getActivity().finish();
+//                });
             });
         });
     }
 
-    private void setTurn(TurnResponse current, TurnResponse next, TurnResponse next2, int timeLeft) {
+    private void setTurn(TurnResponse current, TurnResponse next, TurnResponse next2, int timeLeft, boolean recursion) {
+        if (current == null) return;
+
         currentTurn = current;
         draftTeam.setVisibility(View.VISIBLE);
         // if your turn, visible view
-        if (current != null && current.getTeam().getId() == teamId) {
+        if (current.getTeam().getId() == teamId) {
             setYourTurn(true);
 
             // enable lineupView
@@ -173,23 +182,33 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             enableLineupView(false);
 
             // set currentTurn team's Name
-            tvDraftCurrentTeam.setText(current != null ? current.getTeam().getName() : "null");
+            tvDraftCurrentTeam.setText(current.getTeam().getName());
         }
 
         // countdown Current 00:00:00
         tvDraftCurrentTimeLeft.setTime(timeLeft);
         tvDraftCurrentTimeLeft.setFormatType(ExtTextViewCountdown.FORMAT_NUMBER_HOURS);
         tvDraftCurrentTimeLeft.start();
-        tvDraftCurrentTimeLeft.setTimeoutCallback(aVoid -> {
-            setTurn(next, next2, null, MAX_SECONDS_CHANGE_TURN);
+        if (!recursion) {
+            tvDraftCurrentTimeLeft.setTimeoutCallback(aVoid -> {
+                setTurn(next, next2, null, MAX_SECONDS_CHANGE_TURN, true);
 
-            // call End turn
-            endTurn();
-            presenter.joinDraftPick(league.getId());
-        });
+                // call End turn
+                endTurn();
+                presenter.joinDraftPick(league.getId());
+            });
+        }
 
         // set next team's name
-        tvDraftNextTeam.setText(next != null ? next.getTeam().getName() : "null");
+        if (next != null) {
+            if (next.getTeam().getId() == teamId) {
+                tvDraftNextTeam.setText("YOUR TURN");
+            } else {
+                tvDraftNextTeam.setText(next.getTeam().getName());
+            }
+        } else {
+            tvDraftNextTeam.setText("null");
+        }
     }
 
     private void setYourTurn(boolean yourTurn) {

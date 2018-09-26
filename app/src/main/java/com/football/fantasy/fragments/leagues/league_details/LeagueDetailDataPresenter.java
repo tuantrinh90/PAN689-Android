@@ -5,9 +5,11 @@ import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.StopResponse;
+import com.football.models.responses.TeamResponse;
+import com.football.utilities.AppUtilities;
 import com.football.utilities.RxUtilities;
 
-import okhttp3.MultipartBody;
+import java.util.Calendar;
 
 public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailView> implements ILeagueDetailPresenter<ILeagueDetailView> {
     /**
@@ -38,6 +40,34 @@ public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailVi
                             v.displayMenu(response);
                             v.displayLeaguePager(response);
                             v.displayLeague(response);
+
+                            // mở màn hình Tạo Team nếu chưa có team
+                            if (response.getOwner() || response.getIsJoined()) {
+                                TeamResponse team = response.getTeam();
+                                if (team == null) {
+                                    v.goCreateTeam();
+                                    return;
+                                }
+                            }
+
+                            // mở màn hình Lineup luôn nếu đang trong draftTime
+                            if (response.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_DRAFT)) {
+                                Calendar setupTime = response.getDraftTimeCalendar();
+
+                                // calculator draftTime
+                                int draftEstimate = AppUtilities.getDraftEstimate(
+                                        response.getCurrentNumberOfUser(),
+                                        response.getTimeToPick());
+                                Calendar draftTime = response.getDraftTimeCalendar();
+                                draftTime.add(Calendar.MINUTE, draftEstimate);
+
+                                Calendar currentTime = Calendar.getInstance();
+
+                                if (currentTime.after(setupTime) && currentTime.before(draftTime)) {
+                                    v.goLineup();
+                                }
+
+                            }
                         }
 
                         @Override

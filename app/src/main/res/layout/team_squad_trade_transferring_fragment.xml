@@ -237,7 +237,7 @@
                         <ImageView
                             style="@style/IconTiny"
                             android:padding="@dimen/padding_small"
-                            android:src="@drawable/ic_filter_list_black_24_px" />
+                            app:srcCompat="@drawable/ic_filter_list_black_24_px" />
 
                         <com.bon.customview.textview.ExtTextView
                             style="@style/StyleDescription"

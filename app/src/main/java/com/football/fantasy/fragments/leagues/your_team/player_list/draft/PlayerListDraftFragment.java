@@ -44,7 +44,7 @@ public class PlayerListDraftFragment extends PlayerListFragment<IPlayerListDraft
     private void registerSocket() {
         getAppContext().getSocket().on(SocketEventKey.EVENT_ADD_PLAYER, args -> {
             Log.i(SocketEventKey.EVENT_ADD_PLAYER, "registerSocket: ");
-            mActivity.runOnUiThread(this::refresh);
+//            mActivity.runOnUiThread(this::refresh);
         });
     }
 }

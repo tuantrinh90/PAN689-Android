@@ -81,7 +81,8 @@ public class YourTeamFragment extends BaseMvpFragment<IYourTeamView, IYourTeamPr
 
         boolean isTransfer = league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER);
         vpViewPager.setAdapter(new YourTeamViewPagerAdapter(getFragmentManager(), new ArrayList<BaseMvpFragment>() {{
-            add(LineUpFragment.newInstance(isTransfer ? new LineupTransferFragment() : new LineupDraftFragment(),
+            add(LineUpFragment.newInstance(
+                    isTransfer ? new LineupTransferFragment() : new LineupDraftFragment(),
                     league,
                     league.getTeam() == null ? 0 : league.getTeam().getId())
                     .setChildFragment(true));

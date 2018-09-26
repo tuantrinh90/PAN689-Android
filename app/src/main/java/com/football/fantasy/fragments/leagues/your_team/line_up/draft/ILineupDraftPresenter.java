@@ -6,13 +6,25 @@ import com.football.models.responses.PlayerResponse;
 
 public interface ILineupDraftPresenter<V extends ILineUpView> extends ILineUpPresenter<V> {
 
+    /**
+     * register socket
+     */
     void joinRoom(int leagueId);
 
     void leaveLeague(int leagueId);
 
+    /**
+     * Join to draft pick turn in a League.
+     */
     void joinDraftPick(int leagueId);
 
+    /**
+     * End count down a League.
+     */
     void endCountdown(int leagueId);
 
+    /**
+     * End turn when draft in the Team.
+     */
     void endTurn(int teamId, int pickRound, int pickOrder);
 }

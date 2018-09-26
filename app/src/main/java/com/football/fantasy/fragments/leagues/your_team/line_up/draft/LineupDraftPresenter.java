@@ -86,15 +86,6 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
                     v,
                     dataModule.getApiService().joinDraftPick(leagueId),
                     new ApiCallback<Object>() {
-                        @Override
-                        public void onStart() {
-                            v.showLoading(true);
-                        }
-
-                        @Override
-                        public void onComplete() {
-                            v.showLoading(false);
-                        }
 
                         @Override
                         public void onSuccess(Object response) {

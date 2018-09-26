@@ -72,16 +72,6 @@ public class PlayerListDraftPresenter extends PlayerListPresenter<IPlayerListDra
                     dataModule.getApiService().getPlayerList(queries),
                     new ApiCallback<ExtPagingResponse<PlayerResponse>>() {
                         @Override
-                        public void onStart() {
-                            v.showLoadingPagingListView(true);
-                        }
-
-                        @Override
-                        public void onComplete() {
-                            v.showLoadingPagingListView(false);
-                        }
-
-                        @Override
                         public void onSuccess(ExtPagingResponse<PlayerResponse> response) {
                             v.displayPlayers(response.getData());
                             v.displayStatistic(response.getStatistic());

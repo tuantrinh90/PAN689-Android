@@ -37,7 +37,7 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
 
     private static final String KEY_POSITION = "POSITION";
     private static final String KEY_ORDER = "ORDER";
-    private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+    private static final String KEY_LEAGUE = "LEAGUE";
 
     @BindView(R.id.svSearch)
     SearchView svSearchView;
@@ -45,8 +45,6 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
     ImageView ivSortValue;
     @BindView(R.id.rvPlayer)
     ExtRecyclerView<PlayerResponse> rvPlayer;
-
-    PlayerAdapter playerAdapter;
 
     private LeagueResponse league;
     private int page = 1;
@@ -65,7 +63,7 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
         Bundle args = new Bundle();
         args.putInt(KEY_POSITION, position);
         args.putInt(KEY_ORDER, order);
-        args.putSerializable(KEY_LEAGUE_ID, league);
+        args.putSerializable(KEY_LEAGUE, league);
         return args;
     }
 
@@ -88,7 +86,7 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
         Bundle bundle = getArguments();
         if (bundle != null) {
             order = bundle.getInt(KEY_ORDER);
-            league = (LeagueResponse) bundle.getSerializable(KEY_LEAGUE_ID);
+            league = (LeagueResponse) bundle.getSerializable(KEY_LEAGUE);
             mainPosition = bundle.getInt(KEY_POSITION);
         }
     }
@@ -198,7 +196,7 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
             svSearchView.setSearchConsumer(query -> onPerformSearch(query.trim()));
 
             // playerResponses
-            playerAdapter = new PlayerAdapter(
+            PlayerAdapter adapter = new PlayerAdapter(
                     getContext(),
                     player -> { // item click
                         PlayerDetailForLineupFragment.start(this,
@@ -213,7 +211,10 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
                     (player, position) -> { // add click
                         sendToLineup(player);
                     });
-            rvPlayer.adapter(playerAdapter)
+            if (league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_DRAFT)) {
+                adapter.setVisibleValue(View.GONE);
+            }
+            rvPlayer.adapter(adapter)
                     .loadMoreListener(() -> {
                         page++;
                         getPlayers();

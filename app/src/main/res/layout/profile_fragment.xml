@@ -38,7 +38,7 @@
                 <ImageView
                     style="@style/IconSmall"
                     android:background="@drawable/bg_null_gray_selector"
-                    android:src="@drawable/ic_menu_shadow" />
+                    app:srcCompat="@drawable/ic_menu_black_24_px" />
 
             </FrameLayout>
         </TableRow>

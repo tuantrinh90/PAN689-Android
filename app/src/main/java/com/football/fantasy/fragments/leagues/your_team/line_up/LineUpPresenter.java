@@ -35,16 +35,6 @@ public abstract class LineUpPresenter<V extends ILineUpView> extends BaseDataPre
                     dataModule.getApiService().getLineup(teamId),
                     new ApiCallback<LineupResponse>() {
                         @Override
-                        public void onStart() {
-                            v.showLoading(true);
-                        }
-
-                        @Override
-                        public void onComplete() {
-                            v.showLoading(false);
-                        }
-
-                        @Override
                         public void onSuccess(LineupResponse response) {
                             setLineup(response);
                         }
@@ -71,16 +61,6 @@ public abstract class LineUpPresenter<V extends ILineUpView> extends BaseDataPre
                                     .build()),
                     new ApiCallback<PropsPlayerResponse>() {
                         @Override
-                        public void onStart() {
-                            v.showLoading(true);
-                        }
-
-                        @Override
-                        public void onComplete() {
-                            v.showLoading(false);
-                        }
-
-                        @Override
                         public void onSuccess(PropsPlayerResponse response) {
                             addPlaySuccess(response, player, position, order);
                         }
@@ -106,16 +86,6 @@ public abstract class LineUpPresenter<V extends ILineUpView> extends BaseDataPre
                                     .addFormDataPart("player_id", String.valueOf(player.getId()))
                                     .build()),
                     new ApiCallback<PropsPlayerResponse>() {
-                        @Override
-                        public void onStart() {
-                            v.showLoading(true);
-                        }
-
-                        @Override
-                        public void onComplete() {
-                            v.showLoading(false);
-                        }
-
                         @Override
                         public void onSuccess(PropsPlayerResponse response) {
                             removePlayerSuccess(response, player, position);
