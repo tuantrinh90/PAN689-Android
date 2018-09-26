@@ -13,10 +13,14 @@ public interface ILineupDraftPresenter<V extends ILineUpView> extends ILineUpPre
 
     void leaveLeague(int leagueId);
 
+    void addPlayer(PlayerResponse player, int teamId, int position, int order, int pickRound, int pickOrder);
+
+    void removePlayer(PlayerResponse player, int position, int teamId, int pickRound, int pickOrder);
+
     /**
      * Join to draft pick turn in a League.
      */
-    void joinDraftPick(int leagueId);
+    void joinDraft(int leagueId);
 
     /**
      * End count down a League.

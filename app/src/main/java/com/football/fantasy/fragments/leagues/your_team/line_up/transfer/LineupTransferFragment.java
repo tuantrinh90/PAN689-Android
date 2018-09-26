@@ -47,6 +47,8 @@ public class LineupTransferFragment extends LineUpFragment<ILineupTransferView, 
     protected void initView() {
         super.initView();
         setupTransferMode();
+
+        presenter.getLineup(teamId);
     }
 
     @Override

@@ -427,6 +427,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
         AloneFragmentActivity.with(this)
                 .parameters(YourTeamFragment.newBundle(league))
                 .start(YourTeamFragment.class);
+        mActivity.finish();
     }
 
     @Override

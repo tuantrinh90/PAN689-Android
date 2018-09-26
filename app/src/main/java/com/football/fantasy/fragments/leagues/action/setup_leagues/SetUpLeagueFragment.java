@@ -63,7 +63,6 @@ import static com.football.models.responses.LeagueResponse.SCORING_SYSTEM_REGULA
 import static com.football.models.responses.LeagueResponse.TRADE_REVIEW_CREATOR;
 import static com.football.models.responses.LeagueResponse.TRADE_REVIEW_MEMBER;
 import static com.football.models.responses.LeagueResponse.TRADE_REVIEW_NO_REVIEW;
-import static com.football.models.responses.LeagueResponse.WAITING_FOR_START;
 
 public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetUpLeaguePresenter<ISetupLeagueView>> implements ISetupLeagueView {
     private static final String TAG = SetUpLeagueFragment.class.getSimpleName();
@@ -249,7 +248,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                 formatDateTime();
 
                 // disable views after startLeague
-                if (league.getStatus() == LeagueResponse.ON_GOING) {
+                if (!league.getTeamSetUpCalendar().after(Calendar.getInstance()) && league.getStatus() != LeagueResponse.WAITING_FOR_START) {
                     for (View view : viewsOngoing) {
                         view.setEnabled(false);
                         view.setClickable(false);
@@ -328,7 +327,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
     }
 
     private boolean isNotWaitingForStart() {
-        return league != null && (league.getStatus() != WAITING_FOR_START || System.currentTimeMillis() < AppUtilities.getTimestamp(league.getStartAt()));
+        return league != null && !league.getTeamSetUpCalendar().after(Calendar.getInstance()) && league.getStatus() != LeagueResponse.WAITING_FOR_START;
     }
 
     @NonNull

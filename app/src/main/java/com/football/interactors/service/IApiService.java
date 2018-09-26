@@ -158,8 +158,8 @@ public interface IApiService {
     @GET(ServiceConfig.END_COUNT_DOWN)
     Observable<BaseResponse<DraftCountdownResponse>> endCountdown(@Path(ServiceConfig.KEY_ID) int leagueId);
 
-    @GET(ServiceConfig.JOIN_DRAFT_PICK)
-    Observable<BaseResponse<Object>> joinDraftPick(@Path(ServiceConfig.KEY_ID) int leagueId);
+    @GET(ServiceConfig.JOIN_DRAFT)
+    Observable<BaseResponse<LineupResponse>> joinDraft(@Path(ServiceConfig.KEY_ID) int leagueId);
 
     @GET(ServiceConfig.LEAGUE_DETAIL)
     Observable<BaseResponse<LeagueResponse>> getLeagueDetail(@Path(ServiceConfig.KEY_ID) Integer leagueId);

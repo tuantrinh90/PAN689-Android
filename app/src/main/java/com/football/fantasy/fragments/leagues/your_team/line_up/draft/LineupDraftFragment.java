@@ -18,6 +18,7 @@ import com.football.fantasy.fragments.leagues.player_details.PlayerDetailForLine
 import com.football.fantasy.fragments.leagues.your_team.line_up.LineUpFragment;
 import com.football.fantasy.fragments.leagues.your_team.players_popup.PlayerPopupFragment;
 import com.football.models.responses.ChangeTurnResponse;
+import com.football.models.responses.LineupResponse;
 import com.football.models.responses.PickTurnResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TurnResponse;
@@ -56,7 +57,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
 
     private PlayerView playerViewSelected;
     private boolean pickEnable = false;
-    private int currentRequestId;
+    private int currentRequestId = -1;
     private TurnResponse currentTurn;
 
     @NonNull
@@ -69,10 +70,13 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         registerSocket();
-        presenter.endCountdown(league.getId());
 
         // join league
         presenter.joinRoom(league.getId());
+
+        presenter.endCountdown(league.getId());
+
+        presenter.getLineup(teamId);
     }
 
     @Override
@@ -87,38 +91,20 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         super.onDestroyView();
     }
 
-    private void initHeader(int draftTimeLeft) {
-        if (league.getDraftTimeCalendar().after(Calendar.getInstance())) {
-            draftCountdown.setVisibility(View.VISIBLE);
-            draftTurn.setVisibility(View.GONE);
-            textCountdown.setTimeoutCallback(aVoid -> {
-                draftCountdown.setVisibility(View.GONE);
-                draftLoading.setVisibility(View.VISIBLE);
-                presenter.joinDraftPick(league.getId());
-            });
-            textCountdown.setTime(draftTimeLeft);
-            textCountdown.setFormatType(ExtTextViewCountdown.FORMAT_NUMBER_HOURS);
-            textCountdown.start();
-        } else {
-            draftCountdown.setVisibility(View.GONE);
-            draftTurn.setVisibility(View.GONE);
-            draftLoading.setVisibility(View.VISIBLE);
-        }
-    }
-
     private void registerSocket() {
         getAppContext().getSocket().on(SocketEventKey.EVENT_CHANGE_TURN, args -> {
             Log.i(SocketEventKey.EVENT_CHANGE_TURN, "");
             if (args != null && args.length > 0 && args[0] != null) {
-                JSONObject jsonObject = (JSONObject) args[0];
-                ChangeTurnResponse response = JacksonUtils.convertJsonToObject(jsonObject.toString(), ChangeTurnResponse.class);
-                Log.i(TAG, "EVENT_CHANGE_TURN: " + jsonObject.toString());
-                if (response != null && currentRequestId != response.getCurrent().getId()) {
-                    currentRequestId = response.getCurrent().getId();
-                    TurnResponse current = response.getCurrent();
-                    TurnResponse next = response.getNext();
-                    TurnResponse next2 = response.getNext2();
-                    mActivity.runOnUiThread(() -> {
+                mActivity.runOnUiThread(() -> {
+                    JSONObject jsonObject = (JSONObject) args[0];
+                    ChangeTurnResponse response = JacksonUtils.convertJsonToObject(jsonObject.toString(), ChangeTurnResponse.class);
+                    Log.i(TAG, "EVENT_CHANGE_TURN: " + jsonObject.toString());
+                    if (response != null && currentRequestId != response.getCurrent().getId()) {
+                        currentRequestId = response.getCurrent().getId();
+                        TurnResponse current = response.getCurrent();
+                        TurnResponse next = response.getNext();
+                        TurnResponse next2 = response.getNext2();
+
                         textCountdown.stop();
                         draftCountdown.setVisibility(View.GONE);
                         draftTurn.setVisibility(View.VISIBLE);
@@ -128,9 +114,8 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                         tvDraftCurrentTimeLeft.setTimeoutCallback(null);
 
                         setTurn(current, next, next2, current.getDraftTimeLeft(), false);
-
-                    });
-                }
+                    }
+                });
             } else {
                 Log.e(TAG, "SocketEventKey.EVENT_CHANGE_TURN: args are null");
             }
@@ -139,11 +124,19 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         getAppContext().getSocket().on(SocketEventKey.EVENT_CHANGE_LINEUP, args -> {
             Log.i(SocketEventKey.EVENT_CHANGE_LINEUP, "");
             if (pickEnable && args != null && args.length > 0 && args[0] != null) {
-                Log.i(TAG, "EVENT_CHANGE_LINEUP: " + args[0].toString());
-                mActivity.runOnUiThread(() -> {
-                    textCountdown.stop();
-                    presenter.getLineup(teamId);
-                });
+                LineupResponse response = JacksonUtils.convertJsonToObject(args[0].toString(), LineupResponse.class);
+                if (response.getTeam().getId().equals(teamId)) {
+                    Log.i(TAG, "EVENT_CHANGE_LINEUP: " + args[0].toString());
+                    mActivity.runOnUiThread(() -> {
+                        textCountdown.stop();
+
+                        // set lineup
+                        if (response.getYourTurn() != null)
+                            displayYourTurn(response.getYourTurn());
+                        displayLineupPlayers(response.getPlayers());
+                        displayStatistic(response.getStatistic());
+                    });
+                }
             } else {
                 Log.e(TAG, "SocketEventKey.EVENT_CHANGE_LINEUP: not your turn");
             }
@@ -157,6 +150,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
 //                showMessage("Xong roi nha", R.string.ok, avoid -> {
 //                    getActivity().finish();
 //                });
+                tvDraftCurrentTimeLeft.stop();
             });
         });
     }
@@ -195,7 +189,6 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
 
                 // call End turn
                 endTurn();
-                presenter.joinDraftPick(league.getId());
             });
         }
 
@@ -235,7 +228,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     }
 
     private void endTurn() {
-        if (currentTurn != null) {
+        if (currentTurn != null && teamId == currentTurn.getTeam().getId()) {
             presenter.endTurn(teamId, currentTurn.getRound(), currentTurn.getOrder());
         }
     }
@@ -254,10 +247,31 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         if (draftTimeLeft > 0) {
             initHeader(draftTimeLeft);
         } else {
-            presenter.joinDraftPick(league.getId());
-
             draftCountdown.setVisibility(View.GONE);
             draftTurn.setVisibility(View.GONE);
+            draftLoading.setVisibility(View.VISIBLE);
+
+            presenter.joinDraft(league.getId());
+        }
+    }
+
+    private void initHeader(int draftTimeLeft) {
+        if (league.getDraftTimeCalendar().after(Calendar.getInstance())) {
+            draftCountdown.setVisibility(View.VISIBLE);
+            draftTurn.setVisibility(View.GONE);
+            textCountdown.setTimeoutCallback(aVoid -> {
+                draftCountdown.setVisibility(View.GONE);
+                draftLoading.setVisibility(View.VISIBLE);
+
+                presenter.joinDraft(league.getId());
+            });
+            textCountdown.setTime(draftTimeLeft);
+            textCountdown.setFormatType(ExtTextViewCountdown.FORMAT_NUMBER_HOURS);
+            textCountdown.start();
+        } else {
+            draftCountdown.setVisibility(View.GONE);
+            draftTurn.setVisibility(View.GONE);
+            draftLoading.setVisibility(View.VISIBLE);
         }
     }
 
@@ -287,7 +301,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         playerViewSelected.setAddable(false);
         callback.accept(true, "");
         callback = null;
-        presenter.addPlayer(player, teamId, position, order);
+        presenter.addPlayer(player, teamId, position, order, currentTurn.getRound(), currentTurn.getOrder());
     }
 
     @Override
@@ -302,11 +316,10 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                     if (playerViewSelected != null) {
                         playerViewSelected.setPlayer(null);
                         playerViewSelected = null;
-                        presenter.removePlayer(player, position, index);
+                        presenter.removePlayer(player, position, index, currentTurn.getRound(), currentTurn.getOrder());
                     }
                 },
-                (dialog, which) -> {
-                });
+                null);
     }
 
     @Override

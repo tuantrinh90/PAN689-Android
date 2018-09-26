@@ -96,9 +96,6 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
         initView();
         setupLineupView();
         registerEvent();
-
-        presenter.getLineup(teamId);
-
     }
 
     private void getDataFromBundle() {

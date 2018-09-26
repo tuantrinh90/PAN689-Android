@@ -8,8 +8,6 @@ import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.PropsPlayerResponse;
 import com.football.utilities.RxUtilities;
 
-import okhttp3.MultipartBody;
-
 public abstract class LineUpPresenter<V extends ILineUpView> extends BaseDataPresenter<V> implements ILineUpPresenter<V> {
 
     protected abstract void setLineup(LineupResponse response);
@@ -46,59 +44,6 @@ public abstract class LineUpPresenter<V extends ILineUpView> extends BaseDataPre
                     }));
         });
     }
-
-    @Override
-    public void addPlayer(PlayerResponse player, int teamId, int position, int order) {
-        getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(
-                    v,
-                    dataModule.getApiService().addPlayer(player.getId(),
-                            new MultipartBody.Builder()
-                                    .setType(MultipartBody.FORM)
-                                    .addFormDataPart("team_id", String.valueOf(teamId))
-                                    .addFormDataPart("player_id", String.valueOf(player.getId()))
-                                    .addFormDataPart("order", String.valueOf(order))
-                                    .build()),
-                    new ApiCallback<PropsPlayerResponse>() {
-                        @Override
-                        public void onSuccess(PropsPlayerResponse response) {
-                            addPlaySuccess(response, player, position, order);
-                        }
-
-                        @Override
-                        public void onError(String error) {
-                            v.handleCallback(false, error);
-                        }
-                    }));
-        });
-    }
-
-    @Override
-    public void removePlayer(PlayerResponse player, int position, int teamId) {
-        getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(
-                    v,
-                    dataModule.getApiService().removePlayer(
-                            player.getId(),
-                            new MultipartBody.Builder()
-                                    .setType(MultipartBody.FORM)
-                                    .addFormDataPart("team_id", String.valueOf(teamId))
-                                    .addFormDataPart("player_id", String.valueOf(player.getId()))
-                                    .build()),
-                    new ApiCallback<PropsPlayerResponse>() {
-                        @Override
-                        public void onSuccess(PropsPlayerResponse response) {
-                            removePlayerSuccess(response, player, position);
-                        }
-
-                        @Override
-                        public void onError(String error) {
-                            v.showMessage(error);
-                        }
-                    }));
-        });
-    }
-
 
     @Override
     public void completeLineup(int teamId) {
