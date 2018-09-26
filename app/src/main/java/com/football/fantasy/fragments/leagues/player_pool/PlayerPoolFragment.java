@@ -110,12 +110,6 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
                 .start(PlayerPoolFragment.class);
     }
 
-    public static void start(Fragment fragment, String title) {
-        AloneFragmentActivity.with(fragment)
-                .parameters(PlayerPoolFragment.newBundle(title, "", null, LEAGUE_ID_NONE, SEASON_ID_NONE, ""))
-                .start(PlayerPoolFragment.class);
-    }
-
     public static void start(Context context, String title) {
         AloneFragmentActivity.with(context)
                 .parameters(PlayerPoolFragment.newBundle(title, "", null, LEAGUE_ID_NONE, SEASON_ID_NONE, ""))

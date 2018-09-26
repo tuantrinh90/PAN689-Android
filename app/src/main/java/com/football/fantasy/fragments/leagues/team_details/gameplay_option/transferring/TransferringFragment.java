@@ -298,8 +298,7 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     }
 
     private void getTeamPlayers() {
-        boolean isTransfer = league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER);
-        presenter.getTeamTransferring(team.getId(), isTransfer ? "transfer" : "draft", filterPositions, filterClubs, displays, sorts);
+        presenter.getTeamTransferring(team.getId(), league.getGameplayOption(), filterPositions, filterClubs, displays, sorts);
     }
 
     private void transferPlayer(PlayerResponse player) {

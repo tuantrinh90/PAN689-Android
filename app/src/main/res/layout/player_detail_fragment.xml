@@ -27,8 +27,8 @@
             android:id="@+id/ivInfo"
             android:layout_width="@dimen/icon_tiny"
             android:layout_height="@dimen/icon_tiny"
-            app:srcCompat="@drawable/ic_info_outline_black"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_info_outline_black" />
 
         <LinearLayout
             android:id="@+id/viewPick"
@@ -211,36 +211,38 @@
         app:shadowLayoutDy="@dimen/shadow_layout_dxy_normal"
         app:shadowLayoutShadowColor="@color/color_shadow">
 
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/selection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_button_green"
-            android:paddingBottom="@dimen/padding_content"
-            android:paddingLeft="@dimen/padding_layout"
-            android:paddingRight="@dimen/padding_layout"
-            android:paddingTop="@dimen/padding_content">
+            android:background="@drawable/bg_background_gradient_blue_radius_component"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_small">
 
             <com.bon.customview.textview.ExtTextView
                 android:id="@+id/tvFilter"
-                android:layout_width="wrap_content"
+                style="@style/StyleContentWhite"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:padding="0dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="start"
+                android:maxLines="1"
+                android:padding="@dimen/padding_small"
+                android:paddingEnd="@dimen/padding_layout"
+                android:paddingStart="@dimen/padding_layout"
                 android:text="@string/avg_5_games"
-                android:textAllCaps="true"
-                android:textColor="@color/color_white"
-                android:textSize="@dimen/font_size_description"
-                app:textViewFontAssetName="@string/font_display_bold" />
+                app:textAllCaps="true"
+                app:textViewFontAssetName="@string/font_display_black" />
 
             <ImageView
                 style="@style/IconMedium"
-                android:layout_gravity="end"
                 android:background="@drawable/bg_circle_white"
                 android:padding="@dimen/padding_content"
                 android:rotation="90"
                 android:src="@drawable/ic_arrow_right" />
-        </FrameLayout>
+        </LinearLayout>
     </com.bon.customview.shadowlayout.ShadowLayout>
 
     <ScrollView
