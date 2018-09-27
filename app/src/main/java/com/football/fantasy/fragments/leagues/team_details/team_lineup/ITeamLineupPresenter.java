@@ -5,7 +5,7 @@ import com.football.common.views.IBaseMvpView;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TeamResponse;
 
-public interface ITeamLineUpPresenter<V extends IBaseMvpView> extends IBaseDataPresenter<V> {
+public interface ITeamLineupPresenter<V extends IBaseMvpView> extends IBaseDataPresenter<V> {
 
     void getPitchView(Integer teamId, String value);
 

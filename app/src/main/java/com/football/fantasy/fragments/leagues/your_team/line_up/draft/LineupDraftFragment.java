@@ -76,7 +76,6 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
 
         presenter.endCountdown(league.getId());
 
-        presenter.getLineup(teamId);
     }
 
     @Override
@@ -109,6 +108,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                         draftCountdown.setVisibility(View.GONE);
                         draftTurn.setVisibility(View.VISIBLE);
                         draftLoading.setVisibility(View.GONE);
+                        Log.d(TAG, "registerSocket: "); //todo: đang bị lỗi, nghi UI chạy trước khi response đc parse
 
                         // remove old callback
                         tvDraftCurrentTimeLeft.setTimeoutCallback(null);
@@ -252,6 +252,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             draftLoading.setVisibility(View.VISIBLE);
 
             presenter.joinDraft(league.getId());
+            presenter.getLineup(teamId);
         }
     }
 

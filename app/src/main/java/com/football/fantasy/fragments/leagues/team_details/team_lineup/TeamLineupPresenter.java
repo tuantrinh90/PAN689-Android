@@ -17,11 +17,11 @@ import java.util.Map;
 
 import okhttp3.MultipartBody;
 
-public class TeamLineUpPresenter extends BaseDataPresenter<ITeamLineUpView> implements ITeamLineUpPresenter<ITeamLineUpView> {
+public class TeamLineupPresenter extends BaseDataPresenter<ITeamLineupView> implements ITeamLineupPresenter<ITeamLineupView> {
     /**
      * @param appComponent
      */
-    public TeamLineUpPresenter(AppComponent appComponent) {
+    public TeamLineupPresenter(AppComponent appComponent) {
         super(appComponent);
     }
 
@@ -145,7 +145,7 @@ public class TeamLineUpPresenter extends BaseDataPresenter<ITeamLineUpView> impl
         });
     }
 
-    private void showResponse(ITeamLineUpView v, TeamPitchViewResponse response) {
+    private void showResponse(ITeamLineupView v, TeamPitchViewResponse response) {
         if (response != null) {
             if (response.getTeam() != null) {
                 v.displayTeam(response.getTeam());

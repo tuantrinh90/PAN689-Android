@@ -6,7 +6,7 @@ import com.football.models.responses.TeamResponse;
 
 import java.util.List;
 
-public interface ITeamLineUpView extends IBaseMvpView {
+public interface ITeamLineupView extends IBaseMvpView {
     void displayTeam(TeamResponse team);
 
     void displayMainPlayers(List<PlayerResponse> players);

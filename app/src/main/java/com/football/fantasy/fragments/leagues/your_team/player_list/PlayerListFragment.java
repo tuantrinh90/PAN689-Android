@@ -20,7 +20,7 @@ import com.football.events.PlayerEvent;
 import com.football.events.PlayerQueryEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailForLineupFragment;
-import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilterFragment;
+import com.football.fantasy.fragments.leagues.player_pool.filter.FilterFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.StatisticResponse;
@@ -91,10 +91,14 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        getDataFromBundle();
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
-        getDataFromBundle();
         initView();
+
+        // load data
+        refresh();
+
         registerBus();
     }
 
@@ -164,8 +168,9 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
                     });
 
             // đang ở setupTime && chưa completed
-            boolean visibleAddButton = AppUtilities.isSetupTime(league.getTeamSetup());
-//                    && (league.getTeam() != null && league.getTeam().getCompleted() != null && !league.getTeam().getCompleted());
+            boolean visibleAddButton = AppUtilities.isSetupTime(
+                    league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER) ?
+                            league.getTeamSetup() : league.getDraftTime());
             playerAdapter.setVisibleAddButton(visibleAddButton ? View.VISIBLE : View.GONE);
             rvPlayer.adapter(playerAdapter)
                     .loadMoreListener(() -> {
@@ -174,9 +179,6 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
                     })
                     .refreshListener(this::refresh)
                     .build();
-
-            // load data
-            refresh();
         } catch (Resources.NotFoundException e) {
             Logger.e(TAG, e);
         }
@@ -257,8 +259,8 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
 
     void onClickFilter() {
         AloneFragmentActivity.with(this)
-                .parameters(PlayerPoolFilterFragment.newBundle(TAG, filterPositions, filterClubs, true))
-                .start(PlayerPoolFilterFragment.class);
+                .parameters(FilterFragment.newBundle(TAG, filterPositions, filterClubs, true))
+                .start(FilterFragment.class);
     }
 
     void onPerformSearch(String q) {

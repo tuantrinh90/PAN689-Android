@@ -25,7 +25,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class PlayerPoolFilterFragment extends BaseMvpFragment<IPlayerPoolFilterView, IPlayerPoolFilterPresenter<IPlayerPoolFilterView>> implements IPlayerPoolFilterView {
+public class FilterFragment extends BaseMvpFragment<IFilterView, IFilterPresenter<IFilterView>> implements IFilterView {
 
     private static final String KEY_FROM = "FROM";
     public static final String KEY_POSITION = "POSITION";
@@ -117,8 +117,8 @@ public class PlayerPoolFilterFragment extends BaseMvpFragment<IPlayerPoolFilterV
     }
 
     @Override
-    public IPlayerPoolFilterPresenter<IPlayerPoolFilterView> createPresenter() {
-        return new PlayerPoolFilterPresenter(getAppComponent());
+    public IFilterPresenter<IFilterView> createPresenter() {
+        return new FilterPresenter(getAppComponent());
     }
 
     @Override

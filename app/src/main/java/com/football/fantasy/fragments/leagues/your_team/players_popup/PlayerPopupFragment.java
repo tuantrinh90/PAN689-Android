@@ -20,7 +20,7 @@ import com.football.events.PlayerQueryEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailForLineupFragment;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
-import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilterFragment;
+import com.football.fantasy.fragments.leagues.player_pool.filter.FilterFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.utilities.Constant;
@@ -185,8 +185,8 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
             svSearchView.getFilter().setImageResource(R.drawable.ic_filter_list_black_24_px);
             svSearchView.setFilerConsumer(aVoid -> {
                 AloneFragmentActivity.with(this)
-                        .parameters(PlayerPoolFilterFragment.newBundle(TAG, String.valueOf(mainPosition), filterClubs, true))
-                        .start(PlayerPoolFilterFragment.class);
+                        .parameters(FilterFragment.newBundle(TAG, String.valueOf(mainPosition), filterClubs, true))
+                        .start(FilterFragment.class);
             });
 
             // update hint

@@ -34,7 +34,7 @@ import java8.util.stream.StreamSupport;
 
 import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
 
-public class TeamLineUpFragment extends BaseMvpFragment<ITeamLineUpView, ITeamLineUpPresenter<ITeamLineUpView>> implements ITeamLineUpView {
+public class TeamLineupFragment extends BaseMvpFragment<ITeamLineupView, ITeamLineupPresenter<ITeamLineupView>> implements ITeamLineupView {
 
     private static final String KEY_TITLE = "TITLE";
     private static final String KEY_TEAM = "TEAM";
@@ -168,8 +168,8 @@ public class TeamLineUpFragment extends BaseMvpFragment<ITeamLineUpView, ITeamLi
 
     @NonNull
     @Override
-    public ITeamLineUpPresenter<ITeamLineUpView> createPresenter() {
-        return new TeamLineUpPresenter(getAppComponent());
+    public ITeamLineupPresenter<ITeamLineupView> createPresenter() {
+        return new TeamLineupPresenter(getAppComponent());
     }
 
     @Override

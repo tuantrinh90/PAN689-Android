@@ -27,7 +27,7 @@ import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailForTransferFragment;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.fantasy.fragments.leagues.player_pool.display.DisplayConfigFragment;
-import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilterFragment;
+import com.football.fantasy.fragments.leagues.player_pool.filter.FilterFragment;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.SeasonResponse;
 import com.football.utilities.Constant;
@@ -390,8 +390,8 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
             case R.id.filter:
                 AloneFragmentActivity.with(this)
                         .forResult(REQUEST_FILTER)
-                        .parameters(PlayerPoolFilterFragment.newBundle(TAG, filterPositions, filterClubs, leagueId != LEAGUE_ID_NONE))
-                        .start(PlayerPoolFilterFragment.class);
+                        .parameters(FilterFragment.newBundle(TAG, filterPositions, filterClubs, leagueId != LEAGUE_ID_NONE))
+                        .start(FilterFragment.class);
                 break;
             case R.id.display:
                 StringBuilder displays = new StringBuilder();

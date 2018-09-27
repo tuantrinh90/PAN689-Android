@@ -91,7 +91,7 @@ public class RecordFragment extends BaseMvpFragment<IRecordView, IRecordPresente
     @NonNull
     @Override
     public IRecordPresenter<IRecordView> createPresenter() {
-        return new RecordDataPresenter(getAppComponent());
+        return new RecordPresenter(getAppComponent());
     }
 
     void initRecyclerView() {

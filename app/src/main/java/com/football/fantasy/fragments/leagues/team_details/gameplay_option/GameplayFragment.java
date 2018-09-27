@@ -27,7 +27,7 @@ import butterknife.BindView;
 
 import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
 
-public class GameplayOptionFragment extends BaseMvpFragment<IGameplayOptionView, IGameplayOptionPresenter<IGameplayOptionView>> implements IGameplayOptionView {
+public class GameplayFragment extends BaseMvpFragment<IGameplayView, IGameplayPresenter<IGameplayView>> implements IGameplayView {
 
     private static final String KEY_TEAM = "TEAM";
     private static final String KEY_TITLE = "TITLE";
@@ -43,8 +43,8 @@ public class GameplayOptionFragment extends BaseMvpFragment<IGameplayOptionView,
 
     public static void start(Fragment fragment, String title, TeamResponse team, LeagueResponse league) {
         AloneFragmentActivity.with(fragment)
-                .parameters(GameplayOptionFragment.newBundle(title, team, league))
-                .start(GameplayOptionFragment.class);
+                .parameters(GameplayFragment.newBundle(title, team, league))
+                .start(GameplayFragment.class);
     }
 
     private static Bundle newBundle(String title, TeamResponse team, LeagueResponse league) {
@@ -90,8 +90,8 @@ public class GameplayOptionFragment extends BaseMvpFragment<IGameplayOptionView,
 
     @NonNull
     @Override
-    public IGameplayOptionPresenter<IGameplayOptionView> createPresenter() {
-        return new GameplayOptionDataPresenter(getAppComponent());
+    public IGameplayPresenter<IGameplayView> createPresenter() {
+        return new GameplayPresenter(getAppComponent());
     }
 
     void initBackgroundToolbar() {

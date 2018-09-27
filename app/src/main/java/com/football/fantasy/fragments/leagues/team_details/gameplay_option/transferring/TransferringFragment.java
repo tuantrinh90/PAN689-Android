@@ -23,7 +23,7 @@ import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.fantasy.fragments.leagues.player_pool.PlayerPoolFragment;
 import com.football.fantasy.fragments.leagues.player_pool.display.DisplayConfigFragment;
-import com.football.fantasy.fragments.leagues.player_pool.filter.PlayerPoolFilterFragment;
+import com.football.fantasy.fragments.leagues.player_pool.filter.FilterFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TeamResponse;
@@ -144,7 +144,7 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     @NonNull
     @Override
     public ITransferringPresenter<ITransferringView> createPresenter() {
-        return new TransferringDataPresenter(getAppComponent());
+        return new TransferringPresenter(getAppComponent());
     }
 
     private void registerBus() {
@@ -333,8 +333,8 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
             case R.id.filter:
                 AloneFragmentActivity.with(this)
                         .forResult(REQUEST_FILTER)
-                        .parameters(PlayerPoolFilterFragment.newBundle(TAG, filterPositions, filterClubs, false))
-                        .start(PlayerPoolFilterFragment.class);
+                        .parameters(FilterFragment.newBundle(TAG, filterPositions, filterClubs, false))
+                        .start(FilterFragment.class);
                 break;
             case R.id.display:
                 StringBuilder displays = new StringBuilder();

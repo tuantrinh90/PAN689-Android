@@ -19,7 +19,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class PlayerPoolSortFragment extends BaseMvpFragment<IPlayerPoolSortView, IPlayerPoolSortPresenter<IPlayerPoolSortView>> implements IPlayerPoolSortView {
+public class SortFragment extends BaseMvpFragment<ISortView, ISortPresenter<ISortView>> implements ISortView {
     @BindView(R.id.tvHeader)
     ExtTextView tvHeader;
     @BindView(R.id.tvSortByColumn)
@@ -49,8 +49,8 @@ public class PlayerPoolSortFragment extends BaseMvpFragment<IPlayerPoolSortView,
     }
 
     @Override
-    public IPlayerPoolSortPresenter<IPlayerPoolSortView> createPresenter() {
-        return new PlayerPoolSortPresenter(getAppComponent());
+    public ISortPresenter<ISortView> createPresenter() {
+        return new SortPresenter(getAppComponent());
     }
 
     @OnClick(R.id.tvSortByColumn)

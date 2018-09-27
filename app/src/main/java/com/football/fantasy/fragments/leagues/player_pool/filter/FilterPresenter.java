@@ -7,11 +7,11 @@ import com.football.models.PagingResponse;
 import com.football.models.responses.RealClubResponse;
 import com.football.utilities.RxUtilities;
 
-public class PlayerPoolFilterPresenter extends BaseDataPresenter<IPlayerPoolFilterView> implements IPlayerPoolFilterPresenter<IPlayerPoolFilterView> {
+public class FilterPresenter extends BaseDataPresenter<IFilterView> implements IFilterPresenter<IFilterView> {
     /**
      * @param appComponent
      */
-    public PlayerPoolFilterPresenter(AppComponent appComponent) {
+    public FilterPresenter(AppComponent appComponent) {
         super(appComponent);
     }
 

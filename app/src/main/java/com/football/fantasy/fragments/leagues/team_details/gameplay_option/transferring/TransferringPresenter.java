@@ -22,13 +22,13 @@ import java.util.Map;
 import io.reactivex.disposables.Disposable;
 import okhttp3.MultipartBody;
 
-public class TransferringDataPresenter extends BaseDataPresenter<ITransferringView> implements ITransferringPresenter<ITransferringView> {
+public class TransferringPresenter extends BaseDataPresenter<ITransferringView> implements ITransferringPresenter<ITransferringView> {
     private Disposable disposableGetPlayers;
 
     /**
      * @param appComponent
      */
-    protected TransferringDataPresenter(AppComponent appComponent) {
+    protected TransferringPresenter(AppComponent appComponent) {
         super(appComponent);
     }
 

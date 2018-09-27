@@ -10,11 +10,11 @@ import com.football.utilities.RxUtilities;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RecordDataPresenter extends BaseDataPresenter<IRecordView> implements IRecordPresenter<IRecordView> {
+public class RecordPresenter extends BaseDataPresenter<IRecordView> implements IRecordPresenter<IRecordView> {
     /**
      * @param appComponent
      */
-    protected RecordDataPresenter(AppComponent appComponent) {
+    protected RecordPresenter(AppComponent appComponent) {
         super(appComponent);
     }
 

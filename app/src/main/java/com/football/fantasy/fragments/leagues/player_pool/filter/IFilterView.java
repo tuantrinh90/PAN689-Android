@@ -5,6 +5,6 @@ import com.football.models.responses.RealClubResponse;
 
 import java.util.List;
 
-public interface IPlayerPoolFilterView extends IBaseMvpView {
+public interface IFilterView extends IBaseMvpView {
     void displayClubs(List<RealClubResponse> data);
 }
