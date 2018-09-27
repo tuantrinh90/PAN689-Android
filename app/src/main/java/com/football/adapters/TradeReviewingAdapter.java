@@ -102,7 +102,7 @@ public class TradeReviewingAdapter extends DefaultAdapter<TradeResponse> {
             holder.tvStatus.setVisibility(View.VISIBLE);
 
             holder.imageIcon.setImageResource(R.drawable.ic_check_white_24_px);
-            holder.tvStatus.setText(mContext.getString(R.string.approved_));
+            holder.tvStatus.setText(mContext.getString(R.string.successful));
             holder.tvStatus.setTextColor(ContextCompat.getColor(mContext, R.color.color_white));
             holder.bottom.setBackgroundResource(R.drawable.bg_green_gradient_radius_bottom);
 
@@ -111,7 +111,7 @@ public class TradeReviewingAdapter extends DefaultAdapter<TradeResponse> {
             holder.tvStatus.setVisibility(View.VISIBLE);
 
             holder.imageIcon.setImageResource(R.drawable.ic_close_white_24_px);
-            holder.tvStatus.setText(mContext.getString(R.string.rejected_));
+            holder.tvStatus.setText(mContext.getString(R.string.failed));
             holder.tvStatus.setTextColor(ContextCompat.getColor(mContext, R.color.color_white));
             holder.bottom.setBackgroundResource(R.drawable.bg_red_gradient_radius_bottom);
         }

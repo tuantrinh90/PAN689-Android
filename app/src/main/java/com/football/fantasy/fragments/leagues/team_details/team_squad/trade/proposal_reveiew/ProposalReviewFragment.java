@@ -162,12 +162,13 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
             }
 
             displayViewToYou();
-        } else if (!isApproved()) {
+        } else if (!isAccept()) {
             toYouButton.setVisibility(View.VISIBLE);
             headerToYou.setVisibility(View.VISIBLE);
 
             displayViewToYou();
-        } else if (isApproved()) {
+        } else if (isAccept()) {
+            headerByYou.setVisibility(View.VISIBLE);
             displayViewByYou();
         } else {
             // isPending
@@ -179,8 +180,18 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
         displayPlayerViews();
     }
 
+    /**
+     * Dành cho màn hình RequestByYou, RequestToYou
+     */
     private boolean isApproved() {
         return trade.getReviewStatus() == TradeResponse.STATUS_SUCCESSFUL;
+    }
+
+    /**
+     * Dành cho màn hình TradeReview
+     */
+    private boolean isAccept() {
+        return trade.getStatus() == TradeResponse.STATUS_SUCCESSFUL;
     }
 
     private void displayPlayerViews() {
@@ -208,8 +219,9 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     private void displayViewByYou() {
         tvDeadline.setText(AppUtilities.getTime(trade.getReviewDeadline(), Constant.FORMAT_DATE_TIME_SERVER, Constant.FORMAT_DATE_TIME));
         tvReject.setText(getString(R.string.rejected, trade.getTotalRejection()));
-        tvApprove.setText(getString(R.string.approved, trade.getTotalApproval()));
-        progressBar.setMax(trade.getTotalReview());
+        int approved = trade.getTotalApproval() - 2 < 0 ? 0 : trade.getTotalApproval() - 2;
+        tvApprove.setText(getString(R.string.approved, approved));
+        progressBar.setMax(trade.getTotalRejection() + approved);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             progressBar.setProgress(trade.getTotalRejection(), true);
         } else {

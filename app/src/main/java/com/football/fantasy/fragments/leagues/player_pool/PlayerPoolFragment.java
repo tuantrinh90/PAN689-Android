@@ -42,7 +42,6 @@ import io.reactivex.observers.DisposableObserver;
 import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_PICK;
 import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_PICKED;
 import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_DRAFT;
-import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
 
 public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayerPoolPresenter<IPlayerPoolView>> implements IPlayerPoolView {
 
@@ -273,11 +272,22 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
                 getContext(),
                 player -> { // click event
                     if (playerTransfer == null) {
-                        PlayerDetailFragment.start(this,
-                                player.getId(),
-                                -1,
-                                getString(R.string.player_list),
-                                GAMEPLAY_OPTION_TRANSFER);
+                        if (TextUtils.isEmpty(gameplay)) {
+                            AloneFragmentActivity.with(this)
+                                    .parameters(PlayerDetailFragment.newBundle(
+                                            player.getId(),
+                                            -1,
+                                            getString(R.string.player_list),
+                                            PlayerDetailFragment.PICK_NONE,
+                                            gameplay))
+                                    .start(PlayerDetailFragment.class);
+                        } else {
+                            PlayerDetailFragment.start(this,
+                                    player.getId(),
+                                    -1,
+                                    getString(R.string.player_list),
+                                    gameplay);
+                        }
                     } else {
                         PlayerDetailForTransferFragment.start(
                                 this,
@@ -286,7 +296,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
                                 -1,
                                 getString(R.string.player_list),
                                 player.getSelected() ? PICK_PICKED : PICK_PICK,
-                                GAMEPLAY_OPTION_TRANSFER);
+                                gameplay);
                     }
                 });
 

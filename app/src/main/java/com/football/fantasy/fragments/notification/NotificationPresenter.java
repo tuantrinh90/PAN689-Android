@@ -19,10 +19,11 @@ public class NotificationPresenter extends BaseDataPresenter<INotificationView> 
     }
 
     @Override
-    public void getNotification(int page) {
+    public void getNotification(String deviceId, int page) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
             queries.put("page", String.valueOf(page));
+            queries.put("device_id", deviceId);
             mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().getNotifications(queries),
                     new ApiCallback<PagingResponse<NotificationResponse>>() {

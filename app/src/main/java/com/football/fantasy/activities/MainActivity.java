@@ -288,12 +288,6 @@ public class MainActivity extends BaseActivity {
                 PlayerPoolFragment.start(this, getString(R.string.home));
                 break;
 
-            // Accept/Reject screen
-            case NEW_TRADE_PROPOSAL:
-            case TWO_HOURS_TO_TRADE_PROPOSAL_DEADLINE:
-                // TODO: chưa làm
-                break;
-
             // Trade proposal - List - tab request to you
             case TRADE_PROPOSAL_CANCELLED:
             case TRADE_PROPOSAL_REJECTED:
@@ -313,6 +307,10 @@ public class MainActivity extends BaseActivity {
                         .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, LeagueDetailFragment.TRADE_REVIEW, action))
                         .start(LeagueDetailFragment.class);
                 break;
+
+            // Accept/Reject screen
+            case NEW_TRADE_PROPOSAL:
+            case TWO_HOURS_TO_TRADE_PROPOSAL_DEADLINE:
 
             default:
                 if (BuildConfig.DEBUG)

@@ -3,6 +3,7 @@ package com.football.fantasy.fragments.leagues.league_details;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -95,6 +96,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     private LeagueResponse league;
     private LeagueDetailViewPagerAdapter leagueDetailViewPagerAdapter;
     private List<ExtKeyValuePair> valuePairs = new ArrayList<>();
+    private Handler handler = new Handler();
 
 
     public static Bundle newBundle(String title, int leagueId, String leagueType) {
@@ -374,13 +376,23 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
                 if (fragmentIndex >= 10) {
                     switch (fragmentIndex) {
                         case SETUP_TEAM:
-                            ((LeagueInfoFragment) leagueDetailViewPagerAdapter.getItem(LEAGUE_INFORMATION)).openSetupTeam();
+                            handler.postDelayed(() -> {
+                                if (leagueDetailViewPagerAdapter != null) {
+                                    ((LeagueInfoFragment) leagueDetailViewPagerAdapter.getItem(LEAGUE_INFORMATION)).openSetupTeam();
+                                }
+                            }, 300);
                             break;
 
                         case EDIT_LEAGUE:
-                            AloneFragmentActivity.with(LeagueDetailFragment.this)
-                                    .parameters(SetUpLeagueFragment.newBundle(league, getString(R.string.league_details)))
-                                    .start(SetUpLeagueFragment.class);
+                            handler.postDelayed(() -> {
+                                try {
+                                    AloneFragmentActivity.with(LeagueDetailFragment.this)
+                                            .parameters(SetUpLeagueFragment.newBundle(league, getString(R.string.league_details)))
+                                            .start(SetUpLeagueFragment.class);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }, 300);
                             break;
                     }
                 } else {

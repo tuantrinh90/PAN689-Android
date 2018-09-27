@@ -368,4 +368,6 @@
     <string name="can_not_update_time_per_draft">can_not_update_time_per_draft</string>
     <string name="can_not_update_team_setup_time">can_not_update_team_setup_time</string>
     <string name="transferring_player_left_less_than_1"><![CDATA[currentTransfer <= 0]]></string>
+    <string name="successful">Successful</string>
+    <string name="failed">Failed</string>
 </resources>

@@ -32,6 +32,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_NONE;
+import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_NONE_INFO;
 import static com.football.utilities.Constant.MAX_SECONDS_CHANGE_TURN;
 
 public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineupDraftPresenter<ILineupDraftView>> implements ILineupDraftView {
@@ -331,7 +332,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                 -1,
                 getString(R.string.lineup),
                 league.getGameplayOption(),
-                PICK_NONE,
+                PICK_NONE_INFO,
                 position,
                 order);
     }

@@ -151,9 +151,7 @@ public class TeamLineupFragment extends BaseMvpFragment<ITeamLineupView, ITeamLi
                     // currentTime > deadline // todo: chờ tái hiện 544
                     Calendar currentTime = Calendar.getInstance();
                     Calendar deadline = team.getCurrentRound() != null ? team.getCurrentRound().getTransferDeadlineCalendar() : null;
-                    if (deadline == null) {
-                        showMessage(R.string.message_can_not_change_position_after_real_match_start, R.string.ok, null);
-                    } else if (currentTime.after(deadline)) {
+                    if (currentTime.before(deadline)) {
                         presenter.addPlayerToPitchView(team.getId(), team.getRound(), fromPlayer, player, position, order);
                     } else {
                         showMessage(R.string.message_can_not_change_position_after_real_match_start, R.string.ok, null);
@@ -209,7 +207,6 @@ public class TeamLineupFragment extends BaseMvpFragment<ITeamLineupView, ITeamLi
 
     @Override
     public void displayTeam(TeamResponse team) {
-        this.team = team;
         if (!TextUtils.isEmpty(team.getFormation()) || team.getFormation().equals("null")) {
             lineupView.setFormation(team.getFormation());
             lineupView.notifyDataSetChanged();

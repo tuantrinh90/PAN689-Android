@@ -1,6 +1,7 @@
 package com.football.fantasy.fragments.notification;
 
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -17,6 +18,9 @@ import java.util.List;
 import butterknife.BindView;
 
 public class NotificationFragment extends BaseMvpFragment<INotificationView, INotificationPresenter<INotificationView>> implements INotificationView {
+
+    private String deviceId;
+
     public static NotificationFragment newInstance() {
         return new NotificationFragment();
     }
@@ -40,6 +44,10 @@ public class NotificationFragment extends BaseMvpFragment<INotificationView, INo
     @Override
     protected void initialized() {
         super.initialized();
+
+        deviceId = Settings.Secure.getString(mActivity.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+
         initRecyclerView();
         refresh();
     }
@@ -75,7 +83,7 @@ public class NotificationFragment extends BaseMvpFragment<INotificationView, INo
     }
 
     private void getNotifications() {
-        presenter.getNotification(page);
+        presenter.getNotification(deviceId, page);
     }
 
     private void refresh() {

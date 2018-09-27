@@ -94,7 +94,7 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     private TeamResponse team;
     private LeagueResponse league;
 
-    private int currentTransfer;
+    private int transferLeft;
 
     private String filterClubs = "";
     private String filterPositions = "";
@@ -304,7 +304,7 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     private void transferPlayer(PlayerResponse player) {
         // append PlayerPool
         if (tvTransferringTimeLeftValue.isRunning()) {
-            if (currentTransfer <= 0 || true) { // todo: check lại xem có cần check currentTransfer ko hoặc logic ở đây thế nào?
+            if (transferLeft > 0) {
                 PlayerPoolFragment.start(
                         this,
                         getString(R.string.transferring_player),
@@ -444,8 +444,8 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
 
     @Override
     public void displayHeader(boolean canTransfer, int current, int max, long transferTimeLeft, long budget) {
-        currentTransfer = current;
-        tvTransferringPlayerLeftValue.setText(current + "/" + max);
+        transferLeft = max - current;
+        tvTransferringPlayerLeftValue.setText(transferLeft + "/" + max);
         tvTransferringTimeLeftValue.setTime(transferTimeLeft);
         tvTransferringTimeLeftValue.start();
         tvBudgetValue.setText(getString(R.string.money_prefix, AppUtilities.getMoney(budget)));

@@ -1,6 +1,7 @@
 package com.football.application;
 
 import android.content.Context;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -15,7 +16,6 @@ import com.football.fantasy.R;
 import com.football.utilities.Constant;
 import com.football.utilities.FragmentUtils;
 import com.football.utilities.ServiceConfig;
-import com.football.utilities.SocketEventKey;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 

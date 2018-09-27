@@ -8,6 +8,7 @@ import android.view.View;
 import com.football.adapters.RecordAdapter;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
+import com.football.events.TradeEvent;
 import com.football.events.TransferEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
@@ -69,6 +70,25 @@ public class RecordFragment extends BaseMvpFragment<IRecordView, IRecordPresente
                         if (event.getAction() == TransferEvent.RECEIVER) {
                             refreshData();
                         }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                }));
+
+        // action add click on PlayerList
+        mCompositeDisposable.add(bus.ofType(TradeEvent.class)
+                .subscribeWith(new DisposableObserver<TradeEvent>() {
+                    @Override
+                    public void onNext(TradeEvent event) {
+                        refreshData();
                     }
 
                     @Override

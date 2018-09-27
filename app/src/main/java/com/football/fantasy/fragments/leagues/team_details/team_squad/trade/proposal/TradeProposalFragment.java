@@ -15,6 +15,7 @@ import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.lineup.PlayerView;
 import com.football.events.PlayerEvent;
 import com.football.events.RequestProposalEvent;
+import com.football.events.TradeEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.proposal_team_squad.ProposalTeamSquadFragment;
 import com.football.models.responses.PlayerResponse;
@@ -261,7 +262,7 @@ public class TradeProposalFragment extends BaseMvpFragment<ITradeProposalView, I
 
     @Override
     public void submitSuccess(TradeResponse response) {
-        bus.send(new RequestProposalEvent());
+        bus.send(new TradeEvent());
         mActivity.finish();
     }
 }

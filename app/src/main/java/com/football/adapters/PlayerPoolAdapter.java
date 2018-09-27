@@ -14,8 +14,6 @@ import com.football.models.responses.PlayerResponse;
 import com.football.utilities.AppUtilities;
 import com.jakewharton.rxbinding2.view.RxView;
 
-import java.util.List;
-
 import butterknife.BindView;
 import io.reactivex.disposables.CompositeDisposable;
 import java8.util.function.Consumer;
@@ -108,13 +106,13 @@ public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
             case PlayerResponse.Options.POINT:
                 value = String.valueOf(data.getPoint());
                 // set ivOption up or down here
-                if (data.getPoint() == 0) {
+                if (data.getRankStatus() == PlayerResponse.RANK_STATUS_NONE) {
                     ivOption.setVisibility(View.GONE);
-                } else if (data.getPoint() < 0) {
+                } else if (data.getRankStatus() == PlayerResponse.RANK_STATUS_DOWN) {
                     ivOption.setVisibility(View.VISIBLE);
                     ivOption.setBackgroundResource(R.drawable.bg_circle_red);
                     ivOption.setImageResource(R.drawable.ic_arrow_down_white);
-                } else if (data.getPoint() > 0) {
+                } else if (data.getRankStatus() == PlayerResponse.RANK_STATUS_UP) {
                     ivOption.setVisibility(View.VISIBLE);
                     ivOption.setBackgroundResource(R.drawable.bg_circle_green);
                     ivOption.setImageResource(R.drawable.ic_arrow_upward_white_small);

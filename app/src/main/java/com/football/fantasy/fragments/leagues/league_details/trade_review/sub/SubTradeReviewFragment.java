@@ -113,24 +113,6 @@ public class SubTradeReviewFragment extends BaseMvpFragment<ISubTradeReviewView,
     private void registerBus() {
         try {
             // action add click on PlayerList
-            mCompositeDisposable.add(bus.ofType(RequestProposalEvent.class)
-                    .subscribeWith(new DisposableObserver<RequestProposalEvent>() {
-                        @Override
-                        public void onNext(RequestProposalEvent event) {
-                            refresh();
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    }));
-            // action add click on PlayerList
             mCompositeDisposable.add(bus.ofType(TradeEvent.class)
                     .subscribeWith(new DisposableObserver<TradeEvent>() {
                         @Override

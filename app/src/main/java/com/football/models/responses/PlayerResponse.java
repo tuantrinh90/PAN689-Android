@@ -72,6 +72,10 @@ public class PlayerResponse implements Serializable {
     public static final int POSITION_MIDFIELDER = 2;
     public static final int POSITION_ATTACKER = 3;
 
+    public static final int RANK_STATUS_DOWN = -1;
+    public static final int RANK_STATUS_NONE = 0;
+    public static final int RANK_STATUS_UP = 1;
+
     @JsonProperty("id")
     private int id;
     @JsonProperty("created_at")
@@ -140,6 +144,8 @@ public class PlayerResponse implements Serializable {
     private Integer order;
     @JsonProperty("is_trading")
     private boolean isTrading;
+    @JsonProperty("rank_status")
+    private int rank_status;
 
     public PlayerResponse() {
     }
@@ -407,6 +413,14 @@ public class PlayerResponse implements Serializable {
 
     public boolean isTrading() {
         return isTrading;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public int getRankStatus() {
+        return rank_status;
     }
 
     @Override

@@ -138,7 +138,7 @@ public class RequestFragment extends BaseMvpFragment<IRequestView, IRequestPrese
 
     @Override
     public void displayTradeRequestLeftDisplay(String tradeRequestLeftDisplay, int pendingTradeRequest, int currentTradeRequest, int maxTradeRequest) {
-        if (getParentFragment() instanceof TradeRequestFragment) {
+        if (getParentFragment() instanceof TradeRequestFragment && type == REQUEST_BY_YOU) {
             ((TradeRequestFragment) getParentFragment()).displayTradeRequestLeftDisplay(tradeRequestLeftDisplay, pendingTradeRequest, currentTradeRequest, maxTradeRequest);
         }
     }

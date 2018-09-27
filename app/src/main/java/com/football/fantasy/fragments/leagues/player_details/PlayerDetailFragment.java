@@ -50,7 +50,8 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
     private static final String KEY_LAST_3_ROUNDS = "LAST_3_ROUNDS";
     private static final String KEY_POINTS = "POINTS";
 
-    public static final int PICK_NONE = -1;
+    public static final int PICK_NONE = -2;
+    public static final int PICK_NONE_INFO = -1;
     public static final int PICK_PICK = 0;
     public static final int PICK_PICKED = 1;
 
@@ -242,6 +243,10 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
         switch (pickEnable) {
             case PICK_NONE:
                 viewPick.setVisibility(View.GONE);
+                break;
+
+            case PICK_NONE_INFO:
+                viewPick.setVisibility(View.GONE);
                 ivInfo.setVisibility(View.VISIBLE);
                 break;
 
@@ -286,7 +291,7 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
 
     @OnClick({R.id.ivInfo})
     public void onInfoClicked() {
-       showMessage(getString(R.string.message_info_player_detail));
+        showMessage(getString(R.string.message_info_player_detail));
     }
 
     @OnClick({R.id.selection})
