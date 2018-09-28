@@ -79,7 +79,7 @@ public class PlayerListDraftPresenter extends PlayerListPresenter<IPlayerListDra
 
                         @Override
                         public void onError(String error) {
-                            v.showMessage(error);
+//                            v.showMessage(error);
                         }
                     },
                     3000);

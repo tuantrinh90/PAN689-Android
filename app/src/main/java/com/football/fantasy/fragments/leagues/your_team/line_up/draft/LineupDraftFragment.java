@@ -31,7 +31,6 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_NONE;
 import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_NONE_INFO;
 import static com.football.utilities.Constant.MAX_SECONDS_CHANGE_TURN;
 
@@ -126,7 +125,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             Log.i(SocketEventKey.EVENT_CHANGE_LINEUP, "");
             if (pickEnable && args != null && args.length > 0 && args[0] != null) {
                 LineupResponse response = JacksonUtils.convertJsonToObject(args[0].toString(), LineupResponse.class);
-                if (response.getTeam().getId().equals(teamId)) {
+                if (response.getTeam().getId() == teamId) {
                     Log.i(TAG, "EVENT_CHANGE_LINEUP: " + args[0].toString());
                     mActivity.runOnUiThread(() -> {
                         textCountdown.stop();

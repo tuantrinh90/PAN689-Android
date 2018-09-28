@@ -2,6 +2,7 @@ package com.football.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.bon.customview.listview.ExtBaseAdapter;
@@ -84,7 +85,12 @@ public class RealMatchAdapter extends DefaultAdapter<RealMatch> {
             holder.tvMatchTeam1.setText(data.getTeam1Result() != -1 ? String.valueOf(data.getTeam1Result()) : "-");
             holder.tvMatchTeam2.setText(data.getTeam2Result() != -1 ? String.valueOf(data.getTeam2Result()) : "-");
 
-            holder.tvTime.setText(DateTimeUtils.convertCalendarToString(DateTimeUtils.convertStringToCalendar(data.getStartAt(), Constant.FORMAT_DATE_TIME_SERVER), Constant.FORMAT_HOUR_MINUTE));
+            holder.tvTime.setText(DateTimeUtils.convertCalendarToString(
+                    DateTimeUtils.convertStringToCalendar(
+                            !TextUtils.isEmpty(data.getDelayStartAt()) ?
+                                    data.getDelayStartAt() :
+                                    data.getStartAt(),
+                            Constant.FORMAT_DATE_TIME_SERVER), Constant.FORMAT_HOUR_MINUTE));
         }
 
         class LeagueResultHolder extends ExtPagingListView.ExtViewHolder {

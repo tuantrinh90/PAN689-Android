@@ -5,14 +5,17 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.StringDef;
 import android.support.v4.content.ContextCompat;
 
+import com.bon.util.DateTimeUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.football.fantasy.R;
 import com.football.utilities.AppUtilities;
+import com.football.utilities.Constant;
 
 import java.io.Serializable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Calendar;
 
 import static com.football.models.responses.PlayerResponse.Options.ASSISTS;
 import static com.football.models.responses.PlayerResponse.Options.BALLS_RECOVERED;
@@ -146,6 +149,8 @@ public class PlayerResponse implements Serializable {
     private boolean isTrading;
     @JsonProperty("rank_status")
     private int rank_status;
+    @JsonProperty("transfer_deadline")
+    private String transferDeadline;
 
     public PlayerResponse() {
     }
@@ -421,6 +426,15 @@ public class PlayerResponse implements Serializable {
 
     public int getRankStatus() {
         return rank_status;
+    }
+
+    public String getTransferDeadline() {
+        return transferDeadline;
+    }
+
+    @JsonIgnore
+    public Calendar getTransferDeadlineCalendar() {
+        return DateTimeUtils.convertStringToCalendar(transferDeadline, Constant.FORMAT_DATE_TIME_SERVER);
     }
 
     @Override

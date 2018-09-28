@@ -182,9 +182,13 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
         switch (view.getId()) {
             case R.id.llTeamLineUp:
                 if (team.getCompleted()) {
-                    AloneFragmentActivity.with(this)
-                            .parameters(TeamLineupFragment.newBundle(getString(R.string.team_details), team))
-                            .start(TeamLineupFragment.class);
+                    if (team.getLastRound() != null) {
+                        AloneFragmentActivity.with(this)
+                                .parameters(TeamLineupFragment.newBundle(getString(R.string.team_details), team))
+                                .start(TeamLineupFragment.class);
+                    } else {
+                        showMessage(getString(R.string.message_team_lineup_all_round_come_to_end));
+                    }
                 } else {
                     showMessage(getString(R.string.message_team_lineup_is_not_completed_yet));
                 }
@@ -233,8 +237,11 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
         tvName.setText(team.getUser().getName());
         ImageLoaderUtils.displayImage(team.getLogo(), ivAvatar.getImageView());
         tvRank.setText(String.valueOf(team.getRank()));
-        tvPoints.setText(AppUtilities.convertNumber(Long.valueOf(team.getTotalPoint())));
+        tvPoints.setText(AppUtilities.convertNumber((long) team.getTotalPoint()));
         tvBudget.setText(getString(R.string.money_prefix, AppUtilities.getMoney(team.getCurrentBudget())));
         tvDescription.setText(team.getDescription());
+        if (league.getOwner() && league.getTeam().getId() == teamId) {
+            tvOwner.setText(getString(R.string.owner));
+        }
     }
 }

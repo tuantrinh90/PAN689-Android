@@ -20,6 +20,8 @@ import com.football.models.responses.TeamResponse;
 import com.football.utilities.AppUtilities;
 import com.football.utilities.Constant;
 
+import java.util.List;
+
 import butterknife.OnClick;
 
 import static com.football.customizes.lineup.PlayerView.NONE_ORDER;
@@ -49,6 +51,11 @@ public class LineupTransferFragment extends LineUpFragment<ILineupTransferView, 
         setupTransferMode();
 
         presenter.getLineup(teamId);
+    }
+
+    @Override
+    public void displayLineupPlayers(List<PlayerResponse> players) {
+        super.displayLineupPlayers(players);
     }
 
     @Override
@@ -138,8 +145,8 @@ public class LineupTransferFragment extends LineUpFragment<ILineupTransferView, 
     }
 
     @Override
-    public void checkCompleted(boolean firstCheck) {
-        enableCompleteButton(lineupView.isSetupComplete() || (firstCheck && league != null && league.getTeam().getCompleted()));
+    public void checkCompleted() {
+        enableCompleteButton(lineupView.isSetupComplete());
     }
 
     @Override

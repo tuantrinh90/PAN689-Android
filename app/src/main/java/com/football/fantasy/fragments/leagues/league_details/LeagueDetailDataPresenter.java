@@ -4,11 +4,13 @@ import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
 import com.football.models.responses.LeagueResponse;
+import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.StopResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.utilities.AppUtilities;
 import com.football.utilities.RxUtilities;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailView> implements ILeagueDetailPresenter<ILeagueDetailView> {
@@ -67,6 +69,17 @@ public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailVi
                                     v.goLineup();
                                 }
 
+                            }
+
+                            // show message and điều hướng đến playerPool để pick 1 cầu thủ
+                            if (response.getPlayers() != null && response.getPlayers().size() > 0) {
+                                long transferValue = 0;
+                                ArrayList<Integer> ids = new ArrayList<>();
+                                for (PlayerResponse player : response.getPlayers()) {
+                                    transferValue += player.getTransferValue();
+                                    ids.add(player.getId());
+                                }
+                                v.handleDeletePlayers(ids, transferValue);
                             }
                         }
 

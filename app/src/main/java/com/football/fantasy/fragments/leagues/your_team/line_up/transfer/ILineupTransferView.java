@@ -9,7 +9,7 @@ public interface ILineupTransferView extends ILineUpView {
 
     void enableCompleteButton(boolean enable);
 
-    void checkCompleted(boolean firstCheck);
+    void checkCompleted();
 
     void completeLineupSuccess();
 

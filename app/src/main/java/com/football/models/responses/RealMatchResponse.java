@@ -29,6 +29,10 @@ public class RealMatchResponse implements Serializable {
     private String startAt;
     @JsonProperty("end_at")
     private String endAt;
+    @JsonProperty("delay_start_at")
+    private String delayStartAt;
+    @JsonProperty("delay_end_at")
+    private String delayEndAt;
 
     public Integer getId() {
         return id;
@@ -76,6 +80,14 @@ public class RealMatchResponse implements Serializable {
 
     public String getEndAt() {
         return endAt;
+    }
+
+    public String getDelayStartAt() {
+        return delayStartAt;
+    }
+
+    public String getDelayEndAt() {
+        return delayEndAt;
     }
 
     @Override

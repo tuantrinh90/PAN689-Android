@@ -59,6 +59,9 @@ public class TeamLineupPresenter extends BaseDataPresenter<ITeamLineupView> impl
                         @Override
                         public void onSuccess(TeamPitchViewResponse response) {
                             showResponse(v, response);
+                            if (response.getTeam() != null) {
+                                v.displayTeam(response.getTeam());
+                            }
                         }
 
                         @Override
@@ -147,9 +150,6 @@ public class TeamLineupPresenter extends BaseDataPresenter<ITeamLineupView> impl
 
     private void showResponse(ITeamLineupView v, TeamPitchViewResponse response) {
         if (response != null) {
-            if (response.getTeam() != null) {
-                v.displayTeam(response.getTeam());
-            }
             if (response.getPlayers() != null) {
                 v.displayMainPlayers(response.getPlayers());
             }

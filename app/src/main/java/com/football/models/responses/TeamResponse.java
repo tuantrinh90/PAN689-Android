@@ -8,13 +8,13 @@ import java.io.Serializable;
 
 public class TeamResponse implements Serializable {
     @JsonProperty("id")
-    private Integer id;
+    private int id;
     @JsonProperty("created_at")
     private String createdAt;
     @JsonProperty("updated_at")
     private String updatedAt;
     @JsonProperty("user_id")
-    private Integer userId;
+    private int userId;
     @JsonProperty("user")
     private UserResponse user;
     @JsonProperty("statistic")
@@ -28,25 +28,25 @@ public class TeamResponse implements Serializable {
     @JsonProperty("current_budget")
     private Long currentBudget;
     @JsonProperty("rank")
-    private Integer rank;
+    private int rank;
     @JsonProperty("total_point")
-    private Integer totalPoint;
+    private int totalPoint;
     @JsonProperty("formation")
     private String formation;
     @JsonProperty("pick_order")
-    private Integer pickOrder;
+    private int pickOrder;
     @JsonProperty("is_owner")
     private Boolean isOwner;
     @JsonProperty("is_completed")
     private Boolean isCompleted;
     @JsonProperty("point")
-    private Integer point;
+    private int point;
     @JsonProperty("round")
-    private Integer round;
+    private int round;
     @JsonProperty("current_trade_request")
-    private Integer currentTradeRequest;
+    private int currentTradeRequest;
     @JsonProperty("max_trade_request")
-    private Integer maxTradeRequest;
+    private int maxTradeRequest;
     @JsonProperty("trade_request_left_display")
     private String tradeRequestLeftDisplay;
 
@@ -58,11 +58,11 @@ public class TeamResponse implements Serializable {
     @JsonIgnore
     private boolean isChecked;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -82,11 +82,11 @@ public class TeamResponse implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -138,19 +138,19 @@ public class TeamResponse implements Serializable {
         this.currentBudget = currentBudget;
     }
 
-    public Integer getRank() {
-        return rank == null ? 0 : rank;
+    public int getRank() {
+        return rank;
     }
 
-    public void setRank(Integer rank) {
+    public void setRank(int rank) {
         this.rank = rank;
     }
 
-    public Integer getTotalPoint() {
-        return totalPoint == null ? 0 : totalPoint;
+    public int getTotalPoint() {
+        return totalPoint;
     }
 
-    public void setTotalPoint(Integer totalPoint) {
+    public void setTotalPoint(int totalPoint) {
         this.totalPoint = totalPoint;
     }
 
@@ -162,11 +162,11 @@ public class TeamResponse implements Serializable {
         this.formation = formation;
     }
 
-    public Integer getPickOrder() {
-        return pickOrder == null ? 0 : pickOrder;
+    public int getPickOrder() {
+        return pickOrder;
     }
 
-    public void setPickOrder(Integer pickOrder) {
+    public void setPickOrder(int pickOrder) {
         this.pickOrder = pickOrder;
     }
 
@@ -190,19 +190,19 @@ public class TeamResponse implements Serializable {
         return isCompleted == null ? false : isCompleted;
     }
 
-    public Integer getPoint() {
+    public int getPoint() {
         return point;
     }
 
-    public Integer getRound() {
+    public int getRound() {
         return round;
     }
 
-    public Integer getCurrentTradeRequest() {
+    public int getCurrentTradeRequest() {
         return currentTradeRequest;
     }
 
-    public Integer getMaxTradeRequest() {
+    public int getMaxTradeRequest() {
         return maxTradeRequest;
     }
 

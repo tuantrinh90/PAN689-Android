@@ -75,7 +75,7 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
     private LeagueResponse league;
     private int page = 1;
     private String query = "";
-    private int playerPosition = -1;
+    protected int playerPosition = -1;
     private View lastPlayerViewSelected = null;
 
     private boolean sortDesc = true;
@@ -149,22 +149,7 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
                                 NONE_ORDER);
                     },
                     (player, position) -> { // add click
-                        showLoading(true);
-                        // bắn sang màn hình LineUp
-                        bus.send(new PlayerEvent.Builder()
-                                .action(PlayerEvent.ACTION_ADD_CLICK)
-                                .position(playerPosition == PlayerResponse.POSITION_NONE ? player.getMainPosition() : playerPosition)
-                                .data(player)
-                                .callback((boo, error) -> {
-                                    showLoading(false);
-                                    if (boo) {
-                                        player.setSelected(true);
-                                        playerAdapter.notifyItemChanged(position);
-                                    } else {
-                                        showMessage(error);
-                                    }
-                                })
-                                .build());
+                       onAddPlayerClicked(player, position);
                     });
 
             // đang ở setupTime && chưa completed
@@ -338,4 +323,6 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
 
     protected abstract void getPlayers(int leagueId, boolean valueSortDesc, int page, String query,
                                        String filterPositions, String filterClubs);
+
+    protected abstract void onAddPlayerClicked(PlayerResponse player, Integer position);
 }

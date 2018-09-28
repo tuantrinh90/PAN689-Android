@@ -3,6 +3,8 @@ package com.football.fantasy.fragments.leagues.league_details;
 import com.football.common.views.IBaseMvpView;
 import com.football.models.responses.LeagueResponse;
 
+import java.util.ArrayList;
+
 public interface ILeagueDetailView extends IBaseMvpView {
     void displayMenu(LeagueResponse response);
 
@@ -16,4 +18,5 @@ public interface ILeagueDetailView extends IBaseMvpView {
 
     void stopOrLeaveLeagueSuccess();
 
+    void handleDeletePlayers(ArrayList<Integer> playerIds, long value);
 }

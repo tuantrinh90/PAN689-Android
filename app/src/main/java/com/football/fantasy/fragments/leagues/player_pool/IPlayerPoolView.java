@@ -10,4 +10,6 @@ public interface IPlayerPoolView extends IBaseMvpView {
     void displayPlayers(List<PlayerResponse> players);
 
     void displaySeasons(List<SeasonResponse> seasons);
+
+    void handleTransferSuccess();
 }

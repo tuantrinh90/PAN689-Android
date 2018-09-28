@@ -2,6 +2,7 @@ package com.football.fantasy.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -9,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.bon.logger.Logger;
 import com.bon.util.ActivityUtils;
 import com.bon.util.DialogUtils;
 import com.bon.util.StringUtils;
@@ -115,6 +117,7 @@ public class MainActivity extends BaseActivity {
     int currentTab = HOME;
 
     private StatePagerAdapter mPagerAdapter;
+    private Handler mHandler = new Handler();
 
     @Override
     protected int getContentViewId() {
@@ -128,11 +131,12 @@ public class MainActivity extends BaseActivity {
         initViewPager();
         initFragmentDefault();
         initRxBus();
-        getDeepLink(getIntent());
-        handleIntent(getIntent());
 
         // register socket
         getAppContext().connectSocket();
+
+        getDeepLink(getIntent());
+        handleIntent(getIntent());
     }
 
     @Override
@@ -161,8 +165,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private static final String TAG = "MainActivity";
-
     private void handleIntent(Intent intent) {
         if (intent != null && !TextUtils.isEmpty(intent.getStringExtra(KEY_ACTION))) {
             String action = intent.getStringExtra(KEY_ACTION);
@@ -173,11 +175,14 @@ public class MainActivity extends BaseActivity {
             int teamId = getInteger(intent, KEY_TEAM_ID);
             int playerId = getInteger(intent, KEY_PLAYER_ID);
 
-            handleAction(action, leagueId, leagueStatus, teamId, teamName, myTeamId, playerId);
+            mHandler.postDelayed(() -> {
+                handleAction(action, leagueId, leagueStatus, teamId, teamName, myTeamId, playerId);
+            }, 300);
         }
     }
 
     public void handleAction(String action, int leagueId, int leagueStatus, int teamId, String teamName, int myTeamId, int playerId) {
+        Logger.e(action);
         switch (action) {
             // League detail
             case USER_LEFT_LEAGUE:
@@ -189,6 +194,7 @@ public class MainActivity extends BaseActivity {
                 AloneFragmentActivity.with(this)
                         .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, -1, action))
                         .start(LeagueDetailFragment.class);
+                Logger.e("handleAction: LeagueDetail");
                 break;
 
             // League detail - Tab team
@@ -199,6 +205,7 @@ public class MainActivity extends BaseActivity {
                 AloneFragmentActivity.with(this)
                         .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, LeagueDetailFragment.TEAM_FRAGMENT_INDEX, action))
                         .start(LeagueDetailFragment.class);
+                Logger.e("handleAction: tab team");
                 break;
 
             // League detail - ranking
@@ -207,6 +214,7 @@ public class MainActivity extends BaseActivity {
                 AloneFragmentActivity.with(this)
                         .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, LeagueDetailFragment.RANKING, action))
                         .start(LeagueDetailFragment.class);
+                Logger.e("handleAction: ranking");
                 break;
 
             // Team squad
@@ -215,6 +223,7 @@ public class MainActivity extends BaseActivity {
                 AloneFragmentActivity.with(this)
                         .parameters(TeamSquadFragment.newBundle(getString(R.string.home), myTeamId, teamId, teamName, leagueStatus, action))
                         .start(TeamSquadFragment.class);
+                Logger.e("handleAction: team squad");
                 break;
 
             // League invitation
@@ -223,6 +232,7 @@ public class MainActivity extends BaseActivity {
                 if (mPagerAdapter.getItem(LEAGUES) instanceof LeagueFragment) {
                     ((LeagueFragment) mPagerAdapter.getItem(LEAGUES)).openInvitation();
                 }
+                Logger.e("handleAction: invitation");
                 break;
 
             // Setup team - screen Lineup
@@ -232,6 +242,7 @@ public class MainActivity extends BaseActivity {
                 AloneFragmentActivity.with(this)
                         .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, LeagueDetailFragment.SETUP_TEAM, action))
                         .start(LeagueDetailFragment.class);
+                Logger.e("handleAction: lineup");
                 break;
 
             // Setup team - tab team list
@@ -240,6 +251,7 @@ public class MainActivity extends BaseActivity {
                 AloneFragmentActivity.with(this)
                         .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, LeagueDetailFragment.TEAM_FRAGMENT_INDEX, action))
                         .start(LeagueDetailFragment.class);
+                Logger.e("team list");
                 break;
 
             // Edit league

@@ -11,4 +11,6 @@ public interface IPlayerPoolPresenter<V extends IBaseMvpView> extends IBaseDataP
     void getPlayers(String seasonId, int leagueId, int seasonIdToTransfer, PlayerResponse playerTransfer, String positions, String clubs, List<ExtKeyValuePair> displayPairs, int[] sorts, int page, String query);
 
     void getSeasons();
+
+    void transferPlayer(int teamId, String gameplay, int fromPlayerId, int toPlayerId);
 }

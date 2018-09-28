@@ -69,9 +69,9 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     @BindView(R.id.by_you_buttons)
     View byYouButton;
     @BindView(R.id.header_by_you)
-    View headerByYou;
+    View headerRejectApproved;
     @BindView(R.id.header_to_you)
-    View headerToYou;
+    View headerTimeLeft;
     @BindView(R.id.tvTimeLeft)
     ExtTextViewCountdown tvTimeLeft;
 
@@ -145,31 +145,31 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
         // || (type == -1 && trade.getStatus().equals(TradeResponse.STATUS_SUCCESSFUL))
         byYouButton.setVisibility(View.GONE);
         toYouButton.setVisibility(View.GONE);
-        headerByYou.setVisibility(View.GONE);
-        headerToYou.setVisibility(View.GONE);
+        headerRejectApproved.setVisibility(View.GONE);
+        headerTimeLeft.setVisibility(View.GONE);
 
         if (type == REQUEST_BY_YOU) {
-            headerByYou.setVisibility(View.VISIBLE);
+            headerRejectApproved.setVisibility(View.VISIBLE);
             if (!isApproved()) {
                 byYouButton.setVisibility(View.VISIBLE);
             }
 
-            displayViewByYou();
+            displayViewRejectApproved();
         } else if (type == REQUEST_TO_YOU) {
-            headerToYou.setVisibility(View.VISIBLE);
+            headerTimeLeft.setVisibility(View.VISIBLE);
             if (!isApproved()) {
                 toYouButton.setVisibility(View.VISIBLE);
             }
 
-            displayViewToYou();
+            displayViewTimeLeft();
         } else if (!isAccept()) {
             toYouButton.setVisibility(View.VISIBLE);
-            headerToYou.setVisibility(View.VISIBLE);
+            headerRejectApproved.setVisibility(View.VISIBLE);
 
-            displayViewToYou();
+            displayViewRejectApproved();
         } else if (isAccept()) {
-            headerByYou.setVisibility(View.VISIBLE);
-            displayViewByYou();
+            headerTimeLeft.setVisibility(View.VISIBLE);
+            displayViewTimeLeft();
         } else {
             // isPending
         }
@@ -216,7 +216,7 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
         playerView.setRemovable(false);
     }
 
-    private void displayViewByYou() {
+    private void displayViewRejectApproved() {
         tvDeadline.setText(AppUtilities.getTime(trade.getReviewDeadline(), Constant.FORMAT_DATE_TIME_SERVER, Constant.FORMAT_DATE_TIME));
         tvReject.setText(getString(R.string.rejected, trade.getTotalRejection()));
         int approved = trade.getTotalApproval() - 2 < 0 ? 0 : trade.getTotalApproval() - 2;
@@ -229,7 +229,7 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
         }
     }
 
-    private void displayViewToYou() {
+    private void displayViewTimeLeft() {
         Calendar deadline = DateTimeUtils.convertStringToCalendar(trade.getReviewDeadline() == null ?
                 trade.getDeadline() : trade.getReviewDeadline(), Constant.FORMAT_DATE_TIME_SERVER);
         Calendar current = Calendar.getInstance();

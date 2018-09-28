@@ -10,6 +10,7 @@ import com.football.utilities.Constant;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.List;
 
 public class LeagueResponse implements Serializable {
     public static final int WAITING_FOR_START = 1;
@@ -107,6 +108,8 @@ public class LeagueResponse implements Serializable {
     private String transferDeadline;
     @JsonProperty("round")
     private int round;
+    @JsonProperty("players")
+    private List<PlayerResponse> players;
 
     public LeagueResponse() {
     }
@@ -486,6 +489,10 @@ public class LeagueResponse implements Serializable {
 
     public int getRound() {
         return round;
+    }
+
+    public List<PlayerResponse> getPlayers() {
+        return players;
     }
 
     @Override

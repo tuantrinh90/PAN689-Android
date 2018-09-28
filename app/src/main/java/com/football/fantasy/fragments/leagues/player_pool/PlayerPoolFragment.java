@@ -50,6 +50,8 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     private static final String KEY_TITLE = "TITLE";
     private static final String KEY_HEADER_TITLE = "HEADER_TITLE";
     private static final String KEY_TRANSFER = "TRANSFER";
+    private static final String KEY_PLAYER_TRANSFERS = "PLAYERS_TRANSFER";
+    private static final String KEY_TEAM_ID = "TEAM_ID";
     private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
     private static final String KEY_SEASON_ID_TO_TRANSFER = "SEASON_ID_TO_TRANSFER";
     private static final String KEY_GAMEPLAY = "GAMEPLAY";
@@ -89,6 +91,8 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
 
     private String title;
     private String headerTitle;
+    private ArrayList<Integer> playerIds;
+    private int teamId;
     private PlayerResponse playerTransfer;
     private int leagueId;
     private int seasonIdToTransfer;
@@ -103,22 +107,31 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     private List<SeasonResponse> seasons;
     private String query = "";
 
+    // dành riêng cho transfer player
+    public static void start(Fragment fragment, String title, String headerTitle, ArrayList<Integer> playerIds, int teamId, int leagueId, int seasonId, String gameplay) {
+        AloneFragmentActivity.with(fragment)
+                .parameters(PlayerPoolFragment.newBundle(title, headerTitle, playerIds, teamId, null, leagueId, seasonId, gameplay))
+                .start(PlayerPoolFragment.class);
+    }
+
     public static void start(Fragment fragment, String title, String headerTitle, PlayerResponse transfer, int leagueId, int seasonId, String gameplay) {
         AloneFragmentActivity.with(fragment)
-                .parameters(PlayerPoolFragment.newBundle(title, headerTitle, transfer, leagueId, seasonId, gameplay))
+                .parameters(PlayerPoolFragment.newBundle(title, headerTitle, null, -1, transfer, leagueId, seasonId, gameplay))
                 .start(PlayerPoolFragment.class);
     }
 
     public static void start(Context context, String title) {
         AloneFragmentActivity.with(context)
-                .parameters(PlayerPoolFragment.newBundle(title, "", null, LEAGUE_ID_NONE, SEASON_ID_NONE, ""))
+                .parameters(PlayerPoolFragment.newBundle(title, "", null, -1, null, LEAGUE_ID_NONE, SEASON_ID_NONE, ""))
                 .start(PlayerPoolFragment.class);
     }
 
-    private static Bundle newBundle(String title, String headerTitle, PlayerResponse transfer, int leagueId, int seasonId, String gameplay) {
+    private static Bundle newBundle(String title, String headerTitle, ArrayList<Integer> playerTransfers, int teamId, PlayerResponse transfer, int leagueId, int seasonId, String gameplay) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_TITLE, title);
         bundle.putString(KEY_HEADER_TITLE, headerTitle);
+        bundle.putIntegerArrayList(KEY_PLAYER_TRANSFERS, playerTransfers);
+        bundle.putInt(KEY_TEAM_ID, teamId);
         bundle.putSerializable(KEY_TRANSFER, transfer);
         bundle.putInt(KEY_LEAGUE_ID, leagueId);
         bundle.putInt(KEY_SEASON_ID_TO_TRANSFER, seasonId);
@@ -149,6 +162,8 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     private void getDataFromBundle() {
         title = getArguments().getString(KEY_TITLE);
         headerTitle = getArguments().getString(KEY_HEADER_TITLE);
+        playerIds = getArguments().getIntegerArrayList(KEY_PLAYER_TRANSFERS);
+        teamId = getArguments().getInt(KEY_TEAM_ID);
         playerTransfer = (PlayerResponse) getArguments().getSerializable(KEY_TRANSFER);
         leagueId = getArguments().getInt(KEY_LEAGUE_ID);
         seasonIdToTransfer = getArguments().getInt(KEY_SEASON_ID_TO_TRANSFER);
@@ -314,6 +329,16 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
             });
         }
 
+        // handle player transfer
+        if (playerIds != null && playerIds.size() > 0) {
+            adapter.setOptionAddCallback(player -> {
+                showLoading(true);
+                if (playerIds.size() > 0) {
+                    presenter.transferPlayer(teamId, gameplay, playerIds.get(0), player.getId());
+                }
+            });
+        }
+
         rvPlayer.adapter(adapter)
                 .loadingLayout(0)
                 .refreshListener(() -> {
@@ -389,6 +414,16 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
 
         rvPlayer.startLoading();
         getPlayers();
+    }
+
+    @Override
+    public void handleTransferSuccess() {
+        playerIds.remove(0);
+        if (playerIds.size() == 0) {
+            showMessage("Transfer successful", R.string.ok, aVoid -> {
+                mActivity.finish();
+            });
+        }
     }
 
     @OnClick({R.id.season, R.id.filter, R.id.display, R.id.option1, R.id.option2, R.id.option3})

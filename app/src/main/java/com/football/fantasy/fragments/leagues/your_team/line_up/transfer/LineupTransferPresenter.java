@@ -16,7 +16,9 @@ public class LineupTransferPresenter extends LineUpPresenter<ILineupTransferView
         getOptView().doIfPresent(v -> {
             v.displayTeamState(response.getTeam());
             v.displayLineupPlayers(response.getPlayers());
-            v.checkCompleted(true);
+            if (response.getTeam().getCompleted()) {
+                v.enableCompleteButton(false);
+            }
             v.displayStatistic(response.getStatistic());
         });
     }
@@ -28,7 +30,7 @@ public class LineupTransferPresenter extends LineUpPresenter<ILineupTransferView
             v.handleCallback(true, "");
             v.displayTeamState(response.getTeam());
             v.addPlayerSuccess(response.getTeam(), player, order);
-            v.checkCompleted(false);
+            v.checkCompleted();
         });
     }
 

@@ -35,6 +35,7 @@ import com.football.fantasy.fragments.leagues.league_details.results.ResultsFrag
 import com.football.fantasy.fragments.leagues.league_details.successor.SuccessorFragment;
 import com.football.fantasy.fragments.leagues.league_details.teams.TeamFragment;
 import com.football.fantasy.fragments.leagues.league_details.trade_review.TradeReviewFragment;
+import com.football.fantasy.fragments.leagues.player_pool.PlayerPoolFragment;
 import com.football.fantasy.fragments.leagues.your_team.YourTeamFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.utilities.AppUtilities;
@@ -308,6 +309,8 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
 
         // show/hide menu
         ivMenu.setVisibility(valuePairs.size() > 0 ? View.VISIBLE : View.GONE);
+        if (!league.getOwner() && !AppUtilities.isSetupTime(league.getTeamSetup()))
+            ivMenu.setVisibility(View.GONE);
     }
 
     @Override
@@ -446,6 +449,26 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     public void stopOrLeaveLeagueSuccess() {
         bus.send(new StopLeagueEvent(leagueId));
         getActivity().finish();
+    }
+
+    @Override
+    public void handleDeletePlayers(ArrayList<Integer> playerIds, long value) {
+        showMessage(
+                league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER) ?
+                        getString(R.string.message_players_has_left_transfer, AppUtilities.getMoney(value)) :
+                        getString(R.string.message_players_has_left_draft),
+                R.string.ok,
+                aVoid -> {
+                    PlayerPoolFragment.start(
+                            this,
+                            getString(R.string.league_details),
+                            getString(R.string.player_pool),
+                            playerIds,
+                            league.getTeam().getId(),
+                            league.getId(),
+                            -1,
+                            league.getGameplayOption());
+                });
     }
 
     @Override

@@ -77,7 +77,10 @@ public class MatchupRealDataLeaguePresenter extends BaseDataPresenter<IMatchupRe
                     List<RealMatchResponse> realMatches = response.getData();
 
                     for (RealMatchResponse realMatch : realMatches) {
-                        String date = AppUtilities.getDate(realMatch.getStartAt());
+                        String date = AppUtilities.getDate(
+                                !TextUtils.isEmpty(realMatch.getDelayStartAt()) ?
+                                        realMatch.getDelayStartAt() :
+                                        realMatch.getStartAt());
                         if (!hashMap.containsKey(date)) {
                             List<RealMatchResponse> list = new ArrayList<>();
                             list.add(realMatch);

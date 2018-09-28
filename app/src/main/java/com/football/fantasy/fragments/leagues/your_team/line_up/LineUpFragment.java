@@ -215,7 +215,7 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
 
     protected abstract void onLineupViewAddClicked(PlayerView playerView, int position, int order);
 
-    // player được bắn về từ popup
+    // player được bắn về từ popup && tab playerList
     protected abstract void onAddClickedFromPopup(PlayerResponse player, int position, int order);
 
     protected abstract void onLineupViewRemoveClicked(PlayerResponse player, int position, int index);

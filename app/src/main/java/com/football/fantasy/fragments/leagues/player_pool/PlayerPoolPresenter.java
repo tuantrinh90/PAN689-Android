@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.disposables.Disposable;
+import okhttp3.MultipartBody;
 
 public class PlayerPoolPresenter extends BaseDataPresenter<IPlayerPoolView> implements IPlayerPoolPresenter<IPlayerPoolView> {
     private Disposable disposableGetPlayers;
@@ -133,6 +134,43 @@ public class PlayerPoolPresenter extends BaseDataPresenter<IPlayerPoolView> impl
                         @Override
                         public void onSuccess(PagingResponse<SeasonResponse> response) {
                             v.displaySeasons(response.getData());
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            v.showMessage(error);
+                        }
+                    }));
+        });
+    }
+
+    @Override
+    public void transferPlayer(int teamId, String gameplay, int fromPlayerId, int toPlayerId) {
+        getOptView().doIfPresent(v -> {
+
+            MultipartBody.Builder builder = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("gameplay_option", gameplay)
+                    .addFormDataPart("from_player_id", String.valueOf(fromPlayerId))
+                    .addFormDataPart("to_player_id", String.valueOf(toPlayerId));
+
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().transferPlayer(teamId, builder.build()),
+                    new ApiCallback<Object>() {
+                        @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
+
+                        @Override
+                        public void onSuccess(Object response) {
+                            v.handleTransferSuccess();
                         }
 
                         @Override
