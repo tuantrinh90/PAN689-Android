@@ -31,6 +31,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
+import static com.football.services.NotificationKey.NEW_TRADE_PROPOSAL;
 import static com.football.services.NotificationKey.TRADE_PROPOSAL_CANCELLED;
 import static com.football.services.NotificationKey.TRADE_PROPOSAL_INVALID;
 import static com.football.services.NotificationKey.TRADE_PROPOSAL_REJECTED;
@@ -43,6 +44,7 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
     private static final String KEY_TITLE = "TITLE";
     private static final String KEY_LEAGUE_STATUS = "STATUS";
     private static final String KEY_ACTION = "ACTION";
+    private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
 
     @BindView(R.id.tvTitle)
     ExtTextView tvTitle;
@@ -61,6 +63,7 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
     private String title;
     private int leagueStatus;
     private String action;
+    private int leagueId;
 
     private TeamSquadResponse teamSquad;
 
@@ -71,9 +74,10 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
     private List<ExtKeyValuePair> directions;
     private ExtKeyValuePair currentDirection;
 
-    public static Bundle newBundle(String title, int myTeamId, int teamId, String teamName, int leagueStatus, String action) {
+    public static Bundle newBundle(String title, int myTeamId, int teamId, String teamName, int leagueStatus, String action, int leagueId) {
         Bundle bundle = newBundle(title, myTeamId, teamId, teamName, leagueStatus);
         bundle.putString(KEY_ACTION, action);
+        bundle.putInt(KEY_LEAGUE_ID, leagueId);
         return bundle;
     }
 
@@ -135,6 +139,7 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
         teamName = getArguments().getString(KEY_TEAM_NAME);
         leagueStatus = getArguments().getInt(KEY_LEAGUE_STATUS);
         action = getArguments().getString(KEY_ACTION, "");
+        leagueId = getArguments().getInt(KEY_LEAGUE_ID);
     }
 
     void initViews(String gamePlayOption) {
@@ -244,6 +249,10 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
                 break;
             case TRADE_PROPOSAL_REJECTED:
                 TradeRequestFragment.start(this, getString(R.string.team_squad), myTeamId, teamId, teamName, teamSquad, TradeRequestFragment.REQUEST_BY_YOU_INDEX);
+                break;
+
+            case NEW_TRADE_PROPOSAL:
+                TradeRequestFragment.startForNotification(this, getString(R.string.team_squad), myTeamId, teamId, teamName, teamSquad, TradeRequestFragment.PROPOSAL_PREVIEW, leagueId);
                 break;
 
             default:

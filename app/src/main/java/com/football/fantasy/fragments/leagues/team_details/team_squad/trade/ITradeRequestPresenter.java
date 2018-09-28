@@ -4,4 +4,5 @@ import com.football.common.presenters.IBaseDataPresenter;
 import com.football.common.views.IBaseMvpView;
 
 public interface ITradeRequestPresenter<V extends IBaseMvpView> extends IBaseDataPresenter<V> {
+    void getTradeRequestsToYou(int leagueId, int teamId);
 }

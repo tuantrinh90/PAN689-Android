@@ -309,8 +309,12 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
 
         // show/hide menu
         ivMenu.setVisibility(valuePairs.size() > 0 ? View.VISIBLE : View.GONE);
-        if (!league.getOwner() && !AppUtilities.isSetupTime(league.getTeamSetup()))
+        if (!league.getOwner() && !AppUtilities.isSetupTime(
+                league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER) ?
+                        league.getTeamSetup() :
+                        league.getDraftTime())) {
             ivMenu.setVisibility(View.GONE);
+        }
     }
 
     @Override

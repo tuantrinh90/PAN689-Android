@@ -217,15 +217,6 @@ public class MainActivity extends BaseActivity {
                 Logger.e("handleAction: ranking");
                 break;
 
-            // Team squad
-            case PLAYER_INJURED:
-                // go LeagueDetail -> TeamSquad
-                AloneFragmentActivity.with(this)
-                        .parameters(TeamSquadFragment.newBundle(getString(R.string.home), myTeamId, teamId, teamName, leagueStatus, action))
-                        .start(TeamSquadFragment.class);
-                Logger.e("handleAction: team squad");
-                break;
-
             // League invitation
             case USER_RECEIVE_INVITE:
                 viewPager.setCurrentItem(LEAGUES);
@@ -300,13 +291,20 @@ public class MainActivity extends BaseActivity {
                 PlayerPoolFragment.start(this, getString(R.string.home));
                 break;
 
-            // Trade proposal - List - tab request to you
+            // Team squad
+            case PLAYER_INJURED:
+
+                // Accept/Reject screen
+            case NEW_TRADE_PROPOSAL:
+            case TWO_HOURS_TO_TRADE_PROPOSAL_DEADLINE:
+
+                // Trade proposal - List - tab request to you
             case TRADE_PROPOSAL_CANCELLED:
             case TRADE_PROPOSAL_REJECTED:
             case TRADE_PROPOSAL_INVALID:
                 // TeamSquad -> TradeRequestFragment -> RequestFragment
                 AloneFragmentActivity.with(this)
-                        .parameters(TeamSquadFragment.newBundle(getString(R.string.home), myTeamId, teamId, teamName, leagueStatus, action))
+                        .parameters(TeamSquadFragment.newBundle(getString(R.string.home), myTeamId, teamId, teamName, leagueStatus, action, leagueId))
                         .start(TeamSquadFragment.class);
                 break;
 
@@ -320,9 +318,6 @@ public class MainActivity extends BaseActivity {
                         .start(LeagueDetailFragment.class);
                 break;
 
-            // Accept/Reject screen
-            case NEW_TRADE_PROPOSAL:
-            case TWO_HOURS_TO_TRADE_PROPOSAL_DEADLINE:
 
             default:
                 if (BuildConfig.DEBUG)

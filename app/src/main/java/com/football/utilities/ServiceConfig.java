@@ -6,8 +6,8 @@ package com.football.utilities;
 
 public interface ServiceConfig {
     String SOCKET_URL = "http://192.168.1.150:3333";
-    String HOST = "http://192.168.1.150/";
-//    String HOST = "http://52.77.241.109/";
+//    String HOST = "http://192.168.1.150/";
+    String HOST = "http://ec2-52-77-241-109.ap-southeast-1.compute.amazonaws.com/";
 
     // base url
     String BASE_URL = HOST + "api/v1/";

@@ -19,10 +19,12 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Map;
+import java.util.Random;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
+    private final Random random = new Random();
 
     // [START receive_message]
     @Override
@@ -84,7 +86,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         if (notificationManager != null) {
-            notificationManager.notify(-1 /* ID of notification */, notificationBuilder.build());
+            notificationManager.notify(random.nextInt()/* ID of notification */, notificationBuilder.build());
         }
     }
 

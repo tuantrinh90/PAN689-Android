@@ -89,6 +89,7 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
     public void joinDraft(int leagueId) {
         Log.i(TAG, "joinDraft: ");
         getOptView().doIfPresent(v -> {
+            v.setDraftEnable();
             mCompositeDisposable.add(RxUtilities.async(
                     v,
                     dataModule.getApiService().joinDraft(leagueId),

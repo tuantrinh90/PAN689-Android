@@ -6,15 +6,12 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.football.adapters.TradeAdapter;
-import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.events.TradeEvent;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.TradeRequestFragment;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.proposal_reveiew.ProposalReviewFragment;
-import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TradeResponse;
 
 import java.util.List;
@@ -35,17 +32,17 @@ public class RequestFragment extends BaseMvpFragment<IRequestView, IRequestPrese
     ExtRecyclerView<TradeResponse> rvRequest;
 
     private int type;
-    private LeagueResponse league;
+    private int leagueId;
     private int teamId;
 
     private int page = 1;
 
-    public static RequestFragment newInstance(int type, LeagueResponse league, int teamId) {
+    public static RequestFragment newInstance(int type, int leagueId, int teamId) {
         RequestFragment fragment = new RequestFragment();
 
         Bundle bundle = new Bundle();
         bundle.putInt(KEY_TYPE, type);
-        bundle.putSerializable(KEY_LEAGUE, league);
+        bundle.putInt(KEY_LEAGUE, leagueId);
         bundle.putInt(KEY_TEAM_ID, teamId);
         fragment.setArguments(bundle);
         return fragment;
@@ -70,7 +67,7 @@ public class RequestFragment extends BaseMvpFragment<IRequestView, IRequestPrese
 
     private void getDataFromBundle() {
         type = getArguments().getInt(KEY_TYPE);
-        league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
+        leagueId = getArguments().getInt(KEY_LEAGUE);
         teamId = getArguments().getInt(KEY_TEAM_ID);
     }
 
@@ -87,9 +84,9 @@ public class RequestFragment extends BaseMvpFragment<IRequestView, IRequestPrese
                     ProposalReviewFragment.start(getContext(), getString(R.string.trade_request), trade, type);
                 },
                 team -> {
-                    AloneFragmentActivity.with(this)
-                            .parameters(TeamDetailFragment.newBundle(getString(R.string.trade_request), team.getId(), league))
-                            .start(TeamDetailFragment.class);
+//                    AloneFragmentActivity.with(this)
+//                            .parameters(TeamDetailFragment.newBundle(getString(R.string.trade_request), team.getId(), league))
+//                            .start(TeamDetailFragment.class);
                 });
         rvRequest
                 .adapter(adapter)
@@ -127,7 +124,7 @@ public class RequestFragment extends BaseMvpFragment<IRequestView, IRequestPrese
     }
 
     private void getTradeRequests() {
-        presenter.getTradeRequests(type, league.getId(), teamId, page);
+        presenter.getTradeRequests(type, leagueId, teamId, page);
     }
 
     private void refreshData() {

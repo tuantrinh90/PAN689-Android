@@ -19,8 +19,10 @@ import com.football.customizes.carousels.CarouselView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.choose_a_team.ChooseATeamFragment;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.proposal.TradeProposalFragment;
+import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.proposal_reveiew.ProposalReviewFragment;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.request.RequestFragment;
 import com.football.models.responses.TeamSquadResponse;
+import com.football.models.responses.TradeResponse;
 
 import java.util.ArrayList;
 
@@ -35,9 +37,11 @@ public class TradeRequestFragment extends BaseMvpFragment<ITradeRequestView, ITr
     private static final String KEY_TEAM_NAME = "TEAM_NAME";
     private static final String KEY_TEAM_SQUAD = "TEAM_SQUAD";
     private static final String KEY_TAB_INDEX = "TAB_INDEX";
+    private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
 
     public static final int REQUEST_BY_YOU_INDEX = 0;
     public static final int REQUEST_TO_YOU_INDEX = 1;
+    public static final int PROPOSAL_PREVIEW = 10;
 
     @BindView(R.id.tvNumberOfTradeLeft)
     ExtTextView tvNumberOfTradeLeft;
@@ -52,18 +56,25 @@ public class TradeRequestFragment extends BaseMvpFragment<ITradeRequestView, ITr
     private String teamName;
     private TeamSquadResponse teamSquad;
     private int tabIndex;
+    private int leagueId;
 
     private int maxTradeRequest;
     private int currentTradeRequest;
     private int pendingTradeRequest;
 
-    public static void start(Fragment fragment, String title, int myTeamId, int teamId, String teamName, TeamSquadResponse teamSquad, int tabIndex) {
+    public static void startForNotification(Fragment fragment, String title, int myTeamId, int teamId, String teamName, TeamSquadResponse teamSquad, int tabIndex, int leagueId) {
         AloneFragmentActivity.with(fragment)
-                .parameters(TradeRequestFragment.newBundle(title, myTeamId, teamId, teamName, teamSquad, tabIndex))
+                .parameters(TradeRequestFragment.newBundle(title, myTeamId, teamId, teamName, teamSquad, tabIndex, leagueId))
                 .start(TradeRequestFragment.class);
     }
 
-    private static Bundle newBundle(String title, int myTeamId, int teamId, String teamName, TeamSquadResponse teamSquad, int tabIndex) {
+    public static void start(Fragment fragment, String title, int myTeamId, int teamId, String teamName, TeamSquadResponse teamSquad, int tabIndex) {
+        AloneFragmentActivity.with(fragment)
+                .parameters(TradeRequestFragment.newBundle(title, myTeamId, teamId, teamName, teamSquad, tabIndex, -1))
+                .start(TradeRequestFragment.class);
+    }
+
+    private static Bundle newBundle(String title, int myTeamId, int teamId, String teamName, TeamSquadResponse teamSquad, int tabIndex, int leagueId) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_TITLE, title);
         bundle.putInt(KEY_MY_TEAM_ID, myTeamId);
@@ -71,6 +82,7 @@ public class TradeRequestFragment extends BaseMvpFragment<ITradeRequestView, ITr
         bundle.putString(KEY_TEAM_NAME, teamName);
         bundle.putSerializable(KEY_TEAM_SQUAD, teamSquad);
         bundle.putInt(KEY_TAB_INDEX, tabIndex);
+        bundle.putInt(KEY_LEAGUE_ID, leagueId);
         return bundle;
     }
 
@@ -95,6 +107,7 @@ public class TradeRequestFragment extends BaseMvpFragment<ITradeRequestView, ITr
         teamName = getArguments().getString(KEY_TEAM_NAME);
         teamSquad = (TeamSquadResponse) getArguments().getSerializable(KEY_TEAM_SQUAD);
         tabIndex = getArguments().getInt(KEY_TAB_INDEX);
+        leagueId = getArguments().getInt(KEY_LEAGUE_ID);
     }
 
     @Override
@@ -125,7 +138,15 @@ public class TradeRequestFragment extends BaseMvpFragment<ITradeRequestView, ITr
         initPages();
 
         if (tabIndex != -1) {
-            vpViewPager.setCurrentItem(tabIndex);
+            // từ tabIndex >= 10 thì đó là action
+            if (tabIndex >= 10) {
+                if (tabIndex == PROPOSAL_PREVIEW) {
+                    vpViewPager.setCurrentItem(REQUEST_TO_YOU_INDEX);
+                    presenter.getTradeRequestsToYou(leagueId, teamId);
+                }
+            } else {
+                vpViewPager.setCurrentItem(tabIndex);
+            }
         }
     }
 
@@ -141,8 +162,14 @@ public class TradeRequestFragment extends BaseMvpFragment<ITradeRequestView, ITr
 
         // view pager
         StatePagerAdapter mAdapter = new StatePagerAdapter(getChildFragmentManager());
-        mAdapter.addFragment(RequestFragment.newInstance(RequestFragment.REQUEST_BY_YOU, teamSquad.getLeague(), myTeamId).setChildFragment(true));
-        mAdapter.addFragment(RequestFragment.newInstance(RequestFragment.REQUEST_TO_YOU, teamSquad.getLeague(), myTeamId).setChildFragment(true));
+        mAdapter.addFragment(RequestFragment.newInstance(
+                RequestFragment.REQUEST_BY_YOU,
+                teamSquad.getLeague().getId(),
+                myTeamId).setChildFragment(true));
+        mAdapter.addFragment(RequestFragment.newInstance(
+                RequestFragment.REQUEST_TO_YOU,
+                teamSquad.getLeague().getId(),
+                myTeamId).setChildFragment(true));
         vpViewPager.setAdapter(mAdapter);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -185,5 +212,10 @@ public class TradeRequestFragment extends BaseMvpFragment<ITradeRequestView, ITr
         } else {
             TradeProposalFragment.start(getContext(), teamSquad.getMyTeam().getId(), teamSquad.getMyTeam().getName(), teamId, teamName);
         }
+    }
+
+    @Override
+    public void goProposalReview(TradeResponse trade) {
+        ProposalReviewFragment.start(getContext(), getString(R.string.trade_request), trade, REQUEST_TO_YOU_INDEX);
     }
 }

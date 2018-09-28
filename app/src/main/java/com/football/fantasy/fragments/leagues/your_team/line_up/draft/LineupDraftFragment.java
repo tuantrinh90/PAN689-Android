@@ -60,6 +60,8 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     private int currentRequestId = -1;
     private TurnResponse currentTurn;
 
+    private boolean draftEnable;
+
     @NonNull
     @Override
     public ILineupDraftPresenter<ILineupDraftView> createPresenter() {
@@ -287,8 +289,13 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     }
 
     @Override
+    public void setDraftEnable() {
+        pickEnable = true;
+    }
+
+    @Override
     protected void onLineupViewAddClicked(PlayerView playerView, int position, int order) {
-        if (playerViewSelected == null) {
+        if (pickEnable && playerViewSelected == null) {
             AloneFragmentActivity.with(this)
                     .parameters(PlayerPopupFragment.newBundle(position, order, league))
                     .start(PlayerPopupFragment.class);

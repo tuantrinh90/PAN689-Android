@@ -327,7 +327,14 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
     }
 
     private boolean isNotWaitingForStart() {
-        return league != null && !league.getTeamSetUpCalendar().after(Calendar.getInstance()) && league.getStatus() != LeagueResponse.WAITING_FOR_START;
+        if (league != null) {
+            if (league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER)) {
+                return !league.getTeamSetUpCalendar().after(Calendar.getInstance()) && league.getStatus() != LeagueResponse.WAITING_FOR_START;
+            } else {
+                return !league.getDraftTimeCalendar().after(Calendar.getInstance()) && league.getStatus() != LeagueResponse.WAITING_FOR_START;
+            }
+        }
+        return false;
     }
 
     @NonNull

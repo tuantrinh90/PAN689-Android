@@ -218,6 +218,7 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
                 tvStartLeague.setVisibility(View.VISIBLE);
             }
 
+
             // line up my team
             if (league.getStatus() == LeagueResponse.WAITING_FOR_START) {
                 if (AppUtilities.isSetupTime(isTransfer ? league.getTeamSetup() : league.getDraftTime())) {

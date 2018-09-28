@@ -109,7 +109,7 @@ public class LineupTransferFragment extends LineUpFragment<ILineupTransferView, 
     }
 
     private void setupTransferMode() {
-        boolean isSetupTime = league.getStatus().equals(LeagueResponse.WAITING_FOR_START);
+        boolean isSetupTime = league.getStatus() == LeagueResponse.WAITING_FOR_START && AppUtilities.isSetupTime(league.getTeamSetup());
         if (isSetupTime) {
             lineupView.setEditable(true);
             lineupView.setAddable(true);
