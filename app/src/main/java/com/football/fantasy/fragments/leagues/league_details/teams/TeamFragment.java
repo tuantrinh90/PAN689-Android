@@ -27,6 +27,10 @@ import java.util.List;
 import butterknife.BindView;
 import io.reactivex.observers.DisposableObserver;
 
+import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
+import static com.football.models.responses.LeagueResponse.ON_GOING;
+import static com.football.models.responses.LeagueResponse.WAITING_FOR_START;
+
 public class TeamFragment extends BaseMvpFragment<ITeamView, ITeamPresenter<ITeamView>> implements ITeamView {
     private static final String TAG = TeamFragment.class.getSimpleName();
     private static final String KEY_LEAGUE = "LEAGUE";
@@ -112,12 +116,12 @@ public class TeamFragment extends BaseMvpFragment<ITeamView, ITeamPresenter<ITea
                                 String.format(getString(R.string.remove_team_message), team.getName()),
                                 getString(R.string.yes),
                                 getString(R.string.no), (dialogInterface, i) -> {
-                                    if (league.getStatus() == LeagueResponse.WAITING_FOR_START) {
+                                    if (league.equalsStatus(WAITING_FOR_START)) {
                                         presenter.removeTeam(league.getId(), team.getId());
                                     }
                                 });
                     });
-            teamAdapter.removeVisible(league.getStatus() == LeagueResponse.WAITING_FOR_START);
+            teamAdapter.removeVisible(league.equalsStatus(WAITING_FOR_START));
             rvTeam.
                     adapter(teamAdapter)
                     .refreshListener(this::refresh)
@@ -129,19 +133,19 @@ public class TeamFragment extends BaseMvpFragment<ITeamView, ITeamPresenter<ITea
 
     void displayTime() {
         // line up my team
-        boolean isTransfer = league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER);
-        if (league.getStatus() == LeagueResponse.WAITING_FOR_START) {
-            if (AppUtilities.isSetupTime(isTransfer ? league.getTeamSetup() : league.getDraftTime())) {
+        boolean isTransfer = league.equalsGameplay(GAMEPLAY_OPTION_TRANSFER);
+        if (league.equalsStatus(WAITING_FOR_START)) {
+            if (AppUtilities.isSetupTime(league)) {
                 tvTimeLabel.setText(R.string.team_setup_time);
-                tvTime.setText(DateTimeUtils.convertCalendarToString(isTransfer ? league.getTeamSetUpCalendar() : league.getDraftTimeCalendar(), Constant.FORMAT_DATE_TIME));
+                tvTime.setText(league.getTeamSetupFormatted());
             } else {
                 tvTimeLabel.setText(R.string.start_time);
-                tvTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
+                tvTime.setText(league.getStartTimeFormatted());
             }
 
-        } else if (league.getStatus() == LeagueResponse.ON_GOING) {
+        } else if (league.equalsStatus(ON_GOING)) {
             tvTimeLabel.setText(isTransfer ? R.string.transfer_deadline : R.string.waiving_deadline);
-            tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTransferDeadlineCalendar(), Constant.FORMAT_DATE_TIME));
+            tvTime.setText(league.getDeadlineFormatted());
         }
     }
 

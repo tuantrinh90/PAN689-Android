@@ -12,6 +12,7 @@ import com.football.customizes.recyclerview.DefaultHolder;
 import com.football.fantasy.R;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TransferHistoryResponse;
+import com.football.utilities.AppUtilities;
 import com.football.utilities.Constant;
 
 import butterknife.BindView;
@@ -61,7 +62,7 @@ public class RecordAdapter extends DefaultAdapter<TransferHistoryResponse> {
 //            holder.tvName.setText(data.getToPlayer().getName());
         }
         holder.tvTransferFee.setText(holder.itemView.getContext().getString(R.string.money_prefix, data.getTransferFeeValue()));
-        holder.tvTime.setText(DateTimeUtils.convertCalendarToString(DateTimeUtils.convertStringToCalendar(data.getTransferAt(), Constant.FORMAT_DATE_TIME_SERVER), Constant.FORMAT_DATE));
+        holder.tvTime.setText(AppUtilities.getDateFormatted(data.getTransferAt()));
 
         holder.tvLabelTransfer.setVisibility(transferMode ? View.VISIBLE : View.GONE);
         holder.tvTransferFee.setVisibility(transferMode ? View.VISIBLE : View.GONE);

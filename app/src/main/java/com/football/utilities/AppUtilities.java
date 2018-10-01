@@ -21,6 +21,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static com.football.utilities.Constant.FORMAT_DATE;
+
 public class AppUtilities {
     public static boolean isAppRunning(final Context context, final String packageName) {
         final ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
@@ -118,16 +120,15 @@ public class AppUtilities {
         return 0;
     }
 
-    public static boolean isSetupTime(String setupTime) {
+    public static boolean inTime(String setupTime) {
         return !TextUtils.isEmpty(setupTime) && System.currentTimeMillis() < AppUtilities.getTimestamp(setupTime);
     }
 
-    public static boolean isStartLeagueEnable(LeagueResponse league) {
-        return league.getOwner()
-                && !league.getTeamSetup().equals(league.getStartAt())
-                && !AppUtilities.isSetupTime(league.getTeamSetup())
-                && league.getNumberOfUser() - league.getCurrentNumberOfUser() <= 1
-                && league.getStatus() == LeagueResponse.WAITING_FOR_START;
+    public static boolean isSetupTime(LeagueResponse league) {
+        return league.equalsStatus(LeagueResponse.WAITING_FOR_START) &&
+                league.equalsGameplay(LeagueResponse.GAMEPLAY_OPTION_TRANSFER) ?
+                inTime(league.getTeamSetup()) :
+                inTime(league.getDraftTime());
     }
 
     public static String timeLeft(long totalSecs) {
@@ -163,19 +164,23 @@ public class AppUtilities {
         return DateTimeUtils.convertCalendarToString(calendar, Constant.FORMAT_DAY_OF_WEEK);
     }
 
-    public static String getDate(String date) {
-        Calendar calendar = DateTimeUtils.convertStringToCalendar(date, Constant.FORMAT_DATE_TIME_SERVER);
-        return DateTimeUtils.convertCalendarToString(calendar, Constant.FORMAT_DATE);
+    public static String getDateFormatted(String unformattedDate) {
+        return getTimeFormatted(unformattedDate, FORMAT_DATE);
     }
 
-    public static String getDate(String date, String format) {
-        Calendar calendar = DateTimeUtils.convertStringToCalendar(date, format);
-        return DateTimeUtils.convertCalendarToString(calendar, Constant.FORMAT_DATE);
+    public static String getTimeFormatted(String unformattedTime) {
+        return getTimeFormatted(unformattedTime, Constant.FORMAT_DATE_TIME);
     }
 
-    public static String getTime(String time, String formatCurrent, String formatTarget) {
-        Calendar calendar = DateTimeUtils.convertStringToCalendar(time, formatCurrent);
-        return DateTimeUtils.convertCalendarToString(calendar, formatTarget);
+    /**
+     * chuyển đổi time server sang định dạng time mong muốn
+     */
+    public static String getTimeFormatted(String unformattedTime, String format) {
+        return getTimeFormatted(unformattedTime, Constant.FORMAT_DATE_TIME_SERVER, format);
+    }
+
+    public static String getTimeFormatted(String unformattedTime, String target, String format) {
+        return DateTimeUtils.convertCalendarToString(DateTimeUtils.convertStringToCalendar(unformattedTime, target), format);
     }
 
     public static int getDraftEstimate(int numberOfUser, int timePerDraftPick) {

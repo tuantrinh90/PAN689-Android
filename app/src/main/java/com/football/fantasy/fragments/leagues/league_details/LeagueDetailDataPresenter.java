@@ -53,7 +53,7 @@ public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailVi
                             }
 
                             // mở màn hình Lineup luôn nếu đang trong draftTime
-                            if (response.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_DRAFT)) {
+                            if (response.equalsGameplay(LeagueResponse.GAMEPLAY_OPTION_DRAFT)) {
                                 Calendar setupTime = response.getDraftTimeCalendar();
 
                                 // calculator draftTime

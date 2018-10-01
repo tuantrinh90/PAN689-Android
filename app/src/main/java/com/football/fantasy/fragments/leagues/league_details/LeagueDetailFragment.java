@@ -48,7 +48,11 @@ import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 
 import static com.football.fantasy.fragments.leagues.league_details.trade_review.TradeReviewFragment.INDEX_RESULTS;
+import static com.football.models.responses.LeagueResponse.FINISHED;
+import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
 import static com.football.models.responses.LeagueResponse.LEAGUE_TYPE_OPEN;
+import static com.football.models.responses.LeagueResponse.ON_GOING;
+import static com.football.models.responses.LeagueResponse.WAITING_FOR_START;
 import static com.football.services.NotificationKey.TWO_HOURS_TO_REVIEW;
 import static com.football.services.NotificationKey.USER_TRANSACTION_RESULT;
 
@@ -295,7 +299,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
             valuePairs.add(new ExtKeyValuePair("", getString(R.string.edit), ContextCompat.getColor(mActivity, R.color.color_blue)));
         }
 
-        if (league.getStatus() == LeagueResponse.WAITING_FOR_START) {
+        if (league.equalsStatus(WAITING_FOR_START)) {
             // my leagues or owner
             if (league.getIsJoined() || league.getOwner()) {
                 valuePairs.add(new ExtKeyValuePair("", getString(R.string.leave), ContextCompat.getColor(mActivity, R.color.color_blue)));
@@ -309,10 +313,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
 
         // show/hide menu
         ivMenu.setVisibility(valuePairs.size() > 0 ? View.VISIBLE : View.GONE);
-        if (!league.getOwner() && !AppUtilities.isSetupTime(
-                league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER) ?
-                        league.getTeamSetup() :
-                        league.getDraftTime())) {
+        if (!league.getOwner() && !AppUtilities.isSetupTime(league)) {
             ivMenu.setVisibility(View.GONE);
         }
     }
@@ -330,13 +331,13 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
         mvpFragments.add(LeagueInfoFragment.newInstance(league, leagueType, invitationId).setChildFragment(true));
         mvpFragments.add(TeamFragment.newInstance(league, leagueType).setChildFragment(true));
 
-        if (league.getStatus() == LeagueResponse.WAITING_FOR_START) {
+        if (league.equalsStatus(WAITING_FOR_START)) {
             // only display invite with open leagues or owner
             if (league.getOwner() || (league.getLeagueType().equalsIgnoreCase(LEAGUE_TYPE_OPEN) && league.getIsJoined())) {
                 carousels.add(new Carousel(getString(R.string.invite_friend), false));
-                mvpFragments.add(InviteFriendFragment.newInstance(league, leagueType, league.getStatus() != LeagueResponse.WAITING_FOR_START).setChildFragment(true));
+                mvpFragments.add(InviteFriendFragment.newInstance(league, leagueType, !league.equalsStatus(WAITING_FOR_START)).setChildFragment(true));
             }
-        } else if (league.getStatus() == LeagueResponse.ON_GOING) {
+        } else if (league.equalsStatus(ON_GOING)) {
             carousels.add(new Carousel(getString(R.string.ranking), false));
             carousels.add(new Carousel(getString(R.string.results), false));
             carousels.add(new Carousel(getString(R.string.trade_review), false));
@@ -344,7 +345,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
             mvpFragments.add(RankingFragment.newInstance(league).setChildFragment(true));
             mvpFragments.add(ResultsFragment.newInstance(league).setChildFragment(true));
             mvpFragments.add(TradeReviewFragment.newInstance(league).setChildFragment(true));
-        } else if (league.getStatus() == LeagueResponse.FINISHED) {
+        } else if (league.equalsStatus(FINISHED)) {
             carousels.add(new Carousel(getString(R.string.ranking), false));
             carousels.add(new Carousel(getString(R.string.results), false));
 
@@ -458,7 +459,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     @Override
     public void handleDeletePlayers(ArrayList<Integer> playerIds, long value) {
         showMessage(
-                league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER) ?
+                league.equalsGameplay(GAMEPLAY_OPTION_TRANSFER) ?
                         getString(R.string.message_players_has_left_transfer, AppUtilities.getMoney(value)) :
                         getString(R.string.message_players_has_left_draft),
                 R.string.ok,

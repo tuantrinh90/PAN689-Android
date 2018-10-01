@@ -42,7 +42,7 @@ public class NotificationAdapter extends DefaultAdapter<NotificationResponse> {
         NotificationHolder holder = (NotificationHolder) defaultHolder;
         if (position == 0 || !getItem(position - 1).getNotificationDate().equals(data.getNotificationDate())) {
             holder.header.setVisibility(View.VISIBLE);
-            holder.textDate.setText(AppUtilities.getDate(data.getNotificationTime()));
+            holder.textDate.setText(AppUtilities.getDateFormatted(data.getNotificationTime()));
         } else {
             holder.header.setVisibility(View.GONE);
         }

@@ -1,6 +1,8 @@
 package com.football.models.responses;
 
+import com.bon.util.DateTimeUtils;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.football.utilities.Constant;
 
 public class MatchResponse {
 
@@ -45,5 +47,12 @@ public class MatchResponse {
 
     public String getEndAt() {
         return endAt;
+    }
+
+    public String getStartAtFormatted() {
+        return DateTimeUtils.convertCalendarToString(DateTimeUtils.convertStringToCalendar(
+                startAt,
+                Constant.FORMAT_DATE_TIME_SERVER),
+                Constant.FORMAT_DATE_TIME);
     }
 }

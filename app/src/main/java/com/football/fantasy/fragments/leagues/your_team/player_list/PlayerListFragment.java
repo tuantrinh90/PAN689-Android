@@ -16,7 +16,6 @@ import com.football.customizes.lineup.StatisticView;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.customizes.searchs.SearchView;
 import com.football.events.PickEvent;
-import com.football.events.PlayerEvent;
 import com.football.events.PlayerQueryEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailForLineupFragment;
@@ -149,13 +148,11 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
                                 NONE_ORDER);
                     },
                     (player, position) -> { // add click
-                       onAddPlayerClicked(player, position);
+                        onAddPlayerClicked(player, position);
                     });
 
             // đang ở setupTime && chưa completed
-            boolean visibleAddButton = AppUtilities.isSetupTime(
-                    league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER) ?
-                            league.getTeamSetup() : league.getDraftTime());
+            boolean visibleAddButton = AppUtilities.isSetupTime(league);
             playerAdapter.setVisibleAddButton(visibleAddButton ? View.VISIBLE : View.GONE);
             rvPlayer.adapter(playerAdapter)
                     .loadMoreListener(() -> {
@@ -177,12 +174,12 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
     }
 
     void displayTime() {
-        if (AppUtilities.isSetupTime(league.getTeamSetup())) {
+        if (AppUtilities.isSetupTime(league)) {
             tvTimeLabel.setText(R.string.team_setup_time);
-            tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
+            tvTime.setText(league.getTeamSetupFormatted());
         } else {
             tvTimeLabel.setText(R.string.start_time);
-            tvTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
+            tvTime.setText(league.getStartTimeFormatted());
         }
     }
 

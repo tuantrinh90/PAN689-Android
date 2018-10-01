@@ -211,7 +211,7 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     }
 
     private void initView() {
-        boolean isTransfer = league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER);
+        boolean isTransfer = league.equalsGameplay(GAMEPLAY_OPTION_TRANSFER);
         if (isTransfer) {
             budgetView.setVisibility(View.VISIBLE);
             tvTransferringPlayerLeft.setText(R.string.transferring_player_left);
@@ -343,7 +343,7 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
                 }
                 AloneFragmentActivity.with(this)
                         .forResult(REQUEST_DISPLAY)
-                        .parameters(DisplayConfigFragment.newBundle(league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER), TAG, displays.toString()))
+                        .parameters(DisplayConfigFragment.newBundle(league.equalsGameplay(GAMEPLAY_OPTION_TRANSFER), TAG, displays.toString()))
                         .start(DisplayConfigFragment.class);
                 break;
 
@@ -409,7 +409,7 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
 
     @OnClick({R.id.ivMoreTransferringPlayerLeft, R.id.ivMoreTransferringTimeLeft, R.id.ivMoreBudget})
     public void oInfoClicked(View view) {
-        boolean isTransfer = league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER);
+        boolean isTransfer = league.equalsGameplay(GAMEPLAY_OPTION_TRANSFER);
 
         switch (view.getId()) {
             case R.id.ivMoreTransferringPlayerLeft:

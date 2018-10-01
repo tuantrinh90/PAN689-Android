@@ -117,7 +117,7 @@ public class RecordFragment extends BaseMvpFragment<IRecordView, IRecordPresente
     void initRecyclerView() {
         RecordAdapter adapter = new RecordAdapter(
                 getContext(),
-                league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER),
+                league.equalsGameplay(LeagueResponse.GAMEPLAY_OPTION_TRANSFER),
                 player -> {
                     PlayerDetailFragment.start(this,
                             player.getId(),

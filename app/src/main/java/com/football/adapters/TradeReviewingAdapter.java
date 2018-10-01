@@ -13,11 +13,12 @@ import com.football.customizes.recyclerview.DefaultHolder;
 import com.football.fantasy.R;
 import com.football.models.responses.TradeResponse;
 import com.football.utilities.AppUtilities;
-import com.football.utilities.Constant;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import java8.util.function.Consumer;
+
+import static com.football.utilities.Constant.FORMAT_DATE_TIME;
 
 public class TradeReviewingAdapter extends DefaultAdapter<TradeResponse> {
 
@@ -50,7 +51,7 @@ public class TradeReviewingAdapter extends DefaultAdapter<TradeResponse> {
         ImageLoaderUtils.displayImage(data.getWithTeam().getLogo(), holder.ivAvatarTeam2);
         holder.tvTitleTeam2.setText(data.getWithTeam().getName());
 
-        holder.tvTime.setText(AppUtilities.getTime(data.getDeadline(), Constant.FORMAT_DATE_TIME_SERVER, Constant.FORMAT_DATE_TIME));
+        holder.tvTime.setText(AppUtilities.getTimeFormatted(data.getDeadline()));
         holder.tvPlayers.setText(mContext.getString(data.getTotalPlayer() > 1 ? R.string.total_players : R.string.total_player, data.getTotalPlayer()));
 
         // gone all views
@@ -90,7 +91,7 @@ public class TradeReviewingAdapter extends DefaultAdapter<TradeResponse> {
             holder.tvDeadline.setVisibility(View.VISIBLE);
             holder.tvDescription.setVisibility(View.VISIBLE);
 
-            holder.tvDescription.setText(AppUtilities.getDate(data.getDeadline()));
+            holder.tvDescription.setText(AppUtilities.getDateFormatted(data.getDeadline()));
             holder.tvDescription.setTextColor(ContextCompat.getColor(mContext, R.color.color_white));
             holder.bottom.setBackgroundResource(R.drawable.bg_blue_gradient_radius_bottom);
         }

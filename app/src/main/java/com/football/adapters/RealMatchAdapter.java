@@ -9,12 +9,12 @@ import com.bon.customview.listview.ExtBaseAdapter;
 import com.bon.customview.listview.ExtListView;
 import com.bon.customview.listview.ExtPagingListView;
 import com.bon.customview.textview.ExtTextView;
-import com.bon.util.DateTimeUtils;
 import com.football.customizes.recyclerview.DefaultAdapter;
 import com.football.customizes.recyclerview.DefaultHolder;
 import com.football.fantasy.R;
 import com.football.models.responses.RealMatch;
 import com.football.models.responses.RealMatchResponse;
+import com.football.utilities.AppUtilities;
 import com.football.utilities.Constant;
 
 import java.util.List;
@@ -41,7 +41,7 @@ public class RealMatchAdapter extends DefaultAdapter<RealMatch> {
     @Override
     protected void onBindViewHolder(@NonNull DefaultHolder defaultHolder, RealMatch data, int position) {
         RealMatchHolder holder = (RealMatchHolder) defaultHolder;
-        holder.tvTitle.setText(DateTimeUtils.convertCalendarToString(DateTimeUtils.convertStringToCalendar(data.getDate(), Constant.FORMAT_DATE), Constant.FORMAT_DAY_OF_WEEK));
+        holder.tvTitle.setText(AppUtilities.getTimeFormatted(data.getDate(), Constant.FORMAT_DATE, Constant.FORMAT_DAY_OF_WEEK));
         holder.tvDate.setText("(" + data.getDate() + ")");
         LeagueResultAdapter adapter = new LeagueResultAdapter(holder.itemView.getContext(), data.getResponses());
         holder.rvResult.setAdapter(adapter);
@@ -85,12 +85,11 @@ public class RealMatchAdapter extends DefaultAdapter<RealMatch> {
             holder.tvMatchTeam1.setText(data.getTeam1Result() != -1 ? String.valueOf(data.getTeam1Result()) : "-");
             holder.tvMatchTeam2.setText(data.getTeam2Result() != -1 ? String.valueOf(data.getTeam2Result()) : "-");
 
-            holder.tvTime.setText(DateTimeUtils.convertCalendarToString(
-                    DateTimeUtils.convertStringToCalendar(
-                            !TextUtils.isEmpty(data.getDelayStartAt()) ?
-                                    data.getDelayStartAt() :
-                                    data.getStartAt(),
-                            Constant.FORMAT_DATE_TIME_SERVER), Constant.FORMAT_HOUR_MINUTE));
+            holder.tvTime.setText(AppUtilities.getTimeFormatted(
+                    !TextUtils.isEmpty(data.getDelayStartAt()) ?
+                            data.getDelayStartAt() :
+                            data.getStartAt(),
+                    Constant.FORMAT_HOUR_MINUTE));
         }
 
         class LeagueResultHolder extends ExtPagingListView.ExtViewHolder {

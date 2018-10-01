@@ -273,6 +273,11 @@ public class LeagueResponse implements Serializable {
         return DateTimeUtils.convertStringToCalendar(transferDeadline, Constant.FORMAT_DATE_TIME_SERVER);
     }
 
+    @JsonIgnore
+    public String getDeadlineFormatted() {
+        return DateTimeUtils.convertCalendarToString(getTransferDeadlineCalendar(), Constant.FORMAT_DATE_TIME);
+    }
+
     public Integer getRealRoundStart() {
         return realRoundStart == null ? 0 : realRoundStart;
     }
@@ -317,6 +322,13 @@ public class LeagueResponse implements Serializable {
         return teamSetup + "";
     }
 
+    public String getTeamSetupFormatted() {
+        return DateTimeUtils.convertCalendarToString(equalsGameplay(GAMEPLAY_OPTION_TRANSFER) ?
+                        getTeamSetUpCalendar() :
+                        getDraftTimeCalendar(),
+                Constant.FORMAT_DATE_TIME);
+    }
+
     public void setTeamSetup(String teamSetup) {
         this.teamSetup = teamSetup;
     }
@@ -324,6 +336,10 @@ public class LeagueResponse implements Serializable {
     @JsonIgnore
     public Calendar getTeamSetUpCalendar() {
         return DateTimeUtils.convertStringToCalendar(teamSetup, Constant.FORMAT_DATE_TIME_SERVER);
+    }
+
+    public String getStartTimeFormatted() {
+        return DateTimeUtils.convertCalendarToString(getStartAtCalendar(), Constant.FORMAT_DATE_TIME);
     }
 
     @JsonIgnore
@@ -493,6 +509,14 @@ public class LeagueResponse implements Serializable {
 
     public List<PlayerResponse> getPlayers() {
         return players;
+    }
+
+    public boolean equalsStatus(int status) {
+        return this.status.equals(status);
+    }
+
+    public boolean equalsGameplay(String gameplayOption) {
+        return this.gameplayOption.equals(gameplayOption);
     }
 
     @Override

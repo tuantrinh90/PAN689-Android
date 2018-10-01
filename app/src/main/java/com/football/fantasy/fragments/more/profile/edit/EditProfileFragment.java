@@ -216,7 +216,7 @@ public class EditProfileFragment extends BaseMvpFragment<IEditProfileView, IEdit
         ProfileRequest profileRequest = new ProfileRequest.Builder()
                 .firstName(etFirstName.getContent())
                 .lastName(etLastName.getContent())
-                .birthday(DateTimeUtils.convertCalendarToString(DateTimeUtils.convertStringToCalendar(etDob.getContent(), Constant.FORMAT_DATE), Constant.FORMAT_DATE_SERVER))
+                .birthday(AppUtilities.getTimeFormatted(etDob.getContent(), Constant.FORMAT_DATE, Constant.FORMAT_DATE_SERVER))
                 .gender(gender)
                 .photo(filePath)
                 .address(etAddress.getContent())

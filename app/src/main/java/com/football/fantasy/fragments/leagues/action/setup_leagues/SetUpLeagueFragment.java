@@ -63,6 +63,7 @@ import static com.football.models.responses.LeagueResponse.SCORING_SYSTEM_REGULA
 import static com.football.models.responses.LeagueResponse.TRADE_REVIEW_CREATOR;
 import static com.football.models.responses.LeagueResponse.TRADE_REVIEW_MEMBER;
 import static com.football.models.responses.LeagueResponse.TRADE_REVIEW_NO_REVIEW;
+import static com.football.models.responses.LeagueResponse.WAITING_FOR_START;
 
 public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetUpLeaguePresenter<ISetupLeagueView>> implements ISetupLeagueView {
     private static final String TAG = SetUpLeagueFragment.class.getSimpleName();
@@ -228,7 +229,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                 ivImagePick.setImageUri(league.getLogo());
                 rgLeagueType.check(league.getLeagueType().equals(LEAGUE_TYPE_OPEN) ? R.id.rbOpenLeague : R.id.rbPrivateLeague);
 
-                toggleTransfer(league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER));
+                toggleTransfer(league.equalsGameplay(GAMEPLAY_OPTION_TRANSFER));
 
                 // transfer mode
                 String valueTransfer = String.format("%02d", league.getNumberOfUser());
@@ -248,7 +249,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                 formatDateTime();
 
                 // disable views after startLeague
-                if (!league.getTeamSetUpCalendar().after(Calendar.getInstance()) && league.getStatus() != LeagueResponse.WAITING_FOR_START) {
+                if (!league.getTeamSetUpCalendar().after(Calendar.getInstance()) && !league.equalsStatus(WAITING_FOR_START)) {
                     for (View view : viewsOngoing) {
                         view.setEnabled(false);
                         view.setClickable(false);
@@ -328,10 +329,10 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
 
     private boolean isNotWaitingForStart() {
         if (league != null) {
-            if (league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER)) {
-                return !league.getTeamSetUpCalendar().after(Calendar.getInstance()) && league.getStatus() != LeagueResponse.WAITING_FOR_START;
+            if (league.equalsGameplay(GAMEPLAY_OPTION_TRANSFER)) {
+                return !league.getTeamSetUpCalendar().after(Calendar.getInstance()) && !league.equalsStatus(WAITING_FOR_START);
             } else {
-                return !league.getDraftTimeCalendar().after(Calendar.getInstance()) && league.getStatus() != LeagueResponse.WAITING_FOR_START;
+                return !league.getDraftTimeCalendar().after(Calendar.getInstance()) && !league.equalsStatus(WAITING_FOR_START);
             }
         }
         return false;

@@ -91,7 +91,7 @@ public class TeamStatisticFragment extends BaseMvpFragment<ITeamStatisticView, I
         Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.colorPrimary)));
         Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white)));
 
-        boolean isTransfer = league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER);
+        boolean isTransfer = league.equalsGameplay(GAMEPLAY_OPTION_TRANSFER);
         budget.setVisibility(isTransfer ? View.VISIBLE : View.GONE);
     }
 

@@ -107,7 +107,7 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
     }
 
     protected void initView() {
-        if (league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER)) {
+        if (league.equalsGameplay(LeagueResponse.GAMEPLAY_OPTION_TRANSFER)) {
             transferHeader.setVisibility(View.VISIBLE);
             transferBottom.setVisibility(View.VISIBLE);
             draftHeader.setVisibility(View.GONE);

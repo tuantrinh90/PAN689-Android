@@ -11,7 +11,6 @@ import android.view.View;
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
 import com.bon.customview.textview.ExtTextView;
-import com.bon.util.DateTimeUtils;
 import com.football.adapters.ResultsAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
@@ -20,7 +19,6 @@ import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.MatchResponse;
-import com.football.utilities.Constant;
 import com.football.utilities.SocketEventKey;
 
 import java.util.ArrayList;
@@ -166,11 +164,7 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
         rvResults.addItems(matches);
         // display time
         if (rvResults.getAdapter().getItemCount() > 0) {
-            textTime.setText(DateTimeUtils.convertCalendarToString(
-                    DateTimeUtils.convertStringToCalendar(
-                            rvResults.getItem(0).getStartAt(),
-                            Constant.FORMAT_DATE_TIME_SERVER),
-                    Constant.FORMAT_DATE_TIME));
+            textTime.setText(rvResults.getItem(0).getStartAtFormatted());
 
             viewTime.setVisibility(View.VISIBLE);
         } else {

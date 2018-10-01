@@ -12,11 +12,12 @@ import com.football.fantasy.R;
 import com.football.models.responses.TeamResponse;
 import com.football.models.responses.TradeResponse;
 import com.football.utilities.AppUtilities;
-import com.football.utilities.Constant;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import java8.util.function.Consumer;
+
+import static com.football.utilities.Constant.FORMAT_DATE_TIME;
 
 public class TradeAdapter extends DefaultAdapter<TradeResponse> {
 
@@ -49,7 +50,7 @@ public class TradeAdapter extends DefaultAdapter<TradeResponse> {
         ImageLoaderUtils.displayImage(data.getWithTeam().getLogo(), holder.ivAvatarTeam2);
         holder.tvTitleTeam2.setText(data.getWithTeam().getName());
 
-        holder.tvTime.setText(AppUtilities.getTime(data.getDeadline(), Constant.FORMAT_DATE_TIME_SERVER, Constant.FORMAT_DATE_TIME));
+        holder.tvTime.setText(AppUtilities.getTimeFormatted(data.getDeadline()));
         holder.tvPlayers.setText(mContext.getString(data.getTotalPlayer() > 1 ? R.string.total_players : R.string.total_player, data.getTotalPlayer()));
 
         holder.itemView.setOnClickListener(v -> {

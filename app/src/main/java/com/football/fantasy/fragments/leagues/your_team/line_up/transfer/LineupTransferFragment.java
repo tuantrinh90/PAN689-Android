@@ -60,7 +60,7 @@ public class LineupTransferFragment extends LineUpFragment<ILineupTransferView, 
 
     @Override
     protected void onLineupViewAddClicked(PlayerView playerView, int position, int order) {
-        boolean isSetupTime = AppUtilities.isSetupTime(league.getTeamSetup());
+        boolean isSetupTime = AppUtilities.isSetupTime(league);
         if (isSetupTime) {
             AloneFragmentActivity.with(this)
                     .parameters(PlayerPopupFragment.newBundle(position, order, league))
@@ -109,13 +109,12 @@ public class LineupTransferFragment extends LineUpFragment<ILineupTransferView, 
     }
 
     private void setupTransferMode() {
-        boolean isSetupTime = league.getStatus() == LeagueResponse.WAITING_FOR_START && AppUtilities.isSetupTime(league.getTeamSetup());
-        if (isSetupTime) {
+        if (AppUtilities.isSetupTime(league)) {
             lineupView.setEditable(true);
             lineupView.setAddable(true);
             lineupView.setRemovable(true);
             tvTimeLabel.setText(R.string.team_setup_time);
-            tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
+            tvTime.setText(league.getTeamSetupFormatted());
             enableCompleteButton(false);
 
         } else {
@@ -123,7 +122,7 @@ public class LineupTransferFragment extends LineUpFragment<ILineupTransferView, 
             lineupView.setAddable(true);
             lineupView.setRemovable(false);
             tvTimeLabel.setText(R.string.start_time);
-            tvTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
+            tvTime.setText(league.getStartTimeFormatted());
 
             // hide complete button
             tvComplete.setVisibility(View.GONE);
@@ -139,7 +138,7 @@ public class LineupTransferFragment extends LineUpFragment<ILineupTransferView, 
     @Override
     public void enableCompleteButton(boolean enable) {
         // disable button complete
-        boolean realEnable = AppUtilities.isSetupTime(league.getTeamSetup()) && enable;
+        boolean realEnable = AppUtilities.isSetupTime(league) && enable;
         tvComplete.setEnabled(realEnable);
         tvComplete.setBackgroundResource(realEnable ? R.drawable.bg_button_yellow : R.drawable.bg_button_gray);
     }

@@ -79,7 +79,7 @@ public class YourTeamFragment extends BaseMvpFragment<IYourTeamView, IYourTeamPr
                     vpViewPager.setCurrentItem(position);
                 });
 
-        boolean isTransfer = league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER);
+        boolean isTransfer = league.equalsGameplay(LeagueResponse.GAMEPLAY_OPTION_TRANSFER);
         vpViewPager.setAdapter(new YourTeamViewPagerAdapter(getFragmentManager(), new ArrayList<BaseMvpFragment>() {{
             add(LineUpFragment.newInstance(
                     isTransfer ? new LineupTransferFragment() : new LineupDraftFragment(),

@@ -33,6 +33,7 @@ import butterknife.OnClick;
 
 import static com.football.fantasy.fragments.leagues.team_details.team_squad.trade.request.RequestFragment.REQUEST_BY_YOU;
 import static com.football.fantasy.fragments.leagues.team_details.team_squad.trade.request.RequestFragment.REQUEST_TO_YOU;
+import static com.football.utilities.Constant.FORMAT_DATE_TIME;
 
 public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView, IProposalReviewPresenter<IProposalReviewView>> implements IProposalReviewView {
 
@@ -217,7 +218,7 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     }
 
     private void displayViewRejectApproved() {
-        tvDeadline.setText(AppUtilities.getTime(trade.getReviewDeadline(), Constant.FORMAT_DATE_TIME_SERVER, Constant.FORMAT_DATE_TIME));
+        tvDeadline.setText(AppUtilities.getTimeFormatted(trade.getReviewDeadline()));
         tvReject.setText(getString(R.string.rejected, trade.getTotalRejection()));
         int approved = trade.getTotalApproval() - 2 < 0 ? 0 : trade.getTotalApproval() - 2;
         tvApprove.setText(getString(R.string.approved, approved));

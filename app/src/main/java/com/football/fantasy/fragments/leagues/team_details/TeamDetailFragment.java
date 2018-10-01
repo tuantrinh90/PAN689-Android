@@ -32,6 +32,7 @@ import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 
 import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
+import static com.football.models.responses.LeagueResponse.WAITING_FOR_START;
 
 public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDetailPresenter<ITeamDetailView>> implements ITeamDetailView {
 
@@ -102,7 +103,7 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
     }
 
     private void initView() {
-        boolean isTransfer = league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER);
+        boolean isTransfer = league.equalsGameplay(GAMEPLAY_OPTION_TRANSFER);
         tvGamePlayOption.setText(getString(isTransfer ? R.string.transfer : R.string.waving));
         budget.setVisibility(isTransfer ? View.VISIBLE : View.GONE);
     }
@@ -174,7 +175,7 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
 
     @OnClick({R.id.llTeamLineUp, R.id.llGamePlayOption, R.id.llTeamSquad, R.id.llStatistics})
     public void onBlockClicked(View view) {
-        if (league.getStatus().equals(LeagueResponse.WAITING_FOR_START)) {
+        if (league.equalsStatus(WAITING_FOR_START)) {
             showMessage(R.string.league_is_not_started_yet, R.string.ok, null);
             return;
         }

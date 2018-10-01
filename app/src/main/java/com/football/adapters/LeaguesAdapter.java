@@ -22,6 +22,9 @@ import com.jakewharton.rxbinding2.view.RxView;
 import butterknife.BindView;
 import java8.util.function.Consumer;
 
+import static com.football.models.responses.LeagueResponse.FINISHED;
+import static com.football.models.responses.LeagueResponse.ON_GOING;
+
 public class LeaguesAdapter extends DefaultAdapter<LeagueResponse> {
     public static final int OPEN_LEAGUES = 1, MY_LEAGUES = 2, PENDING_INVITATIONS = 3;
 
@@ -103,9 +106,9 @@ public class LeaguesAdapter extends DefaultAdapter<LeagueResponse> {
         holder.trInvitor.setVisibility(leagueType == PENDING_INVITATIONS ? View.VISIBLE : View.GONE);
         holder.llBottomAction.setVisibility(leagueType == PENDING_INVITATIONS ? View.VISIBLE : View.GONE);
         holder.tvJoin.setVisibility(leagueType == OPEN_LEAGUES && league.getCurrentNumberOfUser() < league.getNumberOfUser() ? View.VISIBLE : View.GONE);
-        if (league.getStatus().equals(LeagueResponse.ON_GOING)) {
+        if (league.equalsStatus(ON_GOING)) {
             holder.llBottomStatus.setBackgroundResource(R.drawable.bg_green_gradient_radius_bottom);
-        } else if (league.getStatus().equals(LeagueResponse.FINISHED)) {
+        } else if (league.equalsStatus(FINISHED)) {
             holder.llBottomStatus.setBackgroundResource(R.drawable.bg_yellow_gradient_radius_bottom);
         } else {
             holder.llBottomStatus.setBackgroundResource(R.drawable.bg_blue_gradient_radius_bottom);

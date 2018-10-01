@@ -25,6 +25,11 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.football.models.responses.LeagueResponse.FINISHED;
+import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
+import static com.football.models.responses.LeagueResponse.ON_GOING;
+import static com.football.models.responses.LeagueResponse.WAITING_FOR_START;
+
 public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeagueInfoPresenter<ILeagueInfoView>> implements ILeagueInfoView {
     private static final String TAG = LeagueInfoFragment.class.getSimpleName();
     private static final String KEY_LEAGUE = "LEAGUE";
@@ -107,7 +112,7 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
 
     @OnClick(R.id.ivInfoTransferDeadline)
     void onInfoClicked() {
-        boolean isTransfer = league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER);
+        boolean isTransfer = league.equalsGameplay(GAMEPLAY_OPTION_TRANSFER);
         showMessage(getString(isTransfer ? R.string.message_info_transfer_deadline : R.string.message_info_waving_deadline));
     }
 
@@ -121,7 +126,7 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
                             getString(R.string.league_information)))
                     .start(SetupTeamFragment.class);
         } else {
-            if (league.getStatus().equals(LeagueResponse.WAITING_FOR_START)) {
+            if (league.equalsStatus(WAITING_FOR_START)) {
                 AloneFragmentActivity.with(this)
                         .parameters(YourTeamFragment.newBundle(league))
                         .start(YourTeamFragment.class);
@@ -136,12 +141,12 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
 
     @OnClick(R.id.tvStartLeague)
     void onClickStartLeague() {
-        if (league.getStatus() == LeagueResponse.WAITING_FOR_START && AppUtilities.isSetupTime(league.getTeamSetup())) {
+        if (league.equalsStatus(WAITING_FOR_START) && AppUtilities.isSetupTime(league)) {
             showMessage(R.string.cannot_start_league_before_team_setup_time, R.string.ok, null);
         } else if (league.getNumberOfUser() - league.getCurrentNumberOfUser() > 1) {
             showMessage(R.string.not_enough_teams, R.string.ok, null);
         } else if (!league.getTeamSetup().equals(league.getStartAt())
-                && AppUtilities.isSetupTime(league.getTeamSetup())) {
+                && AppUtilities.isSetupTime(league)) {
             showMessage(R.string.cannot_start_league_before_team_setup_time, R.string.ok, null);
         } else {
             showMessage(R.string.message_confirm_start_league,
@@ -179,9 +184,9 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
         }
 
         try {
-            boolean isTransfer = league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_TRANSFER);
+            boolean isTransfer = league.equalsGameplay(GAMEPLAY_OPTION_TRANSFER);
 
-            tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTeamSetUpCalendar(), Constant.FORMAT_DATE_TIME));
+            tvTime.setText(league.getTeamSetupFormatted());
             ImageLoaderUtils.displayImage(league.getLogo(), ivLeague);
             tvLeagueType.setText(league.getLeagueTypeDisplay());
             tvMaxNumberOfTeam.setText(String.valueOf(league.getNumberOfUser()));
@@ -209,38 +214,38 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
             }
 
             // show button join leagues
-            if (!league.getOwner() && !league.getIsJoined() && AppUtilities.isSetupTime(isTransfer ? league.getTeamSetup() : league.getDraftTime())) {
+            if (!league.getOwner() && !league.getIsJoined() && AppUtilities.isSetupTime(league)) {
                 tvJoinLeague.setVisibility(View.VISIBLE);
             }
 
             // show button start league
-            if (AppUtilities.isOwner(getContext(), league.getUserId()) && league.getStatus() == LeagueResponse.WAITING_FOR_START) {
+            if (AppUtilities.isOwner(getContext(), league.getUserId()) && league.equalsStatus(WAITING_FOR_START)) {
                 tvStartLeague.setVisibility(View.VISIBLE);
             }
 
 
             // line up my team
-            if (league.getStatus() == LeagueResponse.WAITING_FOR_START) {
-                if (AppUtilities.isSetupTime(isTransfer ? league.getTeamSetup() : league.getDraftTime())) {
+            if (league.equalsStatus(WAITING_FOR_START)) {
+                if (AppUtilities.isSetupTime(league)) {
                     tvTimeLabel.setText(R.string.team_setup_time);
-                    tvTime.setText(DateTimeUtils.convertCalendarToString(isTransfer ? league.getTeamSetUpCalendar() : league.getDraftTimeCalendar(), Constant.FORMAT_DATE_TIME));
+                    tvTime.setText(league.getTeamSetupFormatted());
                 } else {
                     tvTimeLabel.setText(R.string.start_time);
-                    tvTime.setText(DateTimeUtils.convertCalendarToString(league.getStartAtCalendar(), Constant.FORMAT_DATE_TIME));
+                    tvTime.setText(league.getStartTimeFormatted());
                 }
 
-            } else if (league.getStatus() == LeagueResponse.ON_GOING) {
+            } else if (league.equalsStatus(ON_GOING)) {
                 tvSetupTeam.setText(R.string.lineup_my_team);
                 tvTimeLabel.setText(isTransfer ? R.string.transfer_deadline : R.string.waiving_deadline);
-                tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTransferDeadlineCalendar(), Constant.FORMAT_DATE_TIME)); // dùng cho cả transfer và draft
+                tvTime.setText(league.getDeadlineFormatted());
 
                 // visible info transfer deadline
                 ivInfoTransferDeadline.setVisibility(View.VISIBLE);
 
-            } else if (league.getStatus() == LeagueResponse.FINISHED) {
+            } else if (league.equalsStatus(FINISHED)) {
                 tvSetupTeam.setVisibility(View.GONE);
                 tvTimeLabel.setText(isTransfer ? R.string.transfer_deadline : R.string.waiving_deadline);
-                tvTime.setText(DateTimeUtils.convertCalendarToString(league.getTransferDeadlineCalendar(), Constant.FORMAT_DATE_TIME));
+                tvTime.setText(league.getDeadlineFormatted());
             }
         } catch (Exception e) {
             Logger.e(TAG, e);

@@ -100,7 +100,7 @@ public class GameplayFragment extends BaseMvpFragment<IGameplayView, IGameplayPr
     }
 
     void initView() {
-        initPages(league.getGameplayOption().equals(GAMEPLAY_OPTION_TRANSFER));
+        initPages(league.equalsGameplay(GAMEPLAY_OPTION_TRANSFER));
     }
 
     private void initPages(boolean isTransferMode) {

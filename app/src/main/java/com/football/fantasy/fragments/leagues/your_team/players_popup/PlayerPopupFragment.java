@@ -211,7 +211,7 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
                     (player, position) -> { // add click
                         sendToLineup(player);
                     });
-            if (league.getGameplayOption().equals(LeagueResponse.GAMEPLAY_OPTION_DRAFT)) {
+            if (league.equalsGameplay(LeagueResponse.GAMEPLAY_OPTION_DRAFT)) {
                 adapter.setVisibleValue(View.GONE);
             }
             rvPlayer.adapter(adapter)
