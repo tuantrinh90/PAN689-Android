@@ -131,7 +131,7 @@ public class EditProfileFragment extends BaseMvpFragment<IEditProfileView, IEdit
     private static final String TAG = "EditProfileFragment";
 
     private void pickAvatar() {
-        mActivity.getRxPermissions().request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+        mCompositeDisposable.add(mActivity.getRxPermissions().request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<Boolean>() {
                     @Override
@@ -176,7 +176,7 @@ public class EditProfileFragment extends BaseMvpFragment<IEditProfileView, IEdit
                     public void onComplete() {
                         Log.d(TAG, "onComplete: ");
                     }
-                });
+                }));
     }
 
     private void pickDob() {
