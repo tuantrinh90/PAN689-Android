@@ -22,7 +22,7 @@
         <ImageView
             android:id="@+id/ivSearch"
             style="@style/IconTiny"
-            android:src="@drawable/ic_search_blue" />
+            app:srcCompat="@drawable/ic_search_blue_24px" />
 
         <com.bon.customview.edittext.ExtEditText
             android:id="@+id/etSearch"
