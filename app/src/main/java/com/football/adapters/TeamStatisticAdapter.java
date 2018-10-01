@@ -43,14 +43,12 @@ public class TeamStatisticAdapter extends DefaultAdapter<RoundResponse> {
             holder.tvChange.setText("-");
         } else if (data.getChange() < 0) {
             holder.ivChange.setVisibility(View.VISIBLE);
-            holder.ivChange.setBackgroundResource(R.drawable.bg_circle_red);
-            holder.ivChange.setImageResource(R.drawable.ic_arrow_down_white);
+            holder.ivChange.setImageResource(R.drawable.ic_status_down);
 
             holder.tvChange.setText(String.valueOf(data.getChange()));
         } else if (data.getChange() > 0) {
             holder.ivChange.setVisibility(View.VISIBLE);
-            holder.ivChange.setBackgroundResource(R.drawable.bg_circle_green);
-            holder.ivChange.setImageResource(R.drawable.ic_arrow_upward_white_small);
+            holder.ivChange.setImageResource(R.drawable.ic_status_up);
 
             holder.tvChange.setText(String.valueOf(data.getChange()));
         }

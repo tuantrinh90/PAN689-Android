@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
@@ -37,6 +38,13 @@ import java8.util.function.Consumer;
 
 public abstract class BaseAppCompatActivity extends ExtBaseActivity implements IToolbarAction {
     private static final String TAG = BaseAppCompatActivity.class.getSimpleName();
+
+    /**
+     * enable vector selector
+     */
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
 
     @Inject
     protected RxBus<IEvent> bus;

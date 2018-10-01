@@ -35,37 +35,17 @@
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/padding_small">
 
-            <com.bon.customview.textview.ExtTextView
-                android:id="@+id/tvPositionPrimary"
-                style="@style/StyleDescriptionContent"
-                android:layout_width="@dimen/icon_tiny"
-                android:layout_height="@dimen/icon_tiny"
-                android:layout_gravity="center"
-                android:background="@drawable/bg_red_radius"
-                android:gravity="center"
-                android:padding="0dp"
-                android:text="A"
-                android:textColor="@color/color_white"
-                android:textSize="@dimen/font_footer"
-                app:textAllCaps="true"
-                app:textViewFontAssetName="@string/font_display_bold" />
+            <ImageView
+                android:id="@+id/ivPositionPrimary"
+                style="@style/IconTiny"
+                app:srcCompat="@drawable/ic_player_position_a" />
 
-            <com.bon.customview.textview.ExtTextView
-                android:id="@+id/tvPositionSecond"
-                style="@style/StyleDescriptionContent"
-                android:layout_width="@dimen/icon_tiny"
-                android:layout_height="@dimen/icon_tiny"
+            <ImageView
+                android:id="@+id/ivPositionSecond"
+                style="@style/IconTiny"
                 android:layout_marginLeft="@dimen/padding_content_small"
                 android:layout_marginStart="@dimen/padding_content_small"
-                android:background="@drawable/bg_yellow_radius"
-                android:gravity="center"
-                android:padding="0dp"
-                android:text="M"
-                android:textColor="@color/color_white"
-                android:textSize="@dimen/font_footer"
-                android:visibility="visible"
-                app:textAllCaps="true"
-                app:textViewFontAssetName="@string/font_display_bold" />
+                app:srcCompat="@drawable/ic_player_position_a" />
         </LinearLayout>
     </LinearLayout>
 
@@ -136,7 +116,6 @@
             style="@style/IconSmall"
             android:layout_marginTop="@dimen/padding_small"
             android:background="@drawable/bg_circle_yellow"
-            android:padding="@dimen/padding_content"
-            app:srcCompat="@drawable/ic_add_white" />
+            app:srcCompat="@drawable/ic_add_circle_white" />
     </LinearLayout>
 </LinearLayout>

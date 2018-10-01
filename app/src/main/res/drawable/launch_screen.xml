@@ -5,20 +5,19 @@
     android:opacity="opaque">
 
     <!-- The background color, preferably the same as your normal theme -->
-    <item android:drawable="@android:color/white" />
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+            <gradient
+                android:angle="-90"
+                android:endColor="@color/color_yellow_pressed"
+                android:startColor="@color/color_yellow_start" />
+        </shape>
+    </item>
 
     <!-- Your product logo - 144dp color version of your app icon -->
-    <item>
 
-        <bitmap android:src="@drawable/bg_background" />
-
-    </item>
-    <item>
-
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/ic_cups" />
-
-    </item>
+    <item
+        android:drawable="@drawable/background"
+        android:gravity="center" />
 
 </layer-list>

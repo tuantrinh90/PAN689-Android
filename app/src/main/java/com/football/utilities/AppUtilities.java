@@ -5,6 +5,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bon.share_preferences.AppPreferences;
@@ -73,6 +74,31 @@ public class AppUtilities {
 
                 case PlayerResponse.POSITION_GOALKEEPER:
                     textView.setBackgroundResource(R.drawable.bg_player_position_g);
+                    break;
+            }
+        }
+    }
+
+    public static void displayPlayerPosition(ImageView imageView, Integer position) {
+        if (position == null || position == PlayerResponse.POSITION_NONE) {
+            imageView.setVisibility(View.GONE);
+        } else {
+            imageView.setVisibility(View.VISIBLE);
+            switch (position) {
+                case PlayerResponse.POSITION_ATTACKER:
+                    imageView.setImageResource(R.drawable.ic_player_position_a);
+                    break;
+
+                case PlayerResponse.POSITION_MIDFIELDER:
+                    imageView.setImageResource(R.drawable.ic_player_position_m);
+                    break;
+
+                case PlayerResponse.POSITION_DEFENDER:
+                    imageView.setImageResource(R.drawable.ic_player_position_d);
+                    break;
+
+                case PlayerResponse.POSITION_GOALKEEPER:
+                    imageView.setImageResource(R.drawable.ic_player_position_g);
                     break;
             }
         }

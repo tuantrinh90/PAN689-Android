@@ -40,12 +40,10 @@ public class PlayerStatisticAdapter extends ExtBaseAdapter<PlayerRoundPointRespo
         holder.tvChange.setText(change == 0 ? "-" : String.valueOf(Math.abs(change)));
 
         if (change > 0) {
-            holder.ivChange.setImageResource(R.drawable.ic_arrow_upward_white_small);
-            holder.ivChange.setBackgroundResource(R.drawable.bg_circle_green);
+            holder.ivChange.setBackgroundResource(R.drawable.ic_status_up);
             holder.ivChange.setVisibility(View.VISIBLE);
         } else if (change < 0) {
-            holder.ivChange.setImageResource(R.drawable.ic_arrow_down_white);
-            holder.ivChange.setBackgroundResource(R.drawable.bg_circle_red);
+            holder.ivChange.setImageResource(R.drawable.ic_status_down);
             holder.ivChange.setVisibility(View.VISIBLE);
         } else {
             holder.ivChange.setVisibility(View.GONE);

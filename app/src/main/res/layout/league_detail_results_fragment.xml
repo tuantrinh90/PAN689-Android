@@ -41,17 +41,15 @@
             <ImageView
                 style="@style/IconMedium"
                 android:background="@drawable/bg_circle_white"
-                android:padding="@dimen/padding_content"
-                android:rotation="90"
-                android:src="@drawable/ic_arrow_right" />
+                app:srcCompat="@drawable/ic_arrow_drop_down_black_24_px" />
         </LinearLayout>
     </com.bon.customview.shadowlayout.ShadowLayout>
 
     <LinearLayout
+        android:id="@+id/view_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:id="@+id/view_time"
         android:paddingBottom="@dimen/padding_content"
         android:paddingTop="@dimen/padding_content">
 

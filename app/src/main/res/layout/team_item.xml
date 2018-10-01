@@ -76,7 +76,7 @@
         android:layout_marginRight="@dimen/padding_layout"
         android:background="@drawable/bg_null_gray_selector"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_lock_outline_shadow" />
+        app:srcCompat="@drawable/ic_lock_outline_black_24_px" />
 
     <com.bon.customview.textview.ExtTextView
         android:id="@+id/tvCompleted"

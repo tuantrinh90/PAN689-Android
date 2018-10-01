@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/padding_layout"
@@ -31,7 +32,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="end"
+        android:gravity="end|center_vertical"
         android:orientation="horizontal">
 
         <com.bon.customview.textview.ExtTextView
@@ -47,8 +48,6 @@
             style="@style/IconTiny"
             android:layout_marginLeft="@dimen/player_margin_small"
             android:layout_marginStart="@dimen/player_margin_small"
-            android:background="@drawable/bg_circle_green"
-            android:padding="@dimen/padding_small"
-            android:src="@drawable/ic_arrow_upward_white_small" />
+            app:srcCompat="@drawable/ic_status_up" />
     </LinearLayout>
 </TableRow>

@@ -239,9 +239,7 @@
             <ImageView
                 style="@style/IconMedium"
                 android:background="@drawable/bg_circle_white"
-                android:padding="@dimen/padding_content"
-                android:rotation="90"
-                android:src="@drawable/ic_arrow_right" />
+                app:srcCompat="@drawable/ic_arrow_drop_down_black_24_px" />
         </LinearLayout>
     </com.bon.customview.shadowlayout.ShadowLayout>
 

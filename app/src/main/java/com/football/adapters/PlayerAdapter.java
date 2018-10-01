@@ -60,14 +60,14 @@ public class PlayerAdapter extends DefaultAdapter<PlayerResponse> {
         holder.tvTransferValue.setText(holder.itemView.getContext().getString(R.string.money_prefix, data.getTransferValueDisplay()));
         holder.tvPoints.setText(holder.itemView.getContext().getString(R.string.point_last_round, data.getPointLastRound()));
 
-        AppUtilities.displayPlayerPosition(holder.tvPositionPrimary, data.getMainPosition(), data.getMainPositionText());
-        AppUtilities.displayPlayerPosition(holder.tvPositionSecond, data.getMinorPosition(), data.getMinorPositionText());
+        AppUtilities.displayPlayerPosition(holder.ivPositionPrimary, data.getMainPosition());
+        AppUtilities.displayPlayerPosition(holder.ivPositionSecond, data.getMinorPosition());
 
         holder.tvTransferValue.setVisibility(visibleValue);
         holder.ivAdd.setVisibility(visibleAddButton);
         if (visibleAddButton == View.VISIBLE) {
             boolean checked = data.getSelected();
-            holder.ivAdd.setImageResource(checked ? R.drawable.ic_tick : R.drawable.ic_add_white);
+            holder.ivAdd.setImageResource(checked ? R.drawable.ic_check_green_24_px_2 : R.drawable.ic_add_circle_white);
             holder.ivAdd.setBackgroundResource(checked ? R.drawable.bg_circle_white_border : R.drawable.bg_circle_yellow);
 
             mDisposable.add(RxView.clicks(holder.ivAdd).subscribe(o -> {
@@ -105,10 +105,10 @@ public class PlayerAdapter extends DefaultAdapter<PlayerResponse> {
     static class ViewHolder extends DefaultHolder {
         @BindView(R.id.ivAvatar)
         ImageView ivAvatar;
-        @BindView(R.id.tvPositionPrimary)
-        ExtTextView tvPositionPrimary;
-        @BindView(R.id.tvPositionSecond)
-        ExtTextView tvPositionSecond;
+        @BindView(R.id.ivPositionPrimary)
+        ImageView ivPositionPrimary;
+        @BindView(R.id.ivPositionSecond)
+        ImageView ivPositionSecond;
         @BindView(R.id.tvName)
         ExtTextView tvName;
         @BindView(R.id.tvClub)

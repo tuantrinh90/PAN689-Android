@@ -45,11 +45,11 @@ public class RankingAdapter extends DefaultAdapter<RankingResponse> {
             holder.textNumber.setVisibility(View.GONE);
             holder.imageNumber.setVisibility(View.VISIBLE);
             if (data.getRank() == 1) {
-                holder.imageNumber.setImageResource(R.drawable.ic_number_one);
+                holder.imageNumber.setImageResource(R.drawable.ic_rank_1);
             } else if (data.getRank() == 2) {
-                holder.imageNumber.setImageResource(R.drawable.ic_number_two);
+                holder.imageNumber.setImageResource(R.drawable.ic_rank_2);
             } else if (data.getRank() == 3) {
-                holder.imageNumber.setImageResource(R.drawable.ic_number_three);
+                holder.imageNumber.setImageResource(R.drawable.ic_rank_3);
             }
         } else {
             holder.textNumber.setText(String.valueOf(data.getRank()));

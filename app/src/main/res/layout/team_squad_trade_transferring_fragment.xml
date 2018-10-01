@@ -237,7 +237,7 @@
                         <ImageView
                             style="@style/IconTiny"
                             android:padding="@dimen/padding_small"
-                            app:srcCompat="@drawable/ic_filter_list_black_24_px" />
+                            app:srcCompat="@drawable/ic_filter_list_blue_24_px" />
 
                         <com.bon.customview.textview.ExtTextView
                             style="@style/StyleDescription"
@@ -268,7 +268,7 @@
                         <ImageView
                             style="@style/IconTiny"
                             android:padding="@dimen/padding_small"
-                            android:src="@drawable/ic_baseline_list" />
+                            app:srcCompat="@drawable/ic_baseline_list_24_px" />
 
                         <com.bon.customview.textview.ExtTextView
                             style="@style/StyleDescription"

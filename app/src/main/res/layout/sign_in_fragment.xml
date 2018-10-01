@@ -85,7 +85,7 @@
                 android:background="@drawable/bg_circle_social"
                 android:padding="@dimen/padding_layout"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_facebook" />
+                app:srcCompat="@drawable/ic_social_fb" />
 
             <ImageView
                 android:id="@+id/ivGoogle"
@@ -94,7 +94,7 @@
                 android:background="@drawable/bg_circle_social"
                 android:padding="@dimen/padding_small"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_google_plus" />
+                app:srcCompat="@drawable/ic_social_google" />
 
             <ImageView
                 android:id="@+id/ivTwitter"
@@ -103,7 +103,7 @@
                 android:background="@drawable/bg_circle_social"
                 android:padding="@dimen/padding_small"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_twitter" />
+                app:srcCompat="@drawable/ic_social_twitter" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

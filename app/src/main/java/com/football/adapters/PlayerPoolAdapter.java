@@ -78,8 +78,8 @@ public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
             }
         });
 
-        AppUtilities.displayPlayerPosition(holder.tvPositionPrimary, data.getMainPosition(), data.getMainPositionText());
-        AppUtilities.displayPlayerPosition(holder.tvPositionSecond, data.getMinorPosition(), data.getMinorPositionText());
+        AppUtilities.displayPlayerPosition(holder.ivPositionPrimary, data.getMainPosition());
+        AppUtilities.displayPlayerPosition(holder.ivPositionSecond, data.getMinorPosition());
 
         mDisposable.add(RxView.clicks(holder.itemView).subscribe(o ->
                 Optional.from(clickConsumer).doIfPresent(d ->
@@ -110,12 +110,10 @@ public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
                     ivOption.setVisibility(View.GONE);
                 } else if (data.getRankStatus() == PlayerResponse.RANK_STATUS_DOWN) {
                     ivOption.setVisibility(View.VISIBLE);
-                    ivOption.setBackgroundResource(R.drawable.bg_circle_red);
-                    ivOption.setImageResource(R.drawable.ic_arrow_down_white);
+                    ivOption.setImageResource(R.drawable.ic_status_down);
                 } else if (data.getRankStatus() == PlayerResponse.RANK_STATUS_UP) {
                     ivOption.setVisibility(View.VISIBLE);
-                    ivOption.setBackgroundResource(R.drawable.bg_circle_green);
-                    ivOption.setImageResource(R.drawable.ic_arrow_upward_white_small);
+                    ivOption.setImageResource(R.drawable.ic_status_up);
                 }
 
                 break;
@@ -164,10 +162,10 @@ public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
         ExtTextView tvName;
         @BindView(R.id.tvClub)
         ExtTextView tvClub;
-        @BindView(R.id.tvPositionPrimary)
-        ExtTextView tvPositionPrimary;
-        @BindView(R.id.tvPositionSecond)
-        ExtTextView tvPositionSecond;
+        @BindView(R.id.ivPositionPrimary)
+        ImageView ivPositionPrimary;
+        @BindView(R.id.ivPositionSecond)
+        ImageView ivPositionSecond;
         @BindView(R.id.tvOption1)
         ExtTextView tvOption1;
         @BindView(R.id.tvOption2)

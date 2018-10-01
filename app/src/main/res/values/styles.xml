@@ -245,10 +245,4 @@
         <item name="android:background">@color/color_gray</item>
     </style>
 
-    <!--switch-->
-    <style name="SwitchCompatStyle">
-        <item name="android:thumb">@drawable/switch_thumb</item>
-        <item name="trackTint">@color/switch_color</item>
-    </style>
-
 </resources>

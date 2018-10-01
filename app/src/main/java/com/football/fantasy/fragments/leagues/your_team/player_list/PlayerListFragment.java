@@ -8,7 +8,6 @@ import android.widget.ImageView;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.logger.Logger;
-import com.bon.util.DateTimeUtils;
 import com.football.adapters.PlayerAdapter;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
@@ -24,7 +23,6 @@ import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.StatisticResponse;
 import com.football.utilities.AppUtilities;
-import com.football.utilities.Constant;
 
 import java.util.List;
 
@@ -121,7 +119,7 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
             lastPlayerViewSelected = svNone;
 
             // search view
-            svSearchView.getFilter().setImageResource(R.drawable.ic_filter_list_black_24_px);
+            svSearchView.getFilter().setImageResource(R.drawable.ic_filter_list_blue_24_px);
 
             // update hint
             svSearchView.getSearchView().setHint(R.string.search_public_players);

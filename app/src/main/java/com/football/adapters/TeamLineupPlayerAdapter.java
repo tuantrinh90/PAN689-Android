@@ -3,6 +3,7 @@ package com.football.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageLoaderUtils;
@@ -46,8 +47,8 @@ public class TeamLineupPlayerAdapter extends DefaultAdapter<PlayerResponse> {
         PlayerHolder holder = (PlayerHolder) defaultHolder;
         ImageLoaderUtils.displayImage(data.getPhoto(), holder.ivAvatar);
 
-        AppUtilities.displayPlayerPosition(holder.tvPositionPrimary, data.getMainPosition(), data.getMainPositionText());
-        AppUtilities.displayPlayerPosition(holder.tvPositionSecond, data.getMinorPosition(), data.getMinorPositionText());
+        AppUtilities.displayPlayerPosition(holder.ivPositionPrimary, data.getMainPosition());
+        AppUtilities.displayPlayerPosition(holder.ivPositionSecond, data.getMinorPosition());
 
         holder.tvName.setText(data.getName());
 
@@ -60,10 +61,10 @@ public class TeamLineupPlayerAdapter extends DefaultAdapter<PlayerResponse> {
 
         @BindView(R.id.ivAvatar)
         CircleImageView ivAvatar;
-        @BindView(R.id.tvPositionPrimary)
-        ExtTextView tvPositionPrimary;
-        @BindView(R.id.tvPositionSecond)
-        ExtTextView tvPositionSecond;
+        @BindView(R.id.ivPositionPrimary)
+        ImageView ivPositionPrimary;
+        @BindView(R.id.ivPositionSecond)
+        ImageView ivPositionSecond;
         @BindView(R.id.tvName)
         ExtTextView tvName;
 

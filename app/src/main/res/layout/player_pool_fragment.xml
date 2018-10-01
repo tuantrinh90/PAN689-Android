@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_background"
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
@@ -18,7 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
             app:title="@string/app_name">
 
@@ -71,9 +69,7 @@
                     <ImageView
                         style="@style/IconMedium"
                         android:background="@drawable/bg_circle_white"
-                        android:padding="@dimen/padding_content"
-                        android:rotation="90"
-                        android:src="@drawable/ic_arrow_right" />
+                        app:srcCompat="@drawable/ic_arrow_drop_down_black_24_px" />
                 </LinearLayout>
 
                 <com.football.customizes.searchs.SearchView
@@ -105,7 +101,7 @@
                         <ImageView
                             style="@style/IconTiny"
                             android:padding="@dimen/padding_small"
-                            app:srcCompat="@drawable/ic_filter_list_black_24_px" />
+                            app:srcCompat="@drawable/ic_filter_list_blue_24_px" />
 
                         <com.bon.customview.textview.ExtTextView
                             style="@style/StyleDescription"
@@ -134,7 +130,7 @@
                         <ImageView
                             style="@style/IconTiny"
                             android:padding="@dimen/padding_small"
-                            android:src="@drawable/ic_baseline_list" />
+                            app:srcCompat="@drawable/ic_baseline_list_24_px" />
 
                         <com.bon.customview.textview.ExtTextView
                             style="@style/StyleDescription"
@@ -201,7 +197,7 @@
                         android:id="@+id/ivSort1"
                         android:layout_width="@dimen/fab_margin"
                         android:layout_height="@dimen/fab_margin"
-                        android:src="@drawable/ic_sort_none" />
+                        app:srcCompat="@drawable/ic_sort_none" />
 
                 </LinearLayout>
 
@@ -230,7 +226,7 @@
                         android:id="@+id/ivSort2"
                         android:layout_width="@dimen/fab_margin"
                         android:layout_height="@dimen/fab_margin"
-                        android:src="@drawable/ic_sort_none" />
+                        app:srcCompat="@drawable/ic_sort_none" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -259,7 +255,7 @@
                         android:id="@+id/ivSort3"
                         android:layout_width="@dimen/fab_margin"
                         android:layout_height="@dimen/fab_margin"
-                        android:src="@drawable/ic_sort_none" />
+                        app:srcCompat="@drawable/ic_sort_none" />
                 </LinearLayout>
             </TableRow>
         </TableRow>

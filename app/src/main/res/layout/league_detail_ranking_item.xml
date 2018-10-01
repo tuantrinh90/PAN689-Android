@@ -193,7 +193,7 @@
         android:layout_width="@dimen/leagues_size_number_number"
         android:layout_height="@dimen/leagues_size_number_number"
         android:layout_gravity="end"
-        android:src="@drawable/ic_number_one" />
+        app:srcCompat="@drawable/ic_rank_1" />
 
     <com.bon.customview.textview.ExtTextView
         android:id="@+id/text_number"

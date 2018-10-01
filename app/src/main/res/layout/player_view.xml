@@ -30,11 +30,9 @@
             android:layout_width="@dimen/remove_player_size"
             android:layout_height="@dimen/remove_player_size"
             android:layout_gravity="end"
-            android:background="@drawable/bg_circle_red"
             android:clickable="true"
             android:focusable="true"
-            android:padding="@dimen/player_padding_remove"
-            android:src="@drawable/ic_remove_small" />
+            app:srcCompat="@drawable/ic_remove_circle_24_px" />
 
         <com.bon.customview.textview.ExtTextView
             android:id="@+id/tvInjured"

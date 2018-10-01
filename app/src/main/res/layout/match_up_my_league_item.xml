@@ -170,7 +170,7 @@
             android:layout_width="@dimen/icon_tiny"
             android:layout_height="@dimen/icon_tiny"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_arrow_up" />
+            app:srcCompat="@drawable/ic_triangle" />
 
         <com.football.customizes.expandablelayout.ExpandableLayout
             android:id="@+id/expandableView"

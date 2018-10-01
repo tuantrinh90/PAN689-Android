@@ -314,7 +314,7 @@
                 android:layout_marginLeft="@dimen/padding_layout"
                 android:layout_marginRight="@dimen/padding_layout"
                 app:editTextAppEnable="false"
-                app:editTextAppIconRight="@drawable/ic_date_range" />
+                app:editTextAppIconRight="@drawable/ic_date_range_gray" />
 
             <com.football.customizes.labels.LabelView
                 android:id="@+id/lvTimePerDraftPick"

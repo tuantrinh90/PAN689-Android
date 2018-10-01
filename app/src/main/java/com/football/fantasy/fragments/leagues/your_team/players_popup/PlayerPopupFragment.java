@@ -182,7 +182,7 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
     void initView() {
         try {
             // search view
-            svSearchView.getFilter().setImageResource(R.drawable.ic_filter_list_black_24_px);
+            svSearchView.getFilter().setImageResource(R.drawable.ic_filter_list_blue_24_px);
             svSearchView.setFilerConsumer(aVoid -> {
                 AloneFragmentActivity.with(this)
                         .parameters(FilterFragment.newBundle(TAG, String.valueOf(mainPosition), filterClubs, true))

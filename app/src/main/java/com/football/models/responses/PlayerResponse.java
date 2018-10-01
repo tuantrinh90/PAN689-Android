@@ -318,28 +318,6 @@ public class PlayerResponse implements Serializable {
         return result;
     }
 
-    @JsonIgnore
-    public Drawable getPositionBackground(Context context, int position) {
-        Drawable result = null;
-
-        switch (position) {
-            case POSITION_GOALKEEPER:
-                result = ContextCompat.getDrawable(context, R.drawable.bg_green_button_radius);
-                break;
-            case POSITION_DEFENDER:
-                result = ContextCompat.getDrawable(context, R.drawable.bg_green_radius);
-                break;
-            case POSITION_MIDFIELDER:
-                result = ContextCompat.getDrawable(context, R.drawable.bg_yellow_radius);
-                break;
-            case POSITION_ATTACKER:
-                result = ContextCompat.getDrawable(context, R.drawable.bg_red_radius);
-                break;
-        }
-
-        return result;
-    }
-
     public Boolean getGoalkeeper() {
         return isGoalkeeper;
     }

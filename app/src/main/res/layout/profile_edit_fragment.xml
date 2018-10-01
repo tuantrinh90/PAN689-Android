@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_content"
             app:editTextAppEnable="false"
-            app:editTextAppIconRight="@drawable/ic_date_range" />
+            app:editTextAppIconRight="@drawable/ic_date_range_gray" />
 
         <com.bon.customview.textview.ExtTextView
             style="@style/StyleContentContent"

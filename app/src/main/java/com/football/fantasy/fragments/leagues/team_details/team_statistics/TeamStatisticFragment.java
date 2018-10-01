@@ -141,13 +141,13 @@ public class TeamStatisticFragment extends BaseMvpFragment<ITeamStatisticView, I
 
         switch (team.getRank()) {
             case 1:
-                ivRank.setImageResource(R.drawable.ic_number_one);
+                ivRank.setImageResource(R.drawable.ic_rank_1);
                 break;
             case 2:
-                ivRank.setImageResource(R.drawable.ic_number_two);
+                ivRank.setImageResource(R.drawable.ic_rank_2);
                 break;
             case 3:
-                ivRank.setImageResource(R.drawable.ic_number_three);
+                ivRank.setImageResource(R.drawable.ic_rank_3);
                 break;
             default:
                 tvRankValue.setText(String.valueOf(team.getRank()));

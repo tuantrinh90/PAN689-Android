@@ -226,7 +226,7 @@
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="@dimen/padding_layout"
         android:layout_marginRight="@dimen/leagues_margin_number"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/ivNumber"
@@ -235,7 +235,7 @@
             android:layout_gravity="bottom"
             android:layout_marginBottom="@dimen/padding_layout"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_number_one" />
+            app:srcCompat="@drawable/ic_rank_1" />
 
         <com.bon.customview.textview.ExtTextView
             android:id="@+id/tvNumber"
@@ -254,13 +254,10 @@
         <ImageView
             android:id="@+id/ivUpOrDown"
             style="@style/IconSmall"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:layout_marginBottom="@dimen/padding_layout"
-            android:background="@drawable/bg_green_arrow_up_circle"
-            android:padding="@dimen/padding_content"
-            android:scaleType="centerInside"
             android:visibility="visible"
-            app:srcCompat="@drawable/ic_arrow_upward_white_small" />
+            app:srcCompat="@drawable/ic_status_up" />
     </FrameLayout>
 
     <com.bon.customview.textview.ExtTextView

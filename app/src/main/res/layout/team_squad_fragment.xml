@@ -44,7 +44,7 @@
 
                 <ImageView
                     style="@style/IconTiny"
-                    android:src="@drawable/ic_baseline_compare_arrows" />
+                    app:srcCompat="@drawable/ic_baseline_compare_arrows_24_px" />
 
                 <com.bon.customview.textview.ExtTextView
                     style="@style/StyleContentBlue"

@@ -59,8 +59,8 @@ public class PlayerPoolItemAdapter extends ExtBaseAdapter<PlayerResponse, Player
         holder.tvOption2.setText(getOptionValue(holder.itemView.getContext(), data, option2, holder.ivOption2));
         holder.tvOption3.setText(getOptionValue(holder.itemView.getContext(), data, option3, holder.ivOption3));
 
-        AppUtilities.displayPlayerPosition(holder.tvPositionPrimary, data.getMainPosition(), data.getMainPositionText());
-        AppUtilities.displayPlayerPosition(holder.tvPositionSecond, data.getMinorPosition(), data.getMinorPositionText());
+        AppUtilities.displayPlayerPosition(holder.ivPositionPrimary, data.getMainPosition());
+        AppUtilities.displayPlayerPosition(holder.ivPositionSecond, data.getMinorPosition());
 
         mDisposable.add(RxView.clicks(holder.itemView).subscribe(o ->
                 Optional.from(clickConsumer).doIfPresent(d ->
@@ -134,10 +134,10 @@ public class PlayerPoolItemAdapter extends ExtBaseAdapter<PlayerResponse, Player
         ExtTextView tvName;
         @BindView(R.id.tvClub)
         ExtTextView tvClub;
-        @BindView(R.id.tvPositionPrimary)
-        ExtTextView tvPositionPrimary;
-        @BindView(R.id.tvPositionSecond)
-        ExtTextView tvPositionSecond;
+        @BindView(R.id.ivPositionPrimary)
+        ImageView ivPositionPrimary;
+        @BindView(R.id.ivPositionSecond)
+        ImageView ivPositionSecond;
         @BindView(R.id.tvOption1)
         ExtTextView tvOption1;
         @BindView(R.id.tvOption2)

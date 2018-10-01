@@ -39,7 +39,7 @@
                     android:layout_height="@dimen/icon_medium"
                     android:layout_marginLeft="@dimen/padding_layout"
                     android:layout_marginRight="@dimen/padding_layout"
-                    android:src="@drawable/ic_more_profile" />
+                    app:srcCompat="@drawable/ic_more_user" />
 
                 <com.bon.customview.textview.ExtTextView
                     style="@style/StyleContent"
@@ -66,7 +66,7 @@
                     android:layout_height="@dimen/icon_medium"
                     android:layout_marginLeft="@dimen/padding_layout"
                     android:layout_marginRight="@dimen/padding_layout"
-                    android:src="@drawable/ic_more_setting" />
+                    app:srcCompat="@drawable/ic_more_cogwheel" />
 
                 <com.bon.customview.textview.ExtTextView
                     style="@style/StyleContent"
@@ -93,7 +93,7 @@
                     android:layout_height="@dimen/icon_medium"
                     android:layout_marginLeft="@dimen/padding_layout"
                     android:layout_marginRight="@dimen/padding_layout"
-                    android:src="@drawable/ic_more_gamerule" />
+                    app:srcCompat="@drawable/ic_more_loading" />
 
                 <com.bon.customview.textview.ExtTextView
                     style="@style/StyleContent"
@@ -120,7 +120,7 @@
                     android:layout_height="@dimen/icon_medium"
                     android:layout_marginLeft="@dimen/padding_layout"
                     android:layout_marginRight="@dimen/padding_layout"
-                    android:src="@drawable/ic_more_works" />
+                    app:srcCompat="@drawable/ic_more_password" />
 
                 <com.bon.customview.textview.ExtTextView
                     style="@style/StyleContent"
@@ -147,7 +147,7 @@
                     android:layout_height="@dimen/icon_medium"
                     android:layout_marginLeft="@dimen/padding_layout"
                     android:layout_marginRight="@dimen/padding_layout"
-                    android:src="@drawable/ic_more_contact" />
+                    app:srcCompat="@drawable/ic_more_mail" />
 
                 <com.bon.customview.textview.ExtTextView
                     style="@style/StyleContent"
@@ -174,7 +174,7 @@
                     android:layout_height="@dimen/icon_medium"
                     android:layout_marginLeft="@dimen/padding_layout"
                     android:layout_marginRight="@dimen/padding_layout"
-                    android:src="@drawable/ic_more_logout" />
+                    app:srcCompat="@drawable/ic_lock_white" />
 
                 <com.bon.customview.textview.ExtTextView
                     style="@style/StyleContent"

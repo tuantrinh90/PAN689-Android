@@ -73,21 +73,20 @@ public class LeaguesAdapter extends DefaultAdapter<LeagueResponse> {
             int rankStatus = league.getRankStatus();
             if (rankStatus != 0) {
                 holder.ivUpOrDown.setVisibility(View.VISIBLE);
-                holder.ivUpOrDown.setBackgroundResource(rankStatus > 0 ? R.drawable.bg_green_arrow_up_circle :
-                        R.drawable.bg_green_arrow_down_red);
-                holder.ivUpOrDown.setImageResource(rankStatus > 0 ? R.drawable.ic_arrow_upward_white_small :
-                        R.drawable.ic_arrow_down_white);
+                holder.ivUpOrDown.setImageResource(rankStatus > 0 ?
+                        R.drawable.ic_status_up :
+                        R.drawable.ic_status_down);
             }
 
             if (league.getRank() <= 3 && league.getRank() > 0) {
                 holder.tvNumber.setVisibility(View.GONE);
                 holder.ivNumber.setVisibility(View.VISIBLE);
                 if (league.getRank() == 1) {
-                    holder.ivNumber.setImageResource(R.drawable.ic_number_one);
+                    holder.ivNumber.setImageResource(R.drawable.ic_rank_1);
                 } else if (league.getRank() == 2) {
-                    holder.ivNumber.setImageResource(R.drawable.ic_number_two);
+                    holder.ivNumber.setImageResource(R.drawable.ic_rank_2);
                 } else if (league.getRank() == 3) {
-                    holder.ivNumber.setImageResource(R.drawable.ic_number_three);
+                    holder.ivNumber.setImageResource(R.drawable.ic_rank_3);
                 }
             } else {
                 holder.tvNumber.setText(String.valueOf(league.getRank()));

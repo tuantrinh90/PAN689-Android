@@ -33,7 +33,7 @@
             <ImageView
                 android:id="@+id/ivEdit"
                 style="@style/IconTiny"
-                android:src="@drawable/ic_edit_blue" />
+                app:srcCompat="@drawable/ic_edit_blue" />
         </TableRow>
 
         <LinearLayout
@@ -208,7 +208,7 @@
 
                 <ImageView
                     style="@style/IconLarge"
-                    android:src="@drawable/ic_team_lineup" />
+                    app:srcCompat="@drawable/ic_team_lineup" />
 
                 <com.bon.customview.textview.ExtTextView
                     style="@style/StyleContent"
@@ -235,7 +235,7 @@
 
                 <ImageView
                     style="@style/IconLarge"
-                    android:src="@drawable/ic_transfer_blue" />
+                    app:srcCompat="@drawable/ic_team_transfer_selected" />
 
                 <com.bon.customview.textview.ExtTextView
                     android:id="@+id/tvGamePlayOption"
@@ -268,7 +268,7 @@
 
                 <ImageView
                     style="@style/IconLarge"
-                    android:src="@drawable/ic_team_squad" />
+                    app:srcCompat="@drawable/ic_team_squad" />
 
                 <com.bon.customview.textview.ExtTextView
                     style="@style/StyleContent"
@@ -295,7 +295,7 @@
 
                 <ImageView
                     style="@style/IconLarge"
-                    android:src="@drawable/ic_bar_chart" />
+                    app:srcCompat="@drawable/ic_team_statistic" />
 
                 <com.bon.customview.textview.ExtTextView
                     style="@style/StyleContent"

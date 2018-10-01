@@ -59,8 +59,6 @@
         <ImageView
             android:id="@+id/ivChange"
             style="@style/IconTiny"
-            android:background="@drawable/bg_circle_red"
-            android:padding="@dimen/padding_small"
-            android:src="@drawable/ic_arrow_upward_white_small" />
+            app:srcCompat="@drawable/ic_status_up" />
     </LinearLayout>
 </LinearLayout>

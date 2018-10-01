@@ -14,17 +14,19 @@
         android:layout_marginRight="@dimen/footer_padding"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="@dimen/padding_content">
+        android:padding="@dimen/padding_content_small">
 
         <ImageView
             android:id="@+id/ivIcon"
-            style="@style/IconMedium"
+            style="@style/IconSmall"
+            android:layout_marginTop="@dimen/padding_content_small"
             app:srcCompat="@drawable/ic_home" />
 
         <com.bon.customview.textview.ExtTextView
             android:id="@+id/tvContent"
             style="@style/StyleFooter"
-            android:layout_marginTop="@dimen/padding_content"
+            android:layout_marginBottom="@dimen/padding_content_small"
+            android:layout_marginTop="@dimen/padding_content_small"
             android:ellipsize="end"
             android:maxLines="1"
             android:padding="0dp"
