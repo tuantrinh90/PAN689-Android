@@ -45,7 +45,6 @@ public class MyLeagueDataPresenter extends BaseDataPresenter<IMyLeagueView> impl
 
                         @Override
                         public void onError(String error) {
-                            v.showMessage(error);
                         }
                     }));
         });

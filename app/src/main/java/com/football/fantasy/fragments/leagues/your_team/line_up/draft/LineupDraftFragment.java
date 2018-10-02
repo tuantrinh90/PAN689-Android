@@ -170,7 +170,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             enableLineupView(true);
 
             // set currentTurn team's Name
-            tvDraftCurrentTeam.setText("YOUR TURN");
+            tvDraftCurrentTeam.setText(getString(R.string.your_turn_cap));
         } else {
             setYourTurn(false);
 
@@ -197,12 +197,12 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         // set next team's name
         if (next != null) {
             if (next.getTeam().getId() == teamId) {
-                tvDraftNextTeam.setText("YOUR TURN");
+                tvDraftNextTeam.setText(getString(R.string.your_turn_cap));
             } else {
                 tvDraftNextTeam.setText(next.getTeam().getName());
             }
         } else {
-            tvDraftNextTeam.setText("null");
+            tvDraftNextTeam.setText("");
         }
     }
 

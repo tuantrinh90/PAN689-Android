@@ -38,16 +38,13 @@ public class OpenLeagueDataPresenter extends BaseDataPresenter<IOpenLeagueView> 
                 queries.put(Constant.NUMBER_OF_USER, numberOfUser);
             }
 
-            mCompositeDisposable.add(RxUtilities.async(v, dataModule.getApiService().getOpenLeagues(queries),
+            mCompositeDisposable.add(RxUtilities.async(v,
+                    dataModule.getApiService().getOpenLeagues(queries),
                     new ApiCallback<PagingResponse<LeagueResponse>>() {
-                        @Override
-                        public void onStart() {
-                            v.showLoadingPagingListView(true);
-                        }
 
                         @Override
                         public void onComplete() {
-                            v.showLoadingPagingListView(false);
+                            v.stopLoading();
                         }
 
                         @Override
@@ -57,7 +54,6 @@ public class OpenLeagueDataPresenter extends BaseDataPresenter<IOpenLeagueView> 
 
                         @Override
                         public void onError(String error) {
-                            v.showMessage(error);
                         }
                     }));
         });

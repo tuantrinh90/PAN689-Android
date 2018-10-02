@@ -261,7 +261,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                 }
             } else {
 
-                if (BuildConfig.DEBUG) { // todo: delete late
+                if (BuildConfig.DEBUG && false) {
                     calendarDraftTime = Calendar.getInstance();
                     calendarDraftTime.add(Calendar.MINUTE, 1);
 
@@ -675,6 +675,15 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
             } else {
                 etDraftTime.setError(null);
                 if (calendarStartTime.getTimeInMillis() < calendarDraftTime.getTimeInMillis()) {
+                    etDraftTime.setError(getString(R.string.league_invalid_start_draft_time_after_start_time));
+                    result = false;
+
+                }
+                // check khoảng thời gian giữa draftTime và startTime có phù hợp ko
+                else if (calendarStartTime.getTimeInMillis() < calendarDraftTime.getTimeInMillis() +
+                        AppUtilities.getDraftEstimate(
+                                Integer.valueOf(keyValuePairNumberOfUser.getKey()),
+                                Integer.valueOf(keyValuePairTimePerDraft.getKey())) * 60 * 100) {
                     etDraftTime.setError(getString(R.string.league_invalid_start_draft_time));
                     result = false;
                 }

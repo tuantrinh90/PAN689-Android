@@ -225,21 +225,18 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
     }
 
     @Override
-    public void showLoadingPagingListView(boolean isLoading) {
-        if (!isLoading) {
-            rvLeague.stopLoading();
-        }
-    }
-
-    @Override
     public void displayLeagues(List<LeagueResponse> its) {
         rvLeague.addItems(its);
-        rvLeague.stopLoading();
     }
 
     @Override
     public void refreshData(Integer leagueId) {
         refresh();
+    }
+
+    @Override
+    public void stopLoading() {
+        rvLeague.stopLoading();
     }
 
     @Override

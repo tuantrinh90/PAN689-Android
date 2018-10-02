@@ -10,6 +10,8 @@ public interface IOpenLeagueView extends IBaseMvpView {
 
     void refreshData(Integer leagueId);
 
+    void stopLoading();
+
     void onJoinSuccessful(LeagueResponse response);
 
 }
