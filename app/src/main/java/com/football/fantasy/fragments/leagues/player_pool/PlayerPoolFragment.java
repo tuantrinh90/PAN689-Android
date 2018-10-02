@@ -39,9 +39,12 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 
+import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_NONE;
+import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_NONE_INFO;
 import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_PICK;
 import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_PICKED;
 import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_DRAFT;
+import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
 
 public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayerPoolPresenter<IPlayerPoolView>> implements IPlayerPoolView {
 
@@ -287,22 +290,13 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
                 getContext(),
                 player -> { // click event
                     if (playerTransfer == null) {
-                        if (TextUtils.isEmpty(gameplay)) {
-                            AloneFragmentActivity.with(this)
-                                    .parameters(PlayerDetailFragment.newBundle(
-                                            player.getId(),
-                                            -1,
-                                            getString(R.string.player_list),
-                                            PlayerDetailFragment.PICK_NONE,
-                                            gameplay))
-                                    .start(PlayerDetailFragment.class);
-                        } else {
-                            PlayerDetailFragment.start(this,
-                                    player.getId(),
-                                    -1,
-                                    getString(R.string.player_list),
-                                    gameplay);
-                        }
+                        PlayerDetailFragment.start(
+                                getContext(),
+                                player.getId(),
+                                -1,
+                                getString(R.string.player_list),
+                                TextUtils.isEmpty(gameplay) || gameplay.equals(GAMEPLAY_OPTION_TRANSFER) ? PICK_NONE_INFO : PICK_NONE,
+                                gameplay);
                     } else {
                         PlayerDetailForTransferFragment.start(
                                 this,

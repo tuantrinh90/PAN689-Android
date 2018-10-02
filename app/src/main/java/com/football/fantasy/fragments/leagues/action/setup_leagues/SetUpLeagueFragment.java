@@ -484,7 +484,6 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
 
     @OnClick(R.id.llDraft)
     void onClickDraft() {
-        if (!BuildConfig.DEBUG) return; // open late
         if (league == null) {
             toggleTransfer(false);
         }
@@ -684,7 +683,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                         AppUtilities.getDraftEstimate(
                                 Integer.valueOf(keyValuePairNumberOfUser.getKey()),
                                 Integer.valueOf(keyValuePairTimePerDraft.getKey())) * 60 * 100) {
-                    etDraftTime.setError(getString(R.string.league_invalid_start_draft_time));
+                    showMessage(getString(R.string.league_invalid_start_draft_time));
                     result = false;
                 }
             }

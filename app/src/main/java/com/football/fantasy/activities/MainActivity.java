@@ -277,13 +277,13 @@ public class MainActivity extends BaseActivity {
             // Player detail
             case PLAYER_NEW_JOIN:
             case VALUE_OF_PLAYER_CHANGED:
-                AloneFragmentActivity.with(this)
-                        .parameters(PlayerDetailFragment.newBundle(playerId,
-                                -1,
-                                getString(R.string.home),
-                                PlayerDetailFragment.PICK_NONE,
-                                GAMEPLAY_OPTION_TRANSFER))
-                        .start(PlayerDetailFragment.class);
+                PlayerDetailFragment.start(
+                        this,
+                        playerId,
+                        -1,
+                        getString(R.string.home),
+                        PlayerDetailFragment.PICK_NONE_INFO,
+                        GAMEPLAY_OPTION_TRANSFER);
                 break;
 
             // Player pool

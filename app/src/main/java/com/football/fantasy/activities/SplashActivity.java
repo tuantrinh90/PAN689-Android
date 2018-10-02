@@ -35,7 +35,7 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(() -> {
             String token = AppPreferences.getInstance(this).getString(Constant.KEY_TOKEN);
             Intent intent = getIntent();
-            intent.setClass(this, !TextUtils.isEmpty(token) || BuildConfig.DEBUG ? MainActivity.class : AccountActivity.class); // todo: sửa lại sau
+            intent.setClass(this, !TextUtils.isEmpty(token) ? MainActivity.class : AccountActivity.class);
 
             startActivity(intent);
             finish();

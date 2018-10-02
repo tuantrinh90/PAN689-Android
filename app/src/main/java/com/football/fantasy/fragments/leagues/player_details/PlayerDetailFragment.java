@@ -1,5 +1,6 @@
 package com.football.fantasy.fragments.leagues.player_details;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -136,6 +137,13 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
                 .start(PlayerDetailFragment.class);
     }
 
+    // only for view PlayerDetail
+    public static void start(Context context, int playerId, int teamId, String title, int pick, String gameplayOption) {
+        AloneFragmentActivity.with(context)
+                .parameters(newBundle(playerId, teamId, title, pick, gameplayOption))
+                .start(PlayerDetailFragment.class);
+    }
+
     public static Bundle newBundle(int playerId, int teamId, String title, int pick, String gameplayOption) {
         Bundle bundle = new Bundle();
         bundle.putInt(KEY_PLAYER_ID, playerId);
@@ -243,6 +251,9 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
         switch (pickEnable) {
             case PICK_NONE:
                 viewPick.setVisibility(View.GONE);
+                if (TextUtils.isEmpty(gameplayOption) || gameplayOption.equals(GAMEPLAY_OPTION_TRANSFER)) {
+                    ivInfo.setVisibility(View.VISIBLE);
+                }
                 break;
 
             case PICK_NONE_INFO:
