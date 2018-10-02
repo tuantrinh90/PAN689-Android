@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -33,13 +34,15 @@ import butterknife.OnClick;
 
 import static com.football.fantasy.fragments.leagues.team_details.team_squad.trade.request.RequestFragment.REQUEST_BY_YOU;
 import static com.football.fantasy.fragments.leagues.team_details.team_squad.trade.request.RequestFragment.REQUEST_TO_YOU;
-import static com.football.utilities.Constant.FORMAT_DATE_TIME;
 
 public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView, IProposalReviewPresenter<IProposalReviewView>> implements IProposalReviewView {
 
     private static final String KEY_TRADE = "TRADE";
     private static final String KEY_TITLE = "TITLE";
     private static final String KEY_TYPE = "TYPE";
+
+    private static final int TYPE_REVIEWING = 10;
+    private static final int TYPE_RESULT = 11;
 
     @BindView(R.id.tvDeadline)
     ExtTextView tvDeadline;
@@ -66,7 +69,7 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     @BindView(R.id.player23)
     PlayerView player23;
     @BindView(R.id.to_you_buttons)
-    View toYouButton;
+    View acceptRejectButtons;
     @BindView(R.id.by_you_buttons)
     View byYouButton;
     @BindView(R.id.header_by_you)
@@ -86,9 +89,12 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
                 .start(ProposalReviewFragment.class);
     }
 
-    public static void start(Context context, String title, TradeResponse trade) {
+    public static void start(Context context, String title, TradeResponse trade, String type) {
         AloneFragmentActivity.with(context)
-                .parameters(ProposalReviewFragment.newBundle(title, trade, -1))
+                .parameters(ProposalReviewFragment.newBundle(
+                        title,
+                        trade,
+                        type.equals(TradeResponse.TYPE_REVIEWING) ? TYPE_REVIEWING : TYPE_RESULT))
                 .start(ProposalReviewFragment.class);
     }
 
@@ -145,7 +151,7 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     private void initView() {
         // || (type == -1 && trade.getStatus().equals(TradeResponse.STATUS_SUCCESSFUL))
         byYouButton.setVisibility(View.GONE);
-        toYouButton.setVisibility(View.GONE);
+        acceptRejectButtons.setVisibility(View.GONE);
         headerRejectApproved.setVisibility(View.GONE);
         headerTimeLeft.setVisibility(View.GONE);
 
@@ -156,23 +162,28 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
             }
 
             displayViewRejectApproved();
+
         } else if (type == REQUEST_TO_YOU) {
             headerTimeLeft.setVisibility(View.VISIBLE);
             if (!isApproved()) {
-                toYouButton.setVisibility(View.VISIBLE);
+                acceptRejectButtons.setVisibility(View.VISIBLE);
             }
 
             displayViewTimeLeft();
-        } else if (!isAccept()) {
-            toYouButton.setVisibility(View.VISIBLE);
-            headerRejectApproved.setVisibility(View.VISIBLE);
 
-            displayViewRejectApproved();
-        } else if (isAccept()) {
+        } else if (type == TYPE_REVIEWING) {
+            if (!isAccept()) {
+                acceptRejectButtons.setVisibility(View.VISIBLE);
+                headerRejectApproved.setVisibility(View.VISIBLE);
+                displayViewRejectApproved();
+            } else {
+                headerTimeLeft.setVisibility(View.VISIBLE);
+                displayViewTimeLeft();
+            }
+
+        } else if (type == TYPE_RESULT) {
             headerTimeLeft.setVisibility(View.VISIBLE);
             displayViewTimeLeft();
-        } else {
-            // isPending
         }
 
         tvTitleTeam1.setText(trade.getTeam().getName());
@@ -218,7 +229,9 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     }
 
     private void displayViewRejectApproved() {
-        tvDeadline.setText(AppUtilities.getTimeFormatted(trade.getReviewDeadline()));
+        tvDeadline.setText(AppUtilities.getTimeFormatted(TextUtils.isEmpty(trade.getReviewDeadline()) ?
+                trade.getDeadline() :
+                trade.getReviewDeadline()));
         tvReject.setText(getString(R.string.rejected, trade.getTotalRejection()));
         int approved = trade.getTotalApproval() - 2 < 0 ? 0 : trade.getTotalApproval() - 2;
         tvApprove.setText(getString(R.string.approved, approved));

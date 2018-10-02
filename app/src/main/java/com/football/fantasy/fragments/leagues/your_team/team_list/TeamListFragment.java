@@ -62,6 +62,12 @@ public class TeamListFragment extends BaseMvpFragment<ITeamListView, ITeamListPr
         presenter.getTeams(league.getId());
     }
 
+    private void refresh() {
+        rvTeam.clear();
+        rvTeam.startLoading();
+        getTeams();
+    }
+
     private void getDataFromBundle() {
         Bundle bundle = getArguments();
         league = (LeagueResponse) bundle.getSerializable(KEY_LEAGUE);
@@ -79,10 +85,7 @@ public class TeamListFragment extends BaseMvpFragment<ITeamListView, ITeamListPr
                 },
                 null);
         rvTeam.adapter(teamAdapter)
-                .refreshListener(() -> {
-                    Optional.from(rvTeam).doIfPresent(ExtRecyclerView::clear);
-                    getTeams();
-                })
+                .refreshListener(this::refresh)
                 .build();
     }
 
@@ -92,8 +95,7 @@ public class TeamListFragment extends BaseMvpFragment<ITeamListView, ITeamListPr
                 .subscribeWith(new DisposableObserver<TeamEvent>() {
                     @Override
                     public void onNext(TeamEvent event) {
-                        rvTeam.clear();
-                        getTeams();
+                        refresh();
                     }
 
                     @Override

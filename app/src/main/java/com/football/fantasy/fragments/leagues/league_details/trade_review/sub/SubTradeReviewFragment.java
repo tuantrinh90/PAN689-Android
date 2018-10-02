@@ -83,11 +83,7 @@ public class SubTradeReviewFragment extends BaseMvpFragment<ISubTradeReviewView,
                 getContext(),
                 type,
                 trade -> {
-                    if (type.equals(TradeResponse.TYPE_REVIEWING)) {
-                        ProposalReviewFragment.start(getContext(), getString(R.string.trade_request), trade);
-                    } else {
-                        ProposalReviewFragment.start(getContext(), getString(R.string.trade_request), trade);
-                    }
+                    ProposalReviewFragment.start(getContext(), getString(R.string.trade_request), trade, type);
                 });
         rvReviews
                 .adapter(adapter)

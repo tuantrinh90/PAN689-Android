@@ -14,7 +14,6 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.lineup.PlayerView;
 import com.football.events.PlayerEvent;
-import com.football.events.RequestProposalEvent;
 import com.football.events.TradeEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.proposal_team_squad.ProposalTeamSquadFragment;
@@ -118,7 +117,7 @@ public class TradeProposalFragment extends BaseMvpFragment<ITradeProposalView, I
                             playerViews[event.getPosition()].setPosition(player.getMainPosition());
                             playerViews[event.getPosition()].setPlayer(player);
 
-                            setEnableMakeProposalButton(true);
+                            setEnableMakeProposalButton();
                         }
                     }
 
@@ -138,7 +137,7 @@ public class TradeProposalFragment extends BaseMvpFragment<ITradeProposalView, I
         tvTitleTeam1.setText(fromTeamName);
         tvTitleTeam2.setText(toTeamName);
 
-        setEnableMakeProposalButton(false);
+        setEnableMakeProposalButton();
 
         for (PlayerView player : playerViews) {
             player.setTextColor(ContextCompat.getColor(mActivity, R.color.color_black));
@@ -169,7 +168,22 @@ public class TradeProposalFragment extends BaseMvpFragment<ITradeProposalView, I
         }
     }
 
-    private void setEnableMakeProposalButton(boolean enable) {
+    private void setEnableMakeProposalButton() {
+        boolean hasLeftPlayer = false;
+        boolean hasRightPlayer = false;
+
+        for (int i = 0; i < playerViews.length; i++) {
+            PlayerView playerView = playerViews[i];
+            if (playerView.getPlayer() != null) {
+                if (i == MY_TEAM_INDEX_1 || i == MY_TEAM_INDEX_2 || i == MY_TEAM_INDEX_3) {
+                    hasLeftPlayer = true;
+                } else if (i == OTHER_TEAM_INDEX_1 || i == OTHER_TEAM_INDEX_2 || i == OTHER_TEAM_INDEX_3) {
+                    hasRightPlayer = true;
+                }
+            }
+        }
+
+        boolean enable = hasLeftPlayer && hasRightPlayer;
         buttonMakeProposal.setEnabled(enable);
         buttonMakeProposal.setBackgroundResource(enable ? R.drawable.bg_button_yellow : R.drawable.bg_button_white);
     }
@@ -177,7 +191,7 @@ public class TradeProposalFragment extends BaseMvpFragment<ITradeProposalView, I
     private void onAddPlayer(PlayerView view) {
         ArrayList<Integer> ids = new ArrayList<>();
         for (PlayerView playerView : playerViews) {
-            if (playerView.getPlayer() !=  null) {
+            if (playerView.getPlayer() != null) {
                 ids.add(playerView.getPlayer().getId());
             }
         }
@@ -214,14 +228,7 @@ public class TradeProposalFragment extends BaseMvpFragment<ITradeProposalView, I
                     player.setPosition(PlayerResponse.POSITION_NONE);
                     player.setPlayer(null);
 
-                    boolean hasView = false;
-                    for (PlayerView playerView : playerViews) {
-                        if (playerView.getPlayer() != null) {
-                            hasView = true;
-                            break;
-                        }
-                    }
-                    setEnableMakeProposalButton(hasView);
+                    setEnableMakeProposalButton();
                 },
                 (dialog, which) -> {
                 });
@@ -246,19 +253,39 @@ public class TradeProposalFragment extends BaseMvpFragment<ITradeProposalView, I
                 int[] fromPlayerIds = new int[3];
                 int[] toPlayerIds = new int[3];
 
+                // đếm số lượng cầu thủ
+                int fromCounter = 0;
+                int toCounter = 0;
                 for (int i = 0; i < 3; i++) {
                     if (playerViews[i].getPlayer() != null) {
                         fromPlayerIds[i] = playerViews[i].getPlayer().getId();
+                        fromCounter++;
                     }
                     if (playerViews[i + 3].getPlayer() != null) {
                         toPlayerIds[i] = playerViews[i + 3].getPlayer().getId();
+                        toCounter++;
                     }
                 }
 
-                presenter.makeProposal(fromTeamId, toTeamId, fromPlayerIds, toPlayerIds);
+                if (fromCounter < toCounter) {
+                    showMessage(
+                            R.string.message_trade_team_more_than_18_players,
+                            R.string.ok,
+                            R.string.cancel,
+                            aVoid -> {
+                                makeProposal(fromPlayerIds, toPlayerIds);
+                            }, null);
+                } else {
+                    makeProposal(fromPlayerIds, toPlayerIds);
+                }
                 break;
         }
     }
+
+    private void makeProposal(int[] fromPlayerIds, int[] toPlayerIds) {
+        presenter.makeProposal(fromTeamId, toTeamId, fromPlayerIds, toPlayerIds);
+    }
+
 
     @Override
     public void submitSuccess(TradeResponse response) {

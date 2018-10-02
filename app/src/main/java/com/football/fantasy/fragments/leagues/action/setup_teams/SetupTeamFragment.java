@@ -158,8 +158,6 @@ public class SetupTeamFragment extends BaseMvpFragment<ISetupTeamView, ISetupTea
                                             ImageUtils.chooseImageFromGallery(SetupTeamFragment.this, getString(R.string.select_value));
                                         }
                                     }).show(getFragmentManager(), null);
-                        } else {
-                            onClickImagePick();
                         }
                     }
 

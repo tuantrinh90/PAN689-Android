@@ -206,7 +206,7 @@ public class TradeRequestFragment extends BaseMvpFragment<ITradeRequestView, ITr
         if (pendingTradeRequest >= maxTradeRequest) {
             showMessage(getString(R.string.pending_trade_request_max));
         } else if (maxTradeRequest - currentTradeRequest <= 0) {
-            showMessage("currentTradeRequest <= 0");
+            showMessage(getString(R.string.message_number_of_trade_left_is_zero));
         } else if (teamSquad.getMyTeam().getId() == teamId) {
             ChooseATeamFragment.start(getContext(), teamSquad.getLeague().getId(), teamSquad.getMyTeam().getId());
         } else {

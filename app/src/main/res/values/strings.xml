@@ -373,4 +373,8 @@
     <string name="failed">Failed</string>
     <string name="message_players_has_left_transfer">Player(s) in your team has left the league. You are refunded %s euro with right to pick player(s) from player pool.</string>
     <string name="message_players_has_left_draft">Player(s) has left the league. You can pick player(s) from player pool</string>
+    <string name="message_pick_player_before_team_setup_time">You cannot pick players before team setup time</string>
+    <string name="message_number_of_trade_left_is_zero">Unable to make trade proposal, number of trade left is zero</string>
+    <string name="message_trade_team_more_than_18_players">if transaction is successful, you have to remove one/two players from your team to ensure your team not to have more than 18 players. Are you sure about this proposal ?</string>
+
 </resources>

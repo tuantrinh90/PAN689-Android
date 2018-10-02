@@ -14,7 +14,6 @@ public abstract class BaseActivity extends BaseAppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Fabric.with(this, new Crashlytics());
-
         super.onCreate(savedInstanceState);
     }
 

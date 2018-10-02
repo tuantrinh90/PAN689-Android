@@ -82,7 +82,7 @@ public class TeamFragment extends BaseMvpFragment<ITeamView, ITeamPresenter<ITea
                     @Override
                     public void onNext(TeamEvent event) {
                         // ở LineupFragment bắn về null
-                        getTeams();
+                        refresh();
                     }
 
                     @Override

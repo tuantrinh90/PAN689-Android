@@ -150,7 +150,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
             R.id.etNumberOfUser, R.id.rvBudgetOption,
             R.id.rbNoTradeReview, R.id.rbTradeReviewCreator, R.id.rbTradeReviewUsers,
             R.id.rbRegular, R.id.rbPointPerStats,
-            R.id.etDraftTime, R.id.etTimePerDraftPick, R.id.etTeamSetupTime, R.id.etStartTime})
+            R.id.etDraftTime, R.id.etTimePerDraftPick, R.id.etTeamSetupTime})
     View[] viewsOngoing;
 
     private File filePath;
@@ -248,8 +248,8 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                 // display time
                 formatDateTime();
 
-                // disable views after startLeague
-                if (!league.getTeamSetUpCalendar().after(Calendar.getInstance()) && !league.equalsStatus(WAITING_FOR_START)) {
+                // disable views khi qua teamSetupTime
+                if (!AppUtilities.isSetupTime(league)) {
                     for (View view : viewsOngoing) {
                         view.setEnabled(false);
                         view.setClickable(false);
@@ -258,6 +258,12 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                             ((BudgetOptionAdapter) ((RecyclerView) view).getAdapter()).clickEnable(false);
                         }
                     }
+                }
+                // khi OnGoing thì ko edit đc startTime
+                if (!league.equalsStatus(WAITING_FOR_START)) {
+                    etStartTime.setEnabled(false);
+                    etStartTime.setClickable(false);
+                    etStartTime.setFocusable(false);
                 }
             } else {
 
@@ -327,15 +333,8 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
         }
     }
 
-    private boolean isNotWaitingForStart() {
-        if (league != null) {
-            if (league.equalsGameplay(GAMEPLAY_OPTION_TRANSFER)) {
-                return !league.getTeamSetUpCalendar().after(Calendar.getInstance()) && !league.equalsStatus(WAITING_FOR_START);
-            } else {
-                return !league.getDraftTimeCalendar().after(Calendar.getInstance()) && !league.equalsStatus(WAITING_FOR_START);
-            }
-        }
-        return false;
+    private boolean cannotEdit() {
+        return league != null && !AppUtilities.isSetupTime(league);
     }
 
     @NonNull
@@ -366,7 +365,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
     }
 
     private void calculateStartTime() {
-        if (llDraft.isActivated()) {
+        if (llDraft.isActivated() && !TextUtils.isEmpty(etDraftTime.getContent())) {
             // set default for start time
             int draftEstimate = AppUtilities.getDraftEstimate(
                     Integer.valueOf(keyValuePairNumberOfUser.getKey()),
@@ -454,8 +453,6 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                                             ImageUtils.chooseImageFromGallery(SetUpLeagueFragment.this, getString(R.string.select_value));
                                         }
                                     }).show(getFragmentManager(), null);
-                        } else {
-                            onClickImagePick();
                         }
                     }
 
@@ -506,7 +503,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
 
     @OnClick(R.id.etNumberOfUser)
     void onClickNumberOfUser() {
-        if (isNotWaitingForStart()) {
+        if (cannotEdit()) {
             return;
         }
 
@@ -553,7 +550,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
 
     @OnClick(R.id.etTimePerDraftPick)
     void onClickTimePerDraftPick() {
-        if (isNotWaitingForStart()) {
+        if (cannotEdit()) {
             return;
         }
 
@@ -573,7 +570,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
 
     @OnClick(R.id.etTeamSetupTime)
     void onClickTeamSetupTime() {
-        if (isNotWaitingForStart()) {
+        if (cannotEdit()) {
             return;
         }
 
@@ -587,6 +584,12 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                     calendarTeamSetupTime = calendar;
                     calendarTeamSetupTime = DateTimeUtils.getCalendarNoTime(calendar.getTimeInMillis());
                     etTeamSetupTime.setContent(DateTimeUtils.convertCalendarToString(calendarTeamSetupTime, Constant.FORMAT_DATE_TIME));
+
+                    // cập nhật startTime khi ko có dữ liệu
+                    if (llTransfer.isActivated() && TextUtils.isEmpty(etStartTime.getContent())) {
+                        calendarStartTime = (Calendar) calendarTeamSetupTime.clone();
+                        setTextTime(etStartTime, calendarStartTime);
+                    }
                 }).show(getFragmentManager(), null);
     }
 
@@ -603,7 +606,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                     if (calendarTeamSetupTime == null) {
                         calendarTeamSetupTime = DateTimeUtils.getCalendarNoTime(calendarStartTime.getTimeInMillis());
                     }
-                    etStartTime.setContent(DateTimeUtils.convertCalendarToString(calendarStartTime, Constant.FORMAT_DATE_TIME));
+                    setTextTime(etStartTime, calendarStartTime);
                 }).show(getFragmentManager(), null);
     }
 
@@ -617,6 +620,10 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
         } else {
             presenter.updateLeague(leagueId, leagueRequest);
         }
+    }
+
+    private void setTextTime(EditTextApp editTextApp, Calendar calendar) {
+        editTextApp.setContent(DateTimeUtils.convertCalendarToString(calendar, Constant.FORMAT_DATE_TIME));
     }
 
     LeagueRequest getLeagueRequest() {
@@ -682,7 +689,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                 else if (calendarStartTime.getTimeInMillis() < calendarDraftTime.getTimeInMillis() +
                         AppUtilities.getDraftEstimate(
                                 Integer.valueOf(keyValuePairNumberOfUser.getKey()),
-                                Integer.valueOf(keyValuePairTimePerDraft.getKey())) * 60 * 100) {
+                                Integer.valueOf(keyValuePairTimePerDraft.getKey())) * 60 * 1000) {
                     showMessage(getString(R.string.league_invalid_start_draft_time));
                     result = false;
                 }

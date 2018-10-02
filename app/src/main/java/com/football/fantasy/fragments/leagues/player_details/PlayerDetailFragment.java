@@ -131,13 +131,6 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
     private ExtKeyValuePair keyValuePairKey = DEFAULT_KEY;
 
     // only for view PlayerDetail
-    public static void start(Fragment fragment, int playerId, int teamId, String title, String gameplayOption) {
-        AloneFragmentActivity.with(fragment)
-                .parameters(newBundle(playerId, teamId, title, PICK_NONE, gameplayOption))
-                .start(PlayerDetailFragment.class);
-    }
-
-    // only for view PlayerDetail
     public static void start(Context context, int playerId, int teamId, String title, int pick, String gameplayOption) {
         AloneFragmentActivity.with(context)
                 .parameters(newBundle(playerId, teamId, title, pick, gameplayOption))
@@ -251,9 +244,6 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
         switch (pickEnable) {
             case PICK_NONE:
                 viewPick.setVisibility(View.GONE);
-                if (TextUtils.isEmpty(gameplayOption) || gameplayOption.equals(GAMEPLAY_OPTION_TRANSFER)) {
-                    ivInfo.setVisibility(View.VISIBLE);
-                }
                 break;
 
             case PICK_NONE_INFO:
@@ -278,8 +268,9 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
                 break;
         }
 
-        boolean isTransfer = gameplayOption.equals(GAMEPLAY_OPTION_TRANSFER);
-        budget.setVisibility(isTransfer ? View.VISIBLE : View.GONE);
+        budget.setVisibility(
+                TextUtils.isEmpty(gameplayOption) || gameplayOption.equals(GAMEPLAY_OPTION_TRANSFER) ?
+                        View.VISIBLE : View.GONE);
     }
 
     @NonNull

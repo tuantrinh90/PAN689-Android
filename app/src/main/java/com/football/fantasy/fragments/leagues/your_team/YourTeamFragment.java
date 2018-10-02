@@ -3,6 +3,7 @@ package com.football.fantasy.fragments.leagues.your_team;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.view.View;
@@ -25,7 +26,6 @@ import com.football.fantasy.fragments.leagues.your_team.team_list.TeamListFragme
 import com.football.models.responses.LeagueResponse;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import butterknife.BindView;
 import io.reactivex.observers.DisposableObserver;
@@ -47,6 +47,8 @@ public class YourTeamFragment extends BaseMvpFragment<IYourTeamView, IYourTeamPr
     ViewPager vpViewPager;
 
     LeagueResponse league;
+
+    private YourTeamViewPagerAdapter mAdapter;
 
     @Override
     public int getResourceId() {
@@ -80,16 +82,18 @@ public class YourTeamFragment extends BaseMvpFragment<IYourTeamView, IYourTeamPr
                 });
 
         boolean isTransfer = league.equalsGameplay(LeagueResponse.GAMEPLAY_OPTION_TRANSFER);
-        vpViewPager.setAdapter(new YourTeamViewPagerAdapter(getFragmentManager(), new ArrayList<BaseMvpFragment>() {{
-            add(LineUpFragment.newInstance(
-                    isTransfer ? new LineupTransferFragment() : new LineupDraftFragment(),
-                    league,
-                    league.getTeam() == null ? 0 : league.getTeam().getId())
-                    .setChildFragment(true));
-            add(PlayerListFragment.newInstance(isTransfer ? new PlayerListTransferFragment() : new PlayerListDraftFragment(), league).setChildFragment(true));
-            add(isTransfer ? TeamListFragment.newInstance(league).setChildFragment(true) :
-                    DraftTeamListFragment.newInstance(league).setChildFragment(true));
-        }}));
+        vpViewPager.setAdapter(mAdapter = new YourTeamViewPagerAdapter(
+                getFragmentManager(),
+                new ArrayList<BaseMvpFragment>() {{
+                    add(LineUpFragment.newInstance(
+                            isTransfer ? new LineupTransferFragment() : new LineupDraftFragment(),
+                            league,
+                            league.getTeam() == null ? 0 : league.getTeam().getId())
+                            .setChildFragment(true));
+                    add(PlayerListFragment.newInstance(isTransfer ? new PlayerListTransferFragment() : new PlayerListDraftFragment(), league).setChildFragment(true));
+                    add(isTransfer ? TeamListFragment.newInstance(league).setChildFragment(true) :
+                            DraftTeamListFragment.newInstance(league).setChildFragment(true));
+                }}));
         vpViewPager.setOffscreenPageLimit(3);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -116,7 +120,7 @@ public class YourTeamFragment extends BaseMvpFragment<IYourTeamView, IYourTeamPr
                     @Override
                     public void onNext(LineupEvent event) {
                         try {
-                            if (((YourTeamViewPagerAdapter) Objects.requireNonNull(vpViewPager.getAdapter())).getItem(2) instanceof TeamListFragment) {
+                            if (mAdapter.getItem(2) instanceof TeamListFragment) {
                                 vpViewPager.setCurrentItem(2);
                             }
                         } catch (NullPointerException e) {
@@ -151,5 +155,12 @@ public class YourTeamFragment extends BaseMvpFragment<IYourTeamView, IYourTeamPr
         super.initToolbar(supportActionBar);
         supportActionBar.setDisplayHomeAsUpEnabled(true);
         supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_blue);
+    }
+
+    public void visibleAddButtonInPlayerList() {
+        Fragment fragment;
+        if ((fragment = mAdapter.getItem(1)) instanceof PlayerListDraftFragment) {
+            ((PlayerListDraftFragment) fragment).visibleAddButtonInPlayerList();
+        }
     }
 }

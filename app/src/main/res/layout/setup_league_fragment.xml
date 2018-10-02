@@ -359,7 +359,7 @@
                 android:layout_marginLeft="@dimen/padding_layout"
                 android:layout_marginRight="@dimen/padding_layout"
                 app:editTextAppEnable="false"
-                app:editTextAppIconRight="@drawable/ic_arrow_drop_down_black" />
+                app:editTextAppIconRight="@drawable/ic_date_range_gray" />
         </LinearLayout>
 
         <com.football.customizes.labels.LabelView
@@ -379,7 +379,7 @@
             android:layout_marginLeft="@dimen/padding_layout"
             android:layout_marginRight="@dimen/padding_layout"
             app:editTextAppEnable="false"
-            app:editTextAppIconRight="@drawable/ic_arrow_drop_down_black" />
+            app:editTextAppIconRight="@drawable/ic_date_range_gray" />
 
         <com.football.customizes.labels.LabelView
             android:layout_width="wrap_content"

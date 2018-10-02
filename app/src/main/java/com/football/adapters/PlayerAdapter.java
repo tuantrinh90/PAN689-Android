@@ -88,6 +88,10 @@ public class PlayerAdapter extends DefaultAdapter<PlayerResponse> {
         this.visibleAddButton = visibleAddButton;
     }
 
+    public int getVisibleAddButton() {
+        return visibleAddButton;
+    }
+
     public void setVisibleValue(int visibleValue) {
         this.visibleValue = visibleValue;
     }

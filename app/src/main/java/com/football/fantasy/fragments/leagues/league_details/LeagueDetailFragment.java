@@ -299,7 +299,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
             valuePairs.add(new ExtKeyValuePair("", getString(R.string.edit), ContextCompat.getColor(mActivity, R.color.color_blue)));
         }
 
-        if (league.equalsStatus(WAITING_FOR_START)) {
+        if (AppUtilities.isSetupTime(league)) {
             // my leagues or owner
             if (league.getIsJoined() || league.getOwner()) {
                 valuePairs.add(new ExtKeyValuePair("", getString(R.string.leave), ContextCompat.getColor(mActivity, R.color.color_blue)));

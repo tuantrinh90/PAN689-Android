@@ -236,10 +236,11 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
         adapter = new PlayerPoolAdapter(
                 getContext(),
                 player -> { // click event
-                    PlayerDetailFragment.start(this,
+                    PlayerDetailFragment.start(getContext(),
                             player.getId(),
                             -1,
                             getString(R.string.transferring_player),
+                            PlayerDetailFragment.PICK_NONE_INFO,
                             league.getGameplayOption());
                 });
         // remove click

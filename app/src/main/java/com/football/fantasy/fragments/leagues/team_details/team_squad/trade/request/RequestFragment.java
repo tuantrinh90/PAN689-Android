@@ -91,6 +91,7 @@ public class RequestFragment extends BaseMvpFragment<IRequestView, IRequestPrese
         rvRequest
                 .adapter(adapter)
                 .refreshListener(this::refreshData)
+                .noDataMessage(" ")
                 .loadMoreListener(() -> {
                     page++;
                     getTradeRequests();

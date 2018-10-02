@@ -141,10 +141,11 @@ public class ProposalTeamSquadFragment extends BaseMvpFragment<IProposalTeamSqua
                 getContext(),
                 player -> {
                     PlayerDetailFragment.start(
-                            this,
+                            getContext(),
                             player.getId(),
                             teamId,
                             getString(R.string.team_squad),
+                            PlayerDetailFragment.PICK_NONE_INFO,
                             GAMEPLAY_OPTION_TRANSFER);
                 });
         adapter.setAddCallback(

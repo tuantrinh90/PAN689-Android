@@ -67,4 +67,11 @@ public class PlayerListDraftFragment extends PlayerListFragment<IPlayerListDraft
             mActivity.runOnUiThread(this::refresh);
         });
     }
+
+    public void visibleAddButtonInPlayerList() {
+        if (playerAdapter.getVisibleAddButton() != View.VISIBLE) {
+            playerAdapter.setVisibleAddButton(View.VISIBLE);
+            playerAdapter.notifyDataSetChanged();
+        }
+    }
 }

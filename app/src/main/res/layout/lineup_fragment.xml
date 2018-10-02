@@ -53,7 +53,8 @@
                 android:layout_marginLeft="@dimen/padding_layout"
                 android:layout_marginRight="@dimen/padding_layout"
                 android:layout_marginTop="@dimen/padding_layout"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:id="@+id/draft_countdown"

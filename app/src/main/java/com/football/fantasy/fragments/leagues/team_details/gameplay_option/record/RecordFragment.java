@@ -119,10 +119,12 @@ public class RecordFragment extends BaseMvpFragment<IRecordView, IRecordPresente
                 getContext(),
                 league.equalsGameplay(LeagueResponse.GAMEPLAY_OPTION_TRANSFER),
                 player -> {
-                    PlayerDetailFragment.start(this,
+                    PlayerDetailFragment.start(
+                            getContext(),
                             player.getId(),
                             -1,
                             getString(R.string.record),
+                            PlayerDetailFragment.PICK_NONE,
                             league.getGameplayOption());
                 });
         rvRecord.adapter(adapter)

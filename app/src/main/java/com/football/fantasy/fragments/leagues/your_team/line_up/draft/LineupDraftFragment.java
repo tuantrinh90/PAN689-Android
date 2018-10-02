@@ -15,6 +15,7 @@ import com.football.customizes.progress.ExtProgress;
 import com.football.customizes.textview.ExtTextViewCountdown;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailForLineupFragment;
+import com.football.fantasy.fragments.leagues.your_team.YourTeamFragment;
 import com.football.fantasy.fragments.leagues.your_team.line_up.LineUpFragment;
 import com.football.fantasy.fragments.leagues.your_team.players_popup.PlayerPopupFragment;
 import com.football.models.responses.ChangeTurnResponse;
@@ -60,8 +61,6 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     private int currentRequestId = -1;
     private TurnResponse currentTurn;
 
-    private boolean draftEnable;
-
     @NonNull
     @Override
     public ILineupDraftPresenter<ILineupDraftView> createPresenter() {
@@ -97,6 +96,12 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             Log.i(SocketEventKey.EVENT_CHANGE_TURN, "");
             if (args != null && args.length > 0 && args[0] != null) {
                 mActivity.runOnUiThread(() -> {
+                    // hiển thị button (+) trên list ở PlayerList
+                    if (getParentFragment() instanceof YourTeamFragment) {
+                        ((YourTeamFragment) getParentFragment()).visibleAddButtonInPlayerList();
+                    }
+
+                    // xử lý dữ liệu
                     JSONObject jsonObject = (JSONObject) args[0];
                     ChangeTurnResponse response = JacksonUtils.convertJsonToObject(jsonObject.toString(), ChangeTurnResponse.class);
                     Log.i(TAG, "EVENT_CHANGE_TURN: " + jsonObject.toString());
@@ -304,12 +309,16 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
 
     @Override
     protected void onAddClickedFromPopup(PlayerResponse player, int position, int order) {
-        playerViewSelected = lineupView.addPlayer(player, player.getMainPosition(), order);
-        playerViewSelected.setRemovable(true);
-        playerViewSelected.setAddable(false);
-        callback.accept(true, "");
+        if (currentRequestId > 0) {
+            playerViewSelected = lineupView.addPlayer(player, player.getMainPosition(), order);
+            playerViewSelected.setRemovable(true);
+            playerViewSelected.setAddable(false);
+            callback.accept(true, "");
+            presenter.addPlayer(player, teamId, position, order, currentTurn.getRound(), currentTurn.getOrder());
+        } else {
+            callback.accept(false, getString(R.string.message_pick_player_before_team_setup_time));
+        }
         callback = null;
-        presenter.addPlayer(player, teamId, position, order, currentTurn.getRound(), currentTurn.getOrder());
     }
 
     @Override
