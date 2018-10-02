@@ -31,4 +31,6 @@ public interface ILineupDraftPresenter<V extends ILineUpView> extends ILineUpPre
      * End turn when draft in the Team.
      */
     void endTurn(int teamId, int pickRound, int pickOrder);
+
+    void endTurnNew();
 }

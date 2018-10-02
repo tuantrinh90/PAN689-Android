@@ -146,6 +146,19 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
     }
 
     @Override
+    public void endTurnNew() {
+        // TODO: 10/2/2018 chưa biết emit cái gì
+        Log.i(TAG, "endTurn: ");
+        JSONObject room = new JSONObject();
+        try {
+            room.put("room", "room_");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        getOptView().get().getAppActivity().getAppContext().getSocket().emit(SocketEventKey.EVENT_END_TURN_NEW, room);
+    }
+
+    @Override
     public void addPlayer(PlayerResponse player, int teamId, int position, int order, int pickRound, int pickOrder) {
         Log.i(TAG, "addPlayer: ");
         getOptView().doIfPresent(v -> {

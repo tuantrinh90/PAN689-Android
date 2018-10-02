@@ -96,32 +96,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             Log.i(SocketEventKey.EVENT_CHANGE_TURN, "");
             if (args != null && args.length > 0 && args[0] != null) {
                 mActivity.runOnUiThread(() -> {
-                    // hiển thị button (+) trên list ở PlayerList
-                    if (getParentFragment() instanceof YourTeamFragment) {
-                        ((YourTeamFragment) getParentFragment()).visibleAddButtonInPlayerList();
-                    }
-
-                    // xử lý dữ liệu
-                    JSONObject jsonObject = (JSONObject) args[0];
-                    ChangeTurnResponse response = JacksonUtils.convertJsonToObject(jsonObject.toString(), ChangeTurnResponse.class);
-                    Log.i(TAG, "EVENT_CHANGE_TURN: " + jsonObject.toString());
-                    if (response != null && currentRequestId != response.getCurrent().getId()) {
-                        currentRequestId = response.getCurrent().getId();
-                        TurnResponse current = response.getCurrent();
-                        TurnResponse next = response.getNext();
-                        TurnResponse next2 = response.getNext2();
-
-                        textCountdown.stop();
-                        draftCountdown.setVisibility(View.GONE);
-                        draftTurn.setVisibility(View.VISIBLE);
-                        draftLoading.setVisibility(View.GONE);
-                        Log.d(TAG, "registerSocket: "); //todo: đang bị lỗi, nghi UI chạy trước khi response đc parse
-
-                        // remove old callback
-                        tvDraftCurrentTimeLeft.setTimeoutCallback(null);
-
-                        setTurn(current, next, next2, current.getDraftTimeLeft(), false);
-                    }
+                    onEventChangeTurn(args);
                 });
             } else {
                 Log.e(TAG, "SocketEventKey.EVENT_CHANGE_TURN: args are null");
@@ -130,36 +105,89 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
 
         getAppContext().getSocket().on(SocketEventKey.EVENT_CHANGE_LINEUP, args -> {
             Log.i(SocketEventKey.EVENT_CHANGE_LINEUP, "");
-            if (pickEnable && args != null && args.length > 0 && args[0] != null) {
-                LineupResponse response = JacksonUtils.convertJsonToObject(args[0].toString(), LineupResponse.class);
-                if (response.getTeam().getId() == teamId) {
-                    Log.i(TAG, "EVENT_CHANGE_LINEUP: " + args[0].toString());
-                    mActivity.runOnUiThread(() -> {
-                        textCountdown.stop();
-
-                        // set lineup
-                        if (response.getYourTurn() != null)
-                            displayYourTurn(response.getYourTurn());
-                        displayLineupPlayers(response.getPlayers());
-                        displayStatistic(response.getStatistic());
-                    });
-                }
-            } else {
-                Log.e(TAG, "SocketEventKey.EVENT_CHANGE_LINEUP: not your turn");
-            }
+            onEventChangeLineup(args);
         });
 
         getAppContext().getSocket().on(SocketEventKey.EVENT_END_TURN, args -> {
             Log.i(SocketEventKey.EVENT_END_TURN, "");
-            if (mActivity != null) mActivity.runOnUiThread(() -> {
-                draftHeader.setVisibility(View.GONE);
-                pickEnable = false;
+            onEventEndTurn();
+        });
+
+        /**
+         * trả về object
+         */
+        getAppContext().getSocket().on(SocketEventKey.EVENT_TURN_RECEIVE, args -> {
+            Log.i(SocketEventKey.EVENT_TURN_RECEIVE, args[0].toString());
+
+        });
+
+        /**
+         * trả về object => kết thúc quá trình pick cầu thủ
+         */
+        getAppContext().getSocket().on(SocketEventKey.EVENT_PICK_TURN_FINISH, args -> {
+            Log.i(SocketEventKey.EVENT_PICK_TURN_FINISH, args[0].toString());
+
+        });
+    }
+
+    private void onEventEndTurn() {
+        if (mActivity != null) mActivity.runOnUiThread(() -> {
+            draftHeader.setVisibility(View.GONE);
+            pickEnable = false;
 //                showMessage("Xong roi nha", R.string.ok, avoid -> {
 //                    getActivity().finish();
 //                });
-                tvDraftCurrentTimeLeft.stop();
-            });
+            tvDraftCurrentTimeLeft.stop();
         });
+    }
+
+    private void onEventChangeLineup(Object[] args) {
+        if (pickEnable && args != null && args.length > 0 && args[0] != null) {
+            LineupResponse response = JacksonUtils.convertJsonToObject(args[0].toString(), LineupResponse.class);
+            if (response.getTeam().getId() == teamId) {
+                Log.i(TAG, "EVENT_CHANGE_LINEUP: " + args[0].toString());
+                mActivity.runOnUiThread(() -> {
+                    textCountdown.stop();
+
+                    // set lineup
+                    if (response.getYourTurn() != null)
+                        displayYourTurn(response.getYourTurn());
+                    displayLineupPlayers(response.getPlayers());
+                    displayStatistic(response.getStatistic());
+                });
+            }
+        } else {
+            Log.e(TAG, "SocketEventKey.EVENT_CHANGE_LINEUP: not your turn");
+        }
+    }
+
+    private void onEventChangeTurn(Object[] args) {
+        // hiển thị button (+) trên list ở PlayerList
+        if (getParentFragment() instanceof YourTeamFragment) {
+            ((YourTeamFragment) getParentFragment()).visibleAddButtonInPlayerList();
+        }
+
+        // xử lý dữ liệu
+        JSONObject jsonObject = (JSONObject) args[0];
+        ChangeTurnResponse response = JacksonUtils.convertJsonToObject(jsonObject.toString(), ChangeTurnResponse.class);
+        Log.i(TAG, "EVENT_CHANGE_TURN: " + jsonObject.toString());
+        if (response != null && currentRequestId != response.getCurrent().getId()) {
+            currentRequestId = response.getCurrent().getId();
+            TurnResponse current = response.getCurrent();
+            TurnResponse next = response.getNext();
+            TurnResponse next2 = response.getNext2();
+
+            textCountdown.stop();
+            draftCountdown.setVisibility(View.GONE);
+            draftTurn.setVisibility(View.VISIBLE);
+            draftLoading.setVisibility(View.GONE);
+            Log.d(TAG, "registerSocket: "); //todo: đang bị lỗi, nghi UI chạy trước khi response đc parse
+
+            // remove old callback
+            tvDraftCurrentTimeLeft.setTimeoutCallback(null);
+
+            setTurn(current, next, next2, current.getDraftTimeLeft(), false);
+        }
     }
 
     private void setTurn(TurnResponse current, TurnResponse next, TurnResponse next2, int timeLeft, boolean recursion) {
@@ -238,6 +266,10 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         if (currentTurn != null && teamId == currentTurn.getTeam().getId()) {
             presenter.endTurn(teamId, currentTurn.getRound(), currentTurn.getOrder());
         }
+    }
+
+    private void endTurnNew() {
+        presenter.endTurnNew();
     }
 
     @OnClick({R.id.tvDraftEndTurn})
