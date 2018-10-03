@@ -89,7 +89,6 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
     public void joinDraft(int leagueId) {
         Log.i(TAG, "joinDraft: ");
         getOptView().doIfPresent(v -> {
-            v.setDraftEnable();
             mCompositeDisposable.add(RxUtilities.async(
                     v,
                     dataModule.getApiService().joinDraft(leagueId),
@@ -146,21 +145,17 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
     }
 
     @Override
-    public void endTurnNew() {
-        // TODO: 10/2/2018 chưa biết emit cái gì
-        Log.i(TAG, "endTurn: ");
-        JSONObject room = new JSONObject();
+    public void endTurnNew(JSONObject turn) {
         try {
-            room.put("room", "room_");
+            turn.put("endturn", true);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        getOptView().get().getAppActivity().getAppContext().getSocket().emit(SocketEventKey.EVENT_END_TURN_NEW, room);
+        getOptView().get().getAppActivity().getAppContext().getSocket().emit(SocketEventKey.EVENT_END_TURN_NEW, turn);
     }
 
     @Override
     public void addPlayer(PlayerResponse player, int teamId, int position, int order, int pickRound, int pickOrder) {
-        Log.i(TAG, "addPlayer: ");
         getOptView().doIfPresent(v -> {
             mCompositeDisposable.add(RxUtilities.async(
                     v,
@@ -178,8 +173,7 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
     }
 
     @Override
-    public void removePlayer(PlayerResponse player, int position, int teamId, int pickRound, int pickOrder) {
-        Log.i(TAG, "removePlayer: ");
+    public void removePlayer(PlayerResponse player, int teamId, int position, int pickRound, int pickOrder) {
         getOptView().doIfPresent(v -> {
             mCompositeDisposable.add(RxUtilities.async(
                     v,

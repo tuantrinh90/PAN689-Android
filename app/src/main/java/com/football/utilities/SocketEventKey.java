@@ -19,5 +19,6 @@ public class SocketEventKey {
     public static final String EVENT_TRANSFER_TIME_LEFT = "event_transfer_time_left";
     public static final String EVENT_END_TURN = "event_end_turn";
     public static final String EVENT_TURN_RECEIVE = "turn_receive";
+    public static final String EVENT_REFRESH_UI = "refresh_ui";
     public static final String EVENT_PICK_TURN_FINISH = "pick_turn_finish";
 }

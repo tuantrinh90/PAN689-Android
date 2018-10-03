@@ -4,6 +4,8 @@ import com.football.fantasy.fragments.leagues.your_team.line_up.ILineUpPresenter
 import com.football.fantasy.fragments.leagues.your_team.line_up.ILineUpView;
 import com.football.models.responses.PlayerResponse;
 
+import org.json.JSONObject;
+
 public interface ILineupDraftPresenter<V extends ILineUpView> extends ILineUpPresenter<V> {
 
     /**
@@ -15,7 +17,7 @@ public interface ILineupDraftPresenter<V extends ILineUpView> extends ILineUpPre
 
     void addPlayer(PlayerResponse player, int teamId, int position, int order, int pickRound, int pickOrder);
 
-    void removePlayer(PlayerResponse player, int position, int teamId, int pickRound, int pickOrder);
+    void removePlayer(PlayerResponse player, int teamId, int position, int pickRound, int pickOrder);
 
     /**
      * Join to draft pick turn in a League.
@@ -32,5 +34,5 @@ public interface ILineupDraftPresenter<V extends ILineUpView> extends ILineUpPre
      */
     void endTurn(int teamId, int pickRound, int pickOrder);
 
-    void endTurnNew();
+    void endTurnNew(JSONObject turn);
 }

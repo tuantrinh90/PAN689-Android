@@ -66,16 +66,6 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
 
     @BindView(R.id.transfer_header)
     protected TableRow transferHeader;
-    @BindView(R.id.tvDraftCurrentTimeLeft)
-    protected ExtTextViewCountdown tvDraftCurrentTimeLeft;
-    @BindView(R.id.tvDraftCurrentTeam)
-    protected ExtTextView tvDraftCurrentTeam;
-    @BindView(R.id.tvDraftNextTeam)
-    protected ExtTextView tvDraftNextTeam;
-    @BindView(R.id.tvDraftEndTurn)
-    protected ExtTextView tvDraftEndTurn;
-    @BindView(R.id.draft_header)
-    protected LinearLayout draftHeader;
     @BindView(R.id.transfer_bottom)
     protected LinearLayout transferBottom;
 
@@ -110,11 +100,9 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
         if (league.equalsGameplay(LeagueResponse.GAMEPLAY_OPTION_TRANSFER)) {
             transferHeader.setVisibility(View.VISIBLE);
             transferBottom.setVisibility(View.VISIBLE);
-            draftHeader.setVisibility(View.GONE);
         } else {
             transferHeader.setVisibility(View.GONE);
             transferBottom.setVisibility(View.GONE);
-            draftHeader.setVisibility(View.VISIBLE);
         }
 
     }
@@ -164,7 +152,6 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
         for (PlayerResponse player : players) {
             lineupView.addPlayer(player, player.getMainPosition(), player.getOrder() == null ? NONE_ORDER : player.getOrder());
         }
-//        enableCompleteButton(league.getTeam() != null && !league.getTeam().getCompleted() && lineupView.isSetupComplete());
     }
 
     @Override

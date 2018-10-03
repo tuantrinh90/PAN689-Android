@@ -11,28 +11,44 @@ public class TurnResponse implements Serializable {
     private String createdAt;
     @JsonProperty("updated_at")
     private String updatedAt;
+    @JsonProperty("active")
+    private boolean active;
+    @JsonProperty("user_id")
+    private int userId;
     @JsonProperty("league_id")
     private int leagueId;
-    @JsonProperty("team_id")
-    private int teamId;
-    @JsonProperty("team")
-    private TeamResponse team;
-    @JsonProperty("round")
-    private int round;
-    @JsonProperty("order")
-    private int order;
-    @JsonProperty("start_at")
-    private String startAt;
-    @JsonProperty("end_at")
-    private String endAt;
-    @JsonProperty("pick_at")
-    private String pickAt;
-    @JsonProperty("is_auto")
-    private Boolean isAuto;
-    @JsonProperty("current_time")
-    private String currentTime;
-    @JsonProperty("draft_time_left")
-    private int draftTimeLeft;
+    @JsonProperty("name")
+    private String name;
+    @JsonProperty("description")
+    private String description;
+    @JsonProperty("logo")
+    private String logo;
+    @JsonProperty("current_budget")
+    private Object currentBudget;
+    @JsonProperty("rank")
+    private int rank;
+    @JsonProperty("total_point")
+    private int totalPoint;
+    @JsonProperty("formation")
+    private String formation;
+    @JsonProperty("pick_order")
+    private int pickOrder;
+    @JsonProperty("total_players")
+    private int totalPlayers;
+    @JsonProperty("is_completed")
+    private boolean isCompleted;
+    @JsonProperty("current_transfer_player")
+    private int currentTransferPlayer;
+    @JsonProperty("current_trade_request")
+    private int currentTradeRequest;
+    @JsonProperty("player")
+    private int player;
+    @JsonProperty("current")
+    private boolean current;
+    @JsonProperty("next")
+    private boolean next;
+    @JsonProperty("show_pick_order")
+    private int showPickOrder;
 
     public int getId() {
         return id;
@@ -46,47 +62,79 @@ public class TurnResponse implements Serializable {
         return updatedAt;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
     public int getLeagueId() {
         return leagueId;
     }
 
-    public int getTeamId() {
-        return teamId;
+    public String getName() {
+        return name;
     }
 
-    public TeamResponse getTeam() {
-        return team;
+    public String getDescription() {
+        return description;
     }
 
-    public int getRound() {
-        return round;
+    public String getLogo() {
+        return logo;
     }
 
-    public int getOrder() {
-        return order;
+    public Object getCurrentBudget() {
+        return currentBudget;
     }
 
-    public String getStartAt() {
-        return startAt;
+    public int getRank() {
+        return rank;
     }
 
-    public String getEndAt() {
-        return endAt;
+    public int getTotalPoint() {
+        return totalPoint;
     }
 
-    public String getPickAt() {
-        return pickAt;
+    public String getFormation() {
+        return formation;
     }
 
-    public Boolean getAuto() {
-        return isAuto;
+    public int getPickOrder() {
+        return pickOrder;
     }
 
-    public String getCurrentTime() {
-        return currentTime;
+    public int getTotalPlayers() {
+        return totalPlayers;
     }
 
-    public int getDraftTimeLeft() {
-        return draftTimeLeft;
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public int getCurrentTransferPlayer() {
+        return currentTransferPlayer;
+    }
+
+    public int getCurrentTradeRequest() {
+        return currentTradeRequest;
+    }
+
+    public int getPlayer() {
+        return player;
+    }
+
+    public boolean isCurrent() {
+        return current;
+    }
+
+    public boolean isNext() {
+        return next;
+    }
+
+    public int getShowPickOrder() {
+        return showPickOrder;
     }
 }

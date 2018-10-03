@@ -7,6 +7,4 @@ public interface ILineupDraftView extends ILineUpView {
     void setCountdown(int draftTimeLeft);
 
     void displayYourTurn(PickTurnResponse yourTurn);
-
-    void setDraftEnable();
 }

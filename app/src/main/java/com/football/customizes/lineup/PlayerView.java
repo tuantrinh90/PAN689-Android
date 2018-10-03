@@ -70,8 +70,8 @@ public class PlayerView extends LinearLayout {
         } else {
             ivRemove.setVisibility(removable ? VISIBLE : GONE);
             tvContent.setVisibility(VISIBLE);
-            ImageLoaderUtils.displayImage(player.getPhoto(), ivPlayer);
             tvContent.setText(named ? player.getName() : getContext().getString(R.string.money_prefix, player.getTransferValueDisplay()));
+            ImageLoaderUtils.displayImage(player.getPhoto(), ivPlayer);
             tvInjured.setVisibility(player.getInjured() ? VISIBLE : GONE);
         }
         switch (3 - position) {

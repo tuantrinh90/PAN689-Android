@@ -54,11 +54,6 @@ public class LineupTransferFragment extends LineUpFragment<ILineupTransferView, 
     }
 
     @Override
-    public void displayLineupPlayers(List<PlayerResponse> players) {
-        super.displayLineupPlayers(players);
-    }
-
-    @Override
     protected void onLineupViewAddClicked(PlayerView playerView, int position, int order) {
         boolean isSetupTime = AppUtilities.isSetupTime(league);
         if (isSetupTime) {
