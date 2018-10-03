@@ -3,6 +3,7 @@ package com.football.fantasy.fragments.leagues.action.setup_leagues;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -267,14 +268,20 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                 }
             } else {
 
-                if (BuildConfig.DEBUG && false) {
+                if (BuildConfig.DEBUG && Build.FINGERPRINT.contains("generic")) {
+                    etLeagueName.setContent("Draft Android ");
+
+                    onClickDraft();
+
                     calendarDraftTime = Calendar.getInstance();
                     calendarDraftTime.add(Calendar.MINUTE, 1);
+                    etDraftTime.setContent(DateTimeUtils.convertCalendarToString(calendarDraftTime, Constant.FORMAT_DATE_TIME));
+
+                    keyValuePairNumberOfUser = valuePairsNumberOfUser.get(0);
+                    setUpdateNumberOfUser();
 
                     calendarStartTime = Calendar.getInstance();
-                    calendarStartTime.add(Calendar.MINUTE, 60);
-
-                    formatDateTime();
+                    calculateStartTime();
                 } else {
                     // time
                     calendarStartTime = Calendar.getInstance();
@@ -313,17 +320,20 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
 
     void initBudgetOption() {
         try {
-            budgetOptionAdapter = new BudgetOptionAdapter(mActivity, budgetResponses, budgetResponse -> {
-                if (league != null) {
-                    return;
-                }
+            budgetOptionAdapter = new BudgetOptionAdapter(
+                    mActivity,
+                    budgetResponses,
+                    budgetResponse -> {
+                        if (league != null) {
+                            return;
+                        }
 
-                this.budgetResponse = budgetResponse;
-                if (budgetResponses != null && budgetResponses.size() > 0) {
-                    StreamSupport.stream(budgetResponses).forEach(n -> n.setIsActivated(n.getId().equals(budgetResponse.getId())));
-                    budgetOptionAdapter.notifyDataSetChanged(budgetResponses);
-                }
-            });
+                        this.budgetResponse = budgetResponse;
+                        if (budgetResponses != null && budgetResponses.size() > 0) {
+                            StreamSupport.stream(budgetResponses).forEach(n -> n.setIsActivated(n.getId().equals(budgetResponse.getId())));
+                            budgetOptionAdapter.notifyDataSetChanged(budgetResponses);
+                        }
+                    });
 
             rvBudgetOption.setLayoutManager(new GridLayoutManager(mActivity, 3));
             rvBudgetOption.addItemDecoration(new GridSpacingItemDecoration(3, (int) getResources().getDimension(R.dimen.padding_content), false, 0));
