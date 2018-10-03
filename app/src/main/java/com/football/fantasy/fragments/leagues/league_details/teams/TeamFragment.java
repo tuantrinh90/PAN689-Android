@@ -7,7 +7,6 @@ import android.view.View;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.logger.Logger;
-import com.bon.util.DateTimeUtils;
 import com.bon.util.DialogUtils;
 import com.football.adapters.TeamAdapter;
 import com.football.common.activities.AloneFragmentActivity;
@@ -20,13 +19,13 @@ import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.utilities.AppUtilities;
-import com.football.utilities.Constant;
 
 import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.observers.DisposableObserver;
 
+import static com.football.models.responses.LeagueResponse.FINISHED;
 import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
 import static com.football.models.responses.LeagueResponse.ON_GOING;
 import static com.football.models.responses.LeagueResponse.WAITING_FOR_START;
@@ -144,6 +143,10 @@ public class TeamFragment extends BaseMvpFragment<ITeamView, ITeamPresenter<ITea
             }
 
         } else if (league.equalsStatus(ON_GOING)) {
+            tvTimeLabel.setText(isTransfer ? R.string.transfer_deadline : R.string.waiving_deadline);
+            tvTime.setText(league.getDeadlineFormatted());
+
+        } else if (league.equalsStatus(FINISHED)) {
             tvTimeLabel.setText(isTransfer ? R.string.transfer_deadline : R.string.waiving_deadline);
             tvTime.setText(league.getDeadlineFormatted());
         }

@@ -8,7 +8,6 @@ import android.view.View;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageLoaderUtils;
 import com.bon.logger.Logger;
-import com.bon.util.DateTimeUtils;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.events.LeagueEvent;
@@ -19,7 +18,6 @@ import com.football.fantasy.fragments.leagues.team_details.TeamDetailFragment;
 import com.football.fantasy.fragments.leagues.your_team.YourTeamFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.utilities.AppUtilities;
-import com.football.utilities.Constant;
 
 import butterknife.BindView;
 import butterknife.OnClick;
