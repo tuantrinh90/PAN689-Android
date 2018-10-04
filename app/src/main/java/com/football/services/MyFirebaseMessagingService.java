@@ -59,9 +59,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+                PendingIntent.FLAG_UPDATE_CURRENT);
 
-        String channelId = "0";
+        String channelId = "001995";
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channelId)
@@ -86,7 +86,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         if (notificationManager != null) {
-            notificationManager.notify(random.nextInt()/* ID of notification */, notificationBuilder.build());
+            int notificationId = Math.abs(random.nextInt(1000000));
+            Log.i(TAG, "sendNotification => notificationId: " + notificationId);
+            Log.i(TAG, "sendNotification => payload: " + payload.toString());
+            notificationManager.notify(notificationId, notificationBuilder.build());
         }
     }
 
@@ -95,13 +98,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String action = payload.get("action");
         String teamName = payload.get("team_name");
         int leagueId = getInt(payload, "league_id");
-        int myTeamId = getInt(payload, "my_team_id"); // todo: chwa có dữ liệu cho thằng này
+        int myTeamId = getInt(payload, "my_team_id");
         int teamId = getInt(payload, "team_id");
         int playerId = getInt(payload, "player_id");
 
-        Intent intent;
-
-        intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(MainActivity.KEY_ACTION, action);
         intent.putExtra(MainActivity.KEY_TEAM_NAME, teamName);
         intent.putExtra(MainActivity.KEY_LEAGUE_ID, leagueId);

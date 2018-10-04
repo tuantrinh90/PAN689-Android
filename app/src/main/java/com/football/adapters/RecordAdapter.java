@@ -49,17 +49,17 @@ public class RecordAdapter extends DefaultAdapter<TransferHistoryResponse> {
         holder.tvStatus.setText(data.getStatusDisplay());
         boolean in = data.getStatus() == TransferHistoryResponse.STATUS_IN;
         if (in) {
-            holder.spaceLeft.setVisibility(View.GONE);
-            holder.spaceRight.setVisibility(View.VISIBLE);
-            holder.tvStatus.setBackgroundResource(R.drawable.bg_red_radius);
+            holder.spaceRight.setVisibility(View.GONE);
+            holder.spaceLeft.setVisibility(View.VISIBLE);
+            holder.tvStatus.setBackgroundResource(R.drawable.bg_green_radius);
             ImageLoaderUtils.displayImage(
                     data.getToPlayer() != null ? data.getToPlayer().getPhoto() : "",
                     holder.ivAvatar);
             holder.tvName.setText(data.getToPlayer() != null ? data.getToPlayer().getName() : "");
         } else {
-            holder.spaceRight.setVisibility(View.GONE);
-            holder.spaceLeft.setVisibility(View.VISIBLE);
-            holder.tvStatus.setBackgroundResource(R.drawable.bg_green_radius);
+            holder.spaceLeft.setVisibility(View.GONE);
+            holder.spaceRight.setVisibility(View.VISIBLE);
+            holder.tvStatus.setBackgroundResource(R.drawable.bg_red_radius);
             ImageLoaderUtils.displayImage(
                     data.getFromPlayer() != null ? data.getFromPlayer().getPhoto() : "",
                     holder.ivAvatar);

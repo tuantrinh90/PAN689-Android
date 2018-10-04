@@ -82,8 +82,7 @@ public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
         AppUtilities.displayPlayerPosition(holder.ivPositionSecond, data.getMinorPosition());
 
         mDisposable.add(RxView.clicks(holder.itemView).subscribe(o ->
-                Optional.from(clickConsumer).doIfPresent(d ->
-                        d.accept(data))));
+                Optional.from(clickConsumer).doIfPresent(d -> d.accept(data))));
     }
 
     public void setOptions(String option1, String option2, String option3) {

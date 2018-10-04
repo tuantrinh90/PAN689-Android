@@ -8,9 +8,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
-import com.bon.logger.Logger;
 import com.bon.util.ActivityUtils;
 import com.bon.util.DialogUtils;
 import com.bon.util.StringUtils;
@@ -182,7 +182,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void handleAction(String action, int leagueId, int leagueStatus, int teamId, String teamName, int myTeamId, int playerId) {
-        Logger.e(action);
+        Log.e("111111", "handleAction: " + action);
         switch (action) {
             // League detail
             case USER_LEFT_LEAGUE:
@@ -194,7 +194,6 @@ public class MainActivity extends BaseActivity {
                 AloneFragmentActivity.with(this)
                         .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, -1, action))
                         .start(LeagueDetailFragment.class);
-                Logger.e("handleAction: LeagueDetail");
                 break;
 
             // League detail - Tab team
@@ -205,7 +204,6 @@ public class MainActivity extends BaseActivity {
                 AloneFragmentActivity.with(this)
                         .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, LeagueDetailFragment.TEAM_FRAGMENT_INDEX, action))
                         .start(LeagueDetailFragment.class);
-                Logger.e("handleAction: tab team");
                 break;
 
             // League detail - ranking
@@ -214,7 +212,6 @@ public class MainActivity extends BaseActivity {
                 AloneFragmentActivity.with(this)
                         .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, LeagueDetailFragment.RANKING, action))
                         .start(LeagueDetailFragment.class);
-                Logger.e("handleAction: ranking");
                 break;
 
             // League invitation
@@ -223,7 +220,6 @@ public class MainActivity extends BaseActivity {
                 if (mPagerAdapter.getItem(LEAGUES) instanceof LeagueFragment) {
                     ((LeagueFragment) mPagerAdapter.getItem(LEAGUES)).openInvitation();
                 }
-                Logger.e("handleAction: invitation");
                 break;
 
             // Setup team - screen Lineup
@@ -233,7 +229,6 @@ public class MainActivity extends BaseActivity {
                 AloneFragmentActivity.with(this)
                         .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, LeagueDetailFragment.SETUP_TEAM, action))
                         .start(LeagueDetailFragment.class);
-                Logger.e("handleAction: lineup");
                 break;
 
             // Setup team - tab team list
@@ -242,7 +237,6 @@ public class MainActivity extends BaseActivity {
                 AloneFragmentActivity.with(this)
                         .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, LeagueDetailFragment.TEAM_FRAGMENT_INDEX, action))
                         .start(LeagueDetailFragment.class);
-                Logger.e("team list");
                 break;
 
             // Edit league

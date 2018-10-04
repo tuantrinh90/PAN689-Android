@@ -182,8 +182,8 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
             }
 
         } else if (type == TYPE_RESULT) {
-            headerTimeLeft.setVisibility(View.VISIBLE);
-            displayViewTimeLeft();
+            headerRejectApproved.setVisibility(View.VISIBLE);
+            displayViewRejectApproved();
         }
 
         tvTitleTeam1.setText(trade.getTeam().getName());
