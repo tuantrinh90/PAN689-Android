@@ -15,6 +15,7 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.customizes.lineup.PlayerView;
 import com.football.customizes.progress.ExtProgress;
 import com.football.customizes.textview.ExtTextViewCountdown;
+import com.football.events.GeneralEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailForLineupFragment;
 import com.football.fantasy.fragments.leagues.your_team.line_up.LineUpFragment;
@@ -129,10 +130,10 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
          * trả về object
          */
         getAppContext().getSocket().on(SocketEventKey.EVENT_TURN_RECEIVE, args -> {
-            Log.i(TAG, "=======================================================");
-            Log.i(TAG, "EVENT_TURN_RECEIVE");
-            Log.i(TAG, args != null && args.length > 0 && args[0] != null ? args[0].toString() : "null");
-            Log.i(TAG, "=======================================================");
+//            Log.i(TAG, "=======================================================");
+//            Log.i(TAG, "EVENT_TURN_RECEIVE");
+//            Log.i(TAG, args != null && args.length > 0 && args[0] != null ? args[0].toString() : "null");
+//            Log.i(TAG, "=======================================================");
             if (args != null && args.length > 0 && args[0] != null) {
                 TurnReceiveResponse response = JacksonUtils.convertJsonToObject(args[0].toString(), TurnReceiveResponse.class);
                 if (response != null && mActivity != null) {
@@ -146,7 +147,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
          * trả về object => refresh đội hình
          */
         getAppContext().getSocket().on(SocketEventKey.EVENT_REFRESH_UI, args -> {
-            Log.i(TAG, "=======================================================");
+            Log.i(TAG, "/n=======================================================");
             Log.i(TAG, "EVENT_REFRESH_UI");
             Log.i(TAG, args != null && args.length > 0 && args[0] != null ? args[0].toString() : "null");
             Log.i(TAG, "=======================================================");
@@ -209,6 +210,9 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     }
 
     private void setYourTurn(boolean yourTurn) {
+        // send event to show button Add to playerListDraftFragment
+        bus.send(new GeneralEvent<>(GeneralEvent.SOURCE.LINEUP_DRAFT, yourTurn));
+
         lineupView.setAddable(yourTurn);
         pickEnable = yourTurn;
         if (yourTurn) {

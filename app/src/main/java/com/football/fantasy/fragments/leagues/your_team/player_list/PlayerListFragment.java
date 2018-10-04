@@ -69,7 +69,7 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
     @BindView(R.id.rvPlayer)
     ExtRecyclerView<PlayerResponse> rvPlayer;
 
-    private LeagueResponse league;
+    protected LeagueResponse league;
     private int page = 1;
     private String query = "";
     protected int playerPosition = -1;
@@ -96,7 +96,11 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
         // load data
         refresh();
 
-        registerBus();
+        try {
+            registerBus();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void getDataFromBundle() {
@@ -149,9 +153,6 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
                         onAddPlayerClicked(player, position);
                     });
 
-            // đang ở setupTime && chưa completed
-            boolean visibleAddButton = AppUtilities.isSetupTime(league);
-            playerAdapter.setVisibleAddButton(visibleAddButton ? View.VISIBLE : View.GONE);
             rvPlayer.adapter(playerAdapter)
                     .loadMoreListener(() -> {
                         page++;
@@ -181,60 +182,55 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
         }
     }
 
-    private void registerBus() {
-        try {
-            // action add click on PlayerList
-            mCompositeDisposable.add(bus.ofType(PlayerQueryEvent.class)
-                    .subscribeWith(new DisposableObserver<PlayerQueryEvent>() {
-                        @Override
-                        public void onNext(PlayerQueryEvent event) {
-                            if (event.getFrom().equals(TAG))
-                                if (event.getTag() == PlayerQueryEvent.TAG_FILTER) {
-                                    filterClubs = event.getClub();
-                                    filterPositions = event.getPosition();
+    protected void registerBus() {
+        // action add click on PlayerList
+        mCompositeDisposable.add(bus.ofType(PlayerQueryEvent.class)
+                .subscribeWith(new DisposableObserver<PlayerQueryEvent>() {
+                    @Override
+                    public void onNext(PlayerQueryEvent event) {
+                        if (event.getFrom().equals(TAG))
+                            if (event.getTag() == PlayerQueryEvent.TAG_FILTER) {
+                                filterClubs = event.getClub();
+                                filterPositions = event.getPosition();
 
-                                    refresh();
-                                }
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    }));
-
-            // from: PlayerPopup & Lineup
-            mCompositeDisposable.add(bus.ofType(PickEvent.class)
-                    .subscribeWith(new DisposableObserver<PickEvent>() {
-                        @Override
-                        public void onNext(PickEvent event) {
-                            int playerIndex = playerAdapter.findPlayerById(event.getPlayerId());
-                            if (playerIndex >= 0) {
-                                PlayerResponse player = playerAdapter.getItem(playerIndex);
-                                player.setSelected(event.getAction() == PickEvent.ACTION_PICK);
-                                playerAdapter.update(playerIndex, player);
+                                refresh();
                             }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                }));
+
+        // from: PlayerPopup & Lineup
+        mCompositeDisposable.add(bus.ofType(PickEvent.class)
+                .subscribeWith(new DisposableObserver<PickEvent>() {
+                    @Override
+                    public void onNext(PickEvent event) {
+                        int playerIndex = playerAdapter.findPlayerById(event.getPlayerId());
+                        if (playerIndex >= 0) {
+                            PlayerResponse player = playerAdapter.getItem(playerIndex);
+                            player.setSelected(event.getAction() == PickEvent.ACTION_PICK);
+                            playerAdapter.update(playerIndex, player);
                         }
+                    }
 
-                        @Override
-                        public void onError(Throwable e) {
+                    @Override
+                    public void onError(Throwable e) {
 
-                        }
+                    }
 
-                        @Override
-                        public void onComplete() {
+                    @Override
+                    public void onComplete() {
 
-                        }
-                    }));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                    }
+                }));
     }
 
     void onClickFilter() {

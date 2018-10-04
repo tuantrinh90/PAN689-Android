@@ -49,6 +49,7 @@ import io.reactivex.observers.DisposableObserver;
 
 import static com.football.fantasy.fragments.leagues.league_details.trade_review.TradeReviewFragment.INDEX_RESULTS;
 import static com.football.models.responses.LeagueResponse.FINISHED;
+import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_DRAFT;
 import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
 import static com.football.models.responses.LeagueResponse.LEAGUE_TYPE_OPEN;
 import static com.football.models.responses.LeagueResponse.ON_GOING;
@@ -340,17 +341,25 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
         } else if (league.equalsStatus(ON_GOING)) {
             carousels.add(new Carousel(getString(R.string.ranking), false));
             carousels.add(new Carousel(getString(R.string.results), false));
-            carousels.add(new Carousel(getString(R.string.trade_review), false));
 
             mvpFragments.add(RankingFragment.newInstance(league).setChildFragment(true));
             mvpFragments.add(ResultsFragment.newInstance(league).setChildFragment(true));
-            mvpFragments.add(TradeReviewFragment.newInstance(league).setChildFragment(true));
+
+            if (league.equalsGameplay(GAMEPLAY_OPTION_DRAFT)) {
+                carousels.add(new Carousel(getString(R.string.trade_review), false));
+                mvpFragments.add(TradeReviewFragment.newInstance(league).setChildFragment(true));
+            }
         } else if (league.equalsStatus(FINISHED)) {
             carousels.add(new Carousel(getString(R.string.ranking), false));
             carousels.add(new Carousel(getString(R.string.results), false));
 
             mvpFragments.add(RankingFragment.newInstance(league).setChildFragment(true));
             mvpFragments.add(ResultsFragment.newInstance(league).setChildFragment(true));
+
+            if (league.equalsGameplay(GAMEPLAY_OPTION_DRAFT)) {
+                carousels.add(new Carousel(getString(R.string.trade_review), false));
+                mvpFragments.add(TradeReviewFragment.newInstance(league).setChildFragment(true));
+            }
         }
 
         // carousel view

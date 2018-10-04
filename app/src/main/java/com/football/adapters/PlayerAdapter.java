@@ -27,7 +27,7 @@ public class PlayerAdapter extends DefaultAdapter<PlayerResponse> {
 
     private final CompositeDisposable mDisposable = new CompositeDisposable();
 
-    private int visibleAddButton = View.VISIBLE;
+    private int visibleAddButton = View.GONE;
     private int visibleValue = View.VISIBLE;
 
     private final Consumer<PlayerResponse> clickCallback;

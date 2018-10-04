@@ -157,10 +157,10 @@ public class YourTeamFragment extends BaseMvpFragment<IYourTeamView, IYourTeamPr
         supportActionBar.setHomeAsUpIndicator(R.drawable.ic_back_blue);
     }
 
-    public void visibleAddButtonInPlayerList() {
+    public void visibleAddButtonInPlayerList(boolean visible) {
         Fragment fragment;
         if ((fragment = mAdapter.getItem(1)) instanceof PlayerListDraftFragment) {
-            ((PlayerListDraftFragment) fragment).visibleAddButtonInPlayerList();
+            ((PlayerListDraftFragment) fragment).visibleAddButtonInPlayerList(visible);
         }
     }
 }

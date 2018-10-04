@@ -3,7 +3,9 @@ package com.football.fantasy.fragments.leagues.action.setup_teams;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -158,6 +160,18 @@ public class SetupTeamFragment extends BaseMvpFragment<ISetupTeamView, ISetupTea
                                             ImageUtils.chooseImageFromGallery(SetupTeamFragment.this, getString(R.string.select_value));
                                         }
                                     }).show(getFragmentManager(), null);
+                        } else {
+                            showMessage(
+                                    R.string.message_permission_image,
+                                    R.string.ok,
+                                    R.string.cancel,
+                                    aVoid -> {
+                                        Intent intent = new Intent();
+                                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                        Uri uri = Uri.fromParts("package", getContext().getPackageName(), null);
+                                        intent.setData(uri);
+                                        startActivity(intent);
+                                    }, null);
                         }
                     }
 

@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 
+import com.football.events.GeneralEvent;
 import com.football.events.PlayerEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.your_team.player_list.PlayerListFragment;
@@ -11,6 +12,7 @@ import com.football.models.responses.PlayerResponse;
 import com.football.utilities.SocketEventKey;
 
 import butterknife.BindView;
+import io.reactivex.observers.DisposableObserver;
 
 public class PlayerListDraftFragment extends PlayerListFragment<IPlayerListDraftView, IPlayerListDraftPresenter<IPlayerListDraftView>> implements IPlayerListDraftView {
 
@@ -36,6 +38,32 @@ public class PlayerListDraftFragment extends PlayerListFragment<IPlayerListDraft
     @Override
     public IPlayerListDraftPresenter<IPlayerListDraftView> createPresenter() {
         return new PlayerListDraftPresenter(getAppComponent());
+    }
+
+    @Override
+    protected void registerBus() {
+        super.registerBus();
+        mCompositeDisposable.add(bus.ofType(GeneralEvent.class)
+                .subscribeWith(new DisposableObserver<GeneralEvent>() {
+                    @Override
+                    public void onNext(GeneralEvent event) {
+                        switch (event.getSource()) {
+                            case LINEUP_DRAFT:
+                                visibleAddButtonInPlayerList(((Boolean) event.getData()));
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                }));
     }
 
     @Override
@@ -68,10 +96,17 @@ public class PlayerListDraftFragment extends PlayerListFragment<IPlayerListDraft
         });
     }
 
-    public void visibleAddButtonInPlayerList() {
-        if (playerAdapter.getVisibleAddButton() != View.VISIBLE) {
-            playerAdapter.setVisibleAddButton(View.VISIBLE);
-            playerAdapter.notifyDataSetChanged();
+    public void visibleAddButtonInPlayerList(boolean visible) {
+        if (visible) {
+            if (playerAdapter.getVisibleAddButton() != View.VISIBLE) {
+                playerAdapter.setVisibleAddButton(View.VISIBLE);
+                playerAdapter.notifyDataSetChanged();
+            }
+        } else {
+            if (playerAdapter.getVisibleAddButton() == View.VISIBLE) {
+                playerAdapter.setVisibleAddButton(View.GONE);
+                playerAdapter.notifyDataSetChanged();
+            }
         }
     }
 }

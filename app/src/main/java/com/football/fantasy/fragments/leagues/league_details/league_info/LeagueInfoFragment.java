@@ -241,7 +241,7 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
                 ivInfoTransferDeadline.setVisibility(View.VISIBLE);
 
             } else if (league.equalsStatus(FINISHED)) {
-                tvSetupTeam.setVisibility(View.GONE);
+                tvSetupTeam.setText(R.string.lineup_my_team);
                 tvTimeLabel.setText(isTransfer ? R.string.transfer_deadline : R.string.waiving_deadline);
                 tvTime.setText(league.getDeadlineFormatted());
             }

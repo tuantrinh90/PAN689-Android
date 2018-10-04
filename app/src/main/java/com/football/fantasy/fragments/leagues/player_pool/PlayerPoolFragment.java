@@ -295,7 +295,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
                                 player.getId(),
                                 -1,
                                 getString(R.string.player_list),
-                                TextUtils.isEmpty(gameplay) || gameplay.equals(GAMEPLAY_OPTION_TRANSFER) ? PICK_NONE_INFO : PICK_NONE,
+                                gameplay.equals(GAMEPLAY_OPTION_TRANSFER) ? PICK_NONE_INFO : PICK_NONE,
                                 gameplay);
                     } else {
                         PlayerDetailForTransferFragment.start(
