@@ -318,7 +318,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -338,6 +338,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
+                            android:padding="0dp"
                             android:text="@string/name"
                             app:textViewFontAssetName="@string/font_display_bold" />
 
@@ -355,6 +356,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
+                            android:padding="0dp"
                             android:text="@string/value"
                             app:textViewFontAssetName="@string/font_display_bold" />
 
@@ -380,7 +382,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="0dp"
-                            android:text="@string/money_prefix"
                             app:textViewFontAssetName="@string/font_display_bold" />
 
                     </LinearLayout>

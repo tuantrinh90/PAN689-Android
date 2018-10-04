@@ -5,6 +5,4 @@ import com.football.models.responses.PickTurnResponse;
 
 public interface ILineupDraftView extends ILineUpView {
     void setCountdown(int draftTimeLeft);
-
-    void displayYourTurn(PickTurnResponse yourTurn);
 }

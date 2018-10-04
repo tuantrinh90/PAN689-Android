@@ -49,6 +49,10 @@ public class TurnResponse implements Serializable {
     private boolean next;
     @JsonProperty("show_pick_order")
     private int showPickOrder;
+    @JsonProperty("due_next_time")
+    private int dueNextTime ;
+    @JsonProperty("due_next_time_max")
+    private int dueNextTimeMax ;
 
     public int getId() {
         return id;
@@ -136,5 +140,13 @@ public class TurnResponse implements Serializable {
 
     public int getShowPickOrder() {
         return showPickOrder;
+    }
+
+    public int getDueNextTime() {
+        return dueNextTime;
+    }
+
+    public int getDueNextTimeMax() {
+        return dueNextTimeMax;
     }
 }

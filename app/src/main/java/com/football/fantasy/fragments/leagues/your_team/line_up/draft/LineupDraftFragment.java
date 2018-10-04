@@ -20,7 +20,6 @@ import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailForLineupFragment;
 import com.football.fantasy.fragments.leagues.your_team.line_up.LineUpFragment;
 import com.football.fantasy.fragments.leagues.your_team.players_popup.PlayerPopupFragment;
-import com.football.models.responses.PickTurnResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TurnReceiveResponse;
 import com.football.models.responses.TurnResponse;
@@ -177,6 +176,9 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         pickRound = response.getPickRound();
         tvDraftCurrentTimeLeft.setTime(response.getNumber());
         for (TurnResponse turn : response.getLeagues()) {
+            if (turn.getUserId() == userId) {
+                displayTimerYourTurn(turn.getDueNextTimeMax(), turn.getDueNextTime());
+            }
             if (turn.isCurrent()) {
                 pickOrder = turn.getPickOrder();
 
@@ -232,6 +234,12 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         }
     }
 
+    private void displayTimerYourTurn(int max, int progress) {
+        tvDraftYourTurnTimeLeft.setTime(progress);
+        progressDraft.setMax(max);
+        progressDraft.setProgress(progress);
+    }
+
     private void endTurnNew() {
         if (pickEnable) {
             presenter.endTurnNew(currentTurn);
@@ -280,15 +288,6 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             draftTurn.setVisibility(View.GONE);
             draftLoading.setVisibility(View.VISIBLE);
         }
-    }
-
-    @Override
-    public void displayYourTurn(PickTurnResponse yourTurn) {
-        tvDraftYourTurnTimeLeft.setTime(yourTurn.getYourTurnIn());
-        tvDraftYourTurnTimeLeft.start();
-        progressDraft.setMax(yourTurn.getYourTurnIn());
-        progressDraft.setProgress(yourTurn.getYourTurnIn());
-        progressDraft.start();
     }
 
     @Override

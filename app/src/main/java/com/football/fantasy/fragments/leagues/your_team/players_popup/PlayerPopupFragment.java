@@ -214,6 +214,7 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
             if (league.equalsGameplay(LeagueResponse.GAMEPLAY_OPTION_DRAFT)) {
                 adapter.setVisibleValue(View.GONE);
             }
+            adapter.setVisibleAddButton(View.VISIBLE);
             rvPlayer.adapter(adapter)
                     .loadMoreListener(() -> {
                         page++;
