@@ -52,6 +52,8 @@ public class TeamResponse implements Serializable {
 
     @JsonProperty("current_round")
     private TeamRoundResponse currentRound;
+    @JsonProperty("transfer_round")
+    private TeamRoundResponse transferRound;
     @JsonProperty("last_round")
     private TeamRoundResponse lastRound;
 
@@ -212,6 +214,10 @@ public class TeamResponse implements Serializable {
 
     public TeamRoundResponse getCurrentRound() {
         return currentRound;
+    }
+
+    public TeamRoundResponse getTransferRound() {
+        return transferRound;
     }
 
     public TeamRoundResponse getLastRound() {

@@ -6,14 +6,12 @@ import android.view.View;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageLoaderUtils;
-import com.bon.util.DateTimeUtils;
 import com.football.customizes.recyclerview.DefaultAdapter;
 import com.football.customizes.recyclerview.DefaultHolder;
 import com.football.fantasy.R;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TransferHistoryResponse;
 import com.football.utilities.AppUtilities;
-import com.football.utilities.Constant;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -24,7 +22,7 @@ public class RecordAdapter extends DefaultAdapter<TransferHistoryResponse> {
     private Consumer<PlayerResponse> clickConsumer;
     private final boolean transferMode;
 
-    public RecordAdapter(Context context,  boolean transferMode, Consumer<PlayerResponse> clickConsumer) {
+    public RecordAdapter(Context context, boolean transferMode, Consumer<PlayerResponse> clickConsumer) {
         super(context);
         this.transferMode = transferMode;
         this.clickConsumer = clickConsumer;
@@ -44,22 +42,28 @@ public class RecordAdapter extends DefaultAdapter<TransferHistoryResponse> {
     protected void onBindViewHolder(@NonNull DefaultHolder defaultHolder, TransferHistoryResponse data, int position) {
         RecordHolder holder = (RecordHolder) defaultHolder;
 
+        /*
+        IN thì lấy to_player info
+        OUT thì lấy from_player info
+         */
         holder.tvStatus.setText(data.getStatusDisplay());
-        boolean isOut = data.getStatus() == TransferHistoryResponse.STATUS_OUT;
-        if (isOut) {
+        boolean in = data.getStatus() == TransferHistoryResponse.STATUS_IN;
+        if (in) {
             holder.spaceLeft.setVisibility(View.GONE);
             holder.spaceRight.setVisibility(View.VISIBLE);
             holder.tvStatus.setBackgroundResource(R.drawable.bg_red_radius);
-            ImageLoaderUtils.displayImage(data.getFromPlayer().getPhoto(), holder.ivAvatar);
-            holder.tvName.setText(data.getFromPlayer().getName());
+            ImageLoaderUtils.displayImage(
+                    data.getToPlayer() != null ? data.getToPlayer().getPhoto() : "",
+                    holder.ivAvatar);
+            holder.tvName.setText(data.getToPlayer() != null ? data.getToPlayer().getName() : "");
         } else {
             holder.spaceRight.setVisibility(View.GONE);
             holder.spaceLeft.setVisibility(View.VISIBLE);
             holder.tvStatus.setBackgroundResource(R.drawable.bg_green_radius);
-            ImageLoaderUtils.displayImage(data.getFromPlayer().getPhoto(), holder.ivAvatar);
-            holder.tvName.setText(data.getFromPlayer().getName());
-//            ImageLoaderUtils.displayImage(data.getToPlayer().getPhoto(), holder.ivAvatar);
-//            holder.tvName.setText(data.getToPlayer().getName());
+            ImageLoaderUtils.displayImage(
+                    data.getFromPlayer() != null ? data.getFromPlayer().getPhoto() : "",
+                    holder.ivAvatar);
+            holder.tvName.setText(data.getFromPlayer() != null ? data.getFromPlayer().getName() : "");
         }
         holder.tvTransferFee.setText(holder.itemView.getContext().getString(R.string.money_prefix, data.getTransferFeeValue()));
         holder.tvTime.setText(AppUtilities.getDateFormatted(data.getTransferAt()));
@@ -68,9 +72,9 @@ public class RecordAdapter extends DefaultAdapter<TransferHistoryResponse> {
         holder.tvTransferFee.setVisibility(transferMode ? View.VISIBLE : View.GONE);
 
         holder.itemView.setOnClickListener(v -> {
-            TransferHistoryResponse response = getItem(defaultHolder.getAdapterPosition());
-            clickConsumer.accept(response.getFromPlayer());
-//            clickConsumer.accept(response.getStatus() == TransferHistoryResponse.STATUS_OUT ? response.getFromPlayer() : response.getToPlayer());
+            clickConsumer.accept(data.getStatus() == TransferHistoryResponse.STATUS_OUT ?
+                    data.getFromPlayer() :
+                    data.getToPlayer());
         });
     }
 

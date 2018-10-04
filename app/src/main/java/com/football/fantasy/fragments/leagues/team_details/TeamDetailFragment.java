@@ -183,7 +183,7 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
         switch (view.getId()) {
             case R.id.llTeamLineUp:
                 if (team.getCompleted()) {
-                    if (team.getLastRound() != null) {
+                    if (team.getTransferRound() != null) {
                         AloneFragmentActivity.with(this)
                                 .parameters(TeamLineupFragment.newBundle(getString(R.string.team_details), team))
                                 .start(TeamLineupFragment.class);
