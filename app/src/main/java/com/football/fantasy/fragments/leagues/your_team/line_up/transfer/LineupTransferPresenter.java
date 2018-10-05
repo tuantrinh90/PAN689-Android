@@ -94,7 +94,6 @@ public class LineupTransferPresenter extends LineUpPresenter<ILineupTransferView
                             teamId,
                             new MultipartBody.Builder()
                                     .setType(MultipartBody.FORM)
-                                    .addFormDataPart("team_id", String.valueOf(teamId))
                                     .addFormDataPart("player_id", String.valueOf(player.getId()))
                                     .build()),
                     new ApiCallback<PropsPlayerResponse>() {

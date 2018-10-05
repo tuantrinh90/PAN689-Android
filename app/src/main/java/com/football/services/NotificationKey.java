@@ -23,7 +23,6 @@ public class NotificationKey {
     public static final String CHANGE_LEAGUE_NAME = "change_league_name";
     public static final String PLAYER_INJURED = "player_injured";
     public static final String PLAYER_NEW_JOIN = "player_new_join";
-    public static final String PLAYER_HAS_LEFT = "player_has_left";
     public static final String BEFORE_TRANSFER_DEADLINE_2H = "two_hours_before_transfer_deadline";
     public static final String NEWEST_REAL_RESULT = "newest_real_result";
     public static final String NEWEST_GAME_RESULT = "newest_game_result";
@@ -41,5 +40,7 @@ public class NotificationKey {
     public static final String TRANSACTION_RESULT = "transaction_result";
     public static final String TWO_HOURS_TO_REVIEW = "two_hours_to_review";
     public static final String USER_TRANSACTION_RESULT = "user_transaction_result";
+    public static final String PLAYER_HAS_LEFT_DRAFT = "player_has_left_draft";
+    public static final String PLAYER_HAS_LEFT_TRANSFER = "player_has_left_transfer";
 
 }

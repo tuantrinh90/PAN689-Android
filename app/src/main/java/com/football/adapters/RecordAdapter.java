@@ -53,9 +53,9 @@ public class RecordAdapter extends DefaultAdapter<TransferHistoryResponse> {
             holder.spaceLeft.setVisibility(View.VISIBLE);
             holder.tvStatus.setBackgroundResource(R.drawable.bg_green_radius);
             ImageLoaderUtils.displayImage(
-                    data.getToPlayer() != null ? data.getToPlayer().getPhoto() : "",
+                    data.getFromPlayer() != null ? data.getFromPlayer().getPhoto() : "",
                     holder.ivAvatar);
-            holder.tvName.setText(data.getToPlayer() != null ? data.getToPlayer().getName() : "");
+            holder.tvName.setText(data.getFromPlayer() != null ? data.getFromPlayer().getName() : "");
         } else {
             holder.spaceLeft.setVisibility(View.GONE);
             holder.spaceRight.setVisibility(View.VISIBLE);

@@ -29,6 +29,7 @@ import com.football.fantasy.fragments.leagues.team_details.team_squad.TeamSquadF
 import com.football.fantasy.fragments.match_up.MatchUpFragment;
 import com.football.fantasy.fragments.more.MoreFragment;
 import com.football.fantasy.fragments.notification.NotificationFragment;
+import com.football.models.responses.LeagueResponse;
 
 import java.util.Map;
 
@@ -55,7 +56,8 @@ import static com.football.services.NotificationKey.NEWEST_GAME_RESULT;
 import static com.football.services.NotificationKey.NEWEST_REAL_RESULT;
 import static com.football.services.NotificationKey.NEW_TRADE_PROPOSAL;
 import static com.football.services.NotificationKey.OWNER_DELETE_MEMBER;
-import static com.football.services.NotificationKey.PLAYER_HAS_LEFT;
+import static com.football.services.NotificationKey.PLAYER_HAS_LEFT_DRAFT;
+import static com.football.services.NotificationKey.PLAYER_HAS_LEFT_TRANSFER;
 import static com.football.services.NotificationKey.PLAYER_INJURED;
 import static com.football.services.NotificationKey.PLAYER_NEW_JOIN;
 import static com.football.services.NotificationKey.RANDOM_TEAM;
@@ -152,15 +154,21 @@ public class MainActivity extends BaseActivity {
         handleIntent(intent);
     }
 
+    private static final String TAG = "MainActivity";
+
     private void getDeepLink(Intent intent) {
         if (intent.getDataString() != null && intent.getDataString().startsWith(DEEP_LINK)) {
             String deepLinkQuery = intent.getData().getEncodedQuery();
-            Map<String, String> data = StringUtils.stringToMap(deepLinkQuery, "&");
-            String leagueId = data.get("league_id");
-            if (TextUtils.isDigitsOnly(leagueId)) {
-                AloneFragmentActivity.with(this)
-                        .parameters(LeagueDetailFragment.newBundle(getString(R.string.my_leagues), Integer.parseInt(leagueId), LeagueDetailFragment.MY_LEAGUES))
-                        .start(LeagueDetailFragment.class);
+            if (!TextUtils.isEmpty(deepLinkQuery)) {
+                Map<String, String> data = StringUtils.stringToMap(deepLinkQuery, "&");
+                String leagueId = data.get("league_id");
+                if (TextUtils.isDigitsOnly(leagueId)) {
+                    AloneFragmentActivity.with(this)
+                            .parameters(LeagueDetailFragment.newBundle(getString(R.string.my_leagues), Integer.parseInt(leagueId), LeagueDetailFragment.MY_LEAGUES))
+                            .start(LeagueDetailFragment.class);
+                }
+            } else {
+                showMessage(getString(R.string.deep_link_error), R.string.ok, null);
             }
         }
     }
@@ -280,11 +288,6 @@ public class MainActivity extends BaseActivity {
                         GAMEPLAY_OPTION_TRANSFER);
                 break;
 
-            // Player pool
-            case PLAYER_HAS_LEFT:
-                PlayerPoolFragment.start(this, getString(R.string.home));
-                break;
-
             // Team squad
             case PLAYER_INJURED:
 
@@ -312,6 +315,15 @@ public class MainActivity extends BaseActivity {
                         .start(LeagueDetailFragment.class);
                 break;
 
+            // player pool
+            case PLAYER_HAS_LEFT_DRAFT:
+                PlayerPoolFragment.startForNotificationTransfer(this, getString(R.string.home), leagueId, teamId, LeagueResponse.GAMEPLAY_OPTION_DRAFT);
+                break;
+
+            // player pool
+            case PLAYER_HAS_LEFT_TRANSFER:
+                PlayerPoolFragment.startForNotificationTransfer(this, getString(R.string.home), leagueId, teamId, LeagueResponse.GAMEPLAY_OPTION_TRANSFER);
+                break;
 
             default:
                 if (BuildConfig.DEBUG)

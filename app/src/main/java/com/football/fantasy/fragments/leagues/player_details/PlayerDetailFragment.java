@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
@@ -260,6 +259,7 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
                 break;
 
             case PICK_PICKED:
+                viewPick.setEnabled(false);
                 viewPick.setVisibility(View.VISIBLE);
                 tvPick.setText(getString(R.string.picked));
                 tvPick.setTextColor(ContextCompat.getColor(mActivity, R.color.color_white));

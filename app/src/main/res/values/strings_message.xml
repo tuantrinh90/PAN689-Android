@@ -39,7 +39,6 @@
     <string name="league_number_user_not_edit">Number of users is not valid</string>
     <string name="league_invalid_number_user">Number of users must be higher current number of members</string>
     <string name="league_invalid_scoring_system_no_edit">Scoring system is not valid</string>
-    <string name="league_invalid_setup_time_number_user_change">league_invalid_setup_time_number_user_change</string>
     <string name="league_not_found">Not found</string>
     <string name="could_not_found_cloud_storage">Cloud storage is not found</string>
     <string name="delete_file_failure">Unable to Delete File</string>
@@ -60,9 +59,8 @@
     <string name="message_team_lineup_is_not_completed_yet">You are not able to access this screen because this team lineup is not completed yet</string>
     <string name="message_team_lineup_all_round_come_to_end">All rounds come to an end. You cannot pick players.</string>
     <string name="message_unable_to_invite_friend">Limit on number of user, unable to invite friend!</string>
-    <string name="start_league_before_continue">start_league_before_continue</string>
     <string name="overload_max_transfer">overload_max_transfer</string>
-    <string name="invalid_from_player">invalid_from_player</string>
+    <string name="invalid_from_player">You can\'t pick player more</string>
     <string name="password_current_failure">Current password failure</string>
     <string name="max_number_user">You have reached maximum number of leagues</string>
     <string name="not_found_team_round">All rounds come to an end</string>

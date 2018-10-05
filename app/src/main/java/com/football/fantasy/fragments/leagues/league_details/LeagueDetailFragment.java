@@ -3,7 +3,6 @@ package com.football.fantasy.fragments.leagues.league_details;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -102,8 +101,6 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     private LeagueResponse league;
     private LeagueDetailViewPagerAdapter leagueDetailViewPagerAdapter;
     private List<ExtKeyValuePair> valuePairs = new ArrayList<>();
-    private Handler handler = new Handler();
-
 
     public static Bundle newBundle(String title, int leagueId, String leagueType) {
         Bundle bundle = new Bundle();
@@ -388,44 +385,41 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
 
             }
         });
-        try {
-            if (fragmentIndex != -1) {
-                if (fragmentIndex >= 10) {
-                    switch (fragmentIndex) {
-                        case SETUP_TEAM:
-                            handler.postDelayed(() -> {
-                                if (leagueDetailViewPagerAdapter != null) {
-                                    ((LeagueInfoFragment) leagueDetailViewPagerAdapter.getItem(LEAGUE_INFORMATION)).openSetupTeam();
-                                }
-                            }, 300);
-                            break;
+    }
 
-                        case EDIT_LEAGUE:
-                            handler.postDelayed(() -> {
-                                try {
-                                    AloneFragmentActivity.with(LeagueDetailFragment.this)
-                                            .parameters(SetUpLeagueFragment.newBundle(league, getString(R.string.league_details)))
-                                            .start(SetUpLeagueFragment.class);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }, 300);
-                            break;
-                    }
-                } else {
-                    vpViewPager.setCurrentItem(fragmentIndex);
-                    if (action.equals(USER_TRANSACTION_RESULT) && leagueDetailViewPagerAdapter.getItem(fragmentIndex) instanceof TradeReviewFragment) {
-                        ((TradeReviewFragment) leagueDetailViewPagerAdapter.getItem(fragmentIndex)).openFragment(INDEX_RESULTS);
+    /**
+     * goLineup: dành cho trường hợp Notification bắn vào màn lineup mà thời gian đang ở DraftTime(cũng vào lineup)
+     */
+    @Override
+    public void handleActionNotification(boolean goLineup) {
+        if (fragmentIndex != -1) {
+            if (fragmentIndex >= 10) {
+                switch (fragmentIndex) {
+                    case SETUP_TEAM:
+                        // goLineup
+                        if (!goLineup && leagueDetailViewPagerAdapter != null) {
+                            ((LeagueInfoFragment) leagueDetailViewPagerAdapter.getItem(LEAGUE_INFORMATION)).openSetupTeam();
+                        }
+                        break;
 
-                    } else if (action.equals(TWO_HOURS_TO_REVIEW) && leagueDetailViewPagerAdapter.getItem(fragmentIndex) instanceof TradeReviewFragment) {
-                        ((TradeReviewFragment) leagueDetailViewPagerAdapter.getItem(fragmentIndex)).openTradeProposalReview(-1);
-                    }
+                    case EDIT_LEAGUE:
+                        AloneFragmentActivity.with(LeagueDetailFragment.this)
+                                .parameters(SetUpLeagueFragment.newBundle(league, getString(R.string.league_details)))
+                                .start(SetUpLeagueFragment.class);
+                        break;
                 }
-            } else if (openRound > 0) {
-                vpViewPager.setCurrentItem(RESULT_FRAGMENT_INDEX);
-                ((ResultsFragment) leagueDetailViewPagerAdapter.getItem(RESULT_FRAGMENT_INDEX)).displayRound(openRound);
+            } else {
+                vpViewPager.setCurrentItem(fragmentIndex);
+                if (action.equals(USER_TRANSACTION_RESULT) && leagueDetailViewPagerAdapter.getItem(fragmentIndex) instanceof TradeReviewFragment) {
+                    ((TradeReviewFragment) leagueDetailViewPagerAdapter.getItem(fragmentIndex)).openFragment(INDEX_RESULTS);
+
+                } else if (action.equals(TWO_HOURS_TO_REVIEW) && leagueDetailViewPagerAdapter.getItem(fragmentIndex) instanceof TradeReviewFragment) {
+                    ((TradeReviewFragment) leagueDetailViewPagerAdapter.getItem(fragmentIndex)).openTradeProposalReview(-1);
+                }
             }
-        } catch (Exception e) {
+        } else if (openRound > 0) {
+            vpViewPager.setCurrentItem(RESULT_FRAGMENT_INDEX);
+            ((ResultsFragment) leagueDetailViewPagerAdapter.getItem(RESULT_FRAGMENT_INDEX)).displayRound(openRound);
         }
     }
 
@@ -480,7 +474,6 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
                             playerIds,
                             league.getTeam().getId(),
                             league.getId(),
-                            -1,
                             league.getGameplayOption());
                 });
     }

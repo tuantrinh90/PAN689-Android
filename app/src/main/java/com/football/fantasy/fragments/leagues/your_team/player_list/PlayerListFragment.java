@@ -17,7 +17,6 @@ import com.football.customizes.searchs.SearchView;
 import com.football.events.PickEvent;
 import com.football.events.PlayerQueryEvent;
 import com.football.fantasy.R;
-import com.football.fantasy.fragments.leagues.player_details.PlayerDetailForLineupFragment;
 import com.football.fantasy.fragments.leagues.player_pool.filter.FilterFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
@@ -29,10 +28,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
-
-import static com.football.customizes.lineup.PlayerView.NONE_ORDER;
-import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_PICK;
-import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_PICKED;
 
 public abstract class PlayerListFragment<V extends IPlayerListView, P extends IPlayerListPresenter<V>> extends BaseMvpFragment<V, P> implements IPlayerListView {
     private static final String TAG = "PlayerListFragment";
@@ -139,15 +134,7 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
             playerAdapter = new PlayerAdapter(
                     getContext(),
                     player -> { // item click
-                        PlayerDetailForLineupFragment.start(
-                                this,
-                                player,
-                                -1,
-                                getString(R.string.lineup),
-                                league.getGameplayOption(),
-                                player.getSelected() ? PICK_PICKED : PICK_PICK,
-                                playerPosition == PlayerResponse.POSITION_NONE ? player.getMainPosition() : playerPosition,
-                                NONE_ORDER);
+                        onDetailPlayerClicked(player);
                     },
                     (player, position) -> { // add click
                         onAddPlayerClicked(player, position);
@@ -316,4 +303,6 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
                                        String filterPositions, String filterClubs);
 
     protected abstract void onAddPlayerClicked(PlayerResponse player, Integer position);
+
+    protected abstract void onDetailPlayerClicked(PlayerResponse player);
 }

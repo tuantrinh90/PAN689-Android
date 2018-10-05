@@ -365,10 +365,7 @@
     <string name="message_info_waving_deadline">Waiving deadline is deadline for user to implement waiving player from player pool. This time is 30 minutes prior to start of first real match in coming round.  This time will be reset when new round starts</string>
     <string name="reviewing">Reviewing</string>
     <string name="pending_trade_request_max">You cannot send proposal because all your remaining requests are pending</string>
-    <string name="can_not_update_number_of_user">can_not_update_number_of_user</string>
-    <string name="can_not_update_time_per_draft">can_not_update_time_per_draft</string>
-    <string name="can_not_update_team_setup_time">can_not_update_team_setup_time</string>
-    <string name="transferring_player_left_less_than_1"><![CDATA[currentTransfer <= 0]]></string>
+    <string name="transferring_player_left_less_than_1">Unable to make waiving, number of waiving left is zero.</string>
     <string name="successful">Successful</string>
     <string name="failed">Failed</string>
     <string name="message_players_has_left_transfer">Player(s) in your team has left the league. You are refunded %s euro with right to pick player(s) from player pool.</string>
@@ -376,5 +373,9 @@
     <string name="message_pick_player_before_team_setup_time">You cannot pick players before team setup time</string>
     <string name="message_number_of_trade_left_is_zero">Unable to make trade proposal, number of trade left is zero</string>
     <string name="message_trade_team_more_than_18_players">if transaction is successful, you have to remove one/two players from your team to ensure your team not to have more than 18 players. Are you sure about this proposal ?</string>
+    <string name="deep_link_error">Deeplink not found</string>
+    <string name="message_non_pick_player_lineup">You haven\'t pick any player. You will receive a random player instead. Are you sure want to skip turn?</string>
+    <string name="transfer_success">Transfer successful</string>
+    <string name="cannot_pick_more">You only pick once</string>
 
 </resources>

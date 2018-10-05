@@ -50,6 +50,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
 
     private static final String TAG = "PlayerPoolFragment";
 
+    private static final String KEY_ACTION = "ACTION";
     private static final String KEY_TITLE = "TITLE";
     private static final String KEY_HEADER_TITLE = "HEADER_TITLE";
     private static final String KEY_TRANSFER = "TRANSFER";
@@ -64,6 +65,11 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
 
     private static final int REQUEST_FILTER = 100;
     private static final int REQUEST_DISPLAY = 101;
+
+    private static final int ACTION_NOTIFICATION_TRANSFER = 1001;
+    private static final int ACTION_TRANSFERRING_MULTI_PLAYER = 1002;
+    private static final int ACTION_TRANSFERRING_SINGLE_PLAYER = 1003;
+    private static final int ACTION_ONLY_VIEW = 1004;
 
     @BindView(R.id.tvHeader)
     ExtTextView tvHeader;
@@ -92,6 +98,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     @BindView(R.id.option3)
     LinearLayout option3;
 
+    private int action;
     private String title;
     private String headerTitle;
     private ArrayList<Integer> playerIds;
@@ -111,26 +118,40 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     private String query = "";
 
     // dành riêng cho transfer player
-    public static void start(Fragment fragment, String title, String headerTitle, ArrayList<Integer> playerIds, int teamId, int leagueId, int seasonId, String gameplay) {
+    public static void start(Fragment fragment, String title, String headerTitle, ArrayList<Integer> playerIds, int teamId, int leagueId, String gameplay) {
         AloneFragmentActivity.with(fragment)
-                .parameters(PlayerPoolFragment.newBundle(title, headerTitle, playerIds, teamId, null, leagueId, seasonId, gameplay))
+                .parameters(PlayerPoolFragment.newBundle(ACTION_TRANSFERRING_MULTI_PLAYER,
+                        title, headerTitle, playerIds, teamId, null, leagueId, -1, gameplay))
                 .start(PlayerPoolFragment.class);
     }
 
-    public static void start(Fragment fragment, String title, String headerTitle, PlayerResponse transfer, int leagueId, int seasonId, String gameplay) {
+    public static void start(Fragment fragment, String title, String headerTitle, PlayerResponse transfer, int leagueId, String gameplay) {
         AloneFragmentActivity.with(fragment)
-                .parameters(PlayerPoolFragment.newBundle(title, headerTitle, null, -1, transfer, leagueId, seasonId, gameplay))
+                .parameters(PlayerPoolFragment.newBundle(ACTION_TRANSFERRING_SINGLE_PLAYER,
+                        title, headerTitle, null, -1, transfer, leagueId, -1, gameplay))
                 .start(PlayerPoolFragment.class);
     }
 
     public static void start(Context context, String title) {
         AloneFragmentActivity.with(context)
-                .parameters(PlayerPoolFragment.newBundle(title, "", null, -1, null, LEAGUE_ID_NONE, SEASON_ID_NONE, ""))
+                .parameters(PlayerPoolFragment.newBundle(ACTION_ONLY_VIEW,
+                        title, "", null, -1, null, LEAGUE_ID_NONE, SEASON_ID_NONE, ""))
                 .start(PlayerPoolFragment.class);
     }
 
-    private static Bundle newBundle(String title, String headerTitle, ArrayList<Integer> playerTransfers, int teamId, PlayerResponse transfer, int leagueId, int seasonId, String gameplay) {
+    public static void startForNotificationTransfer(Context context, String title, int leagueId, int teamId, String gameplay) {
+        Bundle bundle = PlayerPoolFragment.newBundle(ACTION_NOTIFICATION_TRANSFER,
+                title, context.getString(R.string.player_pool),
+                null, teamId, null, leagueId,
+                SEASON_ID_NONE, gameplay);
+        AloneFragmentActivity.with(context)
+                .parameters(bundle)
+                .start(PlayerPoolFragment.class);
+    }
+
+    private static Bundle newBundle(int action, String title, String headerTitle, ArrayList<Integer> playerTransfers, int teamId, PlayerResponse transfer, int leagueId, int seasonId, String gameplay) {
         Bundle bundle = new Bundle();
+        bundle.putInt(KEY_ACTION, action);
         bundle.putString(KEY_TITLE, title);
         bundle.putString(KEY_HEADER_TITLE, headerTitle);
         bundle.putIntegerArrayList(KEY_PLAYER_TRANSFERS, playerTransfers);
@@ -158,11 +179,14 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
         initView();
-        initData();
+        initAdapter();
+        displayDisplay();
+        presenter.getSeasons();
         registerBus();
     }
 
     private void getDataFromBundle() {
+        action = getArguments().getInt(KEY_ACTION);
         title = getArguments().getString(KEY_TITLE);
         headerTitle = getArguments().getString(KEY_HEADER_TITLE);
         playerIds = getArguments().getIntegerArrayList(KEY_PLAYER_TRANSFERS);
@@ -186,8 +210,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
                                     filterPositions = event.getPosition();
 
                                     // get items
-                                    refreshState();
-                                    getPlayers();
+                                    refresh();
                                 } else if (event.getTag() == PlayerQueryEvent.TAG_DISPLAY) {
                                     displayPairs = event.getDisplays();
 
@@ -271,12 +294,8 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
 
         svSearch.setSearchConsumer(query -> {
             this.query = query.trim();
-            refreshState();
-            getPlayers();
+            refresh();
         });
-    }
-
-    void initData() {
 
         // display default
         boolean isTransfer = !gameplay.equals(GAMEPLAY_OPTION_DRAFT);
@@ -285,19 +304,14 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
         displayPairs.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_3);
         if (!isTransfer) displayPairs.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_4);
 
+    }
+
+    void initAdapter() {
         PlayerPoolAdapter adapter;
         adapter = new PlayerPoolAdapter(
                 getContext(),
                 player -> { // click event
-                    if (playerTransfer == null) {
-                        PlayerDetailFragment.start(
-                                getContext(),
-                                player.getId(),
-                                -1,
-                                getString(R.string.player_list),
-                                gameplay.equals(GAMEPLAY_OPTION_TRANSFER) ? PICK_NONE_INFO : PICK_NONE,
-                                gameplay);
-                    } else {
+                    if (action == ACTION_TRANSFERRING_SINGLE_PLAYER) {
                         PlayerDetailForTransferFragment.start(
                                 this,
                                 player,
@@ -306,25 +320,34 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
                                 getString(R.string.player_list),
                                 player.getSelected() ? PICK_PICKED : PICK_PICK,
                                 gameplay);
+                    } else {
+                        PlayerDetailFragment.start(
+                                getContext(),
+                                player.getId(),
+                                -1,
+                                getString(R.string.player_list),
+                                gameplay.equals(GAMEPLAY_OPTION_TRANSFER) ? PICK_NONE_INFO : PICK_NONE,
+                                gameplay);
                     }
                 });
 
-        if (playerTransfer != null) {
+        // handle action
+        if (action == ACTION_NOTIFICATION_TRANSFER) {
+            adapter.setOptionAddCallback(player -> {
+                presenter.transferPlayer(teamId, gameplay, 0, player.getId());
+            });
+
+        } else if (action == ACTION_TRANSFERRING_SINGLE_PLAYER) {
             // update positions
             filterPositions = String.valueOf(playerTransfer.getMainPosition());
-//            if (playerTransfer.getMinorPosition() != PlayerResponse.POSITION_NONE) {
-//                filterPositions = filterPositions + "," + playerTransfer.getMinorPosition();
-//            }
 
             // bắn về cho MH Transferring Player
             adapter.setOptionAddCallback(player -> {
                 showLoading(true);
                 bus.send(new TransferEvent(playerTransfer, player));
             });
-        }
 
-        // handle player transfer
-        if (playerIds != null && playerIds.size() > 0) {
+        } else if (action == ACTION_TRANSFERRING_MULTI_PLAYER) {
             adapter.setOptionAddCallback(player -> {
                 showLoading(true);
                 if (playerIds.size() > 0) {
@@ -335,25 +358,19 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
 
         rvPlayer.adapter(adapter)
                 .loadingLayout(0)
-                .refreshListener(() -> {
-                    refreshState();
-                    getPlayers();
-                })
+                .refreshListener(this::refresh)
                 .loadMoreListener(() -> {
                     page++;
                     getPlayers();
                 })
                 .build();
-
-        displayDisplay();
-
-        presenter.getSeasons();
     }
 
-    private void refreshState() {
+    private void refresh() {
         page = Constant.PAGE_START_INDEX;
         rvPlayer.clear();
         rvPlayer.startLoading();
+        getPlayers();
     }
 
     private void getPlayers() {
@@ -412,9 +429,15 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
 
     @Override
     public void handleTransferSuccess() {
-        playerIds.remove(0);
-        if (playerIds.size() == 0) {
-            showMessage("Transfer successful", R.string.ok, aVoid -> {
+        if (playerIds != null) {
+            playerIds.remove(0);
+            if (playerIds.size() == 0) {
+                showMessage(getString(R.string.transfer_success), R.string.ok, aVoid -> {
+                    mActivity.finish();
+                });
+            }
+        } else {
+            showMessage(getString(R.string.transfer_success), R.string.ok, aVoid -> {
                 mActivity.finish();
             });
         }
@@ -520,7 +543,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
                         if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
                             currentSeason = extKeyValuePair;
                             updateValue();
-                            refreshState();
+                            refresh();
                             getPlayers();
                         }
                     }).show(getFragmentManager(), null);

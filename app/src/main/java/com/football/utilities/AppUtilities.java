@@ -166,9 +166,12 @@ public class AppUtilities {
             return String.format("%dd%02dh", days, hours);
         } else if (hours > 0) {
             return String.format("%02dh%02dm", hours, minutes);
-        } else {
+        } else if (minutes > 0) {
             long seconds = totalSecs % 60;
             return String.format("%02dm%02ds", minutes, seconds);
+        } else {
+            long seconds = totalSecs % 60;
+            return String.format("%02ds", seconds);
         }
     }
 

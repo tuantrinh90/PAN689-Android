@@ -53,6 +53,7 @@ public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailVi
                             }
 
                             // mở màn hình Lineup luôn nếu đang trong draftTime
+                            boolean goLineup = false;
                             if (response.equalsGameplay(LeagueResponse.GAMEPLAY_OPTION_DRAFT)) {
                                 Calendar setupTime = response.getDraftTimeCalendar();
 
@@ -67,9 +68,10 @@ public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailVi
 
                                 if (currentTime.after(setupTime) && currentTime.before(draftTime)) {
                                     v.goLineup();
+                                    goLineup = true;
                                 }
-
                             }
+                            v.handleActionNotification(goLineup);
 
                             // show message and điều hướng đến playerPool để pick 1 cầu thủ
                             if (response.getPlayers() != null && response.getPlayers().size() > 0) {

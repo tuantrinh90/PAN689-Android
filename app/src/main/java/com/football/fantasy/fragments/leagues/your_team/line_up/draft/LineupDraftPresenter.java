@@ -83,28 +83,6 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
     }
 
     @Override
-    public void joinDraft(int leagueId) {
-        Log.i(TAG, "joinDraft: ");
-        getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(
-                    v,
-                    dataModule.getApiService().joinDraft(leagueId),
-                    new ApiCallback<LineupResponse>() {
-
-                        @Override
-                        public void onSuccess(LineupResponse response) {
-                            setLineup(response);
-                        }
-
-                        @Override
-                        public void onError(String error) {
-                            v.showMessage(error);
-                        }
-                    }));
-        });
-    }
-
-    @Override
     public void endCountdown(int leagueId) {
         Log.i(TAG, "endCountdown: ");
         getOptView().doIfPresent(v -> {
@@ -122,22 +100,6 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
                             v.showMessage(error);
                         }
                     }));
-        });
-    }
-
-    @Override
-    public void endTurn(int teamId, int pickRound, int pickOrder) {
-        Log.i(TAG, "endTurn: ");
-        getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(
-                    v,
-                    dataModule.getApiService().endTurn(teamId,
-                            new MultipartBody.Builder()
-                                    .setType(MultipartBody.FORM)
-                                    .addFormDataPart("pick_round", String.valueOf(pickRound))
-                                    .addFormDataPart("pick_order", String.valueOf(pickOrder))
-                                    .build()),
-                    null));
         });
     }
 
@@ -170,7 +132,7 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
     }
 
     @Override
-    public void removePlayer(PlayerResponse player, int teamId, int position, int pickRound, int pickOrder) {
+    public void removePlayer(PlayerResponse player, int teamId, int pickRound, int pickOrder) {
         getOptView().doIfPresent(v -> {
             mCompositeDisposable.add(RxUtilities.async(
                     v,
@@ -180,10 +142,10 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
                                     .setType(MultipartBody.FORM)
                                     .addFormDataPart("pick_round", String.valueOf(pickRound))
                                     .addFormDataPart("pick_order", String.valueOf(pickOrder))
-                                    .addFormDataPart("team_id", String.valueOf(teamId))
                                     .addFormDataPart("player_id", String.valueOf(player.getId()))
                                     .build()),
                     null));
         });
     }
+
 }

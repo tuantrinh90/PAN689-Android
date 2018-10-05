@@ -286,7 +286,6 @@ public class TradeProposalFragment extends BaseMvpFragment<ITradeProposalView, I
         presenter.makeProposal(fromTeamId, toTeamId, fromPlayerIds, toPlayerIds);
     }
 
-
     @Override
     public void submitSuccess(TradeResponse response) {
         bus.send(new TradeEvent());

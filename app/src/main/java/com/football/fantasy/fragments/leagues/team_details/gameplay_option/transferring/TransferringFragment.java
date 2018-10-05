@@ -305,14 +305,13 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     private void transferPlayer(PlayerResponse player) {
         // append PlayerPool
         if (tvTransferringTimeLeftValue.isRunning()) {
-            if (transferLeft > 0) {
+            if (transferLeft > 0 || player.getInjured()) {
                 PlayerPoolFragment.start(
                         this,
                         getString(R.string.transferring_player),
                         getString(R.string.player_pool),
                         player,
                         league.getId(),
-                        -1,
                         league.getGameplayOption());
             } else {
                 showMessage(getString(R.string.transferring_player_left_less_than_1));

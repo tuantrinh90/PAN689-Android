@@ -14,6 +14,7 @@ import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.customizes.searchs.SearchView;
+import com.football.events.GeneralEvent;
 import com.football.events.PickEvent;
 import com.football.events.PlayerEvent;
 import com.football.events.PlayerQueryEvent;
@@ -54,6 +55,7 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
 
     private int valueDirection = Constant.SORT_NONE;
     private String filterClubs = "";
+    private PlayerAdapter adapter;
 
     public static PlayerPopupFragment newInstance() {
         return new PlayerPopupFragment();
@@ -136,6 +138,28 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
 
                     }
                 }));
+
+        mCompositeDisposable.add(bus.ofType(GeneralEvent.class)
+                .subscribeWith(new DisposableObserver<GeneralEvent>() {
+                    @Override
+                    public void onNext(GeneralEvent event) {
+                        switch (event.getSource()) {
+                            case LINEUP_DRAFT:
+                                visibleAddButtonInPlayerList(((Boolean) event.getData()));
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                }));
     }
 
     // bắn sang màn hình LineUp
@@ -196,7 +220,7 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
             svSearchView.setSearchConsumer(query -> onPerformSearch(query.trim()));
 
             // playerResponses
-            PlayerAdapter adapter = new PlayerAdapter(
+            adapter = new PlayerAdapter(
                     getContext(),
                     player -> { // item click
                         PlayerDetailForLineupFragment.start(this,
@@ -291,6 +315,21 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
         rvPlayer.clear();
         rvPlayer.startLoading();
         getPlayers();
+    }
+
+    public void visibleAddButtonInPlayerList(boolean visible) {
+        if (adapter == null) return;
+        if (visible) {
+            if (adapter.getVisibleAddButton() != View.VISIBLE) {
+                adapter.setVisibleAddButton(View.VISIBLE);
+                adapter.notifyDataSetChanged();
+            }
+        } else {
+            if (adapter.getVisibleAddButton() == View.VISIBLE) {
+                adapter.setVisibleAddButton(View.GONE);
+                adapter.notifyDataSetChanged();
+            }
+        }
     }
 
     @Override

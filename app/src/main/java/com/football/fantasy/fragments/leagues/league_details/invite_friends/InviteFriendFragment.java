@@ -24,6 +24,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.football.utilities.ServiceConfig.DEEP_LINK;
+import static com.football.utilities.ServiceConfig.SHARE_APP;
+
 public class InviteFriendFragment extends BaseMvpFragment<IInviteFriendView, IInviteFriendPresenter<IInviteFriendView>> implements IInviteFriendView {
     private static final String TAG = InviteFriendFragment.class.getSimpleName();
     private static final String KEY_LEAGUE = "LEAGUE";
@@ -131,7 +134,7 @@ public class InviteFriendFragment extends BaseMvpFragment<IInviteFriendView, IIn
     @OnClick(R.id.tvInvite)
     void onClickInvite() {
         SharedUtils.actionShare(mActivity, getString(R.string.app_name), SharedUtils.TYPE_TEXT, null, getString(R.string.app_name),
-                "https://dantricdn.com/zoom/327_245/2018/5/16/trump-1526427642048137816655.png", null, null);
+                SHARE_APP + "?url=" + DEEP_LINK + "?league_id=" + league.getId(), null, null);
     }
 
     @Override

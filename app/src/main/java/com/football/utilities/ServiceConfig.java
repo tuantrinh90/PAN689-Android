@@ -1,12 +1,14 @@
 package com.football.utilities;
 
+import com.football.fantasy.BuildConfig;
+
 /**
  * Created by dangpp on 2/9/2018.
  */
 
 public interface ServiceConfig {
     String SOCKET_URL = "http://192.168.1.150:3333";
-    String HOST = "http://192.168.1.150/";
+    String HOST = BuildConfig.DEBUG ? "http://192.168.1.150/" : "http://ec2-52-77-241-109.ap-southeast-1.compute.amazonaws.com/";
 //    String HOST = "http://ec2-52-77-241-109.ap-southeast-1.compute.amazonaws.com/";
 
     // base url

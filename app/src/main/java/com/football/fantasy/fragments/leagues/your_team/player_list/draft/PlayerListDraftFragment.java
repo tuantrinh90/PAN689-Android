@@ -7,12 +7,18 @@ import android.view.View;
 import com.football.events.GeneralEvent;
 import com.football.events.PlayerEvent;
 import com.football.fantasy.R;
+import com.football.fantasy.fragments.leagues.player_details.PlayerDetailForLineupFragment;
 import com.football.fantasy.fragments.leagues.your_team.player_list.PlayerListFragment;
 import com.football.models.responses.PlayerResponse;
 import com.football.utilities.SocketEventKey;
 
 import butterknife.BindView;
 import io.reactivex.observers.DisposableObserver;
+
+import static com.football.customizes.lineup.PlayerView.NONE_ORDER;
+import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_NONE;
+import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_PICK;
+import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_PICKED;
 
 public class PlayerListDraftFragment extends PlayerListFragment<IPlayerListDraftView, IPlayerListDraftPresenter<IPlayerListDraftView>> implements IPlayerListDraftView {
 
@@ -87,6 +93,26 @@ public class PlayerListDraftFragment extends PlayerListFragment<IPlayerListDraft
                     }
                 })
                 .build());
+    }
+
+    @Override
+    protected void onDetailPlayerClicked(PlayerResponse player) {
+        int pick;
+        if (player.getSelected()) {
+            pick = PICK_PICKED;
+        } else {
+            pick = playerAdapter.getVisibleAddButton() == View.VISIBLE ? PICK_PICK : PICK_NONE;
+        }
+
+        PlayerDetailForLineupFragment.start(
+                this,
+                player,
+                -1,
+                getString(R.string.lineup),
+                league.getGameplayOption(),
+                pick,
+                playerPosition == PlayerResponse.POSITION_NONE ? player.getMainPosition() : playerPosition,
+                NONE_ORDER);
     }
 
     private void registerSocket() {

@@ -12,6 +12,8 @@ public interface ILeagueDetailView extends IBaseMvpView {
 
     void displayLeague(LeagueResponse league);
 
+    void handleActionNotification(boolean goLineup);
+
     void goCreateTeam();
 
     void goLineup();
