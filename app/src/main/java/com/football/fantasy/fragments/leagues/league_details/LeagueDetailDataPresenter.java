@@ -74,10 +74,10 @@ public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailVi
                             v.handleActionNotification(goLineup);
 
                             // show message and điều hướng đến playerPool để pick 1 cầu thủ
-                            if (response.getPlayers() != null && response.getPlayers().size() > 0) {
+                            if (response.getDeletedPlayers() != null && response.getDeletedPlayers().size() > 0) {
                                 long transferValue = 0;
                                 ArrayList<Integer> ids = new ArrayList<>();
-                                for (PlayerResponse player : response.getPlayers()) {
+                                for (PlayerResponse player : response.getDeletedPlayers()) {
                                     transferValue += player.getTransferValue();
                                     ids.add(player.getId());
                                 }

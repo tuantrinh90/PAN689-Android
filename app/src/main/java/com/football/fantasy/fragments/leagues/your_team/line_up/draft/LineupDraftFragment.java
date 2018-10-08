@@ -204,6 +204,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     }
 
     private void onEventRefreshUI() {
+        if (mActivity != null) mActivity.runOnUiThread(() -> showLoading(false));
         presenter.getLineup(teamId);
     }
 
@@ -243,21 +244,25 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             case R.id.tvDraftEndTurn:
                 if (pickEnable) {
                     if (playerViewSelected != null) {
-                        presenter.endTurnNew(currentTurn);
-                        view.setEnabled(false);
+                        handleEndTurn(view);
                     } else {
                         showMessage(
                                 R.string.message_non_pick_player_lineup,
                                 R.string.ok,
                                 R.string.cancel,
                                 aVoid -> {
-                                    presenter.endTurnNew(currentTurn);
-                                    view.setEnabled(false);
+                                    handleEndTurn(view);
                                 }, null);
                     }
                 }
                 break;
         }
+    }
+
+    private void handleEndTurn(View view) {
+        showLoading(true);
+        presenter.endTurnNew(currentTurn);
+        view.setEnabled(false);
     }
 
     @Override

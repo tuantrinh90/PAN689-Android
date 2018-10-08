@@ -108,8 +108,8 @@ public class LeagueResponse implements Serializable {
     private String transferDeadline;
     @JsonProperty("round")
     private int round;
-    @JsonProperty("players")
-    private List<PlayerResponse> players;
+    @JsonProperty("deleted_players")
+    private List<PlayerResponse> deletedPlayers;
 
     public LeagueResponse() {
     }
@@ -507,8 +507,8 @@ public class LeagueResponse implements Serializable {
         return round;
     }
 
-    public List<PlayerResponse> getPlayers() {
-        return players;
+    public List<PlayerResponse> getDeletedPlayers() {
+        return deletedPlayers;
     }
 
     public boolean equalsStatus(int status) {

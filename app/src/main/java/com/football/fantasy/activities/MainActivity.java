@@ -178,7 +178,7 @@ public class MainActivity extends BaseActivity {
             String action = intent.getStringExtra(KEY_ACTION);
             String teamName = intent.getStringExtra(KEY_TEAM_NAME);
             int leagueId = getInteger(intent, KEY_LEAGUE_ID);
-            int leagueStatus = getInteger(intent, KEY_LEAGUE_STATUS); // todo: cần server trả về League.status: FINISH, ON_GOING
+            int leagueStatus = getInteger(intent, KEY_LEAGUE_STATUS);
             int myTeamId = getInteger(intent, KEY_MY_TEAM_ID);
             int teamId = getInteger(intent, KEY_TEAM_ID);
             int playerId = getInteger(intent, KEY_PLAYER_ID);

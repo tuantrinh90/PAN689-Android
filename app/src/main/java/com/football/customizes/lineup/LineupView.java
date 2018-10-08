@@ -54,7 +54,10 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
 
     private void setup() {
         this.removeAllViews();
-        players = new PlayerResponse[18];
+        // clear data
+        for (int i = 0, playersLength = players.length; i < playersLength; i++) {
+            players[i] = null;
+        }
 
         int position = 0;
         for (int line = 0; line < LINE; line++) {

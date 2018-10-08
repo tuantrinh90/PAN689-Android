@@ -31,7 +31,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("getDeviceResolution", "onCreate: " + getDeviceResolution());
+//        Log.i("getDeviceResolution", "onCreate: " + getDeviceResolution());
         new Handler().postDelayed(() -> {
             String token = AppPreferences.getInstance(this).getString(Constant.KEY_TOKEN);
             Intent intent = getIntent();

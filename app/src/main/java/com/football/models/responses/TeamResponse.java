@@ -57,6 +57,9 @@ public class TeamResponse implements Serializable {
     @JsonProperty("last_round")
     private TeamRoundResponse lastRound;
 
+    @JsonProperty("total_transfer_round_players")
+    private int totalTransferRoundPlayers;
+
     @JsonIgnore
     private boolean isChecked;
 
@@ -224,6 +227,10 @@ public class TeamResponse implements Serializable {
         return lastRound;
     }
 
+    public int getTotalTransferRoundPlayers() {
+        return totalTransferRoundPlayers;
+    }
+
     @Override
     public String toString() {
         return "TeamResponse{" +
@@ -248,6 +255,10 @@ public class TeamResponse implements Serializable {
                 ", currentTradeRequest=" + currentTradeRequest +
                 ", maxTradeRequest=" + maxTradeRequest +
                 ", tradeRequestLeftDisplay='" + tradeRequestLeftDisplay + '\'' +
+                ", currentRound=" + currentRound +
+                ", transferRound=" + transferRound +
+                ", lastRound=" + lastRound +
+                ", totalTransferRoundPlayers=" + totalTransferRoundPlayers +
                 ", isChecked=" + isChecked +
                 '}';
     }
