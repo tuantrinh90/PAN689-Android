@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -205,7 +206,7 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
                     } else if (team.getLastRound() != null && currentCalendar.after(team.getLastRound().getTransferDeadlineCalendar())) {
                         showMessage(R.string.message_can_not_transfer_all_round_end, R.string.ok, null);
                     } else {
-                        GameplayFragment.start(this, getString(R.string.team_details), team, league);
+                        GameplayFragment.start(this, getString(R.string.team_details), team, league, "", 0);
                     }
                 } else {
                     showMessage(R.string.message_not_owner_the_team, R.string.ok, null);
@@ -214,7 +215,13 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
             case R.id.llTeamSquad:
                 if (team.getCompleted()) {
                     AloneFragmentActivity.with(this)
-                            .parameters(TeamSquadFragment.newBundle(getString(R.string.team_details), league.getTeam().getId(), team.getId(), team.getName(), league.getStatus()))
+                            .parameters(TeamSquadFragment.newBundle(
+                                    getString(R.string.team_details),
+                                    league.getTeam().getId(),
+                                    team.getId(),
+                                    team.getName(),
+                                    league.getStatus(),
+                                    !TextUtils.isEmpty(team.getTransferRound().getTransferDeadline())))
                             .start(TeamSquadFragment.class);
                 } else {
                     showMessage(getString(R.string.message_team_lineup_is_not_completed_yet));

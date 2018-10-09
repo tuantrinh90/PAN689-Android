@@ -32,9 +32,10 @@ public class PlayerListDraftPresenter extends PlayerListPresenter<IPlayerListDra
     }
 
     @Override
-    public void getPlayers(int leagueId, boolean valueSortDesc, int page, String query, String filterPositions, String filterClubs) {
+    public void getPlayers(int seasonId, int leagueId, boolean valueSortDesc, int page, String query, String filterPositions, String filterClubs) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
+            queries.put("season_id", String.valueOf(seasonId));
             queries.put(Constant.KEY_LEAGUE_ID, String.valueOf(leagueId));
             queries.put(Constant.KEY_PAGE, String.valueOf(page));
             queries.put(Constant.KEY_PER_PAGE, String.valueOf(ExtPagingListView.NUMBER_PER_PAGE));
@@ -80,6 +81,7 @@ public class PlayerListDraftPresenter extends PlayerListPresenter<IPlayerListDra
                         @Override
                         public void onError(String error) {
 //                            v.showMessage(error);
+                            v.showLoadingPagingListView(false);
                         }
                     },
                     3000);

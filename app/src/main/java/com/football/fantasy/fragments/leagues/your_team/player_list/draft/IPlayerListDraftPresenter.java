@@ -5,7 +5,7 @@ import com.football.fantasy.fragments.leagues.your_team.player_list.IPlayerListV
 
 public interface IPlayerListDraftPresenter<V extends IPlayerListView> extends IPlayerListPresenter<V> {
 
-    void getPlayers(int leagueId, boolean valueSortDesc, int page, String query,
+    void getPlayers(int seasonId, int leagueId, boolean valueSortDesc, int page, String query,
                     String filterPositions, String filterClubs);
 
 }

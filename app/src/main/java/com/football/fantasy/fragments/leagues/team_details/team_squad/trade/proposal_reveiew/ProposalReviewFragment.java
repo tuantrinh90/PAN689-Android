@@ -172,13 +172,12 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
             displayViewTimeLeft();
 
         } else if (type == TYPE_REVIEWING) {
-            if (isApproved()) {
-                headerTimeLeft.setVisibility(View.VISIBLE);
-                displayViewTimeLeft();
-            } else {
-                acceptRejectButtons.setVisibility(View.VISIBLE);
+            if (isAccept()) {
                 headerRejectApproved.setVisibility(View.VISIBLE);
                 displayViewRejectApproved();
+            } else {
+                acceptRejectButtons.setVisibility(View.VISIBLE);
+                displayViewTimeLeft();
             }
 
         } else if (type == TYPE_RESULT) {

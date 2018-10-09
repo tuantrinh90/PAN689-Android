@@ -32,26 +32,33 @@ public class GameplayFragment extends BaseMvpFragment<IGameplayView, IGameplayPr
     private static final String KEY_TEAM = "TEAM";
     private static final String KEY_TITLE = "TITLE";
     private static final String KEY_LEAGUE = "LEAGUE";
+    private static final String KEY_ACTION = "ACTION";
+    private static final String KEY_NUMBER_PLAYER_TO_REMOVE = "NUMBER_PLAYER_TO_REMOVE";
+
     private TeamResponse team;
     private String title;
     private LeagueResponse league;
+    private String action;
+    private int numberPlayerToRemove;
 
     @BindView(R.id.cvCarouselView)
     CarouselView cvCarouselView;
     @BindView(R.id.vpViewPager)
     ViewPager vpViewPager;
 
-    public static void start(Fragment fragment, String title, TeamResponse team, LeagueResponse league) {
+    public static void start(Fragment fragment, String title, TeamResponse team, LeagueResponse league, String action, int numberPlayer) {
         AloneFragmentActivity.with(fragment)
-                .parameters(GameplayFragment.newBundle(title, team, league))
+                .parameters(GameplayFragment.newBundle(title, team, league, action, numberPlayer))
                 .start(GameplayFragment.class);
     }
 
-    private static Bundle newBundle(String title, TeamResponse team, LeagueResponse league) {
+    private static Bundle newBundle(String title, TeamResponse team, LeagueResponse league, String action,  int numberPlayerToRemove) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_TEAM, team);
         bundle.putString(KEY_TITLE, title);
         bundle.putSerializable(KEY_LEAGUE, league);
+        bundle.putString(KEY_ACTION, action);
+        bundle.putInt(KEY_NUMBER_PLAYER_TO_REMOVE, numberPlayerToRemove);
         return bundle;
     }
 
@@ -73,6 +80,8 @@ public class GameplayFragment extends BaseMvpFragment<IGameplayView, IGameplayPr
         team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
         title = getArguments().getString(KEY_TITLE);
         league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
+        action = getArguments().getString(KEY_ACTION);
+        numberPlayerToRemove = getArguments().getInt(KEY_NUMBER_PLAYER_TO_REMOVE);
     }
 
     @Override
@@ -115,7 +124,7 @@ public class GameplayFragment extends BaseMvpFragment<IGameplayView, IGameplayPr
 
         // view pager
         StatePagerAdapter mAdapter = new StatePagerAdapter(getChildFragmentManager());
-        mAdapter.addFragment(TransferringFragment.newInstance(team, league).setChildFragment(true));
+        mAdapter.addFragment(TransferringFragment.newInstance(team, league, action,numberPlayerToRemove).setChildFragment(true));
         mAdapter.addFragment(RecordFragment.newInstance(team, league).setChildFragment(true));
         vpViewPager.setAdapter(mAdapter);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

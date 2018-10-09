@@ -335,7 +335,7 @@
                         android:id="@+id/ivSort1"
                         android:layout_width="@dimen/fab_margin"
                         android:layout_height="@dimen/fab_margin"
-                        android:src="@drawable/ic_sort_none" />
+                        app:srcCompat="@drawable/ic_sort_none" />
 
                 </LinearLayout>
 
@@ -364,7 +364,7 @@
                         android:id="@+id/ivSort2"
                         android:layout_width="@dimen/fab_margin"
                         android:layout_height="@dimen/fab_margin"
-                        android:src="@drawable/ic_sort_none" />
+                        app:srcCompat="@drawable/ic_sort_none" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -393,7 +393,7 @@
                         android:id="@+id/ivSort3"
                         android:layout_width="@dimen/fab_margin"
                         android:layout_height="@dimen/fab_margin"
-                        android:src="@drawable/ic_sort_none" />
+                        app:srcCompat="@drawable/ic_sort_none" />
                 </LinearLayout>
             </TableRow>
         </TableRow>

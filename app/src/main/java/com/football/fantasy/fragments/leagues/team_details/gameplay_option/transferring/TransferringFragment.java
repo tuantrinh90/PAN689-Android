@@ -47,8 +47,12 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
 
     private static final String TAG = "TransferringFragment";
 
+    public static final String ACTION_ONLY_REMOVE = "remove";
+
+    private static final String KEY_ACTION = "ACTION";
     private static final String KEY_TEAM = "TEAM";
     private static final String KEY_LEAGUE = "LEAGUE_ID";
+    private static final String KEY_NUMBER_PLAYER_TO_REMOVE = "NUMBER_PLAYER_TO_REMOVE";
 
     private static final int REQUEST_FILTER = 100;
     private static final int REQUEST_DISPLAY = 101;
@@ -91,8 +95,10 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     @BindView(R.id.tvBudgetValue)
     ExtTextView tvBudgetValue;
 
+    private String action;
     private TeamResponse team;
     private LeagueResponse league;
+    private int numberPlayerToRemove;
 
     private int transferLeft;
 
@@ -101,15 +107,20 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     private int[] sorts = new int[]{Constant.SORT_NONE, Constant.SORT_NONE, Constant.SORT_NONE}; // -1: NONE, 0: desc, 1: asc
     private List<ExtKeyValuePair> displays = new ArrayList<>();
 
-    public static TransferringFragment newInstance(TeamResponse team, LeagueResponse league) {
+    public static TransferringFragment newInstance(TeamResponse team, LeagueResponse league, String action, int numberPlayerToRemove) {
         TransferringFragment fragment = new TransferringFragment();
-
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_TEAM, team);
-        bundle.putSerializable(KEY_LEAGUE, league);
-
+        Bundle bundle = newBundle(action, team, league, numberPlayerToRemove);
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    public static Bundle newBundle(String action, TeamResponse team, LeagueResponse league, int numberPlayerToRemove) {
+        Bundle bundle = new Bundle();
+        bundle.putString(KEY_ACTION, action);
+        bundle.putSerializable(KEY_TEAM, team);
+        bundle.putSerializable(KEY_LEAGUE, league);
+        bundle.putInt(KEY_NUMBER_PLAYER_TO_REMOVE, numberPlayerToRemove);
+        return bundle;
     }
 
     @Override
@@ -137,8 +148,10 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     }
 
     private void getDataFromBundle() {
+        action = getArguments().getString(KEY_ACTION);
         team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
         league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
+        numberPlayerToRemove = getArguments().getInt(KEY_NUMBER_PLAYER_TO_REMOVE);
     }
 
     @NonNull
@@ -189,8 +202,8 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
                             if (event.getAction() == TransferEvent.SENDER) {
                                 presenter.transferPlayer(team.getId(),
                                         league.getGameplayOption(),
-                                        event.getFromPlayer(),
-                                        event.getToPlayer());
+                                        event.getFromPlayer().getId(),
+                                        event.getToPlayer().getId());
                             }
                         }
 
@@ -303,8 +316,11 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     }
 
     private void transferPlayer(PlayerResponse player) {
+        if (action.equals(ACTION_ONLY_REMOVE)) {
+            presenter.transferPlayer(team.getId(), league.getGameplayOption(), player.getId(), 0);
+        }
         // append PlayerPool
-        if (tvTransferringTimeLeftValue.isRunning()) {
+        else if (tvTransferringTimeLeftValue.isRunning()) {
             if (transferLeft > 0 || player.getInjured()) {
                 PlayerPoolFragment.start(
                         this,
@@ -453,6 +469,17 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
 
     @Override
     public void transferSuccess() {
+        if (action.equals(ACTION_ONLY_REMOVE)) {
+            numberPlayerToRemove--;
+            if (numberPlayerToRemove <= 0) {
+                showMessage(
+                        getString(R.string.message_remove_player_success),
+                        R.string.ok,
+                        aVoid -> {
+                            mActivity.finish();
+                        });
+            }
+        }
         bus.send(new TransferEvent(TransferEvent.RECEIVER, ""));
         refreshData();
     }

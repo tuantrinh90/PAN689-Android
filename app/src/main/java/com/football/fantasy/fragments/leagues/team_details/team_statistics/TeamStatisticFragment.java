@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -161,7 +162,13 @@ public class TeamStatisticFragment extends BaseMvpFragment<ITeamStatisticView, I
     public void onPointPerPlayerClicked() {
         if (team.getCompleted()) {
             AloneFragmentActivity.with(this)
-                    .parameters(TeamSquadFragment.newBundle(getString(R.string.statistics), league.getTeam().getId(), team.getId(), team.getName(), league.getStatus()))
+                    .parameters(TeamSquadFragment.newBundle(
+                            getString(R.string.statistics),
+                            league.getTeam().getId(),
+                            team.getId(),
+                            team.getName(),
+                            league.getStatus(),
+                            team.getTransferRound() != null && !TextUtils.isEmpty(team.getTransferRound().getTransferDeadline())))
                     .start(TeamSquadFragment.class);
         } else {
             showMessage(getString(R.string.message_team_lineup_is_not_completed_yet));

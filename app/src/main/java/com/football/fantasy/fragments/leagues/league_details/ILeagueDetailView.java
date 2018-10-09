@@ -20,5 +20,7 @@ public interface ILeagueDetailView extends IBaseMvpView {
 
     void stopOrLeaveLeagueSuccess();
 
-    void handleDeletePlayers(ArrayList<Integer> playerIds, long value);
+    void handleLessThan18Players(ArrayList<Integer> playerIds, long value);
+
+    void handleMoreThan18Players(int numberPlayer);
 }

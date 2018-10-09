@@ -3,7 +3,6 @@ package com.football.fantasy.fragments.leagues.your_team.player_list.transfer;
 import android.text.TextUtils;
 
 import com.bon.customview.listview.ExtPagingListView;
-import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.fantasy.fragments.leagues.your_team.player_list.PlayerListPresenter;
 import com.football.listeners.ApiCallback;
@@ -33,9 +32,10 @@ public class PlayerListTransferPresenter extends PlayerListPresenter<IPlayerList
     }
 
     @Override
-    public void getPlayers(int leagueId, boolean valueSortDesc, int page, String query, String filterPositions, String filterClubs) {
+    public void getPlayers(int seasonId, int leagueId, boolean valueSortDesc, int page, String query, String filterPositions, String filterClubs) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
+            queries.put("season_id", String.valueOf(seasonId));
             queries.put(Constant.KEY_LEAGUE_ID, String.valueOf(leagueId));
             queries.put(Constant.KEY_PAGE, String.valueOf(page));
             queries.put(Constant.KEY_PER_PAGE, String.valueOf(ExtPagingListView.NUMBER_PER_PAGE));

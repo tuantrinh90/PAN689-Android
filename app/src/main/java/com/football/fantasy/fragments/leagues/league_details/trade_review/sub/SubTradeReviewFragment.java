@@ -3,12 +3,12 @@ package com.football.fantasy.fragments.leagues.league_details.trade_review.sub;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.view.View;
 
 import com.football.adapters.TradeReviewingAdapter;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
-import com.football.events.RequestProposalEvent;
 import com.football.events.TradeEvent;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.team_details.team_squad.trade.proposal_reveiew.ProposalReviewFragment;
@@ -55,6 +55,7 @@ public class SubTradeReviewFragment extends BaseMvpFragment<ISubTradeReviewView,
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        setChildFragment(true);
         super.onViewCreated(view, savedInstanceState);
         getDataFromBundle();
         bindButterKnife(view);
@@ -64,6 +65,11 @@ public class SubTradeReviewFragment extends BaseMvpFragment<ISubTradeReviewView,
         getTradeRequests();
 
         registerBus();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
     private void getDataFromBundle() {

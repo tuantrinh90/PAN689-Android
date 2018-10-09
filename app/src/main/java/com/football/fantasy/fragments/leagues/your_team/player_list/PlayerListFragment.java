@@ -143,7 +143,7 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
             rvPlayer.adapter(playerAdapter)
                     .loadMoreListener(() -> {
                         page++;
-                        getPlayers(league.getId(), sortDesc, page, query, filterPositions, filterClubs);
+                        getPlayers(league.getSeasonId(), league.getId(), sortDesc, page, query, filterPositions, filterClubs);
                     })
                     .refreshListener(this::refresh)
                     .build();
@@ -156,7 +156,7 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
         page = 1;
         rvPlayer.clear();
         rvPlayer.startLoading();
-        getPlayers(league.getId(), sortDesc, page, query, filterPositions, filterClubs);
+        getPlayers(league.getSeasonId(), league.getId(), sortDesc, page, query, filterPositions, filterClubs);
     }
 
     void displayTime() {
@@ -299,7 +299,7 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
         refresh();
     }
 
-    protected abstract void getPlayers(int leagueId, boolean valueSortDesc, int page, String query,
+    protected abstract void getPlayers(int seasonId, int leagueId, boolean valueSortDesc, int page, String query,
                                        String filterPositions, String filterClubs);
 
     protected abstract void onAddPlayerClicked(PlayerResponse player, Integer position);

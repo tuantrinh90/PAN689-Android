@@ -35,6 +35,8 @@ import com.football.fantasy.fragments.leagues.league_details.successor.Successor
 import com.football.fantasy.fragments.leagues.league_details.teams.TeamFragment;
 import com.football.fantasy.fragments.leagues.league_details.trade_review.TradeReviewFragment;
 import com.football.fantasy.fragments.leagues.player_pool.PlayerPoolFragment;
+import com.football.fantasy.fragments.leagues.team_details.gameplay_option.GameplayFragment;
+import com.football.fantasy.fragments.leagues.team_details.gameplay_option.transferring.TransferringFragment;
 import com.football.fantasy.fragments.leagues.your_team.YourTeamFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.utilities.AppUtilities;
@@ -99,7 +101,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     private String action;
 
     private LeagueResponse league;
-    private LeagueDetailViewPagerAdapter leagueDetailViewPagerAdapter;
+    private LeagueDetailViewPagerAdapter adapter;
     private List<ExtKeyValuePair> valuePairs = new ArrayList<>();
 
     public static Bundle newBundle(String title, int leagueId, String leagueType) {
@@ -185,8 +187,8 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
                                     if (event.getLeague() != null) {
                                         LeagueDetailFragment.this.league = event.getLeague();
                                         displayLeague(event.getLeague());
-                                        if (leagueDetailViewPagerAdapter.getItem(0) instanceof LeagueInfoFragment) {
-                                            ((LeagueInfoFragment) leagueDetailViewPagerAdapter.getItem(0)).displayLeague(event.getLeague());
+                                        if (adapter.getItem(0) instanceof LeagueInfoFragment) {
+                                            ((LeagueInfoFragment) adapter.getItem(0)).displayLeague(event.getLeague());
                                         }
                                     }
                                     break;
@@ -367,8 +369,9 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
                     vpViewPager.setCurrentItem(position);
                 });
         // adapter
-        leagueDetailViewPagerAdapter = new LeagueDetailViewPagerAdapter(getFragmentManager(), mvpFragments);
-        vpViewPager.setAdapter(leagueDetailViewPagerAdapter);
+        adapter = new LeagueDetailViewPagerAdapter(getChildFragmentManager(), mvpFragments);
+        vpViewPager.setAdapter(adapter);
+        vpViewPager.setOffscreenPageLimit(3);
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -397,8 +400,8 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
                 switch (fragmentIndex) {
                     case SETUP_TEAM:
                         // goLineup
-                        if (!goLineup && leagueDetailViewPagerAdapter != null) {
-                            ((LeagueInfoFragment) leagueDetailViewPagerAdapter.getItem(LEAGUE_INFORMATION)).openSetupTeam();
+                        if (!goLineup && adapter != null) {
+                            ((LeagueInfoFragment) adapter.getItem(LEAGUE_INFORMATION)).openSetupTeam();
                         }
                         break;
 
@@ -410,16 +413,16 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
                 }
             } else {
                 vpViewPager.setCurrentItem(fragmentIndex);
-                if (action.equals(USER_TRANSACTION_RESULT) && leagueDetailViewPagerAdapter.getItem(fragmentIndex) instanceof TradeReviewFragment) {
-                    ((TradeReviewFragment) leagueDetailViewPagerAdapter.getItem(fragmentIndex)).openFragment(INDEX_RESULTS);
+                if (action.equals(USER_TRANSACTION_RESULT) && adapter.getItem(fragmentIndex) instanceof TradeReviewFragment) {
+                    ((TradeReviewFragment) adapter.getItem(fragmentIndex)).openFragment(INDEX_RESULTS);
 
-                } else if (action.equals(TWO_HOURS_TO_REVIEW) && leagueDetailViewPagerAdapter.getItem(fragmentIndex) instanceof TradeReviewFragment) {
-                    ((TradeReviewFragment) leagueDetailViewPagerAdapter.getItem(fragmentIndex)).openTradeProposalReview(-1);
+                } else if (action.equals(TWO_HOURS_TO_REVIEW) && adapter.getItem(fragmentIndex) instanceof TradeReviewFragment) {
+                    ((TradeReviewFragment) adapter.getItem(fragmentIndex)).openTradeProposalReview(-1);
                 }
             }
         } else if (openRound > 0) {
             vpViewPager.setCurrentItem(RESULT_FRAGMENT_INDEX);
-            ((ResultsFragment) leagueDetailViewPagerAdapter.getItem(RESULT_FRAGMENT_INDEX)).displayRound(openRound);
+            ((ResultsFragment) adapter.getItem(RESULT_FRAGMENT_INDEX)).displayRound(openRound);
         }
     }
 
@@ -460,7 +463,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     }
 
     @Override
-    public void handleDeletePlayers(ArrayList<Integer> playerIds, long value) {
+    public void handleLessThan18Players(ArrayList<Integer> playerIds, long value) {
         showMessage(
                 league.equalsGameplay(GAMEPLAY_OPTION_TRANSFER) ?
                         getString(R.string.message_players_has_left_transfer, AppUtilities.getMoney(value)) :
@@ -475,6 +478,21 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
                             league.getTeam().getId(),
                             league.getId(),
                             league.getGameplayOption());
+                });
+    }
+
+    @Override
+    public void handleMoreThan18Players(int numberPlayer) {
+        showMessage(
+                getString(R.string.message_trade_team_more_than_18_players),
+                R.string.ok,
+                aVoid -> {
+                    GameplayFragment.start(this,
+                            getString(R.string.team_details),
+                            league.getTeam(),
+                            league,
+                            TransferringFragment.ACTION_ONLY_REMOVE,
+                            numberPlayer);
                 });
     }
 

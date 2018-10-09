@@ -31,8 +31,8 @@ public class PlayerListTransferFragment extends PlayerListFragment<IPlayerListTr
     }
 
     @Override
-    protected void getPlayers(int leagueId, boolean sortDesc, int page, String query, String filterPositions, String filterClubs) {
-        presenter.getPlayers(leagueId, sortDesc, page, query, filterPositions, filterClubs);
+    protected void getPlayers(int seasonId, int leagueId, boolean sortDesc, int page, String query, String filterPositions, String filterClubs) {
+        presenter.getPlayers(seasonId, leagueId, sortDesc, page, query, filterPositions, filterClubs);
     }
 
     @Override

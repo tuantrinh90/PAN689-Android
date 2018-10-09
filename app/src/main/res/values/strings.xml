@@ -372,10 +372,12 @@
     <string name="message_players_has_left_draft">Player(s) has left the league. You can pick player(s) from player pool</string>
     <string name="message_pick_player_before_team_setup_time">You cannot pick players before team setup time</string>
     <string name="message_number_of_trade_left_is_zero">Unable to make trade proposal, number of trade left is zero</string>
-    <string name="message_trade_team_more_than_18_players">if transaction is successful, you have to remove one/two players from your team to ensure your team not to have more than 18 players. Are you sure about this proposal ?</string>
+    <string name="message_trade_team_more_than_18_players">You have to remove one/two players from your team to ensure your team not to have more than 18 players.</string>
     <string name="deep_link_error">Deeplink not found</string>
     <string name="message_non_pick_player_lineup">You haven\'t pick any player. You will receive a random player instead. Are you sure want to skip turn?</string>
     <string name="transfer_success">Transfer successful</string>
     <string name="cannot_pick_more">You only pick once</string>
+    <string name="message_remove_player_success">Remove player success</string>
+    <string name="message_transfer_deadline_null">All rounds come to an end. You cannot trade players.</string>
 
 </resources>

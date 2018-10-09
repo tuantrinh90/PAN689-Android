@@ -3,19 +3,18 @@ package com.football.fantasy.fragments.leagues.league_details.trade_review;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 
 import com.bon.customview.textview.ExtTextView;
-import com.football.adapters.YourTeamViewPagerAdapter;
+import com.football.adapters.StatePagerAdapter;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.league_details.trade_review.sub.SubTradeReviewFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.TradeResponse;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -80,10 +79,11 @@ public class TradeReviewFragment extends BaseMvpFragment<ITradeReviewView, ITrad
     void initView() {
         buttonTeamSelected(true);
 
-        viewPager.setAdapter(new YourTeamViewPagerAdapter(getFragmentManager(), new ArrayList<BaseMvpFragment>() {{
-            add(SubTradeReviewFragment.newInstance(TradeResponse.TYPE_REVIEWING, league, previewTradeId).setChildFragment(true));
-            add(SubTradeReviewFragment.newInstance(TradeResponse.TYPE_REVIEWED, league, previewTradeId).setChildFragment(true));
-        }}));
+        StatePagerAdapter adapter = new StatePagerAdapter(getChildFragmentManager());
+        adapter.addFragment(SubTradeReviewFragment.newInstance(TradeResponse.TYPE_REVIEWING, league, previewTradeId).setChildFragment(true));
+        adapter.addFragment(SubTradeReviewFragment.newInstance(TradeResponse.TYPE_REVIEWED, league, previewTradeId).setChildFragment(true));
+
+        viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

@@ -6,7 +6,6 @@ import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
-import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TeamTransferringResponse;
 import com.football.utilities.Constant;
 import com.football.utilities.RxUtilities;
@@ -103,14 +102,14 @@ public class TransferringPresenter extends BaseDataPresenter<ITransferringView> 
     }
 
     @Override
-    public void transferPlayer(Integer teamId, String gameplayOption, PlayerResponse fromPlayer, PlayerResponse toPlayer) {
+    public void transferPlayer(Integer teamId, String gameplayOption, int fromPlayerId, int toPlayerId) {
         getOptView().doIfPresent(v -> {
 
             MultipartBody.Builder builder = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .addFormDataPart("gameplay_option", gameplayOption)
-                    .addFormDataPart("from_player_id", String.valueOf(fromPlayer.getId()))
-                    .addFormDataPart("to_player_id", String.valueOf(toPlayer.getId()));
+                    .addFormDataPart("from_player_id", String.valueOf(fromPlayerId))
+                    .addFormDataPart("to_player_id", String.valueOf(toPlayerId));
 
             mCompositeDisposable.add(RxUtilities.async(
                     v,

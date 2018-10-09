@@ -25,12 +25,8 @@ public class TradeProposalPresenter extends BaseDataPresenter<ITradeProposalView
                     .addFormDataPart("with_team_id", String.valueOf(withTeamId));
 
             for (int index = 0; index < 3; index++) {
-                if (fromPlayerId[index] != 0) {
-                    builder.addFormDataPart(String.format("from_player_id[%d]", index), String.valueOf(fromPlayerId[index]));
-                }
-                if (toPlayerId[index] != 0) {
-                    builder.addFormDataPart(String.format("to_player_id[%d]", index), String.valueOf(toPlayerId[index]));
-                }
+                builder.addFormDataPart(String.format("from_player_id[%d]", index), String.valueOf(fromPlayerId[index]));
+                builder.addFormDataPart(String.format("to_player_id[%d]", index), String.valueOf(toPlayerId[index]));
             }
 
             mCompositeDisposable.add(RxUtilities.async(v,

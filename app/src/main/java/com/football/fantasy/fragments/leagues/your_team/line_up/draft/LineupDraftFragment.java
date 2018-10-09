@@ -310,10 +310,14 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     protected void onAddClickedFromPopup(PlayerResponse player, int position, int order) {
         if (pickEnable && playerViewSelected == null) {
             playerViewSelected = lineupView.addPlayer(player, player.getMainPosition(), order);
-            playerViewSelected.setRemovable(true);
-            playerViewSelected.setAddable(false);
-            callback.accept(true, "");
-            presenter.addPlayer(player, teamId, position, order, pickRound, pickOrder);
+            if (playerViewSelected != null) {
+                playerViewSelected.setRemovable(true);
+                playerViewSelected.setAddable(false);
+                callback.accept(true, "");
+                presenter.addPlayer(player, teamId, position, order, pickRound, pickOrder);
+            } else {
+                callback.accept(false, getString(R.string.message_full_position));
+            }
         } else {
             callback.accept(false, getString(R.string.cannot_pick_more));
         }

@@ -8,6 +8,7 @@ import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.StopResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.utilities.AppUtilities;
+import com.football.utilities.Constant;
 import com.football.utilities.RxUtilities;
 
 import java.util.ArrayList;
@@ -81,7 +82,11 @@ public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailVi
                                     transferValue += player.getTransferValue();
                                     ids.add(player.getId());
                                 }
-                                v.handleDeletePlayers(ids, transferValue);
+                                v.handleLessThan18Players(ids, transferValue);
+                            }
+                            // show message and điều hướng đến Transferring để delete cầu thủ
+                            else if (response.getTeam().getTotalTransferRoundPlayers() > Constant.MAX_PLAYERS) {
+                                v.handleMoreThan18Players(response.getTeam().getTotalTransferRoundPlayers() - Constant.MAX_PLAYERS);
                             }
                         }
 

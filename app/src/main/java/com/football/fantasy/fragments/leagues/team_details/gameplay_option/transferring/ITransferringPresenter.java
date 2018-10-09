@@ -10,5 +10,5 @@ import java.util.List;
 public interface ITransferringPresenter<V extends IBaseMvpView> extends IBaseDataPresenter<V> {
     void getTeamTransferring(Integer teamId, String gameplay, String filterPositions, String filterClubs, List<ExtKeyValuePair> displayPairs, int[] sorts);
 
-    void transferPlayer(Integer teamId, String gameplayOption, PlayerResponse fromPlayer, PlayerResponse toPlayer);
+    void transferPlayer(Integer teamId, String gameplayOption, int fromPlayerId, int toPlayerId);
 }

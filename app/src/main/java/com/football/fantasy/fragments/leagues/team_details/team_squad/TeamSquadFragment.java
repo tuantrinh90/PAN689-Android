@@ -45,6 +45,7 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
     private static final String KEY_LEAGUE_STATUS = "STATUS";
     private static final String KEY_ACTION = "ACTION";
     private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
+    private static final String KEY_CAN_TRADE = "CAN_TRADE";
 
     @BindView(R.id.tvTitle)
     ExtTextView tvTitle;
@@ -64,6 +65,7 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
     private int leagueStatus;
     private String action;
     private int leagueId;
+    private boolean canTrade;
 
     private TeamSquadResponse teamSquad;
 
@@ -75,19 +77,20 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
     private ExtKeyValuePair currentDirection;
 
     public static Bundle newBundle(String title, int myTeamId, int teamId, String teamName, int leagueStatus, String action, int leagueId) {
-        Bundle bundle = newBundle(title, myTeamId, teamId, teamName, leagueStatus);
+        Bundle bundle = newBundle(title, myTeamId, teamId, teamName, leagueStatus, false);
         bundle.putString(KEY_ACTION, action);
         bundle.putInt(KEY_LEAGUE_ID, leagueId);
         return bundle;
     }
 
-    public static Bundle newBundle(String title, int myTeamId, int teamId, String teamName, int leagueStatus) {
+    public static Bundle newBundle(String title, int myTeamId, int teamId, String teamName, int leagueStatus, boolean canTrade) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_TEAM_NAME, teamName);
         bundle.putInt(KEY_MY_TEAM_ID, myTeamId);
         bundle.putInt(KEY_TEAM_ID, teamId);
         bundle.putString(KEY_TITLE, title);
         bundle.putInt(KEY_LEAGUE_STATUS, leagueStatus);
+        bundle.putBoolean(KEY_CAN_TRADE, canTrade);
         return bundle;
     }
 
@@ -138,6 +141,7 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
         teamId = getArguments().getInt(KEY_TEAM_ID);
         teamName = getArguments().getString(KEY_TEAM_NAME);
         leagueStatus = getArguments().getInt(KEY_LEAGUE_STATUS);
+        canTrade = getArguments().getBoolean(KEY_CAN_TRADE, false);
         action = getArguments().getString(KEY_ACTION, "");
         leagueId = getArguments().getInt(KEY_LEAGUE_ID);
     }
@@ -191,7 +195,11 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
 
     @OnClick(R.id.llTrade)
     void onClickTrade() {
-        TradeRequestFragment.start(this, getString(R.string.team_squad), myTeamId, teamId, teamName, teamSquad, -1);
+        if (canTrade) {
+            TradeRequestFragment.start(this, getString(R.string.team_squad), myTeamId, teamId, teamName, teamSquad, -1);
+        } else {
+            showMessage(getString(R.string.message_transfer_deadline_null));
+        }
     }
 
     @OnClick(R.id.tvSortByColumn)
