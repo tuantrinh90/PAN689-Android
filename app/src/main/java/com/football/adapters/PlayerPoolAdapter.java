@@ -29,6 +29,7 @@ public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
     private String option1;
     private String option2;
     private String option3;
+    private boolean visibleAddButton = true;
 
     public PlayerPoolAdapter(Context context, Consumer<PlayerResponse> clickConsumer) {
         super(context);
@@ -71,7 +72,7 @@ public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
             }
         });
 
-        holder.ivAdd.setVisibility(addConsumer != null ? View.VISIBLE : View.GONE);
+        holder.ivAdd.setVisibility(visibleAddButton && addConsumer != null ? View.VISIBLE : View.GONE);
         holder.ivAdd.setOnClickListener(v -> {
             if (addConsumer != null) {
                 addConsumer.accept(getItem(defaultHolder.getAdapterPosition()));
@@ -154,6 +155,10 @@ public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
                 break;
         }
         return value;
+    }
+
+    public void setVisibleAddButton(boolean visibleAddButton) {
+        this.visibleAddButton = visibleAddButton;
     }
 
     public static class PlayerHolder extends DefaultHolder {

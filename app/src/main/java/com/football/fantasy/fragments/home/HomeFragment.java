@@ -54,8 +54,6 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     ExtTextView tvJoinLeagues;
     @BindView(R.id.llPlayerList)
     ViewGroup llPlayerList;
-    @BindView(R.id.tvPlayerList)
-    ExtTextView tvPlayerList;
     @BindView(R.id.tvMyLeagues)
     ExtTextView tvMyLeagues;
     @BindView(R.id.rvMyLeagues)
@@ -215,7 +213,7 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
         mMainActivity.openOpenLeagueFromLeague();
     }
 
-    @OnClick(R.id.tvPlayerList)
+    @OnClick(R.id.llPlayerList)
     void onClickPlayerList() {
         PlayerPoolFragment.start(getContext(), getString(R.string.home));
     }

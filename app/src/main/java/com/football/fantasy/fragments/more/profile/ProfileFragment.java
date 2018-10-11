@@ -165,7 +165,7 @@ public class ProfileFragment extends BaseMainMvpFragment<IProfileView, IProfileP
     public void displayUser(UserResponse user) {
         tvFullName.setText(user.getName());
         ImageLoaderUtils.displayImage(user.getPhoto(), ivAvatar.getImageView());
-        tvDob.setText(AppUtilities.getDateFormatted(user.getBirthday()));
+        tvDob.setText(AppUtilities.getTimeFormatted(user.getBirthday(), Constant.FORMAT_DATE_SERVER, Constant.FORMAT_DATE));
         switch (user.getGender()) {
             case UserResponse.GENDER_FEMALE:
                 tvGender.setText(R.string.female);

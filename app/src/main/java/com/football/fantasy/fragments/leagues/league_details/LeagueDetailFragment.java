@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
@@ -55,7 +56,27 @@ import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANS
 import static com.football.models.responses.LeagueResponse.LEAGUE_TYPE_OPEN;
 import static com.football.models.responses.LeagueResponse.ON_GOING;
 import static com.football.models.responses.LeagueResponse.WAITING_FOR_START;
+import static com.football.services.NotificationKey.BEFORE_START_TIME_2H;
+import static com.football.services.NotificationKey.BEFORE_TEAM_SETUP_TIME_1H;
+import static com.football.services.NotificationKey.BEFORE_TEAM_SETUP_TIME_2H;
+import static com.football.services.NotificationKey.BEFORE_TRANSFER_DEADLINE_2H;
+import static com.football.services.NotificationKey.CHANGE_LEAGUE_NAME;
+import static com.football.services.NotificationKey.CHANGE_OWNER_LEAGUE;
+import static com.football.services.NotificationKey.CHANGE_TEAM_NAME;
+import static com.football.services.NotificationKey.COMPLETE_SETUP_TEAM;
+import static com.football.services.NotificationKey.EDIT_LEAGUE;
+import static com.football.services.NotificationKey.FULL_TEAM;
+import static com.football.services.NotificationKey.LEAGUE_FINISH;
+import static com.football.services.NotificationKey.LEAGUE_FINISH_FOR_CHAMPION;
+import static com.football.services.NotificationKey.RANDOM_TEAM;
+import static com.football.services.NotificationKey.TEAM_SETUP_TIME;
+import static com.football.services.NotificationKey.TRADE_PROPOSAL_APPROVED;
+import static com.football.services.NotificationKey.TRANSACTION_RESULT;
 import static com.football.services.NotificationKey.TWO_HOURS_TO_REVIEW;
+import static com.football.services.NotificationKey.USER_ACCEPT_INVITE;
+import static com.football.services.NotificationKey.USER_JOINED_LEAGUE;
+import static com.football.services.NotificationKey.USER_LEFT_LEAGUE;
+import static com.football.services.NotificationKey.USER_REJECT_INVITE;
 import static com.football.services.NotificationKey.USER_TRANSACTION_RESULT;
 
 public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILeagueDetailPresenter<ILeagueDetailView>> implements ILeagueDetailView {
@@ -65,18 +86,14 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     private static final String KEY_LEAGUE_TYPE = "key_league_type";
     private static final String KEY_INVITATION_ID = "INVITATION_ID";
     private static final String KEY_OPEN_ROUND = "OPEN_RESULT";
-    private static final String KEY_FRAGMENT_INDEX = "FRAGMENT_INDEX";
     private static final String KEY_ACTION = "ACTION";
     private static final String KEY_TEAM_ID = "TEAM_ID";
 
-    public static final int LEAGUE_INFORMATION = 0;
-    public static final int TEAM_FRAGMENT_INDEX = 1;
-    public static final int RANKING = 2;
-    public static final int RESULT_FRAGMENT_INDEX = 3;
-    public static final int TRADE_REVIEW = 4;
-
-    public static final int SETUP_TEAM = 10;
-    public static final int EDIT_LEAGUE = 11;
+    public static final int INFORMATION_INDEX = 0;
+    public static final int TEAMS_INDEX = 1;
+    public static final int RANKING_INDEX = 2;
+    public static final int RESULTS_INDEX = 3;
+    public static final int TRADE_REVIEW_INDEX = 4;
 
     public static final String OPEN_LEAGUES = "open_leagues";
     public static final String MY_LEAGUES = "my_leagues";
@@ -97,7 +114,6 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     private String leagueType;
     private int invitationId;
     private int openRound;
-    private int fragmentIndex;
     private String action;
 
     private LeagueResponse league;
@@ -124,9 +140,8 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
         return bundle;
     }
 
-    public static Bundle newBundleForNotification(String title, int leagueId, int index, String action) {
+    public static Bundle newBundleForNotification(String title, int leagueId, String action) {
         Bundle bundle = newBundle(title, leagueId, MY_LEAGUES);
-        bundle.putInt(KEY_FRAGMENT_INDEX, index);
         bundle.putString(KEY_ACTION, action);
         return bundle;
     }
@@ -153,7 +168,6 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
         leagueType = bundle.getString(KEY_LEAGUE_TYPE, "");
         invitationId = bundle.getInt(KEY_INVITATION_ID);
         openRound = bundle.getInt(KEY_OPEN_ROUND);
-        fragmentIndex = bundle.getInt(KEY_FRAGMENT_INDEX, -1);
         action = bundle.getString(KEY_ACTION);
     }
 
@@ -335,7 +349,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
             // only display invite with open leagues or owner
             if (league.getOwner() || (league.getLeagueType().equalsIgnoreCase(LEAGUE_TYPE_OPEN) && league.getIsJoined())) {
                 carousels.add(new Carousel(getString(R.string.invite_friend), false));
-                mvpFragments.add(InviteFriendFragment.newInstance(league, leagueType, !league.equalsStatus(WAITING_FOR_START)).setChildFragment(true));
+                mvpFragments.add(InviteFriendFragment.newInstance(league, leagueType).setChildFragment(true));
             }
         } else if (league.equalsStatus(ON_GOING)) {
             carousels.add(new Carousel(getString(R.string.ranking), false));
@@ -395,34 +409,72 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
      */
     @Override
     public void handleActionNotification(boolean goLineup) {
-        if (fragmentIndex != -1) {
-            if (fragmentIndex >= 10) {
-                switch (fragmentIndex) {
-                    case SETUP_TEAM:
-                        // goLineup
-                        if (!goLineup && adapter != null) {
-                            ((LeagueInfoFragment) adapter.getItem(LEAGUE_INFORMATION)).openSetupTeam();
-                        }
-                        break;
+        if (!TextUtils.isEmpty(action)) {
+            switch (action) {
+                // League detail
+                case USER_LEFT_LEAGUE:
+                case BEFORE_START_TIME_2H:
+                case EDIT_LEAGUE:
+                case CHANGE_LEAGUE_NAME:
+                case CHANGE_TEAM_NAME: // action này chưa hiểu lắm
+                case BEFORE_TRANSFER_DEADLINE_2H:
+                    // do nothing
+                    break;
 
-                    case EDIT_LEAGUE:
-                        AloneFragmentActivity.with(LeagueDetailFragment.this)
-                                .parameters(SetUpLeagueFragment.newBundle(league, getString(R.string.league_details)))
-                                .start(SetUpLeagueFragment.class);
-                        break;
-                }
-            } else {
-                vpViewPager.setCurrentItem(fragmentIndex);
-                if (action.equals(USER_TRANSACTION_RESULT) && adapter.getItem(fragmentIndex) instanceof TradeReviewFragment) {
-                    ((TradeReviewFragment) adapter.getItem(fragmentIndex)).openFragment(INDEX_RESULTS);
+                // Tab team
+                case USER_JOINED_LEAGUE:
+                case USER_ACCEPT_INVITE:
+                case USER_REJECT_INVITE:
+                case CHANGE_OWNER_LEAGUE:
+                case FULL_TEAM:
+                    vpViewPager.setCurrentItem(TEAMS_INDEX);
+                    break;
 
-                } else if (action.equals(TWO_HOURS_TO_REVIEW) && adapter.getItem(fragmentIndex) instanceof TradeReviewFragment) {
-                    ((TradeReviewFragment) adapter.getItem(fragmentIndex)).openTradeProposalReview(-1);
-                }
+                case LEAGUE_FINISH:
+                case LEAGUE_FINISH_FOR_CHAMPION:
+                    vpViewPager.setCurrentItem(RANKING_INDEX);
+                    break;
+
+                case TRANSACTION_RESULT:
+                case TRADE_PROPOSAL_APPROVED:
+                    vpViewPager.setCurrentItem(TRADE_REVIEW_INDEX);
+                    break;
+
+                case USER_TRANSACTION_RESULT:
+                    vpViewPager.setCurrentItem(TRADE_REVIEW_INDEX);
+                    if (adapter.getItem(TRADE_REVIEW_INDEX) instanceof TradeReviewFragment) {
+                        ((TradeReviewFragment) adapter.getItem(TRADE_REVIEW_INDEX)).openFragment(INDEX_RESULTS);
+
+                    }
+                    break;
+
+                case TWO_HOURS_TO_REVIEW:
+                    vpViewPager.setCurrentItem(TRADE_REVIEW_INDEX);
+                    if (adapter.getItem(TRADE_REVIEW_INDEX) instanceof TradeReviewFragment) {
+                        ((TradeReviewFragment) adapter.getItem(TRADE_REVIEW_INDEX)).openTradeProposalReview(-1);
+                    }
+                    break;
+
+                // Setup team - screen Lineup
+                case TEAM_SETUP_TIME:
+                case BEFORE_TEAM_SETUP_TIME_2H:
+                case RANDOM_TEAM:
+                case COMPLETE_SETUP_TEAM:   // Setup team - tab team list
+                    if (!goLineup && adapter != null) {
+                        ((LeagueInfoFragment) adapter.getItem(INFORMATION_INDEX)).openSetupTeam();
+                    }
+                    break;
+
+                case BEFORE_TEAM_SETUP_TIME_1H:
+                    AloneFragmentActivity.with(LeagueDetailFragment.this)
+                            .parameters(SetUpLeagueFragment.newBundle(league, getString(R.string.league_details)))
+                            .start(SetUpLeagueFragment.class);
+                    break;
             }
+
         } else if (openRound > 0) {
-            vpViewPager.setCurrentItem(RESULT_FRAGMENT_INDEX);
-            ((ResultsFragment) adapter.getItem(RESULT_FRAGMENT_INDEX)).displayRound(openRound);
+            vpViewPager.setCurrentItem(RESULTS_INDEX);
+            ((ResultsFragment) adapter.getItem(RESULTS_INDEX)).displayRound(openRound);
         }
     }
 

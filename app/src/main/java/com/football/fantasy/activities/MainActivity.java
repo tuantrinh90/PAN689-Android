@@ -200,7 +200,7 @@ public class MainActivity extends BaseActivity {
             case CHANGE_TEAM_NAME: // action này chưa hiểu lắm
             case BEFORE_TRANSFER_DEADLINE_2H:
                 AloneFragmentActivity.with(this)
-                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, -1, action))
+                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, action))
                         .start(LeagueDetailFragment.class);
                 break;
 
@@ -210,7 +210,7 @@ public class MainActivity extends BaseActivity {
             case USER_REJECT_INVITE:
             case CHANGE_OWNER_LEAGUE:
                 AloneFragmentActivity.with(this)
-                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, LeagueDetailFragment.TEAM_FRAGMENT_INDEX, action))
+                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, action))
                         .start(LeagueDetailFragment.class);
                 break;
 
@@ -218,7 +218,7 @@ public class MainActivity extends BaseActivity {
             case LEAGUE_FINISH:
             case LEAGUE_FINISH_FOR_CHAMPION:
                 AloneFragmentActivity.with(this)
-                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, LeagueDetailFragment.RANKING, action))
+                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, action))
                         .start(LeagueDetailFragment.class);
                 break;
 
@@ -234,23 +234,23 @@ public class MainActivity extends BaseActivity {
             case TEAM_SETUP_TIME:
             case BEFORE_TEAM_SETUP_TIME_2H:
             case RANDOM_TEAM:
+            case COMPLETE_SETUP_TEAM:   // Setup team - tab team list
                 AloneFragmentActivity.with(this)
-                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, LeagueDetailFragment.SETUP_TEAM, action))
+                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, action))
                         .start(LeagueDetailFragment.class);
                 break;
 
             // Setup team - tab team list
             case FULL_TEAM:
-            case COMPLETE_SETUP_TEAM:
                 AloneFragmentActivity.with(this)
-                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, LeagueDetailFragment.TEAM_FRAGMENT_INDEX, action))
+                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, action))
                         .start(LeagueDetailFragment.class);
                 break;
 
             // Edit league
             case BEFORE_TEAM_SETUP_TIME_1H:
                 AloneFragmentActivity.with(this)
-                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, LeagueDetailFragment.EDIT_LEAGUE, action))
+                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.my_leagues), leagueId, action))
                         .start(LeagueDetailFragment.class);
                 break;
 
@@ -311,7 +311,7 @@ public class MainActivity extends BaseActivity {
             case TWO_HOURS_TO_REVIEW:
             case TRADE_PROPOSAL_APPROVED:
                 AloneFragmentActivity.with(this)
-                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, LeagueDetailFragment.TRADE_REVIEW, action))
+                        .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, action))
                         .start(LeagueDetailFragment.class);
                 break;
 

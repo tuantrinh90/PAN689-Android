@@ -89,7 +89,7 @@ public class TradeReviewingAdapter extends DefaultAdapter<TradeResponse> {
             holder.tvDeadline.setVisibility(View.VISIBLE);
             holder.tvDescription.setVisibility(View.VISIBLE);
 
-            holder.tvDescription.setText(AppUtilities.getTimeFormatted(data.getDeadline()));
+            holder.tvDescription.setText(AppUtilities.getTimeFormatted(data.getReviewDeadline()));
             holder.tvDescription.setTextColor(ContextCompat.getColor(mContext, R.color.color_white));
             holder.bottom.setBackgroundResource(R.drawable.bg_blue_gradient_radius_bottom);
         }

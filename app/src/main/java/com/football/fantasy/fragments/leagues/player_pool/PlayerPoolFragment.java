@@ -113,7 +113,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     private String filterPositions = "";
     private int[] sorts = new int[]{Constant.SORT_NONE, Constant.SORT_NONE, Constant.SORT_NONE}; // -1: NONE, 0: desc, 1: asc
     private List<ExtKeyValuePair> displayPairs = new ArrayList<>();
-    private ExtKeyValuePair currentSeason;
+    private ExtKeyValuePair selectedSeason;
     private List<SeasonResponse> seasons;
     private String query = "";
 
@@ -374,12 +374,12 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     }
 
     private void getPlayers() {
-        if (currentSeason == null) {
+        if (selectedSeason == null) {
             showMessage(getString(R.string.message_season_not_found));
             rvPlayer.startLoading();
         } else {
             presenter.getPlayers(
-                    currentSeason.getKey(),
+                    selectedSeason.getKey(),
                     leagueId,
                     seasonIdToTransfer,
                     playerTransfer,
@@ -420,7 +420,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     @Override
     public void displaySeasons(List<SeasonResponse> seasons) {
         this.seasons = seasons;
-        currentSeason = new ExtKeyValuePair(String.valueOf(seasons.get(0).getId()), seasons.get(0).getName());
+        selectedSeason = new ExtKeyValuePair(String.valueOf(seasons.get(0).getId()), seasons.get(0).getName());
         updateValue();
 
         rvPlayer.startLoading();
@@ -538,20 +538,26 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
             ExtKeyValuePairDialogFragment.newInstance()
                     .title(getString(R.string.select_season))
                     .setExtKeyValuePairs(valuePairs)
-                    .setValue(currentSeason == null ? valuePairs.get(0).getKey() : currentSeason.getKey())
+                    .setValue(selectedSeason == null ? valuePairs.get(0).getKey() : selectedSeason.getKey())
                     .setOnSelectedConsumer(extKeyValuePair -> {
                         if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
-                            currentSeason = extKeyValuePair;
+                            selectedSeason = extKeyValuePair;
                             updateValue();
+
+                            // update add button: nếu là current season thì mới cho hiện addButton
+                            boolean currentSeason = selectedSeason.getKey().equals(String.valueOf(seasons.get(0).getId()));
+                            ((PlayerPoolAdapter) rvPlayer.getAdapter()).setVisibleAddButton(currentSeason);
+
+                            // refresh thì ko cần notifyDataSetChanged
                             refresh();
-                            getPlayers();
+
                         }
                     }).show(getFragmentManager(), null);
         }
     }
 
     private void updateValue() {
-        tvSeason.setText(currentSeason.getValue());
+        tvSeason.setText(selectedSeason.getValue());
     }
 
 }

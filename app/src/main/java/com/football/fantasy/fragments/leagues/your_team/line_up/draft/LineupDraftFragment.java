@@ -26,6 +26,7 @@ import com.football.models.responses.TurnResponse;
 import com.football.utilities.Constant;
 import com.football.utilities.SocketEventKey;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
@@ -53,6 +54,8 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     ExtTextViewCountdown tvDraftYourTurnTimeLeft;
     @BindView(R.id.tvDraftYourTurnTimeUnit)
     ExtTextView tvDraftYourTurnTimeUnit;
+    @BindView(R.id.text_your_turn)
+    ExtTextView textYourTurn;
     @BindView(R.id.progress_draft)
     ExtProgress progressDraft;
     @BindView(R.id.tvDraftCurrentTimeLeft)
@@ -70,7 +73,8 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
 
     private PlayerView playerViewSelected;
     private boolean pickEnable = false;
-    private JSONObject currentTurn;
+    private TurnReceiveResponse currentTurn;
+    private int currentNumberTimeLeft; // số giây countdown trả về từ onEventTurnReceive, lưu lại để xử lý endTurn
     private int pickRound;
     private int pickOrder;
 
@@ -93,6 +97,8 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         userId = AppPreferences.getInstance(getAppContext()).getInt(Constant.KEY_USER_ID);
         tvDraftYourTurnTimeLeft.setFormatType(ExtTextViewCountdown.FORMAT_TEXT_HOURS);
         tvDraftCurrentTimeLeft.setFormatType(ExtTextViewCountdown.FORMAT_NUMBER_HOURS);
+
+        draftHeader.setVisibility(View.GONE);
     }
 
     @Override
@@ -128,7 +134,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             if (args != null && args.length > 0 && args[0] != null) {
                 TurnReceiveResponse response = JacksonUtils.convertJsonToObject(args[0].toString(), TurnReceiveResponse.class);
                 if (response != null && mActivity != null && response.getLeagueId().equals(league.getId())) {
-                    currentTurn = (JSONObject) args[0];
+                    currentTurn = response;
                     mActivity.runOnUiThread(() -> onEventTurnReceive(response));
                 }
             }
@@ -167,6 +173,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
 
         pickRound = response.getPickRound();
         tvDraftCurrentTimeLeft.setTime(response.getNumber());
+        currentNumberTimeLeft = response.getNumber();
         for (TurnResponse turn : response.getLeagues()) {
             if (turn.getUserId() == userId) {
                 displayTimerYourTurn(turn.getDueNextTimeMax(), turn.getDueNextTime());
@@ -209,6 +216,8 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     }
 
     private void setYourTurn(boolean yourTurn) {
+        textYourTurn.setText(getString(yourTurn ? R.string.your_turn : R.string.your_turn_in));
+
         // send event to show button Add to playerListDraftFragment
         bus.send(new GeneralEvent<>(GeneralEvent.SOURCE.LINEUP_DRAFT, yourTurn));
 
@@ -261,8 +270,20 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
 
     private void handleEndTurn(View view) {
         showLoading(true);
-        presenter.endTurnNew(currentTurn);
         view.setEnabled(false);
+
+        // cập nhật lại time các turn khác
+        for (TurnResponse turn : currentTurn.getLeagues()) {
+            if (turn.getUserId() != userId) {
+                turn.setDueNextTime(turn.getDueNextTime() - currentNumberTimeLeft);
+            }
+        }
+        try {
+            JSONObject turn = new JSONObject(JacksonUtils.writeValueToString(currentTurn));
+            presenter.endTurnNew(turn);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

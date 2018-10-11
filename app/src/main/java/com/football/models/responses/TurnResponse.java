@@ -146,6 +146,10 @@ public class TurnResponse implements Serializable {
         return dueNextTime;
     }
 
+    public void setDueNextTime(int dueNextTime) {
+        this.dueNextTime = dueNextTime;
+    }
+
     public int getDueNextTimeMax() {
         return dueNextTimeMax;
     }

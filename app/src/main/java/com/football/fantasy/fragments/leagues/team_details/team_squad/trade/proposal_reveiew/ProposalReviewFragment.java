@@ -156,7 +156,6 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
         headerTimeLeft.setVisibility(View.GONE);
 
         if (type == REQUEST_BY_YOU) {
-            headerRejectApproved.setVisibility(View.VISIBLE);
             if (!isApproved()) {
                 byYouButton.setVisibility(View.VISIBLE);
             }
@@ -172,16 +171,21 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
             displayViewTimeLeft();
 
         } else if (type == TYPE_REVIEWING) {
-            if (isAccept()) {
-                headerRejectApproved.setVisibility(View.VISIBLE);
+            // accept
+            if (trade.getStatus() == TradeResponse.STATUS_ACCEPT) {
                 displayViewRejectApproved();
-            } else {
+            }
+            // reject
+            else if (trade.getStatus() == TradeResponse.STATUS_REJECT) {
+                displayViewRejectApproved();
+            }
+            // pending
+            else {
+                displayViewRejectApproved();
                 acceptRejectButtons.setVisibility(View.VISIBLE);
-                displayViewTimeLeft();
             }
 
         } else if (type == TYPE_RESULT) {
-            headerRejectApproved.setVisibility(View.VISIBLE);
             displayViewRejectApproved();
         }
 
@@ -202,7 +206,7 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
      * Dành cho màn hình TradeReview
      */
     private boolean isAccept() {
-        return trade.getStatus() == TradeResponse.STATUS_SUCCESSFUL;
+        return trade.getStatus() == TradeResponse.STATUS_ACCEPT;
     }
 
     private void displayPlayerViews() {
@@ -228,6 +232,7 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
     }
 
     private void displayViewRejectApproved() {
+        headerRejectApproved.setVisibility(View.VISIBLE);
         tvDeadline.setText(AppUtilities.getTimeFormatted(TextUtils.isEmpty(trade.getReviewDeadline()) ?
                 trade.getDeadline() :
                 trade.getReviewDeadline()));

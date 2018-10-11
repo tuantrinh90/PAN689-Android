@@ -1,5 +1,6 @@
 package com.football.fantasy.fragments.leagues.team_details;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -77,6 +78,12 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
     private LeagueResponse league;
 
     private TeamResponse team;
+
+    public static void start(Context context, String title, int teamId, LeagueResponse league) {
+        AloneFragmentActivity.with(context)
+                .parameters(newBundle(title, teamId, league))
+                .start(TeamDetailFragment.class);
+    }
 
     public static Bundle newBundle(String title, int teamId, LeagueResponse league) {
         Bundle bundle = new Bundle();

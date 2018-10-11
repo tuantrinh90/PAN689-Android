@@ -138,7 +138,6 @@
                         android:src="@drawable/bg_player_list" />
 
                     <com.bon.customview.textview.ExtTextView
-                        android:id="@+id/tvPlayerList"
                         style="@style/StyleMenuWhite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

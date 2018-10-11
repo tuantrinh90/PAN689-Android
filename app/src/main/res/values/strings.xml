@@ -61,7 +61,7 @@
     <string name="open_league">Open league</string>
     <string name="private_league">Private league</string>
     <string name="game_play_options">Gameplay option</string>
-    <string name="transfer">Budget</string>
+    <string name="transfer">Transfer</string>
     <string name="draft">Draft</string>
     <string name="waving">Waiving</string>
     <string name="number_of_users">Number of users</string>
@@ -121,7 +121,7 @@
     <string name="choose_a_successor_description">You need to select your successor before you leave this league.</string>
     <string name="stop_league_message">This league will be removed from the list of Open Leagues if you decide to stop it. Are you sure to do that?</string>
     <string name="email_input">Enter email address</string>
-    <string name="no_data">Data Not Found!</string>
+    <string name="no_data">There is no data for this view.</string>
     <string name="leagues">Leagues</string>
     <string name="seconds">seconds</string>
     <string name="minutes">minutes</string>
@@ -303,6 +303,7 @@
     <string name="current">Current</string>
     <string name="next">Next</string>
     <string name="your_turn">Your turn:</string>
+    <string name="your_turn_in">Your turn in:</string>
     <string name="your_turn_cap">YOUR TURN</string>
     <string name="end_turn">End turn</string>
     <string name="play_match">Matches</string>

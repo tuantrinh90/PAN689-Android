@@ -32,6 +32,7 @@ import butterknife.OnClick;
 
 import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
 import static com.football.services.NotificationKey.NEW_TRADE_PROPOSAL;
+import static com.football.services.NotificationKey.PLAYER_INJURED;
 import static com.football.services.NotificationKey.TRADE_PROPOSAL_CANCELLED;
 import static com.football.services.NotificationKey.TRADE_PROPOSAL_INVALID;
 import static com.football.services.NotificationKey.TRADE_PROPOSAL_REJECTED;
@@ -253,6 +254,10 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
     public void handleAction() {
         if (TextUtils.isEmpty(action)) return;
         switch (action) {
+            case PLAYER_INJURED:
+                // do nothing
+                break;
+
             case TRADE_PROPOSAL_CANCELLED:
             case TRADE_PROPOSAL_INVALID:
                 TradeRequestFragment.start(this, getString(R.string.team_squad), myTeamId, teamId, teamName, teamSquad, TradeRequestFragment.REQUEST_TO_YOU_INDEX);

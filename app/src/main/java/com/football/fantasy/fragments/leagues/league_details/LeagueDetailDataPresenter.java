@@ -67,26 +67,28 @@ public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailVi
 
                                 Calendar currentTime = Calendar.getInstance();
 
-                                if (currentTime.after(setupTime) && currentTime.before(draftTime)) {
+                                if (AppUtilities.isSetupTime(response) && currentTime.after(setupTime) && currentTime.before(draftTime)) {
                                     v.goLineup();
                                     goLineup = true;
                                 }
                             }
                             v.handleActionNotification(goLineup);
 
-                            // show message and điều hướng đến playerPool để pick 1 cầu thủ
-                            if (response.getDeletedPlayers() != null && response.getDeletedPlayers().size() > 0) {
-                                long transferValue = 0;
-                                ArrayList<Integer> ids = new ArrayList<>();
-                                for (PlayerResponse player : response.getDeletedPlayers()) {
-                                    transferValue += player.getTransferValue();
-                                    ids.add(player.getId());
+                            if (response.getOwner() && !response.getStatus().equals(LeagueResponse.FINISHED)) {
+                                // show message and điều hướng đến playerPool để pick 1 cầu thủ
+                                if (response.getDeletedPlayers() != null && response.getDeletedPlayers().size() > 0) {
+                                    long transferValue = 0;
+                                    ArrayList<Integer> ids = new ArrayList<>();
+                                    for (PlayerResponse player : response.getDeletedPlayers()) {
+                                        transferValue += player.getTransferValue();
+                                        ids.add(player.getId());
+                                    }
+                                    v.handleLessThan18Players(ids, transferValue);
                                 }
-                                v.handleLessThan18Players(ids, transferValue);
-                            }
-                            // show message and điều hướng đến Transferring để delete cầu thủ
-                            else if (response.getTeam().getTotalTransferRoundPlayers() > Constant.MAX_PLAYERS) {
-                                v.handleMoreThan18Players(response.getTeam().getTotalTransferRoundPlayers() - Constant.MAX_PLAYERS);
+                                // show message and điều hướng đến Transferring để delete cầu thủ
+                                else if (response.getTeam().getTotalTransferRoundPlayers() > Constant.MAX_PLAYERS) {
+                                    v.handleMoreThan18Players(response.getTeam().getTotalTransferRoundPlayers() - Constant.MAX_PLAYERS);
+                                }
                             }
                         }
 

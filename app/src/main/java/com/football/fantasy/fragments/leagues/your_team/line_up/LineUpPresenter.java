@@ -32,6 +32,12 @@ public abstract class LineUpPresenter<V extends ILineUpView> extends BaseDataPre
                     v,
                     dataModule.getApiService().getLineup(teamId),
                     new ApiCallback<LineupResponse>() {
+
+                        @Override
+                        public void onComplete() {
+                            v.showLoading(false);
+                        }
+
                         @Override
                         public void onSuccess(LineupResponse response) {
                             setLineup(response);

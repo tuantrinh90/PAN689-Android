@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageLoaderUtils;
 import com.bon.interfaces.Optional;
-import com.football.customizes.images.CircleImageViewApp;
 import com.football.customizes.recyclerview.DefaultAdapter;
 import com.football.customizes.recyclerview.DefaultHolder;
 import com.football.fantasy.R;
@@ -27,15 +26,15 @@ public class InviteFriendAdapter extends DefaultAdapter<FriendResponse> {
     private Consumer<FriendResponse> detailCallback;
     private Consumer<FriendResponse> inviteCallback;
 
-    private boolean startTime;
+    private boolean started;
 
     public InviteFriendAdapter(Context context, Consumer<FriendResponse> detailCallback,
                                Consumer<FriendResponse> inviteCallback,
-                               boolean startTime) {
+                               boolean started) {
         super(context);
         this.detailCallback = detailCallback;
         this.inviteCallback = inviteCallback;
-        this.startTime = startTime;
+        this.started = started;
     }
 
     @Override
@@ -57,22 +56,28 @@ public class InviteFriendAdapter extends DefaultAdapter<FriendResponse> {
         holder.tvName.setText(friend.getName());
         holder.tvStatus.setEnabled(!friend.getInvited());
 
-        if (startTime) {
+        if (started) {
             holder.tvStatus.setText(R.string.invite);
             holder.tvStatus.setEnabled(false);
             holder.tvStatus.setBackgroundResource(R.drawable.bg_gray_border_gray_radius);
             holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.color_label));
+
+            holder.tvStatus.setVisibility(View.GONE);
 
         } else if (friend.getInvited()) {
             holder.tvStatus.setBackground(null);
             holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.color_content));
             holder.tvStatus.setEnabled(false);
             holder.tvStatus.setText(R.string.invited);
+
+            holder.tvStatus.setVisibility(View.VISIBLE);
         } else {
             holder.tvStatus.setBackgroundResource(R.drawable.bg_blue_radius_selector);
             holder.tvStatus.setEnabled(true);
             holder.tvStatus.setText(R.string.invite);
             holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.color_white));
+
+            holder.tvStatus.setVisibility(View.VISIBLE);
         }
 
         // click

@@ -9,6 +9,8 @@ import com.football.models.responses.DraftCountdownResponse;
 import com.football.models.responses.LineupResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.PropsPlayerResponse;
+import com.football.models.responses.TurnReceiveResponse;
+import com.football.models.responses.TurnResponse;
 import com.football.utilities.RxUtilities;
 import com.football.utilities.SocketEventKey;
 

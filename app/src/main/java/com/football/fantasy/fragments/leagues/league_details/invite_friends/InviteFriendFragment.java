@@ -33,12 +33,11 @@ public class InviteFriendFragment extends BaseMvpFragment<IInviteFriendView, IIn
     private static final String KEY_LEAGUE_TYPE = "league_type";
     private static final String KEY_STARTED = "KEY_STARTED";
 
-    public static InviteFriendFragment newInstance(LeagueResponse league, String leagueType, boolean started) {
+    public static InviteFriendFragment newInstance(LeagueResponse league, String leagueType) {
         InviteFriendFragment fragment = new InviteFriendFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_LEAGUE, league);
         bundle.putString(KEY_LEAGUE_TYPE, leagueType);
-        bundle.putBoolean(KEY_STARTED, started);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -49,8 +48,6 @@ public class InviteFriendFragment extends BaseMvpFragment<IInviteFriendView, IIn
     SearchView svSearch;
     @BindView(R.id.llInvite)
     LinearLayout llInvite;
-
-    private boolean started;
 
     String leagueType;
     private LeagueResponse league;
@@ -79,15 +76,20 @@ public class InviteFriendFragment extends BaseMvpFragment<IInviteFriendView, IIn
         Bundle bundle = getArguments();
         league = (LeagueResponse) bundle.getSerializable(KEY_LEAGUE);
         leagueType = bundle.getString(KEY_LEAGUE_TYPE);
-        started = bundle.getBoolean(KEY_STARTED);
     }
 
     void initView() {
+        // gone button Invite
+        boolean isSetupTime = AppUtilities.isSetupTime(league);
+        if (!isSetupTime) {
+            llInvite.setVisibility(View.GONE);
+        }
+
         try {
             svSearch.getFilter().setVisibility(View.GONE);
             svSearch.setSearchConsumer(query -> {
                 rvFriend.setVisibility(StringUtils.isEmpty(query) ? View.GONE : View.VISIBLE);
-                llInvite.setVisibility(StringUtils.isEmpty(query) ? View.VISIBLE : View.GONE);
+                llInvite.setVisibility(StringUtils.isEmpty(query) && isSetupTime ? View.VISIBLE : View.GONE);
                 rvFriend.clear();
                 rvFriend.startLoading();
                 page = 1;
@@ -100,13 +102,13 @@ public class InviteFriendFragment extends BaseMvpFragment<IInviteFriendView, IIn
 
                     },
                     friend -> { // invite event
-                        if (AppUtilities.isSetupTime(league) && league.getCurrentNumberOfUser().equals(league.getNumberOfUser())) {
+                        if (league.getCurrentNumberOfUser().equals(league.getNumberOfUser())) {
                             showMessage(getString(R.string.message_unable_to_invite_friend));
                         } else {
                             presenter.inviteFriend(league.getId(), friend.getId());
                         }
                     },
-                    started);
+                    !AppUtilities.isSetupTime(league));
 
             rvFriend
                     .adapter(inviteFriendAdapter)
