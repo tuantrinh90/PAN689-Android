@@ -149,7 +149,7 @@ public class TeamSquadFragment extends BaseMvpFragment<ITeamSquadView, ITeamSqua
 
     void initViews(String gamePlayOption) {
         // setVisible Trade button
-        llTrade.setVisibility(gamePlayOption.equals(GAMEPLAY_OPTION_TRANSFER) || leagueStatus == LeagueResponse.FINISHED ? View.INVISIBLE : View.VISIBLE);
+        llTrade.setVisibility(!canTrade || gamePlayOption.equals(GAMEPLAY_OPTION_TRANSFER) || leagueStatus == LeagueResponse.FINISHED ? View.INVISIBLE : View.VISIBLE);
 
         teamSquadAdapter = new TeamSquadAdapter(
                 getContext(),
