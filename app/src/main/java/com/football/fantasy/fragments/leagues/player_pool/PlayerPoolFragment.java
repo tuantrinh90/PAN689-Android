@@ -98,15 +98,16 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     @BindView(R.id.option3)
     LinearLayout option3;
 
-    private int action;
     private String title;
+    private int teamId;
+    private int leagueId;
+    private String gameplay;
+
+    private int action;
     private String headerTitle;
     private ArrayList<Integer> playerIds;
-    private int teamId;
     private PlayerResponse playerTransfer;
-    private int leagueId;
     private int seasonIdToTransfer;
-    private String gameplay;
 
     private int page = Constant.PAGE_START_INDEX;
     private String filterClubs = "";
@@ -139,7 +140,8 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
                 .start(PlayerPoolFragment.class);
     }
 
-    public static void startForNotificationTransfer(Context context, String title, int leagueId, int teamId, String gameplay) {
+    public static void startForNotificationTransfer(Context context, String title, int leagueId,
+                                                    int teamId, String gameplay) {
         Bundle bundle = PlayerPoolFragment.newBundle(ACTION_NOTIFICATION_TRANSFER,
                 title, context.getString(R.string.player_pool),
                 null, teamId, null, leagueId,
@@ -149,7 +151,10 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
                 .start(PlayerPoolFragment.class);
     }
 
-    private static Bundle newBundle(int action, String title, String headerTitle, ArrayList<Integer> playerTransfers, int teamId, PlayerResponse transfer, int leagueId, int seasonId, String gameplay) {
+    private static Bundle newBundle(int action, String title, String headerTitle,
+                                    ArrayList<Integer> playerTransfers, int teamId,
+                                    PlayerResponse transfer, int leagueId, int seasonId,
+                                    String gameplay) {
         Bundle bundle = new Bundle();
         bundle.putInt(KEY_ACTION, action);
         bundle.putString(KEY_TITLE, title);
