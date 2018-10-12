@@ -74,7 +74,8 @@ public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailVi
                             }
                             v.handleActionNotification(goLineup);
 
-                            if (response.getOwner() && !response.getStatus().equals(LeagueResponse.FINISHED)) {
+                            // đến FINISH rồi thì ko xử lý
+                            if (!response.getStatus().equals(LeagueResponse.FINISHED)) {
                                 // show message and điều hướng đến playerPool để pick 1 cầu thủ
                                 if (response.getDeletedPlayers() != null && response.getDeletedPlayers().size() > 0) {
                                     long transferValue = 0;
@@ -86,7 +87,7 @@ public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailVi
                                     v.handleLessThan18Players(ids, transferValue);
                                 }
                                 // show message and điều hướng đến Transferring để delete cầu thủ
-                                else if (response.getTeam().getTotalTransferRoundPlayers() > Constant.MAX_PLAYERS) {
+                                else if (response.getTeam() != null && response.getTeam().getTotalTransferRoundPlayers() > Constant.MAX_PLAYERS) {
                                     v.handleMoreThan18Players(response.getTeam().getTotalTransferRoundPlayers() - Constant.MAX_PLAYERS);
                                 }
                             }

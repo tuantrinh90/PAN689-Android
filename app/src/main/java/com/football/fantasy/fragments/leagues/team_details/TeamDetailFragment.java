@@ -228,7 +228,7 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
                                     team.getId(),
                                     team.getName(),
                                     league.getStatus(),
-                                    !TextUtils.isEmpty(team.getTransferRound().getTransferDeadline())))
+                                    team.getTransferRound() != null && !TextUtils.isEmpty(team.getTransferRound().getTransferDeadline())))
                             .start(TeamSquadFragment.class);
                 } else {
                     showMessage(getString(R.string.message_team_lineup_is_not_completed_yet));
