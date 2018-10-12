@@ -111,28 +111,34 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
     @OnClick(R.id.ivInfoTransferDeadline)
     void onInfoClicked() {
         boolean isTransfer = league.equalsGameplay(GAMEPLAY_OPTION_TRANSFER);
-        showMessage(getString(isTransfer ? R.string.message_info_transfer_deadline : R.string.message_info_waving_deadline));
+        showMessage(getString(isTransfer ?
+                R.string.message_info_transfer_deadline :
+                R.string.message_info_waving_deadline));
     }
 
     @OnClick(R.id.tvSetupTeam)
     void onClickSetupTeam() {
-        if (league.getTeam() == null) {
-            AloneFragmentActivity.with(this)
-                    .parameters(SetupTeamFragment.newBundle(
-                            null,
-                            league.getId(),
-                            getString(R.string.league_information)))
-                    .start(SetupTeamFragment.class);
+        if (league.equalsStatus(FINISHED)) {
+            showMessage(getString(R.string.message_team_lineup_all_round_come_to_end));
         } else {
-            if (league.equalsStatus(WAITING_FOR_START)) {
+            if (league.getTeam() == null) {
                 AloneFragmentActivity.with(this)
-                        .parameters(YourTeamFragment.newBundle(league))
-                        .start(YourTeamFragment.class);
+                        .parameters(SetupTeamFragment.newBundle(
+                                null,
+                                league.getId(),
+                                getString(R.string.league_information)))
+                        .start(SetupTeamFragment.class);
             } else {
-                league.getTeam().setUserId(league.getUserId());
-                AloneFragmentActivity.with(this)
-                        .parameters(TeamDetailFragment.newBundle(getString(R.string.league_information), league.getTeam().getId(), league))
-                        .start(TeamDetailFragment.class);
+                if (league.equalsStatus(WAITING_FOR_START)) {
+                    AloneFragmentActivity.with(this)
+                            .parameters(YourTeamFragment.newBundle(league))
+                            .start(YourTeamFragment.class);
+                } else {
+                    league.getTeam().setUserId(league.getUserId());
+                    AloneFragmentActivity.with(this)
+                            .parameters(TeamDetailFragment.newBundle(getString(R.string.league_information), league.getTeam().getId(), league))
+                            .start(TeamDetailFragment.class);
+                }
             }
         }
     }
