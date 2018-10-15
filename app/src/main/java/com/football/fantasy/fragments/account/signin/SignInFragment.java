@@ -28,8 +28,6 @@ import com.football.utilities.ServiceConfig;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static android.app.Activity.RESULT_OK;
-
 /**
  * Created by dangpp on 3/1/2018.
  */
@@ -45,12 +43,15 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
     EditTextApp etEmail;
     @BindView(R.id.etPassword)
     EditTextApp etPassword;
+    @BindView(R.id.etCode)
+    EditTextApp etCode;
 
-    FacebookHelper mFacebook;
-    GoogleHelper mGoogle;
-    TwitterHelper mTwitter;
+    private FacebookHelper mFacebook;
+    private GoogleHelper mGoogle;
+    private TwitterHelper mTwitter;
 
-    String currentProvider;
+    private String currentProvider;
+    private boolean enableSocial = false;
 
     @NonNull
     @Override
@@ -76,8 +77,7 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
             etEmail.setContent("toan1@yopmail.com");
             etPassword.setContent("123456");
 
-//            etEmail.setContent("toannx2@yopmail.com");
-//            etPassword.setContent("123123");
+            etCode.setContent("PANNA123");
         }
     }
 
@@ -92,6 +92,7 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
         boolean result = true;
         if (!etEmail.isValidEmail(mActivity)) result = false;
         if (etPassword.isEmpty(mActivity)) result = false;
+        if (etCode.isEmpty(mActivity)) result = false;
         return result;
     }
 
@@ -103,7 +104,7 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
 
     @Override
     public LoginRequest getLoginRequest() {
-        return new LoginRequest(etEmail.getContent(), etPassword.getContent(), " ");
+        return new LoginRequest(etEmail.getContent(), etPassword.getContent(), " ", etCode.getContent());
     }
 
     /**
@@ -130,18 +131,24 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
 
     @OnClick(R.id.ivFacebook)
     void onClickFacebook() {
+        if (!enableSocial) return;
+
         currentProvider = "";
         mFacebook.performSignIn(this);
     }
 
     @OnClick(R.id.ivGoogle)
     void onClickGoogle() {
+        if (!enableSocial) return;
+
         currentProvider = "";
         mGoogle.performSignIn(this);
     }
 
     @OnClick(R.id.ivTwitter)
     void onClickTwitter() {
+        if (!enableSocial) return;
+
         currentProvider = ServiceConfig.PROVIDER_TWITTER;
         mTwitter.performSignIn();
     }

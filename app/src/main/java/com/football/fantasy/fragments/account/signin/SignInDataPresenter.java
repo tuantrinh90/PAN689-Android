@@ -41,6 +41,7 @@ public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresente
                                 .addFormDataPart("email", loginRequest.getEmail())
                                 .addFormDataPart("password", loginRequest.getPassword())
                                 .addFormDataPart("device_token", loginRequest.getDeviceToken())
+                                .addFormDataPart("code", loginRequest.getCode())
                                 .build()),
                         new ApiCallback<UserResponse>() {
                             @Override
