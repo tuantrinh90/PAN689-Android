@@ -57,6 +57,10 @@ public class PlayerListDraftFragment extends PlayerListFragment<IPlayerListDraft
                             case LINEUP_DRAFT:
                                 visibleAddButtonInPlayerList(((Boolean) event.getData()));
                                 break;
+
+                            case LINEUP_REMOVE_PLAYER:
+                                mActivity.runOnUiThread(() -> refresh());
+                                break;
                         }
                     }
 

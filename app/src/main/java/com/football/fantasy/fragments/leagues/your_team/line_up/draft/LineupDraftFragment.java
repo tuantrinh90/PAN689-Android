@@ -135,7 +135,8 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                 TurnReceiveResponse response = JacksonUtils.convertJsonToObject(args[0].toString(), TurnReceiveResponse.class);
                 if (response != null && mActivity != null && response.getLeagueId().equals(league.getId())) {
                     currentTurn = response;
-                    mActivity.runOnUiThread(() -> onEventTurnReceive(response));
+                    if (mActivity != null)
+                        mActivity.runOnUiThread(() -> onEventTurnReceive(response));
                 }
             }
         });
@@ -174,6 +175,8 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         pickRound = response.getPickRound();
         tvDraftCurrentTimeLeft.setTime(response.getNumber());
         currentNumberTimeLeft = response.getNumber();
+
+        StringBuilder teamName = new StringBuilder();
         for (TurnResponse turn : response.getLeagues()) {
             if (turn.getUserId() == userId) {
                 displayTimerYourTurn(turn.getDueNextTimeMax(), turn.getDueNextTime());
@@ -192,14 +195,19 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                     setYourTurn(false);
                 }
 
+                teamName.append("Current Team: ").append(turn.getName()).append(" - ");
             } else if (turn.isNext()) {
                 if (turn.getUserId() == userId) {
                     tvDraftNextTeam.setText(getString(R.string.your_turn_cap));
                 } else {
                     tvDraftNextTeam.setText(turn.getName());
                 }
+                teamName.append("Next Team: ").append(turn.getName());
+
             }
         }
+
+        Log.w(TAG, "Team: " + teamName.toString());
     }
 
     private void onEventEndTurn() {
@@ -358,6 +366,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                         playerViewSelected.setPlayer(null);
                         playerViewSelected = null;
                         presenter.removePlayer(player, teamId, pickRound, pickOrder);
+                        bus.send(new GeneralEvent<>(GeneralEvent.SOURCE.LINEUP_REMOVE_PLAYER));
                     }
                 },
                 null);

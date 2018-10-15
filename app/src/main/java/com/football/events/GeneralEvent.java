@@ -5,7 +5,8 @@ import com.bon.event_bus.IEvent;
 public class GeneralEvent<T> implements IEvent {
 
     public enum SOURCE {
-        LINEUP_DRAFT
+        LINEUP_DRAFT,
+        LINEUP_REMOVE_PLAYER
     }
 
     private SOURCE source;
