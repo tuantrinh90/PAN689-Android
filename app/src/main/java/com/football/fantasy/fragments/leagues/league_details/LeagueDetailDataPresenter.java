@@ -14,6 +14,9 @@ import com.football.utilities.RxUtilities;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import static com.football.models.responses.LeagueResponse.FINISHED;
+import static com.football.models.responses.LeagueResponse.WAITING_FOR_START;
+
 public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailView> implements ILeagueDetailPresenter<ILeagueDetailView> {
     /**
      * @param appComponent
@@ -67,7 +70,10 @@ public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailVi
 
                                 Calendar currentTime = Calendar.getInstance();
 
-                                if (AppUtilities.isSetupTime(response) && currentTime.after(setupTime) && currentTime.before(draftTime)) {
+                                // nếu đang trong thời gian setupTime và chưa chuyển trạng thái sang ON-GOING
+                                // dành cho trường hợp ấn EndTurn liên tục để kết thúc sớm trước startTime
+                                if (response.equalsStatus(WAITING_FOR_START) &&
+                                        currentTime.after(setupTime) && currentTime.before(draftTime)) {
                                     v.goLineup();
                                     goLineup = true;
                                 }
@@ -75,7 +81,7 @@ public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailVi
                             v.handleActionNotification(goLineup);
 
                             // đến FINISH rồi thì ko xử lý
-                            if (!response.getStatus().equals(LeagueResponse.FINISHED)) {
+                            if (!response.getStatus().equals(FINISHED)) {
                                 // show message and điều hướng đến playerPool để pick 1 cầu thủ
                                 if (response.getDeletedPlayers() != null && response.getDeletedPlayers().size() > 0) {
                                     long transferValue = 0;
