@@ -191,13 +191,9 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
         switch (view.getId()) {
             case R.id.llTeamLineUp:
                 if (team.getCompleted()) {
-                    if (team.getTransferRound() != null) {
-                        AloneFragmentActivity.with(this)
-                                .parameters(TeamLineupFragment.newBundle(getString(R.string.team_details), team))
-                                .start(TeamLineupFragment.class);
-                    } else {
-                        showMessage(getString(R.string.message_team_lineup_all_round_come_to_end));
-                    }
+                    AloneFragmentActivity.with(this)
+                            .parameters(TeamLineupFragment.newBundle(getString(R.string.team_details), team))
+                            .start(TeamLineupFragment.class);
                 } else {
                     showMessage(getString(R.string.message_team_lineup_is_not_completed_yet));
                 }

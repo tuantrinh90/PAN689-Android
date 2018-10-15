@@ -118,27 +118,23 @@ public class LeagueInfoFragment extends BaseMvpFragment<ILeagueInfoView, ILeague
 
     @OnClick(R.id.tvSetupTeam)
     void onClickSetupTeam() {
-        if (league.equalsStatus(FINISHED)) {
-            showMessage(getString(R.string.message_team_lineup_all_round_come_to_end));
+        if (league.getTeam() == null) {
+            AloneFragmentActivity.with(this)
+                    .parameters(SetupTeamFragment.newBundle(
+                            null,
+                            league.getId(),
+                            getString(R.string.league_information)))
+                    .start(SetupTeamFragment.class);
         } else {
-            if (league.getTeam() == null) {
+            if (league.equalsStatus(WAITING_FOR_START)) {
                 AloneFragmentActivity.with(this)
-                        .parameters(SetupTeamFragment.newBundle(
-                                null,
-                                league.getId(),
-                                getString(R.string.league_information)))
-                        .start(SetupTeamFragment.class);
+                        .parameters(YourTeamFragment.newBundle(league))
+                        .start(YourTeamFragment.class);
             } else {
-                if (league.equalsStatus(WAITING_FOR_START)) {
-                    AloneFragmentActivity.with(this)
-                            .parameters(YourTeamFragment.newBundle(league))
-                            .start(YourTeamFragment.class);
-                } else {
-                    league.getTeam().setUserId(league.getUserId());
-                    AloneFragmentActivity.with(this)
-                            .parameters(TeamDetailFragment.newBundle(getString(R.string.league_information), league.getTeam().getId(), league))
-                            .start(TeamDetailFragment.class);
-                }
+                league.getTeam().setUserId(league.getUserId());
+                AloneFragmentActivity.with(this)
+                        .parameters(TeamDetailFragment.newBundle(getString(R.string.league_information), league.getTeam().getId(), league))
+                        .start(TeamDetailFragment.class);
             }
         }
     }

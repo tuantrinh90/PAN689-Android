@@ -83,7 +83,10 @@ public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailVi
                             // đến FINISH rồi thì ko xử lý
                             if (!response.getStatus().equals(FINISHED)) {
                                 // show message and điều hướng đến playerPool để pick 1 cầu thủ
-                                if (response.getDeletedPlayers() != null && response.getDeletedPlayers().size() > 0) {
+                                if (response.getDeletedPlayers() != null
+                                        && response.getDeletedPlayers().size() > 0
+                                        && response.getTeam() != null
+                                        && response.getTeam().getTotalTransferRoundPlayers() < 18) {
                                     long transferValue = 0;
                                     ArrayList<Integer> ids = new ArrayList<>();
                                     for (PlayerResponse player : response.getDeletedPlayers()) {
