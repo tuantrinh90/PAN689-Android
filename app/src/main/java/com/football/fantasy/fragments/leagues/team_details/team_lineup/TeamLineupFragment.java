@@ -158,7 +158,7 @@ public class TeamLineupFragment extends BaseMvpFragment<ITeamLineupView, ITeamLi
                     // currentTime > deadline
                     Calendar currentTime = Calendar.getInstance();
                     Calendar deadline = player.getTransferDeadlineCalendar();
-                    if (currentTime.before(deadline)) {
+                    if (TextUtils.isEmpty(player.getTransferDeadline()) || currentTime.before(deadline)) {
                         presenter.addPlayerToPitchView(team.getId(), team.getRound(), fromPlayer, player, position, order);
                     } else {
                         showMessage(R.string.message_can_not_change_position_after_real_match_start, R.string.ok, null);

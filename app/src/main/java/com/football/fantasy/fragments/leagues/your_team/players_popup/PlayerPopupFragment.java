@@ -36,6 +36,7 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
 
     private static final String TAG = "PlayerPopupFragment";
 
+    private static final String KEY_SEASON_ID = "SEASON_ID";
     private static final String KEY_POSITION = "POSITION";
     private static final String KEY_ORDER = "ORDER";
     private static final String KEY_LEAGUE = "LEAGUE";
@@ -57,9 +58,6 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
     private String filterClubs = "";
     private PlayerAdapter adapter;
 
-    public static PlayerPopupFragment newInstance() {
-        return new PlayerPopupFragment();
-    }
 
     public static Bundle newBundle(int position, Integer order, LeagueResponse league) {
         Bundle args = new Bundle();
@@ -244,12 +242,7 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
                         page++;
                         getPlayers();
                     })
-                    .refreshListener(() -> {
-                        page = 1;
-                        rvPlayer.clear();
-                        rvPlayer.startLoading();
-                        getPlayers();
-                    })
+                    .refreshListener(this::refresh)
                     .build();
 
             // load data
@@ -261,14 +254,11 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
 
     void onPerformSearch(String q) {
         query = q;
-        rvPlayer.clear();
-        rvPlayer.startLoading();
-        page = 1;
-        getPlayers();
+        refresh();
     }
 
     private void getPlayers() {
-        presenter.getPlayers(league.getId(), valueDirection, page, query, mainPosition, filterClubs);
+        presenter.getPlayers(league.getSeasonId(), league.getId(), valueDirection, page, query, mainPosition, filterClubs);
     }
 
     @OnClick(R.id.sortValue)

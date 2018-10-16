@@ -31,9 +31,12 @@ public class PlayerPopupDataPresenter extends BaseDataPresenter<IPlayerPopupView
     }
 
     @Override
-    public void getPlayers(int leagueId, int valueDirection, int page, String query, Integer mainPosition, String clubs) {
+    public void getPlayers(int seasonId, int leagueId, int valueDirection, int page, String query, Integer mainPosition, String clubs) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
+            if (seasonId > 0) {
+                queries.put("season_id", String.valueOf(seasonId));
+            }
             queries.put(Constant.KEY_LEAGUE_ID, String.valueOf(leagueId));
             queries.put(Constant.KEY_MAIN_POSITION, String.valueOf(mainPosition));
             queries.put(Constant.KEY_PAGE, String.valueOf(page));

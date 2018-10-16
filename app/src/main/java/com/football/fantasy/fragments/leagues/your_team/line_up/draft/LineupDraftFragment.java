@@ -214,6 +214,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         if (mActivity != null) mActivity.runOnUiThread(() -> {
             draftHeader.setVisibility(View.GONE);
             pickEnable = false;
+            playerViewSelected = null;
             tvDraftCurrentTimeLeft.stop();
         });
     }
