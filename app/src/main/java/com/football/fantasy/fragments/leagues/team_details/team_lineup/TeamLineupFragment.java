@@ -139,11 +139,6 @@ public class TeamLineupFragment extends BaseMvpFragment<ITeamLineupView, ITeamLi
     }
 
     private void handlePlayerClicked(PlayerResponse fromPlayer, int position, int order) {
-        if (team.getTransferRound() == null) {
-            showMessage(getString(R.string.message_team_lineup_all_round_come_to_end));
-            return;
-        }
-
         List<PlayerResponse> players =
                 StreamSupport.stream(rvPlayer.getAdapter().getDataSet())
                         .filter(predicate -> {
