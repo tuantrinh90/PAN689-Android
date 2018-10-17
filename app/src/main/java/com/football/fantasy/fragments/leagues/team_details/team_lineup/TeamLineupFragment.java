@@ -18,6 +18,7 @@ import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment;
 import com.football.fantasy.fragments.leagues.team_details.team_lineup.dialog.SelectDialog;
+import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.utilities.AppUtilities;
@@ -32,11 +33,13 @@ import butterknife.OnClick;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 
+import static com.football.models.responses.LeagueResponse.FINISHED;
 import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
 
 public class TeamLineupFragment extends BaseMvpFragment<ITeamLineupView, ITeamLineupPresenter<ITeamLineupView>> implements ITeamLineupView {
 
     private static final String KEY_TITLE = "TITLE";
+    private static final String KEY_LEAGUE = "LEAGUE";
     private static final String KEY_TEAM = "TEAM";
 
     private static final int TEAM_PLAYER_SIZE = 11;
@@ -59,12 +62,14 @@ public class TeamLineupFragment extends BaseMvpFragment<ITeamLineupView, ITeamLi
     private List<ExtKeyValuePair> valuePairs;
     private String formationValue;
 
-    private TeamResponse team;
     private String title;
+    private LeagueResponse league;
+    private TeamResponse team;
 
-    public static Bundle newBundle(String title, TeamResponse team) {
+    public static Bundle newBundle(String title, LeagueResponse league, TeamResponse team) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_TITLE, title);
+        bundle.putSerializable(KEY_LEAGUE, league);
         bundle.putSerializable(KEY_TEAM, team);
         return bundle;
     }
@@ -102,6 +107,7 @@ public class TeamLineupFragment extends BaseMvpFragment<ITeamLineupView, ITeamLi
 
     private void getDataFromBundle() {
         title = getArguments().getString(KEY_TITLE);
+        league = (LeagueResponse) getArguments().getSerializable(KEY_LEAGUE);
         team = (TeamResponse) getArguments().getSerializable(KEY_TEAM);
     }
 
@@ -139,11 +145,16 @@ public class TeamLineupFragment extends BaseMvpFragment<ITeamLineupView, ITeamLi
     }
 
     private void handlePlayerClicked(PlayerResponse fromPlayer, int position, int order) {
+        if (league.equalsStatus(FINISHED)) {
+            showMessage(getString(R.string.message_team_lineup_all_round_come_to_end));
+            return;
+        }
+
         List<PlayerResponse> players =
                 StreamSupport.stream(rvPlayer.getAdapter().getDataSet())
-                        .filter(predicate -> {
-                            Integer mainPos = predicate.getMainPosition();
-                            Integer minorPos = predicate.getMinorPosition();
+                        .filter(player -> {
+                            Integer mainPos = player.getMainPosition();
+                            Integer minorPos = player.getMinorPosition();
                             return mainPos.equals(position) || minorPos.equals(position);
                         })
                         .collect(Collectors.toList());
