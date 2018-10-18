@@ -136,7 +136,13 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                 if (response != null && mActivity != null && response.getLeagueId().equals(league.getId())) {
                     currentTurn = response;
                     if (mActivity != null)
-                        mActivity.runOnUiThread(() -> onEventTurnReceive(response));
+                        mActivity.runOnUiThread(() -> {
+                            try {
+                                onEventTurnReceive(response);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
                 }
             }
         });
@@ -212,15 +218,26 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
 
     private void onEventEndTurn() {
         if (mActivity != null) mActivity.runOnUiThread(() -> {
-            draftHeader.setVisibility(View.GONE);
-            pickEnable = false;
-            playerViewSelected = null;
-            tvDraftCurrentTimeLeft.stop();
+            try {
+                draftHeader.setVisibility(View.GONE);
+                pickEnable = false;
+                playerViewSelected = null;
+                tvDraftCurrentTimeLeft.stop();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
     }
 
     private void onEventRefreshUI() {
-        if (mActivity != null) mActivity.runOnUiThread(() -> showLoading(false));
+        if (mActivity != null) mActivity.runOnUiThread(() -> {
+            try {
+                showLoading(false);
+                playerViewSelected = null;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
         presenter.getLineup(teamId);
     }
 
