@@ -72,7 +72,15 @@ public class PlayerPoolAdapter extends DefaultAdapter<PlayerResponse> {
             }
         });
 
-        holder.ivAdd.setVisibility(visibleAddButton && addConsumer != null ? View.VISIBLE : View.GONE);
+        if (visibleAddButton && addConsumer != null) {
+            holder.ivAdd.setVisibility(View.VISIBLE);
+            boolean checked = data.getSelected();
+            holder.ivAdd.setImageResource(checked ? R.drawable.ic_check_green_24_px_2 : R.drawable.ic_add_circle_white);
+            holder.ivAdd.setBackgroundResource(checked ? R.drawable.bg_circle_white_border : R.drawable.bg_circle_yellow);
+        } else {
+            holder.ivAdd.setVisibility(View.GONE);
+        }
+
         holder.ivAdd.setOnClickListener(v -> {
             if (addConsumer != null) {
                 addConsumer.accept(getItem(defaultHolder.getAdapterPosition()));

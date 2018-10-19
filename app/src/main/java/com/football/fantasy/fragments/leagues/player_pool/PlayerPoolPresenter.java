@@ -36,7 +36,9 @@ public class PlayerPoolPresenter extends BaseDataPresenter<IPlayerPoolView> impl
     }
 
     @Override
-    public void getPlayers(String seasonId, int leagueId, int seasonIdToTransfer, PlayerResponse playerTransfer, String positions, String clubs, List<ExtKeyValuePair> displayPairs, int[] sorts, int page, String query) {
+    public void getPlayers(String seasonId, int leagueId, int seasonIdToTransfer,
+                           PlayerResponse playerTransfer, String positions, String clubs,
+                           List<ExtKeyValuePair> displayPairs, int[] sorts, int page, String query) {
         getOptView().doIfPresent(v -> {
             Map<String, String> queries = new HashMap<>();
             queries.put(Constant.KEY_SEASON, seasonId);

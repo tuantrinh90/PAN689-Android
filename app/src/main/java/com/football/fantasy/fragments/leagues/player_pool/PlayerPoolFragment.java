@@ -119,10 +119,10 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     private String query = "";
 
     // dành riêng cho transfer player
-    public static void start(Fragment fragment, String title, String headerTitle, ArrayList<Integer> playerIds, int teamId, int leagueId, String gameplay) {
+    public static void start(Fragment fragment, String title, String headerTitle, ArrayList<Integer> playerIds, int seasonId, int teamId, int leagueId, String gameplay) {
         AloneFragmentActivity.with(fragment)
                 .parameters(PlayerPoolFragment.newBundle(ACTION_TRANSFERRING_MULTI_PLAYER,
-                        title, headerTitle, playerIds, teamId, null, leagueId, -1, gameplay))
+                        title, headerTitle, playerIds, teamId, null, leagueId, seasonId, gameplay))
                 .start(PlayerPoolFragment.class);
     }
 

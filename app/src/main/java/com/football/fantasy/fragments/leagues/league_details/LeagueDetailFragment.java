@@ -527,6 +527,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
                             getString(R.string.league_details),
                             getString(R.string.player_pool),
                             playerIds,
+                            league.getSeasonId(),
                             league.getTeam().getId(),
                             league.getId(),
                             league.getGameplayOption());
