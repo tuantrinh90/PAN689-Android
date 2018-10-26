@@ -182,6 +182,8 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         tvDraftCurrentTimeLeft.setTime(response.getNumber());
         currentNumberTimeLeft = response.getNumber();
 
+        String currentName = "null";
+
         StringBuilder teamName = new StringBuilder();
         for (TurnResponse turn : response.getLeagues()) {
             if (turn.getUserId() == userId) {
@@ -201,18 +203,24 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                     setYourTurn(false);
                 }
 
+                // log
+                currentName = turn.getName();
                 teamName.append("Current Team: ").append(turn.getName()).append(" - ");
+
             } else if (turn.isNext()) {
                 if (turn.getUserId() == userId) {
                     tvDraftNextTeam.setText(getString(R.string.your_turn_cap));
                 } else {
                     tvDraftNextTeam.setText(turn.getName());
                 }
+
+                // log
                 teamName.append("Next Team: ").append(turn.getName());
 
             }
         }
 
+        Log.e(TAG, "onEventTurnReceive #pickRound: " + pickRound + " - CurrentTeam: " + currentName);
         Log.w(TAG, "Team: " + teamName.toString());
     }
 

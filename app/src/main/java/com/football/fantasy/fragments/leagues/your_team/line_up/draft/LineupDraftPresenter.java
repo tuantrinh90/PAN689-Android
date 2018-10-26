@@ -13,6 +13,7 @@ import com.football.models.responses.TurnReceiveResponse;
 import com.football.models.responses.TurnResponse;
 import com.football.utilities.RxUtilities;
 import com.football.utilities.SocketEventKey;
+import com.github.nkzawa.socketio.client.Ack;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -112,7 +113,12 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        getOptView().get().getAppActivity().getAppContext().getSocket().emit(SocketEventKey.EVENT_END_TURN_NEW, turn);
+        getOptView().get().getAppActivity().getAppContext().getSocket().emit(SocketEventKey.EVENT_END_TURN_NEW, turn, new Ack() {
+            @Override
+            public void call(Object... args) {
+
+            }
+        });
     }
 
     @Override
