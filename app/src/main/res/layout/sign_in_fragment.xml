@@ -33,15 +33,6 @@
             android:inputType="textPassword"
             app:editTextAppHint="@string/password" />
 
-        <com.football.customizes.edittext_app.EditTextApp
-            android:id="@+id/etCode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/padding_layout"
-            android:layout_marginTop="@dimen/padding_layout"
-            android:imeOptions="actionDone"
-            app:editTextAppHint="@string/code" />
-
         <com.bon.customview.shadowlayout.ShadowLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

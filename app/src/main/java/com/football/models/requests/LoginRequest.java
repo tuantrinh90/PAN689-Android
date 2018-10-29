@@ -4,16 +4,14 @@ public class LoginRequest {
     private String email;
     private String password;
     private String deviceToken;
-    private String code;
 
     public LoginRequest() {
     }
 
-    public LoginRequest(String email, String password, String deviceToken, String code) {
+    public LoginRequest(String email, String password, String deviceToken) {
         this.email = email;
         this.password = password;
         this.deviceToken = deviceToken;
-        this.code = code;
     }
 
     public String getEmail() {
@@ -38,10 +36,6 @@ public class LoginRequest {
 
     public void setDeviceToken(String deviceToken) {
         this.deviceToken = deviceToken;
-    }
-
-    public String getCode() {
-        return code;
     }
 
     @Override

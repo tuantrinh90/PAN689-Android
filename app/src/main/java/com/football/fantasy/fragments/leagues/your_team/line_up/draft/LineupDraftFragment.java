@@ -16,6 +16,7 @@ import com.football.customizes.lineup.PlayerView;
 import com.football.customizes.progress.ExtProgress;
 import com.football.customizes.textview.ExtTextViewCountdown;
 import com.football.events.GeneralEvent;
+import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailForLineupFragment;
 import com.football.fantasy.fragments.leagues.your_team.line_up.LineUpFragment;
@@ -75,8 +76,8 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     private boolean pickEnable = false;
     private TurnReceiveResponse currentTurn;
     private int currentNumberTimeLeft; // số giây countdown trả về từ onEventTurnReceive, lưu lại để xử lý endTurn
-    private int pickRound;
-    private int pickOrder;
+    private int pickRound = -1;
+    private int pickOrder = -1;
 
     @NonNull
     @Override
@@ -135,14 +136,13 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                 TurnReceiveResponse response = JacksonUtils.convertJsonToObject(args[0].toString(), TurnReceiveResponse.class);
                 if (response != null && mActivity != null && response.getLeagueId().equals(league.getId())) {
                     currentTurn = response;
-                    if (mActivity != null)
-                        mActivity.runOnUiThread(() -> {
-                            try {
-                                onEventTurnReceive(response);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        });
+                    if (mActivity != null) mActivity.runOnUiThread(() -> {
+                        try {
+                            onEventTurnReceive(response);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
                 }
             }
         });
@@ -166,6 +166,21 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             TurnReceiveResponse response = JacksonUtils.convertJsonToObject(args[0].toString(), TurnReceiveResponse.class);
             if (response != null && mActivity != null && response.getLeagueId().equals(league.getId())) {
                 onEventEndTurn();
+
+                if (BuildConfig.DEBUG) {
+                    // log pickRound
+                    String currentName = "null";
+
+                    int pickRound = response.getPickRound();
+                    for (TurnResponse turn : response.getLeagues()) {
+                        if (turn.isCurrent()) {
+                            // log
+                            currentName = turn.getName();
+
+                        }
+                    }
+                    Log.e(TAG, "onEventTurnReceive #pickRound: " + pickRound + " - CurrentTeam: " + currentName);
+                }
             }
         });
     }
@@ -184,7 +199,6 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
 
         String currentName = "null";
 
-        StringBuilder teamName = new StringBuilder();
         for (TurnResponse turn : response.getLeagues()) {
             if (turn.getUserId() == userId) {
                 displayTimerYourTurn(turn.getDueNextTimeMax(), turn.getDueNextTime());
@@ -205,7 +219,6 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
 
                 // log
                 currentName = turn.getName();
-                teamName.append("Current Team: ").append(turn.getName()).append(" - ");
 
             } else if (turn.isNext()) {
                 if (turn.getUserId() == userId) {
@@ -214,14 +227,10 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                     tvDraftNextTeam.setText(turn.getName());
                 }
 
-                // log
-                teamName.append("Next Team: ").append(turn.getName());
-
             }
         }
 
         Log.e(TAG, "onEventTurnReceive #pickRound: " + pickRound + " - CurrentTeam: " + currentName);
-        Log.w(TAG, "Team: " + teamName.toString());
     }
 
     private void onEventEndTurn() {

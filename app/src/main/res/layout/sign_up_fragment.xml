@@ -74,6 +74,15 @@
             android:inputType="textPassword"
             app:editTextAppHint="@string/retype_password" />
 
+        <com.football.customizes.edittext_app.EditTextApp
+            android:id="@+id/etCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_layout"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:imeOptions="actionDone"
+            app:editTextAppHint="@string/code" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

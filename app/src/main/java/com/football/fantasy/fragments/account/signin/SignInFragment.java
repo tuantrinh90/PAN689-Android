@@ -43,8 +43,6 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
     EditTextApp etEmail;
     @BindView(R.id.etPassword)
     EditTextApp etPassword;
-    @BindView(R.id.etCode)
-    EditTextApp etCode;
 
     private FacebookHelper mFacebook;
     private GoogleHelper mGoogle;
@@ -76,8 +74,6 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
         if (BuildConfig.DEBUG) {
             etEmail.setContent("toan1@yopmail.com");
             etPassword.setContent("123456");
-
-            etCode.setContent("PANNA123");
         }
     }
 
@@ -92,7 +88,6 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
         boolean result = true;
         if (!etEmail.isValidEmail(mActivity)) result = false;
         if (etPassword.isEmpty(mActivity)) result = false;
-        if (etCode.isEmpty(mActivity)) result = false;
         return result;
     }
 
@@ -104,7 +99,7 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
 
     @Override
     public LoginRequest getLoginRequest() {
-        return new LoginRequest(etEmail.getContent(), etPassword.getContent(), " ", etCode.getContent());
+        return new LoginRequest(etEmail.getContent(), etPassword.getContent(), " ");
     }
 
     /**

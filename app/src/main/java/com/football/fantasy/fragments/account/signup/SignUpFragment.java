@@ -14,6 +14,7 @@ import com.bon.textstyle.TextViewLinkMovementMethod;
 import com.bon.util.ActivityUtils;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.edittext_app.EditTextApp;
+import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
 import com.football.fantasy.activities.MainActivity;
 import com.football.fantasy.fragments.web_view.WebViewFragment;
@@ -41,6 +42,8 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
     EditTextApp etPassword;
     @BindView(R.id.etConfirmPassword)
     EditTextApp etConfirmPassword;
+    @BindView(R.id.etCode)
+    EditTextApp etCode;
     @BindView(R.id.tvErrorAgreed)
     ExtTextView tvErrorAgreed;
     @BindView(R.id.cbAgreed)
@@ -76,6 +79,10 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
     }
 
     void initView() {
+        if (BuildConfig.DEBUG) {
+            etCode.setContent("PANNA123");
+        }
+
         tvAgreed.setText(Html.fromHtml(getString(R.string.register_condition, ServiceConfig.TERMS, ServiceConfig.PRIVACY_POLICY)));
     }
 
@@ -83,8 +90,13 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
     void onClickSignUp() {
         if (!isValid()) return;
 
-        SignupRequest request = new SignupRequest(etFirstName.getContent(), etLastName.getContent(),
-                etEmail.getContent(), etPassword.getContent(), etConfirmPassword.getContent());
+        SignupRequest request = new SignupRequest(
+                etFirstName.getContent(),
+                etLastName.getContent(),
+                etEmail.getContent(),
+                etPassword.getContent(),
+                etConfirmPassword.getContent(),
+                etCode.getContent());
         presenter.register(request);
     }
 
@@ -111,6 +123,8 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
                 valid = false;
             }
         }
+
+        if (etCode.isEmpty(mActivity)) valid = false;
 
         tvErrorAgreed.setVisibility(View.GONE);
         if (!cbAgreed.isChecked()) {

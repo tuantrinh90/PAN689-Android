@@ -31,6 +31,7 @@ public class SignUpDataPresenter<V extends ISignUpView> extends BaseDataPresente
                             .addFormDataPart("email", request.getEmail())
                             .addFormDataPart("password", request.getPassword())
                             .addFormDataPart("password_confirmation", request.getPasswordConfirm())
+                            .addFormDataPart("code", request.getCode())
                             .build()),
                     new ApiCallback<UserResponse>() {
                         @Override
