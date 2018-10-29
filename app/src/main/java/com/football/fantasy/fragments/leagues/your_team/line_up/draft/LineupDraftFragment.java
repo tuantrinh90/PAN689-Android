@@ -155,6 +155,22 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             TurnReceiveResponse response = JacksonUtils.convertJsonToObject(args[0].toString(), TurnReceiveResponse.class);
             if (response != null && mActivity != null && response.getLeagueId().equals(league.getId())) {
                 onEventRefreshUI();
+
+                if (BuildConfig.DEBUG) {
+                    // log pickRound
+                    String currentName = "null";
+
+                    int pickRound = response.getShowPickRound();
+                    for (TurnResponse turn : response.getLeagues()) {
+                        if (turn.isCurrent()) {
+                            // log
+                            currentName = turn.getName();
+                            break;
+
+                        }
+                    }
+                    Log.e(TAG, "EVENT_REFRESH_UI #pickRound: " + pickRound + " - CurrentTeam: " + currentName);
+                }
             }
         });
 
@@ -166,21 +182,6 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             TurnReceiveResponse response = JacksonUtils.convertJsonToObject(args[0].toString(), TurnReceiveResponse.class);
             if (response != null && mActivity != null && response.getLeagueId().equals(league.getId())) {
                 onEventEndTurn();
-
-                if (BuildConfig.DEBUG) {
-                    // log pickRound
-                    String currentName = "null";
-
-                    int pickRound = response.getPickRound();
-                    for (TurnResponse turn : response.getLeagues()) {
-                        if (turn.isCurrent()) {
-                            // log
-                            currentName = turn.getName();
-
-                        }
-                    }
-                    Log.e(TAG, "onEventTurnReceive #pickRound: " + pickRound + " - CurrentTeam: " + currentName);
-                }
             }
         });
     }
@@ -196,8 +197,6 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         pickRound = response.getShowPickRound();
         tvDraftCurrentTimeLeft.setTime(response.getNumber());
         currentNumberTimeLeft = response.getNumber();
-
-        String currentName = "null";
 
         for (TurnResponse turn : response.getLeagues()) {
             if (turn.getUserId() == userId) {
@@ -217,9 +216,6 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                     setYourTurn(false);
                 }
 
-                // log
-                currentName = turn.getName();
-
             } else if (turn.isNext()) {
                 if (turn.getUserId() == userId) {
                     tvDraftNextTeam.setText(getString(R.string.your_turn_cap));
@@ -229,13 +225,12 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
 
             }
         }
-
-        Log.e(TAG, "onEventTurnReceive #pickRound: " + pickRound + " - CurrentTeam: " + currentName);
     }
 
     private void onEventEndTurn() {
         if (mActivity != null) mActivity.runOnUiThread(() -> {
             try {
+                showLoading(false);
                 draftHeader.setVisibility(View.GONE);
                 pickEnable = false;
                 playerViewSelected = null;
@@ -312,20 +307,28 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     }
 
     private void handleEndTurn(View view) {
-        showLoading(true);
-        view.setEnabled(false);
+        if (pickEnable) {
+            showLoading(true);
+            view.setEnabled(false);
 
-        // cập nhật lại time các turn khác
-        for (TurnResponse turn : currentTurn.getLeagues()) {
-            if (turn.getUserId() != userId) {
-                turn.setDueNextTime(turn.getDueNextTime() - currentNumberTimeLeft);
+            // cập nhật lại time các turn khác
+            for (TurnResponse turn : currentTurn.getLeagues()) {
+                if (turn.getUserId() != userId) {
+                    turn.setDueNextTime(turn.getDueNextTime() - currentNumberTimeLeft);
+                } else {
+
+                    // log currentTeam
+                    Log.e(TAG, "endTurn #pickRound: " + pickRound);
+                }
             }
-        }
-        try {
-            JSONObject turn = new JSONObject(JacksonUtils.writeValueToString(currentTurn));
-            presenter.endTurnNew(turn);
-        } catch (JSONException e) {
-            e.printStackTrace();
+            try {
+                JSONObject turn = new JSONObject(JacksonUtils.writeValueToString(currentTurn));
+                presenter.endTurnNew(turn);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
         }
     }
 
@@ -379,6 +382,9 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                 playerViewSelected.setAddable(false);
                 callback.accept(true, "");
                 presenter.addPlayer(player, teamId, position, order, pickRound, pickOrder);
+
+                // log currentTeam
+                Log.e(TAG, "addPlayer: #pickRound: " + pickRound);
             } else {
                 callback.accept(false, getString(R.string.message_full_position));
             }
@@ -402,6 +408,9 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                         playerViewSelected = null;
                         presenter.removePlayer(player, teamId, pickRound, pickOrder);
                         bus.send(new GeneralEvent<>(GeneralEvent.SOURCE.LINEUP_REMOVE_PLAYER));
+
+                        // log currentTeam
+                        Log.e(TAG, "removePlayer #pickRound: " + pickRound);
                     }
                 },
                 null);
