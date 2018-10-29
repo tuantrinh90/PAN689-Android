@@ -193,7 +193,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         draftTurn.setVisibility(View.VISIBLE);
         draftLoading.setVisibility(View.GONE);
 
-        pickRound = response.getPickRound();
+        pickRound = response.getShowPickRound();
         tvDraftCurrentTimeLeft.setTime(response.getNumber());
         currentNumberTimeLeft = response.getNumber();
 
