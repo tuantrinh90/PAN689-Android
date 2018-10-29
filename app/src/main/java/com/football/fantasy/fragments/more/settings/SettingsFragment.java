@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.Spinner;
 import android.widget.Switch;
 
 import com.bon.interfaces.Optional;
@@ -26,6 +27,8 @@ public class SettingsFragment extends BaseMvpFragment<ISettingsView, ISettingsPr
     Switch switchNotification;
     @BindView(R.id.switch_email)
     Switch switchEmail;
+    @BindView(R.id.spinner_language)
+    Spinner spinnerLanguage;
 
     private boolean inited = false;
 
@@ -74,6 +77,9 @@ public class SettingsFragment extends BaseMvpFragment<ISettingsView, ISettingsPr
     void initView() {
         Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.color_white)));
         Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_blue)));
+
+        String[] items = new String[]{"Dutch", "French", "German", "English"};
+
     }
 
     @OnClick({R.id.push_notification, R.id.email_alert})

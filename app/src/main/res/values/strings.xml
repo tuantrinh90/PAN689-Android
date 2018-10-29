@@ -286,6 +286,7 @@
     <string name="message_change_password_success">Your password has been changed successfully!</string>
     <string name="push_notification">Push notification</string>
     <string name="email_alert">Email alert</string>
+    <string name="language">Language</string>
     <string name="message_delete">message_delete</string>
     <string name="message_not_owner_the_team">You are not owner of the team.</string>
     <string name="message_can_not_transfer">You can\'t transfer player until this round ends</string>
