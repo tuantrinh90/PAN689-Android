@@ -70,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_layout"
-            android:imeOptions="actionDone"
+            android:imeOptions="actionNext"
             android:inputType="textPassword"
             app:editTextAppHint="@string/retype_password" />
 
@@ -81,6 +81,7 @@
             android:layout_marginBottom="@dimen/padding_layout"
             android:layout_marginTop="@dimen/padding_layout"
             android:imeOptions="actionDone"
+            android:inputType="textCapWords"
             app:editTextAppHint="@string/code" />
 
         <LinearLayout

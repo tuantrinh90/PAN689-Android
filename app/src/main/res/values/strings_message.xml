@@ -61,6 +61,7 @@
     <string name="message_unable_to_invite_friend">Limit on number of user, unable to invite friend!</string>
     <string name="overload_max_transfer">overload_max_transfer</string>
     <string name="invalid_from_player">You can\'t pick player more</string>
+    <string name="login_code_invalid">The code you have entered is not correct. Please try again.</string>
     <string name="password_current_failure">Current password failure</string>
     <string name="max_number_user">You have reached maximum number of leagues</string>
     <string name="not_found_team_round">All rounds come to an end</string>
