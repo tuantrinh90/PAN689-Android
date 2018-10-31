@@ -306,6 +306,7 @@
     <string name="next">Next</string>
     <string name="your_turn">Your turn:</string>
     <string name="your_turn_in">Your turn in:</string>
+    <string name="finish">finish</string>
     <string name="your_turn_cap">YOUR TURN</string>
     <string name="end_turn">End turn</string>
     <string name="play_match">Matches</string>

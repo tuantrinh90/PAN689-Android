@@ -32,16 +32,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.football.customizes.lineup.PlayerView.NONE_ORDER;
 import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_NONE_INFO;
+import static com.football.models.responses.LeagueResponse.DRAFT_FINISHED;
 import static com.github.nkzawa.socketio.client.Socket.EVENT_DISCONNECT;
 
 public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineupDraftPresenter<ILineupDraftView>> implements ILineupDraftView {
 
     private static final String TAG = "LineupDraftFragment";
+    private static final int LAST_ROUND = 18;
 
     @BindView(R.id.draft_countdown)
     View draftCountdown;
@@ -49,6 +53,8 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     View draftLoading;
     @BindView(R.id.draft_turn)
     View draftTurn;
+    @BindView(R.id.draft_your_turn)
+    View draftYourTurn;
     @BindView(R.id.draft_team)
     View draftTeam;
     @BindView(R.id.text_countdown)
@@ -75,6 +81,8 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     private Handler mHandler = new Handler();
     private Runnable mRunnableReconnect;
     private int userId;
+
+    private boolean isCompleted;
 
     private PlayerView playerViewSelected;
     private boolean pickEnable = false;
@@ -115,6 +123,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         getAppContext().off(SocketEventKey.EVENT_PICK_TURN_FINISH);
 
         mHandler.removeCallbacks(mRunnableReconnect);
+        playerViewSelected = null;
 
         presenter.leaveLeague(league.getId());
         textCountdown.onDestroyView();
@@ -238,12 +247,19 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                 setYourTurn(isYourTurn);
 
             } else if (turn.isNext()) {
-                if (turn.getUserId() == userId) {
+                if (isCompleted) {
+                    tvDraftNextTeam.setText(getString(R.string.finish).toUpperCase());
+                } else if (turn.getUserId() == userId) {
                     tvDraftNextTeam.setText(getString(R.string.your_turn_cap));
                 } else {
                     tvDraftNextTeam.setText(turn.getName());
                 }
 
+            } else { /* not current & not next => previous */
+                if (pickRound == LAST_ROUND && turn.getUserId() == userId && !pickEnable) {
+                    isCompleted = true;
+                    tvDraftNextTeam.setText(getString(R.string.finish).toUpperCase());
+                }
             }
         }
     }
@@ -252,6 +268,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         if (mActivity != null) mActivity.runOnUiThread(() -> {
             try {
                 showLoading(false);
+                draftLoading.setVisibility(View.GONE);
                 draftHeader.setVisibility(View.GONE);
                 pickEnable = false;
                 playerViewSelected = null;
@@ -355,6 +372,21 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     }
 
     @Override
+    public void displayLineupPlayers(List<PlayerResponse> players) {
+        lineupView.notifyDataSetChanged();
+        for (PlayerResponse player : players) {
+            PlayerView playerView = lineupView.addPlayer(player, player.getMainPosition(), player.getOrder() == null ? NONE_ORDER : player.getOrder());
+            if (player.getLastPickTurn() != null && player.getLastPickTurn().getRound() == pickRound) {
+                playerViewSelected = playerView;
+                playerView.setRemovable(true);
+            }
+        }
+
+        isCompleted = pickRound == LAST_ROUND && lineupView.isSetupComplete();
+        draftYourTurn.setVisibility(isCompleted ? View.GONE : View.VISIBLE);
+    }
+
+    @Override
     public void setCountdown(int draftTimeLeft) {
         draftHeader.setVisibility(View.VISIBLE);
         if (draftTimeLeft > 0) {
@@ -365,6 +397,14 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             draftLoading.setVisibility(View.VISIBLE);
 
             presenter.getLineup(teamId);
+        }
+    }
+
+    @Override
+    public void displayDraftStatus(int draftStatus) {
+        if (draftStatus == DRAFT_FINISHED) {
+            draftHeader.setVisibility(View.GONE);
+            draftLoading.setVisibility(View.GONE);
         }
     }
 

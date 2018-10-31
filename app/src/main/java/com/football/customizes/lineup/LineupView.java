@@ -163,7 +163,7 @@ public class LineupView extends FlexboxLayout implements PlayerView.OnPlayerView
     public PlayerView addPlayer(PlayerResponse player, int line, Integer order) {
         int position = getPosition(null, 3 - line, order);
         if (position != -1) {
-            Log.i(TAG, "addPlayer: " + String.format("line: %d, order: %d, position: %d", line, order, position));
+//            Log.i(TAG, "addPlayer: " + String.format("line: %d, order: %d, position: %d", line, order, position));
             return setPlayer(player, position);
         }
         return null;

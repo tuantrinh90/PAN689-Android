@@ -32,6 +32,7 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
         getOptView().doIfPresent(v -> {
             v.displayLineupPlayers(response.getPlayers());
             v.displayStatistic(response.getStatistic());
+            v.displayDraftStatus(response.getLeague().getDraftRunning());
         });
 
         // Log players

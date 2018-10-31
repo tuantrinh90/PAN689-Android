@@ -12,7 +12,6 @@ import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.lineup.LineupView;
 import com.football.customizes.lineup.PlayerView;
 import com.football.customizes.lineup.StatisticView;
-import com.football.customizes.textview.ExtTextViewCountdown;
 import com.football.events.PickEvent;
 import com.football.events.PlayerEvent;
 import com.football.fantasy.R;

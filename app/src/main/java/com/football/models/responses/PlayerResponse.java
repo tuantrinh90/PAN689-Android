@@ -151,6 +151,8 @@ public class PlayerResponse implements Serializable {
     private int rank_status;
     @JsonProperty("transfer_deadline")
     private String transferDeadline;
+    @JsonProperty("last_pick_turn")
+    private PickHistoryResponse lastPickTurn;
 
     public PlayerResponse() {
     }
@@ -408,6 +410,14 @@ public class PlayerResponse implements Serializable {
 
     public String getTransferDeadline() {
         return transferDeadline;
+    }
+
+    public int getRank_status() {
+        return rank_status;
+    }
+
+    public PickHistoryResponse getLastPickTurn() {
+        return lastPickTurn;
     }
 
     @JsonIgnore

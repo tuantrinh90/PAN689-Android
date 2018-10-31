@@ -17,6 +17,10 @@ public class LeagueResponse implements Serializable {
     public static final int ON_GOING = 2;
     public static final int FINISHED = 3;
 
+    public static final int DRAFT_NONE = 0;
+    public static final int DRAFT_RUNNING = 1;
+    public static final int DRAFT_FINISHED = 2;
+
     public static final String LEAGUE_TYPE_OPEN = "open";
     public static final String LEAGUE_TYPE_PRIVATE = "private";
 
@@ -110,6 +114,10 @@ public class LeagueResponse implements Serializable {
     private int round;
     @JsonProperty("deleted_players")
     private List<PlayerResponse> deletedPlayers;
+    @JsonProperty("draft_running")
+    private int draftRunning;
+    @JsonProperty("draft_running_display")
+    private String draftRunningDisplay;
 
     public LeagueResponse() {
     }
@@ -517,6 +525,14 @@ public class LeagueResponse implements Serializable {
 
     public boolean equalsGameplay(String gameplayOption) {
         return this.gameplayOption.equals(gameplayOption);
+    }
+
+    public int getDraftRunning() {
+        return draftRunning;
+    }
+
+    public String getDraftRunningDisplay() {
+        return draftRunningDisplay;
     }
 
     @Override
