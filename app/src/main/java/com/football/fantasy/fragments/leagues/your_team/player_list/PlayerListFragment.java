@@ -154,8 +154,10 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
 
     protected void refresh() {
         page = 1;
-        rvPlayer.clear();
-        rvPlayer.startLoading();
+        if (rvPlayer != null) {
+            rvPlayer.clear();
+            rvPlayer.startLoading();
+        }
         getPlayers(league.getSeasonId(), league.getId(), sortDesc, page, query, filterPositions, filterClubs);
     }
 

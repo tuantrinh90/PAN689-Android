@@ -276,7 +276,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                     onClickDraft();
 
                     calendarDraftTime = Calendar.getInstance();
-                    calendarDraftTime.add(Calendar.MINUTE, 1);
+                    calendarDraftTime.add(Calendar.SECOND, 30);
                     etDraftTime.setContent(DateTimeUtils.convertCalendarToString(calendarDraftTime, Constant.FORMAT_DATE_TIME));
 
                     keyValuePairNumberOfUser = valuePairsNumberOfUser.get(0);

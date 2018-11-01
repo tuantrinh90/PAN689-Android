@@ -383,5 +383,6 @@
     <string name="cannot_pick_more">You only pick once</string>
     <string name="message_remove_player_success">Remove player success</string>
     <string name="message_transfer_deadline_null">All rounds come to an end. You cannot trade players.</string>
+    <string name="lineup_completed">Your lineup has been completed.</string>
 
 </resources>
