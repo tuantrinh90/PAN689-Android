@@ -32,6 +32,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.observers.DisposableObserver;
 
+import static com.football.customizes.lineup.PlayerView.NONE_ORDER;
+
 public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlayerPopupPresenter<IPlayerPopupView>> implements IPlayerPopupView {
 
     private static final String TAG = "PlayerPopupFragment";
@@ -144,6 +146,29 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
                         switch (event.getSource()) {
                             case LINEUP_DRAFT:
                                 visibleAddButtonInPlayerList(((Boolean) event.getData()));
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                }));
+
+        // action add click on PlayerList
+        mCompositeDisposable.add(bus.ofType(PlayerEvent.class)
+                .subscribeWith(new DisposableObserver<PlayerEvent>() {
+                    @Override
+                    public void onNext(PlayerEvent event) {
+                        switch (event.getAction()) {
+                            case PlayerEvent.ACTION_ADD_CLICK:
+                                mActivity.finish();
                                 break;
                         }
                     }

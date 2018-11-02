@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.jackson.JacksonUtils;
@@ -233,6 +234,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         tvDraftCurrentTimeLeft.setTime(response.getNumber());
         currentNumberTimeLeft = response.getNumber();
 
+        boolean finish = true;
         for (TurnResponse turn : response.getLeagues()) {
             if (turn.getUserId() == userId) {
                 displayTimerYourTurn(turn.getDueNextTimeMax(), turn.getDueNextTime());
@@ -244,27 +246,18 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                 boolean isYourTurn = turn.getUserId() == userId;
                 tvDraftCurrentTeam.setText(isYourTurn ? getString(R.string.your_turn_cap) : turn.getName());
                 setYourTurn(isYourTurn);
-
             }
-
             if (turn.isNext()) {
-//                if (isCompleted) {
-//                    tvDraftNextTeam.setText(getString(R.string.finish).toUpperCase());
-//                }
+                finish = false;
                 if (turn.getUserId() == userId) {
                     tvDraftNextTeam.setText(getString(R.string.your_turn_cap));
                 } else {
                     tvDraftNextTeam.setText(turn.getName());
                 }
-
             }
-
-//            if (turn.getUserId() == userId && !turn.isCurrent() && !turn.isNext()) { /* not current & not next => previous */
-//                if (pickRound == LAST_ROUND && !pickEnable) {
-//                    isCompleted = true;
-//                    tvDraftNextTeam.setText(getString(R.string.finish).toUpperCase());
-//                }
-//            }
+        }
+        if (finish) {
+            tvDraftNextTeam.setText(getString(R.string.finish).toUpperCase());
         }
     }
 
@@ -454,15 +447,23 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     @Override
     protected void onAddClickedFromPopup(PlayerResponse player, int position, int order) {
         if (pickEnable && playerViewSelected == null) {
-            playerViewSelected = lineupView.addPlayer(player, player.getMainPosition(), order);
+            if (order == NONE_ORDER) {
+                order = lineupView.getOrder(position);
+            }
+            playerViewSelected = lineupView.addPlayer(player, position, order);
             if (playerViewSelected != null) {
                 playerViewSelected.setRemovable(true);
                 playerViewSelected.setAddable(false);
                 callback.accept(true, "");
                 presenter.addPlayer(player, teamId, position, order, pickRound, pickOrder);
 
-                if (BuildConfig.DEBUG && order == -1) {
-                    showMessage("Order = -1 nè");
+                if (BuildConfig.DEBUG) {
+                    if (order == -1) {
+                        Toast.makeText(mActivity, "Order = -1 nè", Toast.LENGTH_LONG).show();
+                    }
+                    if (position == -1) {
+                        Toast.makeText(mActivity, "Position = -1 nè", Toast.LENGTH_LONG).show();
+                    }
                 }
 
                 updateStatistic(player.getMainPosition(), 1);

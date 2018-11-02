@@ -36,27 +36,27 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
         });
 
         // Log players
-        if (BuildConfig.DEBUG) {
-            mCompositeDisposable.add(
-                    Completable.create(emitter -> {
-                        JSONArray playersJSON = new JSONArray();
-                        for (PlayerResponse player : response.getPlayers()) {
-                            JSONObject json = new JSONObject();
-                            json.put("mainPosition", player.getMainPosition());
-                            json.put("order", player.getOrder());
-                            json.put("name", player.getName());
-                            playersJSON.put(json);
-                        }
-                        Log.e(TAG, "players: " + playersJSON);
-                        emitter.onComplete();
-                    })
-                            .subscribeOn(Schedulers.newThread())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(() -> {
-
-                            }, Throwable::printStackTrace)
-            );
-        }
+//        if (BuildConfig.DEBUG) {
+//            mCompositeDisposable.add(
+//                    Completable.create(emitter -> {
+//                        JSONArray playersJSON = new JSONArray();
+//                        for (PlayerResponse player : response.getPlayers()) {
+//                            JSONObject json = new JSONObject();
+//                            json.put("mainPosition", player.getMainPosition());
+//                            json.put("order", player.getOrder());
+//                            json.put("name", player.getName());
+//                            playersJSON.put(json);
+//                        }
+//                        Log.e(TAG, "players: " + playersJSON);
+//                        emitter.onComplete();
+//                    })
+//                            .subscribeOn(Schedulers.newThread())
+//                            .observeOn(AndroidSchedulers.mainThread())
+//                            .subscribe(() -> {
+//
+//                            }, Throwable::printStackTrace)
+//            );
+//        }
     }
 
     @Override
