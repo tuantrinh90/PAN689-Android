@@ -140,7 +140,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
 
     private void registerSocket() {
         /*
-         * trả về object
+         * trả về object theo mỗi giây
          */
         getAppContext().getSocket().on(SocketEventKey.EVENT_TURN_RECEIVE, args -> {
             Log.i(TAG, "\n====================== EVENT_TURN_RECEIVE ======================");
@@ -188,21 +188,13 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         });
 
         /*
-          trả về object => kết thúc quá trình pick cầu thủ
+          trả về object => kết thúc quá trình pick cầu thủ của all mems
          */
         getAppContext().getSocket().on(SocketEventKey.EVENT_PICK_TURN_FINISH, args -> {
             Log.i(TAG, "\n====================== EVENT_PICK_TURN_FINISH ======================");
             TurnReceiveResponse response = JacksonUtils.convertJsonToObject(args[0].toString(), TurnReceiveResponse.class);
             if (response != null && mActivity != null && response.getLeagueId().equals(league.getId())) {
-                onTurnFinish();
-            }
-        });
-
-        getAppContext().getSocket().on(SocketEventKey.EVENT_END_TURN, args -> {
-            Log.i(TAG, "\n====================== EVENT_END_TURN ======================");
-            TurnReceiveResponse response = JacksonUtils.convertJsonToObject(args[0].toString(), TurnReceiveResponse.class);
-            if (response != null && mActivity != null && response.getLeagueId().equals(league.getId())) {
-                onEventEndTurn();
+                onEventPickTurnFinish();
             }
         });
 
@@ -256,9 +248,10 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             }
 
             if (turn.isNext()) {
-                if (isCompleted) {
-                    tvDraftNextTeam.setText(getString(R.string.finish).toUpperCase());
-                } else if (turn.getUserId() == userId) {
+//                if (isCompleted) {
+//                    tvDraftNextTeam.setText(getString(R.string.finish).toUpperCase());
+//                }
+                if (turn.getUserId() == userId) {
                     tvDraftNextTeam.setText(getString(R.string.your_turn_cap));
                 } else {
                     tvDraftNextTeam.setText(turn.getName());
@@ -266,41 +259,27 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
 
             }
 
-            if (turn.getUserId() == userId && !turn.isCurrent() && !turn.isNext()) { /* not current & not next => previous */
-                if (pickRound == LAST_ROUND && !pickEnable) {
-                    isCompleted = true;
-                    tvDraftNextTeam.setText(getString(R.string.finish).toUpperCase());
-                }
-            }
+//            if (turn.getUserId() == userId && !turn.isCurrent() && !turn.isNext()) { /* not current & not next => previous */
+//                if (pickRound == LAST_ROUND && !pickEnable) {
+//                    isCompleted = true;
+//                    tvDraftNextTeam.setText(getString(R.string.finish).toUpperCase());
+//                }
+//            }
         }
     }
 
-    private void onEventEndTurn() {
+    private void onEventPickTurnFinish() {
         if (mActivity != null) mActivity.runOnUiThread(() -> {
             try {
                 showLoading(false);
                 draftLoading.setVisibility(View.GONE);
-                draftHeader.setVisibility(View.GONE);
                 pickEnable = false;
                 playerViewSelected = null;
                 tvDraftCurrentTimeLeft.stop();
+
+                draftTeam.setVisibility(View.GONE);
+
                 presenter.getLineup(teamId);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    private void onTurnFinish() {
-        if (mActivity != null) mActivity.runOnUiThread(() -> {
-            try {
-                showLoading(false);
-                draftLoading.setVisibility(View.GONE);
-                pickEnable = false;
-                playerViewSelected = null;
-                tvDraftCurrentTimeLeft.stop();
-
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
