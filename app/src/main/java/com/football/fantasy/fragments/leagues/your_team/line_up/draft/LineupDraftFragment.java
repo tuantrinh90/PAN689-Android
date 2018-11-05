@@ -29,7 +29,6 @@ import com.football.models.responses.TurnResponse;
 import com.football.utilities.Constant;
 import com.football.utilities.SocketEventKey;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
@@ -37,6 +36,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Completable;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.football.customizes.lineup.PlayerView.NONE_ORDER;
 import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_NONE_INFO;
@@ -168,7 +169,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             Log.i(TAG, "\n====================== EVENT_REFRESH_UI ======================");
             TurnReceiveResponse response = JacksonUtils.convertJsonToObject(args[0].toString(), TurnReceiveResponse.class);
             if (response != null && mActivity != null && response.getLeagueId().equals(league.getId())) {
-                pickRound = response.getShowPickRound();
+                updatePickRound(response.getShowPickRound());
                 onEventRefreshUI();
 
                 if (BuildConfig.DEBUG) {
@@ -222,6 +223,14 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         mHandler.postDelayed(mRunnableReconnect, 1000);
     }
 
+    private void updatePickRound(int pickRound) {
+        if (pickRound > this.pickRound) {
+            this.pickRound = pickRound;
+        } else if (pickRound < this.pickRound) {
+            Log.e(TAG, "updatePickRound. PickRound bị giảm: " + pickRound);
+        }
+    }
+
     private void onEventTurnReceive(TurnReceiveResponse response) {
         // stop countdown & visible/gone any views
         textCountdown.stop();
@@ -230,7 +239,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         draftTurn.setVisibility(View.VISIBLE);
         draftLoading.setVisibility(View.GONE);
 
-        pickRound = response.getShowPickRound();
+        updatePickRound(response.getShowPickRound());
         tvDraftCurrentTimeLeft.setTime(response.getNumber());
         currentNumberTimeLeft = response.getNumber();
 
@@ -349,24 +358,25 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             showLoading(true);
             view.setEnabled(false);
 
-            // cập nhật lại time các turn khác
-            for (TurnResponse turn : currentTurn.getLeagues()) {
-                if (turn.getUserId() != userId) {
-                    turn.setDueNextTime(turn.getDueNextTime() - currentNumberTimeLeft);
-                } else {
+            pickRound++;
 
-                    // log currentTeam
-                    Log.e(TAG, "endTurn #pickRound: " + pickRound);
+            Completable.create(e -> {
+                // cập nhật lại time các turn khác
+                for (TurnResponse turn : currentTurn.getLeagues()) {
+                    if (turn.getUserId() != userId) {
+                        turn.setDueNextTime(turn.getDueNextTime() - currentNumberTimeLeft);
+                    } else {
+
+                        // log currentTeam
+                        Log.e(TAG, "Sau khi endTurn #pickRound: " + pickRound);
+                    }
                 }
-            }
-            try {
-                pickRound++;
 
                 JSONObject turn = new JSONObject(JacksonUtils.writeValueToString(currentTurn));
                 presenter.endTurnNew(turn);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+
+                e.onComplete();
+            }).subscribeOn(Schedulers.io()).subscribe();
         }
     }
 

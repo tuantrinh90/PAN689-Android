@@ -140,12 +140,7 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        getOptView().get().getAppActivity().getAppContext().getSocket().emit(SocketEventKey.EVENT_END_TURN_NEW, turn, new Ack() {
-            @Override
-            public void call(Object... args) {
-
-            }
-        });
+        getOptView().get().getAppActivity().getAppContext().getSocket().emit(SocketEventKey.EVENT_END_TURN_NEW, turn);
     }
 
     @Override

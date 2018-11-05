@@ -14,6 +14,7 @@ import com.football.utilities.RxUtilities;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import static com.football.models.responses.LeagueResponse.DRAFT_FINISHED;
 import static com.football.models.responses.LeagueResponse.FINISHED;
 import static com.football.models.responses.LeagueResponse.WAITING_FOR_START;
 
@@ -72,8 +73,9 @@ public class LeagueDetailDataPresenter extends BaseDataPresenter<ILeagueDetailVi
 
                                 // nếu đang trong thời gian setupTime và chưa chuyển trạng thái sang ON-GOING
                                 // dành cho trường hợp ấn EndTurn liên tục để kết thúc sớm trước startTime
-                                if (response.equalsStatus(WAITING_FOR_START) &&
-                                        currentTime.after(setupTime) && currentTime.before(draftTime)) {
+                                if (response.equalsStatus(WAITING_FOR_START)
+                                        && currentTime.after(setupTime) && currentTime.before(draftTime)
+                                        && response.getDraftRunning() != DRAFT_FINISHED) {
                                     v.goLineup();
                                     goLineup = true;
                                 }
