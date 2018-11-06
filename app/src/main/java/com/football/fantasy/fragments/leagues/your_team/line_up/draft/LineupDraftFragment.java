@@ -23,6 +23,7 @@ import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.player_details.PlayerDetailForLineupFragment;
 import com.football.fantasy.fragments.leagues.your_team.line_up.LineUpFragment;
 import com.football.fantasy.fragments.leagues.your_team.players_popup.PlayerPopupFragment;
+import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TurnReceiveResponse;
 import com.football.models.responses.TurnResponse;
@@ -87,7 +88,6 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     private Runnable mRunnableReconnect;
     private int userId;
 
-    private boolean isCompleted;
     private boolean offSocket = false;
 
     private PlayerView playerViewSelected;
@@ -96,6 +96,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     private int currentNumberTimeLeft; // số giây countdown trả về từ onEventTurnReceive, lưu lại để xử lý endTurn
     private int pickRound = -1;
     private int pickOrder = -1;
+    private boolean finish = true;
 
     @NonNull
     @Override
@@ -118,6 +119,16 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         tvDraftCurrentTimeLeft.setFormatType(ExtTextViewCountdown.FORMAT_NUMBER_HOURS);
 
         draftHeader.setVisibility(View.GONE);
+
+//        switch (league.getDraftRunning()) {
+//            case LeagueResponse.DRAFT_FINISHED:
+//                draftHeader.setVisibility(View.GONE);
+//                break;
+//
+//            case LeagueResponse.DRAFT_RUNNING:
+//                draftHeader.setVisibility(View.GONE);
+//                break;
+//        }
     }
 
     @Override
@@ -244,7 +255,6 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         tvDraftCurrentTimeLeft.setTime(response.getNumber());
         currentNumberTimeLeft = response.getNumber();
 
-        boolean finish = true;
         for (TurnResponse turn : response.getLeagues()) {
             if (turn.getUserId() == userId) {
                 displayTimerYourTurn(turn.getDueNextTimeMax(), turn.getDueNextTime());
@@ -269,6 +279,10 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         if (finish) {
             tvDraftNextTeam.setText(getString(R.string.finish).toUpperCase());
         }
+
+        // nếu finish rồi thì ẩn draftYourTurn và hiện textCompleted
+        draftYourTurn.setVisibility(finish ? View.GONE : View.VISIBLE);
+        textLineupCompleted.setVisibility(finish ? View.VISIBLE : View.GONE);
     }
 
     private void onEventPickTurnFinish() {
@@ -390,17 +404,12 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         for (PlayerResponse player : players) {
             PlayerView playerView = lineupView.addPlayer(player, player.getMainPosition(), player.getOrder() == null ? NONE_ORDER : player.getOrder());
             if (player.getLastPickTurn() != null && player.getLastPickTurn().getRound() == pickRound
-                    && pickEnable && !isCompleted) {
+                    && pickEnable) {
                 Log.e(TAG, "displayLineupPlayers: lastPickTurn " + player.getLastPickTurn().getRound() + " pickRound: " + pickRound);
                 playerViewSelected = playerView;
                 playerView.setRemovable(true);
             }
         }
-
-        // đang ở round thứ 18, Turn của mình đã pick rồi
-        isCompleted = pickRound == LAST_ROUND && lineupView.isSetupComplete();
-        draftYourTurn.setVisibility(isCompleted ? View.GONE : View.VISIBLE);
-        textLineupCompleted.setVisibility(isCompleted ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -464,32 +473,33 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             if (order == NONE_ORDER) {
                 order = lineupView.getOrder(position);
             }
-            playerViewSelected = lineupView.addPlayer(player, position, order);
-            if (playerViewSelected != null) {
-                playerViewSelected.setRemovable(true);
-                playerViewSelected.setAddable(false);
-                callback.accept(true, "");
-                try {
-                    presenter.addPlayer(getTurn(), teamId, player.getId(), order, pickRound, pickOrder);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                if (BuildConfig.DEBUG) {
-                    if (order == -1) {
-                        Toast.makeText(mActivity, "Order = -1 nè", Toast.LENGTH_LONG).show();
+            if (order != -1) {
+                playerViewSelected = lineupView.addPlayer(player, position, order);
+                if (playerViewSelected != null) {
+                    playerViewSelected.setRemovable(true);
+                    playerViewSelected.setAddable(false);
+                    callback.accept(true, "");
+                    try {
+                        presenter.addPlayer(getTurn(), teamId, player.getId(), order, pickRound, pickOrder);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                    if (position == -1) {
-                        Toast.makeText(mActivity, "Position = -1 nè", Toast.LENGTH_LONG).show();
-                    }
+                    updateStatistic(player.getMainPosition(), 1);
+
+                    // log currentTeam
+                    Log.e(TAG, "addPlayer: #pickRound: " + pickRound);
+                } else {
+                    callback.accept(false, getString(R.string.message_full_position));
                 }
+            }
 
-                updateStatistic(player.getMainPosition(), 1);
-
-                // log currentTeam
-                Log.e(TAG, "addPlayer: #pickRound: " + pickRound);
-            } else {
-                callback.accept(false, getString(R.string.message_full_position));
+            if (BuildConfig.DEBUG) {
+                if (order == -1) {
+                    Toast.makeText(mActivity, "Order = -1 nè", Toast.LENGTH_LONG).show();
+                }
+                if (position == -1) {
+                    Toast.makeText(mActivity, "Position = -1 nè", Toast.LENGTH_LONG).show();
+                }
             }
         } else {
             callback.accept(false, getString(R.string.cannot_pick_more));
