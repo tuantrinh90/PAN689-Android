@@ -8,6 +8,7 @@ import com.football.listeners.ApiCallback;
 import com.football.models.PagingResponse;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.NewsResponse;
+import com.football.models.responses.NotificationUnreadResponse;
 import com.football.utilities.Constant;
 import com.football.utilities.RxUtilities;
 
@@ -40,6 +41,29 @@ public class HomeDataPresenter extends BaseDataPresenter<IHomeView> implements I
 
             mCompositeDisposable.add(RxUtilities.async(v,
                     dataModule.getApiService().updateDeviceOfUser(body), null));
+        });
+    }
+
+    @Override
+    public void getNotificationsCount() {
+        getOptView().doIfPresent(v -> {
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().getNotificationsUnread(),
+                    new ApiCallback<NotificationUnreadResponse>() {
+                        @Override
+                        public void onComplete() {
+                        }
+
+                        @Override
+                        public void onSuccess(NotificationUnreadResponse response) {
+                            v.updateNotificationState(response.getTotal());
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                        }
+                    }));
         });
     }
 

@@ -90,6 +90,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.i(TAG, "sendNotification => notificationId: " + notificationId);
             Log.i(TAG, "sendNotification => payload: " + payload.toString());
             notificationManager.notify(notificationId, notificationBuilder.build());
+
+            sendBroadcast(new Intent(MainActivity.KEY_HAS_NOTIFICATION));
         }
     }
 

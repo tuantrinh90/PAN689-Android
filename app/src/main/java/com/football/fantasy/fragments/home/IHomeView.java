@@ -7,9 +7,12 @@ import com.football.models.responses.NewsResponse;
 import java.util.List;
 
 public interface IHomeView extends IBaseMvpView {
+    void updateNotificationState(int total);
+
     void notifyDataSetChangedNews(List<NewsResponse> its);
 
     void notifyDataSetChangedLeagues(List<LeagueResponse> its);
 
     void stopLoading();
+
 }

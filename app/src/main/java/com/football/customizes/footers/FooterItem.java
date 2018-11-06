@@ -25,6 +25,8 @@ public class FooterItem extends LinearLayout {
     LinearLayout llView;
     @BindView(R.id.ivIcon)
     ImageView ivIcon;
+    @BindView(R.id.dotNotification)
+    View dotNotification;
     @BindView(R.id.tvContent)
     ExtTextView tvContent;
 
@@ -81,5 +83,9 @@ public class FooterItem extends LinearLayout {
 
         // text
         tvContent.setTextColor(ContextCompat.getColor(context, isActive ? R.color.color_blue : R.color.color_white));
+    }
+
+    public void setNotification(boolean enable) {
+        dotNotification.setVisibility(enable ? VISIBLE : GONE);
     }
 }

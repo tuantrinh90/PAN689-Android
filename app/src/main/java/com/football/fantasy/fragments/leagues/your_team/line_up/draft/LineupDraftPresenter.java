@@ -141,7 +141,7 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
     }
 
     @Override
-    public void addPlayer(JSONObject turn, int teamId, int playerId, int pickRound, int pickOrder) {
+    public void addPlayer(JSONObject turn, int teamId, int playerId, int order, int pickRound, int pickOrder) {
         Completable.create(e -> {
             AppContext context = getOptView().get().getAppActivity().getAppContext();
             String token = AppPreferences.getInstance(context).getString(Constant.KEY_TOKEN);
@@ -151,8 +151,9 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
             player.put("token", token);
             player.put("team_id", teamId);
             player.put("player_id", playerId);
-            player.put("pick_order", pickRound);
-            player.put("pick_round", pickOrder);
+            player.put("order", order);
+            player.put("pick_order", pickOrder);
+            player.put("pick_round", pickRound);
 
             turn.put("playerData", player);
 
@@ -174,8 +175,8 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
             player.put("token", token);
             player.put("team_id", teamId);
             player.put("player_id", playerId);
-            player.put("pick_order", pickRound);
-            player.put("pick_round", pickOrder);
+            player.put("pick_order", pickOrder);
+            player.put("pick_round", pickRound);
 
             turn.put("playerData", player);
 

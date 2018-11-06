@@ -1,6 +1,9 @@
 package com.football.fantasy.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
@@ -11,6 +14,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.bon.share_preferences.AppPreferences;
 import com.bon.util.ActivityUtils;
 import com.bon.util.DialogUtils;
 import com.bon.util.StringUtils;
@@ -83,6 +87,8 @@ import static com.football.utilities.ServiceConfig.DEEP_LINK;
 
 public class MainActivity extends BaseActivity {
 
+    public static final String KEY_HAS_NOTIFICATION = "HAS_NOTIFICATION";
+
     public static final String KEY_ACTION = "action";
     public static final String KEY_TEAM_NAME = "team_name";
     public static final String KEY_LEAGUE_ID = "league_id";
@@ -120,6 +126,7 @@ public class MainActivity extends BaseActivity {
 
     private StatePagerAdapter mPagerAdapter;
     private Handler mHandler = new Handler();
+    private BroadcastReceiver broadcastReceiver;
 
     @Override
     protected int getContentViewId() {
@@ -133,6 +140,7 @@ public class MainActivity extends BaseActivity {
         initViewPager();
         initFragmentDefault();
         initRxBus();
+        initBroadcast();
 
         // register socket
         getAppContext().connectSocket();
@@ -143,6 +151,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        unregisterReceiver(broadcastReceiver);
         getAppContext().disconnect();
         super.onDestroy();
     }
@@ -153,8 +162,6 @@ public class MainActivity extends BaseActivity {
         getDeepLink(intent);
         handleIntent(intent);
     }
-
-    private static final String TAG = "MainActivity";
 
     private void getDeepLink(Intent intent) {
         if (intent.getDataString() != null && intent.getDataString().startsWith(DEEP_LINK)) {
@@ -371,7 +378,7 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-    void initRxBus() {
+    private void initRxBus() {
         mCompositeDisposable.add(bus.ofType(UnauthorizedEvent.class).subscribeWith(new DisposableObserver<UnauthorizedEvent>() {
             @Override
             public void onNext(UnauthorizedEvent unauthorizedEvent) {
@@ -381,6 +388,7 @@ public class MainActivity extends BaseActivity {
                         getString(R.string.ok),
                         (dialog, which) -> {
                             ActivityUtils.startActivity(AccountActivity.class);
+                            AppPreferences.getInstance(getAppContext()).clearCache();
                             MainActivity.this.finish();
                         });
             }
@@ -395,6 +403,21 @@ public class MainActivity extends BaseActivity {
 
             }
         }));
+    }
+
+    private void initBroadcast() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(KEY_HAS_NOTIFICATION);
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction() != null && intent.getAction().equals(KEY_HAS_NOTIFICATION)) {
+                    updateNotificationState(1);
+                }
+            }
+        };
+
+        registerReceiver(broadcastReceiver, intentFilter);
     }
 
     @Override
@@ -472,5 +495,9 @@ public class MainActivity extends BaseActivity {
         if (mPagerAdapter.getItem(MainActivity.LEAGUES) instanceof LeagueFragment) {
             ((LeagueFragment) mPagerAdapter.getItem(MainActivity.LEAGUES)).openOpenLeague();
         }
+    }
+
+    public void updateNotificationState(int total) {
+        footerNotification.setNotification(total > 0);
     }
 }

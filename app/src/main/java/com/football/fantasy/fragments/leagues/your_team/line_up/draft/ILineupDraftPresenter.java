@@ -2,7 +2,6 @@ package com.football.fantasy.fragments.leagues.your_team.line_up.draft;
 
 import com.football.fantasy.fragments.leagues.your_team.line_up.ILineUpPresenter;
 import com.football.fantasy.fragments.leagues.your_team.line_up.ILineUpView;
-import com.football.models.responses.PlayerResponse;
 
 import org.json.JSONObject;
 
@@ -15,7 +14,7 @@ public interface ILineupDraftPresenter<V extends ILineUpView> extends ILineUpPre
 
     void leaveLeague(int leagueId);
 
-    void addPlayer(JSONObject turn, int teamId, int playerId, int pickRound, int pickOrder);
+    void addPlayer(JSONObject turn, int teamId, int playerId, int order, int pickRound, int pickOrder);
 
     void removePlayer(JSONObject turn, int teamId, int playerId, int pickRound, int pickOrder);
 

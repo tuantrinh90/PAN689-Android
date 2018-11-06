@@ -227,7 +227,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     private void updatePickRound(int pickRound) {
         if (pickRound > this.pickRound) {
             this.pickRound = pickRound;
-        } else if (pickRound < this.pickRound) {
+        } else if (pickRound < this.pickRound && pickEnable) {
             Log.e(TAG, "updatePickRound. PickRound bị giảm: " + pickRound);
         }
     }
@@ -470,7 +470,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                 playerViewSelected.setAddable(false);
                 callback.accept(true, "");
                 try {
-                    presenter.addPlayer(getTurn(), teamId, player.getId(), pickRound, pickOrder);
+                    presenter.addPlayer(getTurn(), teamId, player.getId(), order, pickRound, pickOrder);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

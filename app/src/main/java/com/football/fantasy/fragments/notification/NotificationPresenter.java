@@ -5,6 +5,7 @@ import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
 import com.football.models.PagingResponse;
 import com.football.models.responses.NotificationResponse;
+import com.football.models.responses.NotificationUnreadResponse;
 import com.football.utilities.RxUtilities;
 
 import java.util.HashMap;
@@ -40,6 +41,35 @@ public class NotificationPresenter extends BaseDataPresenter<INotificationView> 
                         @Override
                         public void onSuccess(PagingResponse<NotificationResponse> response) {
                             v.displayNotifications(response.getData());
+                        }
+
+                        @Override
+                        public void onError(String e) {
+                            v.showMessage(e);
+                        }
+                    }));
+        });
+    }
+
+    @Override
+    public void updateReadNotifications() {
+        getOptView().doIfPresent(v -> {
+            mCompositeDisposable.add(RxUtilities.async(v,
+                    dataModule.getApiService().updateReadNotifications(),
+                    new ApiCallback<NotificationUnreadResponse>() {
+                        @Override
+                        public void onStart() {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            v.stopLoading();
+                        }
+
+                        @Override
+                        public void onSuccess(NotificationUnreadResponse response) {
+                            v.updateReadNotifications(response.getTotal());
                         }
 
                         @Override

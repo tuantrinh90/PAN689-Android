@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.football.adapters.NotificationAdapter;
-import com.football.common.fragments.BaseMvpFragment;
+import com.football.common.fragments.BaseMainMvpFragment;
 import com.football.customizes.recyclerview.ExtRecyclerView;
 import com.football.fantasy.R;
 import com.football.fantasy.activities.MainActivity;
@@ -17,7 +17,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class NotificationFragment extends BaseMvpFragment<INotificationView, INotificationPresenter<INotificationView>> implements INotificationView {
+public class NotificationFragment extends BaseMainMvpFragment<INotificationView, INotificationPresenter<INotificationView>> implements INotificationView {
 
     private String deviceId;
 
@@ -50,6 +50,12 @@ public class NotificationFragment extends BaseMvpFragment<INotificationView, INo
 
         initRecyclerView();
         refresh();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (presenter != null) presenter.updateReadNotifications();
     }
 
     @NonNull
@@ -91,6 +97,11 @@ public class NotificationFragment extends BaseMvpFragment<INotificationView, INo
         rvNotification.clear();
         rvNotification.startLoading();
         getNotifications();
+    }
+
+    @Override
+    public void updateReadNotifications(int total) {
+        mMainActivity.updateNotificationState(total);
     }
 
     @Override

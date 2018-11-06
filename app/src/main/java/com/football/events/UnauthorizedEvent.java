@@ -3,7 +3,7 @@ package com.football.events;
 import com.bon.event_bus.IEvent;
 
 public class UnauthorizedEvent implements IEvent {
-    String message;
+    private String message;
 
     public UnauthorizedEvent(String message) {
         this.message = message;

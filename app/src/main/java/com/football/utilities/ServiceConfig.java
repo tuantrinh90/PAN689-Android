@@ -122,6 +122,8 @@ public interface ServiceConfig {
 
     // notification
     String NOTIFICATIONS = "notifications";
+    String NOTIFICATIONS_TOTAL = "notifications/total";
+    String NOTIFICATIONS_READ_UPDATE = "notifications/read";
 
 
 }

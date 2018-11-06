@@ -85,6 +85,9 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
 
         initView();
 
+        // get notifications count
+        getNotificationsCount();
+
         // load my leagues, only display 5 records
         getMyLeagues();
 
@@ -154,6 +157,10 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
             getMyLeagues();
             loadNews();
         });
+    }
+
+    private void getNotificationsCount() {
+        presenter.getNotificationsCount();
     }
 
     private void getMyLeagues() {
@@ -231,6 +238,11 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     public void onGlobalLayout() {
         ViewUtils.autoLayoutScale(llPlayerList, 2.26f);
         ViewUtils.detachViewTreeObserver(llPlayerList, this);
+    }
+
+    @Override
+    public void updateNotificationState(int total) {
+        mMainActivity.updateNotificationState(total);
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.football.common.views.IBaseMvpView;
 
 public interface INotificationPresenter<V extends IBaseMvpView> extends IBaseDataPresenter<V> {
 
-    void getNotification(String devicedId, int page);
+    void getNotification(String deviceId, int page);
 
+    void updateReadNotifications();
 }
