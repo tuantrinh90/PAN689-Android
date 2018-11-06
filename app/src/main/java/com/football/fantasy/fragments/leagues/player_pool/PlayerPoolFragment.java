@@ -356,7 +356,8 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
             adapter.setOptionAddCallback(player -> {
                 showLoading(true);
                 if (playerIds.size() > 0) {
-                    presenter.transferPlayer(teamId, gameplay, playerIds.get(0), player.getId());
+                    // playerIds.get(0) vì playerIds được remove first item liên tục sau khi transfer thành công
+                    presenter.transferPlayer(teamId, gameplay, 0, player.getId());
                 }
             });
         }

@@ -15,9 +15,9 @@ public interface ILineupDraftPresenter<V extends ILineUpView> extends ILineUpPre
 
     void leaveLeague(int leagueId);
 
-    void addPlayer(PlayerResponse player, int teamId, int position, int order, int pickRound, int pickOrder);
+    void addPlayer(JSONObject turn, int teamId, int playerId, int pickRound, int pickOrder);
 
-    void removePlayer(PlayerResponse player, int teamId, int pickRound, int pickOrder);
+    void removePlayer(JSONObject turn, int teamId, int playerId, int pickRound, int pickOrder);
 
     /**
      * End count down a League.

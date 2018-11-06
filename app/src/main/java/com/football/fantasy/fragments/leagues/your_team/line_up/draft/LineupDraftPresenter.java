@@ -2,26 +2,24 @@ package com.football.fantasy.fragments.leagues.your_team.line_up.draft;
 
 import android.util.Log;
 
+import com.bon.share_preferences.AppPreferences;
+import com.football.application.AppContext;
 import com.football.di.AppComponent;
-import com.football.fantasy.BuildConfig;
 import com.football.fantasy.fragments.leagues.your_team.line_up.LineUpPresenter;
 import com.football.listeners.ApiCallback;
 import com.football.models.responses.DraftCountdownResponse;
 import com.football.models.responses.LineupResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.PropsPlayerResponse;
+import com.football.utilities.Constant;
 import com.football.utilities.RxUtilities;
 import com.football.utilities.SocketEventKey;
-import com.github.nkzawa.socketio.client.Ack;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import io.reactivex.Completable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.MultipartBody;
 
 public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> implements ILineupDraftPresenter<ILineupDraftView> {
 
@@ -135,47 +133,57 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
 
     @Override
     public void endTurnNew(JSONObject turn) {
-        try {
+        Completable.create(e -> {
             turn.put("endturn", true);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        getOptView().get().getAppActivity().getAppContext().getSocket().emit(SocketEventKey.EVENT_END_TURN_NEW, turn);
+            getOptView().get().getAppActivity().getAppContext().getSocket().emit(SocketEventKey.EVENT_END_TURN_NEW, turn);
+            e.onComplete();
+        }).subscribeOn(Schedulers.io()).subscribe();
     }
 
     @Override
-    public void addPlayer(PlayerResponse player, int teamId, int position, int order, int pickRound, int pickOrder) {
-        getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(
-                    v,
-                    dataModule.getApiService().addPlayer(
-                            teamId,
-                            new MultipartBody.Builder()
-                                    .setType(MultipartBody.FORM)
-                                    .addFormDataPart("pick_round", String.valueOf(pickRound))
-                                    .addFormDataPart("pick_order", String.valueOf(pickOrder))
-                                    .addFormDataPart("player_id", String.valueOf(player.getId()))
-                                    .addFormDataPart("order", String.valueOf(order))
-                                    .build()),
-                    null));
-        });
+    public void addPlayer(JSONObject turn, int teamId, int playerId, int pickRound, int pickOrder) {
+        Completable.create(e -> {
+            AppContext context = getOptView().get().getAppActivity().getAppContext();
+            String token = AppPreferences.getInstance(context).getString(Constant.KEY_TOKEN);
+
+            JSONObject player = new JSONObject();
+            player.put("action", "add_player");
+            player.put("token", token);
+            player.put("team_id", teamId);
+            player.put("player_id", playerId);
+            player.put("pick_order", pickRound);
+            player.put("pick_round", pickOrder);
+
+            turn.put("playerData", player);
+
+            Log.e(TAG, "addPlayer: " + turn);
+            context.getSocket().emit(SocketEventKey.EVENT_ADD_REMOVE_PLAYER, turn);
+
+            e.onComplete();
+        }).subscribeOn(Schedulers.io()).subscribe();
     }
 
     @Override
-    public void removePlayer(PlayerResponse player, int teamId, int pickRound, int pickOrder) {
-        getOptView().doIfPresent(v -> {
-            mCompositeDisposable.add(RxUtilities.async(
-                    v,
-                    dataModule.getApiService().removePlayer(
-                            teamId,
-                            new MultipartBody.Builder()
-                                    .setType(MultipartBody.FORM)
-                                    .addFormDataPart("pick_round", String.valueOf(pickRound))
-                                    .addFormDataPart("pick_order", String.valueOf(pickOrder))
-                                    .addFormDataPart("player_id", String.valueOf(player.getId()))
-                                    .build()),
-                    null));
-        });
+    public void removePlayer(JSONObject turn, int teamId, int playerId, int pickRound, int pickOrder) {
+        Completable.create(e -> {
+            AppContext context = getOptView().get().getAppActivity().getAppContext();
+            String token = AppPreferences.getInstance(context).getString(Constant.KEY_TOKEN);
+
+            JSONObject player = new JSONObject();
+            player.put("action", "remove_player");
+            player.put("token", token);
+            player.put("team_id", teamId);
+            player.put("player_id", playerId);
+            player.put("pick_order", pickRound);
+            player.put("pick_round", pickOrder);
+
+            turn.put("playerData", player);
+
+            Log.e(TAG, "removePlayer: " + turn);
+            context.getSocket().emit(SocketEventKey.EVENT_ADD_REMOVE_PLAYER, turn);
+
+            e.onComplete();
+        }).subscribeOn(Schedulers.io()).subscribe();
     }
 
 }

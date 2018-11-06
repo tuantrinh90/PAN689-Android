@@ -29,6 +29,7 @@ import com.football.models.responses.TurnResponse;
 import com.football.utilities.Constant;
 import com.football.utilities.SocketEventKey;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
@@ -372,12 +373,15 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                     }
                 }
 
-                JSONObject turn = new JSONObject(JacksonUtils.writeValueToString(currentTurn));
-                presenter.endTurnNew(turn);
+                presenter.endTurnNew(getTurn());
 
                 e.onComplete();
             }).subscribeOn(Schedulers.io()).subscribe();
         }
+    }
+
+    private JSONObject getTurn() throws JSONException {
+        return new JSONObject(JacksonUtils.writeValueToString(currentTurn));
     }
 
     @Override
@@ -465,7 +469,11 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                 playerViewSelected.setRemovable(true);
                 playerViewSelected.setAddable(false);
                 callback.accept(true, "");
-                presenter.addPlayer(player, teamId, position, order, pickRound, pickOrder);
+                try {
+                    presenter.addPlayer(getTurn(), teamId, player.getId(), pickRound, pickOrder);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 if (BuildConfig.DEBUG) {
                     if (order == -1) {
@@ -504,7 +512,11 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                     if (playerViewSelected != null) {
                         playerViewSelected.setPlayer(null);
                         playerViewSelected = null;
-                        presenter.removePlayer(player, teamId, pickRound, pickOrder);
+                        try {
+                            presenter.removePlayer(getTurn(), teamId, player.getId(), pickRound, pickOrder);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         bus.send(new GeneralEvent<>(GeneralEvent.SOURCE.LINEUP_REMOVE_PLAYER));
 
                         updateStatistic(player.getMainPosition(), -1);
@@ -512,8 +524,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
                         // log currentTeam
                         Log.e(TAG, "removePlayer #pickRound: " + pickRound);
                     }
-                },
-                null);
+                }, null);
     }
 
     /**

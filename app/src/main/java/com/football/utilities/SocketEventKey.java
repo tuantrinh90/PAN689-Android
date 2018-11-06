@@ -6,7 +6,7 @@ public class SocketEventKey {
     public static final String EVENT_JOIN_ROOM = "join_room";
     public static final String EVENT_LEAVE_ROOM = "leave_room";
     public static final String EVENT_END_TURN_NEW = "end_turn";
-
+    public static final String EVENT_ADD_REMOVE_PLAYER = "add_remove_player";
 
     // on
     public static final String EVENT_REAL_MATCHES = "event_real_matches";

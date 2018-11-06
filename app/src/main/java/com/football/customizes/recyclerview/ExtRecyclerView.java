@@ -13,6 +13,8 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -78,6 +80,10 @@ public class ExtRecyclerView<T> extends FrameLayout {
 
             // recyclerView
             recyclerView = view.findViewById(R.id.recyclerview);
+
+            // setAnimation
+            LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_fall_down);
+            recyclerView.setLayoutAnimation(animation);
 
             //data not found
             tvMessage = view.findViewById(R.id.tv_message);
@@ -233,7 +239,11 @@ public class ExtRecyclerView<T> extends FrameLayout {
                 items.add(null);
             }
         }
+        boolean animation = mAdapter.getItemCount() == 0;
         mAdapter.addItems(items);
+        if (animation) {
+            recyclerView.scheduleLayoutAnimation();
+        }
         displayMessage();
     }
 
