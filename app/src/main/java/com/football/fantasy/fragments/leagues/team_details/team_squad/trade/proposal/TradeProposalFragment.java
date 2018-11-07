@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.OnClick;
-import io.reactivex.observers.DisposableObserver;
 
 public class TradeProposalFragment extends BaseMvpFragment<ITradeProposalView, ITradeProposalPresenter<ITradeProposalView>> implements ITradeProposalView {
 
@@ -107,30 +106,16 @@ public class TradeProposalFragment extends BaseMvpFragment<ITradeProposalView, I
     }
 
     private void initData() {
-        // action add click on PlayerList
-        mCompositeDisposable.add(bus.ofType(PlayerEvent.class)
-                .subscribeWith(new DisposableObserver<PlayerEvent>() {
-                    @Override
-                    public void onNext(PlayerEvent event) {
-                        if (event.getAction() == PlayerEvent.ACTION_ADD_CLICK) {
-                            PlayerResponse player = event.getData();
-                            playerViews[event.getPosition()].setPosition(player.getMainPosition());
-                            playerViews[event.getPosition()].setPlayer(player);
+        // action add click onEvent PlayerList
+        onEvent(PlayerEvent.class, event -> {
+            if (event.getAction() == PlayerEvent.ACTION_ADD_CLICK) {
+                PlayerResponse player = event.getData();
+                playerViews[event.getPosition()].setPosition(player.getMainPosition());
+                playerViews[event.getPosition()].setPlayer(player);
 
-                            setEnableMakeProposalButton();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                }));
+                setEnableMakeProposalButton();
+            }
+        });
     }
 
     private void initView() {

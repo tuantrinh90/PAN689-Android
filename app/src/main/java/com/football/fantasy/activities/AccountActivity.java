@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.WindowManager;
 
 import com.bon.logger.Logger;
@@ -25,7 +24,6 @@ import com.football.fantasy.fragments.account.signup.SignUpFragment;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import io.reactivex.observers.DisposableObserver;
 
 public class AccountActivity extends BaseActivity {
     private static final String TAG = AccountActivity.class.getSimpleName();
@@ -86,26 +84,7 @@ public class AccountActivity extends BaseActivity {
     }
 
     void registerEvent() {
-        try {
-            mCompositeDisposable.add(bus.ofType(SignInEvent.class).subscribeWith(new DisposableObserver<SignInEvent>() {
-                @Override
-                public void onNext(SignInEvent signInEvent) {
-                    openSignin();
-                }
-
-                @Override
-                public void onError(Throwable e) {
-
-                }
-
-                @Override
-                public void onComplete() {
-
-                }
-            }));
-        } catch (Exception e) {
-            Logger.e(TAG, e);
-        }
+        onEvent(SignInEvent.class, res -> openSignin());
     }
 
     @Override

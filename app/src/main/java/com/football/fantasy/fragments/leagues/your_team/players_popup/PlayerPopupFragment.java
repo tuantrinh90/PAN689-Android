@@ -30,9 +30,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.observers.DisposableObserver;
-
-import static com.football.customizes.lineup.PlayerView.NONE_ORDER;
 
 public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlayerPopupPresenter<IPlayerPopupView>> implements IPlayerPopupView {
 
@@ -94,95 +91,36 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
     }
 
     private void registerBus() {
-        // action add click on PlayerList
-        mCompositeDisposable.add(bus.ofType(PlayerQueryEvent.class)
-                .subscribeWith(new DisposableObserver<PlayerQueryEvent>() {
-                    @Override
-                    public void onNext(PlayerQueryEvent event) {
-                        if (event.getFrom().equals(TAG)) {
-                            if (event.getTag() == PlayerQueryEvent.TAG_FILTER) {
-                                filterClubs = event.getClub();
+        // action add click onEvent PlayerList
+        onEvent(PlayerQueryEvent.class, event -> {
+            if (event.getFrom().equals(TAG)) {
+                if (event.getTag() == PlayerQueryEvent.TAG_FILTER) {
+                    filterClubs = event.getClub();
 
-                                refresh();
-                            }
-                        }
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                }));
+                    refresh();
+                }
+            }
+        });
 
         // pick Player
-        mCompositeDisposable.add(bus.ofType(PickEvent.class)
-                .subscribeWith(new DisposableObserver<PickEvent>() {
-                    @Override
-                    public void onNext(PickEvent event) {
-                        mActivity.finish();
-                    }
+        onEvent(PickEvent.class, event -> mActivity.finish());
 
-                    @Override
-                    public void onError(Throwable e) {
+        onEvent(GeneralEvent.class, event -> {
+            switch (event.getSource()) {
+                case LINEUP_DRAFT:
+                    visibleAddButtonInPlayerList(((Boolean) event.getData()));
+                    break;
+            }
+        });
 
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                }));
-
-        mCompositeDisposable.add(bus.ofType(GeneralEvent.class)
-                .subscribeWith(new DisposableObserver<GeneralEvent>() {
-                    @Override
-                    public void onNext(GeneralEvent event) {
-                        switch (event.getSource()) {
-                            case LINEUP_DRAFT:
-                                visibleAddButtonInPlayerList(((Boolean) event.getData()));
-                                break;
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                }));
-
-        // action add click on PlayerList
-        mCompositeDisposable.add(bus.ofType(PlayerEvent.class)
-                .subscribeWith(new DisposableObserver<PlayerEvent>() {
-                    @Override
-                    public void onNext(PlayerEvent event) {
-                        switch (event.getAction()) {
-                            case PlayerEvent.ACTION_ADD_CLICK:
-                                mActivity.finish();
-                                break;
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                }));
+        // action add click onEvent PlayerList
+        onEvent(PlayerEvent.class, event -> {
+            switch (event.getAction()) {
+                case PlayerEvent.ACTION_ADD_CLICK:
+                    mActivity.finish();
+                    break;
+            }
+        });
     }
 
     // bắn sang màn hình LineUp

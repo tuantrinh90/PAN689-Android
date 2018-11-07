@@ -3,7 +3,6 @@ package com.football.fantasy.fragments.leagues.league_details.trade_review.sub;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
 import android.view.View;
 
 import com.football.adapters.TradeReviewingAdapter;
@@ -18,7 +17,6 @@ import com.football.models.responses.TradeResponse;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.observers.DisposableObserver;
 
 // Get trade review results
 public class SubTradeReviewFragment extends BaseMvpFragment<ISubTradeReviewView, ISubTradeReviewPresenter<ISubTradeReviewView>> implements ISubTradeReviewView {
@@ -113,28 +111,8 @@ public class SubTradeReviewFragment extends BaseMvpFragment<ISubTradeReviewView,
     }
 
     private void registerBus() {
-        try {
-            // action add click on PlayerList
-            mCompositeDisposable.add(bus.ofType(TradeEvent.class)
-                    .subscribeWith(new DisposableObserver<TradeEvent>() {
-                        @Override
-                        public void onNext(TradeEvent event) {
-                            refresh();
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    }));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // action add click onEvent PlayerList
+        onEvent(TradeEvent.class, event -> refresh());
     }
 
     @Override

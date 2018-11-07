@@ -28,7 +28,6 @@ import com.football.models.responses.LeagueResponse;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import io.reactivex.observers.DisposableObserver;
 
 public class YourTeamFragment extends BaseMvpFragment<IYourTeamView, IYourTeamPresenter<IYourTeamView>> implements IYourTeamView {
     static final String KEY_LEAGUE = "LEAGUE";
@@ -115,29 +114,11 @@ public class YourTeamFragment extends BaseMvpFragment<IYourTeamView, IYourTeamPr
 
     private void registerEvent() {
         // complete lineup event
-        mCompositeDisposable.add(bus.ofType(LineupEvent.class)
-                .subscribeWith(new DisposableObserver<LineupEvent>() {
-                    @Override
-                    public void onNext(LineupEvent event) {
-                        try {
-                            if (mAdapter.getItem(2) instanceof TeamListFragment) {
-                                vpViewPager.setCurrentItem(2);
-                            }
-                        } catch (NullPointerException e) {
-
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                }));
+        onEvent(LineupEvent.class, event -> {
+            if (mAdapter != null && vpViewPager != null && mAdapter.getItem(2) instanceof TeamListFragment) {
+                vpViewPager.setCurrentItem(2);
+            }
+        });
     }
 
     @Override

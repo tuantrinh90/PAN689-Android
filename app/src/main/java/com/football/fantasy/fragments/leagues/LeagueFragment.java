@@ -24,7 +24,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.observers.DisposableObserver;
 
 public class LeagueFragment extends BaseMainMvpFragment<ILeagueView, ILeaguePresenter<ILeagueView>> implements ILeagueView {
     static final String TAG = LeagueFragment.class.getSimpleName();
@@ -59,25 +58,11 @@ public class LeagueFragment extends BaseMainMvpFragment<ILeagueView, ILeaguePres
 
     private void registerEvent() {
         // load my leagues
-        mCompositeDisposable.add(bus.ofType(LeagueEvent.class).subscribeWith(new DisposableObserver<LeagueEvent>() {
-            @Override
-            public void onNext(LeagueEvent leagueEvent) {
-                if (leagueEvent.getAction() == LeagueEvent.ACTION_JOIN) {
-                    vpViewPager.setCurrentItem(MY_LEAGUE);
-                }
+        onEvent(LeagueEvent.class, event -> {
+            if (event.getAction() == LeagueEvent.ACTION_JOIN) {
+                vpViewPager.setCurrentItem(MY_LEAGUE);
             }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        }));
-
+        });
     }
 
     void initView() {

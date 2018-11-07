@@ -30,7 +30,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.observers.DisposableObserver;
 
 public class ProfileFragment extends BaseMainMvpFragment<IProfileView, IProfilePresenter<IProfileView>> implements IProfileView {
 
@@ -107,23 +106,7 @@ public class ProfileFragment extends BaseMainMvpFragment<IProfileView, IProfileP
 
     void registerEvent() {
         // load my leagues
-        mCompositeDisposable.add(bus.ofType(UserEvent.class).subscribeWith(new DisposableObserver<UserEvent>() {
-            @Override
-            public void onNext(UserEvent event) {
-                presenter.getProfile();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        }));
-
+        onEvent(UserEvent.class, event -> presenter.getProfile());
     }
 
     @OnClick({R.id.ivMenu})

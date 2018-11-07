@@ -37,7 +37,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.observers.DisposableObserver;
 
 public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<IHomeView>> implements IHomeView, ViewTreeObserver.OnGlobalLayoutListener {
     private static final String TAG = HomeFragment.class.getSimpleName();
@@ -109,46 +108,11 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     }
 
     void registerEvent() {
-        try {
-            // load my leagues
-            mCompositeDisposable.add(bus.ofType(LeagueEvent.class).subscribeWith(new DisposableObserver<LeagueEvent>() {
-                @Override
-                public void onNext(LeagueEvent leagueEvent) {
-                    getMyLeagues();
-                }
+        // load my leagues
+        onEvent(LeagueEvent.class, res -> getMyLeagues());
 
-                @Override
-                public void onError(Throwable e) {
-
-                }
-
-                @Override
-                public void onComplete() {
-
-                }
-            }));
-
-            // load my leagues, remove
-            mCompositeDisposable.add(bus.ofType(StopLeagueEvent.class)
-                    .subscribeWith(new DisposableObserver<StopLeagueEvent>() {
-                        @Override
-                        public void onNext(StopLeagueEvent stopLeagueEvent) {
-                            getMyLeagues();
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    }));
-        } catch (Exception e) {
-            Logger.e(TAG, e);
-        }
+        // load my leagues, remove
+        onEvent(StopLeagueEvent.class, res -> getMyLeagues());
     }
 
     void initView() {

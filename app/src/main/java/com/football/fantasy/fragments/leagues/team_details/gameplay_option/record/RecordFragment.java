@@ -19,7 +19,6 @@ import com.football.models.responses.TransferHistoryResponse;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.observers.DisposableObserver;
 
 public class RecordFragment extends BaseMvpFragment<IRecordView, IRecordPresenter<IRecordView>> implements IRecordView {
 
@@ -62,45 +61,15 @@ public class RecordFragment extends BaseMvpFragment<IRecordView, IRecordPresente
     }
 
     private void registerEvent() {
-        // action add click on PlayerList
-        mCompositeDisposable.add(bus.ofType(TransferEvent.class)
-                .subscribeWith(new DisposableObserver<TransferEvent>() {
-                    @Override
-                    public void onNext(TransferEvent event) {
-                        if (event.getAction() == TransferEvent.RECEIVER) {
-                            refreshData();
-                        }
-                    }
+        // action add click onEvent PlayerList
+        onEvent(TransferEvent.class, event -> {
+            if (event.getAction() == TransferEvent.RECEIVER) {
+                refreshData();
+            }
+        });
 
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                }));
-
-        // action add click on PlayerList
-        mCompositeDisposable.add(bus.ofType(TradeEvent.class)
-                .subscribeWith(new DisposableObserver<TradeEvent>() {
-                    @Override
-                    public void onNext(TradeEvent event) {
-                        refreshData();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                }));
+        // action add click onEvent PlayerList
+        onEvent(TradeEvent.class, event -> refreshData());
     }
 
     private void getDataFromBundle() {

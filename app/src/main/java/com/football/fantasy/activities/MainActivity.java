@@ -39,7 +39,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.observers.DisposableObserver;
 
 import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
 import static com.football.services.NotificationKey.BEFORE_START_TIME_2H;
@@ -379,30 +378,17 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initRxBus() {
-        mCompositeDisposable.add(bus.ofType(UnauthorizedEvent.class).subscribeWith(new DisposableObserver<UnauthorizedEvent>() {
-            @Override
-            public void onNext(UnauthorizedEvent unauthorizedEvent) {
-                DialogUtils.messageBox(MainActivity.this,
-                        getString(R.string.app_name),
-                        unauthorizedEvent.getMessage(),
-                        getString(R.string.ok),
-                        (dialog, which) -> {
-                            ActivityUtils.startActivity(AccountActivity.class);
-                            AppPreferences.getInstance(getAppContext()).clearCache();
-                            MainActivity.this.finish();
-                        });
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        }));
+        onEvent(UnauthorizedEvent.class, res -> {
+            DialogUtils.messageBox(MainActivity.this,
+                    getString(R.string.app_name),
+                    res.getMessage(),
+                    getString(R.string.ok),
+                    (dialog, which) -> {
+                        ActivityUtils.startActivity(AccountActivity.class);
+                        AppPreferences.getInstance(getAppContext()).clearCache();
+                        MainActivity.this.finish();
+                    });
+        });
     }
 
     private void initBroadcast() {

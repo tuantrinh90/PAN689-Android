@@ -13,7 +13,6 @@ import com.football.models.responses.PlayerResponse;
 import com.football.utilities.SocketEventKey;
 
 import butterknife.BindView;
-import io.reactivex.observers.DisposableObserver;
 
 import static com.football.customizes.lineup.PlayerView.NONE_ORDER;
 import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_NONE;
@@ -49,31 +48,17 @@ public class PlayerListDraftFragment extends PlayerListFragment<IPlayerListDraft
     @Override
     protected void registerBus() {
         super.registerBus();
-        mCompositeDisposable.add(bus.ofType(GeneralEvent.class)
-                .subscribeWith(new DisposableObserver<GeneralEvent>() {
-                    @Override
-                    public void onNext(GeneralEvent event) {
-                        switch (event.getSource()) {
-                            case LINEUP_DRAFT:
-                                visibleAddButtonInPlayerList(((Boolean) event.getData()));
-                                break;
+        onEvent(GeneralEvent.class, event -> {
+            switch (event.getSource()) {
+                case LINEUP_DRAFT:
+                    visibleAddButtonInPlayerList(((Boolean) event.getData()));
+                    break;
 
-                            case LINEUP_REMOVE_PLAYER:
-                                mActivity.runOnUiThread(() -> refresh());
-                                break;
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                }));
+                case LINEUP_REMOVE_PLAYER:
+                    mActivity.runOnUiThread(this::refresh);
+                    break;
+            }
+        });
     }
 
     @Override

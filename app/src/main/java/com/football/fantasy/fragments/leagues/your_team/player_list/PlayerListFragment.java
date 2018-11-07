@@ -27,7 +27,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.observers.DisposableObserver;
 
 public abstract class PlayerListFragment<V extends IPlayerListView, P extends IPlayerListPresenter<V>> extends BaseMvpFragment<V, P> implements IPlayerListView {
     private static final String TAG = "PlayerListFragment";
@@ -172,54 +171,26 @@ public abstract class PlayerListFragment<V extends IPlayerListView, P extends IP
     }
 
     protected void registerBus() {
-        // action add click on PlayerList
-        mCompositeDisposable.add(bus.ofType(PlayerQueryEvent.class)
-                .subscribeWith(new DisposableObserver<PlayerQueryEvent>() {
-                    @Override
-                    public void onNext(PlayerQueryEvent event) {
-                        if (event.getFrom().equals(TAG))
-                            if (event.getTag() == PlayerQueryEvent.TAG_FILTER) {
-                                filterClubs = event.getClub();
-                                filterPositions = event.getPosition();
+        // action add click onEvent PlayerList
+        onEvent(PlayerQueryEvent.class, event -> {
+            if (event.getFrom().equals(TAG))
+                if (event.getTag() == PlayerQueryEvent.TAG_FILTER) {
+                    filterClubs = event.getClub();
+                    filterPositions = event.getPosition();
 
-                                refresh();
-                            }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                }));
+                    refresh();
+                }
+        });
 
         // from: PlayerPopup & Lineup
-        mCompositeDisposable.add(bus.ofType(PickEvent.class)
-                .subscribeWith(new DisposableObserver<PickEvent>() {
-                    @Override
-                    public void onNext(PickEvent event) {
-                        int playerIndex = playerAdapter.findPlayerById(event.getPlayerId());
-                        if (playerIndex >= 0) {
-                            PlayerResponse player = playerAdapter.getItem(playerIndex);
-                            player.setSelected(event.getAction() == PickEvent.ACTION_PICK);
-                            playerAdapter.update(playerIndex, player);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                }));
+        onEvent(PickEvent.class, event -> {
+            int playerIndex = playerAdapter.findPlayerById(event.getPlayerId());
+            if (playerIndex >= 0) {
+                PlayerResponse player = playerAdapter.getItem(playerIndex);
+                player.setSelected(event.getAction() == PickEvent.ACTION_PICK);
+                playerAdapter.update(playerIndex, player);
+            }
+        });
     }
 
     void onClickFilter() {

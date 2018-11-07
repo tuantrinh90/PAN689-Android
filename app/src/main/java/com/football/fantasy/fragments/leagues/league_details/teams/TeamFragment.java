@@ -23,7 +23,6 @@ import com.football.utilities.AppUtilities;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.observers.DisposableObserver;
 
 import static com.football.models.responses.LeagueResponse.FINISHED;
 import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
@@ -75,25 +74,11 @@ public class TeamFragment extends BaseMvpFragment<ITeamView, ITeamPresenter<ITea
     }
 
     void registerEvent() {
-        // action add click on PlayerList
-        mCompositeDisposable.add(bus.ofType(TeamEvent.class)
-                .subscribeWith(new DisposableObserver<TeamEvent>() {
-                    @Override
-                    public void onNext(TeamEvent event) {
-                        // ở LineupFragment bắn về null
-                        refresh();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                }));
+        // action add click onEvent PlayerList
+        onEvent(TeamEvent.class, event -> {
+            // ở LineupFragment bắn về null
+            refresh();
+        });
     }
 
     void initView() {

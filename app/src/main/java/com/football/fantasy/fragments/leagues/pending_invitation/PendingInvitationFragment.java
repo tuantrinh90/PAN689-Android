@@ -20,7 +20,6 @@ import com.football.utilities.Constant;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.observers.DisposableObserver;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 
@@ -51,55 +50,16 @@ public class PendingInvitationFragment extends BaseMainMvpFragment<IPendingInvit
     }
 
     void registerEvent() {
-        try {
-            // load my leagues
-            mCompositeDisposable.add(bus.ofType(LeagueEvent.class).subscribeWith(new DisposableObserver<LeagueEvent>() {
-                @Override
-                public void onNext(LeagueEvent leagueEvent) {
-                    refresh();
-                }
-
-                @Override
-                public void onError(Throwable e) {
-
-                }
-
-                @Override
-                public void onComplete() {
-
-                }
-            }));
-
-            // load my leagues, remove
-            mCompositeDisposable.add(bus.ofType(StopLeagueEvent.class)
-                    .subscribeWith(new DisposableObserver<StopLeagueEvent>() {
-                        @Override
-                        public void onNext(StopLeagueEvent stopLeagueEvent) {
-                            try {
-                                List<LeagueResponse> leagues = rvLeague.getAdapter().getDataSet();
-                                if (leagues != null && leagues.size() > 0) {
-                                    leagues = StreamSupport.stream(leagues).filter(n -> n.getId() != stopLeagueEvent.getLeagueId()).collect(Collectors.toList());
-                                    rvLeague.clear();
-                                    rvLeague.addItems(leagues);
-                                }
-                            } catch (Exception e) {
-                                Logger.e(TAG, e);
-                            }
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    }));
-        } catch (Exception e) {
-            Logger.e(TAG, e);
-        }
+        // load my leagues
+        onEvent(LeagueEvent.class, event -> refresh());
+        onEvent(StopLeagueEvent.class, event -> {
+            List<LeagueResponse> leagues = rvLeague.getAdapter().getDataSet();
+            if (leagues != null && leagues.size() > 0) {
+                leagues = StreamSupport.stream(leagues).filter(n -> n.getId() != event.getLeagueId()).collect(Collectors.toList());
+                rvLeague.clear();
+                rvLeague.addItems(leagues);
+            }
+        });
     }
 
     void initView() {

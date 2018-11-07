@@ -19,7 +19,6 @@ import com.football.models.responses.TeamResponse;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.observers.DisposableObserver;
 
 public class TeamListFragment extends BaseMvpFragment<ITeamListView, ITeamListPresenter<ITeamListView>> implements ITeamListView {
     static final String KEY_LEAGUE = "LEAGUE";
@@ -90,24 +89,8 @@ public class TeamListFragment extends BaseMvpFragment<ITeamListView, ITeamListPr
     }
 
     void registerEvent() {
-        // action add click on PlayerList
-        mCompositeDisposable.add(bus.ofType(TeamEvent.class)
-                .subscribeWith(new DisposableObserver<TeamEvent>() {
-                    @Override
-                    public void onNext(TeamEvent event) {
-                        refresh();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                }));
+        // action add click onEvent PlayerList
+        onEvent(TeamEvent.class, event -> refresh());
     }
 
     @NonNull

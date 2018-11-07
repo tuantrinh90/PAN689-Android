@@ -37,7 +37,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.observers.DisposableObserver;
 
 import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_NONE;
 import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_NONE_INFO;
@@ -203,68 +202,34 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     }
 
     private void registerBus() {
-        try {
-            // action add click on PlayerList
-            mCompositeDisposable.add(bus.ofType(PlayerQueryEvent.class)
-                    .subscribeWith(new DisposableObserver<PlayerQueryEvent>() {
-                        @Override
-                        public void onNext(PlayerQueryEvent event) {
-                            if (event.getFrom().equals(TAG)) {
-                                if (event.getTag() == PlayerQueryEvent.TAG_FILTER) {
-                                    filterClubs = event.getClub();
-                                    filterPositions = event.getPosition();
+        // action add click onEvent PlayerList
+        onEvent(PlayerQueryEvent.class, event -> {
+            if (event.getFrom().equals(TAG)) {
+                if (event.getTag() == PlayerQueryEvent.TAG_FILTER) {
+                    filterClubs = event.getClub();
+                    filterPositions = event.getPosition();
 
-                                    // get items
-                                    refresh();
-                                } else if (event.getTag() == PlayerQueryEvent.TAG_DISPLAY) {
-                                    displayPairs = event.getDisplays();
+                    // get items
+                    refresh();
+                } else if (event.getTag() == PlayerQueryEvent.TAG_DISPLAY) {
+                    displayPairs = event.getDisplays();
 
-                                    displayDisplay();
-                                }
-                            }
+                    displayDisplay();
+                }
+            }
+        });
 
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    }));
-
-            // action add click on PlayerList
-            mCompositeDisposable.add(bus.ofType(TransferEvent.class)
-                    .subscribeWith(new DisposableObserver<TransferEvent>() {
-                        @Override
-                        public void onNext(TransferEvent event) {
-                            if (event.getAction() == TransferEvent.RECEIVER) {
-                                showLoading(false);
-                                if (!TextUtils.isEmpty(event.getMessage())) {
-                                    showMessage(event.getMessage());
-                                } else {
-                                    mActivity.finish();
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    }));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // action add click onEvent PlayerList
+        onEvent(TransferEvent.class, event -> {
+            if (event.getAction() == TransferEvent.RECEIVER) {
+                showLoading(false);
+                if (!TextUtils.isEmpty(event.getMessage())) {
+                    showMessage(event.getMessage());
+                } else {
+                    mActivity.finish();
+                }
+            }
+        });
     }
 
     private void displayDisplay() {

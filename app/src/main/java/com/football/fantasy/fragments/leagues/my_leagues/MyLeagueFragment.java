@@ -18,7 +18,6 @@ import com.football.models.responses.LeagueResponse;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.observers.DisposableObserver;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 
@@ -54,53 +53,16 @@ public class MyLeagueFragment extends BaseMainMvpFragment<IMyLeagueView, IMyLeag
     }
 
     void registerEvent() {
-        try {
-            // load my leagues
-            mCompositeDisposable.add(bus.ofType(LeagueEvent.class).subscribeWith(new DisposableObserver<LeagueEvent>() {
-                @Override
-                public void onNext(LeagueEvent leagueEvent) {
-                    try {
-                        page = 1;
-                        rvLeague.clear();
-                        rvLeague.startLoading();
-                        getMyLeagues();
-                    } catch (Exception e) {
-                        Logger.e(TAG, e);
-                    }
-                }
+        // load my leagues
+        onEvent(LeagueEvent.class, event -> {
+            page = 1;
+            rvLeague.clear();
+            rvLeague.startLoading();
+            getMyLeagues();
+        });
 
-                @Override
-                public void onError(Throwable e) {
-
-                }
-
-                @Override
-                public void onComplete() {
-
-                }
-            }));
-
-            // load my leagues, remove
-            mCompositeDisposable.add(bus.ofType(StopLeagueEvent.class)
-                    .subscribeWith(new DisposableObserver<StopLeagueEvent>() {
-                        @Override
-                        public void onNext(StopLeagueEvent stopLeagueEvent) {
-                            reloadLeague(stopLeagueEvent.getLeagueId());
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    }));
-        } catch (Exception e) {
-            Logger.e(TAG, e);
-        }
+        // load my leagues, remove
+        onEvent(StopLeagueEvent.class, event -> reloadLeague(event.getLeagueId()));
     }
 
     private void reloadLeague(int leagueId) {

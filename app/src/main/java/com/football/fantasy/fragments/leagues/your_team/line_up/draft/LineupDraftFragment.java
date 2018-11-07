@@ -453,7 +453,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     }
 
     /**
-     * Click to add player on LineupView
+     * Click to add player onEvent LineupView
      */
     @Override
     protected void onLineupViewAddClicked(PlayerView playerView, int position, int order) {
@@ -508,7 +508,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     }
 
     /**
-     * Click to Remove Player on LineupView
+     * Click to Remove Player onEvent LineupView
      */
     @Override
     protected void onLineupViewRemoveClicked(PlayerResponse player, int position, int index) {

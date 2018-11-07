@@ -35,7 +35,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.observers.DisposableObserver;
 
 import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
 import static com.football.models.responses.PlayerResponse.Options.ASSISTS;
@@ -161,66 +160,32 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
     }
 
     private void registerBus() {
-        try {
-            // action add click on PlayerList
-            mCompositeDisposable.add(bus.ofType(PlayerQueryEvent.class)
-                    .subscribeWith(new DisposableObserver<PlayerQueryEvent>() {
-                        @Override
-                        public void onNext(PlayerQueryEvent event) {
-                            if (event.getFrom().equals(TAG)) {
-                                if (event.getTag() == PlayerQueryEvent.TAG_FILTER) {
-                                    filterClubs = event.getClub();
-                                    filterPositions = event.getPosition();
+        // action add click onEvent PlayerList
+        onEvent(PlayerQueryEvent.class, event -> {
+            if (event.getFrom().equals(TAG)) {
+                if (event.getTag() == PlayerQueryEvent.TAG_FILTER) {
+                    filterClubs = event.getClub();
+                    filterPositions = event.getPosition();
 
-                                    // get items
-                                    refreshData();
-                                } else if (event.getTag() == PlayerQueryEvent.TAG_DISPLAY) {
-                                    displays = event.getDisplays();
+                    // get items
+                    refreshData();
+                } else if (event.getTag() == PlayerQueryEvent.TAG_DISPLAY) {
+                    displays = event.getDisplays();
 
-                                    displayDisplay();
-                                }
-                            }
+                    displayDisplay();
+                }
+            }
+        });
 
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    }));
-
-            // action add click on PlayerPool
-            mCompositeDisposable.add(bus.ofType(TransferEvent.class)
-                    .subscribeWith(new DisposableObserver<TransferEvent>() {
-                        @Override
-                        public void onNext(TransferEvent event) {
-                            if (event.getAction() == TransferEvent.SENDER) {
-                                presenter.transferPlayer(team.getId(),
-                                        league.getGameplayOption(),
-                                        event.getFromPlayer().getId(),
-                                        event.getToPlayer().getId());
-                            }
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    }));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // action add click onEvent PlayerPool
+        onEvent(TransferEvent.class, event -> {
+            if (event.getAction() == TransferEvent.SENDER) {
+                presenter.transferPlayer(team.getId(),
+                        league.getGameplayOption(),
+                        event.getFromPlayer().getId(),
+                        event.getToPlayer().getId());
+            }
+        });
     }
 
     private void initView() {

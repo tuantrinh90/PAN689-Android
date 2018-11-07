@@ -30,6 +30,7 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableObserver;
 import java8.util.function.Consumer;
 
 /**
@@ -217,6 +218,33 @@ public abstract class BaseAppCompatActivity extends ExtBaseActivity implements I
             messageBox = DialogUtils.messageBox(this, 0, getString(R.string.app_name), message, getString(ok), getString(cancel),
                     (dialog, which) -> Optional.from(okConsumer).doIfPresent(c -> c.accept(null)),
                     (dialog, which) -> Optional.from(cancelConsumer).doIfPresent(c -> c.accept(null)));
+        }
+    }
+
+    protected <A extends IEvent> void onEvent(Class<A> clazz, Consumer<A> callback) {
+        try {
+            mCompositeDisposable.add(bus.ofType(clazz).subscribeWith(new DisposableObserver<A>() {
+                @Override
+                public void onNext(A response) {
+                    try {
+                        callback.accept(response);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onComplete() {
+
+                }
+            }));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

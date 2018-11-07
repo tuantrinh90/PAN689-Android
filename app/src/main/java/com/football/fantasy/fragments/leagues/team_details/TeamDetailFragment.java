@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.image.ImageLoaderUtils;
-import com.bon.logger.Logger;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMvpFragment;
 import com.football.customizes.images.CircleImageViewApp;
@@ -31,7 +30,6 @@ import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.observers.DisposableObserver;
 
 import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
 import static com.football.models.responses.LeagueResponse.WAITING_FOR_START;
@@ -146,29 +144,8 @@ public class TeamDetailFragment extends BaseMvpFragment<ITeamDetailView, ITeamDe
     }
 
     void registerEvent() {
-        try {
-            // action add click on PlayerList
-            mCompositeDisposable.add(bus.ofType(TeamEvent.class)
-                    .subscribeWith(new DisposableObserver<TeamEvent>() {
-                        @Override
-                        public void onNext(TeamEvent event) {
-                            getTeam();
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    }));
-
-        } catch (Exception e) {
-            Logger.e(TAG, e);
-        }
+        // action add click onEvent PlayerList
+        onEvent(TeamEvent.class, event -> getTeam());
     }
 
     @OnClick({R.id.ivEdit})

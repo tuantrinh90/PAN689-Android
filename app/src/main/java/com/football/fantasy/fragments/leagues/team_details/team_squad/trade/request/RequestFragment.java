@@ -17,7 +17,6 @@ import com.football.models.responses.TradeResponse;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.observers.DisposableObserver;
 
 public class RequestFragment extends BaseMvpFragment<IRequestView, IRequestPresenter<IRequestView>> implements IRequestView {
 
@@ -100,28 +99,8 @@ public class RequestFragment extends BaseMvpFragment<IRequestView, IRequestPrese
     }
 
     private void registerBus() {
-        try {
-            // action add click on PlayerList
-            mCompositeDisposable.add(bus.ofType(TradeEvent.class)
-                    .subscribeWith(new DisposableObserver<TradeEvent>() {
-                        @Override
-                        public void onNext(TradeEvent event) {
-                            refreshData();
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    }));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // action add click onEvent PlayerList
+        onEvent(TradeEvent.class, event -> refreshData());
     }
 
     private void getTradeRequests() {

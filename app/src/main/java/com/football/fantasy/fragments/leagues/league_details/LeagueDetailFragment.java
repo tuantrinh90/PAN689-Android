@@ -47,7 +47,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.observers.DisposableObserver;
 
 import static com.football.fantasy.fragments.leagues.league_details.trade_review.TradeReviewFragment.INDEX_RESULTS;
 import static com.football.models.responses.LeagueResponse.FINISHED;
@@ -190,66 +189,30 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     }
 
     void registerEvent() {
-        try {
-            // action add click on PlayerList
-            mCompositeDisposable.add(bus.ofType(LeagueEvent.class)
-                    .subscribeWith(new DisposableObserver<LeagueEvent>() {
-                        @Override
-                        public void onNext(LeagueEvent event) {
-                            switch (event.getAction()) {
-                                case LeagueEvent.ACTION_UPDATE:
-                                    if (event.getLeague() != null) {
-                                        LeagueDetailFragment.this.league = event.getLeague();
-                                        displayLeague(event.getLeague());
-                                        if (adapter.getItem(0) instanceof LeagueInfoFragment) {
-                                            ((LeagueInfoFragment) adapter.getItem(0)).displayLeague(event.getLeague());
-                                        }
-                                    }
-                                    break;
-
-                                case LeagueEvent.ACTION_LEAVE:
-                                    mActivity.finish();
-                                    break;
-                            }
+        onEvent(LeagueEvent.class, event -> {
+            switch (event.getAction()) {
+                case LeagueEvent.ACTION_UPDATE:
+                    if (event.getLeague() != null) {
+                        LeagueDetailFragment.this.league = event.getLeague();
+                        displayLeague(event.getLeague());
+                        if (adapter.getItem(0) instanceof LeagueInfoFragment) {
+                            ((LeagueInfoFragment) adapter.getItem(0)).displayLeague(event.getLeague());
                         }
+                    }
+                    break;
 
-                        @Override
-                        public void onError(Throwable e) {
+                case LeagueEvent.ACTION_LEAVE:
+                    mActivity.finish();
+                    break;
+            }
+        });
+        onEvent(StartLeagueEvent.class, event -> {
+            LeagueDetailFragment.this.leagueId = event.getLeague().getId();
+            LeagueDetailFragment.this.leagueType = event.getLeague().getLeagueType();
+            LeagueDetailFragment.this.league = event.getLeague();
 
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    }));
-
-            // start league
-            mCompositeDisposable.add(bus.ofType(StartLeagueEvent.class)
-                    .subscribeWith(new DisposableObserver<StartLeagueEvent>() {
-                        @Override
-                        public void onNext(StartLeagueEvent event) {
-                            LeagueDetailFragment.this.leagueId = event.getLeague().getId();
-                            LeagueDetailFragment.this.leagueType = event.getLeague().getLeagueType();
-                            LeagueDetailFragment.this.league = event.getLeague();
-
-                            presenter.getLeagueDetail(leagueId);
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    }));
-
-        } catch (Exception e) {
-            Logger.e(TAG, e);
-        }
+            presenter.getLeagueDetail(leagueId);
+        });
     }
 
     @OnClick(R.id.ivMenu)

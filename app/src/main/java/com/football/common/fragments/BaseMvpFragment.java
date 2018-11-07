@@ -38,6 +38,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.subjects.BehaviorSubject;
 import java8.util.function.Consumer;
 
@@ -351,5 +352,32 @@ public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDat
     public BaseMvpFragment<V, P> setChildFragment(boolean isChildFragment) {
         this.isChildFragment = isChildFragment;
         return this;
+    }
+
+    protected <A extends IEvent> void onEvent(Class<A> clazz, Consumer<A> callback) {
+        try {
+            mCompositeDisposable.add(bus.ofType(clazz).subscribeWith(new DisposableObserver<A>() {
+                @Override
+                public void onNext(A event) {
+                    try {
+                        callback.accept(event);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onComplete() {
+
+                }
+            }));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

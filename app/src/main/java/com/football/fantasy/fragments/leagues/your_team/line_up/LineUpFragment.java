@@ -24,7 +24,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
-import io.reactivex.observers.DisposableObserver;
 import java8.util.function.BiConsumer;
 
 import static com.football.customizes.lineup.PlayerView.NONE_ORDER;
@@ -115,29 +114,15 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
     }
 
     void registerEvent() {
-        // action add click on PlayerList
-        mCompositeDisposable.add(bus.ofType(PlayerEvent.class)
-                .subscribeWith(new DisposableObserver<PlayerEvent>() {
-                    @Override
-                    public void onNext(PlayerEvent event) {
-                        switch (event.getAction()) {
-                            case PlayerEvent.ACTION_ADD_CLICK:
-                                callback = event.getCallback();
-                                onAddClickedFromPopup(event.getData(), event.getPosition(), event.getOrder() == null ? NONE_ORDER : event.getOrder());
-                                break;
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                }));
+        // action add click onEvent PlayerList
+        onEvent(PlayerEvent.class, event -> {
+            switch (event.getAction()) {
+                case PlayerEvent.ACTION_ADD_CLICK:
+                    callback = event.getCallback();
+                    onAddClickedFromPopup(event.getData(), event.getPosition(), event.getOrder() == null ? NONE_ORDER : event.getOrder());
+                    break;
+            }
+        });
     }
 
     @OnCheckedChanged({R.id.switch_display})
