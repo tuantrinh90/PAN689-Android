@@ -165,6 +165,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             TurnReceiveResponse response = JacksonUtils.convertJsonToObject(args[0].toString(), TurnReceiveResponse.class);
             if (response != null && mActivity != null && response.getLeagueId().equals(league.getId())) {
                 updatePickRound(response.getShowPickRound());
+
                 onEventRefreshUI();
 
                 if (BuildConfig.DEBUG) {
@@ -264,9 +265,12 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         // nếu finish rồi thì ẩn draftYourTurn và hiện textCompleted
         if (finish) {
             tvDraftNextTeam.setText(getString(R.string.finish).toUpperCase());
+        }
+
+        // nếu đã full 18 cầu thủ và ko phải đủ lượt pick thì ẩn draftYourTurn
+        if (lineupView.isSetupComplete() && !pickEnable) {
             draftYourTurn.setVisibility(View.GONE);
             textLineupCompleted.setVisibility(View.VISIBLE);
-            draftTeam.setVisibility(View.GONE);
         }
     }
 
@@ -274,10 +278,14 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         if (mActivity != null) mActivity.runOnUiThread(() -> {
             try {
                 showLoading(false);
-                draftLoading.setVisibility(View.GONE);
                 pickEnable = false;
                 playerViewSelected = null;
                 tvDraftCurrentTimeLeft.stop();
+
+                draftLoading.setVisibility(View.GONE);
+                draftYourTurn.setVisibility(View.GONE);
+                textLineupCompleted.setVisibility(View.VISIBLE);
+                draftTeam.setVisibility(View.GONE);
 
                 presenter.getLineup(teamId);
             } catch (Exception e) {

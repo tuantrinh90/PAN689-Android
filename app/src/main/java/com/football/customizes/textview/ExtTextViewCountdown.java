@@ -47,7 +47,7 @@ public class ExtTextViewCountdown extends ExtTextView {
     }
 
     public void setTime(long time) {
-        this.currentDuration = time * 1000;
+        this.currentDuration = time < 0 ? 0 : time * 1000;
         setText();
     }
 
