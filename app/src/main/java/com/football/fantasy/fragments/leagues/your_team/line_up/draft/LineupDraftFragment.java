@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.jackson.JacksonUtils;
+import com.bon.logger.Logger;
 import com.bon.share_preferences.AppPreferences;
 import com.bon.util.DialogUtils;
 import com.football.common.activities.AloneFragmentActivity;
@@ -135,6 +136,10 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         super.onDestroyView();
     }
 
+    private void log(Object... args) {
+        Logger.e(args[0].toString());
+    }
+
     private void registerSocket() {
         /*
          * trả về object theo mỗi giây
@@ -143,6 +148,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             Log.i(TAG, "\n====================== EVENT_TURN_RECEIVE ======================");
             Log.i(TAG, args != null && args.length > 0 && args[0] != null ? args[0].toString() : "null");
             if (args != null && args.length > 0 && args[0] != null) {
+                log(args);
                 TurnReceiveResponse response = JacksonUtils.convertJsonToObject(args[0].toString(), TurnReceiveResponse.class);
                 if (response != null && mActivity != null && response.getLeagueId().equals(league.getId())) {
                     currentTurn = response;
@@ -164,6 +170,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             Log.i(TAG, "\n====================== EVENT_REFRESH_UI ======================");
             TurnReceiveResponse response = JacksonUtils.convertJsonToObject(args[0].toString(), TurnReceiveResponse.class);
             if (response != null && mActivity != null && response.getLeagueId().equals(league.getId())) {
+                log(args);
                 updatePickRound(response.getShowPickRound());
 
                 onEventRefreshUI();
@@ -192,6 +199,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             Log.i(TAG, "\n====================== EVENT_PICK_TURN_FINISH ======================");
             TurnReceiveResponse response = JacksonUtils.convertJsonToObject(args[0].toString(), TurnReceiveResponse.class);
             if (response != null && mActivity != null && response.getLeagueId().equals(league.getId())) {
+                log(args);
                 onEventPickTurnFinish();
             }
         });
