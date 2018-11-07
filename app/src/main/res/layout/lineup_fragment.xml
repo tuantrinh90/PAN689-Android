@@ -193,6 +193,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:padding="@dimen/padding_content">
 
                         <com.bon.customview.textview.ExtTextView
@@ -337,7 +338,8 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical">
+                        android:layout_gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <com.bon.customview.textview.ExtTextView
                             style="@style/StyleDescription"
@@ -372,7 +374,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <com.bon.customview.textview.ExtTextView
                             style="@style/StyleDescriptionGray"

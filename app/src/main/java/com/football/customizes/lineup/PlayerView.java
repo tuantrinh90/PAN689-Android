@@ -25,13 +25,13 @@ public class PlayerView extends LinearLayout {
 
 
     @BindView(R.id.ivRemove)
-    public ImageView ivRemove;
+    ImageView ivRemove;
     @BindView(R.id.ivPlayer)
-    public ImageView ivPlayer;
+    ImageView ivPlayer;
     @BindView(R.id.tvContent)
-    public TextView tvContent;
+    TextView tvContent;
     @BindView(R.id.tvInjured)
-    public TextView tvInjured;
+    TextView tvInjured;
 
     private OnPlayerViewClickListener mListener;
     private int order;
