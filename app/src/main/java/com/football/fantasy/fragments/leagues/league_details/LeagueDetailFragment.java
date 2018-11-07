@@ -25,6 +25,7 @@ import com.football.customizes.carousels.CarouselView;
 import com.football.events.LeagueEvent;
 import com.football.events.StartLeagueEvent;
 import com.football.events.StopLeagueEvent;
+import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
 import com.football.fantasy.fragments.leagues.action.setup_leagues.SetUpLeagueFragment;
 import com.football.fantasy.fragments.leagues.action.setup_teams.SetupTeamFragment;
@@ -79,6 +80,10 @@ import static com.football.services.NotificationKey.USER_REJECT_INVITE;
 import static com.football.services.NotificationKey.USER_TRANSACTION_RESULT;
 
 public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILeagueDetailPresenter<ILeagueDetailView>> implements ILeagueDetailView {
+
+    private static final String PERMISSION_READ_EXTERNAL_STORAGE = android.Manifest.permission.READ_EXTERNAL_STORAGE;
+    private static final String PERMISSION_WRITE_EXTERNAL_STORAGE = android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
     private static final String TAG = LeagueDetailFragment.class.getSimpleName();
     private static final String KEY_TITLE = "key_title";
     private static final String KEY_LEAGUE_ID = "key_league";
@@ -157,6 +162,11 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
         bindButterKnife(view);
         registerEvent();
         presenter.getLeagueDetail(leagueId);
+
+        // request permission
+        if (BuildConfig.DEBUG) {
+            requestPermissions(new String[]{PERMISSION_READ_EXTERNAL_STORAGE, PERMISSION_WRITE_EXTERNAL_STORAGE}, 1000);
+        }
     }
 
     void getDataFromBundle() {

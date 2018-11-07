@@ -175,6 +175,24 @@ public class AppUtilities {
         }
     }
 
+    public static String timeLeft1(long totalSecs) {
+        long days = totalSecs / (3600 * 24);
+        long hours = (totalSecs % (3600 * 24)) / 3600;
+        long minutes = (totalSecs % 3600) / 60;
+
+        if (days > 0) {
+            return String.format("%dd%dh", days, hours);
+        } else if (hours > 0) {
+            return String.format("%dh%dm", hours, minutes);
+        } else if (minutes > 0) {
+            long seconds = totalSecs % 60;
+            return String.format("%dm%ds", minutes, seconds);
+        } else {
+            long seconds = totalSecs % 60;
+            return String.format("%ds", seconds);
+        }
+    }
+
     public static String timeLeft2(long totalSecs) {
         long days = totalSecs / (3600 * 24);
         long hours = (totalSecs % (3600 * 24)) / 3600;

@@ -14,6 +14,7 @@ public class ExtTextViewCountdown extends ExtTextView {
     private static final String TAG = "ExtTextViewCountdown";
 
     public static final int FORMAT_TEXT_HOURS = 0;
+    public static final int FORMAT_TEXT_HOURS_2 = 2;
     public static final int FORMAT_NUMBER_HOURS = 1;
     public static final int FORMAT_NUMBER_SECONDS_ONLY = 3;
 
@@ -87,6 +88,10 @@ public class ExtTextViewCountdown extends ExtTextView {
         switch (formatType) {
             case FORMAT_TEXT_HOURS:
                 setText(AppUtilities.timeLeft(currentDuration / 1000));
+                break;
+
+            case FORMAT_TEXT_HOURS_2:
+                setText(AppUtilities.timeLeft1(currentDuration / 1000));
                 break;
 
             case FORMAT_NUMBER_HOURS:

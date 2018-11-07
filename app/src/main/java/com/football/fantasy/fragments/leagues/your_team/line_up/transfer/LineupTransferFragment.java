@@ -3,8 +3,9 @@ package com.football.fantasy.fragments.leagues.your_team.line_up.transfer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TableRow;
 
-import com.bon.util.DateTimeUtils;
 import com.bon.util.DialogUtils;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.customizes.lineup.PlayerView;
@@ -18,10 +19,8 @@ import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.TeamResponse;
 import com.football.utilities.AppUtilities;
-import com.football.utilities.Constant;
 
-import java.util.List;
-
+import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.football.customizes.lineup.PlayerView.NONE_ORDER;
@@ -29,6 +28,11 @@ import static com.football.fantasy.fragments.leagues.player_details.PlayerDetail
 import static com.football.fantasy.fragments.leagues.player_details.PlayerDetailFragment.PICK_PICKED;
 
 public class LineupTransferFragment extends LineUpFragment<ILineupTransferView, ILineupTransferPresenter<ILineupTransferView>> implements ILineupTransferView {
+
+    @BindView(R.id.transfer_header)
+    protected TableRow transferHeader;
+    @BindView(R.id.transfer_bottom)
+    protected LinearLayout transferBottom;
 
     public static LineupTransferFragment newInstance(LeagueResponse league, Integer teamId) {
         LineupTransferFragment fragment = new LineupTransferFragment();
@@ -48,6 +52,9 @@ public class LineupTransferFragment extends LineUpFragment<ILineupTransferView, 
     @Override
     protected void initView() {
         super.initView();
+        transferHeader.setVisibility(View.VISIBLE);
+        transferBottom.setVisibility(View.VISIBLE);
+
         setupTransferMode();
 
         presenter.getLineup(teamId);

@@ -62,11 +62,6 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
     @BindView(R.id.tvComplete)
     protected ExtTextView tvComplete;
 
-    @BindView(R.id.transfer_header)
-    protected TableRow transferHeader;
-    @BindView(R.id.transfer_bottom)
-    protected LinearLayout transferBottom;
-
 
     protected LeagueResponse league;
     protected int teamId;
@@ -95,13 +90,7 @@ public abstract class LineUpFragment<V extends ILineUpView, P extends ILineUpPre
     }
 
     protected void initView() {
-        if (league.equalsGameplay(LeagueResponse.GAMEPLAY_OPTION_TRANSFER)) {
-            transferHeader.setVisibility(View.VISIBLE);
-            transferBottom.setVisibility(View.VISIBLE);
-        } else {
-            transferHeader.setVisibility(View.GONE);
-            transferBottom.setVisibility(View.GONE);
-        }
+
 
     }
 
