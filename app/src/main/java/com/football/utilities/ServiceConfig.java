@@ -7,9 +7,10 @@ import com.football.fantasy.BuildConfig;
  */
 
 public interface ServiceConfig {
-    String SOCKET_URL = "http://192.168.1.150:3333";
-    String HOST = BuildConfig.DEBUG ? "http://192.168.1.150/" : "http://ec2-52-77-241-109.ap-southeast-1.compute.amazonaws.com/";
-//    String HOST = "http://ec2-52-77-241-109.ap-southeast-1.compute.amazonaws.com/";
+    boolean local = BuildConfig.DEBUG;
+
+    String SOCKET_URL = local ? "http://192.168.1.150:3333" : "http://ec2-52-77-241-109.ap-southeast-1.compute.amazonaws.com:3333";
+    String HOST = local ? "http://192.168.1.150/" : "http://ec2-52-77-241-109.ap-southeast-1.compute.amazonaws.com/";
 
     // base url
     String BASE_URL = HOST + "api/v1/";

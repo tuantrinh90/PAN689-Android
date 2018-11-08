@@ -2,9 +2,11 @@ package com.football.fantasy.fragments.leagues.league_details;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -165,7 +167,15 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
 
         // request permission
         if (BuildConfig.DEBUG) {
-            requestPermissions(new String[]{PERMISSION_READ_EXTERNAL_STORAGE, PERMISSION_WRITE_EXTERNAL_STORAGE}, 1000);
+            // Here, thisActivity is the current activity
+            if (ContextCompat.checkSelfPermission(mActivity, PERMISSION_READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(mActivity,
+                        new String[]{PERMISSION_READ_EXTERNAL_STORAGE, PERMISSION_WRITE_EXTERNAL_STORAGE},
+                        1000);
+            }
         }
     }
 

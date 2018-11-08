@@ -136,8 +136,8 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
         super.onDestroyView();
     }
 
-    private void log(Object... args) {
-        Logger.e(args[0].toString());
+    private void log(String tag, Object... args) {
+        Logger.e(tag, args[0].toString());
     }
 
     private void registerSocket() {
@@ -148,7 +148,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             Log.i(TAG, "\n====================== EVENT_TURN_RECEIVE ======================");
             Log.i(TAG, args != null && args.length > 0 && args[0] != null ? args[0].toString() : "null");
             if (args != null && args.length > 0 && args[0] != null) {
-                log(args);
+                log("EVENT_TURN_RECEIVE", args);
                 TurnReceiveResponse response = JacksonUtils.convertJsonToObject(args[0].toString(), TurnReceiveResponse.class);
                 if (response != null && mActivity != null && response.getLeagueId().equals(league.getId())) {
                     currentTurn = response;
@@ -170,7 +170,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             Log.i(TAG, "\n====================== EVENT_REFRESH_UI ======================");
             TurnReceiveResponse response = JacksonUtils.convertJsonToObject(args[0].toString(), TurnReceiveResponse.class);
             if (response != null && mActivity != null && response.getLeagueId().equals(league.getId())) {
-                log(args);
+                log("EVENT_REFRESH_UI", args);
                 updatePickRound(response.getShowPickRound());
 
                 onEventRefreshUI();
@@ -199,7 +199,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             Log.i(TAG, "\n====================== EVENT_PICK_TURN_FINISH ======================");
             TurnReceiveResponse response = JacksonUtils.convertJsonToObject(args[0].toString(), TurnReceiveResponse.class);
             if (response != null && mActivity != null && response.getLeagueId().equals(league.getId())) {
-                log(args);
+                log("EVENT_PICK_TURN_FINISH", args);
                 onEventPickTurnFinish();
             }
         });
@@ -370,7 +370,7 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
             showLoading(true);
             view.setEnabled(false);
 
-            pickRound++;
+            pickRound++; // xử lý cho việc UI refresh chưa kịp tăng showPickRound
 
             Completable.create(e -> {
                 // cập nhật lại time các turn khác
@@ -399,7 +399,9 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     public void displayLineupPlayers(List<PlayerResponse> players) {
         lineupView.notifyDataSetChanged();
         for (PlayerResponse player : players) {
-            PlayerView playerView = lineupView.addPlayer(player, player.getMainPosition(), player.getOrder() == null ? NONE_ORDER : player.getOrder());
+            PlayerView playerView = lineupView.addPlayer(player,
+                    player.getMainPosition(),
+                    player.getOrder() == null ? NONE_ORDER : player.getOrder());
             if (player.getLastPickTurn() != null && player.getLastPickTurn().getRound() == pickRound
                     && pickEnable) {
                 Log.e(TAG, "displayLineupPlayers: lastPickTurn " + player.getLastPickTurn().getRound() + " pickRound: " + pickRound);

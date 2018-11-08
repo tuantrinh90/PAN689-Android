@@ -57,9 +57,9 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
 
     }
 
-    private void log(String s) {
+    private void log(String tag, String s) {
         if (BuildConfig.DEBUG) {
-            Logger.e(s);
+            Logger.e(tag, s);
         }
     }
 
@@ -80,7 +80,7 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
             e.printStackTrace();
         }
         getOptView().get().getAppActivity().getAppContext().getSocket().emit(SocketEventKey.EVENT_JOIN_ROOM, room);
-        log(room.toString());
+        log("EVENT_JOINT_ROOM", room.toString());
     }
 
     @Override
@@ -93,7 +93,7 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
             e.printStackTrace();
         }
         getOptView().get().getAppActivity().getAppContext().getSocket().emit(SocketEventKey.EVENT_LEAVE_ROOM, room);
-        log(room.toString());
+        log("EVENT_LEAVE_LEAGUE", room.toString());
     }
 
     @Override
@@ -122,7 +122,7 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
         Completable.create(e -> {
             turn.put("endturn", true);
             getOptView().get().getAppActivity().getAppContext().getSocket().emit(SocketEventKey.EVENT_END_TURN_NEW, turn);
-            log(turn.toString());
+            log("EVENT_END_TURN", turn.toString());
             e.onComplete();
         }).subscribeOn(Schedulers.io()).subscribe();
     }
@@ -146,7 +146,7 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
 
             Log.e(TAG, "addPlayer: " + turn);
             context.getSocket().emit(SocketEventKey.EVENT_ADD_REMOVE_PLAYER, turn);
-            log(turn.toString());
+            log("EVENT_ADD_PLAYER", turn.toString());
 
             e.onComplete();
         }).subscribeOn(Schedulers.io()).subscribe();
@@ -170,7 +170,7 @@ public class LineupDraftPresenter extends LineUpPresenter<ILineupDraftView> impl
 
             Log.e(TAG, "removePlayer: " + turn);
             context.getSocket().emit(SocketEventKey.EVENT_ADD_REMOVE_PLAYER, turn);
-            log(turn.toString());
+            log("EVENT_REMOVE_PLAYER", turn.toString());
 
             e.onComplete();
         }).subscribeOn(Schedulers.io()).subscribe();
