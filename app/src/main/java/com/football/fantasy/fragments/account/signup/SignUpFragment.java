@@ -9,7 +9,6 @@ import android.view.View;
 
 import com.bon.customview.checkbox.ExtCheckBox;
 import com.bon.customview.textview.ExtTextView;
-import com.bon.logger.Logger;
 import com.bon.textstyle.TextViewLinkMovementMethod;
 import com.bon.util.ActivityUtils;
 import com.football.common.fragments.BaseMvpFragment;
@@ -98,6 +97,10 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
                 etConfirmPassword.getContent(),
                 etCode.getContent());
         presenter.register(request);
+
+//        if (BuildConfig.DEBUG) {
+//            presenter.register300(request);
+//        }
     }
 
     private boolean isValid() {
@@ -137,17 +140,13 @@ public class SignUpFragment extends BaseMvpFragment<ISignUpView, ISignUpPresente
 
     @Override
     public void onRegisterSuccess() {
-        try {
-            etFirstName.setContent("");
-            etLastName.setContent("");
-            etEmail.setContent("");
-            etPassword.setContent("");
-            etConfirmPassword.setContent("");
-            cbAgreed.setChecked(false);
+        etFirstName.setContent("");
+        etLastName.setContent("");
+        etEmail.setContent("");
+        etPassword.setContent("");
+        etConfirmPassword.setContent("");
+        cbAgreed.setChecked(false);
 //            bus.send(new SignInEvent());
-        } catch (Exception e) {
-            Logger.e(TAG, e);
-        }
     }
 
     @Override

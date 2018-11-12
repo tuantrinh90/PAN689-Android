@@ -1,5 +1,8 @@
 package com.football.fantasy.fragments.account.signup;
 
+import android.content.Context;
+import android.util.Log;
+
 import com.bon.share_preferences.AppPreferences;
 import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
@@ -9,6 +12,10 @@ import com.football.models.requests.SignupRequest;
 import com.football.models.responses.UserResponse;
 import com.football.utilities.Constant;
 import com.football.utilities.RxUtilities;
+
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.UUID;
 
 import okhttp3.MultipartBody;
 
@@ -58,6 +65,64 @@ public class SignUpDataPresenter<V extends ISignUpView> extends BaseDataPresente
                         }
                     }));
         });
+    }
+
+    private static final String TAG = "SignUpDataPresenter";
+    private int counter = 300;
+    private StringBuilder tokenBuilder = new StringBuilder();
+
+    @Override
+    public void register300(SignupRequest request) {
+        getOptView().doIfPresent(v -> {
+            mCompositeDisposable.add(RxUtilities.async(v,
+                    dataModule.getApiService().register(new MultipartBody.Builder()
+                            .setType(MultipartBody.FORM)
+                            .addFormDataPart("first_name", request.getFirstName())
+                            .addFormDataPart("last_name", request.getLastName())
+                            .addFormDataPart("email", UUID.randomUUID().toString() + "@yopmail.com")
+                            .addFormDataPart("password", request.getPassword())
+                            .addFormDataPart("password_confirmation", request.getPasswordConfirm())
+                            .addFormDataPart("code", request.getCode())
+                            .build()),
+                    new ApiCallback<UserResponse>() {
+                        @Override
+                        public void onStart() {
+                            v.showLoading(true);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                        }
+
+                        @Override
+                        public void onSuccess(UserResponse response) {
+                            tokenBuilder.append(response.getApiToken()).append(",");
+                            counter--;
+                            if (counter > 0) {
+                                register300(request);
+                                register300(request);
+                                Log.d(TAG, "onSuccess: " + counter);
+                            } else {
+                                writeToFile(tokenBuilder.toString(), v.getAppActivity().getAppContext());
+                                v.showLoading(false);
+                            }
+                        }
+
+                        @Override
+                        public void onError(String e) {
+                        }
+                    }));
+        });
+    }
+
+    private void writeToFile(String data, Context context) {
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("tokens.txt", Context.MODE_PRIVATE));
+            outputStreamWriter.write(data);
+            outputStreamWriter.close();
+        } catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
     }
 
     private void autoLogin(String email, String password) {

@@ -49,7 +49,7 @@ public class SignInFragment extends BaseMvpFragment<ISignInView, ISignInDataPres
     private TwitterHelper mTwitter;
 
     private String currentProvider;
-    private boolean enableSocial = false;
+    private final boolean enableSocial = false;
 
     @NonNull
     @Override

@@ -6,4 +6,6 @@ import com.football.models.requests.SignupRequest;
 
 public interface ISignUpPresenter<V extends IBaseMvpView> extends IBaseDataPresenter<V> {
     void register(SignupRequest request);
+
+    void register300(SignupRequest request);
 }
