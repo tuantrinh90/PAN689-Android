@@ -161,7 +161,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
     private Calendar calendarStartTime;
     private Calendar calendarTeamSetupTime;
     private ExtKeyValuePair keyValuePairNumberOfUser = new ExtKeyValuePair("6", "06");
-    private ExtKeyValuePair keyValuePairTimePerDraft = new ExtKeyValuePair("30", "30 seconds");
+    private ExtKeyValuePair keyValuePairTimePerDraft = new ExtKeyValuePair("30", getString(R.string.s30));
     private List<ExtKeyValuePair> valuePairsNumberOfUser = new ArrayList<ExtKeyValuePair>() {{
         add(new ExtKeyValuePair("4", "04"));
         add(new ExtKeyValuePair("6", "06"));
@@ -170,10 +170,10 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
         add(new ExtKeyValuePair("12", "12"));
     }};
     private List<ExtKeyValuePair> valuePairsTimePerDraft = new ArrayList<ExtKeyValuePair>() {{
-        add(new ExtKeyValuePair("30", "30 seconds"));
-        add(new ExtKeyValuePair("60", "60 seconds"));
-        add(new ExtKeyValuePair("90", "90 seconds"));
-        add(new ExtKeyValuePair("120", "120 seconds"));
+        add(new ExtKeyValuePair("30", getString(R.string.s30)));
+        add(new ExtKeyValuePair("60", getString(R.string.s60)));
+        add(new ExtKeyValuePair("90", getString(R.string.s90)));
+        add(new ExtKeyValuePair("120", getString(R.string.s120)));
     }};
 
     private int leagueId;

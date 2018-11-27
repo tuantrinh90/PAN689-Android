@@ -201,6 +201,7 @@
     <string name="sort_by">Sort By</string>
     <string name="name">Name</string>
     <string name="a_z">A-Z</string>
+    <string name="z_a">Z-A</string>
     <string name="join_league">Join league</string>
     <string name="lineup_my_team">Lineup my team</string>
     <string name="transfer_value">Transfer value</string>
@@ -384,5 +385,11 @@
     <string name="message_remove_player_success">Remove player success</string>
     <string name="message_transfer_deadline_null">All rounds come to an end. You cannot trade players.</string>
     <string name="lineup_completed">Your lineup has been completed.</string>
+    <string name="main_position">Main position</string>
+    <string name="all_rounds">All rounds</string>
+    <string name="s30">30 seconds</string>
+    <string name="s60">60 seconds</string>
+    <string name="s90">90 seconds</string>
+    <string name="s120">120 seconds</string>
 
 </resources>

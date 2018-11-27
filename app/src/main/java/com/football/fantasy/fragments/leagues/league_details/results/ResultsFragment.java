@@ -33,7 +33,6 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
     static final String TAG = ResultsFragment.class.getSimpleName();
 
     static final String KEY_LEAGUE = "key_leagues";
-    private static final String ALL_ROUND = "All rounds";
 
     private static final int MAX_ROUND = 22;
 
@@ -95,7 +94,7 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
     }
 
     void initView() {
-        tvRound.setText(ALL_ROUND);
+        tvRound.setText(getString(R.string.all_rounds));
         ResultsAdapter adapter = new ResultsAdapter(
                 getContext(),
                 (team) -> {
@@ -183,7 +182,7 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
         this.totalRound = totalRound;
 
         valuePairs.clear();
-        valuePairs.add(new ExtKeyValuePair(ROUND_DEFAULT, ALL_ROUND));
+        valuePairs.add(new ExtKeyValuePair(ROUND_DEFAULT, getString(R.string.all_rounds)));
         for (int i = 0; i < totalRound; i++) {
             valuePairs.add(new ExtKeyValuePair(String.valueOf(i + 1), "Round " + (i + 1)));
         }

@@ -98,9 +98,9 @@ public class ProfileFragment extends BaseMainMvpFragment<IProfileView, IProfileP
         Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.color_white)));
         Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_blue)));
 
-        valuePairs.add(new ExtKeyValuePair(KEY_ACTION_EDIT, "Edit"));
+        valuePairs.add(new ExtKeyValuePair(KEY_ACTION_EDIT, getString(R.string.edit)));
         if (TextUtils.isEmpty(AppPreferences.getInstance(getContext()).getString(Constant.KEY_LOGIN_TYPE))) {
-            valuePairs.add(new ExtKeyValuePair(KEY_ACTION_CHANGE_PASSWORD, "Change password"));
+            valuePairs.add(new ExtKeyValuePair(KEY_ACTION_CHANGE_PASSWORD, getString(R.string.change_password)));
         }
     }
 

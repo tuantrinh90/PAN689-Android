@@ -38,6 +38,10 @@ public class ProposalTeamSquadFragment extends BaseMvpFragment<IProposalTeamSqua
     private static final String KEY_PLAYER_INDEX = "PLAYER_INDEX";
     private static final String KEY_IDS = "IDS";
 
+    private static final String KEY_NAME = "NAME";
+    private static final String KEY_MAIN_POSITION = "MAIN_POSITION";
+
+
     @BindView(R.id.tvHeader)
     ExtTextView tvHeader;
     @BindView(R.id.tvSortByColumn)
@@ -116,13 +120,13 @@ public class ProposalTeamSquadFragment extends BaseMvpFragment<IProposalTeamSqua
 
     private void initData() {
         properties = new ArrayList<>();
-        properties.add(new ExtKeyValuePair("name", "Name"));
-        properties.add(new ExtKeyValuePair("total_point", "Points"));
-        properties.add(new ExtKeyValuePair("main_position", "Main position"));
+        properties.add(new ExtKeyValuePair("name", getString(R.string.name)));
+        properties.add(new ExtKeyValuePair("total_point", getString(R.string.points)));
+        properties.add(new ExtKeyValuePair("main_position", getString(R.string.main_position)));
 
         directions = new ArrayList<>();
-        directions.add(new ExtKeyValuePair("asc", "A-Z"));
-        directions.add(new ExtKeyValuePair("desc", "Z-A"));
+        directions.add(new ExtKeyValuePair("asc", getString(R.string.a_z)));
+        directions.add(new ExtKeyValuePair("desc", getString(R.string.z_a)));
 
         currentProperty = properties.get(0);
         currentDirection = directions.get(0);
