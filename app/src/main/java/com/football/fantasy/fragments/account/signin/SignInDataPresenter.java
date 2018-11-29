@@ -1,6 +1,7 @@
 package com.football.fantasy.fragments.account.signin;
 
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.bon.share_preferences.AppPreferences;
@@ -11,7 +12,10 @@ import com.football.listeners.ApiCallback;
 import com.football.models.requests.LoginRequest;
 import com.football.models.responses.UserResponse;
 import com.football.utilities.Constant;
+import com.football.utilities.LocaleHelper;
 import com.football.utilities.RxUtilities;
+
+import java.util.Locale;
 
 import okhttp3.MultipartBody;
 
@@ -112,6 +116,11 @@ public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresente
             AppPreferences.getInstance(view.getAppActivity().getAppContext()).putString(Constant.KEY_TOKEN, response.getApiToken());
             AppPreferences.getInstance(view.getAppActivity().getAppContext()).putInt(Constant.KEY_USER_ID, response.getId());
             AppPreferences.getInstance(view.getAppActivity().getAppContext()).putString(Constant.KEY_LOGIN_TYPE, provider);
+
+            String lang = !TextUtils.isEmpty(response.getLocale()) ? response.getLocale() : Locale.getDefault().getLanguage();
+            AppPreferences.getInstance(view.getAppActivity().getAppContext()).putString(Constant.KEY_LANGUAGE, lang);
+            LocaleHelper.setLocale(view.getAppActivity(), lang);
+
             view.goToMain();
         });
     }

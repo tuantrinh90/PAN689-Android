@@ -9,12 +9,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 import com.bon.share_preferences.AppPreferences;
-import com.football.fantasy.BuildConfig;
 import com.football.fantasy.R;
 import com.football.utilities.Constant;
+import com.football.utilities.LocaleHelper;
+
+import java.util.Locale;
 
 
 /**
@@ -31,7 +32,11 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Log.i("getDeviceResolution", "onCreate: " + getDeviceResolution());
+
+        String s = AppPreferences.getInstance(this).getString(Constant.KEY_LANGUAGE);
+        String lang = !TextUtils.isEmpty(s) ? s : Locale.getDefault().getLanguage();
+        LocaleHelper.setLocale(this, lang);
+
         new Handler().postDelayed(() -> {
             String token = AppPreferences.getInstance(this).getString(Constant.KEY_TOKEN);
             Intent intent = getIntent();

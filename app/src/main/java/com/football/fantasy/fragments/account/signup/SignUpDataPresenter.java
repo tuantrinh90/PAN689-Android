@@ -1,6 +1,7 @@
 package com.football.fantasy.fragments.account.signup;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.bon.share_preferences.AppPreferences;
@@ -11,10 +12,12 @@ import com.football.listeners.ApiCallback;
 import com.football.models.requests.SignupRequest;
 import com.football.models.responses.UserResponse;
 import com.football.utilities.Constant;
+import com.football.utilities.LocaleHelper;
 import com.football.utilities.RxUtilities;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.Locale;
 import java.util.UUID;
 
 import okhttp3.MultipartBody;
@@ -161,8 +164,13 @@ public class SignUpDataPresenter<V extends ISignUpView> extends BaseDataPresente
         getOptView().doIfPresent(view -> {
             AppPreferences.getInstance(view.getAppActivity().getAppContext()).putString(Constant.KEY_TOKEN, response.getApiToken());
             AppPreferences.getInstance(view.getAppActivity().getAppContext()).putInt(Constant.KEY_USER_ID, response.getId());
-            view.goToMain();
+
+            String lang = !TextUtils.isEmpty(response.getLocale()) ? response.getLocale() : Locale.getDefault().getLanguage();
+            AppPreferences.getInstance(view.getAppActivity().getAppContext()).putString(Constant.KEY_LANGUAGE, lang);
+            LocaleHelper.setLocale(view.getAppActivity(), lang);
+
             view.showLoading(false);
+            view.goToMain();
         });
     }
 }

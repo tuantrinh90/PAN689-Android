@@ -59,7 +59,10 @@ public class MoreDataPresenter extends BaseDataPresenter<IMoreView> implements I
                                     break;
                             }
 
+                            // clear cache & save language
+                            String lang = AppPreferences.getInstance(v.getAppActivity()).getString(Constant.KEY_LANGUAGE);
                             AppPreferences.getInstance(v.getAppActivity()).clearCache();
+                            AppPreferences.getInstance(v.getAppActivity()).putString(Constant.KEY_LANGUAGE, lang);
                             v.logout();
                         }
 

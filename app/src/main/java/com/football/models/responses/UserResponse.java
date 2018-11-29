@@ -61,6 +61,8 @@ public class UserResponse implements Serializable {
     private String twId;
     @JsonProperty("tw_token")
     private String twToken;
+    @JsonProperty("locale")
+    private String locale;
 
     public Integer getId() {
         return id;
@@ -260,6 +262,10 @@ public class UserResponse implements Serializable {
 
     public void setTwToken(String twToken) {
         this.twToken = twToken;
+    }
+
+    public String getLocale() {
+        return locale;
     }
 
     @Override

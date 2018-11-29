@@ -16,6 +16,7 @@ import android.view.ViewTreeObserver;
 
 import com.bon.customview.textview.ExtTextView;
 import com.bon.logger.Logger;
+import com.bon.share_preferences.AppPreferences;
 import com.bon.util.StringUtils;
 import com.bon.util.ViewUtils;
 import com.football.adapters.MyLeagueRecyclerAdapter;
@@ -31,6 +32,7 @@ import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragmen
 import com.football.fantasy.fragments.leagues.player_pool.PlayerPoolFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.NewsResponse;
+import com.football.utilities.Constant;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.List;
@@ -86,7 +88,7 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
         initView();
 
         // update language
-        presenter.updateLanguages(Locale.getDefault().getLanguage());
+        presenter.updateLanguages(AppPreferences.getInstance(getAppContext()).getString(Constant.KEY_LANGUAGE));
 
         // get notifications count
         getNotificationsCount();

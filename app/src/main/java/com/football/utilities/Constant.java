@@ -48,5 +48,6 @@ public interface Constant {
 
     String DEEP_LINK_QUERY = "DEEP_LINK_QUERY";
     int MAX_PLAYERS = 18;
+
     String KEY_LANGUAGE = "language";
 }
