@@ -34,6 +34,7 @@ import com.football.models.responses.NewsResponse;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -83,6 +84,9 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
         registerEvent();
 
         initView();
+
+        // update language
+        presenter.updateLanguages(Locale.getDefault().getLanguage());
 
         // get notifications count
         getNotificationsCount();

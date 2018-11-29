@@ -6,4 +6,5 @@ import com.football.models.responses.SettingsResponse;
 public interface ISettingsView extends IBaseMvpView {
     void displaySettings(SettingsResponse response);
 
+    void changeLanguageSuccess(String languageCode);
 }

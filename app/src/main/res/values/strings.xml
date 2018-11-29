@@ -391,5 +391,9 @@
     <string name="s60">60 seconds</string>
     <string name="s90">90 seconds</string>
     <string name="s120">120 seconds</string>
+    <string name="language_dutch">Dutch</string>
+    <string name="language_french">French</string>
+    <string name="language_german">German</string>
+    <string name="language_english">English</string>
 
 </resources>

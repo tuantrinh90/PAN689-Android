@@ -120,4 +120,27 @@ public class HomeDataPresenter extends BaseDataPresenter<IHomeView> implements I
                     }));
         });
     }
+
+    @Override
+    public void updateLanguages(String language) {
+        getOptView().doIfPresent(v -> {
+            RequestBody body = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("locale", language)
+                    .build();
+            mCompositeDisposable.add(RxUtilities.async(
+                    v,
+                    dataModule.getApiService().updateLanguages(body),
+                    new ApiCallback<Object>() {
+                        @Override
+                        public void onSuccess(Object response) {
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            v.showMessage(error);
+                        }
+                    }));
+        });
+    }
 }

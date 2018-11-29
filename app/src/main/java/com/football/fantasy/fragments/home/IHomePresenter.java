@@ -12,4 +12,5 @@ public interface IHomePresenter<V extends IBaseMvpView> extends IBaseDataPresent
 
     void getNews(int page);
 
+    void updateLanguages(String language);
 }

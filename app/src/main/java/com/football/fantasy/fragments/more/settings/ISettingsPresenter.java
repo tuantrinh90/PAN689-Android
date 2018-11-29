@@ -7,4 +7,7 @@ public interface ISettingsPresenter<V extends IBaseMvpView> extends IBaseDataPre
     void getSettings();
 
     void changeSettings(String param, boolean checked);
+
+    void changeLanguage(String languageCode);
+
 }
