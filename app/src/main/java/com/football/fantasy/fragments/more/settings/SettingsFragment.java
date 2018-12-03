@@ -10,7 +10,6 @@ import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.Spinner;
 import android.widget.Switch;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
@@ -44,8 +43,6 @@ public class SettingsFragment extends BaseMvpFragment<ISettingsView, ISettingsPr
     Switch switchNotification;
     @BindView(R.id.switch_email)
     Switch switchEmail;
-    @BindView(R.id.spinner_language)
-    Spinner spinnerLanguage;
     @BindView(R.id.text_language)
     ExtTextView textLanguage;
 

@@ -160,21 +160,10 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
     private Calendar calendarDraftTime;
     private Calendar calendarStartTime;
     private Calendar calendarTeamSetupTime;
-    private ExtKeyValuePair keyValuePairNumberOfUser = new ExtKeyValuePair("6", "06");
-    private ExtKeyValuePair keyValuePairTimePerDraft = new ExtKeyValuePair("30", getString(R.string.s30));
-    private List<ExtKeyValuePair> valuePairsNumberOfUser = new ArrayList<ExtKeyValuePair>() {{
-        add(new ExtKeyValuePair("4", "04"));
-        add(new ExtKeyValuePair("6", "06"));
-        add(new ExtKeyValuePair("8", "08"));
-        add(new ExtKeyValuePair("10", "10"));
-        add(new ExtKeyValuePair("12", "12"));
-    }};
-    private List<ExtKeyValuePair> valuePairsTimePerDraft = new ArrayList<ExtKeyValuePair>() {{
-        add(new ExtKeyValuePair("30", getString(R.string.s30)));
-        add(new ExtKeyValuePair("60", getString(R.string.s60)));
-        add(new ExtKeyValuePair("90", getString(R.string.s90)));
-        add(new ExtKeyValuePair("120", getString(R.string.s120)));
-    }};
+    private ExtKeyValuePair keyValuePairNumberOfUser;
+    private ExtKeyValuePair keyValuePairTimePerDraft;
+    private List<ExtKeyValuePair> valuePairsNumberOfUser;
+    private List<ExtKeyValuePair> valuePairsTimePerDraft;
 
     private int leagueId;
     private String leagueTitle;
@@ -196,6 +185,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
 
+        initData();
         initView();
         displayData();
         loadData();
@@ -211,6 +201,24 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
 
     void loadData() {
         presenter.getBudgets(leagueId);
+    }
+
+    private void initData() {
+        keyValuePairNumberOfUser = new ExtKeyValuePair("6", "06");
+        keyValuePairTimePerDraft = new ExtKeyValuePair("30", getString(R.string.s30));
+        valuePairsNumberOfUser = new ArrayList<ExtKeyValuePair>() {{
+            add(new ExtKeyValuePair("4", "04"));
+            add(new ExtKeyValuePair("6", "06"));
+            add(new ExtKeyValuePair("8", "08"));
+            add(new ExtKeyValuePair("10", "10"));
+            add(new ExtKeyValuePair("12", "12"));
+        }};
+        valuePairsTimePerDraft = new ArrayList<ExtKeyValuePair>() {{
+            add(new ExtKeyValuePair("30", getString(R.string.s30)));
+            add(new ExtKeyValuePair("60", getString(R.string.s60)));
+            add(new ExtKeyValuePair("90", getString(R.string.s90)));
+            add(new ExtKeyValuePair("120", getString(R.string.s120)));
+        }};
     }
 
     private void displayData() {

@@ -30,13 +30,13 @@ import com.football.fantasy.activities.MainActivity;
 import com.football.fantasy.fragments.leagues.action.setup_leagues.SetUpLeagueFragment;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.fantasy.fragments.leagues.player_pool.PlayerPoolFragment;
+import com.football.fantasy.fragments.more.settings.SettingsFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.NewsResponse;
 import com.football.utilities.Constant;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -180,7 +180,8 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
 
     @OnClick(R.id.tvCreateLeagues)
     void onClickCreateLeagues() {
-        AloneFragmentActivity.with(this)
+        AloneFragmentActivity
+                .with(this)
                 .parameters(SetUpLeagueFragment.newBundle(null, getString(R.string.home)))
                 .start(SetUpLeagueFragment.class);
     }
