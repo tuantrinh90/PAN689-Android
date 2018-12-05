@@ -19,7 +19,7 @@ ext {
     compileSdkVersion = 27
     buildToolsVersion = '28.0.3'
     minSdkVersion = 16
-    targetSdkVersion = 23
+    targetSdkVersion = 27
     androidVer = '27.1.1'
     constrainLayoutVer = '1.1.2'
     butterknifeVer = '8.8.1'

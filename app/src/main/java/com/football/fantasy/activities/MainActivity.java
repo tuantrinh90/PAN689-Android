@@ -196,7 +196,6 @@ public class MainActivity extends BaseActivity {
     }
 
     public void handleAction(String action, int leagueId, int leagueStatus, int teamId, String teamName, int myTeamId, int playerId) {
-        Log.e("111111", "handleAction: " + action);
         switch (action) {
             // League detail
             case USER_LEFT_LEAGUE:
