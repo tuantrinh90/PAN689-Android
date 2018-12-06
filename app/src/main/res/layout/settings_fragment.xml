@@ -107,8 +107,7 @@
         android:paddingBottom="@dimen/padding_layout"
         android:paddingLeft="@dimen/padding_layout"
         android:paddingRight="@dimen/padding_layout"
-        android:paddingTop="@dimen/padding_layout"
-        android:visibility="gone">
+        android:paddingTop="@dimen/padding_layout">
 
         <com.bon.customview.textview.ExtTextView
             style="@style/StyleContentContent"
