@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="0dp"
-            android:text="Edit Profile"
+            android:text="@string/edit_profile"
             android:textAllCaps="true"
             app:textViewFontAssetName="@string/font_display_black_italic" />
 

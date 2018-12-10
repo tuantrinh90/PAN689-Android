@@ -111,7 +111,7 @@ public class StatisticView extends FrameLayout {
                 tvPosition.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, height));
                 tvCount.setVisibility(INVISIBLE);
                 tvPosition.setBackgroundResource(R.drawable.bg_player_position_none);
-                tvPosition.setText("ALL");
+                tvPosition.setText(getContext().getString(R.string.all).toUpperCase());
                 tvPosition.setTextColor(ContextCompat.getColor(getContext(), R.color.color_gray));
                 break;
         }

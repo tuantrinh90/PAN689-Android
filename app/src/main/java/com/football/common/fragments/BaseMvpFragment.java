@@ -267,10 +267,12 @@ public abstract class BaseMvpFragment<V extends IBaseMvpView, P extends IBaseDat
 
     @Override
     public void showLoading(boolean show) {
-        if (show) {
-            mActivity.showProgressDialog();
-        } else {
-            mActivity.hideProgressDialog();
+        if (mActivity != null) {
+            if (show) {
+                mActivity.showProgressDialog();
+            } else {
+                mActivity.hideProgressDialog();
+            }
         }
     }
 

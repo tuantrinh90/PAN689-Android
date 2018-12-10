@@ -103,7 +103,12 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
         });
 
         // pick Player
-        onEvent(PickEvent.class, event -> mActivity.finish());
+        // action add click onEvent PlayerList
+        onEvent(PickEvent.class, event -> {
+            if (event.getAction() == PickEvent.DONE) {
+                mActivity.finish();
+            }
+        });
 
         onEvent(GeneralEvent.class, event -> {
             switch (event.getSource()) {
@@ -113,14 +118,13 @@ public class PlayerPopupFragment extends BaseMvpFragment<IPlayerPopupView, IPlay
             }
         });
 
-        // action add click onEvent PlayerList
-        onEvent(PlayerEvent.class, event -> {
-            switch (event.getAction()) {
-                case PlayerEvent.ACTION_ADD_CLICK:
-                    mActivity.finish();
-                    break;
-            }
-        });
+//        onEvent(PlayerEvent.class, event -> {
+//            switch (event.getAction()) {
+//                case PlayerEvent.ACTION_ADD_CLICK:
+//                    mActivity.finish();
+//                    break;
+//            }
+//        });
     }
 
     // bắn sang màn hình LineUp

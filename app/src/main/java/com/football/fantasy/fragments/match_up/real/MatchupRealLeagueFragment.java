@@ -28,7 +28,7 @@ import static com.football.utilities.Constant.ROUND_DEFAULT;
 
 public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealLeagueView, IMatchupRealLeaguePresenter<IMatchupRealLeagueView>> implements IMatchupRealLeagueView {
 
-    private static final String VALUE_ALL_ROUND = "ALL ROUNDS";
+    private String VALUE_ALL_ROUND;
 
     private static final int MAX_ROUND = 30;
 
@@ -74,11 +74,12 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
         valuePairs = new ArrayList<>();
         valuePairs.add(new ExtKeyValuePair(ROUND_DEFAULT, VALUE_ALL_ROUND));
         for (int i = 0; i < MAX_ROUND; i++) {
-            valuePairs.add(new ExtKeyValuePair(String.valueOf(i + 1), "Round " + (i + 1)));
+            valuePairs.add(new ExtKeyValuePair(String.valueOf(i + 1), getString(R.string.round_value, i + 1)));
         }
     }
 
     private void initView() {
+        VALUE_ALL_ROUND = getString(R.string.all_rounds).toUpperCase();
         tvRound.setText(VALUE_ALL_ROUND);
         RealMatchAdapter adapter = new RealMatchAdapter(getContext());
         rvRealLeague
@@ -101,7 +102,6 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
         }
         getAppContext().getSocket().emit("join_room", room);
         getAppContext().getSocket().on(SocketEventKey.EVENT_REAL_MATCHES, args -> {
-            Log.i(SocketEventKey.EVENT_REAL_MATCHES, "registerSocket: ");
             mActivity.runOnUiThread(this::refresh);
         });
     }

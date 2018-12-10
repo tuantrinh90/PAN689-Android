@@ -269,10 +269,12 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
 
         // display default
         boolean isTransfer = !gameplay.equals(GAMEPLAY_OPTION_DRAFT);
-        if (isTransfer) displayPairs.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_1);
-        displayPairs.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_2);
-        displayPairs.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_3);
-        if (!isTransfer) displayPairs.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_4);
+        if (isTransfer)
+            displayPairs.add(DisplayConfigFragment.getOptionDisplayDefault1(getAppContext()));
+        displayPairs.add(DisplayConfigFragment.getOptionDisplayDefault2(getAppContext()));
+        displayPairs.add(DisplayConfigFragment.getOptionDisplayDefault3(getAppContext()));
+        if (!isTransfer)
+            displayPairs.add(DisplayConfigFragment.getOptionDisplayDefault4(getAppContext()));
 
     }
 
@@ -523,7 +525,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
                             refresh();
 
                         }
-                    }).show(getFragmentManager(), null);
+                    }).show(getChildFragmentManager(), null);
         }
     }
 

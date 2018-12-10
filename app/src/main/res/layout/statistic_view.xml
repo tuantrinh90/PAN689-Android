@@ -9,7 +9,8 @@
         style="@style/StylePlayerPosition"
         android:layout_gravity="center"
         android:background="@drawable/bg_player_position_g"
-        android:text="G"
+        android:maxLength="4"
+        android:text="ALL"
         app:textViewFontAssetName="@string/font_display_bold" />
 
     <com.bon.customview.textview.ExtTextView

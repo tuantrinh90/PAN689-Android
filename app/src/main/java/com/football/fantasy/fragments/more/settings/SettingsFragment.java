@@ -34,11 +34,6 @@ import butterknife.OnClick;
 
 public class SettingsFragment extends BaseMvpFragment<ISettingsView, ISettingsPresenter<ISettingsView>> implements ISettingsView {
 
-    private static final String DUTCH = "nl";
-    private static final String ENGLISH = "en";
-    private static final String FRENCH = "fr";
-    private static final String GERMAN = "de";
-
     @BindView(R.id.switch_notification)
     Switch switchNotification;
     @BindView(R.id.switch_email)
@@ -93,12 +88,15 @@ public class SettingsFragment extends BaseMvpFragment<ISettingsView, ISettingsPr
     }
 
     private void initData() {
-        languages = new ArrayList<ExtKeyValuePair>() {{
-            add(new ExtKeyValuePair(ENGLISH, getString(R.string.language_english)));
-            add(new ExtKeyValuePair(DUTCH, getString(R.string.language_dutch)));
-            add(new ExtKeyValuePair(FRENCH, getString(R.string.language_french)));
-            add(new ExtKeyValuePair(GERMAN, getString(R.string.language_german)));
-        }};
+        languages = new ArrayList<>();
+        String[] languageKeys = getResources().getStringArray(R.array.language_keys);
+        String[] languageValues = getResources().getStringArray(R.array.language_values);
+
+        for (int i = 0, languageKeysLength = languageKeys.length; i < languageKeysLength; i++) {
+            String key = languageKeys[i];
+            String value = languageValues[i];
+            languages.add(new ExtKeyValuePair(key, value));
+        }
     }
 
     void initView() {

@@ -15,6 +15,8 @@ import java.util.Locale;
 public class DateTimeUtils {
     private static final String TAG = DateTimeUtils.class.getSimpleName();
 
+    public static String defaultLocal = "en";
+
     /**
      * @param timeInMillis
      * @return
@@ -89,7 +91,7 @@ public class DateTimeUtils {
         if (StringUtils.isEmpty(date)) return null;
 
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat(format, Locale.US);
+            SimpleDateFormat formatter = new SimpleDateFormat(format, new Locale(defaultLocal));
             Date dt = formatter.parse(date);
             if (dt == null) return null;
 
@@ -131,7 +133,7 @@ public class DateTimeUtils {
             if (date == null) return "";
 
             @SuppressLint("SimpleDateFormat")
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, Locale.US);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
             return simpleDateFormat.format(date);
         } catch (Exception ex) {
             Logger.e(TAG, ex);

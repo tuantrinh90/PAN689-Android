@@ -25,6 +25,7 @@ import com.football.models.responses.PlayerResponse;
 import com.football.models.responses.PlayerRoundPointResponse;
 import com.football.models.responses.PlayerStatisticMetaResponse;
 import com.football.utilities.AppUtilities;
+import com.football.utilities.PlayerUtils;
 import com.google.android.flexbox.FlexboxLayout;
 
 import java.util.ArrayList;
@@ -54,8 +55,6 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
     public static final int PICK_NONE_INFO = -1;
     public static final int PICK_PICK = 0;
     public static final int PICK_PICKED = 1;
-
-    private static final ExtKeyValuePair DEFAULT_KEY = new ExtKeyValuePair(KEY_TOTAL, "Total statistics");
 
     @BindView(R.id.ivInfo)
     View ivInfo;
@@ -127,7 +126,7 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
     protected PlayerResponse player;
 
     List<ExtKeyValuePair> valuePairs = new ArrayList<>();
-    private ExtKeyValuePair keyValuePairKey = DEFAULT_KEY;
+    private ExtKeyValuePair keyValuePairKey;
 
     // only for view PlayerDetail
     public static void start(Context context, int playerId, int teamId, String title, int pick, String gameplayOption) {
@@ -227,12 +226,13 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
     }
 
     void initData() {
-        valuePairs.add(DEFAULT_KEY);
-        valuePairs.add(new ExtKeyValuePair(KEY_LAST, "Last round"));
-        valuePairs.add(new ExtKeyValuePair(KEY_SEASON, "Avg of the season"));
-        valuePairs.add(new ExtKeyValuePair(KEY_LAST_5_ROUNDS, "Avg of Last 5 rounds"));
-        valuePairs.add(new ExtKeyValuePair(KEY_LAST_3_ROUNDS, "Avg of Last 3 rounds"));
-        valuePairs.add(new ExtKeyValuePair(KEY_POINTS, "Points per round"));
+        keyValuePairKey = new ExtKeyValuePair(KEY_TOTAL, getString(R.string.total_statistics));
+        valuePairs.add(new ExtKeyValuePair(KEY_TOTAL, getString(R.string.total_statistics)));
+        valuePairs.add(new ExtKeyValuePair(KEY_LAST, getString(R.string.last_round)));
+        valuePairs.add(new ExtKeyValuePair(KEY_SEASON, getString(R.string.avg_of_the_season)));
+        valuePairs.add(new ExtKeyValuePair(KEY_LAST_5_ROUNDS, getString(R.string.avg_of_last_5_rounds)));
+        valuePairs.add(new ExtKeyValuePair(KEY_LAST_3_ROUNDS, getString(R.string.avg_of_last_3_rounds)));
+        valuePairs.add(new ExtKeyValuePair(KEY_POINTS, getString(R.string.points_per_round)));
     }
 
     void initView() {
@@ -325,8 +325,8 @@ public class PlayerDetailFragment extends BaseMvpFragment<IPlayerDetailView, IPl
         this.player = player;
 
         tvName.setText(player.getName());
-        AppUtilities.displayPlayerPosition(tvMainPosition, player.getMainPosition(), player.getMainPositionFullText());
-        AppUtilities.displayPlayerPosition(tvMinorPosition, player.getMinorPosition(), player.getMinorPositionFullText());
+        AppUtilities.displayPlayerPosition(tvMainPosition, player.getMainPosition(), PlayerUtils.getPositionText(getContext(), player.getMainPosition(), true));
+        AppUtilities.displayPlayerPosition(tvMinorPosition, player.getMinorPosition(), PlayerUtils.getPositionText(getContext(), player.getMinorPosition(), true));
         tvValue.setText(getString(R.string.money_prefix, player.getTransferValueDisplay()));
         ImageLoaderUtils.displayImage(player.getPhoto(), ivAvatar.getImageView());
         tvState.setVisibility(player.getInjured() ? View.VISIBLE : View.GONE);

@@ -11,10 +11,13 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 
 import com.bon.share_preferences.AppPreferences;
+import com.bon.util.DateTimeUtils;
 import com.football.fantasy.R;
 import com.football.utilities.Constant;
 import com.football.utilities.LocaleHelper;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -34,8 +37,12 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         String s = AppPreferences.getInstance(this).getString(Constant.KEY_LANGUAGE);
-        String lang = !TextUtils.isEmpty(s) ? s : Locale.getDefault().getLanguage();
+        String[] languageKeys = getResources().getStringArray(R.array.language_keys);
+        List<String> langs = Arrays.asList(languageKeys);
+        String defaultLang = Locale.getDefault().getLanguage();
+        String lang = !TextUtils.isEmpty(s) ? s : (langs.contains(defaultLang) ? defaultLang : "en");
         LocaleHelper.setLocale(this, lang);
+        DateTimeUtils.defaultLocal = lang;
 
         new Handler().postDelayed(() -> {
             String token = AppPreferences.getInstance(this).getString(Constant.KEY_TOKEN);

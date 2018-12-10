@@ -2,6 +2,7 @@ package com.football.utilities;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.res.Resources;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.View;
@@ -248,5 +249,50 @@ public class AppUtilities {
                         System.currentTimeMillis(),
                         DateUtils.MINUTE_IN_MILLIS)
                 : "";
+    }
+
+    /**
+     * One second (in milliseconds)
+     */
+    private static final int _A_SECOND = 1000;
+    /**
+     * One minute (in milliseconds)
+     */
+    private static final int _A_MINUTE = 60 * _A_SECOND;
+    /**
+     * One hour (in milliseconds)
+     */
+    private static final int _AN_HOUR = 60 * _A_MINUTE;
+    /**
+     * One day (in milliseconds)
+     */
+    private static final int _A_DAY = 24 * _AN_HOUR;
+
+    public static String getTimeAgo(Context context, String s) {
+        Calendar calendar = DateTimeUtils.convertStringToCalendar(s, Constant.FORMAT_DATE_TIME_SERVER);
+
+        long time = calendar.getTimeInMillis();
+        if (time < 1000000000000L)
+            // if timestamp given in seconds, convert to millis
+            time *= 1000;
+
+        final long now = System.currentTimeMillis();
+        if (time > now || time <= 0) return "";
+
+        final Resources res = context.getResources();
+        final long time_difference = now - time;
+        if (time_difference < _A_MINUTE)
+            return res.getString(R.string.just_now);
+        else if (time_difference < 50 * _A_MINUTE)
+            return res.getString(R.string.time_ago,
+                    res.getQuantityString(R.plurals.minutes, (int) time_difference / _A_MINUTE, time_difference / _A_MINUTE));
+        else if (time_difference < 24 * _AN_HOUR)
+            return res.getString(R.string.time_ago,
+                    res.getQuantityString(R.plurals.hours, (int) time_difference / _AN_HOUR, time_difference / _AN_HOUR));
+        else if (time_difference < 48 * _AN_HOUR)
+            return res.getString(R.string.yesterday);
+        else
+            return res.getString(R.string.time_ago,
+                    res.getQuantityString(R.plurals.days, (int) time_difference / _A_DAY, time_difference / _A_DAY));
     }
 }

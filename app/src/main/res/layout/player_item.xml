@@ -26,8 +26,7 @@
             android:background="@drawable/bg_player_gray"
             android:clickable="true"
             android:focusable="true"
-            android:padding="@dimen/player_border"
-            android:src="@drawable/ic_player_sample" />
+            android:padding="@dimen/player_border"/>
 
         <LinearLayout
             android:layout_width="wrap_content"

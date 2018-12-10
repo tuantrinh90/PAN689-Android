@@ -550,7 +550,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                         calculateStartTime();
                     }
                 })
-                .show(getFragmentManager(), null);
+                .show(getChildFragmentManager(), null);
     }
 
     @OnClick(R.id.lvBudgetOption)
@@ -577,7 +577,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                     calendarDraftTime.setTime(calendar.getTime());
                     etDraftTime.setContent(DateTimeUtils.convertCalendarToString(calendarDraftTime, Constant.FORMAT_DATE_TIME));
                     calculateStartTime();
-                }).show(getFragmentManager(), null);
+                }).show(getChildFragmentManager(), null);
     }
 
     @OnClick(R.id.etTimePerDraftPick)
@@ -597,7 +597,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                     }
 
                 })
-                .show(getFragmentManager(), null);
+                .show(getChildFragmentManager(), null);
     }
 
     @OnClick(R.id.etTeamSetupTime)
@@ -622,7 +622,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                         calendarStartTime = (Calendar) calendarTeamSetupTime.clone();
                         setTextTime(etStartTime, calendarStartTime);
                     }
-                }).show(getFragmentManager(), null);
+                }).show(getChildFragmentManager(), null);
     }
 
     @OnClick(R.id.etStartTime)
@@ -639,7 +639,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                         calendarTeamSetupTime = DateTimeUtils.getCalendarNoTime(calendarStartTime.getTimeInMillis());
                     }
                     setTextTime(etStartTime, calendarStartTime);
-                }).show(getFragmentManager(), null);
+                }).show(getChildFragmentManager(), null);
     }
 
     @OnClick(R.id.tvCreateLeague)

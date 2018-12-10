@@ -1,11 +1,4 @@
 <resources>
-    <!--E3:A1:E1:ED:84:E4:16:3A:87:06:01:0A:09:08:79:DC:C2:5D:4D:CB-->
-    <!--social-->
-    <string name="facebook_app_id">1963122033999975</string>
-    <string name="fb_login_protocol_scheme">fb1963122033999975</string>
-    <string name="twitter_api_key">P4cJrXCOyUKRT3STozI81yWM0</string>
-    <string name="twitter_secret_key">4H87uKfxfbo5Gt3fvUtpspaatNthJPsbJCv16t76BERjISM7ew</string>
-
     <string name="app_name">Panna</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -51,6 +44,7 @@
     <string name="search_public_leagues">Search public league</string>
     <string name="search_public_players">Search player by name</string>
     <string name="search_players">Search players</string>
+    <string name="search_friends">Search</string>
     <string name="owner">Owner</string>
     <string name="invitor">Invitor</string>
     <string name="entrants">Entrants</string>
@@ -395,5 +389,127 @@
     <string name="language_french">French</string>
     <string name="language_german">German</string>
     <string name="language_english">English</string>
+    <string name="total_statistics">Total statistics</string>
+    <string name="last_round">Last round</string>
+    <string name="avg_of_the_season">Avg of the season</string>
+    <string name="avg_of_last_5_rounds">Avg of Last 5 rounds</string>
+    <string name="avg_of_last_3_rounds">Avg of Last 3 rounds</string>
+    <string name="round_value">Round %d</string>
+    <string name="none">None</string>
+    <string name="select_number_of_user">Number of user</string>
+    <string name="undisclosed">Undisclosed</string>
+    <string name="select_type">Select type</string>
 
+    <string name="double_tap_to_exit">Double tap to Exit!</string>
+    <string name="select_value">Select value</string>
+    <string name="search">Search</string>
+    <string name="done">Done</string>
+
+    <string name="day">Day</string>
+    <string name="month">Month</string>
+    <string name="year">Year</string>
+    <string name="hour">Hour</string>
+    <string name="minute">Minute</string>
+
+    <string name="month_one">Jan</string>
+    <string name="month_two">Feb</string>
+    <string name="month_three">Mar</string>
+    <string name="month_four">Apr</string>
+    <string name="month_five">May</string>
+    <string name="month_six">Jun</string>
+    <string name="month_seven">Jul</string>
+    <string name="month_eight">Aug</string>
+    <string name="month_nice">Sep</string>
+    <string name="month_ten">Oct</string>
+    <string name="month_eleven">Nov</string>
+    <string name="month_twelfth">Dec</string>
+
+    <!--error key-->
+    <string name="field_is_required">This field is required</string>
+    <string name="field_max_40_character">This field must be less than 40 characters</string>
+    <string name="field_max_255_character">This field must be less than 255 characters</string>
+    <string name="field_phone_invalid">Phone number from 9 – 12 characters</string>
+    <string name="field_is_unique">This field must be unique</string>
+    <string name="field_confirmed">This field must be confirmed</string>
+    <string name="field_min_6_character">This field must be more than 6 characters</string>
+    <string name="selected_is_invalid">This choice is not valid</string>
+    <string name="internal_exception">Internal exception</string>
+    <string name="login_failure">Login unsuccessfully</string>
+    <string name="login_invalid_credentials">Email or Password is not correct</string>
+    <string name="jwt_failed_to_create_token">Can not create a token</string>
+    <string name="register_failure">Email address is already registered, please log in with this email</string>
+    <string name="register_user_exist">The user already exists</string>
+    <string name="register_email_exist">The email already exists</string>
+    <string name="register_success">Sign in successfully</string>
+    <string name="user_register_exist">The user already exists</string>
+    <string name="user_register_false">Sign in unsuccessfully</string>
+    <string name="forgot_user_forgot_email">Forgot email</string>
+    <string name="forgot_user_forgot_email_invalid">Email is not valid</string>
+    <string name="forgot_user_forgot_email_null">Please try with one registered email</string>
+    <string name="forgot_user_forgot_email_update">Email is updated</string>
+    <string name="forgot_user_email_does_not_sent_successfully">Email is sent unsuccessfully</string>
+    <string name="forgot_user_forgot_email_system">Forgot system password</string>
+    <string name="league_add_invalid_credentials">Verification is not valid</string>
+    <string name="league_update_invalid_credentials">Verification is not valid</string>
+    <string name="league_invalid_season">The league is not valid</string>
+    <string name="league_invalid_budget">The budget is not valid</string>
+    <string name="league_invalid_setup_time">Team setup time must not be later than start time</string>
+    <string name="league_invalid_start_time">Start time must not be earlier than team setup time</string>
+    <string name="league_invalid_start_transfer_time">Transfer time is not valid</string>
+    <string name="league_invalid_start_draft_time_after_start_time">Draft time must not be later than start time</string>
+    <string name="league_invalid_start_draft_time">Time is invalid</string>
+    <string name="league_invalid_trade_review">Trade review is not valid</string>
+    <string name="league_invalid_gameplay_option">Gameplay option is not valid</string>
+    <string name="league_number_user_not_edit">Number of users is not valid</string>
+    <string name="league_invalid_number_user">Number of users must be higher current number of members</string>
+    <string name="league_invalid_scoring_system_no_edit">Scoring system is not valid</string>
+    <string name="league_not_found">Not found</string>
+    <string name="could_not_found_cloud_storage">Cloud storage is not found</string>
+    <string name="delete_file_failure">Unable to Delete File</string>
+    <string name="delete_file_success">Delete file successfully</string>
+    <string name="team_not_found">Team is not found</string>
+    <string name="my_team_not_found">Your team is not found</string>
+    <string name="invitation_already_sent">The invitation is sent successfully</string>
+    <string name="post_not_found">Post is not found</string>
+    <string name="maximum_5_leagues">You can only join maximum 5 leagues at a time</string>
+    <string name="current_budget_is_not_enough">Budget is not enough</string>
+    <string name="this_league_is_already_full_of_entrants">This league is already full of entrants</string>
+    <string name="the_name_has_already_been_taken">Another team with same name is existing</string>
+    <string name="message_max_team_name">The Team name must be less than 40 characters</string>
+    <string name="message_exist_league">message_exist_league</string>
+    <string name="message_league_full">The league is full now</string>
+    <string name="message_joined_this_league">message_joined_this_league</string>
+    <string name="message_pick_after_team_setup_time">You cannot pick players after team setup time!</string>
+    <string name="message_team_lineup_is_not_completed_yet">You are not able to access this screen because this team lineup is not completed yet</string>
+    <string name="message_team_lineup_all_round_come_to_end">All rounds come to an end. You cannot pick players.</string>
+    <string name="message_unable_to_invite_friend">Limit on number of user, unable to invite friend!</string>
+    <string name="overload_max_transfer">overload_max_transfer</string>
+    <string name="invalid_from_player">You can\'t pick player more</string>
+    <string name="login_code_invalid">The code you have entered is not correct. Please try again.</string>
+    <string name="password_current_failure">Current password failure</string>
+    <string name="max_number_user">You have reached maximum number of leagues</string>
+    <string name="not_found_team_round">All rounds come to an end</string>
+    <string name="can_not_transfer_player_util_this_round_ends">You can\'t transfer more. Transferring player left is 0</string>
+    <string name="can_not_transfer_player_until_this_round_ends">Can\'t transfer player until this round ends</string>
+    <string name="edit_profile">Edit Profile</string>
+
+    <!-- time ago strings -->
+    <string name="just_now">just now</string>
+    <string name="time_ago">%s ago</string>
+    <string name="yesterday">yesterday</string>
+
+    <plurals name="minutes">
+        <item quantity="one">a minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+
+    <plurals name="hours">
+        <item quantity="one">an hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+
+    <plurals name="days">
+        <item quantity="one">a day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
 </resources>

@@ -353,7 +353,7 @@ public class LeagueResponse implements Serializable {
     @JsonIgnore
     public String getDescriptionText(Context context) {
         Calendar calendarCurrent = Calendar.getInstance();
-        long time = 0l;
+        long time = 1;
         if (gameplayOption != null) {
             if (gameplayOption.equalsIgnoreCase(Constant.KEY_TRANSFER)) {
                 Calendar calendarTimeSetUp = getTeamSetUpCalendar();

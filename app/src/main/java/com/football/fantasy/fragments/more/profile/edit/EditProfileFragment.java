@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import com.bon.customview.datetime.ExtDayMonthYearDialogFragment;
@@ -128,8 +127,6 @@ public class EditProfileFragment extends BaseMvpFragment<IEditProfileView, IEdit
         }
     }
 
-    private static final String TAG = "EditProfileFragment";
-
     private void pickAvatar() {
         mCompositeDisposable.add(mActivity.getRxPermissions().request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -151,7 +148,7 @@ public class EditProfileFragment extends BaseMvpFragment<IEditProfileView, IEdit
                                         if (extKeyValuePair.getKey().equalsIgnoreCase(getString(R.string.gallery))) {
                                             ImageUtils.chooseImageFromGallery(EditProfileFragment.this, getString(R.string.select_value));
                                         }
-                                    }).show(getFragmentManager(), null);
+                                    }).show(getChildFragmentManager(), null);
                         } else {
                             showMessage(
                                     R.string.message_permission_image,
@@ -160,7 +157,7 @@ public class EditProfileFragment extends BaseMvpFragment<IEditProfileView, IEdit
                                     aVoid -> {
                                         Intent intent = new Intent();
                                         intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                        Uri uri = Uri.fromParts("package", getContext().getPackageName(), null);
+                                        Uri uri = Uri.fromParts("package", getAppContext().getPackageName(), null);
                                         intent.setData(uri);
                                         startActivity(intent);
                                     }, null);
@@ -169,12 +166,10 @@ public class EditProfileFragment extends BaseMvpFragment<IEditProfileView, IEdit
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d(TAG, "onError: ");
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.d(TAG, "onComplete: ");
                     }
                 }));
     }
@@ -189,25 +184,25 @@ public class EditProfileFragment extends BaseMvpFragment<IEditProfileView, IEdit
                     calendarDob = calendar;
                     etDob.setContent(DateTimeUtils.convertCalendarToString(calendarDob, Constant.FORMAT_DATE));
 
-                }).show(getFragmentManager(), null);
+                }).show(getChildFragmentManager(), null);
     }
 
     private void pickGender() {
         ExtKeyValuePairDialogFragment.newInstance()
                 .setExtKeyValuePairs(new ArrayList<ExtKeyValuePair>() {{
-                    add(new ExtKeyValuePair(String.valueOf(UserResponse.UNDISCLOSED), "Undisclosed"));
-                    add(new ExtKeyValuePair(String.valueOf(UserResponse.GENDER_FEMALE), "Female"));
-                    add(new ExtKeyValuePair(String.valueOf(UserResponse.GENDER_MALE), "Male"));
-                    add(new ExtKeyValuePair(String.valueOf(UserResponse.GENDER_OTHER), "Other"));
+                    add(new ExtKeyValuePair(String.valueOf(UserResponse.UNDISCLOSED), getString(R.string.undisclosed)));
+                    add(new ExtKeyValuePair(String.valueOf(UserResponse.GENDER_FEMALE), getString(R.string.female)));
+                    add(new ExtKeyValuePair(String.valueOf(UserResponse.GENDER_MALE), getString(R.string.male)));
+                    add(new ExtKeyValuePair(String.valueOf(UserResponse.GENDER_OTHER), getString(R.string.other)));
                 }})
                 .setValue(String.valueOf(gender))
                 .setOnSelectedConsumer(pair -> {
                     if (!TextUtils.isEmpty(pair.getKey())) {
-                        etGender.setContent(pair.getValue().equals("Undisclosed") ? "" : pair.getValue());
+                        etGender.setContent(pair.getValue().equals(getString(R.string.undisclosed)) ? "" : pair.getValue());
                         gender = Integer.valueOf(pair.getKey());
                     }
                 })
-                .show(getFragmentManager(), null);
+                .show(getChildFragmentManager(), null);
     }
 
     private void save() {

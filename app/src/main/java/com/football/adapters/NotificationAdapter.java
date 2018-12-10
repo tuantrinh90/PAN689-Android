@@ -48,7 +48,7 @@ public class NotificationAdapter extends DefaultAdapter<NotificationResponse> {
         }
 
         holder.textContent.setText(Html.fromHtml(data.getTitle()));
-        holder.textTime.setText(AppUtilities.getRelativeTimeSpanString(data.getNotificationTime()));
+        holder.textTime.setText(AppUtilities.getTimeAgo(mContext, data.getNotificationTime()));
         displayType(holder, data.getType());
 
         holder.itemView.setOnClickListener(v -> callback.accept(data));

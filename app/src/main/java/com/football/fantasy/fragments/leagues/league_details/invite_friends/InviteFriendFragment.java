@@ -87,6 +87,7 @@ public class InviteFriendFragment extends BaseMvpFragment<IInviteFriendView, IIn
 
         try {
             svSearch.getFilter().setVisibility(View.GONE);
+            svSearch.getSearchView().setHint(R.string.search_friends);
             svSearch.setSearchConsumer(query -> {
                 rvFriend.setVisibility(StringUtils.isEmpty(query) ? View.GONE : View.VISIBLE);
                 llInvite.setVisibility(StringUtils.isEmpty(query) && isSetupTime ? View.VISIBLE : View.GONE);

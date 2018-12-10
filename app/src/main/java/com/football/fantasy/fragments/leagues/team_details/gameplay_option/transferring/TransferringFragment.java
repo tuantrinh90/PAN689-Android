@@ -205,10 +205,13 @@ public class TransferringFragment extends BaseMvpFragment<ITransferringView, ITr
         }
 
         // display default
-        if (isTransfer) displays.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_1);
-        displays.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_2);
-        displays.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_3);
-        if (!isTransfer) displays.add(DisplayConfigFragment.OPTION_DISPLAY_DEFAULT_4);
+        if (isTransfer)
+            displays.add(DisplayConfigFragment.getOptionDisplayDefault1(getAppContext()));
+        displays.add(DisplayConfigFragment.getOptionDisplayDefault2(getAppContext()));
+        displays.add(DisplayConfigFragment.getOptionDisplayDefault3(getAppContext()));
+        if (!isTransfer) {
+            displays.add(DisplayConfigFragment.getOptionDisplayDefault4(getAppContext()));
+        }
 
         PlayerPoolAdapter adapter;
         adapter = new PlayerPoolAdapter(

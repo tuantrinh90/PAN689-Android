@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bon.share_preferences.AppPreferences;
 import com.bon.util.DialogUtils;
 import com.football.common.activities.AloneFragmentActivity;
 import com.football.common.fragments.BaseMainMvpFragment;
@@ -20,6 +21,7 @@ import com.football.fantasy.activities.AccountActivity;
 import com.football.fantasy.fragments.more.profile.ProfileFragment;
 import com.football.fantasy.fragments.more.settings.SettingsFragment;
 import com.football.fantasy.fragments.web_view.WebViewFragment;
+import com.football.utilities.Constant;
 import com.football.utilities.ServiceConfig;
 
 import butterknife.OnClick;
@@ -29,6 +31,8 @@ import static com.football.utilities.ServiceConfig.DEEP_LINK;
 import static com.football.utilities.ServiceConfig.SHARE_APP;
 
 public class MoreFragment extends BaseMainMvpFragment<IMoreView, IMorePresenter<IMoreView>> implements IMoreView {
+
+    private String local;
 
     public static MoreFragment newInstance() {
         return new MoreFragment();
@@ -43,6 +47,8 @@ public class MoreFragment extends BaseMainMvpFragment<IMoreView, IMorePresenter<
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bindButterKnife(view);
+
+        local = "?locale=" + AppPreferences.getInstance(getAppContext()).getString(Constant.KEY_LANGUAGE);
     }
 
     @NonNull
@@ -63,13 +69,13 @@ public class MoreFragment extends BaseMainMvpFragment<IMoreView, IMorePresenter<
                 SettingsFragment.start(this);
                 break;
             case R.id.gamerules:
-                WebViewFragment.start(this, getString(R.string.more), ServiceConfig.GAME_RULES);
+                WebViewFragment.start(this, getString(R.string.more), ServiceConfig.GAME_RULES + local);
                 break;
             case R.id.how_it_works:
-                WebViewFragment.start(this, getString(R.string.more), ServiceConfig.FAQ);
+                WebViewFragment.start(this, getString(R.string.more), ServiceConfig.FAQ + local);
                 break;
             case R.id.contact:
-                WebViewFragment.start(this, getString(R.string.more), ServiceConfig.CONTACT);
+                WebViewFragment.start(this, getString(R.string.more), ServiceConfig.CONTACT + local);
                 break;
             case R.id.logout:
                 DialogUtils.messageBox(mActivity,
@@ -84,6 +90,7 @@ public class MoreFragment extends BaseMainMvpFragment<IMoreView, IMorePresenter<
         }
 
     }
+
 
     @OnLongClick(R.id.profile)
     public boolean onLongClicked(View view) {

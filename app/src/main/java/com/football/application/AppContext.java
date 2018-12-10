@@ -1,11 +1,11 @@
 package com.football.application;
 
 import android.content.Context;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.bon.application.ExtApplication;
+import com.bon.image.ImageLoaderUtils;
 import com.bon.logger.Logger;
 import com.bon.share_preferences.AppPreferences;
 import com.football.di.AppComponent;
@@ -54,6 +54,8 @@ public class AppContext extends ExtApplication {
 
         // update fragment utils
         FragmentUtils.setContainerViewId(R.id.fl_content);
+
+        ImageLoaderUtils.setDefaultIcon(R.mipmap.ic_launcher);
     }
 
     /**

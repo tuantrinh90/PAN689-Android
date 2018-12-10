@@ -148,7 +148,7 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
 
     void onClickFilter() {
         List<ExtKeyValuePair> valuePairs = new ArrayList<>();
-        valuePairs.add(new ExtKeyValuePair(Constant.NUMBER_OF_USER_ALL, "None"));
+        valuePairs.add(new ExtKeyValuePair(Constant.NUMBER_OF_USER_ALL, getString(R.string.none)));
         valuePairs.add(new ExtKeyValuePair("4", "4"));
         valuePairs.add(new ExtKeyValuePair("6", "6"));
         valuePairs.add(new ExtKeyValuePair("8", "8"));
@@ -157,13 +157,14 @@ public class OpenLeagueFragment extends BaseMainMvpFragment<IOpenLeagueView, IOp
 
         ExtKeyValuePairDialogFragment.newInstance()
                 .setValue(numberOfUser)
+                .title(getString(R.string.select_number_of_user))
                 .setExtKeyValuePairs(valuePairs)
                 .setOnSelectedConsumer(extKeyValuePair -> {
                     if (!TextUtils.isEmpty(extKeyValuePair.getKey())) {
                         numberOfUser = extKeyValuePair.getKey();
                         refresh();
                     }
-                }).show(getFragmentManager(), null);
+                }).show(getChildFragmentManager(), null);
     }
 
     void onPerformSearch(String q) {

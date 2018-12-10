@@ -1,9 +1,7 @@
 package com.football.models.responses;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.StringDef;
-import android.support.v4.content.ContextCompat;
 
 import com.bon.util.DateTimeUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -242,32 +240,12 @@ public class PlayerResponse implements Serializable {
         this.mainPosition = mainPosition;
     }
 
-    @JsonIgnore
-    public String getMainPositionFullText() {
-        return getPositionText(getMainPosition(), true);
-    }
-
-    @JsonIgnore
-    public String getMainPositionText() {
-        return getPositionText(getMainPosition(), false);
-    }
-
     public int getMinorPosition() {
         return minorPosition;
     }
 
     public void setMinorPosition(int minorPosition) {
         this.minorPosition = minorPosition;
-    }
-
-    @JsonIgnore
-    public String getMinorPositionText() {
-        return getPositionText(getMinorPosition(), false);
-    }
-
-    @JsonIgnore
-    public String getMinorPositionFullText() {
-        return getPositionText(getMinorPosition(), true);
     }
 
     public Long getTransferValue() {
@@ -297,27 +275,6 @@ public class PlayerResponse implements Serializable {
 
     public void setSelected(Boolean selected) {
         isSelected = selected;
-    }
-
-    @JsonIgnore
-    public String getPositionText(int position, boolean fullText) {
-        String result = "";
-        switch (position) {
-            case POSITION_GOALKEEPER:
-                result = fullText ? "Goalkeeper" : "G";
-                break;
-            case POSITION_DEFENDER:
-                result = fullText ? "Defender" : "D";
-                break;
-            case POSITION_MIDFIELDER:
-                result = fullText ? "Midfielder" : "M";
-                break;
-            case POSITION_ATTACKER:
-                result = fullText ? "Attacker" : "A";
-                break;
-        }
-
-        return result;
     }
 
     public Boolean getGoalkeeper() {

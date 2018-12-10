@@ -1,5 +1,6 @@
 package com.football.fantasy.fragments.leagues.player_pool.display;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -42,12 +43,6 @@ public class DisplayConfigFragment extends BaseMvpFragment<IDisplayConfigView, I
     private static final String KEY_TRANSFER_MODE = "TRANSFER_MODE";
     private static final String KEY_FROM = "FROM";
     private static final String KEY_DISPLAY = "DISPLAY";
-
-    public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_1 = new ExtKeyValuePair(VALUE, "Value", true); // selected = sort by desc
-    public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_2 = new ExtKeyValuePair(POINT, "Point", true);
-    public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_3 = new ExtKeyValuePair(GOALS, "Goals", true);
-    public static final ExtKeyValuePair OPTION_DISPLAY_DEFAULT_4 = new ExtKeyValuePair(ASSISTS, "Assists", true);
-
 
     @BindView(R.id.tvHeader)
     ExtTextView tvHeader;
@@ -95,21 +90,21 @@ public class DisplayConfigFragment extends BaseMvpFragment<IDisplayConfigView, I
         // display
         keyValuePairs = new ArrayList<>();
         if (transferMode) {
-            keyValuePairs.add(new ExtKeyValuePair(VALUE, "Value", filterDisplays.contains(VALUE)));
+            keyValuePairs.add(new ExtKeyValuePair(VALUE, getString(R.string.value), filterDisplays.contains(VALUE)));
         }
-        keyValuePairs.add(new ExtKeyValuePair(POINT, "Point", filterDisplays.contains(POINT)));
-        keyValuePairs.add(new ExtKeyValuePair(GOALS, "Goals", filterDisplays.contains(GOALS)));
-        keyValuePairs.add(new ExtKeyValuePair(ASSISTS, "Assists", filterDisplays.contains(ASSISTS)));
-        keyValuePairs.add(new ExtKeyValuePair(CLEAN_SHEET, "Clean Sheet", filterDisplays.contains(CLEAN_SHEET)));
-        keyValuePairs.add(new ExtKeyValuePair(DUELS_THEY_WIN, "Duels They Win", filterDisplays.contains(DUELS_THEY_WIN)));
-        keyValuePairs.add(new ExtKeyValuePair(PASSES, "Passes", filterDisplays.contains(PASSES)));
-        keyValuePairs.add(new ExtKeyValuePair(SHOTS, "Shots", filterDisplays.contains(SHOTS)));
-        keyValuePairs.add(new ExtKeyValuePair(SAVES, "Saves", filterDisplays.contains(SAVES)));
-        keyValuePairs.add(new ExtKeyValuePair(YELLOW_CARDS, "Yellow Cards", filterDisplays.contains(YELLOW_CARDS)));
-        keyValuePairs.add(new ExtKeyValuePair(DRIBBLES, "Dribbles", filterDisplays.contains(DRIBBLES)));
-        keyValuePairs.add(new ExtKeyValuePair(TURNOVERS, "Turnovers", filterDisplays.contains(TURNOVERS)));
-        keyValuePairs.add(new ExtKeyValuePair(BALLS_RECOVERED, "Balls Recovered", filterDisplays.contains(BALLS_RECOVERED)));
-        keyValuePairs.add(new ExtKeyValuePair(FOULS_COMMITTED, "Fouls Committed", filterDisplays.contains(FOULS_COMMITTED)));
+        keyValuePairs.add(new ExtKeyValuePair(POINT, getString(R.string.point), filterDisplays.contains(POINT)));
+        keyValuePairs.add(new ExtKeyValuePair(GOALS, getString(R.string.goals), filterDisplays.contains(GOALS)));
+        keyValuePairs.add(new ExtKeyValuePair(ASSISTS, getString(R.string.assists), filterDisplays.contains(ASSISTS)));
+        keyValuePairs.add(new ExtKeyValuePair(CLEAN_SHEET, getString(R.string.clean_sheet), filterDisplays.contains(CLEAN_SHEET)));
+        keyValuePairs.add(new ExtKeyValuePair(DUELS_THEY_WIN, getString(R.string.duels_they_win), filterDisplays.contains(DUELS_THEY_WIN)));
+        keyValuePairs.add(new ExtKeyValuePair(PASSES, getString(R.string.passes), filterDisplays.contains(PASSES)));
+        keyValuePairs.add(new ExtKeyValuePair(SHOTS, getString(R.string.shots), filterDisplays.contains(SHOTS)));
+        keyValuePairs.add(new ExtKeyValuePair(SAVES, getString(R.string.saves), filterDisplays.contains(SAVES)));
+        keyValuePairs.add(new ExtKeyValuePair(YELLOW_CARDS, getString(R.string.yellow_cards), filterDisplays.contains(YELLOW_CARDS)));
+        keyValuePairs.add(new ExtKeyValuePair(DRIBBLES, getString(R.string.dribbles), filterDisplays.contains(DRIBBLES)));
+        keyValuePairs.add(new ExtKeyValuePair(TURNOVERS, getString(R.string.turnovers), filterDisplays.contains(TURNOVERS)));
+        keyValuePairs.add(new ExtKeyValuePair(BALLS_RECOVERED, getString(R.string.balls_recovered), filterDisplays.contains(BALLS_RECOVERED)));
+        keyValuePairs.add(new ExtKeyValuePair(FOULS_COMMITTED, getString(R.string.fouls_committed), filterDisplays.contains(FOULS_COMMITTED)));
 
         for (ExtKeyValuePair pair : keyValuePairs) {
             if (pair.isSelected()) checkCount++;
@@ -174,5 +169,21 @@ public class DisplayConfigFragment extends BaseMvpFragment<IDisplayConfigView, I
 
         getActivity().finish();
 
+    }
+
+    public static ExtKeyValuePair getOptionDisplayDefault1(Context context) {
+        return new ExtKeyValuePair(VALUE, context.getString(R.string.value), true);
+    }
+
+    public static ExtKeyValuePair getOptionDisplayDefault2(Context context) {
+        return new ExtKeyValuePair(POINT, context.getString(R.string.point), true);
+    }
+
+    public static ExtKeyValuePair getOptionDisplayDefault3(Context context) {
+        return new ExtKeyValuePair(GOALS, context.getString(R.string.goals), true);
+    }
+
+    public static ExtKeyValuePair getOptionDisplayDefault4(Context context) {
+        return new ExtKeyValuePair(ASSISTS, context.getString(R.string.assists), true);
     }
 }

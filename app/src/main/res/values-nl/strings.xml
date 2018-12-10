@@ -44,6 +44,7 @@
     <string name="search_public_leagues">NLSearch public league</string>
     <string name="search_public_players">NLSearch player by name</string>
     <string name="search_players">NLSearch players</string>
+    <string name="search_friends">NLSearch</string>
     <string name="owner">NLOwner</string>
     <string name="invitor">NLInvitor</string>
     <string name="entrants">NLEntrants</string>
@@ -130,8 +131,8 @@
     <string name="util_team_draft_time">NLuntil Team Setup Time</string>
 
     <!--// error message-->
-    <string name="error_field_must_not_be_empty">NL@string/field_is_required</string>
-    <string name="error_email_address_not_valid">NL@string/forgot_user_forgot_email_invalid</string>
+    <string name="error_field_must_not_be_empty">@string/field_is_required</string>
+    <string name="error_email_address_not_valid">@string/forgot_user_forgot_email_invalid</string>
     <string name="password_is_not_correct">NLPassword is not correct. Please try again.</string>
     <string name="min_password">NLYour password must be at least 6 characters</string>
     <string name="block_account">NLThis account has been banned</string>
@@ -153,7 +154,7 @@
     <string name="unauthorized">NLUnauthorized</string>
     <string name="not_found_resource">NLNot found resource!!!!!</string>
     <string name="update_success">NLUpdate successful</string>
-    <string name="resend_forgot_success">NL@string/forgot_description_success</string>
+    <string name="resend_forgot_success">@string/forgot_description_success</string>
     <string name="agreed_error">NLPlease read and agree to the Term and Privacy policy by tapping on the checkbox</string>
     <string name="confirm_not_match">NLYou must enter the same password twice in order to confirm it</string>
     <string name="register_successful">NLYou have successfully registered an account</string>
@@ -388,5 +389,127 @@
     <string name="language_french">NLFrench</string>
     <string name="language_german">NLGerman</string>
     <string name="language_english">NLEnglish</string>
+    <string name="total_statistics">NLTotal statistics</string>
+    <string name="last_round">NLLast round</string>
+    <string name="avg_of_the_season">NLAvg of the season</string>
+    <string name="avg_of_last_5_rounds">NLAvg of Last 5 rounds</string>
+    <string name="avg_of_last_3_rounds">NLAvg of Last 3 rounds</string>
+    <string name="round_value">NLRound %d</string>
+    <string name="none">NLNone</string>
+    <string name="select_number_of_user">NLNumber of user</string>
+    <string name="undisclosed">NLUndisclosed</string>
+    <string name="select_type">NLSelect type</string>
 
+    <string name="double_tap_to_exit">NLDouble tap to Exit!</string>
+    <string name="select_value">NLSelect value</string>
+    <string name="search">NLSearch</string>
+    <string name="done">NLDone</string>
+
+    <string name="day">NLDay</string>
+    <string name="month">NLMonth</string>
+    <string name="year">NLYear</string>
+    <string name="hour">NLHour</string>
+    <string name="minute">NLMinute</string>
+
+    <string name="month_one">NLJan</string>
+    <string name="month_two">NLFeb</string>
+    <string name="month_three">NLMar</string>
+    <string name="month_four">NLApr</string>
+    <string name="month_five">NLMay</string>
+    <string name="month_six">NLJun</string>
+    <string name="month_seven">NLJul</string>
+    <string name="month_eight">NLAug</string>
+    <string name="month_nice">NLSep</string>
+    <string name="month_ten">NLOct</string>
+    <string name="month_eleven">NLNov</string>
+    <string name="month_twelfth">NLDec</string>
+
+    <!--error key-->
+    <string name="field_is_required">NLThis field is required</string>
+    <string name="field_max_40_character">NLThis field must be less than 40 characters</string>
+    <string name="field_max_255_character">NLThis field must be less than 255 characters</string>
+    <string name="field_phone_invalid">NLPhone number from 9 – 12 characters</string>
+    <string name="field_is_unique">NLThis field must be unique</string>
+    <string name="field_confirmed">NLThis field must be confirmed</string>
+    <string name="field_min_6_character">NLThis field must be more than 6 characters</string>
+    <string name="selected_is_invalid">NLThis choice is not valid</string>
+    <string name="internal_exception">NLInternal exception</string>
+    <string name="login_failure">NLLogin unsuccessfully</string>
+    <string name="login_invalid_credentials">NLEmail or Password is not correct</string>
+    <string name="jwt_failed_to_create_token">NLCan not create a token</string>
+    <string name="register_failure">NLEmail address is already registered, please log in with this email</string>
+    <string name="register_user_exist">NLThe user already exists</string>
+    <string name="register_email_exist">NLThe email already exists</string>
+    <string name="register_success">NLSign in successfully</string>
+    <string name="user_register_exist">NLThe user already exists</string>
+    <string name="user_register_false">NLSign in unsuccessfully</string>
+    <string name="forgot_user_forgot_email">NLForgot email</string>
+    <string name="forgot_user_forgot_email_invalid">NLEmail is not valid</string>
+    <string name="forgot_user_forgot_email_null">NLPlease try with one registered email</string>
+    <string name="forgot_user_forgot_email_update">NLEmail is updated</string>
+    <string name="forgot_user_email_does_not_sent_successfully">NLEmail is sent unsuccessfully</string>
+    <string name="forgot_user_forgot_email_system">NLForgot system password</string>
+    <string name="league_add_invalid_credentials">NLVerification is not valid</string>
+    <string name="league_update_invalid_credentials">NLVerification is not valid</string>
+    <string name="league_invalid_season">NLThe league is not valid</string>
+    <string name="league_invalid_budget">NLThe budget is not valid</string>
+    <string name="league_invalid_setup_time">NLTeam setup time must not be later than start time</string>
+    <string name="league_invalid_start_time">NLStart time must not be earlier than team setup time</string>
+    <string name="league_invalid_start_transfer_time">NLTransfer time is not valid</string>
+    <string name="league_invalid_start_draft_time_after_start_time">NLDraft time must not be later than start time</string>
+    <string name="league_invalid_start_draft_time">NLTime is invalid</string>
+    <string name="league_invalid_trade_review">NLTrade review is not valid</string>
+    <string name="league_invalid_gameplay_option">NLGameplay option is not valid</string>
+    <string name="league_number_user_not_edit">NLNumber of users is not valid</string>
+    <string name="league_invalid_number_user">NLNumber of users must be higher current number of members</string>
+    <string name="league_invalid_scoring_system_no_edit">NLScoring system is not valid</string>
+    <string name="league_not_found">NLNot found</string>
+    <string name="could_not_found_cloud_storage">NLCloud storage is not found</string>
+    <string name="delete_file_failure">NLUnable to Delete File</string>
+    <string name="delete_file_success">NLDelete file successfully</string>
+    <string name="team_not_found">NLTeam is not found</string>
+    <string name="my_team_not_found">NLYour team is not found</string>
+    <string name="invitation_already_sent">NLThe invitation is sent successfully</string>
+    <string name="post_not_found">NLPost is not found</string>
+    <string name="maximum_5_leagues">NLYou can only join maximum 5 leagues at a time</string>
+    <string name="current_budget_is_not_enough">NLBudget is not enough</string>
+    <string name="this_league_is_already_full_of_entrants">NLThis league is already full of entrants</string>
+    <string name="the_name_has_already_been_taken">NLAnother team with same name is existing</string>
+    <string name="message_max_team_name">NLThe Team name must be less than 40 characters</string>
+    <string name="message_exist_league">NLmessage_exist_league</string>
+    <string name="message_league_full">NLThe league is full now</string>
+    <string name="message_joined_this_league">NLmessage_joined_this_league</string>
+    <string name="message_pick_after_team_setup_time">NLYou cannot pick players after team setup time!</string>
+    <string name="message_team_lineup_is_not_completed_yet">NLYou are not able to access this screen because this team lineup is not completed yet</string>
+    <string name="message_team_lineup_all_round_come_to_end">NLAll rounds come to an end. You cannot pick players.</string>
+    <string name="message_unable_to_invite_friend">NLLimit on number of user, unable to invite friend!</string>
+    <string name="overload_max_transfer">NLoverload_max_transfer</string>
+    <string name="invalid_from_player">NLYou can\'t pick player more</string>
+    <string name="login_code_invalid">NLThe code you have entered is not correct. Please try again.</string>
+    <string name="password_current_failure">NLCurrent password failure</string>
+    <string name="max_number_user">NLYou have reached maximum number of leagues</string>
+    <string name="not_found_team_round">NLAll rounds come to an end</string>
+    <string name="can_not_transfer_player_util_this_round_ends">NLYou can\'t transfer more. Transferring player left is 0</string>
+    <string name="can_not_transfer_player_until_this_round_ends">NLCan\'t transfer player until this round ends</string>
+    <string name="edit_profile">NLEdit Profile</string>
+
+    <!-- time ago strings -->
+    <string name="just_now">NLjust now</string>
+    <string name="time_ago">NL%s ago</string>
+    <string name="yesterday">NLyesterday</string>
+
+    <plurals name="minutes">
+        <item quantity="one">a minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+
+    <plurals name="hours">
+        <item quantity="one">an hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+
+    <plurals name="days">
+        <item quantity="one">a day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
 </resources>

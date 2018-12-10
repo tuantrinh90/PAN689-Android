@@ -1,11 +1,4 @@
 <resources>
-    <!--E3:A1:E1:ED:84:E4:16:3A:87:06:01:0A:09:08:79:DC:C2:5D:4D:CB-->
-    <!--social-->
-    <string name="facebook_app_id">DE1963122033999975</string>
-    <string name="fb_login_protocol_scheme">DEfb1963122033999975</string>
-    <string name="twitter_api_key">DEP4cJrXCOyUKRT3STozI81yWM0</string>
-    <string name="twitter_secret_key">DE4H87uKfxfbo5Gt3fvUtpspaatNthJPsbJCv16t76BERjISM7ew</string>
-
     <string name="app_name">DEPanna</string>
     <string name="yes">DEYes</string>
     <string name="no">DENo</string>
@@ -51,6 +44,7 @@
     <string name="search_public_leagues">DESearch public league</string>
     <string name="search_public_players">DESearch player by name</string>
     <string name="search_players">DESearch players</string>
+    <string name="search_friends">DESearch</string>
     <string name="owner">DEOwner</string>
     <string name="invitor">DEInvitor</string>
     <string name="entrants">DEEntrants</string>
@@ -137,8 +131,8 @@
     <string name="util_team_draft_time">DEuntil Team Setup Time</string>
 
     <!--// error message-->
-    <string name="error_field_must_not_be_empty">DE@string/field_is_required</string>
-    <string name="error_email_address_not_valid">DE@string/forgot_user_forgot_email_invalid</string>
+    <string name="error_field_must_not_be_empty">@string/field_is_required</string>
+    <string name="error_email_address_not_valid">@string/forgot_user_forgot_email_invalid</string>
     <string name="password_is_not_correct">DEPassword is not correct. Please try again.</string>
     <string name="min_password">DEYour password must be at least 6 characters</string>
     <string name="block_account">DEThis account has been banned</string>
@@ -160,7 +154,7 @@
     <string name="unauthorized">DEUnauthorized</string>
     <string name="not_found_resource">DENot found resource!!!!!</string>
     <string name="update_success">DEUpdate successful</string>
-    <string name="resend_forgot_success">DE@string/forgot_description_success</string>
+    <string name="resend_forgot_success">@string/forgot_description_success</string>
     <string name="agreed_error">DEPlease read and agree to the Term and Privacy policy by tapping on the checkbox</string>
     <string name="confirm_not_match">DEYou must enter the same password twice in order to confirm it</string>
     <string name="register_successful">DEYou have successfully registered an account</string>
@@ -395,5 +389,127 @@
     <string name="language_french">DEFrench</string>
     <string name="language_german">DEGerman</string>
     <string name="language_english">DEEnglish</string>
+    <string name="total_statistics">DETotal statistics</string>
+    <string name="last_round">DELast round</string>
+    <string name="avg_of_the_season">DEAvg of the season</string>
+    <string name="avg_of_last_5_rounds">DEAvg of Last 5 rounds</string>
+    <string name="avg_of_last_3_rounds">DEAvg of Last 3 rounds</string>
+    <string name="round_value">DERound %d</string>
+    <string name="none">DENone</string>
+    <string name="select_number_of_user">DENumber of user</string>
+    <string name="undisclosed">DEUndisclosed</string>
+    <string name="select_type">DESelect type</string>
 
+    <string name="double_tap_to_exit">DEDouble tap to Exit!</string>
+    <string name="select_value">DESelect value</string>
+    <string name="search">DESearch</string>
+    <string name="done">DEDone</string>
+
+    <string name="day">DEDay</string>
+    <string name="month">DEMonth</string>
+    <string name="year">DEYear</string>
+    <string name="hour">DEHour</string>
+    <string name="minute">DEMinute</string>
+
+    <string name="month_one">DEJan</string>
+    <string name="month_two">DEFeb</string>
+    <string name="month_three">DEMar</string>
+    <string name="month_four">DEApr</string>
+    <string name="month_five">DEMay</string>
+    <string name="month_six">DEJun</string>
+    <string name="month_seven">DEJul</string>
+    <string name="month_eight">DEAug</string>
+    <string name="month_nice">DESep</string>
+    <string name="month_ten">DEOct</string>
+    <string name="month_eleven">DENov</string>
+    <string name="month_twelfth">DEDec</string>
+
+    <!--error key-->
+    <string name="field_is_required">DEThis field is required</string>
+    <string name="field_max_40_character">DEThis field must be less than 40 characters</string>
+    <string name="field_max_255_character">DEThis field must be less than 255 characters</string>
+    <string name="field_phone_invalid">DEPhone number from 9 – 12 characters</string>
+    <string name="field_is_unique">DEThis field must be unique</string>
+    <string name="field_confirmed">DEThis field must be confirmed</string>
+    <string name="field_min_6_character">DEThis field must be more than 6 characters</string>
+    <string name="selected_is_invalid">DEThis choice is not valid</string>
+    <string name="internal_exception">DEInternal exception</string>
+    <string name="login_failure">DELogin unsuccessfully</string>
+    <string name="login_invalid_credentials">DEEmail or Password is not correct</string>
+    <string name="jwt_failed_to_create_token">DECan not create a token</string>
+    <string name="register_failure">DEEmail address is already registered, please log in with this email</string>
+    <string name="register_user_exist">DEThe user already exists</string>
+    <string name="register_email_exist">DEThe email already exists</string>
+    <string name="register_success">DESign in successfully</string>
+    <string name="user_register_exist">DEThe user already exists</string>
+    <string name="user_register_false">DESign in unsuccessfully</string>
+    <string name="forgot_user_forgot_email">DEForgot email</string>
+    <string name="forgot_user_forgot_email_invalid">DEEmail is not valid</string>
+    <string name="forgot_user_forgot_email_null">DEPlease try with one registered email</string>
+    <string name="forgot_user_forgot_email_update">DEEmail is updated</string>
+    <string name="forgot_user_email_does_not_sent_successfully">DEEmail is sent unsuccessfully</string>
+    <string name="forgot_user_forgot_email_system">DEForgot system password</string>
+    <string name="league_add_invalid_credentials">DEVerification is not valid</string>
+    <string name="league_update_invalid_credentials">DEVerification is not valid</string>
+    <string name="league_invalid_season">DEThe league is not valid</string>
+    <string name="league_invalid_budget">DEThe budget is not valid</string>
+    <string name="league_invalid_setup_time">DETeam setup time must not be later than start time</string>
+    <string name="league_invalid_start_time">DEStart time must not be earlier than team setup time</string>
+    <string name="league_invalid_start_transfer_time">DETransfer time is not valid</string>
+    <string name="league_invalid_start_draft_time_after_start_time">DEDraft time must not be later than start time</string>
+    <string name="league_invalid_start_draft_time">DETime is invalid</string>
+    <string name="league_invalid_trade_review">DETrade review is not valid</string>
+    <string name="league_invalid_gameplay_option">DEGameplay option is not valid</string>
+    <string name="league_number_user_not_edit">DENumber of users is not valid</string>
+    <string name="league_invalid_number_user">DENumber of users must be higher current number of members</string>
+    <string name="league_invalid_scoring_system_no_edit">DEScoring system is not valid</string>
+    <string name="league_not_found">DENot found</string>
+    <string name="could_not_found_cloud_storage">DECloud storage is not found</string>
+    <string name="delete_file_failure">DEUnable to Delete File</string>
+    <string name="delete_file_success">DEDelete file successfully</string>
+    <string name="team_not_found">DETeam is not found</string>
+    <string name="my_team_not_found">DEYour team is not found</string>
+    <string name="invitation_already_sent">DEThe invitation is sent successfully</string>
+    <string name="post_not_found">DEPost is not found</string>
+    <string name="maximum_5_leagues">DEYou can only join maximum 5 leagues at a time</string>
+    <string name="current_budget_is_not_enough">DEBudget is not enough</string>
+    <string name="this_league_is_already_full_of_entrants">DEThis league is already full of entrants</string>
+    <string name="the_name_has_already_been_taken">DEAnother team with same name is existing</string>
+    <string name="message_max_team_name">DEThe Team name must be less than 40 characters</string>
+    <string name="message_exist_league">DEmessage_exist_league</string>
+    <string name="message_league_full">DEThe league is full now</string>
+    <string name="message_joined_this_league">DEmessage_joined_this_league</string>
+    <string name="message_pick_after_team_setup_time">DEYou cannot pick players after team setup time!</string>
+    <string name="message_team_lineup_is_not_completed_yet">DEYou are not able to access this screen because this team lineup is not completed yet</string>
+    <string name="message_team_lineup_all_round_come_to_end">DEAll rounds come to an end. You cannot pick players.</string>
+    <string name="message_unable_to_invite_friend">DELimit on number of user, unable to invite friend!</string>
+    <string name="overload_max_transfer">DEoverload_max_transfer</string>
+    <string name="invalid_from_player">DEYou can\'t pick player more</string>
+    <string name="login_code_invalid">DEThe code you have entered is not correct. Please try again.</string>
+    <string name="password_current_failure">DECurrent password failure</string>
+    <string name="max_number_user">DEYou have reached maximum number of leagues</string>
+    <string name="not_found_team_round">DEAll rounds come to an end</string>
+    <string name="can_not_transfer_player_util_this_round_ends">DEYou can\'t transfer more. Transferring player left is 0</string>
+    <string name="can_not_transfer_player_until_this_round_ends">DECan\'t transfer player until this round ends</string>
+    <string name="edit_profile">DEEdit Profile</string>
+
+    <!-- time ago strings -->
+    <string name="just_now">DEjust now</string>
+    <string name="time_ago">DE%s ago</string>
+    <string name="yesterday">DEyesterday</string>
+
+    <plurals name="minutes">
+        <item quantity="one">a minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+
+    <plurals name="hours">
+        <item quantity="one">an hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+
+    <plurals name="days">
+        <item quantity="one">a day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
 </resources>

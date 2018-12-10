@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
+import com.bon.logger.Logger;
 import com.bon.util.StringUtils;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -14,7 +15,6 @@ import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.utils.DiskCacheUtils;
 import com.nostra13.universalimageloader.utils.MemoryCacheUtils;
-import com.bon.logger.Logger;
 
 /**
  * Created by Dang on 10/20/2015.
@@ -22,6 +22,12 @@ import com.bon.logger.Logger;
 @SuppressWarnings("ALL")
 public class ImageLoaderUtils {
     private static final String TAG = ImageLoaderUtils.class.getSimpleName();
+
+    private static int defaultIcon;
+
+    public static void setDefaultIcon(int defaultIcon) {
+        ImageLoaderUtils.defaultIcon = defaultIcon;
+    }
 
     /**
      * get display option
@@ -143,7 +149,10 @@ public class ImageLoaderUtils {
      */
     public static void displayImage(String imageUri, ImageView imageView) {
         try {
-            if (StringUtils.isEmpty(imageUri))return;
+            if (StringUtils.isEmpty(imageUri)) {
+                if (defaultIcon != 0) imageView.setImageResource(defaultIcon);
+                return;
+            }
             ImageLoader.getInstance().displayImage(imageUri, imageView);
         } catch (Exception e) {
             Logger.e(TAG, e);
@@ -170,7 +179,7 @@ public class ImageLoaderUtils {
      */
     public static void displayImage(String imageUri, ImageView imageView, ImageLoadingListener imageLoadingListener) {
         try {
-            if (StringUtils.isEmpty(imageUri))return;
+            if (StringUtils.isEmpty(imageUri)) return;
             ImageLoader.getInstance().displayImage(imageUri, imageView, imageLoadingListener);
         } catch (Exception e) {
             Logger.e(TAG, e);
