@@ -21,6 +21,7 @@ import butterknife.BindView;
 public class MatchUpFragment extends BaseMainMvpFragment<IMatchUpView, IMatchUpPresenter<IMatchUpView>> implements IMatchUpView {
 
     private static final int REAL_LEAGUE_INDEX = 0;
+    private static final int MY_LEAGUE_INDEX = 1;
 
     public static MatchUpFragment newInstance() {
         return new MatchUpFragment();
@@ -87,6 +88,6 @@ public class MatchUpFragment extends BaseMainMvpFragment<IMatchUpView, IMatchUpP
     }
 
     public void openMyLeague() {
-        vpViewPager.setCurrentItem(REAL_LEAGUE_INDEX);
+        vpViewPager.setCurrentItem(MY_LEAGUE_INDEX);
     }
 }
