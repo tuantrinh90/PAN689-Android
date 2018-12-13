@@ -85,4 +85,8 @@ public class MatchUpFragment extends BaseMainMvpFragment<IMatchUpView, IMatchUpP
     public void openRealLeague() {
         vpViewPager.setCurrentItem(REAL_LEAGUE_INDEX);
     }
+
+    public void openMyLeague() {
+        vpViewPager.setCurrentItem(REAL_LEAGUE_INDEX);
+    }
 }

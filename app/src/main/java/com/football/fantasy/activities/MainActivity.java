@@ -11,7 +11,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.bon.share_preferences.AppPreferences;
@@ -263,7 +262,6 @@ public class MainActivity extends BaseActivity {
             case CANCEL_LEAGUE_SINCE_LACK_MEMBER:
             case CANCEL_LEAGUE_SINCE_OWNER:
             case OWNER_DELETE_MEMBER:
-            case NEWEST_GAME_RESULT:
                 viewPager.setCurrentItem(LEAGUES);
                 if (mPagerAdapter.getItem(LEAGUES) instanceof LeagueFragment) {
                     ((LeagueFragment) mPagerAdapter.getItem(LEAGUES)).openMyLeague();
@@ -278,6 +276,14 @@ public class MainActivity extends BaseActivity {
                 viewPager.setCurrentItem(MATCH_UP);
                 if (mPagerAdapter.getItem(MATCH_UP) instanceof MatchUpFragment) {
                     ((MatchUpFragment) mPagerAdapter.getItem(MATCH_UP)).openRealLeague();
+                }
+                break;
+
+            // Matchup - my league
+            case NEWEST_GAME_RESULT:
+                viewPager.setCurrentItem(MATCH_UP);
+                if (mPagerAdapter.getItem(MATCH_UP) instanceof MatchUpFragment) {
+                    ((MatchUpFragment) mPagerAdapter.getItem(MATCH_UP)).openMyLeague();
                 }
                 break;
 

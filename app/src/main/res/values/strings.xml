@@ -489,6 +489,7 @@
     <string name="password_current_failure">Current password failure</string>
     <string name="max_number_user">You have reached maximum number of leagues</string>
     <string name="not_found_team_round">All rounds come to an end</string>
+    <string name="full_position_in_lineup">No vacancy for this position</string>
     <string name="can_not_transfer_player_util_this_round_ends">You can\'t transfer more. Transferring player left is 0</string>
     <string name="can_not_transfer_player_until_this_round_ends">Can\'t transfer player until this round ends</string>
     <string name="edit_profile">Edit Profile</string>
