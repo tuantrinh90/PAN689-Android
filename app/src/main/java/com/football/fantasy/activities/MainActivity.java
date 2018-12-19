@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.bon.share_preferences.AppPreferences;
@@ -38,6 +39,8 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.football.models.responses.LeagueResponse.GAMEPLAY_OPTION_TRANSFER;
 import static com.football.services.NotificationKey.BEFORE_START_TIME_2H;
@@ -152,6 +155,17 @@ public class MainActivity extends BaseActivity {
         unregisterReceiver(broadcastReceiver);
         getAppContext().disconnect();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mCompositeDisposable.add(dataModule.getApiService().getNotificationsUnread()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    updateNotificationState(response.getResponse().getTotal());
+                }));
     }
 
     @Override
@@ -405,6 +419,7 @@ public class MainActivity extends BaseActivity {
                 if (intent.getAction() != null && intent.getAction().equals(KEY_HAS_NOTIFICATION)) {
                     updateNotificationState(1);
                 }
+                Log.d("initBroadcast", "onReceive: ");
             }
         };
 

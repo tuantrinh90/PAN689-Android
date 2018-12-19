@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.football.fantasy.R;
 import com.football.fantasy.activities.MainActivity;
@@ -30,17 +29,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
-        Log.d(TAG, "From: " + remoteMessage.getFrom());
 
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
-            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
             Map<String, String> payload = remoteMessage.getData();
 
             // Check if message contains a notification payload.
             if (remoteMessage.getNotification() != null) {
-                Log.d(TAG, "onMessageReceived#title: " + remoteMessage.getNotification().getTitle());
-                Log.d(TAG, "onMessageReceived#Body: " + remoteMessage.getNotification().getBody());
                 sendNotification(
                         payload,
                         remoteMessage.getNotification().getTitle(),
@@ -87,8 +82,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         if (notificationManager != null) {
             int notificationId = Math.abs(random.nextInt(1000000));
-            Log.i(TAG, "sendNotification => notificationId: " + notificationId);
-            Log.i(TAG, "sendNotification => payload: " + payload.toString());
             notificationManager.notify(notificationId, notificationBuilder.build());
 
             sendBroadcast(new Intent(MainActivity.KEY_HAS_NOTIFICATION));

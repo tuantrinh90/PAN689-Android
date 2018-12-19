@@ -30,11 +30,11 @@ import com.football.fantasy.activities.MainActivity;
 import com.football.fantasy.fragments.leagues.action.setup_leagues.SetUpLeagueFragment;
 import com.football.fantasy.fragments.leagues.league_details.LeagueDetailFragment;
 import com.football.fantasy.fragments.leagues.player_pool.PlayerPoolFragment;
-import com.football.fantasy.fragments.more.settings.SettingsFragment;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.NewsResponse;
 import com.football.utilities.Constant;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.List;
 
@@ -101,9 +101,10 @@ public class HomeFragment extends BaseMainMvpFragment<IHomeView, IHomePresenter<
     }
 
     void registerNotification() {
+        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
         // Get token
         FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnSuccessListener(getActivity(), result -> {
+                .addOnSuccessListener(mActivity, result -> {
                     String deviceId = Settings.Secure.getString(getContext().getContentResolver(),
                             Settings.Secure.ANDROID_ID);
 

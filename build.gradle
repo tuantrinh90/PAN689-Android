@@ -9,7 +9,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath 'com.google.gms:google-services:4.0.1'
+        classpath 'com.google.gms:google-services:4.2.0'
 
         classpath 'io.fabric.tools:gradle:1.26.1'
     }
@@ -31,7 +31,7 @@ ext {
     retrofitVer = '2.3.0'
     okhttpVer = '3.9.1'
     streamsupportVer = '1.6.0'
-    playServiceVer = '15.0.1'
+    playServiceVer = '16.0.1'
     daggerVer = '2.4'
     rxjandroid = '2.0.2'
     rxjava = '2.1.14'
@@ -51,9 +51,9 @@ ext {
     socketIO = '0.3.0'
 
     // notifcation
-    firebaseMessagingVer = '17.1.0'
-    firebase_iid = '16.2.0'
-    firebase_core = '16.0.1'
+    firebaseMessagingVer = '17.3.4'
+    firebase_iid = '17.0.4'
+    firebase_core = '16.0.6'
     firebase_jobdispatcher = '0.8.5'
 
 }
