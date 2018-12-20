@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -425,17 +426,21 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
 
                 case USER_TRANSACTION_RESULT:
                     vpViewPager.setCurrentItem(TRADE_REVIEW_INDEX);
-                    if (adapter.getItem(TRADE_REVIEW_INDEX) instanceof TradeReviewFragment) {
-                        ((TradeReviewFragment) adapter.getItem(TRADE_REVIEW_INDEX)).openFragment(INDEX_RESULTS);
+                    new Handler().postDelayed(() -> {
+                        if (adapter.getItem(TRADE_REVIEW_INDEX) instanceof TradeReviewFragment) {
+                            ((TradeReviewFragment) adapter.getItem(TRADE_REVIEW_INDEX)).openFragment(INDEX_RESULTS);
+                        }
+                    }, 150);
 
-                    }
                     break;
 
                 case TWO_HOURS_TO_REVIEW:
                     vpViewPager.setCurrentItem(TRADE_REVIEW_INDEX);
-                    if (adapter.getItem(TRADE_REVIEW_INDEX) instanceof TradeReviewFragment) {
-                        ((TradeReviewFragment) adapter.getItem(TRADE_REVIEW_INDEX)).openTradeProposalReview(-1);
-                    }
+                    new Handler().postDelayed(() -> {
+                        if (adapter.getItem(TRADE_REVIEW_INDEX) instanceof TradeReviewFragment) {
+                            ((TradeReviewFragment) adapter.getItem(TRADE_REVIEW_INDEX)).openTradeProposalReview(-1);
+                        }
+                    }, 150);
                     break;
 
                 // Setup team - screen Lineup
@@ -443,9 +448,11 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
                 case BEFORE_TEAM_SETUP_TIME_2H:
                 case RANDOM_TEAM:
                 case COMPLETE_SETUP_TEAM:   // Setup team - tab team list
-                    if (!goLineup && adapter != null) {
-                        ((LeagueInfoFragment) adapter.getItem(INFORMATION_INDEX)).openSetupTeam();
-                    }
+                    new Handler().postDelayed(() -> {
+                        if (!goLineup && adapter != null) {
+                            ((LeagueInfoFragment) adapter.getItem(INFORMATION_INDEX)).openSetupTeam();
+                        }
+                    }, 150);
                     break;
 
                 case BEFORE_TEAM_SETUP_TIME_1H:
