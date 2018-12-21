@@ -73,6 +73,8 @@ public class NotificationResponse implements Serializable {
         private int teamId;
         @JsonProperty("player_id")
         private int playerId;
+        @JsonProperty("trade_id")
+        private int tradeId;
 
         public int getLeagueId() {
             return leagueId;
@@ -100,6 +102,10 @@ public class NotificationResponse implements Serializable {
 
         public int getPlayerId() {
             return playerId;
+        }
+
+        public int getTradeId() {
+            return tradeId;
         }
     }
 }

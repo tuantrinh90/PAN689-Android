@@ -37,8 +37,10 @@ public class TradeReviewFragment extends BaseMvpFragment<ITradeReviewView, ITrad
     @BindView(R.id.view_pager)
     ViewPager viewPager;
 
+    private LeagueResponse league;
+
+    private StatePagerAdapter adapter;
     private int index;
-    private int previewTradeId;
 
     public static TradeReviewFragment newInstance(LeagueResponse league) {
 
@@ -49,14 +51,6 @@ public class TradeReviewFragment extends BaseMvpFragment<ITradeReviewView, ITrad
         fragment.setArguments(args);
         return fragment;
     }
-
-    private static Bundle newBundle(LeagueResponse leagueResponse) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_LEAGUE, leagueResponse);
-        return bundle;
-    }
-
-    private LeagueResponse league;
 
     @Override
     public int getResourceId() {
@@ -78,9 +72,9 @@ public class TradeReviewFragment extends BaseMvpFragment<ITradeReviewView, ITrad
     void initView() {
         buttonTeamSelected(true);
 
-        StatePagerAdapter adapter = new StatePagerAdapter(getChildFragmentManager());
-        adapter.addFragment(SubTradeReviewFragment.newInstance(TradeResponse.TYPE_REVIEWING, league, previewTradeId).setChildFragment(true));
-        adapter.addFragment(SubTradeReviewFragment.newInstance(TradeResponse.TYPE_REVIEWED, league, previewTradeId).setChildFragment(true));
+        adapter = new StatePagerAdapter(getChildFragmentManager());
+        adapter.addFragment(SubTradeReviewFragment.newInstance(TradeResponse.TYPE_REVIEWING, league).setChildFragment(true));
+        adapter.addFragment(SubTradeReviewFragment.newInstance(TradeResponse.TYPE_REVIEWED, league).setChildFragment(true));
 
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -144,6 +138,8 @@ public class TradeReviewFragment extends BaseMvpFragment<ITradeReviewView, ITrad
     }
 
     public void openTradeProposalReview(int tradeId) {
-        previewTradeId = tradeId;
+        for (int i = 0; i < adapter.getCount(); i++) {
+            ((SubTradeReviewFragment) adapter.getItem(i)).openTradeProposalReview(tradeId);
+        }
     }
 }

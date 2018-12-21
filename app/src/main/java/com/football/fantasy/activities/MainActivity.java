@@ -97,6 +97,7 @@ public class MainActivity extends BaseActivity {
     public static final String KEY_MY_TEAM_ID = "my_team_id";
     public static final String KEY_TEAM_ID = "team_id";
     public static final String KEY_PLAYER_ID = "player_id";
+    public static final String KEY_TRADE_ID = "trade_id";
 
     public static final int HOME = 0;
     public static final int LEAGUES = 1;
@@ -165,6 +166,8 @@ public class MainActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     updateNotificationState(response.getResponse().getTotal());
+                }, throwable -> {
+
                 }));
     }
 
@@ -201,14 +204,16 @@ public class MainActivity extends BaseActivity {
             int myTeamId = getInteger(intent, KEY_MY_TEAM_ID);
             int teamId = getInteger(intent, KEY_TEAM_ID);
             int playerId = getInteger(intent, KEY_PLAYER_ID);
+            int tradeId = getInteger(intent, KEY_TRADE_ID);
 
             mHandler.postDelayed(() -> {
-                handleAction(action, leagueId, leagueStatus, teamId, teamName, myTeamId, playerId);
-            }, 300);
+                handleAction(action, leagueId, leagueStatus, teamId, teamName, myTeamId, playerId, tradeId);
+            }, 150);
         }
     }
 
-    public void handleAction(String action, int leagueId, int leagueStatus, int teamId, String teamName, int myTeamId, int playerId) {
+    public void handleAction(String action, int leagueId, int leagueStatus, int teamId,
+                             String teamName, int myTeamId, int playerId, int tradeId) {
         switch (action) {
             // League detail
             case USER_LEFT_LEAGUE:
@@ -333,21 +338,28 @@ public class MainActivity extends BaseActivity {
             // League detail - trade review
             case TRANSACTION_RESULT:
             case USER_TRANSACTION_RESULT:
-            case TWO_HOURS_TO_REVIEW:
             case TRADE_PROPOSAL_APPROVED:
                 AloneFragmentActivity.with(this)
                         .parameters(LeagueDetailFragment.newBundleForNotification(getString(R.string.home), leagueId, action))
                         .start(LeagueDetailFragment.class);
                 break;
 
+            case TWO_HOURS_TO_REVIEW:
+                AloneFragmentActivity.with(this)
+                        .parameters(LeagueDetailFragment.newBundleForNotificationTradePreview(getString(R.string.home), leagueId, action, tradeId))
+                        .start(LeagueDetailFragment.class);
+                break;
+
             // player pool
             case PLAYER_HAS_LEFT_DRAFT:
-                PlayerPoolFragment.startForNotificationTransfer(this, getString(R.string.home), leagueId, teamId, LeagueResponse.GAMEPLAY_OPTION_DRAFT);
+                PlayerPoolFragment.startForNotification(this, getString(R.string.home), leagueId, teamId,
+                        LeagueResponse.GAMEPLAY_OPTION_DRAFT, PLAYER_HAS_LEFT_DRAFT);
                 break;
 
             // player pool
             case PLAYER_HAS_LEFT_TRANSFER:
-                PlayerPoolFragment.startForNotificationTransfer(this, getString(R.string.home), leagueId, teamId, LeagueResponse.GAMEPLAY_OPTION_TRANSFER);
+                PlayerPoolFragment.startForNotification(this, getString(R.string.home), leagueId, teamId,
+                        LeagueResponse.GAMEPLAY_OPTION_TRANSFER, PLAYER_HAS_LEFT_TRANSFER);
                 break;
 
             default:

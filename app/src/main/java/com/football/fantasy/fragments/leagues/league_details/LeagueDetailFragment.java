@@ -94,7 +94,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     private static final String KEY_INVITATION_ID = "INVITATION_ID";
     private static final String KEY_OPEN_ROUND = "OPEN_RESULT";
     private static final String KEY_ACTION = "ACTION";
-    private static final String KEY_TEAM_ID = "TEAM_ID";
+    private static final String KEY_TRADE_PREVIEW_ID = "TRADE_PREVIEW_ID";
 
     public static final int INFORMATION_INDEX = 0;
     public static final int TEAMS_INDEX = 1;
@@ -122,6 +122,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     private int invitationId;
     private int openRound;
     private String action;
+    private int tradePreviewId;
 
     private LeagueResponse league;
     private LeagueDetailViewPagerAdapter adapter;
@@ -150,6 +151,13 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
     public static Bundle newBundleForNotification(String title, int leagueId, String action) {
         Bundle bundle = newBundle(title, leagueId, MY_LEAGUES);
         bundle.putString(KEY_ACTION, action);
+        return bundle;
+    }
+
+    public static Bundle newBundleForNotificationTradePreview(String title, int leagueId, String action, int tradePreviewId) {
+        Bundle bundle = newBundle(title, leagueId, MY_LEAGUES);
+        bundle.putString(KEY_ACTION, action);
+        bundle.putInt(KEY_TRADE_PREVIEW_ID, tradePreviewId);
         return bundle;
     }
 
@@ -189,6 +197,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
         invitationId = bundle.getInt(KEY_INVITATION_ID);
         openRound = bundle.getInt(KEY_OPEN_ROUND);
         action = bundle.getString(KEY_ACTION);
+        tradePreviewId = bundle.getInt(KEY_TRADE_PREVIEW_ID);
     }
 
     @NonNull
@@ -438,7 +447,7 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
                     vpViewPager.setCurrentItem(TRADE_REVIEW_INDEX);
                     new Handler().postDelayed(() -> {
                         if (adapter.getItem(TRADE_REVIEW_INDEX) instanceof TradeReviewFragment) {
-                            ((TradeReviewFragment) adapter.getItem(TRADE_REVIEW_INDEX)).openTradeProposalReview(-1);
+                            ((TradeReviewFragment) adapter.getItem(TRADE_REVIEW_INDEX)).openTradeProposalReview(tradePreviewId);
                         }
                     }, 150);
                     break;

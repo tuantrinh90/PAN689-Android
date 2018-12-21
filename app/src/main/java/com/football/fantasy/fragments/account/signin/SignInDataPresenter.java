@@ -98,13 +98,11 @@ public class SignInDataPresenter<V extends ISignInView> extends BaseDataPresente
 
                         @Override
                         public void onSuccess(UserResponse userResponse) {
-                            Log.d(TAG, "onSuccess: " + provider);
                             loginSuccess(userResponse, provider);
                         }
 
                         @Override
                         public void onError(String e) {
-                            Log.d(TAG, "onSuccess: " + provider);
                             loginError(e);
                         }
                     }));

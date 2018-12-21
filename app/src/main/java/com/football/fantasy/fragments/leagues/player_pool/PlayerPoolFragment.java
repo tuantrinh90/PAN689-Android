@@ -58,6 +58,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     private static final String KEY_LEAGUE_ID = "LEAGUE_ID";
     private static final String KEY_SEASON_ID_TO_TRANSFER = "SEASON_ID_TO_TRANSFER";
     private static final String KEY_GAMEPLAY = "GAMEPLAY";
+    private static final String KEY_PLAYER_ACTION = "PLAYER_ACTION";
 
     private static final int LEAGUE_ID_NONE = 0;
     private static final int SEASON_ID_NONE = 0;
@@ -101,6 +102,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     private int teamId;
     private int leagueId;
     private String gameplay;
+    private String playerAction;
 
     private int action;
     private String headerTitle;
@@ -118,14 +120,17 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     private String query = "";
 
     // dành riêng cho transfer player
-    public static void start(Fragment fragment, String title, String headerTitle, ArrayList<Integer> playerIds, int seasonId, int teamId, int leagueId, String gameplay) {
+    public static void start(Fragment fragment, String title, String headerTitle,
+                             ArrayList<Integer> playerIds, int seasonId, int teamId,
+                             int leagueId, String gameplay) {
         AloneFragmentActivity.with(fragment)
                 .parameters(PlayerPoolFragment.newBundle(ACTION_TRANSFERRING_MULTI_PLAYER,
                         title, headerTitle, playerIds, teamId, null, leagueId, seasonId, gameplay))
                 .start(PlayerPoolFragment.class);
     }
 
-    public static void start(Fragment fragment, String title, String headerTitle, PlayerResponse transfer, int leagueId, String gameplay) {
+    public static void start(Fragment fragment, String title, String headerTitle,
+                             PlayerResponse transfer, int leagueId, String gameplay) {
         AloneFragmentActivity.with(fragment)
                 .parameters(PlayerPoolFragment.newBundle(ACTION_TRANSFERRING_SINGLE_PLAYER,
                         title, headerTitle, null, -1, transfer, leagueId, -1, gameplay))
@@ -139,12 +144,13 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
                 .start(PlayerPoolFragment.class);
     }
 
-    public static void startForNotificationTransfer(Context context, String title, int leagueId,
-                                                    int teamId, String gameplay) {
+    public static void startForNotification(Context context, String title, int leagueId,
+                                            int teamId, String gameplay, String playerAction) {
         Bundle bundle = PlayerPoolFragment.newBundle(ACTION_NOTIFICATION_TRANSFER,
                 title, context.getString(R.string.player_pool),
                 null, teamId, null, leagueId,
                 SEASON_ID_NONE, gameplay);
+        bundle.putString(KEY_PLAYER_ACTION, playerAction);
         AloneFragmentActivity.with(context)
                 .parameters(bundle)
                 .start(PlayerPoolFragment.class);
@@ -199,6 +205,7 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
         leagueId = getArguments().getInt(KEY_LEAGUE_ID);
         seasonIdToTransfer = getArguments().getInt(KEY_SEASON_ID_TO_TRANSFER);
         gameplay = getArguments().getString(KEY_GAMEPLAY);
+        playerAction = getArguments().getString(KEY_PLAYER_ACTION);
     }
 
     private void registerBus() {
@@ -361,7 +368,8 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
                     displayPairs,
                     sorts,
                     page,
-                    query);
+                    query,
+                    playerAction);
         }
     }
 

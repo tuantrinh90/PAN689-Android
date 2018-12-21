@@ -215,11 +215,21 @@ public class ProposalReviewFragment extends BaseMvpFragment<IProposalReviewView,
         PlayerView[] playerViews3rd = new PlayerView[]{player13, player23};
         PlayerView[][] playerViews = new PlayerView[][]{playerViews1st, playerViews2nd, playerViews3rd};
 
+        //reset views
+        for (PlayerView[] playerView : playerViews) {
+            displayPlayer(playerView[0], null);
+            displayPlayer(playerView[1], null);
+        }
+
         // trade items
         List<TradeDetailResponse> tradeItems = trade.getItems();
-        for (int i = 0, playerViewsLength = playerViews.length; i < playerViewsLength; i++) {
-            displayPlayer(playerViews[i][0], tradeItems.size() > i ? tradeItems.get(i).getFromPlayer() : null);
-            displayPlayer(playerViews[i][1], tradeItems.size() > i ? tradeItems.get(i).getToPlayer() : null);
+        for (TradeDetailResponse trade : tradeItems) {
+            try {
+                displayPlayer(playerViews[trade.getOrder() - 1][0], trade.getFromPlayer());
+                displayPlayer(playerViews[trade.getOrder() - 1][1], trade.getToPlayer());
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
         }
     }
 

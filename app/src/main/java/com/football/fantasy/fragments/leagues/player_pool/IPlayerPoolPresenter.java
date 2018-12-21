@@ -8,7 +8,10 @@ import com.football.models.responses.PlayerResponse;
 import java.util.List;
 
 public interface IPlayerPoolPresenter<V extends IBaseMvpView> extends IBaseDataPresenter<V> {
-    void getPlayers(String seasonId, int leagueId, int seasonIdToTransfer, PlayerResponse playerTransfer, String positions, String clubs, List<ExtKeyValuePair> displayPairs, int[] sorts, int page, String query);
+    void getPlayers(String seasonId, int leagueId, int seasonIdToTransfer,
+                    PlayerResponse playerTransfer, String positions, String clubs,
+                    List<ExtKeyValuePair> displayPairs, int[] sorts, int page, String query,
+                    String playerAction);
 
     void getSeasons();
 

@@ -76,7 +76,8 @@ public class NotificationFragment extends BaseMainMvpFragment<INotificationView,
                             key.getTeamId(),
                             key.getTeamName(),
                             key.getMyTeamId(),
-                            key.getPlayerId());
+                            key.getPlayerId(),
+                            key.getTradeId());
                 });
         rvNotification
                 .adapter(adapter)

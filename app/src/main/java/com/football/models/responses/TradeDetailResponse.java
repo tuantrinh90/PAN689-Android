@@ -22,6 +22,8 @@ public class TradeDetailResponse implements Serializable{
     private Integer toPlayerId;
     @JsonProperty("to_player")
     private PlayerResponse toPlayer;
+    @JsonProperty("order")
+    private int order;
 
     public Integer getId() {
         return id;
@@ -53,5 +55,9 @@ public class TradeDetailResponse implements Serializable{
 
     public PlayerResponse getToPlayer() {
         return toPlayer;
+    }
+
+    public int getOrder() {
+        return order;
     }
 }
