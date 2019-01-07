@@ -176,7 +176,7 @@ public class PlayerPoolPresenter extends BaseDataPresenter<IPlayerPoolView> impl
 
                         @Override
                         public void onSuccess(Object response) {
-                            v.handleTransferSuccess();
+                            v.handleTransferSuccess(toPlayerId);
                         }
 
                         @Override

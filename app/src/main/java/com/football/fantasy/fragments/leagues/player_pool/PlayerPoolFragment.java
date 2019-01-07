@@ -409,7 +409,8 @@ public class PlayerPoolFragment extends BaseMvpFragment<IPlayerPoolView, IPlayer
     }
 
     @Override
-    public void handleTransferSuccess() {
+    public void handleTransferSuccess(int deletedPlayerId) {
+        refresh();
         if (playerIds != null) {
             playerIds.remove(0);
             if (playerIds.size() == 0) {

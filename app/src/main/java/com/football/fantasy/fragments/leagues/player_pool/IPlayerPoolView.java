@@ -11,5 +11,5 @@ public interface IPlayerPoolView extends IBaseMvpView {
 
     void displaySeasons(List<SeasonResponse> seasons);
 
-    void handleTransferSuccess();
+    void handleTransferSuccess(int deletedPlayerId);
 }
