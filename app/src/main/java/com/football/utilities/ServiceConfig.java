@@ -9,8 +9,8 @@ import com.football.fantasy.BuildConfig;
 public interface ServiceConfig {
     boolean local = BuildConfig.DEBUG;
 
-    String SOCKET_URL = local ? "http://192.168.1.150:3333" : "http://ec2-52-77-241-109.ap-southeast-1.compute.amazonaws.com:3333";
-    String HOST = local ? "http://192.168.1.150/" : "http://ec2-52-77-241-109.ap-southeast-1.compute.amazonaws.com/";
+    String SOCKET_URL = local ? "http://192.168.1.150:3333" : "https://socket.be.panna.sportsfantasygames.be";
+    String HOST = local ? "http://192.168.1.150/" : "https://api.be.panna.sportsfantasygames.be/";
 
     // base url
     String BASE_URL = HOST + "api/v1/";
@@ -22,9 +22,6 @@ public interface ServiceConfig {
 
     String SHARE_APP = HOST + "share_app";
     String DEEP_LINK = "pan689://com.football";
-
-    // retry policy
-    boolean RETRY_POLICY = true;
 
     // timeout
     int REQUEST_FILE_TIMEOUT = 100;
