@@ -9,8 +9,8 @@ import com.football.fantasy.BuildConfig;
 public interface ServiceConfig {
     boolean local = BuildConfig.DEBUG;
 
-    String SOCKET_URL = local ? "http://192.168.1.150:3333" : "https://socket.be.panna.sportsfantasygames.be";
-    String HOST = local ? "http://192.168.1.150/" : "https://api.be.panna.sportsfantasygames.be/";
+    String SOCKET_URL = local ? "https://socket.be.panna.sportsfantasygames.be" : "https://socket.be.panna.sportsfantasygames.be";
+    String HOST = local ? "https://api.be.panna.sportsfantasygames.be/" : "https://api.be.panna.sportsfantasygames.be/";
 
     // base url
     String BASE_URL = HOST + "api/v1/";

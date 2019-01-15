@@ -38,6 +38,8 @@ public class SettingsFragment extends BaseMvpFragment<ISettingsView, ISettingsPr
     Switch switchNotification;
     @BindView(R.id.switch_email)
     Switch switchEmail;
+    @BindView(R.id.language)
+    View language;
     @BindView(R.id.text_language)
     ExtTextView textLanguage;
 
@@ -102,6 +104,9 @@ public class SettingsFragment extends BaseMvpFragment<ISettingsView, ISettingsPr
     void initView() {
         Optional.from(mActivity.getToolBar()).doIfPresent(t -> t.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.color_white)));
         Optional.from(mActivity.getTitleToolBar()).doIfPresent(t -> t.setTextColor(ContextCompat.getColor(mActivity, R.color.color_blue)));
+
+        // open late, muốn mở language thì enable Constant.LANGUAGE_ENABLE = true
+        language.setVisibility(View.GONE);
 
         textLanguage.setText(R.string.language_english);
         String currentLang = AppPreferences.getInstance(getAppContext()).getString(Constant.KEY_LANGUAGE);

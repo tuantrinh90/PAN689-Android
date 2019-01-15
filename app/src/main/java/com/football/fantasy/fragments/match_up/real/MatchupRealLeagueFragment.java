@@ -2,7 +2,6 @@ package com.football.fantasy.fragments.match_up.real;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
 import com.bon.customview.keyvaluepair.ExtKeyValuePairDialogFragment;
@@ -71,6 +70,8 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
     }
 
     private void initData() {
+        VALUE_ALL_ROUND = getString(R.string.all_rounds).toUpperCase();
+
         valuePairs = new ArrayList<>();
         valuePairs.add(new ExtKeyValuePair(ROUND_DEFAULT, VALUE_ALL_ROUND));
         for (int i = 0; i < MAX_ROUND; i++) {
@@ -79,8 +80,8 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
     }
 
     private void initView() {
-        VALUE_ALL_ROUND = getString(R.string.all_rounds).toUpperCase();
         tvRound.setText(VALUE_ALL_ROUND);
+
         RealMatchAdapter adapter = new RealMatchAdapter(getContext());
         rvRealLeague
                 .adapter(adapter)

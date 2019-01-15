@@ -50,4 +50,5 @@ public interface Constant {
     int MAX_PLAYERS = 18;
 
     String KEY_LANGUAGE = "language";
+    boolean LANGUAGE_ENABLE = false;
 }
