@@ -1,6 +1,9 @@
 package com.football.common.activities;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -195,6 +198,12 @@ public abstract class BaseAppCompatActivity extends ExtBaseActivity implements I
      */
     public RxPermissions getRxPermissions() {
         return rxPermissions;
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public boolean hasPermission(String permission) {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||
+                checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
     }
 
     /**

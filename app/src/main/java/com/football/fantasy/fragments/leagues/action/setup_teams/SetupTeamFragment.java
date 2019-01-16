@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
 import android.view.View;
 
 import com.bon.customview.keyvaluepair.ExtKeyValuePair;
@@ -99,7 +98,7 @@ public class SetupTeamFragment extends BaseMvpFragment<ISetupTeamView, ISetupTea
     }
 
     private boolean hasKeyTeam() {
-        return getArguments().containsKey(KEY_TEAM);
+        return getArguments() != null && getArguments().containsKey(KEY_TEAM);
     }
 
     void initView() {
@@ -151,12 +150,14 @@ public class SetupTeamFragment extends BaseMvpFragment<ISetupTeamView, ISetupTea
                                         add(new ExtKeyValuePair(getString(R.string.gallery), getString(R.string.gallery)));
                                     }})
                                     .setOnSelectedConsumer(extKeyValuePair -> {
-                                        if (extKeyValuePair.getKey().equalsIgnoreCase(getString(R.string.camera))) {
+                                        if (extKeyValuePair.getKey().equalsIgnoreCase(getString(R.string.camera))
+                                                && mActivity.hasPermission(Manifest.permission.CAMERA)) {
                                             filePath = ImageUtils.getImageUrlPng();
                                             ImageUtils.captureCamera(SetupTeamFragment.this, filePath);
                                         }
 
-                                        if (extKeyValuePair.getKey().equalsIgnoreCase(getString(R.string.gallery))) {
+                                        if (extKeyValuePair.getKey().equalsIgnoreCase(getString(R.string.gallery))
+                                                && mActivity.hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                                             ImageUtils.chooseImageFromGallery(SetupTeamFragment.this, getString(R.string.select_value));
                                         }
                                     }).show(getFragmentManager(), null);
@@ -223,14 +224,14 @@ public class SetupTeamFragment extends BaseMvpFragment<ISetupTeamView, ISetupTea
     public void updateTeamSuccess(TeamResponse response) {
         bus.send(new LeagueEvent());
         bus.send(new TeamEvent(response, true));
-        getActivity().finish();
+        mActivity.finish();
     }
 
     private void goLeagueDetail() {
         AloneFragmentActivity.with(this)
                 .parameters(LeagueDetailFragment.newBundle(leagueTitle, leagueId, LeagueDetailFragment.MY_LEAGUES))
                 .start(LeagueDetailFragment.class);
-        getActivity().finish();
+        mActivity.finish();
     }
 
     @Override
@@ -244,7 +245,6 @@ public class SetupTeamFragment extends BaseMvpFragment<ISetupTeamView, ISetupTea
                 }
                 case ImageUtils.REQUEST_PICK_CONTENT: {
                     String pathFile = ImageFilePath.getPath(mActivity, data.getData());
-                    Log.e("pathFile", "pathFile:: " + pathFile);
                     StringUtils.isNotEmpty(pathFile, s -> {
                         filePath = new File(s);
                         ivImagePick.setImageUri(ImageUtils.getUriImageDisplayFromFile(filePath));
