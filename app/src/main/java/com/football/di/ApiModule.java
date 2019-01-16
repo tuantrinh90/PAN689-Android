@@ -11,9 +11,15 @@ import com.football.interactors.service.IFileService;
 import com.football.interactors.service.ILongApiService;
 import com.football.utilities.ServiceConfig;
 
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import dagger.Module;
 import dagger.Provides;
@@ -47,11 +53,47 @@ public class ApiModule {
                 .build();
     }
 
+    private void provideSSLSocketFactory(OkHttpClient.Builder client) {
+        // Create an ssl socket factory with our all-trusting manager
+        final TrustManager[] trustAllCerts = new TrustManager[]{
+                new X509TrustManager() {
+                    @Override
+                    public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) {
+                    }
+
+                    @Override
+                    public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) {
+                    }
+
+                    @Override
+                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                        return new java.security.cert.X509Certificate[]{};
+                    }
+                }
+        };
+
+        // Install the all-trusting trust manager
+        try {
+            SSLContext sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+            SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+            client.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
+            client.hostnameVerifier((hostname, session) -> true);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        }
+    }
+
     private OkHttpClient provideBaseOkHttp(@Nullable HttpLoggingInterceptor logging, AccessInterceptor access,
                                            @NonNull OkHttpType type) {
+
         OkHttpClient.Builder client = new OkHttpClient.Builder()
                 //.retryOnConnectionFailure(ServiceConfig.RETRY_POLICY)
                 .addInterceptor(access);
+
+        provideSSLSocketFactory(client);
 
         int reqTimeOut;
         switch (type) {
