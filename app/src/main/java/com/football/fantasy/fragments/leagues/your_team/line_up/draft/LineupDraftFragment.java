@@ -29,6 +29,7 @@ import com.football.models.responses.TurnReceiveResponse;
 import com.football.models.responses.TurnResponse;
 import com.football.utilities.Constant;
 import com.football.utilities.SocketEventKey;
+import com.github.nkzawa.socketio.client.Socket;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -141,6 +142,20 @@ public class LineupDraftFragment extends LineUpFragment<ILineupDraftView, ILineu
     }
 
     private void registerSocket() {
+        /*
+         * check connect
+         */
+        getAppContext().getSocket().on(Socket.EVENT_CONNECT, args -> {
+            Log.e(TAG, "\n====================== EVENT_CONNECT ======================");
+        });
+
+        /*
+         * check disconnect
+         */
+        getAppContext().getSocket().on(Socket.EVENT_DISCONNECT, args -> {
+            Log.e(TAG, "\n====================== EVENT_DISCONNECT ======================");
+        });
+
         /*
          * trả về object theo mỗi giây
          */
