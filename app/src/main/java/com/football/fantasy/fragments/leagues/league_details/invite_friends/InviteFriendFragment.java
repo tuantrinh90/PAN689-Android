@@ -79,6 +79,9 @@ public class InviteFriendFragment extends BaseMvpFragment<IInviteFriendView, IIn
     }
 
     void initView() {
+        // disable invite, open late
+        llInvite.setEnabled(false);
+
         // gone button Invite
         boolean isSetupTime = AppUtilities.isSetupTime(league);
         if (!isSetupTime) {

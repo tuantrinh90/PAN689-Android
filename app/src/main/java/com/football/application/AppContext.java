@@ -20,16 +20,8 @@ import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 
 import java.net.URISyntaxException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 import java8.util.function.Consumer;
-import okhttp3.OkHttpClient;
 
 /**
  * Created by dangpp on 2/9/2018.
@@ -40,13 +32,6 @@ public class AppContext extends ExtApplication {
 
     private AppComponent component;
     private Socket mSocket;
-
-//    {
-//        try {
-//            mSocket = IO.socket(ServiceConfig.SOCKET_URL);
-//        } catch (URISyntaxException e) {
-//        }
-//    }
 
     @Override
     public void onCreate() {
@@ -127,43 +112,11 @@ public class AppContext extends ExtApplication {
         return mSocket;
     }
 
-    private void provideSSLSocketFactory(IO.Options options) {
-        // Create an ssl socket factory with our all-trusting manager
-        final TrustManager[] trustAllCerts = new TrustManager[]{
-                new X509TrustManager() {
-                    @Override
-                    public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) {
-                    }
-
-                    @Override
-                    public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) {
-                    }
-
-                    @Override
-                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                        return new java.security.cert.X509Certificate[]{};
-                    }
-                }
-        };
-
-        // Install the all-trusting trust manager
-        try {
-            SSLContext sslContext = SSLContext.getInstance("SSL");
-            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-            SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-            options.sslContext = sslContext;
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (KeyManagementException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void connectSocket() {
         try {
             String token = AppPreferences.getInstance(this).getString(Constant.KEY_TOKEN);
             IO.Options options = new IO.Options();
-            provideSSLSocketFactory(options);
+//            provideSSLSocketFactory(options);
 
             mSocket = IO.socket(ServiceConfig.SOCKET_URL, options);
             mSocket.on(Socket.EVENT_CONNECT, args -> {
