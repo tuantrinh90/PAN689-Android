@@ -25,11 +25,12 @@ import butterknife.OnClick;
 
 import static com.football.utilities.Constant.ROUND_DEFAULT;
 
-public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealLeagueView, IMatchupRealLeaguePresenter<IMatchupRealLeagueView>> implements IMatchupRealLeagueView {
+public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealLeagueView,
+        IMatchupRealLeaguePresenter<IMatchupRealLeagueView>> implements IMatchupRealLeagueView {
 
     private String VALUE_ALL_ROUND;
 
-    private static final int MAX_ROUND = 30;
+    private static final int MAX_ROUND = 300;
 
     @BindView(R.id.rvRealLeague)
     ExtRecyclerView<RealMatch> rvRealLeague;
