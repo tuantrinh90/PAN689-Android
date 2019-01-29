@@ -30,8 +30,6 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
 
     private String VALUE_ALL_ROUND;
 
-    private static final int MAX_ROUND = 300;
-
     @BindView(R.id.rvRealLeague)
     ExtRecyclerView<RealMatch> rvRealLeague;
     @BindView(R.id.tvRound)
@@ -71,13 +69,7 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
     }
 
     private void initData() {
-        VALUE_ALL_ROUND = getString(R.string.all_rounds).toUpperCase();
-
-        valuePairs = new ArrayList<>();
-        valuePairs.add(new ExtKeyValuePair(ROUND_DEFAULT, VALUE_ALL_ROUND));
-        for (int i = 0; i < MAX_ROUND; i++) {
-            valuePairs.add(new ExtKeyValuePair(String.valueOf(i + 1), getString(R.string.round_value, i + 1)));
-        }
+        presenter.getMaxRound();
     }
 
     private void initView() {
@@ -144,6 +136,17 @@ public class MatchupRealLeagueFragment extends BaseMainMvpFragment<IMatchupRealL
                         refresh();
                     }
                 }).show(getFragmentManager(), null);
+    }
+
+    @Override
+    public void displayMaxRound(Integer total) {
+        VALUE_ALL_ROUND = getString(R.string.all_rounds).toUpperCase();
+
+        valuePairs = new ArrayList<>();
+        valuePairs.add(new ExtKeyValuePair(ROUND_DEFAULT, VALUE_ALL_ROUND));
+        for (int i = 0; i < total; i++) {
+            valuePairs.add(new ExtKeyValuePair(String.valueOf(i + 1), getString(R.string.round_value, i + 1)));
+        }
     }
 
     @Override

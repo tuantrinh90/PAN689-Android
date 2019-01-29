@@ -6,6 +6,7 @@ import com.football.common.presenters.BaseDataPresenter;
 import com.football.di.AppComponent;
 import com.football.listeners.ApiCallback;
 import com.football.models.PagingResponse;
+import com.football.models.responses.MaxRoundResponse;
 import com.football.models.responses.RealMatch;
 import com.football.models.responses.RealMatchResponse;
 import com.football.utilities.AppUtilities;
@@ -26,6 +27,35 @@ public class MatchupRealDataLeaguePresenter extends BaseDataPresenter<IMatchupRe
 
     protected MatchupRealDataLeaguePresenter(AppComponent appComponent) {
         super(appComponent);
+    }
+
+    @Override
+    public void getMaxRound() {
+        getOptView().doIfPresent(v -> {
+            mCompositeDisposable.add(RxUtilities.async(v,
+                    dataModule.getApiService().getMaxRound(),
+                    new ApiCallback<MaxRoundResponse>() {
+                        @Override
+                        public void onStart() {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            v.stopLoading();
+                        }
+
+                        @Override
+                        public void onSuccess(MaxRoundResponse response) {
+                            v.displayMaxRound(response.getMaxRound());
+                        }
+
+                        @Override
+                        public void onError(String e) {
+                            v.showMessage(e);
+                        }
+                    }));
+        });
     }
 
     @Override

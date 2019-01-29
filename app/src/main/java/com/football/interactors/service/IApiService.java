@@ -10,6 +10,7 @@ import com.football.models.responses.InviteResponse;
 import com.football.models.responses.LeagueResponse;
 import com.football.models.responses.LineupResponse;
 import com.football.models.responses.MatchResponse;
+import com.football.models.responses.MaxRoundResponse;
 import com.football.models.responses.NewsResponse;
 import com.football.models.responses.NotificationResponse;
 import com.football.models.responses.NotificationUnreadResponse;
@@ -75,6 +76,9 @@ public interface IApiService {
 
     @GET(ServiceConfig.HOME_NEWS)
     Observable<BaseResponse<PagingResponse<NewsResponse>>> getHomeNews(@Query(Constant.KEY_PAGE) int page, @Query(Constant.KEY_PER_PAGE) int perPage);
+
+    @GET(ServiceConfig.MAX_ROUND)
+    Observable<BaseResponse<MaxRoundResponse>> getMaxRound();
 
     @GET(ServiceConfig.REAL_MATCHES)
     Observable<BaseResponse<PagingResponse<RealMatchResponse>>> getRealMatches(@QueryMap Map<String, String> queries);

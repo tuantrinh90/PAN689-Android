@@ -85,6 +85,7 @@ public interface ServiceConfig {
 
     // real match
     String REAL_MATCHES = "real_matches";
+    String MAX_ROUND = "real_matches/max_round";
 
     // teams
     String TEAM_LIST = "teams";
