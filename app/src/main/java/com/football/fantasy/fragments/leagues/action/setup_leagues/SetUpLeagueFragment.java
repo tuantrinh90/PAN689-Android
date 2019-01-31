@@ -472,7 +472,7 @@ public class SetUpLeagueFragment extends BaseMvpFragment<ISetupLeagueView, ISetU
                                         if (extKeyValuePair.getKey().equalsIgnoreCase(getString(R.string.gallery))) {
                                             ImageUtils.chooseImageFromGallery(SetUpLeagueFragment.this, getString(R.string.select_value));
                                         }
-                                    }).show(getFragmentManager(), null);
+                                    }).show(getChildFragmentManager(), null);
                         } else {
                             showMessage(
                                     R.string.message_permission_image,

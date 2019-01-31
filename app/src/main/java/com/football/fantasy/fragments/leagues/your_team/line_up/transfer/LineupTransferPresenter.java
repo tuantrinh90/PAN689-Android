@@ -18,6 +18,8 @@ public class LineupTransferPresenter extends LineUpPresenter<ILineupTransferView
             v.displayLineupPlayers(response.getPlayers());
             if (response.getTeam().getCompleted()) {
                 v.enableCompleteButton(false);
+            } else if (response.getPlayers().size() == 18) {
+                v.enableCompleteButton(true);
             }
             v.displayStatistic(response.getStatistic());
         });

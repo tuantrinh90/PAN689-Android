@@ -34,8 +34,6 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
 
     static final String KEY_LEAGUE = "key_leagues";
 
-    private static final int MAX_ROUND = 22;
-
     @BindView(R.id.rv_results)
     ExtRecyclerView<MatchResponse> rvResults;
     @BindView(R.id.view_time)
@@ -46,8 +44,8 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
     ExtTextView tvRound;
 
     private String round = "";
-    private int totalRound = MAX_ROUND;
     private List<ExtKeyValuePair> valuePairs;
+    private int displayRound = -1; // save round when open this fragment from MatchupRealLeague
 
     public static ResultsFragment newInstance(LeagueResponse leagueResponse) {
 
@@ -173,18 +171,25 @@ public class ResultsFragment extends BaseMvpFragment<IResultsView, IResultsPrese
 
     @Override
     public void displayRound(int round) {
-        this.round = String.valueOf(round);
-        tvRound.setText(valuePairs.get(round).getValue());
+        this.displayRound = round;
+
+        if (valuePairs.size() > displayRound) {
+            this.round = String.valueOf(displayRound);
+            tvRound.setText(valuePairs.get(displayRound).getValue());
+        }
     }
 
     @Override
     public void displayTotalRound(int totalRound) {
-        this.totalRound = totalRound;
-
         valuePairs.clear();
         valuePairs.add(new ExtKeyValuePair(ROUND_DEFAULT, getString(R.string.all_rounds)));
         for (int i = 0; i < totalRound; i++) {
             valuePairs.add(new ExtKeyValuePair(String.valueOf(i + 1), "Round " + (i + 1)));
+        }
+
+        if (displayRound != -1) {
+            this.round = String.valueOf(displayRound);
+            tvRound.setText(valuePairs.get(displayRound).getValue());
         }
     }
 }

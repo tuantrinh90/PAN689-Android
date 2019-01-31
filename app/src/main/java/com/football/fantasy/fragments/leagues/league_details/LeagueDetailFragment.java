@@ -175,17 +175,17 @@ public class LeagueDetailFragment extends BaseMvpFragment<ILeagueDetailView, ILe
         presenter.getLeagueDetail(leagueId);
 
         // request permission
-        if (BuildConfig.DEBUG) {
-            // Here, thisActivity is the current activity
-            if (ContextCompat.checkSelfPermission(mActivity, PERMISSION_READ_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-
-                // No explanation needed; request the permission
-                ActivityCompat.requestPermissions(mActivity,
-                        new String[]{PERMISSION_READ_EXTERNAL_STORAGE, PERMISSION_WRITE_EXTERNAL_STORAGE},
-                        1000);
-            }
-        }
+//        if (BuildConfig.DEBUG) {
+//            // Here, thisActivity is the current activity
+//            if (ContextCompat.checkSelfPermission(mActivity, PERMISSION_READ_EXTERNAL_STORAGE)
+//                    != PackageManager.PERMISSION_GRANTED) {
+//
+//                // No explanation needed; request the permission
+//                ActivityCompat.requestPermissions(mActivity,
+//                        new String[]{PERMISSION_READ_EXTERNAL_STORAGE, PERMISSION_WRITE_EXTERNAL_STORAGE},
+//                        1000);
+//            }
+//        }
     }
 
     void getDataFromBundle() {

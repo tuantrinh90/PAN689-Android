@@ -38,6 +38,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 
 public class SetupTeamFragment extends BaseMvpFragment<ISetupTeamView, ISetupTeamPresenter<ISetupTeamView>> implements ISetupTeamView {
@@ -140,6 +141,7 @@ public class SetupTeamFragment extends BaseMvpFragment<ISetupTeamView, ISetupTea
     @OnClick(R.id.ivImagePick)
     void onClickImagePick() {
         mCompositeDisposable.add(mActivity.getRxPermissions().request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<Boolean>() {
                     @Override
                     public void onNext(Boolean granted) {
@@ -160,7 +162,7 @@ public class SetupTeamFragment extends BaseMvpFragment<ISetupTeamView, ISetupTea
                                                 && mActivity.hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                                             ImageUtils.chooseImageFromGallery(SetupTeamFragment.this, getString(R.string.select_value));
                                         }
-                                    }).show(getFragmentManager(), null);
+                                    }).show(getChildFragmentManager(), null);
                         } else {
                             showMessage(
                                     R.string.message_permission_image,
